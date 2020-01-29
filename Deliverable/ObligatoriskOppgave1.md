@@ -35,4 +35,17 @@ Sette seg inn i et tema og fungere som orakel for gruppen.
   - Hovedansvar for å forstå spillmotoren
 
 ## Deloppgave 2
+Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally. 
 
+### Krav til systemet
+- Spillet skal fungere plattformuavhengig.
+- Brettet og nødvendig spillinformasjon skal visualsering. Hva som er nødvendig må defineres. 
+- Spillet skal kunne spilles flerspillere over LAN, opp til 8 spillere.
+- Spillet skal ha implementert AI spillere
+
+### Prioriteringsliste til første iterasjon
+1. Spillbrett object
+2. Spiller object
+3. Enkel visalisering av brett og spiller
+4. Flytte spiller i spillbrettet
+5. Rotere spiller i spillbrettet
