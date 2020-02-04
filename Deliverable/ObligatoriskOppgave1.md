@@ -1,38 +1,47 @@
-
 # Deloppgave 1
 ## Kartlegging av kompetanse
 ### Lise og Sol
-- Programmering, Behersker godt java, erfaring fra INF101 og INF102. 
-- Git, brukt litt i INF101
-- Tester, brukt litt i INF101
+- Programmering: Behersker godt java, erfaring fra INF101 og INF102. 
+- Git: brukt litt i INF101
+- Tester: brukt litt i INF101
 
 ### Sigmund
-- Programmering, behersker godt java, bakgrunn i kryptografi.
-- Git, ny til git.
-- Tester, litt ny til tester
+- Programmering: Behersker godt java, bakgrunn i kryptografi.
+- Git: Ny til git.
+- Tester: Litt ny til tester
 
 ### Tim
-- Programmering, behersker godt java, python, webutikling/webdesgin
-- Git, har brukt git i mange år
-- Tester, brukt litt tester primært i INF101, INF102
-- Har arbeidserfaring med systemkonstruksjon. 
+- Programmering: behersker godt java, python, webutikling/webdesgin
+- Git: Har brukt git i mange år
+- Tester: Brukt litt tester primært i INF101, INF102
+- Har arbeidserfaring med systemkonstruksjon fra tidligere sommerjobb. 
 
 ### Thomas
-- Programmering, behersker godt java, python
-- Git, har brukt litt i INF101
-- Tester, brukte TDD i INF101
+- Programmering: Behersker godt java, python
+- Git: Har brukt litt i INF101
+- Tester: Brukt TDD i INF101
 
 ## Rollefordeling
-#### Gruppeleder - Tim
-#### Kundekontakt - Sol
-#### GitMan - Tim
-Hovedansvar for gitHub-repoen. At det er oversiktlig og blir gjort etter beste evne. Skal hjelpe resten av gruppen og jobbe godt i git.
-#### Researcher, flere
+### Tim - Gruppeleder
+- Hovedansvar for Git-repo'en. At alt blir gjort på en oversiktig og god måte.
+    - Hjelpe gruppen med å forstå Git og hvordan man bruker det.
+- Ansvar for vedlikehold av project-board'en.
+    - Holde den oppdatert
+    - Holde orden på Issues
+- Passe på at alle får hjelp til det de holder på med.
+
+### Sol - Kundekontakt
+- Kommuniserer med vår kunde (Siv (og evt. gruppeleder))
+    - Stiller spørsmål angående oppgavene vi blir tildelt.
+
+### Researcher
 Sette seg inn i et tema og fungere som orakel for gruppen.
-- GameMaster/Hovedtester - Thomas 
-  - Hovedansvar for å forstå spillet, og hjelpe resten av gruppen og forstå spillet
-- LibGdx - Sigmund 
-  - Hovedansvar for å forstå spillmotoren
+
+#### Thomas - Game Master/Hovedtester
+  - Hovedansvar for å forstå spillet, og hjelpe resten av gruppen og forstå spillet.
+
+#### Sigmund - LibGdx 
+  - Hovedansvar for å forstå spillmotoren.
 
 ## Deloppgave 2
 Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally. 
