@@ -78,4 +78,32 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 - **Short Cycles**: Dette er allerede satt av innleveringsfrister.
 - **Pair Programmering**: Fantastisk måte å ha kunnskapsoverføring på, og to hoder tenker bedre enn ett. Men tidsklemma og ulike timeplaner kan gjøre det vanskelig å følge dette slavisk.
 
+### Møter
+- Minst en gang i uken, dette blir da felles gruppetime i gruppe 7.
+    - Mulighet for å organisere dersom det nødvendig
 
+### Kodemøte
+- Kode sammen, og hjelpe hverandre.
+- Følge opp hverandre.
+- Kritisk i begynnelsen, at vi er alle enige om hvordan vi skal skrive koden.
+
+### Kommunikasjon
+- Slack blir vår hovedkanal.
+
+### Arbeidsfordeling
+1. Skriver user stories (Bruker et eget GitHub Project board til dette)
+    - Går igjennom de i fellesskap i møter
+2. Definerer arbeidsoppgaver ut i fra user stories
+3. Arbeidsoppgavene fordeles etter interesse og ønske.
+
+### Oppfølging av arbeid
+- Standup før hvert kodemøte
+- Oppfølging via GitHub og GitHub-wiki
+- Via Slack dersom det skulle være spørsmål
+
+### Deling og oppbevaring av felles dokumenter
+- Bruker primært Slack.
+- Bruker også GitHub-wiki til å orgainsere lenker og evt. bilder og diagrammer.
+
+### Kodebase
+- Bruker GitHub til all kode.
