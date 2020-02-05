@@ -58,3 +58,21 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 3. Enkel visalisering av brett og spiller
 4. Flytte spiller i spillbrettet
 5. Rotere spiller i spillbrettet
+
+## Deloppgave 3
+### Valg av prosjektmetodikk
+#### Elementer fra XP
+- **User stories**: Blir lettere å snakke rundt funksjonaliteter, samtidig som det direkte gjør det lettere å følge Single Responsibility Principle (vi blir vurdert på dette i koden)
+- **Test-Driven Development**: All produksjonskode skal klare å løse en test som ikke virket fra før. 
+- **Collective Ownership**: Ingen har noe mer autoritet over en modul/teknologi enn andre.
+- **Continous Integration**: Den første som checker inn "vinner". Alle andre merger
+- **Simple Design**: Avgrenset fokus på "user stories" i den iterasjonen vi jobber i. Legge til infrastruktur utelukkende når det er behov for det. 
+- **You Ain't Gonna Need It**: Alltid anta du ikke kommer til å trenge noe, ved mindre det er overbevisende bevis for at det er mer cost-effektivt å implementere nå enn senere. (Vi har ikke utgifter i penger, men vi har i tid)
+- **Once and only once**: Ingen code duplikat. Lage abstraksjoner. 
+- **Refractorer** 
+
+#### Andre elementer ved XP:
+- Customer Team Member, dette blir jo gruppeleder
+- Short Cycles, dette er allerede satt av innleveringsfrister.
+- Pair Programmering - Jeg liker dette. Jeg synes det er en fantastisk måte å ha kunnskapsoverføring på, og to hoder tenker bedre enn ett. Men tidsklemma og ulike timeplaner kan gjøre det vanskelig å følge dette slavisk.
+
