@@ -38,10 +38,14 @@
 Sette seg inn i et tema og fungere som orakel for gruppen.
 
 #### Thomas - Game Master/Hovedtester
-  - Hovedansvar for å forstå spillet, og hjelpe resten av gruppen og forstå spillet.
+- Hovedansvar for å forstå spillet, og hjelpe resten av gruppen og forstå spillet.
 
 #### Sigmund - LibGdx 
-  - Hovedansvar for å forstå spillmotoren.
+- Hovedansvar for å forstå spillmotoren.
+  
+## Lise - Møteansvarlig
+- Ansvar for å følge agenda.
+- Skrive møtereferat, og lagde agenda for neste møte.
 
 ## Deloppgave 2
 Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally. 
@@ -70,9 +74,8 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 - **You Ain't Gonna Need It**: Alltid anta du ikke kommer til å trenge noe, ved mindre det er overbevisende bevis for at det er mer cost-effektivt å implementere nå enn senere. (Vi har ikke utgifter i penger, men vi har i tid)
 - **Once and only once**: Ingen code duplikat. Lage abstraksjoner. 
 - **Refractorer** 
+- **Customer Team Member**
+- **Short Cycles**: Dette er allerede satt av innleveringsfrister.
+- **Pair Programmering**: Fantastisk måte å ha kunnskapsoverføring på, og to hoder tenker bedre enn ett. Men tidsklemma og ulike timeplaner kan gjøre det vanskelig å følge dette slavisk.
 
-#### Andre elementer ved XP:
-- Customer Team Member, dette blir jo gruppeleder
-- Short Cycles, dette er allerede satt av innleveringsfrister.
-- Pair Programmering - Jeg liker dette. Jeg synes det er en fantastisk måte å ha kunnskapsoverføring på, og to hoder tenker bedre enn ett. Men tidsklemma og ulike timeplaner kan gjøre det vanskelig å følge dette slavisk.
 
