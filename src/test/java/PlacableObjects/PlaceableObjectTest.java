@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlaceableObjectTest {
+public class PlaceableObjectTest {
 
     private PlaceableObject placeableObject;
     private GameBoard board;
@@ -24,7 +24,7 @@ class PlaceableObjectTest {
     public void getPosYTest() {
         placeableObject = new PlaceableObject();
         int startY = 0;
-        assertEquals(placeableObject.getPosY(),startY);
+        assertEquals(placeableObject.getPosY(), startY);
     }
 
     @Test
