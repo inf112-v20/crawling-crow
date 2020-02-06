@@ -22,7 +22,6 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
 
     // We added these to represent the map and the maps layers
     private TiledMap tiledMap;
-    // TODO: implement this
     private TiledMapTileLayer robotLayer;
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
@@ -77,6 +76,7 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
     // Meant to contain all the keycodes:
     @Override
     public boolean keyUp(int keycode) {
+        int x = (int)robotPosition.x, y = (int)robotPosition.y;
         if (keycode == Input.Keys.UP) {
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell((int) robotPosition.x, (int) ++robotPosition.y, robotCell);
@@ -93,6 +93,15 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
         else if(keycode == Input.Keys.LEFT){
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell((int) --robotPosition.x, (int) robotPosition.y, robotCell);
+        }
+        // Keeps the robot inside the map.
+        if (robotPosition.x < 0 || robotPosition.y < 0 || robotPosition.x >= robotLayer.getWidth() ||
+                robotPosition.y >= robotLayer.getHeight())
+        {
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+            robotLayer.setCell(x, y, robotCell);
+            robotPosition.x = x;
+            robotPosition.y = y;
         }
         return true;
     }
