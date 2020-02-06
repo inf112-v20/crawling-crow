@@ -1,6 +1,6 @@
 package PlacableObjects;
 
-public class PlaceableObject {
+public class PlaceableObject implements IPlaceableObject {
     private int x,y;
 
     public PlaceableObject() {
