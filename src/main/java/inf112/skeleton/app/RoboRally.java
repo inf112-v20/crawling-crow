@@ -81,14 +81,16 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
 
     }
 
+    // Meant to contain all the keycodes:
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.UP) {
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell((int) robotPosition.x, (int) ++robotPosition.y, robotCell);
 
-        } return true;
-
+        } //TODO :)
+        else if(keycode == Input.Keys.DOWN){}
+        return true;
     }
 
     @Override
