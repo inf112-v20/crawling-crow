@@ -64,35 +64,37 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
         Gdx.input.setInputProcessor(this);
     }
 
+    // Moves player by dy and dx.
+    private boolean movePlayer(int x, int y, int dx, int dy, TiledMapTileLayer.Cell cell) {
+        robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+        robotPosition.x+=dx; robotPosition.y+=dy;
+        robotLayer.setCell( (int)robotPosition.x, (int)robotPosition.y, cell);
+
+        return robotPosition.x >= 0 && robotPosition.y >= 0 &&
+                robotPosition.x < robotLayer.getWidth() &&
+                robotPosition.y < robotLayer.getHeight();
+    }
+
     @Override
     public boolean keyUp(int keycode) {
         int x = (int)robotPosition.x, y = (int)robotPosition.y;
-        if (keycode == Input.Keys.UP) {
-            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
-            robotLayer.setCell((int) robotPosition.x, (int) ++robotPosition.y, robotCell);
-        }
-        else if(keycode == Input.Keys.RIGHT){
-            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
-            robotLayer.setCell((int) ++robotPosition.x, (int) robotPosition.y, robotCell);
-        }
-        else if(keycode == Input.Keys.DOWN){
-            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
-            robotLayer.setCell((int) robotPosition.x, (int) --robotPosition.y, robotCell);
-        }
-        else if(keycode == Input.Keys.LEFT){
-            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
-            robotLayer.setCell((int) --robotPosition.x, (int) robotPosition.y, robotCell);
-        }
+        boolean fellOff = true;
+        if (keycode == Input.Keys.UP)
+            fellOff = movePlayer(x,y,0,1,robotCell);
+        else if(keycode == Input.Keys.RIGHT)
+            fellOff = movePlayer(x,y,1,0,robotCell);
+        else if(keycode == Input.Keys.DOWN)
+            fellOff = movePlayer(x,y,0,-1,robotCell);
+        else if(keycode == Input.Keys.LEFT)
+            fellOff = movePlayer(x,y,-1,0,robotCell);
         // Keeps the robot inside the map.
-        if (robotPosition.x < 0 || robotPosition.y < 0 || robotPosition.x >= robotLayer.getWidth() ||
-                robotPosition.y >= robotLayer.getHeight())
+        if (!fellOff)
         {
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell(x, y, robotCell);
-            robotPosition.x = x;
-            robotPosition.y = y;
+            robotPosition.x = x; robotPosition.y = y;
         }
-        return true;
+        return fellOff;
     }
 
     @Override
