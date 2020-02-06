@@ -42,4 +42,14 @@ public class Position implements IPosition {
 
 
     }
+
+    @Override
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    @Override
+    public void setX(int x) {
+        this.x = x;
+    }
 }

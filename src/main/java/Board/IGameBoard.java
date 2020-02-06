@@ -8,5 +8,7 @@ public interface IGameBoard {
 
     int getHeight();
 
-    void place(IPlaceableObject obj, IPosition pos);
+    void place(IPosition pos);
+
+    IPlaceableObject getObj();
 }
