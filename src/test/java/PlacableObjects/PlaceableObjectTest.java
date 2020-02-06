@@ -26,4 +26,13 @@ class PlaceableObjectTest {
         int startY = 0;
         assertEquals(placeableObject.getPosY(),startY);
     }
+
+    @Test
+    public void moveTest() {
+        placeableObject = new PlaceableObject();
+        placeableObject.setPosX(3);
+        placeableObject.setPosY(3);
+        assertEquals(placeableObject.getPosX(),3);
+        assertEquals(placeableObject.getPosY(),3);
+    }
 }

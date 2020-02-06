@@ -1,20 +1,18 @@
 package PlacableObjects;
 
 public class PlaceableObject {
-    private boolean fellOff;
     private int x,y;
 
     public PlaceableObject() {
-        x = y = 0;
-        fellOff = false;
+        this.x = this.y = 0;
     }
 
     public int getPosX() { return this.x; }
 
     public int getPosY() { return this.y; }
 
-    public void setPosX() { this.x = x; }
+    public void setPosX(int x) { this.x = x; }
 
-    public void setPosY() { this.y = y; }
+    public void setPosY(int y) { this.y = y; }
 
 }
