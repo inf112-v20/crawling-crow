@@ -11,6 +11,6 @@ public class Main {
         cfg.width = 600;
         cfg.height = 600;
 
-        new LwjglApplication(new HelloWorld(), cfg);
+        new LwjglApplication(new RoboRally(), cfg);
     }
 }

@@ -5,14 +5,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 
-public class HelloWorld implements ApplicationListener {
+public class RoboRally implements ApplicationListener {
     // Legacy Code
     //private SpriteBatch batch;
     //private BitmapFont font;
@@ -20,12 +23,22 @@ public class HelloWorld implements ApplicationListener {
     // We added these to represent the map and the maps layers
     private TiledMap tiledMap;
     // TODO: implement this
+    private TiledMapTileLayer robotLayer;
     //private TiledMapTileLayer floorLayer;
-    //private TiledMapTileLayer robot;
     //private TiledMapTileLayer hole;
     //private TiledMapTileLayer flag;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
+
+    // Robot parameters
+    private Texture robotTexture;
+    private TextureRegion robotTextureRegion;
+    private Vector2 robotPosition;
+
+    // Not needed yet (or maybe ever)
+    private TiledMapTileLayer.Cell robotCell;
+    private TiledMapTileLayer.Cell robotWonCell;
+    private TiledMapTileLayer.Cell robotLostCell;
 
     @Override
     public void create() {
@@ -40,6 +53,7 @@ public class HelloWorld implements ApplicationListener {
         // Initialize layers
         //TODO: Implement
         //floorLayer = (TiledMapTileLayer) tiledMap.getLayers().get("FloorLayer");
+        robotLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -49,6 +63,11 @@ public class HelloWorld implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
+
+        // Initialize robot
+        robotTexture = new Texture("player.png");
+        robotTextureRegion = TextureRegion.split(robotTexture, 300, 300)[0][0];
+        robotPosition = new Vector2(3, 3);
     }
 
     @Override
@@ -71,6 +90,7 @@ public class HelloWorld implements ApplicationListener {
         //batch.begin();
         //font.draw(batch, "Hello World", 200, 200);
         //batch.end();
+
     }
 
     @Override
