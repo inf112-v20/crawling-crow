@@ -5,9 +5,9 @@ import Board.IGameBoard;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-class PlaceableObjectTest {
+public class PlaceableObjectTest {
 
     private PlaceableObject placeableObject;
     private GameBoard board;
