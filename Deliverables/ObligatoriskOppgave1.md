@@ -107,3 +107,6 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 
 ### Kodebase
 - Bruker GitHub til all kode.
+
+## Deloppgave 4
+Vi har valgt å lage en egen Project board til, [user stories](https://github.com/inf112-v20/crawling-crow/projects/2). Her tagger vi de ulike arbeidsoppgavene ([work tasks](https://github.com/inf112-v20/crawling-crow/projects/1)) fortløpende. 
