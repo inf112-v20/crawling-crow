@@ -2,6 +2,8 @@ package inf112.skeleton.app;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,9 +15,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
-public class RoboRally implements ApplicationListener {
+public class RoboRally extends InputAdapter implements ApplicationListener {
     // Legacy Code
     //private SpriteBatch batch;
     //private BitmapFont font;
@@ -32,7 +35,7 @@ public class RoboRally implements ApplicationListener {
 
     // Robot parameters
     private Texture robotTexture;
-    private TextureRegion robotTextureRegion;
+    private TextureRegion[][] robotTextureRegion;
     private Vector2 robotPosition;
 
     // Not needed yet (or maybe ever)
@@ -66,8 +69,26 @@ public class RoboRally implements ApplicationListener {
 
         // Initialize robot
         robotTexture = new Texture("player.png");
-        robotTextureRegion = TextureRegion.split(robotTexture, 300, 300)[0][0];
-        robotPosition = new Vector2(3, 3);
+        robotTextureRegion = TextureRegion.split(robotTexture, 300, 300);
+        robotWonCell = robotLostCell = robotCell = new TiledMapTileLayer.Cell();
+        robotWonCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
+        robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
+        robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
+        robotPosition = new Vector2(0,0);
+
+        // Input
+        Gdx.input.setInputProcessor(this);
+
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.UP) {
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+            robotLayer.setCell((int) robotPosition.x, (int) ++robotPosition.y, robotCell);
+
+        } return true;
+
     }
 
     @Override
@@ -83,6 +104,8 @@ public class RoboRally implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Update and Render Map
+        robotLayer.setCell((int)robotPosition.x,(int)robotPosition.y,robotCell);
+
         camera.update();
         mapRenderer.render();
 
@@ -104,4 +127,5 @@ public class RoboRally implements ApplicationListener {
     @Override
     public void resume() {
     }
+
 }
