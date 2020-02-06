@@ -7,29 +7,23 @@ import static org.junit.Assert.*;
 
 public class GameBoardTest {
     private IGameBoard gameBoard;
+    int width = 12;
+    int height = 12;
+
+
 
     @Before
     public void setUp() throws Exception {
-        gameBoard = new GameBoard(10, 10);
+        gameBoard = new GameBoard(height, width);
     }
 
     @Test
-    public void boardSizeXAxis() {
-        assertEquals(10, gameBoard.getX());
+    public void getBoardWidth() {
+        assertEquals(width, gameBoard.getWidth());
     }
 
     @Test
-    public void boardSizeYAxis() {
-        assertEquals(10, gameBoard.getY());
-    }
-
-    @Test
-    public void boardCheckIfNewBoardHasNoRobotTokens() {
-
-    }
-
-    @Test
-    public void boardCheckRobotTokenPlaceOntoEmptyCell() {
-
+    public void getBoardHeight() {
+        assertEquals(height, gameBoard.getHeight());
     }
 }

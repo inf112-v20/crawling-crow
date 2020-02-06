@@ -1,7 +1,7 @@
 package Board;
 
 public interface IGameBoard {
-    int getX();
+    int getWidth();
 
-    int getY();
+    int getHeight();
 }
