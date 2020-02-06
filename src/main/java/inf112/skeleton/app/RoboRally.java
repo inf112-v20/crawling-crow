@@ -16,27 +16,18 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
 public class RoboRally extends InputAdapter implements ApplicationListener {
-    // Legacy Code
-    //private SpriteBatch batch;
-    //private BitmapFont font;
 
-    // We added these to represent the map and the maps layers
+
     private TiledMap tiledMap;
     private TiledMapTileLayer robotLayer;
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private OrthographicCamera camera;
-
-    // Robot parameters
-    private Texture robotTexture;
-    private TextureRegion[][] robotTextureRegion;
-    private Vector2 robotPosition;
-
-    // Not needed yet (or maybe ever)
     private TiledMapTileLayer.Cell robotCell;
     private TiledMapTileLayer.Cell robotWonCell;
     private TiledMapTileLayer.Cell robotLostCell;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private OrthographicCamera camera;
+    private Vector2 robotPosition;
 
     @Override
     public void create() {
@@ -59,8 +50,8 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
         mapRenderer.setView(camera);
 
         // Initialize robot
-        robotTexture = new Texture("player.png");
-        robotTextureRegion = TextureRegion.split(robotTexture, 300, 300);
+        Texture robotTexture = new Texture("player.png");
+        TextureRegion[][] robotTextureRegion = TextureRegion.split(robotTexture, 300, 300);
         robotWonCell = new TiledMapTileLayer.Cell();
         robotLostCell = new TiledMapTileLayer.Cell();
         robotCell = new TiledMapTileLayer.Cell();
@@ -73,14 +64,12 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
         Gdx.input.setInputProcessor(this);
     }
 
-    // Meant to contain all the keycodes:
     @Override
     public boolean keyUp(int keycode) {
         int x = (int)robotPosition.x, y = (int)robotPosition.y;
         if (keycode == Input.Keys.UP) {
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell((int) robotPosition.x, (int) ++robotPosition.y, robotCell);
-
         }
         else if(keycode == Input.Keys.RIGHT){
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
