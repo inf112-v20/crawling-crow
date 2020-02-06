@@ -2,17 +2,18 @@ package Board;
 
 public class GameBoard implements IGameBoard {
 
-    public GameBoard(int x, int y) {
+    // NOTE: (0,0) is top left corner
+    public GameBoard(int height, int width) {
 
     }
 
     @Override
-    public int getX() {
+    public int getWidth() {
         return 0;
     }
 
     @Override
-    public int getY() {
+    public int getHeight() {
         return 0;
     }
 }

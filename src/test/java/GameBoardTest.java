@@ -14,13 +14,13 @@ public class GameBoardTest {
     }
 
     @Test
-    public void boardSizeXAxis() {
-        assertEquals(10, gameBoard.getX());
+    public void getBoardWidth() {
+        assertEquals(10, gameBoard.getWidth());
     }
 
     @Test
-    public void boardSizeYAxis() {
-        assertEquals(10, gameBoard.getY());
+    public void getBoardHeight() {
+        assertEquals(10, gameBoard.getHeight());
     }
 
     @Test
