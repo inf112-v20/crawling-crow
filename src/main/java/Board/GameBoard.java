@@ -1,5 +1,8 @@
 package Board;
 
+import PlacableObjects.IPlaceableObject;
+import Position.IPosition;
+
 public class GameBoard implements IGameBoard {
     private int width;
     private int height;
@@ -18,5 +21,10 @@ public class GameBoard implements IGameBoard {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public void place(IPlaceableObject obj, IPosition pos) {
+
     }
 }
