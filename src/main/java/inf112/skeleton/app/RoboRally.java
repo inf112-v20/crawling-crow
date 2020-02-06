@@ -4,12 +4,9 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -27,9 +24,8 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     // TODO: implement this
     private TiledMapTileLayer robotLayer;
-    //private TiledMapTileLayer floorLayer;
-    //private TiledMapTileLayer hole;
-    //private TiledMapTileLayer flag;
+    private TiledMapTileLayer holeLayer;
+    private TiledMapTileLayer flagLayer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
 
@@ -45,17 +41,13 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        // Legacy Code
-        //batch = new SpriteBatch();
-        //font = new BitmapFont();
-        //font.setColor(Color.RED);
 
         // Initialize map from file
         tiledMap = new TmxMapLoader().load("testMap001.tmx");
 
         // Initialize layers
-        //TODO: Implement
-        //floorLayer = (TiledMapTileLayer) tiledMap.getLayers().get("FloorLayer");
+        holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
+        flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
         robotLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
 
         // Initialize the camera
@@ -70,15 +62,16 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
         // Initialize robot
         robotTexture = new Texture("player.png");
         robotTextureRegion = TextureRegion.split(robotTexture, 300, 300);
-        robotWonCell = robotLostCell = robotCell = new TiledMapTileLayer.Cell();
-        robotWonCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
+        robotWonCell = new TiledMapTileLayer.Cell();
+        robotLostCell = new TiledMapTileLayer.Cell();
+        robotCell = new TiledMapTileLayer.Cell();
+        robotWonCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
-        robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
+        robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         robotPosition = new Vector2(0,0);
 
         // Input
         Gdx.input.setInputProcessor(this);
-
     }
 
     // Meant to contain all the keycodes:
@@ -88,16 +81,26 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell((int) robotPosition.x, (int) ++robotPosition.y, robotCell);
 
-        } //TODO :)
-        else if(keycode == Input.Keys.DOWN){}
+        }
+        else if(keycode == Input.Keys.RIGHT){
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+            robotLayer.setCell((int) ++robotPosition.x, (int) robotPosition.y, robotCell);
+        }
+        else if(keycode == Input.Keys.DOWN){
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+            robotLayer.setCell((int) robotPosition.x, (int) --robotPosition.y, robotCell);
+        }
+        else if(keycode == Input.Keys.LEFT){
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+            robotLayer.setCell((int) --robotPosition.x, (int) robotPosition.y, robotCell);
+        }
         return true;
     }
 
     @Override
     public void dispose() {
-        // Legacy Code
-        //batch.dispose();
-        //font.dispose();
+        tiledMap.dispose();
+        mapRenderer.dispose();
     }
 
     @Override
@@ -105,17 +108,18 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Update and Render Map
-        robotLayer.setCell((int)robotPosition.x,(int)robotPosition.y,robotCell);
+        // Keeps track of flagLayer and holeLayer to see if the robot ever steps over them.
+        robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, robotCell);
+        if (flagLayer.getCell((int) robotPosition.x, (int) robotPosition.y) != null) {
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, robotWonCell);
+        }
+        if (holeLayer.getCell((int) robotPosition.x, (int) robotPosition.y) != null) {
+            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, robotLostCell);
+        }
 
+        // Update and Render Map
         camera.update();
         mapRenderer.render();
-
-        // Legacy Code
-        //batch.begin();
-        //font.draw(batch, "Hello World", 200, 200);
-        //batch.end();
-
     }
 
     @Override
