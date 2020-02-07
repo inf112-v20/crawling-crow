@@ -78,23 +78,23 @@ public class RoboRally extends InputAdapter implements ApplicationListener {
     @Override
     public boolean keyUp(int keycode) {
         int x = (int)robotPosition.x, y = (int)robotPosition.y;
-        boolean fellOff = true;
+        boolean onMap = false;
         if (keycode == Input.Keys.UP)
-            fellOff = movePlayer(x,y,0,1,robotCell);
+            onMap = movePlayer(x,y,0,1,robotCell);
         else if(keycode == Input.Keys.RIGHT)
-            fellOff = movePlayer(x,y,1,0,robotCell);
+            onMap = movePlayer(x,y,1,0,robotCell);
         else if(keycode == Input.Keys.DOWN)
-            fellOff = movePlayer(x,y,0,-1,robotCell);
+            onMap = movePlayer(x,y,0,-1,robotCell);
         else if(keycode == Input.Keys.LEFT)
-            fellOff = movePlayer(x,y,-1,0,robotCell);
+            onMap = movePlayer(x,y,-1,0,robotCell);
         // Keeps the robot inside the map.
-        if (!fellOff)
+        if (!onMap)
         {
             robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
             robotLayer.setCell(x, y, robotCell);
             robotPosition.x = x; robotPosition.y = y;
         }
-        return fellOff;
+        return onMap;
     }
 
     @Override
