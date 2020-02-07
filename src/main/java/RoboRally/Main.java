@@ -1,5 +1,6 @@
-package inf112.skeleton.app;
+package RoboRally;
 
+import RoboRally.GameBoard.GameBoard;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -11,6 +12,6 @@ public class Main {
         cfg.width = 600;
         cfg.height = 600;
 
-        new LwjglApplication(new RoboRally(), cfg);
+        new LwjglApplication(new GameBoard(), cfg);
     }
 }

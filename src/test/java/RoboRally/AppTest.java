@@ -1,17 +1,17 @@
-package inf112.skeleton.app;
+package RoboRally;
 
+import RoboRally.GameBoard.GameBoard;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest 
 {
-    RoboRally game = new RoboRally();
+    GameBoard game = new GameBoard();
     @Test
     public void shouldAnswerWithTrue() {
         String name = game.getClass().getSimpleName();
