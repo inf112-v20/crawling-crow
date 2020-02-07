@@ -112,7 +112,7 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 Vi har valgt å lage en egen Project board til, [user stories](https://github.com/inf112-v20/crawling-crow/projects/2). Her tagger vi de ulike arbeidsoppgavene ([work tasks](https://github.com/inf112-v20/crawling-crow/projects/1)) fortløpende. 
 
 ## Retrospektiv 
-####Prosjektmetodikk:
+#### Prosjektmetodikk:
 
 Planlagt å bruke:
 - elementer fra XP nevnt ovenfor.
@@ -122,7 +122,7 @@ Ikke vært så flinke til å følge:
     - TDD
     - You ain't gonna need it
 
-####Hvordan gikk prosjektet:
+#### Hvordan gikk prosjektet:
 Ting som gikk bra:
 - Project Board 2 stk, User-stories, work tasks.
     - oversiktlig, lett å forstå.
@@ -145,8 +145,8 @@ Ting som kunne gått bedre:
 - Kanskje dele oss inn i mindre grupper på mindre oppgaver.
 - Vær tydelig på når og hvilke oppgaver man starter på og når økten er ferdig. 
 
-####Konklusjon:
+#### Konklusjon:
 - Fått til det vi skulle, men ikke like organisert som ønsket.
 
-#### Klassediagram
+## Klassediagram
 ![UML](https://user-images.githubusercontent.com/43996726/74036655-f74e3b00-49bc-11ea-8239-1937feec4403.PNG)
