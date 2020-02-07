@@ -26,7 +26,7 @@ public class RobotTest {
 
     @Test
     public void robotHasAWinCell(){
-        assertNotNull(robot.getWonCell());
+        assertNotNull(robot.getWinCell());
     }
 
     @Test
@@ -39,6 +39,18 @@ public class RobotTest {
         assertNotNull(robot.getPosition());
     }
 
+    @Test
+    public void robotCellHasATile(){
+        assertNotNull(robot.getCell().getTile());
+    }
 
+    @Test
+    public void robotWonCellHasATile(){
+        assertNotNull(robot.getWinCell().getTile());
+    }
 
+    @Test
+    public void robotLoseCellHasATile(){
+        assertNotNull(robot.getLostCell().getTile());
+    }
 }

@@ -65,7 +65,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
         // Keeps track of flagLayer and holeLayer to see if the robot ever steps over them.
         if (flagLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
-            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getWonCell());
+            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getWinCell());
         }
         if (holeLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
             robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getLostCell());

@@ -17,6 +17,7 @@ public class Robot implements IRobot {
     private Vector2 robotPosition;
     private Texture robotTexture;
 
+
     public Robot() {
         this.robotTexture = new Texture("player.png");
         TextureRegion[][] robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
@@ -35,7 +36,7 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public TiledMapTileLayer.Cell getWonCell() {
+    public TiledMapTileLayer.Cell getWinCell() {
         return this.robotWonCell;
     }
 
