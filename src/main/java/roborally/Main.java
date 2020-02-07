@@ -1,6 +1,6 @@
-package RoboRally;
+package roborally;
 
-import RoboRally.GameBoard.GameBoard;
+import roborally.gameboard.GameBoard;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 

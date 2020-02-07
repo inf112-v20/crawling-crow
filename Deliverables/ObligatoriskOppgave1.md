@@ -50,7 +50,7 @@
 -   Skrive møtereferat, og lagde agenda for neste møte.
 
 ## Deloppgave 2
-Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally. 
+Overordnet mål: Vi skal lage en digital versjon av brettspillet roborally. 
 
 ### Krav til systemet
 -   Spillet skal fungere plattformuavhengig.

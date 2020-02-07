@@ -1,6 +1,6 @@
-package RoboRally.GameBoard;
+package roborally.gameboard;
 
-import RoboRally.Objects.Robot;
+import roborally.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
