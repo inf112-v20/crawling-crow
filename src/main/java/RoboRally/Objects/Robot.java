@@ -46,8 +46,8 @@ public class Robot implements IRobot {
         return this.robotCell;
     }
 
-    public Vector2 setPosition(Vector2 pos) {
-        return this.robotPosition = pos;
+    public void setPosition(Vector2 pos) {
+        this.robotPosition = pos;
     }
 
     public Vector2 getPosition() {

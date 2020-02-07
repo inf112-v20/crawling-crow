@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 public class GameBoard extends InputAdapter implements ApplicationListener {
 
@@ -18,7 +19,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     public static final int TILE_SIZE = 300;
 
     private TiledMap tiledMap;
-    private TiledMapTileLayer robotLayer;
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -86,11 +86,11 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         else if(keycode == Input.Keys.LEFT)
             onMap = robot.moveRobot(x,y,-1,0,robot.getCell());
         // Keeps the robot inside the map.
-        if (!onMap)
-        {
-            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
-            robotLayer.setCell(x, y, robot.getCell());
-            robot.getPosition().x = x; robot.getPosition().y = y;
+        if (!onMap) {
+            System.out.println(robot.getPosition());
+            robot.getLayer().setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
+            robot.getLayer().setCell(x, y, robot.getCell());
+            robot.setPosition(new Vector2(x, y));
         }
         return onMap;
     }
