@@ -107,3 +107,41 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 
 ### Kodebase
 - Bruker GitHub til all kode.
+
+## Deloppgave 4
+Vi har valgt å lage en egen Project board til, [user stories](https://github.com/inf112-v20/crawling-crow/projects/2). Her tagger vi de ulike arbeidsoppgavene ([work tasks](https://github.com/inf112-v20/crawling-crow/projects/1)) fortløpende. 
+
+## Retrospektiv 
+
+Planlagt å bruke:
+- elementer fra XP nevnt ovenfor.
+
+Ikke vært så flinke til å følge:
+- Vi startet prosjektet i feil ende, derfor ble det vanskelig å følge disse: 
+    - Refaktorering
+    - tdd
+    - You ain't gonna need it
+
+Ting som gikk bra:
+- Project Board 2 stk, User-stories, work tasks.
+    - oversiktlig, lett å forstå.
+- Wiki, fått nyttige ting på plass. 
+    - alle får oversikt over nyttig info man kan se tilbake til.
+    - retningslinjer, co-author/shortcut
+- God kommunikasjon på Slack.
+    - lett å avtale møter, holde alle oppdatert
+- Mye parprogrammering. 
+    - Blitt kjent med hvordan ulike personer jobber. 
+
+Ting som kunne gått bedre: 
+- Komme i gang litt tidligere. 
+- Skulle begynt med det eksisterende biblioteket, ikke fra scratch.
+
+Til neste gang:
+- Lage user-stories og worsk tasks med én gang.
+- Sjekke om det er relevant informasjon/tutorial/bibloteker tilgjengelig.
+- Kanskje dele oss inn i mindre grupper på mindre oppgaver.
+- Vær tydelig på når og hvilke oppgaver man starter på og når økten er ferdig. 
+
+Konklusjon:
+- Fått til det vi skulle, men ikke like organisert som ønsket.
