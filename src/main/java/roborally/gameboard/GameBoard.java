@@ -78,7 +78,8 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
     //navigation keys to move robot - only temporary
     public boolean keyUp(int keycode) {
-        int x = (int)robot.getPosition().x, y = (int)robot.getPosition().y;
+        int x = (int)robot.getPosition().x;
+        int y = (int)robot.getPosition().y;
         boolean onMap = false;
         if (keycode == Input.Keys.UP)
             onMap = robot.moveRobot(x,y,0,1,robotLayer, robot.getCell());
