@@ -24,17 +24,8 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     private TiledMapTileLayer robotLayer;
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
-    //private TiledMapTileLayer.Cell robotCell;
-    //private TiledMapTileLayer.Cell robotWonCell;
-    //private TiledMapTileLayer.Cell robotLostCell;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    //private Vector2 robotPosition;
-
-    // Rendering
-    private SpriteBatch batch;
-    private BitmapFont font;
-
     private Robot robot;
 
     @Override
@@ -46,9 +37,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
         robotLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
-
         robot = new Robot(tiledMap);
-        //robot = new Robot();
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -58,18 +47,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-
-        // Initialize robot
-       /* Texture robotTexture = new Texture("player.png");
-        TextureRegion[][] robotTextureRegion = TextureRegion.split(robotTexture, 300, 300);
-        robotWonCell = new TiledMapTileLayer.Cell();
-        robotLostCell = new TiledMapTileLayer.Cell();
-        robotCell = new TiledMapTileLayer.Cell();
-        robotWonCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
-        robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
-        robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
-        robotPosition = new Vector2(0,0);
-        */
 
         // Input
         Gdx.input.setInputProcessor(this);
@@ -100,6 +77,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
     }
 
+    //navigation keys to move robot - only temporary
     public boolean keyUp(int keycode) {
         int x = (int)robot.getPosition().x, y = (int)robot.getPosition().y;
         boolean onMap = false;
@@ -121,7 +99,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         return onMap;
     }
 
-
     @Override
     public void resize(int width, int height) {
     }
@@ -133,5 +110,4 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     @Override
     public void resume() {
     }
-
 }

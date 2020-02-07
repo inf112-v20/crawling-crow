@@ -1,6 +1,6 @@
 package RoboRally.Objects;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -27,7 +27,6 @@ public class Robot implements IRobot {
         this.robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
         this.robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         this.robotPosition = new Vector2(0,0);
-
     }
 
     public TiledMapTileLayer.Cell getWonCell() {
