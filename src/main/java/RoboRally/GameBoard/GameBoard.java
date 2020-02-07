@@ -7,18 +7,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector2;
 
 public class GameBoard extends InputAdapter implements ApplicationListener {
+
+    // Size of tile, both height and width
+    public static final int TILE_SIZE = 300;
 
     private TiledMap tiledMap;
     private TiledMapTileLayer robotLayer;
@@ -36,7 +33,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize layers
         holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
-        robotLayer = (TiledMapTileLayer) tiledMap.getLayers().get("Player");
         robot = new Robot(tiledMap);
 
         // Initialize the camera
