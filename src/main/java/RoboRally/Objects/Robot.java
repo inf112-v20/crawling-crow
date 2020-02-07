@@ -1,5 +1,6 @@
 package RoboRally.Objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -26,6 +27,7 @@ public class Robot implements IRobot {
         this.robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
         this.robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         this.robotPosition = new Vector2(0,0);
+
     }
 
     public TiledMapTileLayer.Cell getWonCell() {
@@ -50,5 +52,15 @@ public class Robot implements IRobot {
 
     public TiledMapTileLayer getLayer() {
         return this.robotLayer;
+    }
+
+    public boolean moveRobot(int x, int y, int dx, int dy, TiledMapTileLayer.Cell cell) {
+        robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
+        robotPosition.x+=dx; robotPosition.y+=dy;
+        robotLayer.setCell( (int)robotPosition.x, (int)robotPosition.y, cell);
+
+        return robotPosition.x >= 0 && robotPosition.y >= 0 &&
+                robotPosition.x < robotLayer.getWidth() &&
+                robotPosition.y < robotLayer.getHeight();
     }
 }

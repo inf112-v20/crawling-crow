@@ -100,39 +100,27 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
     }
 
-    // Moves player by dy and dx.
-    /*
-    private boolean moveRobot(int x, int y, int dx, int dy, TiledMapTileLayer.Cell cell) {
-        robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
-        robotPosition.x+=dx; robotPosition.y+=dy;
-        robotLayer.setCell( (int)robotPosition.x, (int)robotPosition.y, cell);
-
-        return robotPosition.x >= 0 && robotPosition.y >= 0 &&
-                robotPosition.x < robotLayer.getWidth() &&
-                robotPosition.y < robotLayer.getHeight();
-    }
-
-    public boolean navigationControl(int keycode) {
-        int x = (int)robotPosition.x, y = (int)robotPosition.y;
+    public boolean keyUp(int keycode) {
+        int x = (int)robot.getPosition().x, y = (int)robot.getPosition().y;
         boolean onMap = false;
         if (keycode == Input.Keys.UP)
-            onMap = moveRobot(x,y,0,1,robotCell);
+            onMap = robot.moveRobot(x,y,0,1,robot.getCell());
         else if(keycode == Input.Keys.RIGHT)
-            onMap = moveRobot(x,y,1,0,robotCell);
+            onMap = robot.moveRobot(x,y,1,0,robot.getCell());
         else if(keycode == Input.Keys.DOWN)
-            onMap = moveRobot(x,y,0,-1,robotCell);
+            onMap = robot.moveRobot(x,y,0,-1,robot.getCell());
         else if(keycode == Input.Keys.LEFT)
-            onMap = moveRobot(x,y,-1,0,robotCell);
+            onMap = robot.moveRobot(x,y,-1,0,robot.getCell());
         // Keeps the robot inside the map.
         if (!onMap)
         {
-            robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
-            robotLayer.setCell(x, y, robotCell);
-            robotPosition.x = x; robotPosition.y = y;
+            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
+            robotLayer.setCell(x, y, robot.getCell());
+            robot.getPosition().x = x; robot.getPosition().y = y;
         }
         return onMap;
     }
-     */
+
 
     @Override
     public void resize(int width, int height) {
