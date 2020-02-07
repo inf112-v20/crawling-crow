@@ -136,7 +136,8 @@ Ting som gikk bra:
     -   retningslinjer, co-author/shortcut
     
 -   God kommunikasjon på Slack.
-    -   lett å avtale møter, holde alle oppdatert 
+    -   lett å avtale møter, holde alle oppdatert
+    
     
 -   Mye parprogrammering. 
     -   Blitt kjent med hvordan ulike personer jobber. 
