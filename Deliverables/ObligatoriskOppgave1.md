@@ -1,7 +1,7 @@
 # Deloppgave 1
 ## Kartlegging av kompetanse
 ### Lise og Sol
-- Programmering: Behersker godt java, erfaring fra INF101 og INF102. 
+-   Programmering: Behersker godt java, erfaring fra INF101 og INF102. 
 - Git: brukt litt i INF101
 - Tester: brukt litt i INF101
 
@@ -25,9 +25,13 @@
 ### Tim - Gruppeleder
 - Hovedansvar for Git-repo'en. At alt blir gjort på en oversiktig og god måte.
     - Hjelpe gruppen med å forstå Git og hvordan man bruker det.
+    
+    
 - Ansvar for vedlikehold av project-board'en.
     - Holde den oppdatert
     - Holde orden på Issues
+    
+
 - Passe på at alle får hjelp til det de holder på med.
 
 ### Sol - Kundekontakt
