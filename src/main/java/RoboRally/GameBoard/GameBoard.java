@@ -21,6 +21,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private TiledMapTileLayer holeLayer;
     private TiledMapTileLayer flagLayer;
+    private TiledMapTileLayer robotLayer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private Robot robot;
@@ -33,7 +34,8 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize layers
         holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
-        robot = new Robot(tiledMap);
+        robotLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Player");
+        robot = new Robot(robotLayer);
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -59,13 +61,14 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getCell());
+
         // Keeps track of flagLayer and holeLayer to see if the robot ever steps over them.
-        robot.getLayer().setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getCell());
         if (flagLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
-            robot.getLayer().setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getWonCell());
+            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getWonCell());
         }
         if (holeLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
-            robot.getLayer().setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getLostCell());
+            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getLostCell());
         }
 
         // Update and Render Map
@@ -88,8 +91,8 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Keeps the robot inside the map.
         if (!onMap) {
             System.out.println(robot.getPosition());
-            robot.getLayer().setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
-            robot.getLayer().setCell(x, y, robot.getCell());
+            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
+            robotLayer.setCell(x, y, robot.getCell());
             robot.setPosition(new Vector2(x, y));
         }
         return onMap;
