@@ -35,7 +35,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
         robotLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Player");
-        robot = new Robot(robotLayer);
+        robot = new Robot();
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -81,16 +81,15 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         int x = (int)robot.getPosition().x, y = (int)robot.getPosition().y;
         boolean onMap = false;
         if (keycode == Input.Keys.UP)
-            onMap = robot.moveRobot(x,y,0,1,robot.getCell());
+            onMap = robot.moveRobot(x,y,0,1,robotLayer, robot.getCell());
         else if(keycode == Input.Keys.RIGHT)
-            onMap = robot.moveRobot(x,y,1,0,robot.getCell());
+            onMap = robot.moveRobot(x,y,1,0,robotLayer, robot.getCell());
         else if(keycode == Input.Keys.DOWN)
-            onMap = robot.moveRobot(x,y,0,-1,robot.getCell());
+            onMap = robot.moveRobot(x,y,0,-1,robotLayer, robot.getCell());
         else if(keycode == Input.Keys.LEFT)
-            onMap = robot.moveRobot(x,y,-1,0,robot.getCell());
+            onMap = robot.moveRobot(x,y,-1,0,robotLayer, robot.getCell());
         // Keeps the robot inside the map.
         if (!onMap) {
-            System.out.println(robot.getPosition());
             robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
             robotLayer.setCell(x, y, robot.getCell());
             robot.setPosition(new Vector2(x, y));

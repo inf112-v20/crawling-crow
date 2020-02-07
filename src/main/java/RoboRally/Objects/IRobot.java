@@ -10,8 +10,7 @@ public interface IRobot {
     TiledMapTileLayer.Cell getCell();
     void setPosition(Vector2 pos);
     Vector2 getPosition();
-    TiledMapTileLayer getLayer();
     Texture getTexture();
 
-    boolean moveRobot(int x, int y, int dx, int dy, TiledMapTileLayer.Cell cell);
+    boolean moveRobot(int x, int y, int dx, int dy, TiledMapTileLayer robotLayer, TiledMapTileLayer.Cell cell);
 }

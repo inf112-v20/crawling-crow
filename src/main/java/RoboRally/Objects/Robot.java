@@ -15,11 +15,9 @@ public class Robot implements IRobot {
     private TiledMapTileLayer.Cell robotWonCell;
     private TiledMapTileLayer.Cell robotLostCell;
     private Vector2 robotPosition;
-    private TiledMapTileLayer robotLayer;
     private Texture robotTexture;
 
-    public Robot(TiledMapTileLayer robotLayer) {
-        this.robotLayer = robotLayer;
+    public Robot() {
         this.robotTexture = new Texture("player.png");
         TextureRegion[][] robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
         this.robotWonCell = new TiledMapTileLayer.Cell();
@@ -62,12 +60,7 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public TiledMapTileLayer getLayer() {
-        return this.robotLayer;
-    }
-
-    @Override
-    public boolean moveRobot(int x, int y, int dx, int dy, TiledMapTileLayer.Cell cell) {
+    public boolean moveRobot(int x, int y, int dx, int dy, TiledMapTileLayer robotLayer, TiledMapTileLayer.Cell cell) {
         robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
         robotPosition.x+=dx; robotPosition.y+=dy;
         robotLayer.setCell( (int)robotPosition.x, (int)robotPosition.y, cell);

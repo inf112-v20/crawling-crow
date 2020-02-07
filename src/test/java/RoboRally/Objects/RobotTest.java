@@ -1,8 +1,5 @@
 package RoboRally.Objects;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,10 +12,7 @@ public class RobotTest {
     @Before
     public void setUp(){
         //TODO: Ask how to initialize a map from within a test
-        TiledMap tiledMap = new TmxMapLoader().load("testMap001.tmx");
-        TiledMapTileLayer robotLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Player");
-
-        robot = new Robot(robotLayer);
+        robot = new Robot();
     }
     @Test
     public void robotHasTexture(){
