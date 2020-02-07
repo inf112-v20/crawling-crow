@@ -37,7 +37,7 @@
     -   Stiller spørsmål angående oppgavene vi blir tildelt.
 
 ### Researcher
--  Sette seg inn i et tema og fungere som orakel for gruppen.
+-   Sette seg inn i et tema og fungere som orakel for gruppen.
 
 #### Thomas - Game Master/Hovedtester
 -   Hovedansvar for å forstå spillet, og hjelpe resten av gruppen og forstå spillet.
@@ -97,6 +97,7 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
     -   Går igjennom de i fellesskap i møter
     
 2.  Definerer arbeidsoppgaver ut i fra user stories
+
 3.  Arbeidsoppgavene fordeles etter interesse og ønske.
 
 ### Oppfølging av arbeid
@@ -115,7 +116,7 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet RoboRally.
 Vi har valgt å lage en egen Project board til, [user stories](https://github.com/inf112-v20/crawling-crow/projects/2). Her tagger vi de ulike arbeidsoppgavene ([work tasks](https://github.com/inf112-v20/crawling-crow/projects/1)) fortløpende. 
 
 ## Retrospektiv 
-#### Prosjektmetodikk:
+### Prosjektmetodikk
 
 Planlagt å bruke:
 -   elementer fra XP nevnt ovenfor.
@@ -125,7 +126,7 @@ Ikke vært så flinke til å følge:
     -   TDD
     -   You ain't gonna need it
 
-#### Hvordan gikk prosjektet:
+### Hvordan gikk prosjektet
 Ting som gikk bra:
 -   Project Board 2 stk, User-stories, work tasks.
     -   oversiktlig, lett å forstå.
@@ -135,7 +136,7 @@ Ting som gikk bra:
     -   retningslinjer, co-author/shortcut
     
 -   God kommunikasjon på Slack.
-    -   lett å avtale møter, holde alle oppdatert
+    -   lett å avtale møter, holde alle oppdatert 
     
 -   Mye parprogrammering. 
     -   Blitt kjent med hvordan ulike personer jobber. 
@@ -145,13 +146,13 @@ Ting som kunne gått bedre:
 -   Skulle begynt med det eksisterende biblioteket, ikke fra scratch.
 -   Vi hadde problemer med å skrive tester, i forbindelse med assets.
 
-#### Til neste gang:
+### Til neste gang
 -   Lage user-stories og worsk tasks med én gang.
 -   Sjekke om det er relevant informasjon/tutorial/bibloteker tilgjengelig.
 -   Kanskje dele oss inn i mindre grupper på mindre oppgaver.
 -   Vær tydelig på når og hvilke oppgaver man starter på og når økten er ferdig. 
 
-#### Konklusjon:
+### Konklusjon
 -   Fått til det vi skulle, men ikke like organisert som ønsket.
 
 ## Klassediagram
