@@ -45,6 +45,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
+        robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getCell());
 
         // Input
         Gdx.input.setInputProcessor(this);
@@ -61,14 +62,9 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getCell());
-
-        // Keeps track of flagLayer and holeLayer to see if the robot ever steps over them.
+        // Keeps track of flagLayer to see if the robot ever steps over the flag.
         if (flagLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
             robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getWinCell());
-        }
-        if (holeLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
-            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getLostCell());
         }
 
         // Update and Render Map
@@ -77,23 +73,25 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     }
 
     //navigation keys to move robot - only temporary
+    // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
     public boolean keyUp(int keycode) {
-        int x = (int)robot.getPosition().x;
-        int y = (int)robot.getPosition().y;
-        boolean onMap = false;
+        float x = robot.getPosition().x, y = robot.getPosition().y;
+        boolean onMap = true;
+
         if (keycode == Input.Keys.UP)
-            onMap = robot.moveRobot(x,y,0,1,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(0,1,robotLayer, robot.getCell());
         else if(keycode == Input.Keys.RIGHT)
-            onMap = robot.moveRobot(x,y,1,0,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(1,0,robotLayer, robot.getCell());
         else if(keycode == Input.Keys.DOWN)
-            onMap = robot.moveRobot(x,y,0,-1,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(0,-1,robotLayer, robot.getCell());
         else if(keycode == Input.Keys.LEFT)
-            onMap = robot.moveRobot(x,y,-1,0,robotLayer, robot.getCell());
-        // Keeps the robot inside the map.
-        if (!onMap) {
+            onMap = robot.moveRobot(-1,0,robotLayer, robot.getCell());
+
+        // Reboots the robot if it moves outside the map or falls down a hole.
+        if (!onMap || holeLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
             robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
-            robotLayer.setCell(x, y, robot.getCell());
-            robot.setPosition(new Vector2(x, y));
+            robotLayer.setCell((int) x, (int) y, robot.getLostCell());
+            robot.setPosition(x, y);
         }
         return onMap;
     }
