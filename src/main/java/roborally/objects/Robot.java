@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import roborally.tools.AssMan;
 
 public class Robot implements IRobot {
 
@@ -18,7 +19,9 @@ public class Robot implements IRobot {
     private TextureRegion[][] robotTextureRegion;
 
     public Robot() {
-        this.robotTexture = new Texture("player.png");
+        AssMan.load();
+        AssMan.manager.finishLoading();
+        this.robotTexture = AssMan.getRobotTexture();
         robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
         this.robotPosition = new Vector2(0,0);
     }

@@ -1,5 +1,6 @@
 package roborally.gameboard;
 
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import roborally.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
+import roborally.tools.AssMan;
 
 public class GameBoard extends InputAdapter implements ApplicationListener {
 
@@ -29,8 +30,10 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     @Override
     public void create() {
         // Initialize map from file
-        tiledMap = new TmxMapLoader().load("testMap001.tmx");
-
+        AssMan.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssMan.load();
+        AssMan.manager.finishLoading();
+        tiledMap = AssMan.getMap();
         // Initialize layers
         holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
         flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
@@ -72,7 +75,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
     }
 
-    //navigation keys to move robot - only temporary
     // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
     public boolean keyUp(int keycode) {
         float x = robot.getPosition().x, y = robot.getPosition().y;
@@ -93,6 +95,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
             robotLayer.setCell((int) x, (int) y, robot.getLostCell());
             robot.setPosition(x, y);
         }
+
         return onMap;
     }
 
