@@ -112,7 +112,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     public void resume() {
     }
 
-    //Puts all the layers for the current map into a Map, accessible by their given layer names in creation of the map.
+    //Puts all the layers for the current map into a Map, accessible by standard names defined by us.
     private void createLayers() {
         layers = new HashMap<>();
         String s;
