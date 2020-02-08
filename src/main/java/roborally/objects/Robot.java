@@ -19,8 +19,6 @@ public class Robot implements IRobot {
     private TextureRegion[][] robotTextureRegion;
 
     public Robot() {
-        AssMan.load();
-        AssMan.manager.finishLoading();
         this.robotTexture = AssMan.getRobotTexture();
         robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
         this.robotPosition = new Vector2(0,0);
@@ -62,15 +60,20 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public Vector2 getPosition() {
-        return this.robotPosition;
+    public int getPositionX() {
+        return (int)this.robotPosition.x;
     }
 
     @Override
-    public boolean moveRobot(int dx, int dy, TiledMapTileLayer robotLayer, TiledMapTileLayer.Cell cell) {
+    public int getPositionY() {
+        return (int)this.robotPosition.y;
+    }
+
+    @Override
+    public boolean moveRobot(int dx, int dy, TiledMapTileLayer robotLayer) {
         robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, null);
         robotPosition.x+=dx; robotPosition.y+=dy;
-        robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, cell);
+        robotLayer.setCell((int) robotPosition.x, (int) robotPosition.y, getCell());
 
         return robotPosition.x >= 0 && robotPosition.y >= 0 &&
                 robotPosition.x < robotLayer.getWidth()

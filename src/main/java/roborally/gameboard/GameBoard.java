@@ -1,6 +1,8 @@
 package roborally.gameboard;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapLayer;
 import roborally.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -13,16 +15,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.tools.AssMan;
+import java.util.HashMap;
 
 public class GameBoard extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
+    // Map with layers
+    private HashMap<String,TiledMapTileLayer> layers;
 
     private TiledMap tiledMap;
-    private TiledMapTileLayer holeLayer;
-    private TiledMapTileLayer flagLayer;
-    private TiledMapTileLayer robotLayer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private Robot robot;
@@ -34,10 +36,9 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         AssMan.load();
         AssMan.manager.finishLoading();
         tiledMap = AssMan.getMap();
+
         // Initialize layers
-        holeLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Hole");
-        flagLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Flags");
-        robotLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Player");
+        createLayers();
         robot = new Robot();
 
         // Initialize the camera
@@ -48,7 +49,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getCell());
+        layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), robot.getCell());
 
         // Input
         Gdx.input.setInputProcessor(this);
@@ -66,8 +67,8 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
-        if (flagLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
-            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, robot.getWinCell());
+        if (onFlag()) {
+            layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), robot.getWinCell());
         }
 
         // Update and Render Map
@@ -77,26 +78,26 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
     // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
     public boolean keyUp(int keycode) {
-        float x = robot.getPosition().x, y = robot.getPosition().y;
+        int x = robot.getPositionX(), y = robot.getPositionY();
         boolean onMap = true;
 
         if (keycode == Input.Keys.UP)
-            onMap = robot.moveRobot(0,1,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(0,1, layers.get("Robot"));
         else if(keycode == Input.Keys.RIGHT)
-            onMap = robot.moveRobot(1,0,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(1,0, layers.get("Robot"));
         else if(keycode == Input.Keys.DOWN)
-            onMap = robot.moveRobot(0,-1,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(0,-1, layers.get("Robot"));
         else if(keycode == Input.Keys.LEFT)
-            onMap = robot.moveRobot(-1,0,robotLayer, robot.getCell());
+            onMap = robot.moveRobot(-1,0, layers.get("Robot"));
 
         // Reboots the robot if it moves outside the map or falls down a hole.
-        if (!onMap || holeLayer.getCell((int) robot.getPosition().x, (int) robot.getPosition().y) != null) {
-            robotLayer.setCell((int) robot.getPosition().x, (int) robot.getPosition().y, null);
-            robotLayer.setCell((int) x, (int) y, robot.getLostCell());
+        if (!onMap || onHole()) {
+            layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), null);
+            layers.get("Robot").setCell(x, y, robot.getLostCell());
             robot.setPosition(x, y);
         }
 
-        return onMap;
+        return onMap && !onHole();
     }
 
     @Override
@@ -109,5 +110,23 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resume() {
+    }
+
+    //Puts all the layers for the current map into a Map, accessible by their given layer names in creation of the map.
+    private void createLayers() {
+        layers = new HashMap<>();
+        for(MapLayer layer : tiledMap.getLayers()) {
+            TiledMapTileLayer key = (TiledMapTileLayer) layer;
+            layers.put(key.getName(), (TiledMapTileLayer) layer);
+        }
+        TiledMapTileLayer robotLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Player");
+        layers.put("Robot",robotLayer);
+    }
+
+    private boolean onHole() {
+        return layers.get("Hole").getCell(robot.getPositionX(), robot.getPositionY())!=null;
+    }
+    private boolean onFlag() {
+        return layers.get("Flags").getCell(robot.getPositionX(), robot.getPositionY()) != null;
     }
 }

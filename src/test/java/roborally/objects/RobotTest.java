@@ -36,7 +36,7 @@ public class RobotTest {
 
     @Test
     public void robotHasAPosition(){
-        assertNotNull(robot.getPosition());
+        assertNotNull(robot.getPositionX());
     }
 
     @Test
