@@ -121,8 +121,10 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
             s = key.getName().toLowerCase();
             for(int i = 0; i < layernames.length; i++) {
-                if (s.contains(layernames[i][0]))
+                if (s.contains(layernames[i][0])) {
                     layers.put(layernames[i][1], key);
+                    break;
+                }
             }
         }
     }
