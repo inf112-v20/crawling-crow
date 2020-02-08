@@ -1,7 +1,6 @@
 package roborally.gameboard;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import roborally.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
@@ -59,6 +58,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
+        AssMan.dispose();
     }
 
     @Override
@@ -115,18 +115,22 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     //Puts all the layers for the current map into a Map, accessible by their given layer names in creation of the map.
     private void createLayers() {
         layers = new HashMap<>();
+        String s;
+        String[][] layernames = AssMan.readLayerNames();
         for(MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
-            layers.put(key.getName(), (TiledMapTileLayer) layer);
+            s = key.getName().toLowerCase();
+            for(int i = 0; i < layernames.length; i++) {
+                if (s.contains(layernames[i][0]))
+                    layers.put(layernames[i][1], key);
+            }
         }
-        TiledMapTileLayer robotLayer = (TiledMapTileLayer)tiledMap.getLayers().get("Player");
-        layers.put("Robot",robotLayer);
     }
 
     private boolean onHole() {
         return layers.get("Hole").getCell(robot.getPositionX(), robot.getPositionY())!=null;
     }
     private boolean onFlag() {
-        return layers.get("Flags").getCell(robot.getPositionX(), robot.getPositionY()) != null;
+        return layers.get("Flag").getCell(robot.getPositionX(), robot.getPositionY()) != null;
     }
 }

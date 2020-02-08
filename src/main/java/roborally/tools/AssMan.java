@@ -5,6 +5,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class AssMan {
     public static final AssetManager manager = new AssetManager();
 
@@ -33,6 +38,36 @@ public class AssMan {
 
     public static void dispose() {
         manager.clear();
+    }
+
+    //Potential stuff we might call the layers when creating maps, feel free to add some! =)
+    public static String[][] readLayerNames() {
+        String[][] layernames = new String[getnumberOfLinesInLayerNames()-1][2];
+        try {
+            File fr = new File("assets/maps/layernames.txt");
+            BufferedReader br = new BufferedReader(new FileReader(fr));
+            String[] string;
+            int i = 0;
+            while (!(string = br.readLine().split(" "))[0].equals("end")) {
+                layernames[i][0] = string[0]; layernames[i++][1] = string[1];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return layernames;
+    }
+
+    public static int getnumberOfLinesInLayerNames() {
+        int count = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layernames.txt"));
+            while(br.readLine()!=null)
+                count++;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 }

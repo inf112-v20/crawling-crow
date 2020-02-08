@@ -1,0 +1,9 @@
+player Robot
+robot Robot
+wall Wall
+floor Floor
+hole Hole
+pit Hole
+flag Flag
+gear Gear
+end
