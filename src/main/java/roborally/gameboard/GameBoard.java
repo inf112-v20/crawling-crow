@@ -1,7 +1,6 @@
 package roborally.gameboard;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.maps.MapLayer;
 import roborally.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -37,7 +36,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         tiledMap = AssMan.getMap();
 
         // Initialize layers
-        createLayers();
+        layers = AssMan.createLayers(tiledMap);
         robot = new Robot();
 
         // Initialize the camera
@@ -112,27 +111,18 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     public void resume() {
     }
 
-    //Puts all the layers for the current map into a Map, accessible by standard names defined by us.
-    private void createLayers() {
-        layers = new HashMap<>();
-        String s;
-        String[][] layernames = AssMan.readLayerNames();
-        for(MapLayer layer : tiledMap.getLayers()) {
-            TiledMapTileLayer key = (TiledMapTileLayer) layer;
-            s = key.getName().toLowerCase();
-            for(int i = 0; i < layernames.length; i++) {
-                if (s.contains(layernames[i][0])) {
-                    layers.put(layernames[i][1], key);
-                    break;
-                }
-            }
-        }
-    }
-
     private boolean onHole() {
+        if(layers.containsKey("bug"))
+            if(layers.get("bug").getCell(robot.getPositionX(), robot.getPositionY())!=null)
+                return true;
+        if(!layers.containsKey("Hole"))
+            return false;
         return layers.get("Hole").getCell(robot.getPositionX(), robot.getPositionY())!=null;
     }
+
     private boolean onFlag() {
+        if(!layers.containsKey("Flag"))
+            return false;
         return layers.get("Flag").getCell(robot.getPositionX(), robot.getPositionY()) != null;
     }
 }

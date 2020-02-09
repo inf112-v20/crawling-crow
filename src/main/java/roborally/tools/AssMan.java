@@ -3,12 +3,15 @@ package roborally.tools;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class AssMan {
     public static final AssetManager manager = new AssetManager();
@@ -68,6 +71,30 @@ public class AssMan {
             e.printStackTrace();
         }
         return count;
+    }
+
+    //Puts all the layers for the current map into a Map, accessible by standard names defined by us.
+    public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
+        HashMap<String, TiledMapTileLayer> map = new HashMap<>();
+        String[][] layernames = AssMan.readLayerNames();
+        for(MapLayer layer : tiledMap.getLayers()) {
+            TiledMapTileLayer key = (TiledMapTileLayer) layer;
+            boolean layerImpl = false;
+            String s = key.getName().toLowerCase();
+            for (int i = 0; i < layernames.length; i++) {
+                if (s.contains(layernames[i][0])) {
+                    layerImpl = true;
+                    map.put(layernames[i][1], key);
+                    break;
+                }
+            }
+            if (!layerImpl) {
+                System.out.println("The layer: '" + s + "' has not yet been implemented in the game. \n" +
+                        "check the layer in Tiled Map Editor and the list of names in map/layernames.txt\n" +
+                        "this layer will act as a hole.");
+                map.put("bug", key);
+            }
+        } return map;
     }
 
 }
