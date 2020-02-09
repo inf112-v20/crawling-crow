@@ -46,20 +46,21 @@ public class AssMan {
     //Potential stuff we might call the layers when creating maps, feel free to add some! =)
     public static String[][] readLayerNames() {
         String[][] layernames = new String[getnumberOfLinesInLayerNames()-1][2];
+        String[] string;
+        int i = 0;
         try {
-            File fr = new File("assets/maps/layernames.txt");
-            BufferedReader br = new BufferedReader(new FileReader(fr));
-            String[] string;
-            int i = 0;
+            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layernames.txt"));
             while (!(string = br.readLine().split(" "))[0].equals("end")) {
                 layernames[i][0] = string[0]; layernames[i++][1] = string[1];
             }
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             e.printStackTrace();
         }
         return layernames;
     }
 
+    //Gets the total number of lines in our layernames file.
     public static int getnumberOfLinesInLayerNames() {
         int count = 0;
         try {
@@ -77,6 +78,7 @@ public class AssMan {
     public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
         String[][] layernames = AssMan.readLayerNames();
+
         for(MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
             boolean layerImpl = false;
