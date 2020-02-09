@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,26 +44,26 @@ public class AssMan {
 
     //Potential stuff we might call the layers when creating maps, feel free to add some! =)
     public static String[][] readLayerNames() {
-        String[][] layernames = new String[getnumberOfLinesInLayerNames()-1][2];
+        String[][] layerNames = new String[getNumberOfLinesInLayerNames()-1][2];
         String[] string;
         int i = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layernames.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
             while (!(string = br.readLine().split(" "))[0].equals("end")) {
-                layernames[i][0] = string[0]; layernames[i++][1] = string[1];
+                layerNames[i][0] = string[0]; layerNames[i++][1] = string[1];
             }
         } 
         catch (IOException e) {
             e.printStackTrace();
         }
-        return layernames;
+        return layerNames;
     }
 
-    //Gets the total number of lines in our layernames file.
-    public static int getnumberOfLinesInLayerNames() {
+    //Gets the total number of lines in our layerNames file.
+    public static int getNumberOfLinesInLayerNames() {
         int count = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layernames.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
             while(br.readLine()!=null)
                 count++;
         }
@@ -77,26 +76,25 @@ public class AssMan {
     //Puts all the layers for the current map into a Map, accessible by standard names defined by us.
     public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
-        String[][] layernames = AssMan.readLayerNames();
-
+        String[][] layerNames = readLayerNames();
         for(MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
             boolean layerImpl = false;
             String s = key.getName().toLowerCase();
-            for (int i = 0; i < layernames.length; i++) {
-                if (s.contains(layernames[i][0])) {
+            for (String[] layerName : layerNames)
+                if (s.contains(layerName[0])) {
                     layerImpl = true;
-                    map.put(layernames[i][1], key);
+                    map.put(layerName[1], key);
                     break;
                 }
-            }
             if (!layerImpl) {
                 System.out.println("The layer: '" + s + "' has not yet been implemented in the game. \n" +
                         "check the layer in Tiled Map Editor and the list of names in map/layernames.txt\n" +
                         "this layer will act as a hole.");
                 map.put("bug", key);
             }
-        } return map;
+        }
+        return map;
     }
 
 }

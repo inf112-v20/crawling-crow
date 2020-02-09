@@ -72,10 +72,10 @@ public class Robot implements IRobot {
     @Override
     public boolean moveRobot(int dx, int dy, TiledMapTileLayer robotLayer) {
         robotLayer.setCell(getPositionX(), getPositionY(), null);
-        robotPosition.x+=dx; robotPosition.y+=dy;
+        this.setPosition(getPositionX()+dx,getPositionY()+dy);
         robotLayer.setCell(getPositionX(), getPositionY(), getCell());
-        return robotPosition.x >= 0 && robotPosition.y >= 0 &&
-                robotPosition.x < robotLayer.getWidth()
-                && robotPosition.y < robotLayer.getHeight();
+        return this.getPositionX() >= 0 && this.getPositionY() >= 0
+                && this.getPositionX() < robotLayer.getWidth()
+                && this.getPositionY() < robotLayer.getHeight();
     }
 }

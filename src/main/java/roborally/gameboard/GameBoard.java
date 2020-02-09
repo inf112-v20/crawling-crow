@@ -29,13 +29,11 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        // Initialize map from file
+        // Initialize map, layers and robot
         AssMan.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssMan.load();
         AssMan.manager.finishLoading();
         tiledMap = AssMan.getMap();
-
-        // Initialize layers
         layers = AssMan.createLayers(tiledMap);
         robot = new Robot();
 
@@ -48,8 +46,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
         layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), robot.getCell());
-
-        // Input
         Gdx.input.setInputProcessor(this);
     }
 
@@ -95,7 +91,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
             layers.get("Robot").setCell(x, y, robot.getLostCell());
             robot.setPosition(x, y);
         }
-
         return onMap && !onHole();
     }
 
@@ -111,6 +106,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     public void resume() {
     }
 
+    // Checks if robot is stepping on a bug or a hole. (Bug being a layer which is not implemented)
     private boolean onHole() {
         if(layers.containsKey("bug"))
             if(layers.get("bug").getCell(robot.getPositionX(), robot.getPositionY())!=null)
@@ -120,6 +116,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         return layers.get("Hole").getCell(robot.getPositionX(), robot.getPositionY())!=null;
     }
 
+    // Checks if a robot visits a flag.
     private boolean onFlag() {
         if(!layers.containsKey("Flag"))
             return false;
