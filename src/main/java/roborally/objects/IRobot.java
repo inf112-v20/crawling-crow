@@ -12,5 +12,5 @@ public interface IRobot {
     int getPositionY();
     Texture getTexture();
 
-    boolean moveRobot(int dx, int dy, TiledMapTileLayer robotLayer);
+    boolean moveRobot(int dx, int dy);
 }

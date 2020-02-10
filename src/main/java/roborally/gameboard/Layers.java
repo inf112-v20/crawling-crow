@@ -12,15 +12,38 @@ public class Layers {
         layers = new HashMap<>();
         layers = AssMan.getLoadedLayers();
     }
-    public TiledMapTileLayer get(String key) {
-        return layers.get(key);
+    public boolean isLoaded() {
+        return !layers.isEmpty();
     }
     
     public boolean contains(String key) {
         return layers.containsKey(key);
     }
-    
+
+    // Robotlayers temporary.
     public TiledMapTileLayer getRobotCore() {
         return layers.get("Robot");
+    }
+
+    public TiledMapTileLayer getRobot() {
+        return layers.get("Robot");
+    }
+
+    public TiledMapTileLayer getWall() { return layers.get("Wall"); }
+
+    public TiledMapTileLayer getFloor() {
+        return layers.get("Floor");
+    }
+
+    public TiledMapTileLayer getHole() {
+        return layers.get("Hole");
+    }
+
+    public TiledMapTileLayer getFlag() {
+        return layers.get("Flag");
+    }
+
+    public TiledMapTileLayer getBug() {
+        return layers.get("bug");
     }
 }

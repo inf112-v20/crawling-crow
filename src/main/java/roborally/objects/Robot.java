@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
+import roborally.gameboard.Layers;
 import roborally.tools.AssMan;
 
 public class Robot implements IRobot {
@@ -17,11 +18,13 @@ public class Robot implements IRobot {
     private Vector2 robotPosition;
     private Texture robotTexture;
     private TextureRegion[][] robotTextureRegion;
+    private Layers layers;
 
     public Robot() {
         this.robotTexture = AssMan.getRobotTexture();
         robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
         this.robotPosition = new Vector2(0,0);
+        this.layers = new Layers();
     }
 
     @Override
@@ -70,12 +73,12 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public boolean moveRobot(int dx, int dy, TiledMapTileLayer robotLayer) {
-        robotLayer.setCell(getPositionX(), getPositionY(), null);
-        this.setPosition(getPositionX()+dx,getPositionY()+dy);
-        robotLayer.setCell(getPositionX(), getPositionY(), getCell());
+    public boolean moveRobot(int dx, int dy) {
+        layers.getRobot().setCell(this.getPositionX(), this.getPositionY(), null);
+        this.setPosition(this.getPositionX()+dx,this.getPositionY()+dy);
+        layers.getRobot().setCell(this.getPositionX(), this.getPositionY(), getCell());
         return this.getPositionX() >= 0 && this.getPositionY() >= 0
-                && this.getPositionX() < robotLayer.getWidth()
-                && this.getPositionY() < robotLayer.getHeight();
+                && this.getPositionX() < layers.getRobot().getWidth()
+                && this.getPositionY() < layers.getRobot().getHeight();
     }
 }

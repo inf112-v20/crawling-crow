@@ -34,7 +34,6 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         tiledMap = AssMan.getMap();
         layers = new Layers();
         robot = new Robot();
-
         // Initialize the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -43,7 +42,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), robot.getCell());
+        layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), robot.getCell());
         Gdx.input.setInputProcessor(this);
     }
 
@@ -61,7 +60,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
         if (onFlag()) {
-            layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), robot.getWinCell());
+            layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), robot.getWinCell());
         }
 
         // Update and Render Map
@@ -75,18 +74,18 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         boolean onMap = true;
 
         if (keycode == Input.Keys.UP)
-            onMap = robot.moveRobot(0,1, layers.get("Robot"));
+            onMap = robot.moveRobot(0,1);
         else if(keycode == Input.Keys.RIGHT)
-            onMap = robot.moveRobot(1,0, layers.get("Robot"));
+            onMap = robot.moveRobot(1,0);
         else if(keycode == Input.Keys.DOWN)
-            onMap = robot.moveRobot(0,-1, layers.get("Robot"));
+            onMap = robot.moveRobot(0,-1);
         else if(keycode == Input.Keys.LEFT)
-            onMap = robot.moveRobot(-1,0, layers.get("Robot"));
+            onMap = robot.moveRobot(-1,0);
 
         // Reboots the robot if it moves outside the map or falls down a hole.
         if (!onMap || onHole()) {
-            layers.get("Robot").setCell(robot.getPositionX(), robot.getPositionY(), null);
-            layers.get("Robot").setCell(x, y, robot.getLostCell());
+            layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), null);
+            layers.getRobot().setCell(x, y, robot.getLostCell());
             robot.setPosition(x, y);
         }
         return onMap && !onHole();
@@ -107,17 +106,17 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     // Checks if robot is stepping on a bug or a hole. (Bug being a layer which is not implemented)
     public boolean onHole() {
         if(layers.contains("bug"))
-            if(layers.get("bug").getCell(robot.getPositionX(), robot.getPositionY())!=null)
+            if(layers.getBug().getCell(robot.getPositionX(), robot.getPositionY())!=null)
                 return true;
         if(!layers.contains("Hole"))
             return false;
-        return layers.get("Hole").getCell(robot.getPositionX(), robot.getPositionY())!=null;
+        return layers.getHole().getCell(robot.getPositionX(), robot.getPositionY())!=null;
     }
 
     // Checks if a robot visits a flag.
     public boolean onFlag() {
         if(!layers.contains("Flag"))
             return false;
-        return layers.get("Flag").getCell(robot.getPositionX(), robot.getPositionY()) != null;
+        return layers.getFlag().getCell(robot.getPositionX(), robot.getPositionY()) != null;
     }
 }
