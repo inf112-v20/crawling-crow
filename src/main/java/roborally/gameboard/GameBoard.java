@@ -9,18 +9,16 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.tools.AssMan;
-import java.util.HashMap;
 
 public class GameBoard extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
     // Map with layers
-    private HashMap<String,TiledMapTileLayer> layers;
+    private Layers layers;
 
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -34,7 +32,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         AssMan.load();
         AssMan.manager.finishLoading();
         tiledMap = AssMan.getMap();
-        layers = AssMan.createLayers(tiledMap);
+        layers = new Layers();
         robot = new Robot();
 
         // Initialize the camera
@@ -107,18 +105,18 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     }
 
     // Checks if robot is stepping on a bug or a hole. (Bug being a layer which is not implemented)
-    private boolean onHole() {
-        if(layers.containsKey("bug"))
+    public boolean onHole() {
+        if(layers.contains("bug"))
             if(layers.get("bug").getCell(robot.getPositionX(), robot.getPositionY())!=null)
                 return true;
-        if(!layers.containsKey("Hole"))
+        if(!layers.contains("Hole"))
             return false;
         return layers.get("Hole").getCell(robot.getPositionX(), robot.getPositionY())!=null;
     }
 
     // Checks if a robot visits a flag.
-    private boolean onFlag() {
-        if(!layers.containsKey("Flag"))
+    public boolean onFlag() {
+        if(!layers.contains("Flag"))
             return false;
         return layers.get("Flag").getCell(robot.getPositionX(), robot.getPositionY()) != null;
     }

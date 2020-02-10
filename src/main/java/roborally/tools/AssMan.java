@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class AssMan {
+    public static TiledMap loadedMap;
+    public static HashMap<String,TiledMapTileLayer> layers;
     public static final AssetManager manager = new AssetManager();
 
     //Maps
@@ -30,6 +32,7 @@ public class AssMan {
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap () {
+        loadedMap = manager.get(MAP_TEST);
         return manager.get(MAP_TEST);
     }
 
@@ -40,6 +43,16 @@ public class AssMan {
 
     public static void dispose() {
         manager.clear();
+    }
+
+    public static TiledMap getLoadedMap() {
+        return loadedMap;
+    }
+
+    public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
+        if(layers==null)
+            layers = createLayers(getLoadedMap());
+        return layers;
     }
 
     //Potential stuff we might call the layers when creating maps, feel free to add some! =)
