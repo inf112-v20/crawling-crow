@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 // Glorified HashMap, can be created with ease.
 public class Layers {
-    HashMap<String,TiledMapTileLayer> layers;
+    private HashMap<String,TiledMapTileLayer> layers;
     public Layers() {
         layers = new HashMap<>();
         layers = AssMan.getLoadedLayers();
