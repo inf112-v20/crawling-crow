@@ -4,11 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.game.objects.IRobot;
 
 public interface IUIRobot {
-    TiledMapTileLayer.Cell getWinTexture();
+    void getWinTexture(int x, int y);
 
-    TiledMapTileLayer.Cell getLostTexture();
+    void getLostTexture(int x, int y);
 
     TiledMapTileLayer.Cell getTexture();
-
-    IRobot getRobot();
 }

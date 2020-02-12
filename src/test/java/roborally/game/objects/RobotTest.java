@@ -3,6 +3,7 @@ package roborally.game.objects;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
 import org.junit.Test;
+import roborally.ui.robot.UIRobot;
 
 import static org.junit.Assert.*;
 
@@ -11,11 +12,11 @@ public class RobotTest {
     private Vector2 initialStartPosition;
     private int posX;
     private int posY;
+    private RobotCore robotCore;
 
     @Before
     public void setUp() {
-        robot = new Robot();
-        initialStartPosition = robot.getPosition();
+        robotCore = new RobotCore(new Robot());
 
         // For setting direct x and y coordinates in Robot Position
         posX = 12;
@@ -29,19 +30,7 @@ public class RobotTest {
 
     @Test
     public void robotSetAndGetPosition() {
-        robot.setPosition(posX, posY);
-        assertEquals(new Vector2(posX, posY), robot.getPosition());
-    }
-
-    @Test
-    public void robotGetPositionX() {
-        robot.setPosition(posX, posY);
-        assertEquals(posX, robot.getPositionX());
-    }
-
-    @Test
-    public void robotGetPositionY() {
-        robot.setPosition(posX, posY);
-        assertEquals(posY, robot.getPositionY());
+        robotCore.setPos(posX, posY);
+        assertEquals(new Vector2(posX, posY), robotCore.getPosition());
     }
 }
