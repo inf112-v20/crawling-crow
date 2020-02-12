@@ -3,6 +3,7 @@ package roborally.ui.gameboard;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.objects.IRobot;
 import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -28,6 +29,8 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     private OrthographicCamera camera;
     private Robot robot;
     private IUIRobot uiRobot;
+    private IRobot robot2;
+    private IUIRobot uiRobot2;
 
     @Override
     public void create() {
@@ -38,7 +41,13 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         tiledMap = AssetsManager.getMap();
         layers = new Layers();
         robot = new Robot();
+        robot.setPosition(1, 1);
         uiRobot = new UIRobot(robot);
+
+        // FIXME: Temp robot
+        robot2 = new Robot();
+        uiRobot2 = new UIRobot(robot2);
+
         // Initialize the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -48,6 +57,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
         layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getTexture());
+        layers.getRobots().setCell(robot2.getPositionX(), robot2.getPositionY(), uiRobot2.getTexture());
         Gdx.input.setInputProcessor(this);
     }
 
@@ -86,6 +96,16 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
             onMap = move(uiRobot, new Vector2(0, -1));
         else if(keycode == Input.Keys.LEFT)
             onMap = move(uiRobot, new Vector2(-1, 0));
+
+        // FIXME: Temp robot
+        if (keycode == Input.Keys.W)
+            onMap = move(uiRobot2, new Vector2(0, 1));
+        else if(keycode == Input.Keys.D)
+            onMap = move(uiRobot2, new Vector2(1, 0));
+        else if(keycode == Input.Keys.S)
+            onMap = move(uiRobot2, new Vector2(0, -1));
+        else if(keycode == Input.Keys.A)
+            onMap = move(uiRobot2, new Vector2(-1, 0));
 
         // Reboots the robot if it moves outside the map or falls down a hole.
         if (!onMap || onHole()) {
