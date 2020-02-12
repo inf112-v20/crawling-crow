@@ -4,14 +4,13 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.tools.AssMan;
+import roborally.tools.AssetManager;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
@@ -31,10 +30,10 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     @Override
     public void create() {
         // Initialize map, layers and robot
-        AssMan.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        AssMan.load();
-        AssMan.manager.finishLoading();
-        tiledMap = AssMan.getMap();
+        AssetManager.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetManager.load();
+        AssetManager.manager.finishLoading();
+        tiledMap = AssetManager.getMap();
         layers = new Layers();
         robot = new Robot();
         uiRobot = new UIRobot(robot);
@@ -54,7 +53,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
-        AssMan.dispose();
+        AssetManager.dispose();
     }
 
     @Override

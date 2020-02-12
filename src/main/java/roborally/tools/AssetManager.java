@@ -12,10 +12,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class AssMan {
+public class AssetManager {
     public static TiledMap loadedMap;
     public static HashMap<String,TiledMapTileLayer> layers;
-    public static final AssetManager manager = new AssetManager();
+    public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
