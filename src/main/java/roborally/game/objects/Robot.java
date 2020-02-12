@@ -1,14 +1,6 @@
 package roborally.game.objects;
 
-
-import roborally.ui.gameboard.GameBoard;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
-import roborally.ui.gameboard.Layers;
-import roborally.tools.AssMan;
 
 public class Robot implements IRobot {
 

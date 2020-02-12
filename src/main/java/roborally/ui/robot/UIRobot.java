@@ -23,7 +23,6 @@ public class UIRobot implements IUIRobot {
         robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
     }
 
-
     @Override
     public Texture getTexture() { return this.robotTexture;}
 
