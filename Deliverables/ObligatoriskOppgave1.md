@@ -138,7 +138,6 @@ Ting som gikk bra:
 -   God kommunikasjon på Slack.
     -   lett å avtale møter, holde alle oppdatert
     
-    
 -   Mye parprogrammering. 
     -   Blitt kjent med hvordan ulike personer jobber. 
 
