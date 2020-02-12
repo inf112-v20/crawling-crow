@@ -24,12 +24,4 @@ public interface IGameBoard {
      * @return if the Robot can move.
      */
     public Boolean canMove(Robot robot, Vector2 pos);
-
-    /**
-     * Moves the Robot to the desired position.
-     *
-     * @param robot the Robot to be moved.
-     * @param pos the position the robot is to be moved.
-     */
-    public void move(Robot robot, Vector2 pos);
 }
