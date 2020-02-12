@@ -15,19 +15,19 @@ public class GameBoard implements IGameBoard {
 
     @Override
     public boolean onFlag(IUIRobot uiRobot) {
-        if(!layers.contains("Flag"))
+        if (!layers.contains("Flag"))
             return false;
         return layers.getFlag().getCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY()) != null;
     }
 
     @Override
     public boolean onHole(IUIRobot uiRobot) {
-        if(layers.contains("bug"))
-            if(layers.getBug().getCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY())!=null)
+        if (layers.contains("bug"))
+            if(layers.getBug().getCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY()) != null)
                 return true;
-        if(!layers.contains("Hole"))
+        if (!layers.contains("Hole"))
             return false;
-        return layers.getHole().getCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY())!=null;
+        return layers.getHole().getCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY()) != null;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package roborally.tools;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,18 +13,18 @@ import java.util.HashMap;
 
 public class AssetsManager {
     public static TiledMap loadedMap;
-    public static HashMap<String,TiledMapTileLayer> layers;
+    public static HashMap<String, TiledMapTileLayer> layers;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
-    //Maps
+    // Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
             = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
-    //Robots
+    // Robots
     private static final AssetDescriptor<Texture> uibOwl
             = new AssetDescriptor<>("assets/robots/player.png", Texture.class);
 
     public static void load() {
-        //Robots
+        // Robots
         manager.load(uibOwl);
         manager.load(MAP_TEST);
     }
@@ -50,12 +49,12 @@ public class AssetsManager {
     }
 
     public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
-        if(layers==null)
+        if (layers==null)
             layers = createLayers(getLoadedMap());
         return layers;
     }
 
-    //Potential stuff we might call the layers when creating maps, feel free to add some! =)
+    // Potential stuff we might call the layers when creating maps, feel free to add some! =)
     public static String[][] readLayerNames() {
         String[][] layerNames = new String[getNumberOfLinesInLayerNames()-1][2];
         String[] string;
@@ -72,7 +71,7 @@ public class AssetsManager {
         return layerNames;
     }
 
-    //Gets the total number of lines in our layerNames file.
+    // Gets the total number of lines in our layerNames file.
     public static int getNumberOfLinesInLayerNames() {
         int count = 0;
         try {
@@ -86,11 +85,11 @@ public class AssetsManager {
         return count;
     }
 
-    //Puts all the layers for the current map into a Map, accessible by standard names defined by us.
+    // Puts all the layers for the current map into a Map, accessible by standard names defined by us.
     public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
         String[][] layerNames = readLayerNames();
-        for(MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
             boolean layerImpl = false;
             String s = key.getName().toLowerCase();

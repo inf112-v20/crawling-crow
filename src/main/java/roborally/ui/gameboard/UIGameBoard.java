@@ -135,13 +135,16 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
+        // LibGDX requirements
     }
 
     @Override
     public void pause() {
+        // LibGDX requirements
     }
 
     @Override
     public void resume() {
+        // LibGDX requirements
     }
 }
