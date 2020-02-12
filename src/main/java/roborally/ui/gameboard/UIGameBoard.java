@@ -5,8 +5,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
-import roborally.game.objects.IRobot;
-import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -31,10 +29,9 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private Robot robot;
     private IUIRobot uiRobot;
-    private IRobot robot2;
-    private IUIRobot uiRobot2;
+    // FIXME: Temp robot
+    //private IUIRobot uiRobot2;
 
     @Override
     public void create() {
@@ -44,15 +41,13 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         AssetsManager.manager.finishLoading();
         tiledMap = AssetsManager.getMap();
         layers = new Layers();
-        robot = new Robot();
-        robot.setPosition(1, 1);
-        uiRobot = new UIRobot(robot);
+
+        uiRobot = new UIRobot();
 
         gameBoard = new GameBoard(layers);
 
         // FIXME: Temp robot
-        robot2 = new Robot();
-        uiRobot2 = new UIRobot(robot2);
+        //uiRobot2 = new UIRobot();
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -62,8 +57,12 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getTexture());
-        layers.getRobots().setCell(robot2.getPositionX(), robot2.getPositionY(), uiRobot2.getTexture());
+        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getTexture());
+
+        // FIXME: Temp robot
+        //layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot2.getTexture());
+
+        // Input listener
         Gdx.input.setInputProcessor(this);
     }
 
@@ -81,7 +80,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
         if (gameBoard.onFlag(uiRobot)) {
-            layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinTexture());
+            layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getWinTexture());
         }
 
         // Update and Render Map
@@ -91,7 +90,8 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
     public boolean keyUp(int keycode) {
-        int x = robot.getPositionX(), y = robot.getPositionY();
+        int x = uiRobot.getRobot().getPositionX();
+        int y = uiRobot.getRobot().getPositionY();
         boolean onMap = true;
 
         if (keycode == Input.Keys.UP)
@@ -104,20 +104,23 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
             onMap = move(uiRobot, new Vector2(-1, 0));
 
         // FIXME: Temp robot
+        /*
         if (keycode == Input.Keys.W)
             onMap = move(uiRobot2, new Vector2(0, 1));
-        else if(keycode == Input.Keys.D)
+        else if (keycode == Input.Keys.D)
             onMap = move(uiRobot2, new Vector2(1, 0));
-        else if(keycode == Input.Keys.S)
+        else if (keycode == Input.Keys.S)
             onMap = move(uiRobot2, new Vector2(0, -1));
-        else if(keycode == Input.Keys.A)
+        else if (keycode == Input.Keys.A)
             onMap = move(uiRobot2, new Vector2(-1, 0));
+
+         */
 
         // Reboots the robot if it moves outside the map or falls down a hole.
         if (!onMap || gameBoard.onHole(uiRobot)) {
-            layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), null);
+            layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), null);
             layers.getRobots().setCell(x, y, uiRobot.getLostTexture());
-            robot.setPosition(x, y);
+            uiRobot.getRobot().setPosition(x, y);
         }
         return onMap && !gameBoard.onHole(uiRobot);
     }

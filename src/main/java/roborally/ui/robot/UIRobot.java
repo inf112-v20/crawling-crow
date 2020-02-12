@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import roborally.game.objects.IRobot;
+import roborally.game.objects.Robot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.UIGameBoard;
 
-public class UIRobot implements IUIRobot {
+public class UIRobot extends Robot implements IUIRobot {
 
     private TiledMapTileLayer.Cell robotWonCell;
     private TiledMapTileLayer.Cell robotLostCell;
@@ -15,8 +16,8 @@ public class UIRobot implements IUIRobot {
     private TiledMapTileLayer.Cell robotCell;
     private IRobot robot;
 
-    public UIRobot(IRobot robot) {
-        this.robot = robot;
+    public UIRobot() {
+        this.robot = new Robot();
         robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
     }
 
