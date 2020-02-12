@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class AssetManager {
+public class AssetsManager {
     public static TiledMap loadedMap;
     public static HashMap<String,TiledMapTileLayer> layers;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();

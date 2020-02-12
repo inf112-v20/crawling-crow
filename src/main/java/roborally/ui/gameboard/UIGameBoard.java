@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.tools.AssetManager;
+import roborally.tools.AssetsManager;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
@@ -30,10 +30,10 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     @Override
     public void create() {
         // Initialize map, layers and robot
-        AssetManager.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        AssetManager.load();
-        AssetManager.manager.finishLoading();
-        tiledMap = AssetManager.getMap();
+        AssetsManager.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetsManager.load();
+        AssetsManager.manager.finishLoading();
+        tiledMap = AssetsManager.getMap();
         layers = new Layers();
         robot = new Robot();
         uiRobot = new UIRobot(robot);
@@ -53,7 +53,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
-        AssetManager.dispose();
+        AssetsManager.dispose();
     }
 
     @Override

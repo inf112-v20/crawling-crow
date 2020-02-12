@@ -1,7 +1,7 @@
 package roborally.ui.gameboard;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import roborally.tools.AssetManager;
+import roborally.tools.AssetsManager;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ public class Layers {
     private HashMap<String,TiledMapTileLayer> layers;
     public Layers() {
         layers = new HashMap<>();
-        layers = AssetManager.getLoadedLayers();
+        layers = AssetsManager.getLoadedLayers();
     }
     public boolean isLoaded() {
         return !layers.isEmpty();
