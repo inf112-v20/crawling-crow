@@ -17,7 +17,7 @@ public class UIRobot implements IUIRobot {
     private TiledMapTileLayer.Cell robotCell;
     private IRobot robot;
 
-    public UIRobot(IRobot robot){
+    public UIRobot(IRobot robot) {
         this.robot = robot;
         this.robotTexture = AssMan.getRobotTexture();
         robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
@@ -28,7 +28,7 @@ public class UIRobot implements IUIRobot {
 
     @Override
     public TiledMapTileLayer.Cell getWinCell() {
-        if (this.robotWonCell==null) {
+        if (this.robotWonCell == null) {
             this.robotWonCell = new TiledMapTileLayer.Cell();
             this.robotWonCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
@@ -37,7 +37,7 @@ public class UIRobot implements IUIRobot {
 
     @Override
     public TiledMapTileLayer.Cell getLostCell() {
-        if (this.robotLostCell==null) {
+        if (this.robotLostCell == null) {
             this.robotLostCell = new TiledMapTileLayer.Cell();
             this.robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
         }
@@ -46,7 +46,7 @@ public class UIRobot implements IUIRobot {
 
     @Override
     public TiledMapTileLayer.Cell getCell() {
-        if (this.robotCell==null) {
+        if (this.robotCell == null) {
             this.robotCell = new TiledMapTileLayer.Cell();
             this.robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         }
