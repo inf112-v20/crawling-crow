@@ -47,7 +47,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getCell());
+        layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getTexture());
         Gdx.input.setInputProcessor(this);
     }
 
@@ -65,7 +65,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
         if (onFlag()) {
-            layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinCell());
+            layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinTexture());
         }
 
         // Update and Render Map
@@ -90,7 +90,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         // Reboots the robot if it moves outside the map or falls down a hole.
         if (!onMap || onHole()) {
             layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), null);
-            layers.getRobots().setCell(x, y, uiRobot.getLostCell());
+            layers.getRobots().setCell(x, y, uiRobot.getLostTexture());
             robot.setPosition(x, y);
         }
         return onMap && !onHole();
@@ -100,7 +100,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public boolean move(IUIRobot uiRobot, Vector2 pos) {
         layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), null);
         uiRobot.getRobot().setPosition(uiRobot.getRobot().getPositionX() + pos.x,uiRobot.getRobot().getPositionY() + pos.y);
-        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getCell());
+        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getTexture());
         return uiRobot.getRobot().getPositionX() >= 0 && uiRobot.getRobot().getPositionY() >= 0
                 && uiRobot.getRobot().getPositionX() < layers.getRobots().getWidth()
                 && uiRobot.getRobot().getPositionY() < layers.getRobots().getHeight();
