@@ -3,6 +3,8 @@ package roborally.ui.gameboard;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.gameboard.GameBoard;
+import roborally.game.gameboard.IGameBoard;
 import roborally.game.objects.IRobot;
 import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
@@ -24,6 +26,8 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     // Map with layers
     private Layers layers;
 
+    private IGameBoard gameBoard;
+
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
@@ -43,6 +47,8 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         robot = new Robot();
         robot.setPosition(1, 1);
         uiRobot = new UIRobot(robot);
+
+        gameBoard = new GameBoard(layers);
 
         // FIXME: Temp robot
         robot2 = new Robot();
@@ -74,7 +80,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
-        if (onFlag()) {
+        if (gameBoard.onFlag(uiRobot)) {
             layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinTexture());
         }
 
@@ -108,12 +114,12 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
             onMap = move(uiRobot2, new Vector2(-1, 0));
 
         // Reboots the robot if it moves outside the map or falls down a hole.
-        if (!onMap || onHole()) {
+        if (!onMap || gameBoard.onHole(uiRobot)) {
             layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), null);
             layers.getRobots().setCell(x, y, uiRobot.getLostTexture());
             robot.setPosition(x, y);
         }
-        return onMap && !onHole();
+        return onMap && !gameBoard.onHole(uiRobot);
     }
 
     // TODO: Need to find a method to store layers within UIRobot itself
@@ -137,22 +143,5 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resume() {
-    }
-
-    // Checks if robot is stepping on a bug or a hole. (Bug being a layer which is not implemented)
-    public boolean onHole() {
-        if(layers.contains("bug"))
-            if(layers.getBug().getCell(robot.getPositionX(), robot.getPositionY())!=null)
-                return true;
-        if(!layers.contains("Hole"))
-            return false;
-        return layers.getHole().getCell(robot.getPositionX(), robot.getPositionY())!=null;
-    }
-
-    // Checks if a robot visits a flag.
-    public boolean onFlag() {
-        if(!layers.contains("Flag"))
-            return false;
-        return layers.getFlag().getCell(robot.getPositionX(), robot.getPositionY()) != null;
     }
 }
