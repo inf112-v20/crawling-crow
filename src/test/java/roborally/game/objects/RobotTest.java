@@ -1,4 +1,4 @@
-package roborally.objects;
+package roborally.game.objects;
 
 import org.junit.Before;
 import org.junit.Test;

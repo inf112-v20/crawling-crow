@@ -1,4 +1,4 @@
-package roborally.gameboard;
+package roborally.ui.gameboard;
 
 import org.junit.Test;
 

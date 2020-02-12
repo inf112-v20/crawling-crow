@@ -1,7 +1,7 @@
-package roborally.objects;
+package roborally.game.objects;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import roborally.gameboard.Layers;
+import roborally.ui.gameboard.Layers;
 
 public class RobotCore {
     private TiledMapTileLayer core;

@@ -1,4 +1,4 @@
-package roborally.objects;
+package roborally.game.objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;

@@ -1,7 +1,7 @@
-package roborally.gameboard;
+package roborally.ui.gameboard;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import roborally.objects.Robot;
+import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
