@@ -17,6 +17,11 @@ public class Robot implements IRobot {
     }
 
     @Override
+    public Vector2 getPosition() {
+        return this.robotPosition;
+    }
+
+    @Override
     public int getPositionX() {
         return (int)this.robotPosition.x;
     }
