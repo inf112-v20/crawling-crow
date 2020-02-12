@@ -25,7 +25,7 @@ public class Layers {
         return layers.get("Robot");
     }
 
-    public TiledMapTileLayer getRobot() {
+    public TiledMapTileLayer getRobots() {
         return layers.get("Robot");
     }
 

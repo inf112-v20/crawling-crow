@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import roborally.game.objects.IRobot;
 import roborally.tools.AssetsManager;
+import roborally.ui.gameboard.Layers;
 import roborally.ui.gameboard.UIGameBoard;
 
 public class UIRobot implements IUIRobot {
@@ -16,6 +17,7 @@ public class UIRobot implements IUIRobot {
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotCell;
     private IRobot robot;
+    private Layers layer;
 
     public UIRobot(IRobot robot) {
         this.robot = robot;
@@ -51,5 +53,15 @@ public class UIRobot implements IUIRobot {
             this.robotCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         }
         return this.robotCell;
+    }
+
+    @Override
+    public IRobot getRobot() {
+        return this.robot;
+    }
+
+    @Override
+    public TiledMapTileLayer getLayer() {
+        return layer.getRobots();
     }
 }

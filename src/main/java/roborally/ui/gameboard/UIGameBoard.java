@@ -1,6 +1,8 @@
 package roborally.ui.gameboard;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -45,7 +47,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getCell());
+        layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getCell());
         Gdx.input.setInputProcessor(this);
     }
 
@@ -63,7 +65,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
         if (onFlag()) {
-            layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinCell());
+            layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinCell());
         }
 
         // Update and Render Map
@@ -72,29 +74,38 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     }
 
     // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
-    /*
     public boolean keyUp(int keycode) {
         int x = robot.getPositionX(), y = robot.getPositionY();
         boolean onMap = true;
 
         if (keycode == Input.Keys.UP)
-            onMap = uiRobot.moveRobot(0,1);
+            onMap = move(uiRobot, new Vector2(0, 1));
         else if(keycode == Input.Keys.RIGHT)
-            onMap = uiRobot.moveRobot(1,0);
+            onMap = move(uiRobot, new Vector2(1, 0));
         else if(keycode == Input.Keys.DOWN)
-            onMap = uiRobot.moveRobot(0,-1);
+            onMap = move(uiRobot, new Vector2(0, -1));
         else if(keycode == Input.Keys.LEFT)
-            onMap = uiRobot.moveRobot(-1,0);
+            onMap = move(uiRobot, new Vector2(-1, 0));
 
         // Reboots the robot if it moves outside the map or falls down a hole.
         if (!onMap || onHole()) {
-            layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), null);
-            layers.getRobot().setCell(x, y, uiRobot.getLostCell());
+            layers.getRobots().setCell(robot.getPositionX(), robot.getPositionY(), null);
+            layers.getRobots().setCell(x, y, uiRobot.getLostCell());
             robot.setPosition(x, y);
         }
         return onMap && !onHole();
     }
-    */
+
+    // TODO: Need to find a method to store layers within UIRobot itself
+    public boolean move(IUIRobot uiRobot, Vector2 pos) {
+        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), null);
+        uiRobot.getRobot().setPosition(uiRobot.getRobot().getPositionX() + pos.x,uiRobot.getRobot().getPositionY() + pos.y);
+        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getCell());
+        return uiRobot.getRobot().getPositionX() >= 0 && uiRobot.getRobot().getPositionY() >= 0
+                && uiRobot.getRobot().getPositionX() < layers.getRobots().getWidth()
+                && uiRobot.getRobot().getPositionY() < layers.getRobots().getHeight();
+    }
+
 
     @Override
     public void resize(int width, int height) {
