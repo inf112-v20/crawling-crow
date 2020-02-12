@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.tools.AssMan;
+import roborally.ui.robot.IUIRobot;
+import roborally.ui.robot.UIRobot;
 
 public class GameBoard extends InputAdapter implements ApplicationListener {
 
@@ -24,6 +26,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private Robot robot;
+    private IUIRobot uiRobot;
 
     @Override
     public void create() {
@@ -34,6 +37,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         tiledMap = AssMan.getMap();
         layers = new Layers();
         robot = new Robot();
+        uiRobot = new UIRobot(robot);
         // Initialize the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -42,7 +46,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), robot.getCell());
+        layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getCell());
         Gdx.input.setInputProcessor(this);
     }
 
@@ -60,7 +64,7 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
 
         // Keeps track of flagLayer to see if the robot ever steps over the flag.
         if (onFlag()) {
-            layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), robot.getWinCell());
+            layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), uiRobot.getWinCell());
         }
 
         // Update and Render Map
@@ -69,27 +73,29 @@ public class GameBoard extends InputAdapter implements ApplicationListener {
     }
 
     // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
+    /*
     public boolean keyUp(int keycode) {
         int x = robot.getPositionX(), y = robot.getPositionY();
         boolean onMap = true;
 
         if (keycode == Input.Keys.UP)
-            onMap = robot.moveRobot(0,1);
+            onMap = uiRobot.moveRobot(0,1);
         else if(keycode == Input.Keys.RIGHT)
-            onMap = robot.moveRobot(1,0);
+            onMap = uiRobot.moveRobot(1,0);
         else if(keycode == Input.Keys.DOWN)
-            onMap = robot.moveRobot(0,-1);
+            onMap = uiRobot.moveRobot(0,-1);
         else if(keycode == Input.Keys.LEFT)
-            onMap = robot.moveRobot(-1,0);
+            onMap = uiRobot.moveRobot(-1,0);
 
         // Reboots the robot if it moves outside the map or falls down a hole.
         if (!onMap || onHole()) {
             layers.getRobot().setCell(robot.getPositionX(), robot.getPositionY(), null);
-            layers.getRobot().setCell(x, y, robot.getLostCell());
+            layers.getRobot().setCell(x, y, uiRobot.getLostCell());
             robot.setPosition(x, y);
         }
         return onMap && !onHole();
     }
+    */
 
     @Override
     public void resize(int width, int height) {
