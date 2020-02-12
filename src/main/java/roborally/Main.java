@@ -1,6 +1,6 @@
 package roborally;
 
-import roborally.ui.gameboard.GameBoard;
+import roborally.ui.gameboard.UIGameBoard;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -12,6 +12,6 @@ public class Main {
         cfg.width = 600;
         cfg.height = 600;
 
-        new LwjglApplication(new GameBoard(), cfg);
+        new LwjglApplication(new UIGameBoard(), cfg);
     }
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import roborally.game.objects.IRobot;
 import roborally.tools.AssetManager;
-import roborally.ui.gameboard.GameBoard;
+import roborally.ui.gameboard.UIGameBoard;
 
 public class UIRobot implements IUIRobot {
 
@@ -20,7 +20,7 @@ public class UIRobot implements IUIRobot {
     public UIRobot(IRobot robot) {
         this.robot = robot;
         this.robotTexture = AssetManager.getRobotTexture();
-        robotTextureRegion = TextureRegion.split(robotTexture, GameBoard.TILE_SIZE, GameBoard.TILE_SIZE);
+        robotTextureRegion = TextureRegion.split(robotTexture, UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
     }
 
     @Override

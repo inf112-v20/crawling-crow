@@ -14,7 +14,7 @@ import roborally.tools.AssetManager;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
-public class GameBoard extends InputAdapter implements ApplicationListener {
+public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
