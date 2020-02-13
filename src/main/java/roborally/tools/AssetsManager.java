@@ -1,7 +1,6 @@
 package roborally.tools;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,8 +12,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class AssetsManager {
-    public static TiledMap loadedMap;
-    public static HashMap<String,TiledMapTileLayer> layers;
+    private static TiledMap loadedMap;
+    private static HashMap<String,TiledMapTileLayer> layers;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps

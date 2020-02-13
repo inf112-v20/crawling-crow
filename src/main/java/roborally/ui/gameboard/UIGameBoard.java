@@ -19,7 +19,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
-    // Map with layers
     private Layers layers;
     private IGameBoard gameBoard;
     private TiledMap tiledMap;
@@ -47,7 +46,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         robots[3] = robotCore4;
         robots[4] = robotCore5;
 
-
         // Initialize the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -70,17 +68,12 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Keeps track of flagLayer to see if the robot ever steps over the flag.
-
-        // Update and Render Map
         camera.update();
         mapRenderer.render();
     }
 
     int i = 0;
-    // Moved all methods to go through robotCore!
-    // Added method checkRobots each time a robot moves, to see if theres a robot on the next position already!
+    // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
     public boolean keyUp(int keycode) {
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
         boolean onMap = true;
@@ -88,7 +81,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
             if (layers.getRobots().getCell(x, y+1) != null) {
                 checkRobots(x, y+1,0,1);
             }
-
             onMap = robots[i].move(0, 1);
         }
         else if(keycode == Input.Keys.D) {
@@ -111,11 +103,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         }
         if(onMap)
             layers.getRobots().setCell(x,y,null);
-        if(gameBoard.onFlag(robots[i]))
-            robots[i].getWinCell();
-        if(gameBoard.onHole(robots[i]))
-            robots[i].getLoseCell();
-        // Reboots the robot if it moves outside the map or falls down a hole.
+        gameBoard.getCheckPoint(robots[i].getPosition(), robots[i]);
        i++;
        if (i > 3)
            i = 0;

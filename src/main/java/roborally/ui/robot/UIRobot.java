@@ -3,8 +3,6 @@ package roborally.ui.robot;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.IRobot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 import roborally.ui.gameboard.UIGameBoard;
@@ -54,8 +52,8 @@ public class UIRobot implements IUIRobot {
         return this.robotCell;
     }
 
-
     // Tries to move robot, returns true if its made its move else false if its on the edge of the map.
+    @Override
     public boolean moveRobot(int x, int y) {
         if ((x >= 0) && (y >= 0) && (x < this.layers.getRobots().getWidth()) && (y < this.layers.getRobots().getHeight())) {
             this.layers.getRobots().setCell(x, y, getTexture());

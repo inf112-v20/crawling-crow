@@ -1,7 +1,6 @@
 package roborally.game.objects;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.ui.gameboard.Layers;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
@@ -9,12 +8,11 @@ public class RobotCore {
     private IUIRobot uiRobot;
     private IRobot robot;
     private int degrees;
-    private Layers layers;
 
+    // Constructor for testing the robot model.
     public RobotCore(Robot robot) {
         this.robot = robot;
     }
-
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public RobotCore(int x, int y) {
@@ -22,7 +20,6 @@ public class RobotCore {
         IUIRobot uiRobot = new UIRobot(x, y);
         this.robot = robot;
         this.uiRobot = uiRobot;
-        this.layers = new Layers();
         robot.setPosition(x,y);
     }
 

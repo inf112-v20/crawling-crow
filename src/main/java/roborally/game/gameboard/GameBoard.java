@@ -7,43 +7,39 @@ import roborally.ui.gameboard.Layers;
 public class GameBoard implements IGameBoard {
 
     private Layers layers;
-    private Vector2 pos;
-    int x;
-    int y;
+    int x; int y;
     public GameBoard(Layers layers) {
         this.layers = layers;
-        pos = new Vector2();
-        int x = 0;
-        int y = 0;
-    }
-
-    public void makePos(RobotCore robotCore) {
-        this.pos = robotCore.getPosition();
-        this.x = (int)pos.x;
-        this.y = (int)pos.y;
     }
 
     @Override
-    public boolean onFlag(RobotCore robotCore) {
+    public boolean onFlag(int x, int y) {
         if(!layers.contains("Flag"))
             return false;
-        makePos(robotCore);
-        return layers.getFlag().getCell(x,y)!=null;
+        return layers.getFlag().getCell(x, y)!=null;
     }
 
     @Override
-    public boolean onHole(RobotCore robotCore) {
-        makePos(robotCore);
+    public boolean onHole(int x, int y) {
         if(layers.contains("bug"))
-            if(layers.getBug().getCell(x,y)!=null)
+            if(layers.getBug().getCell(x, y)!=null)
                 return true;
         if(!layers.contains("Hole"))
             return false;
-        return layers.getHole().getCell(x,y)!=null;
+        return layers.getHole().getCell(x, y)!=null;
     }
 
     @Override
-    public boolean canMove(RobotCore robotCore) {
+    public void getCheckPoint(Vector2 pos, RobotCore robotCore) {
+        this.x = (int)pos.x; this.y = (int)pos.y;
+        if(this.onFlag(x,y))
+            robotCore.getWinCell();
+        if(this.onHole(x,y))
+            robotCore.getLoseCell();
+    }
+
+    @Override
+    public boolean canMove() {
         return false;
     }
 }
