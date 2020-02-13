@@ -10,10 +10,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Queue;
+import java.util.Stack;
 
 public class AssetsManager {
     private static TiledMap loadedMap;
     private static HashMap<String,TiledMapTileLayer> layers;
+    private static Stack<String> robotNames;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps
@@ -69,6 +72,24 @@ public class AssetsManager {
             e.printStackTrace();
         }
         return layerNames;
+    }
+
+    public static void makeRobotNames() {
+        robotNames.add("Red");
+        robotNames.add("Blue");
+        robotNames.add("Green");
+        robotNames.add("Orange");
+        robotNames.add("Pink");
+        robotNames.add("Yellow");
+        robotNames.add("Purple");
+        robotNames.add("Teal");
+    }
+    public static String getRobotName() {
+        if(robotNames==null) {
+            robotNames = new Stack<>();
+            makeRobotNames();
+        }
+        return robotNames.pop();
     }
 
     //Gets the total number of lines in our layerNames file.

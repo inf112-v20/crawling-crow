@@ -14,7 +14,7 @@ public class RobotTest {
 
     @Before
     public void setUp() {
-        robotCore = new RobotCore(new Robot());
+        robotCore = new RobotCore(new Robot("TestRobot"));
         // For setting direct x and y coordinates in Robot Position
         posX = 12;
         posY = 10;

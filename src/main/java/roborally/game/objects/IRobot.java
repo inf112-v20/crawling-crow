@@ -8,6 +8,8 @@ public interface IRobot {
 
     Vector2 getPosition();
 
+    String getName();
+
     int getPositionX();
 
     int getPositionY();

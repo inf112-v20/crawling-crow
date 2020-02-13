@@ -77,31 +77,32 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode) {
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
         boolean onMap = true;
+        boolean blocked = false;
         if (keycode == Input.Keys.W) {
-            if (layers.getRobots().getCell(x, y+1) != null) {
-                checkRobots(x, y+1,0,1);
-            }
-            onMap = robots[i].move(0, 1);
+            if (layers.getRobots().getCell(x, y+1) != null)
+                blocked = checkOnMap(x,y+1,0,1);
+            if (!blocked)
+                onMap = robots[i].move(0, 1);
         }
         else if(keycode == Input.Keys.D) {
-            if (layers.getRobots().getCell(x+1, y) != null) {
-                checkRobots(x + 1, y, 1, 0);
-            }
-            onMap = robots[i].move(1, 0);
+            if (layers.getRobots().getCell(x+1, y) != null)
+                blocked = checkOnMap(x+1,y,1,0);
+            if (!blocked)
+                onMap = robots[i].move(1, 0);
         }
         else if(keycode == Input.Keys.S) {
-            if (layers.getRobots().getCell(x, y - 1) != null) {
-                checkRobots(x, y - 1, 0, -1);
-            }
-            onMap = robots[i].move(0, -1);
+            if (layers.getRobots().getCell(x, y - 1) != null)
+                blocked = checkOnMap(x,y-1,0,-1);
+            if (!blocked)
+                onMap = robots[i].move(0, -1);
         }
         else if(keycode == Input.Keys.A) {
-            if (layers.getRobots().getCell(x-1, y ) != null) {
-                checkRobots(x-1, y, -1, 0);
-            }
-            onMap = robots[i].move(-1, 0);
+            if (layers.getRobots().getCell(x-1, y ) != null)
+                blocked = checkOnMap(x-1,y,-1,0);
+            if (!blocked)
+                onMap = robots[i].move(-1, 0);
         }
-        if(onMap)
+        if(onMap && !blocked)
             layers.getRobots().setCell(x,y,null);
         gameBoard.getCheckPoint(robots[i].getPosition(), robots[i]);
        i++;
@@ -114,13 +115,48 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public void resize(int width, int height) {
     }
 
+    public boolean robotNextToRobot(int x, int y, int dx, int dy) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (x > 0 && x < layers.getRobots().getWidth() - 1) {
+                if (layers.getRobots().getCell(x + dx, y + dy) == null)
+                    return false;
+            }
+        }
+        else if (Math.abs(dy) > Math.abs(dx)) {
+            if (y > 0 && y < layers.getRobots().getHeight() - 1) {
+                if (layers.getRobots().getCell(x + dx, y + dy) == null)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    // Temporary to defuse intersecting robots.
+    public boolean checkOnMap(int x, int y, int dx, int dy) {
+        if(robotNextToRobot(x,y,dy,dx))
+            return true;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (!(x <= 0) && !(x >= (layers.getRobots().getWidth() - 1))) {
+                System.out.println("uh" + dy + " " + dx);
+                checkRobots(x, y, dx, dy);
+                return false;
+            }
+        }
+        else if (Math.abs(dy) > dx) {
+            if (!(y <= 0) && !(y >= (layers.getRobots().getHeight() - 1))) {
+                checkRobots(x, y, dx, dy);
+                return false;
+            }
+        }
+        return true;
+    }
     // Finds the given robot at the colliding position and moves it one position in the bumping direction
     // then clears its old position.
     public void checkRobots(int x, int y, int dx, int dy) {
         for (RobotCore robot : robots) {
             if (robot!=null) {
                 if((int)robot.getPosition().x==x && (int)robot.getPosition().y==y) {
-                    System.out.println("Bump! Screw you " + robot);
+                    System.out.println("Bump! Screw you " + robot.getName());
                     int oldX = (int)robot.getPosition().x;
                     int oldY = (int)robot.getPosition().y;
                     robot.move(dx,dy);

@@ -1,6 +1,8 @@
 package roborally.game.objects;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
+import roborally.tools.AssetsManager;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
@@ -16,7 +18,7 @@ public class RobotCore {
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public RobotCore(int x, int y) {
-        IRobot robot = new Robot();
+        IRobot robot = new Robot(AssetsManager.getRobotName());
         IUIRobot uiRobot = new UIRobot(x, y);
         this.robot = robot;
         this.uiRobot = uiRobot;
@@ -26,6 +28,10 @@ public class RobotCore {
     // To handle bumping into other robots.
     public void crashControl() {
 
+    }
+
+    public String getName() {
+        return this.robot.getName();
     }
 
     // Returns the position for this robotCores robot.
