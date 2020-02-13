@@ -18,7 +18,7 @@ public class RobotCore {
     public RobotCore(Robot robot, UIRobot uiRobot) {
         this.robot = robot;
         this.uiRobot = uiRobot;
-        layers = new Layers();
+        this.layers = new Layers();
     }
 
     // To handle bumping into other robots.
@@ -33,26 +33,26 @@ public class RobotCore {
     public boolean move(int x, int y) {
         Vector2 pos = this.getPosition();
         x = x + (int)pos.x; y = y + (int)pos.y;
-        boolean onMap = uiRobot.moveRobot(x, y);
+        boolean onMap = this.uiRobot.moveRobot(x, y);
         if(onMap)
-            robot.setPosition(x, y);
+            this.robot.setPosition(x, y);
         return onMap;
     }
 
     public void setPos(int x, int y) {
-        robot.setPosition(x,y);
+        this.robot.setPosition(x,y);
     }
 
     public TiledMapTileLayer.Cell getTexture() {
-        return uiRobot.getTexture();
+        return this.uiRobot.getTexture();
     }
 
     public void getWinCell() {
-        uiRobot.getWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
+        this.uiRobot.getWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
     public void getLoseCell() {
-        uiRobot.getLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
+        this.uiRobot.getLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
     // Angle robot is facing. 0 = North, 90 = Right, 180 = South, 270 = West

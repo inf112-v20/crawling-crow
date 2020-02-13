@@ -17,10 +17,10 @@ public class UIRobot implements IUIRobot {
     private TiledMapTileLayer.Cell robotCell;
     private Layers layers;
 
-    public UIRobot() {
-        layers = new Layers();
-        robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
-        layers.getRobots().setCell(0, 0, getTexture());
+    public UIRobot(int i, int j) {
+        this.layers = new Layers();
+        this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
+        this.layers.getRobots().setCell(i, j, getTexture());
     }
 
     @Override
@@ -28,17 +28,17 @@ public class UIRobot implements IUIRobot {
         if (this.robotWonCell == null) {
             this.robotWonCell = new TiledMapTileLayer.Cell();
             this.robotWonCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
-            layers.getRobots().setCell(x,y,this.robotWonCell);
         }
+        this.layers.getRobots().setCell(x,y,this.robotWonCell);
     }
 
     @Override
     public void getLostTexture(int x, int y) {
         if (this.robotLostCell == null) {
             this.robotLostCell = new TiledMapTileLayer.Cell();
-            this.robotLostCell.setTile(new StaticTiledMapTile(robotTextureRegion[0][1]));
-            layers.getRobots().setCell(x, y, this.robotLostCell);
+            this.robotLostCell.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
+        this.layers.getRobots().setCell(x, y, this.robotLostCell);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class UIRobot implements IUIRobot {
     }
 
     public boolean moveRobot(int x, int y) {
-        if ((x >= 0) && (y >= 0) && (x < layers.getRobots().getWidth()) && (y < layers.getRobots().getHeight())) {
-            layers.getRobots().setCell(x, y, getTexture());
+        if ((x >= 0) && (y >= 0) && (x < this.layers.getRobots().getWidth()) && (y < this.layers.getRobots().getHeight())) {
+            this.layers.getRobots().setCell(x, y, getTexture());
             return true;
         }
         return false;

@@ -27,8 +27,12 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private RobotCore robotCore;
-
+    private RobotCore robotCore1;
+    private RobotCore robotCore2;
+    private RobotCore robotCore3;
+    private RobotCore robotCore4;
+    private RobotCore robotCore5;
+    RobotCore[] robots;
     @Override
     public void create() {
         // Initialize map, layers and robot
@@ -38,7 +42,17 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         tiledMap = AssetsManager.getMap();
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        robotCore = new RobotCore(new Robot(), new UIRobot());
+        robotCore1 = new RobotCore(new Robot(), new UIRobot(3,0));
+        robotCore2 = new RobotCore(new Robot(), new UIRobot(0,1));
+        robotCore2 = new RobotCore(new Robot(), new UIRobot(5,2));
+        robotCore3 = new RobotCore(new Robot(), new UIRobot(4,8));
+        robotCore4 = new RobotCore(new Robot(), new UIRobot(5,5));
+        robots = new RobotCore[5];
+        robots[0] = robotCore1;
+        robots[1] = robotCore2;
+        robots[2] = robotCore3;
+        robots[3] = robotCore4;
+        robots[4] = robotCore5;
 
 
         // Initialize the camera
@@ -71,26 +85,30 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
     }
 
+    int i = 0;
     // Moved all methods to go through robotCore!
     public boolean keyUp(int keycode) {
-        int x = (int)robotCore.getPosition().x, y = (int)robotCore.getPosition().y;
+        int x = (int)robots[i].getPosition().x, y = (int)robots[i].getPosition().y;
         boolean onMap = true;
         if (keycode == Input.Keys.W)
-            onMap = robotCore.move(0,1);
+            onMap = robots[i].move(0,1);
         else if(keycode == Input.Keys.D)
-            onMap = robotCore.move(1,0);
+            onMap = robots[i].move(1,0);
         else if(keycode == Input.Keys.S)
-            onMap = robotCore.move(0,-1);
+            onMap = robots[i].move(0,-1);
         else if(keycode == Input.Keys.A)
-            onMap = robotCore.move(-1,0);
+            onMap = robots[i].move(-1,0);
         if(onMap)
             layers.getRobots().setCell(x,y,null);
-        if(gameBoard.onFlag(robotCore))
-            robotCore.getWinCell();
-        if(gameBoard.onHole(robotCore))
-            robotCore.getLoseCell();
+        if(gameBoard.onFlag(robots[i]))
+            robots[i].getWinCell();
+        if(gameBoard.onHole(robots[i]))
+            robots[i].getLoseCell();
         // Reboots the robot if it moves outside the map or falls down a hole.
-       return onMap;
+       i++;
+       if (i > 3)
+           i = 0;
+        return onMap;
     }
 
     @Override
