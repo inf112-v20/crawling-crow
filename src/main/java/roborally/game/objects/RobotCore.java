@@ -1,6 +1,5 @@
 package roborally.game.objects;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import roborally.ui.gameboard.Layers;
 import roborally.ui.robot.IUIRobot;
@@ -18,12 +17,13 @@ public class RobotCore {
 
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
-    public RobotCore(IRobot robot, IUIRobot uiRobot, int x, int y) {
-        robot = new Robot();
-        uiRobot = new UIRobot(x,y);
+    public RobotCore(int x, int y) {
+        IRobot robot = new Robot();
+        IUIRobot uiRobot = new UIRobot(x, y);
         this.robot = robot;
         this.uiRobot = uiRobot;
         this.layers = new Layers();
+        robot.setPosition(x,y);
     }
 
     // To handle bumping into other robots.
