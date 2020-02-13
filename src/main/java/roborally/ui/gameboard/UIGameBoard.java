@@ -115,6 +115,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public void resize(int width, int height) {
     }
 
+    // Checks if there is 3 robots in a row.
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
         if (Math.abs(dx) > Math.abs(dy)) {
             if (x > 0 && x < layers.getRobots().getWidth() - 1) {
@@ -133,16 +134,15 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     // Temporary to defuse intersecting robots.
     public boolean checkOnMap(int x, int y, int dx, int dy) {
-        if(robotNextToRobot(x,y,dy,dx))
+        if(robotNextToRobot(x,y,dx,dy))
             return true;
         if (Math.abs(dx) > Math.abs(dy)) {
             if (!(x <= 0) && !(x >= (layers.getRobots().getWidth() - 1))) {
-                System.out.println("uh" + dy + " " + dx);
                 checkRobots(x, y, dx, dy);
                 return false;
             }
         }
-        else if (Math.abs(dy) > dx) {
+        else if (Math.abs(dy) > Math.abs(dx)) {
             if (!(y <= 0) && !(y >= (layers.getRobots().getHeight() - 1))) {
                 checkRobots(x, y, dx, dy);
                 return false;
