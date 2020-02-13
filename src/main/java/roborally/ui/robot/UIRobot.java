@@ -17,12 +17,14 @@ public class UIRobot implements IUIRobot {
     private TiledMapTileLayer.Cell robotCell;
     private Layers layers;
 
+    // Creates new UIRobot in position i,j.
     public UIRobot(int i, int j) {
         this.layers = new Layers();
         this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
         this.layers.getRobots().setCell(i, j, getTexture());
     }
 
+    // Creates new WinTexture at pos x,y.
     @Override
     public void getWinTexture(int x,int y) {
         if (this.robotWonCell == null) {
@@ -32,6 +34,7 @@ public class UIRobot implements IUIRobot {
         this.layers.getRobots().setCell(x,y,this.robotWonCell);
     }
 
+    //Creates new damage\lost texture at pos x,y.
     @Override
     public void getLostTexture(int x, int y) {
         if (this.robotLostCell == null) {
@@ -41,6 +44,7 @@ public class UIRobot implements IUIRobot {
         this.layers.getRobots().setCell(x, y, this.robotLostCell);
     }
 
+    // Returns normal robot texture.
     @Override
     public TiledMapTileLayer.Cell getTexture() {
         if (this.robotCell == null) {
@@ -50,6 +54,8 @@ public class UIRobot implements IUIRobot {
         return this.robotCell;
     }
 
+
+    // Tries to move robot, returns true if its made its move else false if its on the edge of the map.
     public boolean moveRobot(int x, int y) {
         if ((x >= 0) && (y >= 0) && (x < this.layers.getRobots().getWidth()) && (y < this.layers.getRobots().getHeight())) {
             this.layers.getRobots().setCell(x, y, getTexture());

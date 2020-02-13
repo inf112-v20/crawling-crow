@@ -3,11 +3,12 @@ package roborally.game.objects;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import roborally.ui.gameboard.Layers;
+import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
 public class RobotCore {
-    private UIRobot uiRobot;
-    private Robot robot;
+    private IUIRobot uiRobot;
+    private IRobot robot;
     private int degrees;
     private Layers layers;
 
@@ -15,7 +16,11 @@ public class RobotCore {
         this.robot = robot;
     }
 
-    public RobotCore(Robot robot, UIRobot uiRobot) {
+
+    // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
+    public RobotCore(IRobot robot, IUIRobot uiRobot, int x, int y) {
+        robot = new Robot();
+        uiRobot = new UIRobot(x,y);
         this.robot = robot;
         this.uiRobot = uiRobot;
         this.layers = new Layers();
@@ -26,10 +31,14 @@ public class RobotCore {
 
     }
 
+    // Returns the position for this robotCores robot.
     public Vector2 getPosition() {
         return robot.getPosition();
     }
 
+
+    // Makes move inside the graphical interface for uiRobot,
+    // checks if its still on the map and updates the robots position, returns true if so.
     public boolean move(int x, int y) {
         Vector2 pos = this.getPosition();
         x = x + (int)pos.x; y = y + (int)pos.y;
@@ -39,18 +48,18 @@ public class RobotCore {
         return onMap;
     }
 
+
+    // Sets position for this robotCores robot.
     public void setPos(int x, int y) {
         this.robot.setPosition(x,y);
     }
 
-    public TiledMapTileLayer.Cell getTexture() {
-        return this.uiRobot.getTexture();
-    }
-
+    // Updates the current cell to a WinCell
     public void getWinCell() {
         this.uiRobot.getWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
+    // Updates the current cell to a LoseCell
     public void getLoseCell() {
         this.uiRobot.getLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }

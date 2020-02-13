@@ -8,5 +8,8 @@ public interface IUIRobot {
 
     void getLostTexture(int x, int y);
 
+
+    public boolean moveRobot(int x, int y);
+
     TiledMapTileLayer.Cell getTexture();
 }

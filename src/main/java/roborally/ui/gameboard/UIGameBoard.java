@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
+import roborally.game.objects.IRobot;
 import roborally.game.objects.Robot;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.game.objects.RobotCore;
 import roborally.tools.AssetsManager;
+import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
 public class UIGameBoard extends InputAdapter implements ApplicationListener {
@@ -32,6 +34,8 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     private RobotCore robotCore3;
     private RobotCore robotCore4;
     private RobotCore robotCore5;
+    private IRobot iRobot;
+    private IUIRobot iuiRobot;
     RobotCore[] robots;
     @Override
     public void create() {
@@ -42,11 +46,11 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         tiledMap = AssetsManager.getMap();
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        robotCore1 = new RobotCore(new Robot(), new UIRobot(3,0));
-        robotCore2 = new RobotCore(new Robot(), new UIRobot(0,1));
-        robotCore2 = new RobotCore(new Robot(), new UIRobot(5,2));
-        robotCore3 = new RobotCore(new Robot(), new UIRobot(4,8));
-        robotCore4 = new RobotCore(new Robot(), new UIRobot(5,5));
+        robotCore1 = new RobotCore(iRobot, iuiRobot,3,0);
+        robotCore2 = new RobotCore(iRobot, iuiRobot, 0,1);
+        robotCore2 = new RobotCore(iRobot, iuiRobot, 5, 2);
+        robotCore3 = new RobotCore(iRobot, iuiRobot, 8, 3);
+        robotCore4 = new RobotCore(iRobot, iuiRobot, 4, 6);
         robots = new RobotCore[5];
         robots[0] = robotCore1;
         robots[1] = robotCore2;
