@@ -75,6 +75,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     int i = 0;
     // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
     public boolean keyUp(int keycode) {
+        double d = System.currentTimeMillis();
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
         boolean onMap = true;
         boolean blocked = false;
@@ -108,7 +109,9 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
        i++;
        if (i > 3)
            i = 0;
-        return onMap;
+       // Prints the whole movement operation in milliseconds. Lets try to keep this low!
+       System.out.println(System.currentTimeMillis()-d);
+       return onMap;
     }
 
     @Override
