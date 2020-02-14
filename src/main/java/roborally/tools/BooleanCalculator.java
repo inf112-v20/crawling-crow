@@ -7,10 +7,13 @@ import java.util.HashMap;
 // Beep... Robots need to calculate.
 public class BooleanCalculator {
     private Layers layers;
+    private int height;
+    private int width;
 
     public BooleanCalculator() {
         layers = new Layers();
-
+        width = layers.getRobots().getWidth();
+        height = layers.getRobots().getHeight();
         // Advanced calculations for AI, can take multiple conditions to figure out a good move.
         HashMap<String, Boolean> operations = new HashMap<>();
     }
@@ -18,8 +21,8 @@ public class BooleanCalculator {
     // Checks if there is 3 robots in a row. Here we look at the pos next to the new x and y pos.
     // (One robot is already found, checks if there's is even one more next to it).
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
-            if (x+dx >= 0 && x+dx < layers.getRobots().getWidth() && y+dy >= 0 && y+dy < layers.getRobots().getHeight()) {
-                return layers.getRobots().getCell(x + dx, y + dy) != null; // No robot in the neighbouring position.
+            if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
+                return layers.getRobots().getCell(x + dx, y + dy) != null;
         }
         return true;
     }
@@ -30,7 +33,7 @@ public class BooleanCalculator {
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
         if(robotNextToRobot(x, y, dx, dy))
             return true; // Returns blocked if moving into a robot with another one next to it, for now.
-            if (x+dx >= 0 && y+dy >= 0 && y+dy < layers.getRobots().getHeight() && x+dx < layers.getRobots().getWidth()) {
+            if (x + dx >= 0 && y + dy >= 0 && y + dy < height && x + dx < width) {
                 findCollidingRobot(x, y, dx, dy);
                 return false;
             }
