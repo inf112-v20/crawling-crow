@@ -18,9 +18,8 @@ public class BooleanCalculator {
     // Checks if there is 3 robots in a row. Here we look at the pos next to the new x and y pos.
     // (One robot is already found, checks if there's is even one more next to it).
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
-            if (x > 0 && x < layers.getRobots().getWidth() - 1 && y > 0 && y < layers.getRobots().getHeight() - 1) {
-                if (layers.getRobots().getCell(x + dx, y + dy) == null)
-                    return false; // No robot in the neighbouring position.
+            if (x+dx >= 0 && x+dx < layers.getRobots().getWidth() && y+dy >= 0 && y+dy < layers.getRobots().getHeight()) {
+                return layers.getRobots().getCell(x + dx, y + dy) != null; // No robot in the neighbouring position.
         }
         return true;
     }
@@ -31,7 +30,7 @@ public class BooleanCalculator {
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
         if(robotNextToRobot(x, y, dx, dy))
             return true; // Returns blocked if moving into a robot with another one next to it, for now.
-            if (!(x <= 0) && !(x >= (layers.getRobots().getWidth() - 1)) && !(y <= 0) && !(y >= (layers.getRobots().getHeight() - 1))) {
+            if (x+dx >= 0 && y+dy >= 0 && y+dy < layers.getRobots().getHeight() && x+dx < layers.getRobots().getWidth()) {
                 findCollidingRobot(x, y, dx, dy);
                 return false;
             }
