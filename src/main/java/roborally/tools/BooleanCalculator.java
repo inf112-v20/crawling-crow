@@ -18,18 +18,9 @@ public class BooleanCalculator {
     // Checks if there is 3 robots in a row. Here we look at the pos next to the new x and y pos.
     // (One robot is already found, checks if there's is even one more next to it).
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
-        if (Math.abs(dx) > Math.abs(dy)) { // dx is -1 or 1, we are checking left or right.
-            if (x > 0 && x < layers.getRobots().getWidth() - 1) {
+            if (x > 0 && x < layers.getRobots().getWidth() - 1 && y > 0 && y < layers.getRobots().getHeight() - 1) {
                 if (layers.getRobots().getCell(x + dx, y + dy) == null)
                     return false; // No robot in the neighbouring position.
-            }
-        }
-        // Might refactor this. (Only dy or dx has a value)
-        else if (Math.abs(dy) > Math.abs(dx)) {
-            if (y > 0 && y < layers.getRobots().getHeight() - 1) {
-                if (layers.getRobots().getCell(x + dx, y + dy) == null)
-                    return false;
-            }
         }
         return true;
     }
@@ -40,19 +31,10 @@ public class BooleanCalculator {
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
         if(robotNextToRobot(x, y, dx, dy))
             return true; // Returns blocked if moving into a robot with another one next to it, for now.
-        if (Math.abs(dx) > Math.abs(dy)) {
-            if (!(x <= 0) && !(x >= (layers.getRobots().getWidth() - 1))) {
+            if (!(x <= 0) && !(x >= (layers.getRobots().getWidth() - 1)) && !(y <= 0) && !(y >= (layers.getRobots().getHeight() - 1))) {
                 findCollidingRobot(x, y, dx, dy);
                 return false;
             }
-        }
-        // Might refactor this.
-        else if (Math.abs(dy) > Math.abs(dx)) {
-            if (!(y <= 0) && !(y >= (layers.getRobots().getHeight() - 1))) {
-                findCollidingRobot(x, y, dx, dy);
-                return false;
-            }
-        }
         return true; // Robot is on the edge, cant bump it anywhere.
     }
 
@@ -62,14 +44,12 @@ public class BooleanCalculator {
         for (RobotCore robot : AssetsManager.getRobots()){
             if (robot!=null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
-                    int oldX = (int) robot.getPosition().x;
-                    int oldY = (int) robot.getPosition().y;
                     robot.move(dx, dy);
-                    if(this.isOnFlag(oldX + dx,oldY + dy))  //Checks if the robot got bumped into a flag.
+                    if(this.isOnFlag(x+dx,y + dy))  //Checks if the robot got bumped into a flag.
                         robot.getWinCell();
-                    else if(this.isOnHole(oldX + dx,oldY + dy)) //Checks if the robot got bumped into a hole.
+                    else if(this.isOnHole(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
                         robot.getLoseCell();
-                    layers.getRobots().setCell(oldX, oldY,null);
+                    layers.getRobots().setCell(x, y,null);
                 }
             }
         }
