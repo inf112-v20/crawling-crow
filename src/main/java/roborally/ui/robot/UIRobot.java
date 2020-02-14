@@ -32,7 +32,7 @@ public class UIRobot implements IUIRobot {
         this.layers.getRobots().setCell(x,y,this.robotWonCell);
     }
 
-    //Creates new damage\lost texture at pos x,y.
+    // Creates new damageTaken/robotDestroyed texture at pos x,y.
     @Override
     public void getLostTexture(int x, int y) {
         if (this.robotLostCell == null) {

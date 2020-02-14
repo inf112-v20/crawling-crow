@@ -32,9 +32,9 @@ public class GameBoard implements IGameBoard {
     @Override
     public void getCheckPoint(Vector2 pos, RobotCore robotCore) {
         this.x = (int)pos.x; this.y = (int)pos.y;
-        if(this.onFlag(x,y))
+        if(this.onFlag(x, y))
             robotCore.getWinCell();
-        if(this.onHole(x,y))
+        if(this.onHole(x, y))
             robotCore.getLoseCell();
     }
 

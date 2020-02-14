@@ -1,8 +1,8 @@
 package roborally.game.objects;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 import roborally.tools.AssetsManager;
+import roborally.tools.BooleanCalculator;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
@@ -10,6 +10,7 @@ public class RobotCore {
     private IUIRobot uiRobot;
     private IRobot robot;
     private int degrees;
+    private BooleanCalculator booleanCalculator;
 
     // Constructor for testing the robot model.
     public RobotCore(Robot robot) {
@@ -23,15 +24,18 @@ public class RobotCore {
         this.robot = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(x,y);
-    }
-
-    // To handle bumping into other robots.
-    public void crashControl() {
+        booleanCalculator = new BooleanCalculator();
 
     }
 
+    // Returns the models name.
     public String getName() {
         return this.robot.getName();
+    }
+
+    // Returns a true\false calculator.
+    public BooleanCalculator getCalc() {
+        return this.booleanCalculator;
     }
 
     // Returns the position for this robotCores robot.
@@ -40,8 +44,7 @@ public class RobotCore {
     }
 
 
-    // Makes move inside the graphical interface for uiRobot,
-    // checks if its still on the map and updates the robots position, returns true if so.
+    // Makes move inside the graphical interface for uiRobot.
     public boolean move(int x, int y) {
         Vector2 pos = this.getPosition();
         x = x + (int)pos.x; y = y + (int)pos.y;
@@ -50,7 +53,6 @@ public class RobotCore {
             this.robot.setPosition(x, y);
         return onMap;
     }
-
 
     // Sets position for this robotCores robot.
     public void setPos(int x, int y) {
@@ -77,7 +79,7 @@ public class RobotCore {
         if (dir == 'R')
             degrees += rotate;
         else if (dir == 'L')
-            degrees-= rotate;
-        degrees = degrees%360;
+            degrees -= rotate;
+        degrees = degrees % 360;
     }
 }

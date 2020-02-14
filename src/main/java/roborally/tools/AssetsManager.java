@@ -5,18 +5,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import roborally.game.objects.RobotCore;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Queue;
 import java.util.Stack;
 
 public class AssetsManager {
     private static TiledMap loadedMap;
     private static HashMap<String,TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
+    public static RobotCore[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps
@@ -57,23 +58,21 @@ public class AssetsManager {
         return layers;
     }
 
-    //Potential stuff we might call the layers when creating maps, feel free to add some! =)
-    public static String[][] readLayerNames() {
-        String[][] layerNames = new String[getNumberOfLinesInLayerNames()-1][2];
-        String[] string;
-        int i = 0;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
-            while (!(string = br.readLine().split(" "))[0].equals("end")) {
-                layerNames[i][0] = string[0]; layerNames[i++][1] = string[1];
-            }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return layerNames;
+    // Default robots
+    public static void makeRobots() {
+        robots = new RobotCore[8];
+        robots[0] = new RobotCore(3,0);
+        robots[1] = new RobotCore(0,1);
+        robots[2] = new RobotCore(5, 2);
+        robots[3] = new RobotCore(8, 3);
+        robots[4] = new RobotCore(4, 6);
     }
 
+    public static RobotCore[] getRobots() {
+        return robots;
+    }
+
+    // Default names for the robots
     public static void makeRobotNames() {
         robotNames.add("Red");
         robotNames.add("Blue");
@@ -92,7 +91,24 @@ public class AssetsManager {
         return robotNames.pop();
     }
 
-    //Gets the total number of lines in our layerNames file.
+    // Potential stuff we might call the layers when creating maps, feel free to add some! =)
+    public static String[][] readLayerNames() {
+        String[][] layerNames = new String[getNumberOfLinesInLayerNames()-1][2];
+        String[] string;
+        int i = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
+            while (!(string = br.readLine().split(" "))[0].equals("end")) {
+                layerNames[i][0] = string[0]; layerNames[i++][1] = string[1];
+            }
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return layerNames;
+    }
+
+    // Gets the total number of lines in our layerNames file.
     public static int getNumberOfLinesInLayerNames() {
         int count = 0;
         try {
@@ -106,7 +122,7 @@ public class AssetsManager {
         return count;
     }
 
-    //Puts all the layers for the current map into a Map, accessible by standard names defined by us.
+    // Puts all the layers for the current map into a Map, accessible by standard names defined by us.
     public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
         String[][] layerNames = readLayerNames();
