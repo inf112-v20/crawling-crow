@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import roborally.game.objects.AI;
 import roborally.game.objects.RobotCore;
 
 import java.io.BufferedReader;
@@ -26,11 +27,14 @@ public class AssetsManager {
     //Robots
     private static final AssetDescriptor<Texture> uibOwl
             = new AssetDescriptor<>("assets/robots/player.png", Texture.class);
+    private static final AssetDescriptor<Texture> aiOwl
+            = new AssetDescriptor<>("assets/robots/AI.png", Texture.class);
 
     public static void load() {
         //Robots
         manager.load(uibOwl);
         manager.load(MAP_TEST);
+        manager.load(aiOwl);
     }
 
     // Only one map so far, but can add more and return a list.
@@ -40,8 +44,11 @@ public class AssetsManager {
     }
 
     // Only one robotTexture so far but can add more and return a list.
-    public static Texture getRobotTexture () {
-        return manager.get(uibOwl);
+    public static Texture getRobotTexture (int i) {
+        Texture[] robotTexture = new Texture[2];
+        robotTexture[0] = manager.get(uibOwl);
+        robotTexture[1] = manager.get(aiOwl);
+        return robotTexture[i];
     }
 
     public static void dispose() {
@@ -62,10 +69,12 @@ public class AssetsManager {
     public static void makeRobots() {
         robots = new RobotCore[8];
         robots[0] = new RobotCore(3,0);
+        robots[0].setTextureRegion(0);
         robots[1] = new RobotCore(0,1);
-        robots[2] = new RobotCore(5, 2);
-        robots[3] = new RobotCore(8, 3);
-        robots[4] = new RobotCore(4, 6);
+        robots[1].setTextureRegion(0);
+        robots[2] = new AI(5, 2);
+        robots[3] = new AI(8, 3);
+        robots[4] = new AI(3,3);
     }
 
     public static RobotCore[] getRobots() {

@@ -1,21 +1,26 @@
 package roborally.tools;
 
+import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.RobotCore;
 import roborally.ui.gameboard.Layers;
 import java.util.HashMap;
 
 // Beep... Robots need to calculate.
 public class BooleanCalculator {
+    HashMap<String, Boolean> operations;
     private Layers layers;
     private int height;
     private int width;
+    private Vector2 flagPos;
+    private int x;
+    private int y;
 
     public BooleanCalculator() {
         layers = new Layers();
         width = layers.getRobots().getWidth();
         height = layers.getRobots().getHeight();
         // Advanced calculations for AI, can take multiple conditions to figure out a good move.
-        HashMap<String, Boolean> operations = new HashMap<>();
+        operations = new HashMap<>();
     }
 
     // Checks if there is 3 robots in a row. Here we look at the pos next to the new x and y pos.
@@ -24,7 +29,7 @@ public class BooleanCalculator {
             if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
                 return layers.getRobots().getCell(x + dx, y + dy) != null;
         }
-        return true;
+        return false;
     }
     /*@x = the new x pos, @ y = the new y pos, @dx , @dy = steps taking in direction y and x
      Checks if the robot is blocked by another robot, true if the robot is on the edge. If not then bumping.
@@ -67,4 +72,65 @@ public class BooleanCalculator {
         return layers.getHole().getCell(x, y) != null;
     }
 
+    // AI methods
+
+    public void determineFlagPos() {
+        flagPos = new Vector2(9,10);
+        this.x = (int) flagPos.x;
+        this.y = (int) flagPos.y;
+    }
+
+    public boolean isBelowFlagOnMap(int x, int y){
+        return y < this.y;
+    }
+
+    public boolean isAboveFlagOnMap(int x, int y){
+        return y > this.y;
+    }
+
+    public boolean isToTheRightOfFlagOnMap(int x, int y){
+        return x > this.x;
+    }
+
+    public boolean isToTheLeftOfFlagOnMap(int x, int y){
+        return x < this.x;
+    }
+
+    public boolean isTheFlagOnTheRightSideOfMap(int x, int y){
+        for (int i = width/2; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (layers.getFlag().getCell(i,j)!=null)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isTheFlagOnTheLeftSideOfMap(int x, int y) {
+        for (int i = 0; i < width / 2; i++) {
+            for (int j = 0; j < height; j++) {
+                if (layers.getFlag().getCell(i, j) != null)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public HashMap<String, Boolean> getOperations() {
+        return this.operations;
+    }
+
+    public boolean isBlocked(int x, int y) {
+        return layers.getRobots().getCell(x,y)!=null;
+    }
+
+    public void loadAICalc(int x, int y) {
+    determineFlagPos();
+    //operations.put("FlagOnLeft", isTheFlagOnTheLeftSideOfMap(x, y));
+    //operations.put("FlagOnRight", !operations.get("FlagOnLeft"));
+    operations.put("Left", isToTheLeftOfFlagOnMap(x, y));
+    operations.put("Right", isToTheRightOfFlagOnMap(x, y));
+    operations.put("Up", isAboveFlagOnMap(x, y));
+    operations.put("Down", isBelowFlagOnMap(x, y));
+    }
 }

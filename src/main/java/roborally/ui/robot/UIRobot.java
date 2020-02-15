@@ -14,12 +14,18 @@ public class UIRobot implements IUIRobot {
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotCell;
     private Layers layers;
-
+    private int i;
+    private int j;
     // Creates new UIRobot in position i,j.
     public UIRobot(int i, int j) {
+        this.i = i;
+        this.j = j;
         this.layers = new Layers();
-        this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
-        this.layers.getRobots().setCell(i, j, getTexture());
+    }
+
+    public void setTextureRegion(int i) {
+        this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(i), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
+        this.layers.getRobots().setCell(this.i, this.j, getTexture());
     }
 
     // Creates new WinTexture at pos x,y.

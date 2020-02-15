@@ -13,9 +13,6 @@ public class RobotCore {
     private BooleanCalculator booleanCalculator;
 
     // Constructor for testing the robot model.
-    public RobotCore(Robot robot) {
-        this.robot = robot;
-    }
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public RobotCore(int x, int y) {
@@ -26,6 +23,9 @@ public class RobotCore {
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
 
+    }
+    public RobotCore(Robot robot) {
+        this.robot = robot;
     }
 
     // Returns the models name.
@@ -43,6 +43,11 @@ public class RobotCore {
         return robot.getPosition();
     }
 
+
+    // For setting different textureRegions for AI and Players
+    public void setTextureRegion(int i) {
+        this.uiRobot.setTextureRegion(i);
+    }
 
     // Makes move inside the graphical interface for uiRobot.
     public boolean move(int x, int y) {

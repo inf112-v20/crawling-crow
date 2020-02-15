@@ -10,4 +10,6 @@ public interface IUIRobot {
     public boolean moveRobot(int x, int y);
 
     TiledMapTileLayer.Cell getTexture();
+
+    void setTextureRegion(int i);
 }
