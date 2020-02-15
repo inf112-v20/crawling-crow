@@ -71,6 +71,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
+        //keyUp(123);
     }
 
     int i = 0;
