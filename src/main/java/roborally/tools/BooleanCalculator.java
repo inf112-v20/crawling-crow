@@ -63,40 +63,46 @@ public class BooleanCalculator {
     }
 
     // checks if there is a flag on x,y.
+
+    public boolean isBlocked(int x, int y) {
+        return layers.getRobots().getCell(x,y)!=null;
+    }
+
     public boolean isOnFlag(int x, int y) {
         return layers.getFlag().getCell(x, y) != null;
     }
 
-    // checks if there is a hole on x,y.
     public boolean isOnHole(int x, int y) {
         return layers.getHole().getCell(x, y) != null;
     }
 
     // AI methods
 
-    public void determineFlagPos() {
+    private void determineFlagPos() {
         flagPos = new Vector2(9,10);
         this.x = (int) flagPos.x;
         this.y = (int) flagPos.y;
     }
 
-    public boolean isBelowFlagOnMap(int x, int y){
+    // checks if there is a hole on x,y.
+
+    private boolean isBelowFlagOnMap(int x, int y){
         return y < this.y;
     }
 
-    public boolean isAboveFlagOnMap(int x, int y){
+    private boolean isAboveFlagOnMap(int x, int y){
         return y > this.y;
     }
 
-    public boolean isToTheRightOfFlagOnMap(int x, int y){
+    private boolean isToTheRightOfFlagOnMap(int x, int y){
         return x > this.x;
     }
 
-    public boolean isToTheLeftOfFlagOnMap(int x, int y){
+    private boolean isToTheLeftOfFlagOnMap(int x, int y){
         return x < this.x;
     }
 
-    public boolean isTheFlagOnTheRightSideOfMap(int x, int y){
+    private boolean isTheFlagOnTheRightSideOfMap(int x, int y){
         for (int i = width/2; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (layers.getFlag().getCell(i,j)!=null)
@@ -106,7 +112,7 @@ public class BooleanCalculator {
         return false;
     }
 
-    public boolean isTheFlagOnTheLeftSideOfMap(int x, int y) {
+    private boolean isTheFlagOnTheLeftSideOfMap(int x, int y) {
         for (int i = 0; i < width / 2; i++) {
             for (int j = 0; j < height; j++) {
                 if (layers.getFlag().getCell(i, j) != null)
@@ -120,14 +126,8 @@ public class BooleanCalculator {
         return this.operations;
     }
 
-    public boolean isBlocked(int x, int y) {
-        return layers.getRobots().getCell(x,y)!=null;
-    }
-
     public void loadAICalc(int x, int y) {
     determineFlagPos();
-    //operations.put("FlagOnLeft", isTheFlagOnTheLeftSideOfMap(x, y));
-    //operations.put("FlagOnRight", !operations.get("FlagOnLeft"));
     operations.put("Left", isToTheLeftOfFlagOnMap(x, y));
     operations.put("Right", isToTheRightOfFlagOnMap(x, y));
     operations.put("Up", isAboveFlagOnMap(x, y));

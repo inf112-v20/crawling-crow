@@ -23,6 +23,7 @@ public class AI extends RobotCore {
         ops = booleanCalculator.getOperations();
         int[] rndMove = {29, 32, 47, 51};
         int r = random.nextInt(4);
+
         if (ops.get("Down")) {
             if (getCalc().isBlocked(x, y + 1)) {
                 return rndMove[r];
