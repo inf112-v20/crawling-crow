@@ -1,7 +1,7 @@
 package roborally.game.gameboard;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.RobotCore;
+import roborally.game.objects.AI;
 import roborally.ui.gameboard.Layers;
 
 public class GameBoard implements IGameBoard {
@@ -29,15 +29,14 @@ public class GameBoard implements IGameBoard {
         return layers.getHole().getCell(x, y)!=null;
     }
 
-    @Override
-    public void getCheckPoint(Vector2 pos, RobotCore robotCore) {
+    public void getCheckPoint(Vector2 pos, AI ai) {
         this.x = (int)pos.x; this.y = (int)pos.y;
         if(this.onFlag(x, y)) {
-            robotCore.getWinCell();
-            System.out.println(robotCore.getName() + " is on Flag!");
+            ai.getWinCell();
+            ai.setFlagPos();
         }
         if(this.onHole(x, y))
-            robotCore.getLoseCell();
+            ai.getLoseCell();
     }
 
     @Override

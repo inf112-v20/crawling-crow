@@ -11,7 +11,6 @@ public class BooleanCalculator {
     private Layers layers;
     private int height;
     private int width;
-    private Vector2 flagPos;
     private int x;
     private int y;
 
@@ -79,8 +78,7 @@ public class BooleanCalculator {
 
     // AI methods
 
-    private void determineFlagPos() {
-        flagPos = new Vector2(9,10);
+    public void determineFlagPos(Vector2 flagPos) {
         this.x = (int) flagPos.x;
         this.y = (int) flagPos.y;
     }
@@ -106,7 +104,6 @@ public class BooleanCalculator {
     }
 
     public void loadAICalc(int x, int y) {
-    determineFlagPos();
     operations.put("Left", isToTheLeftOfFlagOnMap(x, y));
     operations.put("Right", isToTheRightOfFlagOnMap(x, y));
     operations.put("Up", isAboveFlagOnMap(x, y));

@@ -1,6 +1,7 @@
 package roborally.game.gameboard;
 
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.objects.AI;
 import roborally.game.objects.RobotCore;
 
 public interface IGameBoard {
@@ -29,6 +30,6 @@ public interface IGameBoard {
      * Check if Robot can is onHole or onFlag, and other stuff in the future.
      *
      */
-    public void getCheckPoint(Vector2 pos, RobotCore robotCore);
+    public void getCheckPoint(Vector2 pos, AI ai);
 
 }

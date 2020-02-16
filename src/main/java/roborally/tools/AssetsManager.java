@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.AI;
 
 import java.io.BufferedReader;
@@ -17,6 +18,7 @@ public class AssetsManager {
     private static TiledMap loadedMap;
     private static HashMap<String,TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
+    public static Stack<Vector2> flagPositions;
     public static AI[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
@@ -98,6 +100,15 @@ public class AssetsManager {
             makeRobotNames();
         }
         return robotNames.pop();
+    }
+
+    public static Stack<Vector2> makeFlagPos() {
+        flagPositions = new Stack<Vector2>();
+        flagPositions.push(new Vector2(9,1));
+        flagPositions.push(new Vector2(2,1));
+        flagPositions.push(new Vector2(2,10));
+        flagPositions.push(new Vector2(9,10));
+        return flagPositions;
     }
 
     // Potential stuff we might call the layers when creating maps, feel free to add some! =)

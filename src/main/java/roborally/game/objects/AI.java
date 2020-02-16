@@ -1,19 +1,30 @@
 package roborally.game.objects;
 
+import com.badlogic.gdx.math.Vector2;
+import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class AI extends RobotCore {
     BooleanCalculator booleanCalculator;
     HashMap<String, Boolean> ops;
+    Stack<Vector2> flagPositions;
 
     public AI(int x, int y) {
         super(x, y);
         setTextureRegion(1);
-        booleanCalculator = new BooleanCalculator();
+        this.booleanCalculator = new BooleanCalculator();
+        this.flagPositions = AssetsManager.makeFlagPos();
+        getCalc().determineFlagPos(this.flagPositions.pop());
+    }
+
+    @Override
+    public BooleanCalculator getCalc() {
+        return this.booleanCalculator;
     }
 
     public int runCore() {
@@ -57,5 +68,11 @@ public class AI extends RobotCore {
         return 29;
         }
         return 0;
+    }
+    public void setFlagPos() {
+        if (this.flagPositions.isEmpty())
+            this.flagPositions = AssetsManager.makeFlagPos();
+        else
+            getCalc().determineFlagPos(this.flagPositions.pop());
     }
 }
