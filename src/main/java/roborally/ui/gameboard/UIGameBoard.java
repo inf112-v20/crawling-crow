@@ -104,7 +104,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         gameBoard.getCheckPoint(robots[i].getPosition(), robots[i]);
        i++;
        // Prints the whole movement operation in milliseconds. Lets try to keep this low!
-       System.out.println(System.currentTimeMillis()-d);
        if (i == 8)
            i = 0;
        if(i<6)
