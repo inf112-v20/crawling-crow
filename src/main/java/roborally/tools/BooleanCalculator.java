@@ -83,6 +83,10 @@ public class BooleanCalculator {
         this.y = (int) flagPos.y;
     }
 
+    public Vector2 getCurrFlagPos() {
+        return new Vector2(this.x,this.y);
+    }
+
     private boolean isBelowFlagOnMap(int x, int y){
         return y < this.y;
     }

@@ -75,4 +75,9 @@ public class AI extends RobotCore {
         else
             getCalc().determineFlagPos(this.flagPositions.pop());
     }
+
+    public Vector2 getCurrFlagPos() {
+        return getCalc().getCurrFlagPos();
+    }
+
 }

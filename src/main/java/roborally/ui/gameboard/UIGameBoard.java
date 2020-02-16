@@ -70,7 +70,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
     // Temporary some AIs are testing the map!
     public boolean keyUp(int keycode) {
-        double d = System.currentTimeMillis();
         keycode = robots[i].runCore();
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
         boolean onMap = true;
@@ -103,7 +102,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
             layers.getRobots().setCell(x,y,null);
         gameBoard.getCheckPoint(robots[i].getPosition(), robots[i]);
        i++;
-       // Prints the whole movement operation in milliseconds. Lets try to keep this low!
        if (i == 8)
            i = 0;
        if(i<6)

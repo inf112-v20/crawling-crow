@@ -33,7 +33,8 @@ public class GameBoard implements IGameBoard {
         this.x = (int)pos.x; this.y = (int)pos.y;
         if(this.onFlag(x, y)) {
             ai.getWinCell();
-            ai.setFlagPos();
+            if(ai.getCurrFlagPos().x == pos.x && ai.getCurrFlagPos().y == pos.y)
+                ai.setFlagPos();
         }
         if(this.onHole(x, y))
             ai.getLoseCell();
