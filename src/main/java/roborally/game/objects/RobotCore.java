@@ -13,6 +13,9 @@ public class RobotCore {
     private BooleanCalculator booleanCalculator;
 
     // Constructor for testing the robot model.
+    public RobotCore(Robot robot) {
+        this.robot = robot;
+    }
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public RobotCore(int x, int y) {
@@ -23,9 +26,6 @@ public class RobotCore {
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
 
-    }
-    public RobotCore(Robot robot) {
-        this.robot = robot;
     }
 
     // Returns the models name.

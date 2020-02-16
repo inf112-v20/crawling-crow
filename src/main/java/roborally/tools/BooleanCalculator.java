@@ -62,16 +62,17 @@ public class BooleanCalculator {
         }
     }
 
-    // checks if there is a flag on x,y.
-
+    // Check a specific position if it is blocked
     public boolean isBlocked(int x, int y) {
         return layers.getRobots().getCell(x,y)!=null;
     }
 
+    // Check a specific position if it is a flag there
     public boolean isOnFlag(int x, int y) {
         return layers.getFlag().getCell(x, y) != null;
     }
 
+    // Check a specific position if it is a hole there
     public boolean isOnHole(int x, int y) {
         return layers.getHole().getCell(x, y) != null;
     }
@@ -83,8 +84,6 @@ public class BooleanCalculator {
         this.x = (int) flagPos.x;
         this.y = (int) flagPos.y;
     }
-
-    // checks if there is a hole on x,y.
 
     private boolean isBelowFlagOnMap(int x, int y){
         return y < this.y;
@@ -100,26 +99,6 @@ public class BooleanCalculator {
 
     private boolean isToTheLeftOfFlagOnMap(int x, int y){
         return x < this.x;
-    }
-
-    private boolean isTheFlagOnTheRightSideOfMap(int x, int y){
-        for (int i = width/2; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (layers.getFlag().getCell(i,j)!=null)
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isTheFlagOnTheLeftSideOfMap(int x, int y) {
-        for (int i = 0; i < width / 2; i++) {
-            for (int j = 0; j < height; j++) {
-                if (layers.getFlag().getCell(i, j) != null)
-                    return true;
-            }
-        }
-        return false;
     }
 
     public HashMap<String, Boolean> getOperations() {

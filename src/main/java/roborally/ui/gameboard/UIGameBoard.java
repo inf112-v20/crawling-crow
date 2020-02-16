@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.game.objects.RobotCore;
 import roborally.game.objects.AI;
 import roborally.tools.AssetsManager;
 
@@ -25,11 +24,7 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    RobotCore[] robots;
-    private AI ai1;
-    private AI ai2;
-    private AI ai3;
-    private AI ai4;
+    AI[] robots;
 
     @Override
     public void create() {
@@ -42,9 +37,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         gameBoard = new GameBoard(layers);
         AssetsManager.makeRobots();
         robots = AssetsManager.getRobots();
-        ai2 = (AI)robots[2];
-        ai3 = (AI)robots[3];
-        ai4 = (AI)robots[4];
 
 
         // Initialize the camera
@@ -71,21 +63,15 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        //keyUp(123);
+        keyUp(123);
     }
 
     int i = 0;
     // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
+    // Temporary some AIs are testing the map!
     public boolean keyUp(int keycode) {
         double d = System.currentTimeMillis();
-        if(i==2)
-            keycode = ai2.runCore();
-        if(i==3)
-            keycode = ai3.runCore();
-        if(i==4)
-            keycode = ai4.runCore();
-
-
+        keycode = robots[i].runCore();
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
         boolean onMap = true;
         boolean blocked = false;
@@ -119,10 +105,10 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
        i++;
        // Prints the whole movement operation in milliseconds. Lets try to keep this low!
        System.out.println(System.currentTimeMillis()-d);
-       if (i >= 2 && i < 5)
-           keyUp(123);
-       else if (i == 5)
+       if (i == 8)
            i = 0;
+       if(i<6)
+           keyUp(123);
        return onMap;
     }
 

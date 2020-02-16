@@ -16,6 +16,7 @@ public class UIRobot implements IUIRobot {
     private Layers layers;
     private int i;
     private int j;
+
     // Creates new UIRobot in position i,j.
     public UIRobot(int i, int j) {
         this.i = i;
@@ -23,6 +24,7 @@ public class UIRobot implements IUIRobot {
         this.layers = new Layers();
     }
 
+    //Gets texture region from AssetsManager and sets the starting position with this texture.
     public void setTextureRegion(int i) {
         this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(i), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
         this.layers.getRobots().setCell(this.i, this.j, getTexture());
