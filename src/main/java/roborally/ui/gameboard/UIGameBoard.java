@@ -104,8 +104,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
        i++;
        if (i == 8)
            i = 0;
-       if(i<6)
-           keyUp(123);
        return onMap;
     }
 
