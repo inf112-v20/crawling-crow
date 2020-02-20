@@ -64,6 +64,8 @@ public class Game implements IGame {
     }
 
     private IRobot completeGameFases() {
+
+        // There are 5 fases in each game
         for(int i = 0; i < 5; i++) {
             revealProgramCard(i);
             moveRobots();
