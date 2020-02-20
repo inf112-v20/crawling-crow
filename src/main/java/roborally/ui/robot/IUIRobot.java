@@ -1,14 +1,15 @@
 package roborally.ui.robot;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import roborally.game.objects.IRobot;
 
-public interface IUIRobot extends IRobot {
-    TiledMapTileLayer.Cell getWinTexture();
+public interface IUIRobot {
+    void getWinTexture(int x, int y);
 
-    TiledMapTileLayer.Cell getLostTexture();
+    void getLostTexture(int x, int y);
+
+    public boolean moveRobot(int x, int y);
 
     TiledMapTileLayer.Cell getTexture();
 
-    IRobot getRobot();
+    void setTextureRegion(int i);
 }

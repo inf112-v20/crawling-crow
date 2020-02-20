@@ -5,28 +5,37 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
+import roborally.game.objects.AI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class AssetsManager {
-    public static TiledMap loadedMap;
-    public static HashMap<String, TiledMapTileLayer> layers;
+    private static TiledMap loadedMap;
+    private static HashMap<String,TiledMapTileLayer> layers;
+    private static Stack<String> robotNames;
+    public static Stack<Vector2> flagPositions;
+    public static AI[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
-    // Maps
+    //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
             = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
-    // Robots
+    //Robots
     private static final AssetDescriptor<Texture> uibOwl
             = new AssetDescriptor<>("assets/robots/player.png", Texture.class);
+    private static final AssetDescriptor<Texture> aiOwl
+            = new AssetDescriptor<>("assets/robots/AI.png", Texture.class);
 
     public static void load() {
-        // Robots
+        //Robots
         manager.load(uibOwl);
         manager.load(MAP_TEST);
+        manager.load(aiOwl);
     }
 
     // Only one map so far, but can add more and return a list.
@@ -36,8 +45,11 @@ public class AssetsManager {
     }
 
     // Only one robotTexture so far but can add more and return a list.
-    public static Texture getRobotTexture () {
-        return manager.get(uibOwl);
+    public static Texture getRobotTexture (int i) {
+        Texture[] robotTexture = new Texture[2];
+        robotTexture[0] = manager.get(uibOwl);
+        robotTexture[1] = manager.get(aiOwl);
+        return robotTexture[i];
     }
 
     public static void dispose() {
@@ -49,9 +61,54 @@ public class AssetsManager {
     }
 
     public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
-        if (layers==null)
+        if(layers==null)
             layers = createLayers(getLoadedMap());
         return layers;
+    }
+
+    // Default robots
+    public static void makeRobots() {
+        robots = new AI[8];
+        robots[0] = new AI(3,0);
+        robots[1] = new AI(0,1);
+        robots[2] = new AI(3, 2);
+        robots[3] = new AI(8, 3);
+        robots[4] = new AI(3,3);
+        robots[5] = new AI(4,4);
+        robots[6] = new AI(4,5);
+        robots[7] = new AI(6,4);
+    }
+
+    public static AI[] getRobots() {
+        return robots;
+    }
+
+    // Default names for the robots
+    public static void makeRobotNames() {
+        robotNames.add("Red");
+        robotNames.add("Blue");
+        robotNames.add("Green");
+        robotNames.add("Orange");
+        robotNames.add("Pink");
+        robotNames.add("Yellow");
+        robotNames.add("Purple");
+        robotNames.add("Teal");
+    }
+    public static String getRobotName() {
+        if(robotNames==null) {
+            robotNames = new Stack<>();
+            makeRobotNames();
+        }
+        return robotNames.pop();
+    }
+
+    public static Stack<Vector2> makeFlagPos() {
+        flagPositions = new Stack<Vector2>();
+        flagPositions.push(new Vector2(9,1));
+        flagPositions.push(new Vector2(2,1));
+        flagPositions.push(new Vector2(2,10));
+        flagPositions.push(new Vector2(9,10));
+        return flagPositions;
     }
 
     // Potential stuff we might call the layers when creating maps, feel free to add some! =)
@@ -89,7 +146,7 @@ public class AssetsManager {
     public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
         String[][] layerNames = readLayerNames();
-        for (MapLayer layer : tiledMap.getLayers()) {
+        for(MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
             boolean layerImpl = false;
             String s = key.getName().toLowerCase();

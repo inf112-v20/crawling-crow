@@ -2,7 +2,6 @@ package roborally.ui.gameboard;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.math.Vector2;
 import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
 import com.badlogic.gdx.ApplicationListener;
@@ -13,25 +12,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import roborally.game.objects.AI;
 import roborally.tools.AssetsManager;
-import roborally.ui.robot.IUIRobot;
-import roborally.ui.robot.UIRobot;
 
 public class UIGameBoard extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
-    // Map with layers
     private Layers layers;
-
     private IGameBoard gameBoard;
-
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private IUIRobot uiRobot;
-    // FIXME: Temp robot
-    //private IUIRobot uiRobot2;
+    AI[] robots;
 
     @Override
     public void create() {
@@ -41,13 +34,10 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         AssetsManager.manager.finishLoading();
         tiledMap = AssetsManager.getMap();
         layers = new Layers();
-
-        uiRobot = new UIRobot();
-
         gameBoard = new GameBoard(layers);
+        AssetsManager.makeRobots();
+        robots = AssetsManager.getRobots();
 
-        // FIXME: Temp robot
-        //uiRobot2 = new UIRobot();
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -57,12 +47,6 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/6f);
         mapRenderer.setView(camera);
-        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getTexture());
-
-        // FIXME: Temp robot
-        //layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot2.getTexture());
-
-        // Input listener
         Gdx.input.setInputProcessor(this);
     }
 
@@ -77,77 +61,61 @@ public class UIGameBoard extends InputAdapter implements ApplicationListener {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Keeps track of flagLayer to see if the robot ever steps over the flag.
-        if (gameBoard.onFlag(uiRobot)) {
-            layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getWinTexture());
-        }
-
-        // Update and Render Map
         camera.update();
         mapRenderer.render();
+        keyUp(123);
     }
 
-    // TODO move to Robot class and refactor into rotation cards and movement. (See programcards in rulebook)
+    int i = 0;
+    // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
+    // Temporary some AIs are testing the map!
     public boolean keyUp(int keycode) {
-        int x = uiRobot.getRobot().getPositionX();
-        int y = uiRobot.getRobot().getPositionY();
+        keycode = robots[i].runCore();
+        int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
         boolean onMap = true;
-
-        if (keycode == Input.Keys.UP)
-            onMap = move(uiRobot, new Vector2(0, 1));
-        else if(keycode == Input.Keys.RIGHT)
-            onMap = move(uiRobot, new Vector2(1, 0));
-        else if(keycode == Input.Keys.DOWN)
-            onMap = move(uiRobot, new Vector2(0, -1));
-        else if(keycode == Input.Keys.LEFT)
-            onMap = move(uiRobot, new Vector2(-1, 0));
-
-        // FIXME: Temp robot
-        /*
-        if (keycode == Input.Keys.W)
-            onMap = move(uiRobot2, new Vector2(0, 1));
-        else if (keycode == Input.Keys.D)
-            onMap = move(uiRobot2, new Vector2(1, 0));
-        else if (keycode == Input.Keys.S)
-            onMap = move(uiRobot2, new Vector2(0, -1));
-        else if (keycode == Input.Keys.A)
-            onMap = move(uiRobot2, new Vector2(-1, 0));
-
-         */
-
-        // Reboots the robot if it moves outside the map or falls down a hole.
-        if (!onMap || gameBoard.onHole(uiRobot)) {
-            layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), null);
-            layers.getRobots().setCell(x, y, uiRobot.getLostTexture());
-            uiRobot.getRobot().setPosition(x, y);
+        boolean blocked = false;
+        if (keycode == Input.Keys.W) {
+            if (layers.getRobots().getCell(x, y+1) != null)
+                blocked = robots[i].getCalc().checkIfBlocked(x,y+1,0,1);
+            if (!blocked)
+                onMap = robots[i].move(0, 1);
         }
-        return onMap && !gameBoard.onHole(uiRobot);
+        else if(keycode == Input.Keys.D) {
+            if (layers.getRobots().getCell(x+1, y) != null)
+                blocked = robots[i].getCalc().checkIfBlocked(x+1, y,1,0);
+            if (!blocked)
+                onMap = robots[i].move(1, 0);
+        }
+        else if(keycode == Input.Keys.S) {
+            if (layers.getRobots().getCell(x, y - 1) != null)
+                blocked = robots[i].getCalc().checkIfBlocked(x,y-1,0,-1);
+            if (!blocked)
+                onMap = robots[i].move(0, -1);
+        }
+        else if(keycode == Input.Keys.A) {
+            if (layers.getRobots().getCell(x-1, y ) != null)
+                blocked = robots[i].getCalc().checkIfBlocked(x-1, y,-1,0);
+            if (!blocked)
+                onMap = robots[i].move(-1, 0);
+        }
+        if(onMap && !blocked)
+            layers.getRobots().setCell(x,y,null);
+        gameBoard.getCheckPoint(robots[i].getPosition(), robots[i]);
+       i++;
+       if (i == 8)
+           i = 0;
+       return onMap;
     }
-
-    // TODO: Need to find a method to store layers within UIRobot itself
-    public boolean move(IUIRobot uiRobot, Vector2 pos) {
-        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), null);
-        uiRobot.getRobot().setPosition(uiRobot.getRobot().getPositionX() + pos.x,uiRobot.getRobot().getPositionY() + pos.y);
-        layers.getRobots().setCell(uiRobot.getRobot().getPositionX(), uiRobot.getRobot().getPositionY(), uiRobot.getTexture());
-        return uiRobot.getRobot().getPositionX() >= 0 && uiRobot.getRobot().getPositionY() >= 0
-                && uiRobot.getRobot().getPositionX() < layers.getRobots().getWidth()
-                && uiRobot.getRobot().getPositionY() < layers.getRobots().getHeight();
-    }
-
 
     @Override
     public void resize(int width, int height) {
-        // LibGDX requirements
     }
 
     @Override
     public void pause() {
-        // LibGDX requirements
     }
 
     @Override
     public void resume() {
-        // LibGDX requirements
     }
 }

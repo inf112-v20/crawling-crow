@@ -5,7 +5,7 @@ import roborally.tools.AssetsManager;
 
 import java.util.HashMap;
 
-// Glorified HashMap, can be created with ease.
+// Getters for various layers in the current TiledMap. 
 public class Layers {
     private HashMap<String,TiledMapTileLayer> layers;
     public Layers() {
@@ -18,11 +18,6 @@ public class Layers {
     
     public boolean contains(String key) {
         return layers.containsKey(key);
-    }
-
-    // Robotlayers temporary.
-    public TiledMapTileLayer getRobotCore() {
-        return layers.get("Robot");
     }
 
     public TiledMapTileLayer getRobots() {
