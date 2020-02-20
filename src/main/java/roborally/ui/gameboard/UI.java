@@ -83,9 +83,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
     // Temporary some AIs are testing the map!
     public boolean keyUp(int keycode) {
-        //AI[] robots = game.getRobots();
-        //Layers layers = game.getLayers();
-        //IGameBoard gameBoard = game.getGameBoard();
 
         if(!game.isRunning()){
             // Gives the option to start the game is the game is not running
@@ -112,8 +109,11 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
 
 
-
         /*
+        AI[] robots = game.getRobots();
+        Layers layers = game.getLayers();
+        IGameBoard gameBoard = game.getGameBoard();
+
         System.out.print(robots[i]);
         keycode = robots[i].runCore();
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
