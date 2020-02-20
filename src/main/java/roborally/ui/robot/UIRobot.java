@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
-import roborally.ui.gameboard.UIGameBoard;
+import roborally.ui.gameboard.UI;
 
 public class UIRobot implements IUIRobot {
 
@@ -26,7 +26,7 @@ public class UIRobot implements IUIRobot {
 
     //Gets texture region from AssetsManager and sets the starting position with this texture.
     public void setTextureRegion(int i) {
-        this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(i), UIGameBoard.TILE_SIZE, UIGameBoard.TILE_SIZE);
+        this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(i), UI.TILE_SIZE, UI.TILE_SIZE);
         this.layers.getRobots().setCell(this.i, this.j, getTexture());
     }
 

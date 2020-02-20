@@ -8,6 +8,6 @@ public class GameBoardTest {
 
     @Test
     public void sizeOfGameBoard() {
-        assertEquals(UIGameBoard.TILE_SIZE, 300);
+        assertEquals(UI.TILE_SIZE, 300);
     }
 }

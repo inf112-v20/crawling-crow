@@ -57,6 +57,7 @@ public class AssetsManager {
     }
 
     public static TiledMap getLoadedMap() {
+        //TODO: Add precondition to make sure map is loaded.
         return loadedMap;
     }
 
