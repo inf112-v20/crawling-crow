@@ -1,0 +1,12 @@
+package roborally.game;
+
+public enum PhaseStep {
+    REVEAL_CARDS,
+    MOVE_ROBOTS,
+    MOVE_ALL_CONVEYOUR_BELTS,
+    MOVE_EXPRESS_CONVEYOR_BELTS,
+    MOVE_COGS,
+    FIRE_LASERS,
+    MOVE_BACKUP_POINTS,
+    REGISTER_FLAG_POSITION
+}
