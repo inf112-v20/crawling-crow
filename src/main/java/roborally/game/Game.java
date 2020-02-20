@@ -10,6 +10,7 @@ import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 
 public class Game implements IGame {
+    private final int NUMBER_OF_PHASES = 5;
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] robots;
@@ -65,8 +66,7 @@ public class Game implements IGame {
 
     private IRobot completeGameFases() {
 
-        // There are 5 fases in each game
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < NUMBER_OF_PHASES; i++) {
             revealProgramCard(i);
             moveRobots();
             moveAllConveyorBelts();
@@ -80,7 +80,6 @@ public class Game implements IGame {
             // Abort loop if winner is detected
             if(winner != null) return winner;
         }
-
         return null;
     }
 
