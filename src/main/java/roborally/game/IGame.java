@@ -2,6 +2,7 @@ package roborally.game;
 
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.IRobot;
 import roborally.ui.gameboard.Layers;
 
 public interface IGame {
@@ -26,4 +27,16 @@ public interface IGame {
     void startGame();
 
     void startRound();
+
+    RoundStep currentRoundStep();
+
+    boolean isRunning();
+
+    PhaseStep currentPhaseStep();
+
+    boolean checkIfSomeoneWon();
+
+    IRobot getWinner();
+
+    void endGame();
 }
