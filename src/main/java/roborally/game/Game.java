@@ -49,16 +49,13 @@ public class Game implements IGame {
     }
 
     @Override
-    public void startGame() {
-        // Continuously start new round if none has won yet
-        while(winner == null){
-            announcePowerDown();
-            dealCards();
-            programRobots();
-            winner = completeGameFases();
-            cleanUp();
-        }
-
+    public void startRound() {
+        System.out.println("Round has started");
+        announcePowerDown(); // Depends upon user input
+        dealCards();
+        programRobots(); // Depends upon user input
+        winner = completeGameFases(); // Depends upon user input
+        cleanUp();
     }
 
     private void cleanUp() {
@@ -106,6 +103,7 @@ public class Game implements IGame {
     }
 
     private void moveRobots() {
+
     }
 
     private void revealProgramCard(int i) {
@@ -119,6 +117,4 @@ public class Game implements IGame {
 
     private void announcePowerDown() {
     }
-
-
 }

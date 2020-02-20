@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import roborally.game.Game;
 import roborally.game.IGame;
-import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -85,6 +84,10 @@ public class UI extends InputAdapter implements ApplicationListener {
         AI[] robots = game.getRobots();
         Layers layers = game.getLayers();
         IGameBoard gameBoard = game.getGameBoard();
+
+        if(keycode == 62){
+            game.startRound();
+        }
 
         System.out.print(robots[i]);
         keycode = robots[i].runCore();
