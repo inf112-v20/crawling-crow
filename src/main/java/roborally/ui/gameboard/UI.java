@@ -101,10 +101,6 @@ public class UI extends InputAdapter implements ApplicationListener {
                     game.checkIfSomeoneWon();
                 }
             }
-
-
-
-
         }
 
 

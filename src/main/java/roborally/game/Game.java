@@ -143,6 +143,8 @@ public class Game implements IGame {
     @Override
     public boolean checkIfSomeoneWon() {
         assert(gameRunning);
+        assert(roundStep == RoundStep.PHASES);
+        assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
         if(DEBUG) System.out.println("Checking if someone won...");
 
         boolean someoneWon = checkAllRobotsForWinner();
