@@ -9,5 +9,7 @@ public enum PhaseStep {
     FIRE_LASERS,
     MOVE_BACKUP_POINTS,
     REGISTER_FLAG_POSITION,
-    CHECK_FOR_WINNER
+    CHECK_FOR_WINNER,
+    NULL_PHASE
+
 }

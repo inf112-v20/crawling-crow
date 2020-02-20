@@ -6,7 +6,6 @@ import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.game.PhaseStep;
 import roborally.game.RoundStep;
-import roborally.game.objects.gameboard.IGameBoard;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -15,11 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetsManager;
-
-import java.awt.event.KeyEvent;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -96,6 +91,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
 
         if(game.isRunning()){
+            if(game.currentRoundStep() == RoundStep.NULL_STEP){
+                game.startNewRound();
+            }
             if(game.currentRoundStep() == RoundStep.PHASES){
                 if(game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER){
                     game.checkIfSomeoneWon();

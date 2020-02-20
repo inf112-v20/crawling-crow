@@ -16,8 +16,8 @@ public class Game implements IGame {
     private AI[] robots;
     private IRobot winner;
     private boolean gameRunning = false;
-    private RoundStep roundStep;
-    private PhaseStep phaseStep;
+    private RoundStep roundStep = RoundStep.NULL_STEP;
+    private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
 
 
     public Game(){
@@ -49,13 +49,13 @@ public class Game implements IGame {
             System.out.println("Game started...");
         }
         gameRunning = true;
-        startRound();
+        startNewRound();
     }
 
     @Override
-    public void startRound() {
+    public void startNewRound() {
         assert(gameRunning);
-        assert(roundStep == null);
+        assert(roundStep == RoundStep.NULL_STEP);
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
         // For bad testing
@@ -97,6 +97,9 @@ public class Game implements IGame {
     }
 
     private void cleanUp() {
+        assert(gameRunning);
+        roundStep = RoundStep.NULL_STEP;
+        phaseStep = PhaseStep.NULL_PHASE;
     }
 
     private IRobot completeGameFases() {
@@ -157,8 +160,13 @@ public class Game implements IGame {
     }
 
     private boolean checkAllRobotsForWinner() {
+        assert(gameRunning);
+        assert(roundStep == RoundStep.PHASES);
+        assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
+
         // TODO: Implement a real check...
         winner = new Robot("BestRobot");
+
         return(winner != null);
     }
 
@@ -173,6 +181,7 @@ public class Game implements IGame {
         if(DEBUG){
             System.out.println("Stopping game...");
         }
+        cleanUp();
         gameRunning = false;
     }
 

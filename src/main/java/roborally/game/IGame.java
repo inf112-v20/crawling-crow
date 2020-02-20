@@ -26,7 +26,7 @@ public interface IGame {
 
     void startGame();
 
-    void startRound();
+    void startNewRound();
 
     RoundStep currentRoundStep();
 

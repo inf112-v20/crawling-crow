@@ -6,5 +6,6 @@ public enum RoundStep {
     PROGRAM_ROBOT,
     APPROVE_PROGRAM,
     PHASES,
-    CLEANUP
+    CLEANUP,
+    NULL_STEP
 }
