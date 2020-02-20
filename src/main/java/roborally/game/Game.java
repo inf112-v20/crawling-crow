@@ -25,25 +25,16 @@ public class Game implements IGame {
     }
 
     @Override
-    /**
-     * Serves ONLY feed the keyUp method..
-     */
     public Layers getLayers(){
         return this.layers;
     }
 
     @Override
-    /**
-     * Serves ONLY feed the keyUp method..
-     */
     public AI[] getRobots() {
         return robots;
     }
 
     @Override
-    /**
-     * Serves ONLY feed the keyUp method..
-     */
     public IGameBoard getGameBoard() {
         return gameBoard;
     }
