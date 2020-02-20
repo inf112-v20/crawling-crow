@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.IRobot;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -68,7 +69,7 @@ public class AssetsManager {
     }
 
     // Default robots
-    public static void makeRobots() {
+    public static void makeAIRobots() {
         robots = new AI[8];
         robots[0] = new AI(3,0);
         robots[1] = new AI(0,1);
@@ -80,7 +81,7 @@ public class AssetsManager {
         robots[7] = new AI(6,4);
     }
 
-    public static AI[] getRobots() {
+    public static AI[] getAIRobots() {
         return robots;
     }
 
@@ -167,4 +168,12 @@ public class AssetsManager {
         return map;
     }
 
+    public static void makeRobots() {
+        // TODO: Create robots that have no AI
+    }
+
+    public static IRobot[] getRobots() {
+        // TODO: Get robots that have no AI
+        return null;
+    }
 }

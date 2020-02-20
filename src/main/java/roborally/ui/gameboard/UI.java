@@ -36,6 +36,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         tiledMap = AssetsManager.getMap();
 
         // Start a new game
+        //boolean runAIGame = true;
+        //game = new Game(runAIGame);
         game = new Game();
 
         // Initialize the camera

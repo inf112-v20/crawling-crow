@@ -47,7 +47,7 @@ public class BooleanCalculator {
      /*Finds the given robot at the colliding position and moves it one step in the bumping direction
      then clears its old position. @x = new x, @y = new y, @dx, @dy = steps take in direction x and y.*/
     public void findCollidingRobot(int x, int y, int dx, int dy) {
-        for (RobotCore robot : AssetsManager.getRobots()){
+        for (RobotCore robot : AssetsManager.getAIRobots()){
             if (robot!=null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
                     robot.move(dx, dy);

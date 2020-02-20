@@ -11,9 +11,11 @@ import roborally.ui.gameboard.Layers;
 public class Game implements IGame {
     private final boolean DEBUG = true;
     private final int NUMBER_OF_PHASES = 5;
+    private final int NUMBER_OF_PLAYERS = 8;
     private IGameBoard gameBoard;
     private Layers layers;
-    private AI[] robots;
+    private AI[] airobots;
+    private IRobot[] robots;
     private IRobot winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
@@ -27,14 +29,24 @@ public class Game implements IGame {
         robots = AssetsManager.getRobots();
     }
 
+
+    public Game(boolean runAIGame){
+        assert(runAIGame);
+        layers = new Layers();
+        gameBoard = new GameBoard(layers);
+        AssetsManager.makeAIRobots();
+        airobots = AssetsManager.getAIRobots();
+
+    }
+
     @Override
     public Layers getLayers(){
         return this.layers;
     }
 
     @Override
-    public AI[] getRobots() {
-        return robots;
+    public AI[] getAirobots() {
+        return airobots;
     }
 
     @Override
