@@ -10,4 +10,6 @@ public interface IGame {
     AI[] getRobots();
 
     IGameBoard getGameBoard();
+
+    void startGame();
 }

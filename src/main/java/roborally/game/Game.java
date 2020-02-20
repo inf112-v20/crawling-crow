@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 
@@ -12,6 +13,7 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] robots;
+    private IRobot winner;
 
 
     public Game(){
@@ -43,6 +45,78 @@ public class Game implements IGame {
      */
     public IGameBoard getGameBoard() {
         return gameBoard;
+    }
+
+    @Override
+    public void startGame() {
+        // Continuously start new round if none has won yet
+        while(winner == null){
+            announcePowerDown();
+            dealCards();
+            programRobots();
+            winner = completeGameFases();
+            cleanUp();
+        }
+
+    }
+
+    private void cleanUp() {
+    }
+
+    private IRobot completeGameFases() {
+        for(int i = 0; i < 5; i++) {
+            revealProgramCard(i);
+            moveRobots();
+            moveAllConveyorBelts();
+            moveExpressConveyorBelts();
+            moveCogs();
+            fireLasers();
+            allowMovingBackupPoints();
+            registerFlagPositons();
+            winner = checkIfSomeoneWon();
+
+            // Abort loop if winner is detected
+            if(winner != null) return winner;
+        }
+
+        return null;
+    }
+
+    private void moveAllConveyorBelts() {
+    }
+
+    private void moveExpressConveyorBelts() {
+    }
+
+    private void moveCogs() {
+    }
+
+    private void fireLasers() {
+    }
+
+    private void allowMovingBackupPoints() {
+    }
+
+    private void registerFlagPositons() {
+    }
+
+    private IRobot checkIfSomeoneWon() {
+        return null;
+    }
+
+    private void moveRobots() {
+    }
+
+    private void revealProgramCard(int i) {
+    }
+
+    private void programRobots() {
+    }
+
+    private void dealCards() {
+    }
+
+    private void announcePowerDown() {
     }
 
 
