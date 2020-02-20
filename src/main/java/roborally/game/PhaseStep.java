@@ -11,5 +11,4 @@ public enum PhaseStep {
     REGISTER_FLAG_POSITION,
     CHECK_FOR_WINNER,
     NULL_PHASE
-
 }
