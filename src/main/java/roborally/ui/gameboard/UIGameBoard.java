@@ -2,8 +2,8 @@ package roborally.ui.gameboard;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import roborally.game.gameboard.GameBoard;
-import roborally.game.gameboard.IGameBoard;
+import roborally.game.objects.gameboard.GameBoard;
+import roborally.game.objects.gameboard.IGameBoard;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.game.objects.AI;
+import roborally.game.objects.robot.AI;
 import roborally.tools.AssetsManager;
 
 public class UIGameBoard extends InputAdapter implements ApplicationListener {

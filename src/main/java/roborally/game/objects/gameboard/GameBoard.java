@@ -1,7 +1,7 @@
-package roborally.game.gameboard;
+package roborally.game.objects.gameboard;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.AI;
+import roborally.game.objects.robot.AI;
 import roborally.ui.gameboard.Layers;
 
 public class GameBoard implements IGameBoard {

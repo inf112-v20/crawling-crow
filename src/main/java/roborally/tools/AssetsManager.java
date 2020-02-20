@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.AI;
+import roborally.game.objects.robot.AI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -103,7 +103,7 @@ public class AssetsManager {
     }
 
     public static Stack<Vector2> makeFlagPos() {
-        flagPositions = new Stack<Vector2>();
+        flagPositions = new Stack<>();
         flagPositions.push(new Vector2(9,1));
         flagPositions.push(new Vector2(2,1));
         flagPositions.push(new Vector2(2,10));

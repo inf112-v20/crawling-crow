@@ -1,4 +1,4 @@
-package roborally.game.objects;
+package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
 import roborally.tools.AssetsManager;

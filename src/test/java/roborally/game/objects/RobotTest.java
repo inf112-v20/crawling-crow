@@ -3,6 +3,8 @@ package roborally.game.objects;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
 import org.junit.Test;
+import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.RobotCore;
 
 import static org.junit.Assert.*;
 

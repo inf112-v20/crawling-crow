@@ -1,7 +1,7 @@
 package roborally.tools;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.RobotCore;
+import roborally.game.objects.robot.RobotCore;
 import roborally.ui.gameboard.Layers;
 import java.util.HashMap;
 
