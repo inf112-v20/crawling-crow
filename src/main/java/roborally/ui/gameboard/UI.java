@@ -66,6 +66,18 @@ public class UI extends InputAdapter implements ApplicationListener {
         keyUp(123);
     }
 
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
     int i = 0;
     // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
     // Temporary some AIs are testing the map!
@@ -112,17 +124,5 @@ public class UI extends InputAdapter implements ApplicationListener {
         if (i == 8)
             i = 0;
         return onMap;
-    }
-
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
     }
 }

@@ -19,23 +19,31 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         AssetsManager.makeRobots();
         robots = AssetsManager.getRobots();
-
-
-
     }
 
     @Override
+    /**
+     * Serves ONLY feed the keyUp method..
+     */
     public Layers getLayers(){
         return this.layers;
     }
 
     @Override
+    /**
+     * Serves ONLY feed the keyUp method..
+     */
     public AI[] getRobots() {
         return robots;
     }
 
     @Override
+    /**
+     * Serves ONLY feed the keyUp method..
+     */
     public IGameBoard getGameBoard() {
         return gameBoard;
     }
+
+
 }
