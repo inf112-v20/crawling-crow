@@ -86,17 +86,25 @@ public class UI extends InputAdapter implements ApplicationListener {
         //AI[] robots = game.getRobots();
         //Layers layers = game.getLayers();
         //IGameBoard gameBoard = game.getGameBoard();
+
         if(!game.isRunning()){
+            // Gives the option to start the game is the game is not running
             if(keycode == Input.Keys.ENTER){
                 game.startGame();
             }
         }
 
         if(game.isRunning()){
+            // Start new round if no round is currently active
             if(game.currentRoundStep() == RoundStep.NULL_STEP){
                 game.startNewRound();
             }
+
+
+            // Decides what happens when we are running through phases
             if(game.currentRoundStep() == RoundStep.PHASES){
+
+                // Handles logic when in "Check for winner step
                 if(game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER){
                     game.checkIfSomeoneWon();
                 }

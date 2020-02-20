@@ -25,8 +25,7 @@ public class Game implements IGame {
     public Game(){
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        AssetsManager.makeRobots();
-        robots = AssetsManager.getRobots();
+        robots = AssetsManager.makeRobots();
     }
 
 
@@ -58,6 +57,7 @@ public class Game implements IGame {
     public void startGame(){
         assert(!gameRunning);
         if(DEBUG){
+            System.out.println();
             System.out.println("Game started...");
         }
         gameRunning = true;
@@ -162,7 +162,7 @@ public class Game implements IGame {
             for (IRobot robot : robots) {
                 if (robot == null) {
                     robotsAreCreated = false;
-                    ;
+                    break;
                 }
             }
         }
@@ -182,6 +182,7 @@ public class Game implements IGame {
         assert(gameRunning);
         if(DEBUG){
             System.out.println("Stopping game...");
+            System.out.println();
         }
         cleanUp();
         gameRunning = false;

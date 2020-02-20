@@ -6,8 +6,10 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.Settings;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
+import roborally.game.objects.robot.Robot;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,7 +22,8 @@ public class AssetsManager {
     private static HashMap<String,TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
     public static Stack<Vector2> flagPositions;
-    public static AI[] robots;
+    public static AI[] airobots;
+    public static IRobot[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps
@@ -68,25 +71,36 @@ public class AssetsManager {
         return layers;
     }
 
-    // Default robots
+    // Default AI robots
     public static void makeAIRobots() {
-        robots = new AI[8];
-        robots[0] = new AI(3,0);
-        robots[1] = new AI(0,1);
-        robots[2] = new AI(3, 2);
-        robots[3] = new AI(8, 3);
-        robots[4] = new AI(3,3);
-        robots[5] = new AI(4,4);
-        robots[6] = new AI(4,5);
-        robots[7] = new AI(6,4);
+        airobots = new AI[8];
+        airobots[0] = new AI(3,0);
+        airobots[1] = new AI(0,1);
+        airobots[2] = new AI(3, 2);
+        airobots[3] = new AI(8, 3);
+        airobots[4] = new AI(3,3);
+        airobots[5] = new AI(4,4);
+        airobots[6] = new AI(4,5);
+        airobots[7] = new AI(6,4);
     }
 
     public static AI[] getAIRobots() {
+        return airobots;
+    }
+
+    // Default robots
+    public static IRobot[] makeRobots() {
+        robots = new IRobot[Settings.NUMBER_OF_ROBOTS];
+        makeRobotNames();
+        for(int i = 0; i < robots.length; i++){
+            robots[i] = new Robot(robotNames.get(i));
+        }
         return robots;
     }
 
     // Default names for the robots
     public static void makeRobotNames() {
+        robotNames = new Stack<>();
         robotNames.add("Red");
         robotNames.add("Blue");
         robotNames.add("Green");
@@ -96,6 +110,7 @@ public class AssetsManager {
         robotNames.add("Purple");
         robotNames.add("Teal");
     }
+
     public static String getRobotName() {
         if(robotNames==null) {
             robotNames = new Stack<>();
@@ -103,6 +118,7 @@ public class AssetsManager {
         }
         return robotNames.pop();
     }
+
 
     public static Stack<Vector2> makeFlagPos() {
         flagPositions = new Stack<>();
@@ -166,14 +182,5 @@ public class AssetsManager {
             }
         }
         return map;
-    }
-
-    public static void makeRobots() {
-        // TODO: Create robots that have no AI
-    }
-
-    public static IRobot[] getRobots() {
-        // TODO: Get robots that have no AI
-        return null;
     }
 }

@@ -13,4 +13,6 @@ public interface IRobot {
     int getPositionX();
 
     int getPositionY();
+
+    boolean hasVisitedAllFlags();
 }
