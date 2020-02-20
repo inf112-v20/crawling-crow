@@ -16,6 +16,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.game.objects.robot.AI;
 import roborally.tools.AssetsManager;
 
+import java.awt.event.KeyEvent;
+
 public class UI extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
@@ -81,14 +83,15 @@ public class UI extends InputAdapter implements ApplicationListener {
     // Checks for colliding robot if moving to an occupied cell in the layer of the Robots.
     // Temporary some AIs are testing the map!
     public boolean keyUp(int keycode) {
-        AI[] robots = game.getRobots();
-        Layers layers = game.getLayers();
-        IGameBoard gameBoard = game.getGameBoard();
+        //AI[] robots = game.getRobots();
+        //Layers layers = game.getLayers();
+        //IGameBoard gameBoard = game.getGameBoard();
 
-        if(keycode == 62){
+        if(keycode == Input.Keys.ENTER){
             game.startRound();
         }
 
+        /*
         System.out.print(robots[i]);
         keycode = robots[i].runCore();
         int x = (int) robots[i].getPosition().x, y = (int) robots[i].getPosition().y;
@@ -127,5 +130,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         if (i == 8)
             i = 0;
         return onMap;
+         */
+        return true;
     }
 }

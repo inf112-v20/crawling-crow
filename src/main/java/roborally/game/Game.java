@@ -10,11 +10,14 @@ import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 
 public class Game implements IGame {
+    private final boolean DEBUG = true;
     private final int NUMBER_OF_PHASES = 5;
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] robots;
     private IRobot winner;
+    private boolean gameRunning = false;
+    private RoundStep roundStep;
 
 
     public Game(){
@@ -40,13 +43,30 @@ public class Game implements IGame {
     }
 
     @Override
+    public void startGame(){
+        gameRunning = true;
+        startRound();
+    }
+
+    @Override
     public void startRound() {
+        assert(gameRunning);
+        roundStep = RoundStep.ANNOUNCE_POWERDOWN;
+        if(DEBUG) {
+            System.out.println("Round started...");
+            System.out.println("Entering " + roundStep + "...");
+        }
+
+
+        /*
         System.out.println("Round has started");
         announcePowerDown(); // Depends upon user input
         dealCards();
         programRobots(); // Depends upon user input
         winner = completeGameFases(); // Depends upon user input
         cleanUp();
+
+         */
     }
 
     private void cleanUp() {

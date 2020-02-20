@@ -23,5 +23,7 @@ public interface IGame {
 
     IGameBoard getGameBoard();
 
+    void startGame();
+
     void startRound();
 }
