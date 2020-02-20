@@ -72,10 +72,11 @@ public class Game implements IGame {
 
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
-        // For bad testing
+        // TODO: REMOVE from here. This just makes the robot "Crazt" autowin the game.
         roundStep = RoundStep.PHASES;
         phaseStep = PhaseStep.CHECK_FOR_WINNER;
         winner = new Robot("Crazy");
+        // TODO: REMOVE until here
 
         if(DEBUG) {
             System.out.println("Round started...");
