@@ -56,6 +56,8 @@ public class Game implements IGame {
     public void startNewRound() {
         assert(gameRunning);
         assert(roundStep == RoundStep.NULL_STEP);
+        assert(phaseStep == PhaseStep.NULL_PHASE);
+
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
         // For bad testing
