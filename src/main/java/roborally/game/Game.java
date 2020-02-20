@@ -192,7 +192,8 @@ public class Game implements IGame {
 
     }
 
-    private void revealProgramCard(int i) {
+    @Override
+    public void revealProgramCards() {
     }
 
     private void programRobots() {

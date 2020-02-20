@@ -39,4 +39,6 @@ public interface IGame {
     IRobot getWinner();
 
     void endGame();
+
+    void revealProgramCards();
 }

@@ -1,21 +1,19 @@
-package roborally.tools;
+package roborally.tools.controls;
 
-import com.badlogic.gdx.Input;
 import roborally.game.IGame;
 
 import java.util.HashMap;
 
-public class ProgramRobotControls implements IControls {
+public class ControlsProgramRobot implements IControls {
     IGame game;
     HashMap<Integer, Runnable> controlMap;
 
-    public ProgramRobotControls(IGame game){
+    public ControlsProgramRobot(IGame game){
         this.game = game;
         controlMap = new HashMap<>();
         // TODO: Add controlls for programming robot
 
     }
-
 
     @Override
     public Runnable getAction(int keycode) {

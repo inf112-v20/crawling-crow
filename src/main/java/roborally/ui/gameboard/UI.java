@@ -1,6 +1,5 @@
 package roborally.ui.gameboard;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import roborally.game.Game;
 import roborally.game.IGame;
@@ -15,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.tools.AssetsManager;
+import roborally.tools.controls.ControlsMenu;
+import roborally.tools.controls.ControlsProgramRobot;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -24,6 +25,8 @@ public class UI extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
+    private ControlsMenu menuControls;
+    private ControlsProgramRobot programRobotControls;
 
     @Override
     public void create() {
@@ -39,6 +42,10 @@ public class UI extends InputAdapter implements ApplicationListener {
         //boolean runAIGame = true;
         //game = new Game(runAIGame);
         game = new Game();
+
+        // Setup controls for the game
+        menuControls = new ControlsMenu(game);
+        programRobotControls = new ControlsProgramRobot(game);
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -85,10 +92,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode) {
 
         if(!game.isRunning()){
-            // Gives the option to start the game is the game is not running
-            if(keycode == Input.Keys.ENTER){
-                game.startGame();
-            }
+            menuControls.getAction(keycode).run();
         }
 
         if(game.isRunning()){
@@ -97,9 +101,17 @@ public class UI extends InputAdapter implements ApplicationListener {
                 game.startNewRound();
             }
 
+            if(game.currentRoundStep() == RoundStep.PROGRAM_ROBOT){
+                programRobotControls.getAction(keycode).run();
+            }
+
 
             // Decides what happens when we are running through phases
             if(game.currentRoundStep() == RoundStep.PHASES){
+
+                if(game.currentPhaseStep() == PhaseStep.REVEAL_CARDS){
+                    game.revealProgramCards();
+                }
 
                 // Handles logic when in "Check for winner step
                 if(game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER){

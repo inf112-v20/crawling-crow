@@ -1,20 +1,21 @@
-package roborally.tools;
+package roborally.tools.controls;
 
 import com.badlogic.gdx.Input;
 import roborally.game.IGame;
 
 import java.util.HashMap;
 
-public class MenuControls {
+public class ControlsMenu implements IControls{
     IGame game;
     HashMap<Integer, Runnable> menuControlMap;
 
-    public MenuControls(IGame game){
+    public ControlsMenu(IGame game){
         this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.ENTER, () -> game.startGame());
     }
 
+    @Override
     public Runnable getAction(int keycode){
         return menuControlMap.get(keycode);
     }
