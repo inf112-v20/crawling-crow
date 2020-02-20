@@ -10,12 +10,12 @@ import roborally.ui.gameboard.Layers;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
-    private final int NUMBER_OF_PHASES = 5;
-    private final int NUMBER_OF_PLAYERS = 8;
+
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] airobots;
     private IRobot[] robots;
+
     private IRobot winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
@@ -82,17 +82,6 @@ public class Game implements IGame {
             System.out.println("Entering " + roundStep + "...");
             System.out.println("Waiting for input..");
         }
-
-
-        /*
-        System.out.println("Round has started");
-        announcePowerDown(); // Depends upon user input
-        dealCards();
-        programRobots(); // Depends upon user input
-        winner = completeGameFases(); // Depends upon user input
-        cleanUp();
-
-         */
     }
 
     @Override
@@ -114,29 +103,6 @@ public class Game implements IGame {
         assert(gameRunning);
         roundStep = RoundStep.NULL_STEP;
         phaseStep = PhaseStep.NULL_PHASE;
-    }
-
-    private IRobot completeGameFases() {
-
-        // TODO This is depricate...
-        /*
-        for(int i = 0; i < NUMBER_OF_PHASES; i++) {
-            revealProgramCard(i);
-            moveRobots();
-            moveAllConveyorBelts();
-            moveExpressConveyorBelts();
-            moveCogs();
-            fireLasers();
-            allowMovingBackupPoints();
-            registerFlagPositons();
-            winner = checkIfSomeoneWon();
-
-            // Abort loop if winner is detected
-            if(winner != null) return winner;
-        }
-
-        */
-        return null;
     }
 
     private void moveAllConveyorBelts() {
@@ -177,11 +143,33 @@ public class Game implements IGame {
         assert(gameRunning);
         assert(roundStep == RoundStep.PHASES);
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
+        checkAllRobotsAreCreated();
 
-        // TODO: Implement a real check...
-        winner = new Robot("BestRobot");
+        for(IRobot robot : robots){
+            if (robot.hasVisitedAllFlags()){
+                winner = robot;
+            }
+        }
 
         return(winner != null);
+    }
+
+    private boolean checkAllRobotsAreCreated() {
+        boolean robotsAreCreated =true;
+        if(robots == null) {
+            robotsAreCreated = false;
+        } else {
+            for (IRobot robot : robots) {
+                if (robot == null) {
+                    robotsAreCreated = false;
+                    ;
+                }
+            }
+        }
+        if(!robotsAreCreated){
+            throw new IllegalStateException("Robots are not created");
+        }
+        return true;
     }
 
     @Override
