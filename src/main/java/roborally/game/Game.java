@@ -13,7 +13,6 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] airobots;
-    //private IRobot[] robots;
     private RobotCore[] robotcores;
 
     private RobotCore winner;
@@ -25,7 +24,6 @@ public class Game implements IGame {
     public Game(){
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        //robots = AssetsManager.makeRobots();
         robotcores = AssetsManager.makeRobotCore();
     }
 
@@ -107,22 +105,28 @@ public class Game implements IGame {
         phaseStep = PhaseStep.NULL_PHASE;
     }
 
-    private void moveAllConveyorBelts() {
+    @Override
+    public void moveAllConveyorBelts() {
     }
 
-    private void moveExpressConveyorBelts() {
+    @Override
+    public void moveExpressConveyorBelts() {
     }
 
-    private void moveCogs() {
+    @Override
+    public void moveCogs() {
     }
 
-    private void fireLasers() {
+    @Override
+    public void fireLasers() {
     }
 
-    private void allowMovingBackupPoints() {
+    @Override
+    public void allowMovingBackupPoints() {
     }
 
-    private void registerFlagPositons() {
+    @Override
+    public void registerFlagPositons() {
     }
 
     @Override
@@ -190,7 +194,8 @@ public class Game implements IGame {
         gameRunning = false;
     }
 
-    private void moveRobots() {
+    @Override
+    public void moveRobots() {
 
     }
 
@@ -198,12 +203,15 @@ public class Game implements IGame {
     public void revealProgramCards() {
     }
 
-    private void programRobots() {
+    @Override
+    public void programRobots() {
     }
 
-    private void dealCards() {
+    @Override
+    public void dealCards() {
     }
 
-    private void announcePowerDown() {
+    @Override
+    public void announcePowerDown() {
     }
 }

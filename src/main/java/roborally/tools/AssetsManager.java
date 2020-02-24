@@ -102,6 +102,7 @@ public class AssetsManager {
         robotcores[6] = new RobotCore(4,5);
         robotcores[7] = new RobotCore(6,4);
 
+        // Texture region is not automatically set in constructor (for now).
         for(RobotCore core : robotcores){
             core.setTextureRegion(1);
         }

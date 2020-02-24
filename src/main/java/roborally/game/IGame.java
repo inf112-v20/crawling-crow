@@ -34,11 +34,31 @@ public interface IGame {
 
     PhaseStep currentPhaseStep();
 
+    void moveAllConveyorBelts();
+
+    void moveExpressConveyorBelts();
+
+    void moveCogs();
+
+    void fireLasers();
+
+    void allowMovingBackupPoints();
+
+    void registerFlagPositons();
+
     boolean checkIfSomeoneWon();
 
     RobotCore getWinner();
 
     void endGame();
 
+    void moveRobots();
+
     void revealProgramCards();
+
+    void programRobots();
+
+    void dealCards();
+
+    void announcePowerDown();
 }
