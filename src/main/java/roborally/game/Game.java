@@ -5,6 +5,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
 import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.RobotCore;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 
@@ -15,6 +16,7 @@ public class Game implements IGame {
     private Layers layers;
     private AI[] airobots;
     private IRobot[] robots;
+    private RobotCore[] robotcores;
 
     private IRobot winner;
     private boolean gameRunning = false;
@@ -26,6 +28,7 @@ public class Game implements IGame {
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         robots = AssetsManager.makeRobots();
+        robotcores = AssetsManager.makeRobotCore();
     }
 
 

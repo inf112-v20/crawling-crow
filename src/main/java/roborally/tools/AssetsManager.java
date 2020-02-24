@@ -10,6 +10,7 @@ import roborally.game.Settings;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
 import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.RobotCore;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,6 +25,7 @@ public class AssetsManager {
     public static Stack<Vector2> flagPositions;
     public static AI[] airobots;
     public static IRobot[] robots;
+    public static RobotCore[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps
@@ -86,6 +88,24 @@ public class AssetsManager {
 
     public static AI[] getAIRobots() {
         return airobots;
+    }
+
+    // Default AI robots
+    public static RobotCore[] makeRobotCore() {
+        robotcores = new RobotCore[8];
+        robotcores[0] = new RobotCore(3,0);
+        robotcores[1] = new RobotCore(0,1);
+        robotcores[2] = new RobotCore(3, 2);
+        robotcores[3] = new RobotCore(8, 3);
+        robotcores[4] = new RobotCore(3,3);
+        robotcores[5] = new RobotCore(4,4);
+        robotcores[6] = new RobotCore(4,5);
+        robotcores[7] = new RobotCore(6,4);
+
+        for(RobotCore core : robotcores){
+            core.setTextureRegion(1);
+        }
+        return robotcores;
     }
 
     // Default robots
