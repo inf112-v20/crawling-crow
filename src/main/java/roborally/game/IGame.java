@@ -28,11 +28,21 @@ public interface IGame {
 
     void startNewRound();
 
-    RoundStep currentRoundStep();
-
     boolean isRunning();
 
+    RoundStep currentRoundStep();
+
     PhaseStep currentPhaseStep();
+
+    void announcePowerDown();
+
+    void dealCards();
+
+    void programRobots();
+
+    void revealProgramCards();
+
+    void moveRobots();
 
     void moveAllConveyorBelts();
 
@@ -52,13 +62,4 @@ public interface IGame {
 
     void endGame();
 
-    void moveRobots();
-
-    void revealProgramCards();
-
-    void programRobots();
-
-    void dealCards();
-
-    void announcePowerDown();
 }
