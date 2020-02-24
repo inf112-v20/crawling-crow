@@ -16,7 +16,7 @@ public interface IGame {
      * Serves ONLY feed the keyUp method..
      */
 
-    AI[] getAirobots();
+    AI[] getAIRobots();
 
     /**
      * Serves ONLY feed the keyUp method..
@@ -54,7 +54,7 @@ public interface IGame {
 
     void allowMovingBackupPoints();
 
-    void registerFlagPositons();
+    void registerFlagPositions();
 
     boolean checkIfSomeoneWon();
 

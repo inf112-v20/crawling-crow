@@ -11,7 +11,7 @@ public class ControlsProgramRobot implements IControls {
     public ControlsProgramRobot(IGame game){
         this.game = game;
         controlMap = new HashMap<>();
-        // TODO: Add controlls for programming robot
+        // TODO: Add controls for programming robot
 
     }
 

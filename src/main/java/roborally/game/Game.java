@@ -12,8 +12,8 @@ public class Game implements IGame {
 
     private IGameBoard gameBoard;
     private Layers layers;
-    private AI[] airobots;
-    private RobotCore[] robotcores;
+    private AI[] aiRobots;
+    private RobotCore[] robotCores;
 
     private RobotCore winner;
     private boolean gameRunning = false;
@@ -24,7 +24,7 @@ public class Game implements IGame {
     public Game(){
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        robotcores = AssetsManager.makeRobotCore();
+        robotCores = AssetsManager.makeRobotCore();
     }
 
 
@@ -33,7 +33,7 @@ public class Game implements IGame {
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         AssetsManager.makeAIRobots();
-        airobots = AssetsManager.getAIRobots();
+        aiRobots = AssetsManager.getAIRobots();
 
     }
 
@@ -43,8 +43,8 @@ public class Game implements IGame {
     }
 
     @Override
-    public AI[] getAirobots() {
-        return airobots;
+    public AI[] getAIRobots() {
+        return aiRobots;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public void registerFlagPositons() {
+    public void registerFlagPositions() {
     }
 
     @Override
@@ -151,7 +151,7 @@ public class Game implements IGame {
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for(RobotCore robot : robotcores){
+        for(RobotCore robot : robotCores){
             if (robot.hasVisitedAllFlags()){
                 winner = robot;
             }
@@ -162,10 +162,10 @@ public class Game implements IGame {
 
     private boolean checkAllRobotsAreCreated() {
         boolean robotsAreCreated =true;
-        if(robotcores == null) {
+        if(robotCores == null) {
             robotsAreCreated = false;
         } else {
-            for (RobotCore robot : robotcores) {
+            for (RobotCore robot : robotCores) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
