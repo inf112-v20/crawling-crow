@@ -3,8 +3,6 @@ package roborally.game;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobot;
-import roborally.game.objects.robot.Robot;
 import roborally.game.objects.robot.RobotCore;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
@@ -15,10 +13,10 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] airobots;
-    private IRobot[] robots;
+    //private IRobot[] robots;
     private RobotCore[] robotcores;
 
-    private IRobot winner;
+    private RobotCore winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
@@ -27,7 +25,7 @@ public class Game implements IGame {
     public Game(){
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        robots = AssetsManager.makeRobots();
+        //robots = AssetsManager.makeRobots();
         robotcores = AssetsManager.makeRobotCore();
     }
 
@@ -76,9 +74,9 @@ public class Game implements IGame {
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
         // TODO: REMOVE from here. This just makes the robot "Crazt" autowin the game.
-        roundStep = RoundStep.PHASES;
-        phaseStep = PhaseStep.CHECK_FOR_WINNER;
-        winner = new Robot("Crazy");
+        //roundStep = RoundStep.PHASES;
+        //phaseStep = PhaseStep.CHECK_FOR_WINNER;
+        //winner = new Robot("Crazy");
         // TODO: REMOVE until here
 
         if(DEBUG) {
@@ -149,7 +147,7 @@ public class Game implements IGame {
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for(IRobot robot : robots){
+        for(RobotCore robot : robotcores){
             if (robot.hasVisitedAllFlags()){
                 winner = robot;
             }
@@ -160,10 +158,10 @@ public class Game implements IGame {
 
     private boolean checkAllRobotsAreCreated() {
         boolean robotsAreCreated =true;
-        if(robots == null) {
+        if(robotcores == null) {
             robotsAreCreated = false;
         } else {
-            for (IRobot robot : robots) {
+            for (RobotCore robot : robotcores) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
@@ -177,7 +175,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public IRobot getWinner() {
+    public RobotCore getWinner() {
         return winner;
     }
 

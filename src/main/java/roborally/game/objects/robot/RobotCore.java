@@ -1,6 +1,7 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.Settings;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
 import roborally.ui.robot.IUIRobot;
@@ -11,6 +12,7 @@ public class RobotCore {
     private IRobot robot;
     private int degrees;
     private BooleanCalculator booleanCalculator;
+    private boolean[] visitedFlags;
 
     // Constructor for testing the robot model.
     public RobotCore(Robot robot) {
@@ -25,6 +27,7 @@ public class RobotCore {
         this.uiRobot = uiRobot;
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
+        this.visitedFlags = new boolean[Settings.NUMBER_OF_FLAGS];
 
     }
 
@@ -86,5 +89,13 @@ public class RobotCore {
         else if (dir == 'L')
             degrees -= rotate;
         degrees = degrees % 360;
+    }
+
+    public boolean hasVisitedAllFlags() {
+        boolean visitedAll = true;
+        for(boolean visitedFlag : visitedFlags){
+            visitedAll = visitedAll && visitedFlag;
+        }
+        return visitedAll;
     }
 }

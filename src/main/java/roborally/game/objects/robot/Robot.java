@@ -6,12 +6,10 @@ import roborally.game.Settings;
 public class Robot implements IRobot {
     private String name;
     private Vector2 robotPosition;
-    private boolean[] visitedFlags;
 
     public Robot(String name) {
         this.name = name;
         this.robotPosition = new Vector2(0, 0);
-        this.visitedFlags = new boolean[Settings.NUMBER_OF_FLAGS];
     }
 
     public String getName() {
@@ -38,13 +36,6 @@ public class Robot implements IRobot {
         return (int) this.robotPosition.y;
     }
 
-    @Override
-    public boolean hasVisitedAllFlags() {
-        boolean visitedAll = true;
-        for(boolean visitedFlag : visitedFlags){
-            visitedAll = visitedAll && visitedFlag;
-        }
-        return visitedAll;
-    }
+
 
 }
