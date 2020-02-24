@@ -17,6 +17,14 @@ public class ControlsMenu implements IControls{
 
     @Override
     public Runnable getAction(int keycode){
+        if(!menuControlMap.containsKey(keycode)){
+            return ()-> doNothing();
+        }
+
         return menuControlMap.get(keycode);
+    }
+
+    private void doNothing() {
+
     }
 }

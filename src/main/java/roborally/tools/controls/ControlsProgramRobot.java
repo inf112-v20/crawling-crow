@@ -17,6 +17,13 @@ public class ControlsProgramRobot implements IControls {
 
     @Override
     public Runnable getAction(int keycode) {
+        if(!controlMap.containsKey(keycode)){
+            return ()-> doNothing();
+        }
+
         return controlMap.get(keycode);
+    }
+
+    private void doNothing() {
     }
 }
