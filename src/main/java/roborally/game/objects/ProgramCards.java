@@ -1,9 +1,10 @@
 package roborally.game.objects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ProgramCards {
-    private enum CardTypes {
+    enum CardTypes {
         MOVE_1(18),
         MOVE_2(12),
         MOVE_3(6),
@@ -22,28 +23,44 @@ public class ProgramCards {
         }
     }
 
-    private ArrayList<CardTypes> deckOfCards;
+    private ArrayList<Card> deckOfCards;
 
     public ProgramCards() {
         deckOfCards = new ArrayList<>();
-        for (int i = 0; i < CardTypes.MOVE_1.getNumberOfCards(); i++) {
-            // TODO: implement card generation
+
+        for (CardTypes type : CardTypes.values()) {
+            for (int i = 0; i < type.getNumberOfCards(); i++) {
+                this.deckOfCards.add(new Card(type));
+            }
         }
     }
 
-    public class Card {
-        private String operation;
-        private int value;
+    public void shuffleCards() {
+        Collections.shuffle(deckOfCards);
+    }
+
+    public static class Card {
+        private CardTypes cardType;
         private int priority;
 
-        public Card(String o, int v){
-            this.operation = o;
-            this.value = v;
-            this.priority = 1 + (int)(Math.random() * 500);
+        int priorityRangeMin = 1;
+        int priorityRangeMax = 500;
+
+        public Card(CardTypes cardType){
+            this.cardType = cardType;
+            this.priority = priorityRangeMin + (int)(Math.random() * priorityRangeMax);
         }
 
         public String getCard() {
-            return this.operation + " " + this.value + " " + this.priority;
+            return this.cardType + " " + this.priority;
+        }
+
+        public CardTypes getCardType() {
+            return this.cardType;
+        }
+
+        public int getPriority() {
+            return this.priority;
         }
 
     }

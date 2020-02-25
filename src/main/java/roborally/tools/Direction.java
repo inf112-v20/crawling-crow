@@ -1,6 +1,5 @@
 package roborally.tools;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public enum Direction {
     North,
@@ -18,7 +17,7 @@ public enum Direction {
         } else if (direction == South){
             return West;
         } else {
-            throw new NotImplementedException();
+            throw new IllegalStateException();
         }
     }
 
@@ -32,7 +31,7 @@ public enum Direction {
         } else if (direction == North) {
             return West;
         } else {
-            throw new NotImplementedException();
+            throw new IllegalStateException();
         }
     }
 }
