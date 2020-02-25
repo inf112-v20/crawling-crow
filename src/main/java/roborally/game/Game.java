@@ -48,6 +48,9 @@ public class Game implements IGame {
     }
 
     @Override
+    public Robot[] getRobots() { return robots;}
+
+    @Override
     public IGameBoard getGameBoard() {
         return gameBoard;
     }
