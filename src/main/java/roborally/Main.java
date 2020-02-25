@@ -10,6 +10,7 @@ public class Main {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "RoboRally by CrawlingCrow";
         cfg.width = 600;
+        //height is 600 without starting area, when the size of the board is just 12x12
         cfg.height = 800;
 
         new LwjglApplication(new UI(), cfg);
