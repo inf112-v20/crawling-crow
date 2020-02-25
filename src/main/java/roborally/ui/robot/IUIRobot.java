@@ -1,6 +1,7 @@
 package roborally.ui.robot;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import roborally.tools.Direction;
 
 public interface IUIRobot {
     /**
@@ -39,4 +40,6 @@ public interface IUIRobot {
      * @return True if its made its move else false if its on the edge of the map.
      */
     boolean moveRobot(int x, int y);
+
+    void setDirection(Direction direction);
 }

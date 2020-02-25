@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import roborally.tools.AssetsManager;
+import roborally.tools.Direction;
 import roborally.ui.gameboard.Layers;
 import roborally.ui.gameboard.UI;
 
@@ -63,5 +64,10 @@ public class UIRobot implements IUIRobot {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setDirection(Direction direction) {
+        // TODO Implement
     }
 }
