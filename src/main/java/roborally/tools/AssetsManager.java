@@ -30,7 +30,7 @@ public class AssetsManager {
 
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
-            = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
+            = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
     //Robots
     private static final AssetDescriptor<Texture> uibOwl
             = new AssetDescriptor<>("assets/robots/player.png", Texture.class);
