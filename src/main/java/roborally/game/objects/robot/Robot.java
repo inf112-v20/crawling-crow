@@ -31,6 +31,7 @@ public class Robot {
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
         this.visitedFlags = new boolean[Settings.NUMBER_OF_FLAGS];
+        this.direction = Direction.North;
 
     }
 
@@ -58,33 +59,86 @@ public class Robot {
     // Makes move inside the graphical interface for uiRobot.
     public boolean move(int x, int y) {
         Vector2 pos = this.getPosition();
+
+        System.out.println("Old position: ");
+        System.out.println(pos.x);
+        System.out.println(pos.y);
+        System.out.println("New position: ");
+        System.out.println(x);
+        System.out.println(y);
+
+
         x = x + (int)pos.x; y = y + (int)pos.y;
         boolean onMap = this.uiRobot.moveRobot(x, y);
         if(onMap)
             this.robot.setPosition(x, y);
+
+        System.out.print("Movement complete: ");
+        System.out.println(onMap);
         return onMap;
     }
 
     public boolean moveForward() {
-        Vector2 newPosition = this.getPosition();
-        newPosition.y += 1;
-        if(moveIsValid(newPosition)){
-            this.setPos((int) newPosition.x, (int) newPosition.y);
-            return true;
+        int x = (int)this.getPosition().x;
+        int y = (int)this.getPosition().y;
+
+        System.out.println("Moving forward...");
+
+        Direction dir = this.direction;
+        if(dir == Direction.North){
+            y += 1;
+        } if(dir == Direction.East){
+            x += 1;
+        } if(dir == Direction.West){
+            x -= 1;
+        } if(dir == Direction.South){
+            y -= 1;
         }
-        return false;
+
+        return move(x, y);
     }
 
-    private boolean moveIsValid(Vector2 newPosition) {
-        // TODO: Check for collisions and if location is on map
-        //boolean onmap = checkIfLocationIsOnMap(newPosition);
-        //boolean collision = checkForCollisions(newPosition);
-        return true;
+    public boolean moveBackward() {
+        int x = (int)this.getPosition().x;
+        int y = (int)this.getPosition().y;
+
+        System.out.println("Moving backwards...");
+
+        Direction dir = this.direction;
+        if(dir == Direction.North){
+            y -= 1;
+        } if(dir == Direction.East){
+            x -= 1;
+        } if(dir == Direction.West){
+            x += 1;
+        } if(dir == Direction.South){
+            y += 1;
+        }
+
+        return move(x, y);
     }
 
     public void turnRight() {
+        System.out.println("Turning right... ");
+        System.out.print("Old direction: ");
+        System.out.println(this.direction.toString());
         this.direction = Direction.turnRight(this.direction);
-        // TODO Rotate the visual representation of the robot
+        this.uiRobot.setDirection(this.direction);
+
+        System.out.print("New direction: ");
+        System.out.println(this.direction.toString());
+
+    }
+
+    public void turnLeft() {
+        System.out.println("Turning left...");
+        System.out.print("Old direction: ");
+        System.out.println(this.direction.toString());
+        this.direction = Direction.turnLeft(this.direction);
+        this.uiRobot.setDirection(this.direction);
+        System.out.print("New direction: ");
+        System.out.println(this.direction.toString());
+
     }
 
     // Sets position for this robotCores robot.
@@ -102,18 +156,8 @@ public class Robot {
         this.uiRobot.getLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
-    // Angle robot is facing. 0 = North, 90 = Right, 180 = South, 270 = West
-    public int getDegrees() {
-        return degrees;
-    }
-
-    // Rotates left or right.
-    public void setDegrees(int rotate, char dir) {
-        if (dir == 'R')
-            degrees += rotate;
-        else if (dir == 'L')
-            degrees -= rotate;
-        degrees = degrees % 360;
+    public int getDegrees(){
+        return this.direction.getDegrees();
     }
 
     public boolean hasVisitedAllFlags() {
