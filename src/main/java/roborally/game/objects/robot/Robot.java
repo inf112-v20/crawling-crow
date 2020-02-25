@@ -1,9 +1,11 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.Settings;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
+import roborally.tools.Direction;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
@@ -13,6 +15,7 @@ public class Robot {
     private int degrees;
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
+    private Direction direction;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -60,6 +63,10 @@ public class Robot {
         if(onMap)
             this.robot.setPosition(x, y);
         return onMap;
+    }
+
+    public void turnRight() {
+        this.direction = Direction.turnRight(this.direction);
     }
 
     // Sets position for this robotCores robot.
