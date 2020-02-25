@@ -9,7 +9,7 @@ import java.util.Stack;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-public class AI extends RobotCore {
+public class AI extends Robot {
     BooleanCalculator booleanCalculator;
     HashMap<String, Boolean> ops;
     Stack<Vector2> flagPositions;
