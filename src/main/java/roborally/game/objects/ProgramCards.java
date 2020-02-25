@@ -22,7 +22,7 @@ public class ProgramCards {
         }
     }
 
-    private ArrayList<CardTypes> deckOfCards;
+    private ArrayList<Card> deckOfCards;
 
     public ProgramCards() {
         deckOfCards = new ArrayList<>();
