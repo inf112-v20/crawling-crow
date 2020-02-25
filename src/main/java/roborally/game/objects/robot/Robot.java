@@ -49,7 +49,6 @@ public class Robot {
         return robot.getPosition();
     }
 
-
     // For setting different textureRegions for AI and Players
     public void setTextureRegion(int i) {
         this.uiRobot.setTextureRegion(i);

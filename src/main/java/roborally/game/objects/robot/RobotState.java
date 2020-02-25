@@ -35,7 +35,4 @@ public class RobotState implements IRobot {
     public int getPositionY() {
         return (int) this.robotPosition.y;
     }
-
-
-
 }
