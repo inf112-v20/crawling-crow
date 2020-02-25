@@ -1,7 +1,7 @@
 package roborally.tools;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.robot.RobotCore;
+import roborally.game.objects.robot.Robot;
 import roborally.ui.gameboard.Layers;
 import java.util.HashMap;
 
@@ -69,7 +69,7 @@ public class BooleanCalculator {
      * @param dy steps taken in y-direction
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
-        for (RobotCore robot : AssetsManager.getAIRobots()){
+        for (Robot robot : AssetsManager.getAIRobots()){
             if (robot!=null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
                     robot.move(dx, dy);

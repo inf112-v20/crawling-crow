@@ -3,7 +3,7 @@ package roborally.game;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.RobotCore;
+import roborally.game.objects.robot.Robot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 
@@ -13,9 +13,9 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] aiRobots;
-    private RobotCore[] robotCores;
+    private Robot[] robots;
 
-    private RobotCore winner;
+    private Robot winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
@@ -24,7 +24,7 @@ public class Game implements IGame {
     public Game(){
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        robotCores = AssetsManager.makeRobotCore();
+        robots = AssetsManager.makeRobotCore();
     }
 
 
@@ -151,7 +151,7 @@ public class Game implements IGame {
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for(RobotCore robot : robotCores){
+        for(Robot robot : robots){
             if (robot.hasVisitedAllFlags()){
                 winner = robot;
             }
@@ -162,10 +162,10 @@ public class Game implements IGame {
 
     private boolean checkAllRobotsAreCreated() {
         boolean robotsAreCreated =true;
-        if(robotCores == null) {
+        if(robots == null) {
             robotsAreCreated = false;
         } else {
-            for (RobotCore robot : robotCores) {
+            for (Robot robot : robots) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
@@ -179,7 +179,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public RobotCore getWinner() {
+    public Robot getWinner() {
         return winner;
     }
 

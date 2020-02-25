@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import roborally.game.Settings;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
+import roborally.game.objects.robot.RobotState;
 import roborally.game.objects.robot.Robot;
-import roborally.game.objects.robot.RobotCore;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,7 +25,7 @@ public class AssetsManager {
     public static Stack<Vector2> flagPositions;
     public static AI[] airobots;
     public static IRobot[] robots;
-    public static RobotCore[] robotcores;
+    public static Robot[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     //Maps
@@ -91,19 +91,19 @@ public class AssetsManager {
     }
 
     // Default AI robots
-    public static RobotCore[] makeRobotCore() {
-        robotcores = new RobotCore[8];
-        robotcores[0] = new RobotCore(3,0);
-        robotcores[1] = new RobotCore(0,1);
-        robotcores[2] = new RobotCore(3, 2);
-        robotcores[3] = new RobotCore(8, 3);
-        robotcores[4] = new RobotCore(3,3);
-        robotcores[5] = new RobotCore(4,4);
-        robotcores[6] = new RobotCore(4,5);
-        robotcores[7] = new RobotCore(6,4);
+    public static Robot[] makeRobotCore() {
+        robotcores = new Robot[8];
+        robotcores[0] = new Robot(3,0);
+        robotcores[1] = new Robot(0,1);
+        robotcores[2] = new Robot(3, 2);
+        robotcores[3] = new Robot(8, 3);
+        robotcores[4] = new Robot(3,3);
+        robotcores[5] = new Robot(4,4);
+        robotcores[6] = new Robot(4,5);
+        robotcores[7] = new Robot(6,4);
 
         // Texture region is not automatically set in constructor (for now).
-        for(RobotCore core : robotcores){
+        for(Robot core : robotcores){
             core.setTextureRegion(1);
         }
         return robotcores;
@@ -114,7 +114,7 @@ public class AssetsManager {
         robots = new IRobot[Settings.NUMBER_OF_ROBOTS];
         makeRobotNames();
         for(int i = 0; i < robots.length; i++){
-            robots[i] = new Robot(robotNames.get(i));
+            robots[i] = new RobotState(robotNames.get(i));
         }
         return robots;
     }
