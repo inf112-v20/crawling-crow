@@ -65,8 +65,26 @@ public class Robot {
         return onMap;
     }
 
+    public boolean moveForward() {
+        Vector2 newPosition = this.getPosition();
+        newPosition.y += 1;
+        if(moveIsValid(newPosition)){
+            this.setPos((int) newPosition.x, (int) newPosition.y);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveIsValid(Vector2 newPosition) {
+        // TODO: Check for collisions and if location is on map
+        //boolean onmap = checkIfLocationIsOnMap(newPosition);
+        //boolean collision = checkForCollisions(newPosition);
+        return true;
+    }
+
     public void turnRight() {
         this.direction = Direction.turnRight(this.direction);
+        // TODO Rotate the visual representation of the robot
     }
 
     // Sets position for this robotCores robot.
