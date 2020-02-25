@@ -62,8 +62,8 @@ public class ProgramCards {
         public int getPriority() {
             return this.priority;
         }
-
     }
+
     public ArrayList<Card> getDeck() {
         return this.deckOfCards;
     }
