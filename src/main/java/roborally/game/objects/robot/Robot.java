@@ -30,7 +30,7 @@ public class Robot {
         this.uiRobot = uiRobot;
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
-        this.visitedFlags = new boolean[Settings.NUMBER_OF_FLAGS];
+        this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
 
     }
