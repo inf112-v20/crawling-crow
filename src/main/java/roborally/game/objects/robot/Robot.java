@@ -30,7 +30,6 @@ public class Robot {
         booleanCalculator = new BooleanCalculator();
         this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
-
     }
 
     // Returns the models name.
@@ -116,10 +115,10 @@ public class Robot {
         System.out.println("Turning right... ");
         System.out.print("Old direction: ");
         System.out.println(this.direction.toString());
+
         this.direction = Direction.turnRightFrom(this.direction);
-        int x = (int)getPosition().x;
-        int y = (int)getPosition().y;
-        this.uiRobot.setDirection(x, y, -1);
+        this.uiRobot.setDirection(robot.getPositionX(), robot.getPositionY(), this.direction);
+
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
     }
@@ -128,10 +127,10 @@ public class Robot {
         System.out.println("Turning left...");
         System.out.print("Old direction: ");
         System.out.println(this.direction.toString());
+
         this.direction = Direction.turnLeftFrom(this.direction);
-        int x = (int)getPosition().x;
-        int y = (int)getPosition().y;
-        this.uiRobot.setDirection(x, y, 1);
+        this.uiRobot.setDirection(robot.getPositionX(), robot.getPositionY(), this.direction);
+
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
 
@@ -153,7 +152,7 @@ public class Robot {
     }
 
     public int getDegrees(){
-        return this.direction.getDegrees();
+        return this.direction.getDirectionId();
     }
 
     public boolean hasVisitedAllFlags() {

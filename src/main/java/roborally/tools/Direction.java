@@ -2,18 +2,19 @@ package roborally.tools;
 
 public enum Direction {
     North(0),
-    South(180),
-    West(-90),
-    East(90);
+    East(3),
+    South(2),
+    West(1);
 
-    private final int degrees;
 
-    Direction(int degrees) {
-        this.degrees = degrees;
+    private final int directionId;
+
+    Direction(int directionId) {
+        this.directionId = directionId;
     }
 
-    public int getDegrees(){
-        return this.degrees;
+    public int getDirectionId(){
+        return this.directionId;
     }
 
     public static Direction turnRightFrom(Direction direction) {

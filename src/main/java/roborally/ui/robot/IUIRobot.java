@@ -41,5 +41,11 @@ public interface IUIRobot {
      */
     boolean moveRobot(int x, int y, int dx, int dy);
 
-    void setDirection(int x, int y, int direction);
+    /**
+     *
+     * @param x
+     * @param y
+     * @param direction
+     */
+    void setDirection(int x, int y, Direction direction);
 }

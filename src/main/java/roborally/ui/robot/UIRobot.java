@@ -73,11 +73,9 @@ public class UIRobot implements IUIRobot {
     }
 
     @Override
-    public void setDirection(int x, int y, int direction) {
-        int oldDir = layers.getRobots().getCell(x, y).getRotation();
-        oldDir %= 4;
-        if (oldDir == 0 && direction < 0)
-            oldDir = 4;
-        layers.getRobots().getCell(x, y).setRotation(oldDir + direction);
+    public void setDirection(int x, int y, Direction direction) {
+        System.out.println("ui position " + uiRobotPosX + " " + uiRobotPosY);
+        layers.getRobots().getCell(x, y).setRotation(direction.getDirectionId());
+
     }
 }
