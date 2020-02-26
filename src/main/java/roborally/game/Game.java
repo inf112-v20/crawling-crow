@@ -19,9 +19,11 @@ public class Game implements IGame {
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
+    private int i;
 
 
     public Game(){
+        i = 0;
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         robots = AssetsManager.makeRobotCore();
@@ -48,7 +50,12 @@ public class Game implements IGame {
     }
 
     @Override
-    public Robot[] getRobots() { return robots;}
+    public Robot getRobots() {
+        if (this.i == 8) {
+            this.i = 0;
+        }
+        return robots[i++];
+    }
 
     @Override
     public IGameBoard getGameBoard() {

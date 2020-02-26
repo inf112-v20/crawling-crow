@@ -13,10 +13,10 @@ public class ControlsMenu implements IControls{
         this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.ENTER, () -> game.startGame());
-        menuControlMap.put(Input.Keys.UP, () -> game.getRobots()[0].moveForward());
-        menuControlMap.put(Input.Keys.DOWN, () -> game.getRobots()[0].moveBackward());
-        menuControlMap.put(Input.Keys.LEFT, () -> game.getRobots()[0].turnLeft());
-        menuControlMap.put(Input.Keys.RIGHT, () -> game.getRobots()[0].turnRight());
+        menuControlMap.put(Input.Keys.UP, () -> game.getRobots().moveForward());
+        menuControlMap.put(Input.Keys.DOWN, () -> game.getRobots().moveBackward());
+        menuControlMap.put(Input.Keys.LEFT, () -> game.getRobots().turnLeft());
+        menuControlMap.put(Input.Keys.RIGHT, () -> game.getRobots().turnRight());
     }
 
     @Override

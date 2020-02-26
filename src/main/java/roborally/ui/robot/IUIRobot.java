@@ -39,7 +39,7 @@ public interface IUIRobot {
      * @param y the y coordinate
      * @return True if its made its move else false if its on the edge of the map.
      */
-    boolean moveRobot(int x, int y);
+    boolean moveRobot(int x, int y, int dx, int dy);
 
     void setDirection(Direction direction);
 }

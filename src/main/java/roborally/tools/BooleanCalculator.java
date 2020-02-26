@@ -51,10 +51,14 @@ public class BooleanCalculator {
      * @return True if it is in fact blocked, false if not. FIXME: Might consider adding a check for wall here also
      */
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
-        if(robotNextToRobot(x, y, dx, dy))
+        int newX = x + dx;
+        int newY = y + dy;
+        if(layers.getRobots().getCell(newX,newY)==null)
+            return false;
+        if(robotNextToRobot(newX, newY, dx, dy))
             return true; // Returns blocked if moving into a robot with another one next to it, for now.
-            if (x + dx >= 0 && y + dy >= 0 && y + dy < height && x + dx < width) {
-                findCollidingRobot(x, y, dx, dy);
+            if (newX + dx >= 0 && newY + dy >= 0 && newY + dy < height && newX + dx < width) {
+                findCollidingRobot(newX, newY, dx, dy);
                 return false;
             }
         return true; // Robot is on the edge, cant bump it anywhere.
@@ -69,7 +73,7 @@ public class BooleanCalculator {
      * @param dy steps taken in y-direction
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
-        for (Robot robot : AssetsManager.getAIRobots()){
+        for (Robot robot : AssetsManager.getRobots()){
             if (robot!=null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
                     robot.move(dx, dy);

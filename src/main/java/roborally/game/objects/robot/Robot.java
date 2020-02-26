@@ -56,65 +56,61 @@ public class Robot {
     }
 
     // Makes move inside the graphical interface for uiRobot.
-    public boolean move(int x, int y) {
+    public boolean move(int dx, int dy) {
         Vector2 pos = this.getPosition();
-
+        int x = (int)pos.x;
+        int y = (int)pos.y;
         System.out.println("Old position: ");
-        System.out.println(pos.x);
-        System.out.println(pos.y);
-        System.out.println("New position: ");
         System.out.println(x);
-        System.out.println(y);
+        System.out.println(x);
+        System.out.println("New position: ");
+        System.out.println(x + dx);
+        System.out.println(y + dy);
 
-
-        x = x + (int)pos.x; y = y + (int)pos.y;
-        boolean onMap = this.uiRobot.moveRobot(x, y);
-        if(onMap)
-            this.robot.setPosition(x, y);
+        // Checks for robots in its path before moving.
+        if(!this.getCalc().checkIfBlocked(x, y, dx, dy))
+            if(this.uiRobot.moveRobot(x, y, dx, dy))
+                    this.robot.setPosition(x + dx, y + dy);
 
         System.out.print("Movement complete: ");
-        System.out.println(onMap);
-        return onMap;
+        return true;
     }
 
     public boolean moveForward() {
-        int x = (int)this.getPosition().x;
-        int y = (int)this.getPosition().y;
-
+        System.out.println(this.getName());
+        int dy = 0, dx = 0;
         System.out.println("Moving forward...");
 
         Direction dir = this.direction;
         if(dir == Direction.North){
-            y += 1;
+            dy = 1;
         } if(dir == Direction.East){
-            x += 1;
+            dx = 1;
         } if(dir == Direction.West){
-            x -= 1;
+            dx = 1;
         } if(dir == Direction.South){
-            y -= 1;
+            dy = 1;
         }
 
-        return move(x, y);
+        return move(dx, dy);
     }
 
     public boolean moveBackward() {
-        int x = (int)this.getPosition().x;
-        int y = (int)this.getPosition().y;
-
+        int dy = 0, dx = 0;
         System.out.println("Moving backwards...");
 
         Direction dir = this.direction;
         if(dir == Direction.North){
-            y -= 1;
+            dy = -1;
         } if(dir == Direction.East){
-            x -= 1;
+            dx = -1;
         } if(dir == Direction.West){
-            x += 1;
+            dx = 1;
         } if(dir == Direction.South){
-            y += 1;
+            dy = 1;
         }
 
-        return move(x, y);
+        return move(dx, dy);
     }
 
     public void turnRight() {

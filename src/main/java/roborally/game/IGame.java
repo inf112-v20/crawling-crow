@@ -18,7 +18,7 @@ public interface IGame {
 
     AI[] getAIRobots();
 
-    Robot[] getRobots();
+    Robot getRobots();
 
     /**
      * Serves ONLY feed the keyUp method..

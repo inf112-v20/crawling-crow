@@ -86,6 +86,9 @@ public class AssetsManager {
         airobots[7] = new AI(6,4);
     }
 
+    public static Robot[] getRobots() {
+        return robotcores;
+    }
     public static AI[] getAIRobots() {
         return airobots;
     }

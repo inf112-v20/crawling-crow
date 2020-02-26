@@ -17,12 +17,15 @@ public class UIRobot implements IUIRobot {
     private Layers layers;
     private int uiRobotPosX;
     private int uiRobotPosY;
+    private int height, width;
 
     // Creates new UIRobot in position x and y.
     public UIRobot(int x, int y) {
         this.uiRobotPosX = x;
         this.uiRobotPosY = y;
         this.layers = new Layers();
+        this.height = layers.getRobots().getHeight();
+        this.width = layers.getRobots().getWidth();
     }
 
     public void setTextureRegion(int cellId) {
@@ -58,9 +61,14 @@ public class UIRobot implements IUIRobot {
     }
 
     @Override
-    public boolean moveRobot(int x, int y) {
-        if ((x >= 0) && (y >= 0) && (x < this.layers.getRobots().getWidth()) && (y < this.layers.getRobots().getHeight())) {
-            this.layers.getRobots().setCell(x, y, getTexture());
+    public boolean moveRobot(int x, int y, int dx, int dy) {
+        int newX = x + dx;
+        int newY = y + dy;
+        if ((newX >= 0) && (newY >= 0) && (newX < width) && (newY < height)) {
+            System.out.println(this.layers.getRobots().getWidth());
+            System.out.println(this.layers.getRobots().getHeight());
+            this.layers.getRobots().setCell(newX, newY, getTexture());
+            this.layers.getRobots().setCell(x, y,null);
             return true;
         }
         return false;
