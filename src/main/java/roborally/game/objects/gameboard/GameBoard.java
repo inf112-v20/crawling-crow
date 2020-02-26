@@ -3,12 +3,9 @@ package roborally.game.objects.gameboard;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.deploy.cache.BaseLocalApplicationProperties;
-import roborally.game.Settings;
 import roborally.game.objects.Flag;
 import roborally.game.objects.robot.AI;
 import roborally.ui.gameboard.Layers;
-import sun.plugin.javascript.navig4.Layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +13,8 @@ import java.util.HashMap;
 public class GameBoard implements IGameBoard {
 
     private Layers layers;
-    int x; int y;
+    int x;
+    int y;
     private HashMap<Integer, Integer> flagIdMap;
 
     public GameBoard(Layers layers) {
@@ -45,13 +43,14 @@ public class GameBoard implements IGameBoard {
     }
 
     public void getCheckPoint(Vector2 pos, AI ai) {
-        this.x = (int)pos.x; this.y = (int)pos.y;
-        if(this.onFlag(x, y)) {
+        this.x = (int)pos.x;
+        this.y = (int)pos.y;
+        if (this.onFlag(x, y)) {
             ai.getWinCell();
             if(ai.getCurrFlagPos().x == pos.x && ai.getCurrFlagPos().y == pos.y)
                 ai.setFlagPos();
         }
-        if(this.onHole(x, y))
+        if (this.onHole(x, y))
             ai.getLoseCell();
     }
 
