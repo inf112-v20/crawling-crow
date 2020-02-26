@@ -1,7 +1,10 @@
 package roborally.game.objects.gameboard;
 
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.objects.Flag;
 import roborally.game.objects.robot.AI;
+
+import java.util.ArrayList;
 
 public interface IGameBoard {
     /**
@@ -31,4 +34,5 @@ public interface IGameBoard {
      */
     void getCheckPoint(Vector2 pos, AI ai);
 
+    ArrayList<Flag> findAllFlags();
 }

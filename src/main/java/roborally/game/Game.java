@@ -1,11 +1,14 @@
 package roborally.game;
 
+import roborally.game.objects.Flag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.Robot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
+
+import java.util.ArrayList;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -14,6 +17,7 @@ public class Game implements IGame {
     private Layers layers;
     private AI[] aiRobots;
     private Robot[] robots;
+    private ArrayList<Flag> flags;
 
     private Robot winner;
     private boolean gameRunning = false;
@@ -26,6 +30,7 @@ public class Game implements IGame {
         i = 0;
         layers = new Layers();
         gameBoard = new GameBoard(layers);
+        flags = gameBoard.findAllFlags();
         robots = AssetsManager.makeRobotCore();
     }
 
@@ -54,7 +59,7 @@ public class Game implements IGame {
         if (this.i == 8) {
             this.i = 0;
         }
-        return robots[i++];
+        return robots[0];
     }
 
     @Override
@@ -137,6 +142,21 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
+        for (Flag flag : flags) {
+            int flagX = flag.getPos().x;
+            int flagY = flag.getPos().y;
+            for (Robot robot : robots) {
+                int robotX = (int) robot.getPosition().x;
+                int robotY = (int) robot.getPosition().y;
+                if (flagX == robotX && flagY == robotY) {
+                    int nextFlag = robot.getNextFlag();
+                    if (flag.getId() == nextFlag) {
+                        robot.visitNextFlag();
+                        System.out.println("A flag has been visited");
+                    }
+                }
+            }
+        }
     }
 
     @Override

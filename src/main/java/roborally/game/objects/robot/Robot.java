@@ -1,7 +1,6 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.Settings;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
 import roborally.tools.Direction;
@@ -10,7 +9,7 @@ import roborally.ui.robot.UIRobot;
 
 public class Robot {
     private IUIRobot uiRobot;
-    private IRobot robot;
+    private IRobotState robot;
     private int degrees;
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
@@ -23,13 +22,13 @@ public class Robot {
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public Robot(int x, int y) {
-        IRobot robot = new RobotState(AssetsManager.getRobotName());
+        IRobotState robot = new RobotState(AssetsManager.getRobotName());
         IUIRobot uiRobot = new UIRobot(x, y);
         this.robot = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
-        this.visitedFlags = new boolean[Settings.NUMBER_OF_FLAGS];
+        this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
 
     }
@@ -163,5 +162,20 @@ public class Robot {
             visitedAll = visitedAll && visitedFlag;
         }
         return visitedAll;
+    }
+
+    public int getNextFlag() {
+        for (int i = 0; i < visitedFlags.length; i++) {
+            if (!visitedFlags[i]) {
+                System.out.println("next flag to visit: " + (i+1));
+                return i+1;
+            }
+        }
+        return -1;
+    }
+
+    public void visitNextFlag() {
+        System.out.println("updated flag visited");
+        visitedFlags[getNextFlag()-1] = true;
     }
 }

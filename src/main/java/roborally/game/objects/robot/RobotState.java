@@ -1,9 +1,8 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.Settings;
 
-public class RobotState implements IRobot {
+public class RobotState implements IRobotState {
     private String name;
     private Vector2 robotPosition;
 
