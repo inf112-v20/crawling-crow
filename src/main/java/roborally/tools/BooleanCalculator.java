@@ -67,13 +67,14 @@ public class BooleanCalculator {
             }
         return true; // Robot is on the edge, cant bump it anywhere.
     }
-    /**
-    * @param x the x position
-     * @param y the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
-     * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
-     */
+     /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
+      * tries to move. 
+      * @param x the x position
+      * @param y the y position
+      * @param dx steps taken in x-direction
+      * @param dy steps taken in y-direction
+      * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
+      */
     public boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
         if(layers.getWall().getCell(x, y) != null) {
@@ -120,7 +121,6 @@ public class BooleanCalculator {
                         robot.setWinTexture();
                     else if(this.isOnHole(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
                         robot.setLostTexture();
-                    layers.getRobots().setCell(x, y,null);
                 }
             }
         }
