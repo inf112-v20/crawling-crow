@@ -165,4 +165,13 @@ public class Robot {
         }
         return visitedAll;
     }
+
+    public int getNextFlag() {
+        for (int i = 0; i < visitedFlags.length; i++) {
+            if (!visitedFlags[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
