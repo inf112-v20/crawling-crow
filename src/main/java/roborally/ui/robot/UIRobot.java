@@ -34,12 +34,12 @@ public class UIRobot implements IUIRobot {
     }
 
     @Override
-    public void getWinTexture(int x,int y) {
+    public void getWinTexture(int x, int y) {
         if (this.robotWonCellTexture == null) {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        this.layers.getRobots().setCell(x,y,this.robotWonCellTexture);
+        this.layers.getRobots().setCell(x, y, this.robotWonCellTexture);
     }
 
     @Override

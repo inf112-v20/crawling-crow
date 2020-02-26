@@ -9,7 +9,7 @@ import roborally.ui.robot.UIRobot;
 
 public class Robot {
     private IUIRobot uiRobot;
-    private IRobotState robot;
+    private IRobotState robotState;
     private int degrees;
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
@@ -17,14 +17,14 @@ public class Robot {
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
-        this.robot = robotState;
+        this.robotState = robotState;
     }
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public Robot(int x, int y) {
         IRobotState robot = new RobotState(AssetsManager.getRobotName());
         IUIRobot uiRobot = new UIRobot(x, y);
-        this.robot = robot;
+        this.robotState = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(x,y);
         booleanCalculator = new BooleanCalculator();
@@ -34,7 +34,7 @@ public class Robot {
 
     // Returns the models name.
     public String getName() {
-        return this.robot.getName();
+        return this.robotState.getName();
     }
 
     // Returns a true\false calculator.
@@ -44,7 +44,7 @@ public class Robot {
 
     // Returns the position for this robotCores robot.
     public Vector2 getPosition() {
-        return robot.getPosition();
+        return robotState.getPosition();
     }
 
     // For setting different textureRegions for AI and Players
@@ -63,7 +63,7 @@ public class Robot {
         // Checks for robots in its path before moving.
         if(!this.getCalc().checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
-                this.robot.setPosition(x + dx, y + dy);
+                this.robotState.setPosition(x + dx, y + dy);
                 System.out.println("New position: ");
                 System.out.println((x + dx) + " " + (y + dy));
             }
@@ -117,7 +117,7 @@ public class Robot {
         System.out.println(this.direction.toString());
 
         this.direction = Direction.turnRightFrom(this.direction);
-        this.uiRobot.setDirection(robot.getPositionX(), robot.getPositionY(), this.direction);
+        this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
@@ -129,7 +129,7 @@ public class Robot {
         System.out.println(this.direction.toString());
 
         this.direction = Direction.turnLeftFrom(this.direction);
-        this.uiRobot.setDirection(robot.getPositionX(), robot.getPositionY(), this.direction);
+        this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
@@ -138,16 +138,16 @@ public class Robot {
 
     // Sets position for this robotCores robot.
     public void setPos(int x, int y) {
-        this.robot.setPosition(x,y);
+        this.robotState.setPosition(x, y);
     }
 
     // Updates the current cell to a WinCell
-    public void getWinCell() {
+    public void setWinTexture() {
         this.uiRobot.getWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
     // Updates the current cell to a LoseCell
-    public void getLoseCell() {
+    public void setLostTexture() {
         this.uiRobot.getLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 

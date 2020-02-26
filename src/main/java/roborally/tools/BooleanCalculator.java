@@ -1,6 +1,5 @@
 package roborally.tools;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.gameboard.Layers;
@@ -114,9 +113,9 @@ public class BooleanCalculator {
                     robot.move(dx, dy);
                     System.out.println("The bumping robot: ");
                     if(this.isOnFlag(x+dx,y + dy))  //Checks if the robot got bumped into a flag.
-                        robot.getWinCell();
+                        robot.setWinTexture();
                     else if(this.isOnHole(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
-                        robot.getLoseCell();
+                        robot.setLostTexture();
                     layers.getRobots().setCell(x, y,null);
                 }
             }
