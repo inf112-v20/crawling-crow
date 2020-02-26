@@ -6,13 +6,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ProgramCardsTest {
-    private ProgramCards programCards;
+    private IProgramCards programCards;
     private ProgramCards.Card card;
 
     @Before
     public void setUp() throws Exception {
         programCards = new ProgramCards();
-        card = new ProgramCards.Card(ProgramCards.CardTypes.MOVE_1);
+        card = new ProgramCards.Card(IProgramCards.CardTypes.MOVE_1);
     }
 
     @Test
@@ -22,17 +22,25 @@ public class ProgramCardsTest {
 
     @Test
     public void generateNewCard() {
-        ProgramCards.Card newCard = new ProgramCards.Card(ProgramCards.CardTypes.MOVE_1);
+        ProgramCards.Card newCard = new ProgramCards.Card(IProgramCards.CardTypes.MOVE_1);
         assertNotNull(newCard);
     }
 
     @Test
-    public void checkCardNameType() {
+    public void cardTypeIsMove1() {
         assertEquals("MOVE_1", card.getCardType().name());
     }
 
     @Test
-    public void checkCardPriority() {
+    public void cardPriorityIsWithinRange() {
         assertTrue(card.priorityRangeMin <= card.getPriority() && card.getPriority() <= card.priorityRangeMax);
+    }
+
+    @Test
+    public void cardsGetShuffled() {
+        IProgramCards notShuffled = new ProgramCards();
+        programCards.shuffleCards();
+
+        assertNotEquals(notShuffled, programCards);
     }
 }
