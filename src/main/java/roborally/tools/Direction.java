@@ -17,27 +17,21 @@ public enum Direction {
     }
 
     public static Direction turnRightFrom(Direction direction) {
-        if(direction == West) {
-            return North;
-        } else if (direction == North) {
-            return East;
-        } else if (direction == East) {
-            return South;
-        } else if (direction == South){
-            return West;
-        } else {
-            throw new IllegalStateException();
-        }
+        return getDirection(direction, North, South);
     }
 
     public static Direction turnLeftFrom(Direction direction) {
+        return getDirection(direction, South, North);
+    }
+
+    private static Direction getDirection(Direction direction, Direction south, Direction north) {
         if (direction == West) {
-            return South;
-        } else if (direction == South) {
+            return south;
+        } else if (direction == south) {
             return East;
         } else if (direction == East) {
-            return North;
-        } else if (direction == North) {
+            return north;
+        } else if (direction == north) {
             return West;
         } else {
             throw new IllegalStateException();
