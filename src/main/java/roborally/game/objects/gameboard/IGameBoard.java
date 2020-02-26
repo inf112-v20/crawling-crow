@@ -22,17 +22,22 @@ public interface IGameBoard {
     boolean onHole(int x, int y);
 
     /**
+     * TODO: Not sure what this is for, anymore... @buzzdead?
+     * @param pos
+     * @param ai
+     */
+    void setCheckpoint(Vector2 pos, AI ai);
+
+    /**
+     * @return All the flags on the game board
+     */
+    ArrayList<Flag> findAllFlags();
+
+    /**
      * Check if Robot can move. (Might be a wall or another Robot).
+     * TODO: Is this one neccesary anymore?
      *
      * @return if the Robot can move.
      */
     boolean canMove();
-
-    /**
-     * Check if Robot can is onHole or onFlag, and other stuff in the future.
-     *
-     */
-    void getCheckPoint(Vector2 pos, AI ai);
-
-    ArrayList<Flag> findAllFlags();
 }

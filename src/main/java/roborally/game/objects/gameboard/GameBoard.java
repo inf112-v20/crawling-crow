@@ -13,8 +13,6 @@ import java.util.HashMap;
 public class GameBoard implements IGameBoard {
 
     private Layers layers;
-    int x;
-    int y;
     private HashMap<Integer, Integer> flagIdMap;
 
     public GameBoard(Layers layers) {
@@ -42,15 +40,14 @@ public class GameBoard implements IGameBoard {
         return layers.getHole().getCell(x, y)!=null;
     }
 
-    public void getCheckPoint(Vector2 pos, AI ai) {
-        this.x = (int)pos.x;
-        this.y = (int)pos.y;
-        if (this.onFlag(x, y)) {
+    @Override
+    public void setCheckpoint(Vector2 pos, AI ai) {
+        if (this.onFlag((int) pos.x, (int) pos.y)) {
             ai.setWinTexture();
             if(ai.getCurrFlagPos().x == pos.x && ai.getCurrFlagPos().y == pos.y)
                 ai.setFlagPos();
         }
-        if (this.onHole(x, y))
+        if (this.onHole((int) pos.x, (int) pos.y))
             ai.setLostTexture();
     }
 
