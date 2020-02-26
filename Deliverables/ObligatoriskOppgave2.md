@@ -43,4 +43,4 @@ https://github.com/inf112-v20/crawling-crow/wiki/Spillkrav
 * Er to bugs i AssetManager. Man må kalle på dem i rett rekkefølge. Markere disse med TODO
 eller FIXME. 
 
-## Klassediagram
+## Klassediagram 
