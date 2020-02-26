@@ -41,5 +41,5 @@ public interface IUIRobot {
      */
     boolean moveRobot(int x, int y, int dx, int dy);
 
-    void setDirection(Direction direction);
+    void setDirection(int x, int y, int direction);
 }

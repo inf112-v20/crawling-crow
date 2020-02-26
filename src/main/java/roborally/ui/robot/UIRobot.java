@@ -65,8 +65,6 @@ public class UIRobot implements IUIRobot {
         int newX = x + dx;
         int newY = y + dy;
         if ((newX >= 0) && (newY >= 0) && (newX < width) && (newY < height)) {
-            System.out.println(this.layers.getRobots().getWidth());
-            System.out.println(this.layers.getRobots().getHeight());
             this.layers.getRobots().setCell(newX, newY, getTexture());
             this.layers.getRobots().setCell(x, y,null);
             return true;
@@ -75,7 +73,11 @@ public class UIRobot implements IUIRobot {
     }
 
     @Override
-    public void setDirection(Direction direction) {
-        // TODO Implement
+    public void setDirection(int x, int y, int direction) {
+        int oldDir = layers.getRobots().getCell(x, y).getRotation();
+        oldDir %= 4;
+        if (oldDir == 0 && direction < 0)
+            oldDir = 4;
+        layers.getRobots().getCell(x, y).setRotation(oldDir + direction);
     }
 }

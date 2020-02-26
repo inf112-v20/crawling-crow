@@ -61,18 +61,19 @@ public class Robot {
         int x = (int)pos.x;
         int y = (int)pos.y;
         System.out.println("Old position: ");
-        System.out.println(x);
-        System.out.println(x);
-        System.out.println("New position: ");
-        System.out.println(x + dx);
-        System.out.println(y + dy);
+        System.out.println(x + " " + y);
 
         // Checks for robots in its path before moving.
-        if(!this.getCalc().checkIfBlocked(x, y, dx, dy))
-            if(this.uiRobot.moveRobot(x, y, dx, dy))
-                    this.robot.setPosition(x + dx, y + dy);
-
-        System.out.print("Movement complete: ");
+        if(!this.getCalc().checkIfBlocked(x, y, dx, dy)) {
+            if (this.uiRobot.moveRobot(x, y, dx, dy)) {
+                this.robot.setPosition(x + dx, y + dy);
+                System.out.println("New position: ");
+                System.out.println((x + dx) + " " + (y + dy));
+            }
+        }
+        else
+            System.out.println("New position: " + x + " " + y);
+        // update checkpoints etc.
         return true;
     }
 
@@ -87,9 +88,9 @@ public class Robot {
         } if(dir == Direction.East){
             dx = 1;
         } if(dir == Direction.West){
-            dx = 1;
+            dx = -1;
         } if(dir == Direction.South){
-            dy = 1;
+            dy = -1;
         }
 
         return move(dx, dy);
@@ -118,11 +119,11 @@ public class Robot {
         System.out.print("Old direction: ");
         System.out.println(this.direction.toString());
         this.direction = Direction.turnRight(this.direction);
-        this.uiRobot.setDirection(this.direction);
-
+        int x = (int)getPosition().x;
+        int y = (int)getPosition().y;
+        this.uiRobot.setDirection(x, y, -1);
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
-
     }
 
     public void turnLeft() {
@@ -130,7 +131,9 @@ public class Robot {
         System.out.print("Old direction: ");
         System.out.println(this.direction.toString());
         this.direction = Direction.turnLeft(this.direction);
-        this.uiRobot.setDirection(this.direction);
+        int x = (int)getPosition().x;
+        int y = (int)getPosition().y;
+        this.uiRobot.setDirection(x, y, 1);
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
 

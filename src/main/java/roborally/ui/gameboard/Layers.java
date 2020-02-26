@@ -38,6 +38,26 @@ public class Layers {
         return layers.get("Flag");
     }
 
+    public TiledMapTileLayer getStartPos() {
+        return layers.get("Startpositions");
+    }
+
+    public TiledMapTileLayer getConveyorSlow() {
+        return layers.get("Slowconveyorbelt");
+    }
+
+    public TiledMapTileLayer getConveyorFast() {
+        return layers.get("Fastconveyorbelt");
+    }
+
+    public TiledMapTileLayer getWrench() {
+        return layers.get("Wrench");
+    }
+
+    public TiledMapTileLayer getWrenchHammer() {
+        return layers.get("WrenchHammer");
+    }
+
     public TiledMapTileLayer getBug() {
         return layers.get("bug");
     }

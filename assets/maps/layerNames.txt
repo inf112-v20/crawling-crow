@@ -10,6 +10,6 @@ startpositions Startpositions
 slowconveyorbelt Slowconveyorbelt
 fastconveyorbelt Fastconveyorbelt
 wrench Wrench
-wrenchhammer WrenchHammer
+hammer WrenchHammer
 laser Laser
 end

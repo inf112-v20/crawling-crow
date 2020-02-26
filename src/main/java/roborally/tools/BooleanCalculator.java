@@ -1,5 +1,6 @@
 package roborally.tools;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.gameboard.Layers;
@@ -30,10 +31,12 @@ public class BooleanCalculator {
      * @param y the y position
      * @param dx steps taken in x-direction
      * @param dy steps taken in y-direction
-     * @return TODO: Add what this returns
+     * @return For now it treats 2 robots as too heavy to push, but also checks if the robot in the way stands up to a wall.
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
             if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
+                if(checkForWall(x,y,dx,dy))
+                    return true;
                 return layers.getRobots().getCell(x + dx, y + dy) != null;
         }
         return false;
@@ -48,9 +51,11 @@ public class BooleanCalculator {
      * @param y the y position
      * @param dx steps taken in x-direction
      * @param dy steps taken in y-direction
-     * @return True if it is in fact blocked, false if not. FIXME: Might consider adding a check for wall here also
+     * @return True if it is in fact blocked, false if not.
      */
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
+        if(checkForWall(x, y, dx, dy))
+            return true;
         int newX = x + dx;
         int newY = y + dy;
         if(layers.getRobots().getCell(newX,newY)==null)
@@ -62,6 +67,35 @@ public class BooleanCalculator {
                 return false;
             }
         return true; // Robot is on the edge, cant bump it anywhere.
+    }
+
+    // Checks the different directions positive\negative dx and dy, returns true if their respective wall ids are in the
+    // former or latter cell which contains a wall.
+    public boolean checkForWall(int x, int y, int dx, int dy) {
+        boolean wall = false;
+        if(layers.getWall().getCell(x, y) != null) {
+            int id = layers.getWall().getCell(x, y).getTile().getId();
+            if (dy > 0)
+                wall = id == 31 || id == 16 || id == 24;
+            if (dy < 0)
+                wall = id == 29 || id == 8 || id == 32;
+            if (dx > 0)
+                wall = id == 23 || id == 16 || id == 8;
+            if (dx < 0)
+                wall = id == 30 || id == 32 || id == 24;
+        }
+        if(layers.getWall().getCell(x + dx, y + dy) != null && !wall) {
+            int id = layers.getWall().getCell(x + dx, y + dy).getTile().getId();
+            if (dy > 0)
+                return id == 8 || id == 29 || id == 32;
+            if (dy < 0)
+                return id == 24 || id == 16 || id == 31;
+            if (dx > 0)
+                return id == 30 || id == 24 || id == 32;
+            if (dx < 0)
+                return id == 16 || id == 8 || id == 23;
+        }
+        return wall;
     }
 
     /**
@@ -76,7 +110,9 @@ public class BooleanCalculator {
         for (Robot robot : AssetsManager.getRobots()){
             if (robot!=null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
+                    System.out.println("The bumped robot: ");
                     robot.move(dx, dy);
+                    System.out.println("The bumping robot: ");
                     if(this.isOnFlag(x+dx,y + dy))  //Checks if the robot got bumped into a flag.
                         robot.getWinCell();
                     else if(this.isOnHole(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
