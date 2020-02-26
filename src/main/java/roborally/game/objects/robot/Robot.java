@@ -174,4 +174,8 @@ public class Robot {
         }
         return -1;
     }
+
+    public void visitNextFlag() {
+        visitedFlags[getNextFlag()] = true;
+    }
 }
