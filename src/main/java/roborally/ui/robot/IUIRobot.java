@@ -17,7 +17,7 @@ public interface IUIRobot {
      * @param x the x coordinate
      * @param y the y coordinate
      */
-    void getWinTexture(int x, int y);
+    void setWinTexture(int x, int y);
 
     /**
      * Creates new damageTaken/robotDestroyed texture at position.
@@ -25,7 +25,7 @@ public interface IUIRobot {
      * @param x the x coordinate
      * @param y the y coordinate
      */
-    void getLostTexture(int x, int y);
+    void setLostTexture(int x, int y);
 
     /**
      * @return The normal robot texture.

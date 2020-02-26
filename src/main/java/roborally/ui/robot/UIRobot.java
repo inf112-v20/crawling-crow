@@ -34,7 +34,7 @@ public class UIRobot implements IUIRobot {
     }
 
     @Override
-    public void getWinTexture(int x, int y) {
+    public void setWinTexture(int x, int y) {
         if (this.robotWonCellTexture == null) {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
@@ -43,7 +43,7 @@ public class UIRobot implements IUIRobot {
     }
 
     @Override
-    public void getLostTexture(int x, int y) {
+    public void setLostTexture(int x, int y) {
         if (this.robotLostCellTexture == null) {
             this.robotLostCellTexture = new TiledMapTileLayer.Cell();
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));

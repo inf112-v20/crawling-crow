@@ -143,12 +143,12 @@ public class Robot {
 
     // Updates the current cell to a WinCell
     public void setWinTexture() {
-        this.uiRobot.getWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
+        this.uiRobot.setWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
     // Updates the current cell to a LoseCell
     public void setLostTexture() {
-        this.uiRobot.getLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
+        this.uiRobot.setLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
     public int getDegrees(){
