@@ -1,8 +1,6 @@
 package roborally.game.objects.robot;
 
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.Settings;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
 import roborally.tools.Direction;
@@ -11,7 +9,7 @@ import roborally.ui.robot.UIRobot;
 
 public class Robot {
     private IUIRobot uiRobot;
-    private IRobot robot;
+    private IRobotState robot;
     private int degrees;
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
@@ -24,7 +22,7 @@ public class Robot {
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public Robot(int x, int y) {
-        IRobot robot = new RobotState(AssetsManager.getRobotName());
+        IRobotState robot = new RobotState(AssetsManager.getRobotName());
         IUIRobot uiRobot = new UIRobot(x, y);
         this.robot = robot;
         this.uiRobot = uiRobot;

@@ -13,10 +13,12 @@ public class RobotStateTest {
     private int posX;
     private int posY;
     private Robot robot;
+    private String robotName;
 
     @Before
     public void setUp() {
-        robot = new Robot(new RobotState("TestRobot"));
+        robotName = "TestRobot";
+        robot = new Robot(new RobotState(robotName));
         // For setting direct x and y coordinates in Robot Position
         posX = 12;
         posY = 10;
@@ -32,5 +34,10 @@ public class RobotStateTest {
     public void robotSetAndGetPosition() {
         robot.setPos(posX, posY);
         assertEquals(new Vector2(posX, posY), robot.getPosition());
+    }
+
+    @Test
+    public void checkNameIsCorrect() {
+        assertEquals(robotName, robot.getName());
     }
 }
