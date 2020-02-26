@@ -142,10 +142,21 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
-        //for (Flag flag : flags) {
-        //  sjekk om robot på flagg
-        //
-        // oppdatere visitedFlags hvis riktig
+        for (Flag flag : flags) {
+            int flagX = flag.getPos().x;
+            int flagY = flag.getPos().y;
+            for (Robot robot : robots) {
+                int robotX = (int) robot.getPosition().x;
+                int robotY = (int) robot.getPosition().y;
+                if (flagX == robotX && flagY == robotY) {
+                    int nextFlag = robot.getNextFlag();
+                    if (flag.getId() == nextFlag) {
+                        robot.visitNextFlag();
+                        System.out.println("A flag has been visited");
+                    }
+                }
+            }
+        }
     }
 
     @Override

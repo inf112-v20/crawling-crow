@@ -169,13 +169,15 @@ public class Robot {
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
             if (!visitedFlags[i]) {
-                return i;
+                System.out.println("next flag to visit: " + (i+1));
+                return i+1;
             }
         }
         return -1;
     }
 
     public void visitNextFlag() {
-        visitedFlags[getNextFlag()] = true;
+        System.out.println("updated flag visited");
+        visitedFlags[getNextFlag()-1] = true;
     }
 }
