@@ -16,7 +16,7 @@ public enum Direction {
         return this.degrees;
     }
 
-    public static Direction turnRight(Direction direction) {
+    public static Direction turnRightFrom(Direction direction) {
         if(direction == West) {
             return North;
         } else if (direction == North) {
@@ -30,7 +30,7 @@ public enum Direction {
         }
     }
 
-    public static Direction turnLeft(Direction direction) {
+    public static Direction turnLeftFrom(Direction direction) {
         if (direction == West) {
             return South;
         } else if (direction == South) {
