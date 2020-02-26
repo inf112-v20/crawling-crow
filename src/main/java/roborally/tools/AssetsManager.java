@@ -93,8 +93,8 @@ public class AssetsManager {
         return airobots;
     }
 
-    // Default AI robots
-    public static Robot[] makeRobotCore() {
+    // Default Robots robots
+    public static Robot[] makeRobots() {
         robotcores = new Robot[8];
         robotcores[0] = new Robot(3,0);
         robotcores[1] = new Robot(0,1);
@@ -112,15 +112,6 @@ public class AssetsManager {
         return robotcores;
     }
 
-    // Default robots
-    public static IRobotState[] makeRobots() {
-        robots = new IRobotState[Settings.NUMBER_OF_ROBOTS];
-        makeRobotNames();
-        for(int i = 0; i < robots.length; i++){
-            robots[i] = new RobotState(robotNames.get(i));
-        }
-        return robots;
-    }
 
     // Default names for the robots
     public static void makeRobotNames() {
