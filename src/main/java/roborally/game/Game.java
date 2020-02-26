@@ -31,7 +31,7 @@ public class Game implements IGame {
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
-        robots = AssetsManager.makeRobotCore();
+        robots = AssetsManager.makeRobots();
     }
 
 
