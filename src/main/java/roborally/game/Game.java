@@ -225,6 +225,11 @@ public class Game implements IGame {
     }
 
     @Override
+    public void exitGame() {
+        System.exit(0);
+    }
+
+    @Override
     public void moveRobots() {
 
     }

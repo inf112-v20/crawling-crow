@@ -64,4 +64,5 @@ public interface IGame {
 
     void endGame();
 
+    void exitGame();
 }
