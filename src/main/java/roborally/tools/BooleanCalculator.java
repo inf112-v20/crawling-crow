@@ -67,9 +67,13 @@ public class BooleanCalculator {
             }
         return true; // Robot is on the edge, cant bump it anywhere.
     }
-
-    // Checks the different directions positive\negative dx and dy, returns true if their respective wall ids are in the
-    // former or latter cell which contains a wall.
+    /**
+    * @param x the x position
+     * @param y the y position
+     * @param dx steps taken in x-direction
+     * @param dy steps taken in y-direction
+     * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
+     */
     public boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
         if(layers.getWall().getCell(x, y) != null) {
