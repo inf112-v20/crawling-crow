@@ -71,6 +71,15 @@ public class Layers {
         return false;
     }
 
+    // Returns the ID for the wall at the position x, y in the wallLayer.
+    public int getWallID(int x, int y) {
+        if (contains("Wall"))
+            return layers.get("Wall").getCell(x, y).getTile().getId();
+        else
+            System.out.println("Wall layer does not exist");
+        return -1;
+    }
+
     // Floor
 
     public TiledMapTileLayer getFloor() {
@@ -111,6 +120,15 @@ public class Layers {
             return layers.get("Flag").getCell(x, y) != null;
         System.out.println("Flag layer does not exist");
         return false;
+    }
+
+    // Returns the ID for the wall at the location x, y in the flagLayer.
+    public int getFlagID(int x, int y) {
+        if(contains("Flag"))
+            return layers.get("Flag").getCell(x, y).getTile().getId();
+        else
+            System.out.println("Flag layer does not exist");
+        return -1;
     }
 
     // Start positions

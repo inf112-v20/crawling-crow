@@ -79,7 +79,7 @@ public class BooleanCalculator {
     public boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
         if(layers.assertWallNotNull(x, y)) {
-            int id = layers.getWallCell(x, y).getTile().getId();
+            int id = layers.getWallID(x, y);
             if (dy > 0)
                 wall = id == 31 || id == 16 || id == 24;
             if (dy < 0)
@@ -90,7 +90,7 @@ public class BooleanCalculator {
                 wall = id == 30 || id == 32 || id == 24;
         }
         if(layers.assertWallNotNull(x + dx, y + dy) && !wall) {
-            int id = layers.getWallCell(x + dx, y + dy).getTile().getId();
+            int id = layers.getWallID(x + dx, y + dy);
             if (dy > 0)
                 return id == 8 || id == 29 || id == 32;
             if (dy < 0)
