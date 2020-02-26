@@ -21,7 +21,7 @@ public class Robot {
     }
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
-    public Robot(int x, int y) {
+    public Robot(int x, int y, int cellId) {
         IRobotState robot = new RobotState(AssetsManager.getRobotName());
         IUIRobot uiRobot = new UIRobot(x, y);
         this.robotState = robot;
@@ -30,6 +30,7 @@ public class Robot {
         booleanCalculator = new BooleanCalculator();
         this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
+        this.setTextureRegion(cellId);
     }
 
     // Returns the models name.

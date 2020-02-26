@@ -16,8 +16,8 @@ public class AI extends Robot {
     private Stack<Vector2> flagPositions;
     private Layers layers;
 
-    public AI(int x, int y) {
-        super(x, y);
+    public AI(int x, int y, int cellId) {
+        super(x, y, cellId);
         setTextureRegion(1);
         this.booleanCalculator = new BooleanCalculator();
         this.flagPositions = AssetsManager.makeFlagPos();
