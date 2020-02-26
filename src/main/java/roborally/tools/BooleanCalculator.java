@@ -36,7 +36,7 @@ public class BooleanCalculator {
             if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
                 if(checkForWall(x,y,dx,dy))
                     return true;
-                return layers.getRobots().getCell(x + dx, y + dy) != null;
+                return layers.assertRobotNotNull(x + dx, y + dy);
         }
         return false;
     }
@@ -57,7 +57,8 @@ public class BooleanCalculator {
             return true;
         int newX = x + dx;
         int newY = y + dy;
-        if(layers.getRobots().getCell(newX,newY)==null)
+        // There is no Robot on the next position.
+        if(!layers.assertRobotNotNull(newX, newY))
             return false;
         if(robotNextToRobot(newX, newY, dx, dy))
             return true; // Returns blocked if moving into a robot with another one next to it, for now.
@@ -68,7 +69,7 @@ public class BooleanCalculator {
         return true; // Robot is on the edge, cant bump it anywhere.
     }
      /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
-      * tries to move. 
+      * tries to move.
       * @param x the x position
       * @param y the y position
       * @param dx steps taken in x-direction
@@ -77,8 +78,8 @@ public class BooleanCalculator {
       */
     public boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
-        if(layers.getWall().getCell(x, y) != null) {
-            int id = layers.getWall().getCell(x, y).getTile().getId();
+        if(layers.assertWallNotNull(x, y)) {
+            int id = layers.getWallCell(x, y).getTile().getId();
             if (dy > 0)
                 wall = id == 31 || id == 16 || id == 24;
             if (dy < 0)
@@ -88,8 +89,8 @@ public class BooleanCalculator {
             if (dx < 0)
                 wall = id == 30 || id == 32 || id == 24;
         }
-        if(layers.getWall().getCell(x + dx, y + dy) != null && !wall) {
-            int id = layers.getWall().getCell(x + dx, y + dy).getTile().getId();
+        if(layers.assertWallNotNull(x + dx, y + dy) && !wall) {
+            int id = layers.getWallCell(x + dx, y + dy).getTile().getId();
             if (dy > 0)
                 return id == 8 || id == 29 || id == 32;
             if (dy < 0)
@@ -117,9 +118,9 @@ public class BooleanCalculator {
                     System.out.println("The bumped robot: ");
                     robot.move(dx, dy);
                     System.out.println("The bumping robot: ");
-                    if(this.isOnFlag(x+dx,y + dy))  //Checks if the robot got bumped into a flag.
+                    if(layers.assertFlagNotNull(x + dx,y + dy))  //Checks if the robot got bumped into a flag.
                         robot.setWinTexture();
-                    else if(this.isOnHole(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
+                    else if(layers.assertHoleNotNull(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
                         robot.setLostTexture();
                 }
             }
@@ -128,17 +129,7 @@ public class BooleanCalculator {
 
     // Check a specific position if it is blocked
     public boolean isBlocked(int x, int y) {
-        return layers.getRobots().getCell(x,y)!=null;
-    }
-
-    // Check a specific position if it is a flag there
-    public boolean isOnFlag(int x, int y) {
-        return layers.getFlag().getCell(x, y) != null;
-    }
-
-    // Check a specific position if it is a hole there
-    public boolean isOnHole(int x, int y) {
-        return layers.getHole().getCell(x, y) != null;
+        return layers.assertRobotNotNull(x, y);
     }
 
     // AI methods

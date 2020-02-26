@@ -12,52 +12,177 @@ public class Layers {
         layers = new HashMap<>();
         layers = AssetsManager.getLoadedLayers();
     }
+
+    // Checks if the layers has been loaded.
     public boolean isLoaded() {
         return !layers.isEmpty();
     }
-    
+
+    // Checks if a given layer is within the layers of the loaded map.
     public boolean contains(String key) {
         return layers.containsKey(key);
     }
 
+    // Robots
+    // Returns the robotLayer.
     public TiledMapTileLayer getRobots() {
         return layers.get("Robot");
     }
 
-    public TiledMapTileLayer getWall() { return layers.get("Wall"); }
+    // Returns a robotCell at position x, y.
+    public TiledMapTileLayer.Cell getRobotCell(int x, int y) {
+        if (!contains("Robot"))
+            return null;
+        return layers.get("Robot").getCell(x, y);
+    }
+
+    // Set a cell in the robotLayer to a new cell value.
+    public void setRobotCell(int x, int y, TiledMapTileLayer.Cell cell) {
+        if (contains("Robot"))
+            layers.get("Robot").setCell(x, y, cell);
+        else
+            System.out.println("Robot layer does not exist");
+    }
+
+    // Checks if there is a robot at the position x, y in the robotLayer
+    public boolean assertRobotNotNull(int x, int y) {
+        if (contains("Robot"))
+            return layers.get("Robot").getCell(x, y) != null;
+        System.out.println("Robot layer does not exist");
+        return false;
+    }
+
+    // Walls
+    // Returns the wallLayer
+    public TiledMapTileLayer getWall() {
+        return layers.get("Wall"); }
+
+    // Returns a Wall Cell at position x, y.
+    public TiledMapTileLayer.Cell getWallCell(int x, int y) {
+        if (!contains("Wall"))
+            return null;
+        return layers.get("Wall").getCell(x, y); }
+
+    // Checks if there is a wall at the position x, y.
+    public boolean assertWallNotNull(int x, int y) {
+        if (contains("Wall"))
+            return layers.get("Wall").getCell(x, y) != null;
+        System.out.println("Wall layer does not exist");
+        return false;
+    }
+
+    // Floor
 
     public TiledMapTileLayer getFloor() {
         return layers.get("Floor");
     }
 
+    // Checks if there is floor at the position x, y.
+    public boolean assertFloorNotNull(int x, int y) {
+        if (contains("Floor"))
+            return layers.get("Floor").getCell(x, y) != null;
+        System.out.println("Floor layer does not exist");
+        return false;
+    }
+
+    // Holes
+    // Returns the holeLayer.
     public TiledMapTileLayer getHole() {
         return layers.get("Hole");
     }
 
+    // Checks if there is a hole at the position x, y.
+    public boolean assertHoleNotNull(int x, int y) {
+        if (contains("Hole"))
+            return layers.get("Hole").getCell(x, y) != null;
+        System.out.println("Hole layer does not exist");
+        return false;
+    }
+
+    // Flags
+    // Returns the flagLayer.
     public TiledMapTileLayer getFlag() {
         return layers.get("Flag");
     }
 
+    // Checks if there is a flag at position x, y.
+    public boolean assertFlagNotNull(int x, int y) {
+        if (contains("Flag"))
+            return layers.get("Flag").getCell(x, y) != null;
+        System.out.println("Flag layer does not exist");
+        return false;
+    }
+
+    // Start positions
+    // Returns the startPosLayer
     public TiledMapTileLayer getStartPos() {
         return layers.get("Startpositions");
     }
 
+    // Checks if there is a start position at the position x, y.
+    public boolean assertStartPosNotNull(int x, int y) {
+        if (contains("Startpositions"))
+            return layers.get("Startpositions").getCell(x, y) != null;
+        System.out.println("Startpositions does not exist");
+        return false;
+    }
+
+    // Conveyor belts
+    // Returns the slow conveyor belt layer
     public TiledMapTileLayer getConveyorSlow() {
         return layers.get("Slowconveyorbelt");
     }
 
+    // Checks if there is a Slow conveyor belt at the position x, y.
+    public boolean assertConveyorSlowNotNull(int x, int y) {
+        if (contains("Slowconveyorbelt"))
+            return layers.get("Slowconveyorbelt").getCell(x, y) != null;
+        System.out.println("Slowconveyorbelt does not exist");
+        return false;
+    }
+
+    // Returns the fast conveyor belt layer.
     public TiledMapTileLayer getConveyorFast() {
         return layers.get("Fastconveyorbelt");
     }
 
+    // Checks if there is a fast conveyor belt at the position x, y.
+    public boolean assertConveyorFastNotNull(int x, int y) {
+        if (contains("Fastconveyorbelt"))
+            return layers.get("Fastconveyorbelt").getCell(x, y) != null;
+        System.out.println("Fastconveyorbelt does not exist");
+        return false;
+    }
+
+    // Wrenches
+    // Returns the wrench layer.
     public TiledMapTileLayer getWrench() {
         return layers.get("Wrench");
     }
 
+    // Checks if there is a wrench at position x, y.
+    public boolean assertWrenchNotNull(int x, int y) {
+        if (contains("Wrench"))
+            return layers.get("Wrench").getCell(x, y) != null;
+        System.out.println("Wrench layer does not exist");
+        return false;
+    }
+
+    // Returns the wrench hammer layer.
     public TiledMapTileLayer getWrenchHammer() {
         return layers.get("WrenchHammer");
     }
 
+    // checks if there is a wrench hammer at the position x, y.
+    public boolean assertWrenchHammerNotNull(int x, int y) {
+        if (contains("WrenchHammer"))
+            return layers.get("WrenchHammer").getCell(x, y) != null;
+        System.out.println("WrenchHammer layer does not exist");
+        return false;
+    }
+
+    // Bug
+    // Returns the bug layer.
     public TiledMapTileLayer getBug() {
         return layers.get("bug");
     }

@@ -27,7 +27,7 @@ public class GameBoard implements IGameBoard {
     public boolean onFlag(int x, int y) {
         if(!layers.contains("Flag"))
             return false;
-        return layers.getFlag().getCell(x, y)!=null;
+        return layers.assertFlagNotNull(x, y);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class GameBoard implements IGameBoard {
                 return true;
         if(!layers.contains("Hole"))
             return false;
-        return layers.getHole().getCell(x, y)!=null;
+        return layers.assertHoleNotNull(x, y);
     }
 
     @Override

@@ -30,7 +30,7 @@ public class UIRobot implements IUIRobot {
 
     public void setTextureRegion(int cellId) {
         this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
-        this.layers.getRobots().setCell(this.uiRobotPosX, this.uiRobotPosY, getTexture());
+        layers.setRobotCell(this.uiRobotPosX, this.uiRobotPosY, getTexture());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UIRobot implements IUIRobot {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        this.layers.getRobots().setCell(x, y, this.robotWonCellTexture);
+        layers.setRobotCell(x, y, this.robotWonCellTexture);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UIRobot implements IUIRobot {
             this.robotLostCellTexture = new TiledMapTileLayer.Cell();
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        this.layers.getRobots().setCell(x, y, this.robotLostCellTexture);
+        layers.setRobotCell(x, y, this.robotLostCellTexture);
     }
 
     @Override
@@ -65,8 +65,8 @@ public class UIRobot implements IUIRobot {
         int newX = x + dx;
         int newY = y + dy;
         if ((newX >= 0) && (newY >= 0) && (newX < width) && (newY < height)) {
-            this.layers.getRobots().setCell(newX, newY, getTexture());
-            this.layers.getRobots().setCell(x, y,null);
+            layers.setRobotCell(newX, newY, getTexture());
+            layers.setRobotCell(x, y,null);
             return true;
         }
         return false;
@@ -75,7 +75,6 @@ public class UIRobot implements IUIRobot {
     @Override
     public void setDirection(int x, int y, Direction direction) {
         System.out.println("ui position " + uiRobotPosX + " " + uiRobotPosY);
-        layers.getRobots().getCell(x, y).setRotation(direction.getDirectionId());
-
+        layers.getRobotCell(x, y).setRotation(direction.getDirectionId());
     }
 }

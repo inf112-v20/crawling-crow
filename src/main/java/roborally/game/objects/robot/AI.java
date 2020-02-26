@@ -3,6 +3,7 @@ package roborally.game.objects.robot;
 import com.badlogic.gdx.math.Vector2;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
+import roborally.ui.gameboard.Layers;
 
 import java.util.HashMap;
 import java.util.Stack;
@@ -10,15 +11,17 @@ import java.util.Stack;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 public class AI extends Robot {
-    BooleanCalculator booleanCalculator;
-    HashMap<String, Boolean> ops;
-    Stack<Vector2> flagPositions;
+    private BooleanCalculator booleanCalculator;
+    private HashMap<String, Boolean> ops;
+    private Stack<Vector2> flagPositions;
+    private Layers layers;
 
     public AI(int x, int y) {
         super(x, y);
         setTextureRegion(1);
         this.booleanCalculator = new BooleanCalculator();
         this.flagPositions = AssetsManager.makeFlagPos();
+        this.layers = new Layers();
         getCalc().determineFlagPos(this.flagPositions.pop());
     }
 
@@ -39,7 +42,7 @@ public class AI extends Robot {
             if (getCalc().isBlocked(x, y + 1)) {
                 return rndMove[r];
             }
-            else if (getCalc().isOnHole(x,y+1))
+            else if (layers.assertHoleNotNull(x,y+1))
                 return 47;
             return 51;
         }
@@ -47,7 +50,7 @@ public class AI extends Robot {
             if (getCalc().isBlocked(x, y - 1)) {
                 return rndMove[r];
             }
-            else if (getCalc().isOnHole(x, y - 1))
+            else if (layers.assertHoleNotNull(x, y - 1))
                 return 51;
             return 47;
         }
@@ -55,7 +58,7 @@ public class AI extends Robot {
             if (getCalc().isBlocked(x + 1, y)) {
                 return rndMove[r];
             }
-            else if (getCalc().isOnHole(x + 1 , y))
+            else if (layers.assertHoleNotNull(x + 1 , y))
                 return 29;
             return 32;
         }
@@ -63,7 +66,7 @@ public class AI extends Robot {
             if (getCalc().isBlocked(x - 1 , y)) {
                 return rndMove[r];
             }
-            else if (getCalc().isOnHole(x + -1 , y))
+            else if (layers.assertHoleNotNull(x + -1 , y))
                 return 32;
         return 29;
         }
