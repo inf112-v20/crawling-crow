@@ -30,15 +30,16 @@ https://github.com/inf112-v20/crawling-crow/wiki/M%C3%B8tereferater
 
 ## Deloppgave 2
 
-#### Prioriterting av oppgaver:
+##### Prioriterting av oppgaver:
 * ting skal være mer fordelt og vi skal jobbe mer individuelt og ikke i gruppe.
 * Skal også fortsette med parprogramering siden det funker veldig bra for oss. 
 * Det vi planlegger å få ferdig er: programkort, bevegelse, registrering av flagg og 
 å vinne. 
 
-* Link til det vi anser som MVP:
+##### Link til det vi anser som MVP:
 https://github.com/inf112-v20/crawling-crow/wiki/Spillkrav  
 
+##### Bugs:
 * Er to bugs i AssetManager. Man må kalle på dem i rett rekkefølge. Markere disse med TODO
 eller FIXME. 
 
