@@ -7,7 +7,7 @@ import roborally.tools.Direction;
 import roborally.ui.robot.IUIRobot;
 import roborally.ui.robot.UIRobot;
 
-public class Robot {
+public class Robot implements IRobot {
     private IUIRobot uiRobot;
     private IRobotState robotState;
     private BooleanCalculator booleanCalculator;
