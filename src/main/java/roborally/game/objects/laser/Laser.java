@@ -28,8 +28,8 @@ public class Laser {
         this.laserDegree = laserDegree;
         this.width = layers.getWidth();
         this.height = layers.getHeight();
-        storedCoordsOpposite = new ArrayList<>();
-        storedCoordsDirect = new ArrayList<>();
+        storedCoordsOpposite = new ArrayList<>(); // Stores coordinates of laser-cells that are removed.
+        storedCoordsDirect = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
     }
 
     // Restores the entire laser that was removed.
