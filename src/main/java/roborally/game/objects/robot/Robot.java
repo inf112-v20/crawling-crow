@@ -32,27 +32,22 @@ public class Robot implements IRobot {
         this.setTextureRegion(cellId);
     }
 
-    // Returns the models name.
     public String getName() {
         return this.robotState.getName();
     }
 
-    // Returns a true\false calculator.
     public BooleanCalculator getCalc() {
         return this.booleanCalculator;
     }
 
-    // Returns the position for this robotCores robot.
     public Vector2 getPosition() {
         return robotState.getPosition();
     }
 
-    // For setting different textureRegions for AI and Players
     public void setTextureRegion(int i) {
         this.uiRobot.setTextureRegion(i);
     }
 
-    // Makes move inside the graphical interface for uiRobot.
     public boolean move(int dx, int dy) {
         Vector2 pos = this.getPosition();
         int x = (int)pos.x;
@@ -139,17 +134,14 @@ public class Robot implements IRobot {
 
     }
 
-    // Sets position for this robotCores robot.
     public void setPos(int x, int y) {
         this.robotState.setPosition(x, y);
     }
 
-    // Updates the current cell to a WinCell
     public void setWinTexture() {
         this.uiRobot.setWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
-    // Updates the current cell to a LoseCell
     public void setLostTexture() {
         this.uiRobot.setLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
