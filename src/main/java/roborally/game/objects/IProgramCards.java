@@ -36,11 +36,12 @@ public interface IProgramCards {
     class Card {
         private CardTypes cardType;
         private int priority;
-
-        int priorityRangeMin = 1;
-        int priorityRangeMax = 500;
+        int priorityRangeMin;
+        int priorityRangeMax;
 
         public Card(CardTypes cardType){
+            this.priorityRangeMax = 500;
+            this.priorityRangeMin = 1;
             this.cardType = cardType;
             this.priority = priorityRangeMin + (int)(Math.random() * priorityRangeMax);
         }

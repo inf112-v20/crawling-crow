@@ -6,10 +6,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.Settings;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobotState;
-import roborally.game.objects.robot.RobotState;
 import roborally.game.objects.robot.Robot;
 
 import java.io.BufferedReader;

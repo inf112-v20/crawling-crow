@@ -10,7 +10,6 @@ import roborally.ui.robot.UIRobot;
 public class Robot {
     private IUIRobot uiRobot;
     private IRobotState robotState;
-    private int degrees;
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
     private Direction direction;
@@ -78,7 +77,8 @@ public class Robot {
 
     public boolean moveForward() {
         System.out.println(this.getName());
-        int dy = 0, dx = 0;
+        int dy = 0;
+        int dx = 0;
         System.out.println("Moving forward...");
 
         Direction dir = this.direction;

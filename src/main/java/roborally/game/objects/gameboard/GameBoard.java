@@ -33,7 +33,7 @@ public class GameBoard implements IGameBoard {
     @Override
     public boolean onHole(int x, int y) {
         if(layers.contains("bug"))
-            if(layers.getBug().getCell(x, y)!=null)
+            if(layers.assertBugNotNull(x, y))
                 return true;
         if(!layers.contains("Hole"))
             return false;

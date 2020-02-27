@@ -26,34 +26,44 @@ public class BooleanCalculator {
     }
 
     /**
-     * Checks if there are 3 robots in a row. Here we look at the position next to the new x and y positons.
-     * (One robot is already found, checks if there's is even one more next to it).
-     *
+     * This method is run if there are more than 2 robots in a row, with a robot at one end making a move onto the whole
+     * line of robots. What happens is all of the robots except the first 2 makes a single step in the same direction,
+     * and then finally the 2 first robots will bump normally in the final part of checkIfBlocked.
+     * Robot disappears the same way as stated in findCollidingRobot.
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
      * @param dy steps taken in y-direction
-     * @return For now it treats 2 robots as too heavy to push, but also checks if the robot in the way stands up to a wall.
+     * @return True if there is a wall blocking the path.
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
+        boolean recursiveRobot = false;
             if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
                 if(checkForWall(x,y,dx,dy))
                     return true;
-                return layers.assertRobotNotNull(x + dx, y + dy);
+                if (layers.assertRobotNotNull(x+dx,y+dy))
+                    recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
+                for (Robot robot : AssetsManager.getRobots())
+                    if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot)
+                        robot.move(dx,dy);
         }
-        return false;
+            // Robot "deletion"
+            else
+                for(Robot robot : AssetsManager.getRobots())
+                    if(robot.getPosition().x == x && robot.getPosition().y == y) {
+                        layers.setRobotCell(x, y, null);
+                        robot.setPos(-1,-1);
+                    }
+        return recursiveRobot;
     }
 
     /**
      * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping.
-     *
-     * FIXME: Could alternate this method to do something else if the robot is on the edge, be destroyed?
-     *
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
      * @param dy steps taken in y-direction
-     * @return True if it is in fact blocked, false if not.
+     * @return True if the robot or any robot on a straight line in its direction is facing a wall.
      */
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
         if(checkForWall(x, y, dx, dy))
@@ -63,13 +73,16 @@ public class BooleanCalculator {
         // There is no Robot on the next position.
         if(!layers.assertRobotNotNull(newX, newY))
             return false;
-        if(robotNextToRobot(newX, newY, dx, dy))
-            return true; // Returns blocked if moving into a robot with another one next to it, for now.
-            if (newX + dx >= 0 && newY + dy >= 0 && newY + dy < height && newX + dx < width) {
-                findCollidingRobot(newX, newY, dx, dy);
-                return false;
-            }
-        return true; // Robot is on the edge, cant bump it anywhere.
+        else {
+            if(checkForWall(newX, newY, dx, dy))
+                return true;
+            if(layers.assertRobotNotNull(newX + dx, newY +dy ))
+                if(robotNextToRobot(newX, newY, dx, dy))
+                    return true;
+
+        }
+        findCollidingRobot(newX, newY, dx, dy);
+        return false;
     }
      /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
       * tries to move.
@@ -176,7 +189,8 @@ public class BooleanCalculator {
 
     /**
      * Finds the given robot at the colliding position and moves it one step in the bumping direction then clears its old position.
-     *
+     * If the robot of interest is on the edge of the map it will temporary get position -1,-1, and it's cell set to null.
+     * This is until we find a better way to deal with damage\robots getting destroyed.
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
@@ -186,13 +200,20 @@ public class BooleanCalculator {
         for (Robot robot : AssetsManager.getRobots()){
             if (robot!=null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
-                    System.out.println("The bumped robot: ");
-                    robot.move(dx, dy);
-                    System.out.println("The bumping robot: ");
-                    if(layers.assertFlagNotNull(x + dx,y + dy))  //Checks if the robot got bumped into a flag.
-                        robot.setWinTexture();
-                    else if(layers.assertHoleNotNull(x + dx,y + dy)) //Checks if the robot got bumped into a hole.
-                        robot.setLostTexture();
+                    if (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0) {
+                        // Robot "deletion".
+                        robot.setPos(-1,-1);
+                        layers.setRobotCell(x, y, null);
+                    }
+                    else {
+                        System.out.println("The bumped robot: ");
+                        robot.move(dx, dy);
+                        System.out.println("The bumping robot: ");
+                        if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
+                            robot.setWinTexture();
+                        else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.
+                            robot.setLostTexture();
+                    }
                 }
             }
         }

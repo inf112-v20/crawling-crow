@@ -252,4 +252,8 @@ public class Layers {
     public TiledMapTileLayer getBug() {
         return layers.get("bug");
     }
+    public boolean assertBugNotNull(int x, int y) {
+        return layers.get("bug").getCell(x, y) != null;
+    }
+
 }

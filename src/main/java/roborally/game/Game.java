@@ -1,6 +1,5 @@
 package roborally.game;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.game.objects.Flag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
@@ -123,22 +122,27 @@ public class Game implements IGame {
 
     @Override
     public void moveAllConveyorBelts() {
+        // TODO: Implement the corresponding phase.
     }
 
     @Override
     public void moveExpressConveyorBelts() {
+        // TODO: Implement the corresponding phase.
     }
 
     @Override
     public void moveCogs() {
+        // TODO: Implement the corresponding phase.
     }
 
     @Override
     public void fireLasers() {
+        // TODO: Implement the corresponding phase.
     }
 
     @Override
     public void allowMovingBackupPoints() {
+        // TODO: Implement the corresponding phase.
     }
 
     @Override

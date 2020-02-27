@@ -26,13 +26,13 @@ public enum Direction {
     }
 
     private static Direction getDirection(Direction direction, Direction south, Direction north) {
-        if (direction == West) {
+        if (direction.equals(West)) {
             return south;
-        } else if (direction == south) {
+        } else if (direction.equals(south)) {
             return East;
-        } else if (direction == East) {
+        } else if (direction.equals(East)) {
             return north;
-        } else if (direction == north) {
+        } else if (direction.equals(north)) {
             return West;
         } else {
             throw new IllegalStateException();

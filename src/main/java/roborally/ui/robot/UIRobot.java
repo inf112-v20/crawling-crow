@@ -17,7 +17,8 @@ public class UIRobot implements IUIRobot {
     private Layers layers;
     private int uiRobotPosX;
     private int uiRobotPosY;
-    private int height, width;
+    private int height;
+    private int width;
 
     // Creates new UIRobot in position x and y.
     public UIRobot(int x, int y) {
