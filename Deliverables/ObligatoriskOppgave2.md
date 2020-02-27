@@ -1,5 +1,4 @@
 # Deloppgave 1
-
 -  Alt har fungert bra hittil, men vi har funnet ut at vi ikke trenger en teamleder
 -  siden vi gjør mye parprogrammering og alle sine meninger er hørt. Vi er ganske fornøyde
 -  med rollefordelingen. 
@@ -23,13 +22,11 @@
 <https://github.com/inf112-v20/crawling-crow/wiki/M%C3%B8tereferater>
 
 ## Tre forbedringspunkt
- 
 1.  Jevne ut commits (sende issues til de med mindre commits).
 2.  Kommunisere bedre.
 3.  Project board og user-stories.
 
 ### Deloppgave 2
-
 #### Prioriterting av oppgaver
 -  Ting skal være mer fordelt og vi skal jobbe mer individuelt og ikke i gruppe.
 -  Skal også fortsette med parprogramering siden det funker veldig bra for oss. 
