@@ -161,7 +161,6 @@ public class Robot implements IRobot {
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
             if (!visitedFlags[i]) {
-                System.out.println("next flag to visit: " + (i+1));
                 return i+1;
             }
         }
@@ -170,6 +169,12 @@ public class Robot implements IRobot {
 
     public void visitNextFlag() {
         System.out.println("updated flag visited");
-        visitedFlags[getNextFlag()-1] = true;
+        int nextFlag = getNextFlag();
+        visitedFlags[nextFlag-1] = true;
+        System.out.println("Next flag to visit: " + (nextFlag+1));
+    }
+    // TODO: Get number of flags from the size of the flags array in gameBoard.
+    public void setNumberOfFlags(int nFlags) {
+        this.visitedFlags = new boolean[nFlags];
     }
 }

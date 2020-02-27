@@ -118,6 +118,8 @@ public class UI extends InputAdapter implements ApplicationListener {
                 }
             }
         }
+        game.registerFlagPositions();
+        game.checkIfSomeoneWon();
         return true;
     }
 }
