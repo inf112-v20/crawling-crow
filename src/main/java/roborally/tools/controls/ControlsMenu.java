@@ -15,6 +15,7 @@ public class ControlsMenu implements IControls{
         menuControlMap.put(Input.Keys.DOWN, () -> game.getRobots().moveBackward());
         menuControlMap.put(Input.Keys.LEFT, () -> game.getRobots().turnLeft());
         menuControlMap.put(Input.Keys.RIGHT, () -> game.getRobots().turnRight());
+        menuControlMap.put(Input.Keys.F, () -> game.getRobots().fireLaser());
         menuControlMap.put(Input.Keys.SPACE, () -> game.registerFlagPositions());
         menuControlMap.put(Input.Keys.W, () -> game.checkIfSomeoneWon());
         menuControlMap.put(Input.Keys.ESCAPE, game::exitGame);

@@ -1,7 +1,5 @@
 package roborally.game.objects.laser;
-
 import com.badlogic.gdx.math.GridPoint2;
-
 import java.util.HashMap;
 
 public class Lasers {
@@ -29,6 +27,21 @@ public class Lasers {
             this.name = name;
             lasers.put(name, laser);
         }
+    }
+
+    /** Creates a laser for the robot in Laser.
+     * @param laser The laser the robot is firing.
+     * @param pos The position the robot is firing from.
+     * @param direction The direction the robot is looking.
+     */
+    public void fireLaser(Laser laser, GridPoint2 pos, int direction) {
+        laser.createLaser(pos);
+        laser.fireLaser(pos, direction);
+    }
+
+    // Clears the laser cells created by the robots laser.
+    public void clearLaser(Laser laser) {
+        laser.removeLaser();
     }
 
     /** Checks if the robot was in a laser and has moved out of the laser, but first checks if it is still in the instance.

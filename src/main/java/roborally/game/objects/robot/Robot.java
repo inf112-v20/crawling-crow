@@ -1,6 +1,8 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.objects.laser.Laser;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
 import roborally.tools.Direction;
@@ -13,6 +15,7 @@ public class Robot implements IRobot {
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
     private Direction direction;
+    private Laser laser;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -30,6 +33,7 @@ public class Robot implements IRobot {
         this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
+        laser = new Laser(39);
     }
 
     public String getName() {
@@ -42,6 +46,19 @@ public class Robot implements IRobot {
 
     public Vector2 getPosition() {
         return robotState.getPosition();
+    }
+
+    // Shoots a laser, bound to key "F"
+    public void fireLaser() {
+        int x = (int)getPosition().x;
+        int y = (int)getPosition().y;
+        getCalc().getLasers().fireLaser(laser, new GridPoint2(x, y), getDegrees());
+    }
+
+    // Clears the laser
+    public void clearLaser() {
+        if (this.laser.checkForLaserCells())
+            getCalc().getLasers().clearLaser(this.laser);
     }
 
     public void setTextureRegion(int i) {
@@ -63,6 +80,7 @@ public class Robot implements IRobot {
                 this.robotState.setPosition(newX, newY);
                 System.out.println("New position: ");
                 System.out.println((newX) + " " + (newY));
+                clearLaser();
                 getCalc().checkForLasers(newX, newY, getName());
             }
         }

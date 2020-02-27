@@ -63,6 +63,10 @@ public class BooleanCalculator {
         return recursiveRobot;
     }
 
+    public Lasers getLasers() {
+        return this.lasers;
+    }
+
     /**
      * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping.
      * @param x the x position

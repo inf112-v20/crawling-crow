@@ -2,6 +2,7 @@ package roborally.game.objects.laser;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.tools.BooleanCalculator;
 import roborally.ui.gameboard.Layers;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Laser {
     private int width;
     private int height;
     private TiledMapTileLayer.Cell storedLaserCell;
+    private BooleanCalculator booleanCalculator;
 
     /** Constructs a laser.
      * @param laserDegree Horizontal or Vertical laser.
@@ -30,7 +32,39 @@ public class Laser {
         this.height = layers.getHeight();
         storedCoordsOpposite = new ArrayList<>(); // Stores coordinates of laser-cells that are removed.
         storedCoordsDirect = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
+        this.booleanCalculator = new BooleanCalculator();
     }
+
+    // Creates a laser for a robot to shoot.
+    public void createLaser(GridPoint2 pos) {
+        storedLaserCell = layers.getLaserCell(11,13);
+    }
+
+    /** Shoots a laser in the given direction until it hits a wall. Stores the cells for clearing them after.
+     * @param gp2 The position of the robot that is shooting the laser.
+     * @param direction The direction the robot is looking.
+     */
+    public void fireLaser(GridPoint2 gp2, int direction) {
+        storedCoordsOpposite.clear();
+        int i = gp2.x;
+        int j = gp2.y;
+        if(direction == 1)
+            while(i > 0) {
+                layers.setLaserCell(--i, j, storedLaserCell);
+                storedCoordsOpposite.add(new GridPoint2(i, j));
+                if(booleanCalculator.checkForWall(i,j,-1,0) || layers.assertRobotNotNull(i, j))
+                    break;
+            }
+
+        else if(direction == 3)
+            while(i < width-1) {
+                layers.setLaserCell(++i, j, storedLaserCell);
+                storedCoordsOpposite.add(new GridPoint2(i, j));
+                if(booleanCalculator.checkForWall(i,j,1,0) || layers.assertRobotNotNull(i, j))
+                    break;
+        }
+    }
+
 
     // Restores the entire laser that was removed.
     public void restoreLaser() {
@@ -131,6 +165,8 @@ public class Laser {
     // Checks if the robot is in a laser instance.
     public boolean checkIfPosIsInLaserPath(GridPoint2 pos) {
         return (storedCoordsOpposite.contains(pos) || storedCoordsDirect.contains(pos));
-
+    }
+    public boolean checkForLaserCells() {
+        return (!storedCoordsOpposite.isEmpty());
     }
 }

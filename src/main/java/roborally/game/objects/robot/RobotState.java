@@ -14,6 +14,7 @@ public class RobotState implements IRobotState {
     public String getName() {
         return this.name;
     }
+
     @Override
     public void setPosition(float x, float y) {
         this.robotPosition.x = x;
