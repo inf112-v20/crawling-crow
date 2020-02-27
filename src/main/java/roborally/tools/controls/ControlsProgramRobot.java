@@ -5,8 +5,8 @@ import roborally.game.IGame;
 import java.util.HashMap;
 
 public class ControlsProgramRobot implements IControls {
-    IGame game;
-    HashMap<Integer, Runnable> controlMap;
+    private IGame game;
+    private HashMap<Integer, Runnable> controlMap;
 
     public ControlsProgramRobot(IGame game){
         this.game = game;
@@ -25,5 +25,6 @@ public class ControlsProgramRobot implements IControls {
     }
 
     private void doNothing() {
+        // Ok!
     }
 }

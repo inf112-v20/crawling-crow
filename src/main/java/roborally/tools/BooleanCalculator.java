@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 // Beep... Robots need to calculate.
 public class BooleanCalculator {
-    HashMap<String, Boolean> operations;
+    private HashMap<String, Boolean> operations;
     private Layers layers;
     private int x;
     private int y;
@@ -126,6 +126,7 @@ public class BooleanCalculator {
      * of the direction the laser going is removed, and later restored when the same robot steps out of the laser.
      * laser id 39 = vertical laser, laser id 47 = horizontal laser.
      * cannonId 45 = downWards, 46 = leftGoing, 38 = rightGoing, 37 = upWards
+     * Currently unreadable as code but it's not finished.
      */
     public boolean checkForLaser(int x, int y, String name) {
         if (name.equals(clumsyRobot) && !layers.assertLaserNotNull(x, y)) {
@@ -200,7 +201,7 @@ public class BooleanCalculator {
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
         for (Robot robot : AssetsManager.getRobots()){
-            if (robot!=null) {
+            if (robot != null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
                     if (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0) {
                         // Robot "deletion".

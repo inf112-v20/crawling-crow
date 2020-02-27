@@ -6,11 +6,9 @@ import roborally.game.IGame;
 import java.util.HashMap;
 
 public class ControlsMenu implements IControls{
-    private IGame game;
     private HashMap<Integer, Runnable> menuControlMap;
 
     public ControlsMenu(IGame game){
-        this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.ENTER, () -> game.startGame());
         menuControlMap.put(Input.Keys.UP, () -> game.getRobots().moveForward());

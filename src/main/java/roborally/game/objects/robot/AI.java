@@ -12,7 +12,6 @@ import static com.badlogic.gdx.math.MathUtils.random;
 
 public class AI extends Robot {
     private BooleanCalculator booleanCalculator;
-    private HashMap<String, Boolean> ops;
     private Stack<Vector2> flagPositions;
     private Layers layers;
 
@@ -34,7 +33,7 @@ public class AI extends Robot {
         int x = (int) getPosition().x;
         int y = (int) getPosition().y;
         booleanCalculator.loadAICalc(x, y);
-        ops = booleanCalculator.getOperations();
+        HashMap<String, Boolean> ops = booleanCalculator.getOperations();
         int[] rndMove = {29, 32, 47, 51};
         int r = random.nextInt(4);
 
@@ -46,7 +45,7 @@ public class AI extends Robot {
                 return 47;
             return 51;
         }
-        if (ops.get("Up")) {
+        else if (ops.get("Up")) {
             if (getCalc().isBlocked(x, y - 1)) {
                 return rndMove[r];
             }
@@ -54,7 +53,7 @@ public class AI extends Robot {
                 return 51;
             return 47;
         }
-        if (ops.get("Left")) {
+        else if (ops.get("Left")) {
             if (getCalc().isBlocked(x + 1, y)) {
                 return rndMove[r];
             }
@@ -62,7 +61,7 @@ public class AI extends Robot {
                 return 29;
             return 32;
         }
-        if (ops.get("Right")) {
+        else if (ops.get("Right")) {
             if (getCalc().isBlocked(x - 1 , y)) {
                 return rndMove[r];
             }
