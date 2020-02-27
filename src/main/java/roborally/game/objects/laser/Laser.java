@@ -105,7 +105,7 @@ public class Laser {
             storedCoordsDirect = storedCoordsOpposite;
             storedCoordsOpposite = temp;
         }
-        System.out.println(cannonId);
+        storedCoordsDirect.add(robotsOrigin);
         return cannonId;
     }
 
@@ -123,7 +123,9 @@ public class Laser {
             storedCoordsDirect.remove(robotsOrigin);
             layers.setLaserCell(robotsOrigin.x, robotsOrigin.y, null);
         }
-        robotsOrigin = pos;
+        System.out.println(storedCoordsDirect);
+        System.out.println(storedCoordsOpposite);
+        this.robotsOrigin = pos;
     }
 
     // Checks if the robot is in a laser instance.
