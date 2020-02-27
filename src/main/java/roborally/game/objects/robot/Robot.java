@@ -52,16 +52,18 @@ public class Robot implements IRobot {
         Vector2 pos = this.getPosition();
         int x = (int)pos.x;
         int y = (int)pos.y;
+        int newX = x + dx;
+        int newY = y + dy;
         System.out.println("Old position: ");
         System.out.println(x + " " + y);
 
         // Checks for robots in its path before moving.
         if(!getCalc().checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
-                this.robotState.setPosition(x + dx, y + dy);
+                this.robotState.setPosition(newX, newY);
                 System.out.println("New position: ");
-                System.out.println((x + dx) + " " + (y + dy));
-                getCalc().checkForLaser(x + dx, y + dy, this.getName());
+                System.out.println((newX) + " " + (newY));
+                getCalc().checkForLasers(newX, newY, getName());
             }
         }
         else

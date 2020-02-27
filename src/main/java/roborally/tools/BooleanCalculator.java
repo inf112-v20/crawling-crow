@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
+import roborally.game.objects.laser.Lasers;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.gameboard.Layers;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class BooleanCalculator {
     private Queue<GridPoint2> restoreLaserCoordinates;
     private TiledMapTileLayer.Cell restoreLaserCell;
     private String clumsyRobot;
+    private Lasers lasers;
 
     public BooleanCalculator() {
         layers = new Layers();
@@ -26,6 +28,7 @@ public class BooleanCalculator {
         height = layers.getRobots().getHeight();
         // Advanced calculations for AI, can take multiple conditions to figure out a good move.
         operations = new HashMap<>();
+        lasers = new Lasers();
     }
 
     /**
@@ -121,72 +124,22 @@ public class BooleanCalculator {
         return wall;
     }
 
-    /** Checks first if the robot that's stepped on the laser is already in the laser, and either restores or removes
-     * laser cells accordingly. If there's no robot active in the laser then all laser cells on the opposite side
-     * of the direction the laser going is removed, and later restored when the same robot steps out of the laser.
-     * laser id 39 = vertical laser, laser id 47 = horizontal laser.
-     * cannonId 45 = downWards, 46 = leftGoing, 38 = rightGoing, 37 = upWards
-     * Currently unreadable as code but it's not finished.
+    /** Creates a new laser instance if there is a laser cell in the position the robot is moving to.
+     *  Else it will see if the robot is currently in a laser instance.
+     * @param x The x-coordinate the robot is moving to
+     * @param y The y-coordinate the robot is moving to
+     * @param name The name of the robot
      */
-    public void checkForLaser(int x, int y, String name) {
-        if (name.equals(clumsyRobot) && !layers.assertLaserNotNull(x, y)) {
-            GridPoint2 pos = new GridPoint2(x, y);
-            for (GridPoint2 oldPos : restoreLaserCoordinates) {
-                if (oldPos.equals(pos)) {
-                    restoreLaserCoordinates.removeIndex(restoreLaserCoordinates.indexOf(oldPos,true));
-                    layers.setLaserCell(x, y, restoreLaserCell);
-                    if(restoreLaserCoordinates.isEmpty())
-                        clumsyRobot = "";
-                    return;
-                }
-            }
-            while(!restoreLaserCoordinates.isEmpty()) {
-                pos = restoreLaserCoordinates.removeLast();
-                layers.setLaserCell(pos.x, pos.y, restoreLaserCell);
-            }
-            clumsyRobot = "";
-            restoreLaserCoordinates.clear();
-            restoreLaserCell = null;
-            return;
-        }
-        int cannonId = 0;
-        if (layers.assertLaserNotNull(x, y)) {
-            if (layers.getLaserID(x, y) == 39) {
-                int i = x + 1;
-                while(i < width) {
-                    if (layers.assertLaserNotNull(i,y))
-                        i++;
-                    else
-                        break;
-                }
-                if (layers.assertLaserCannonNotNull(i-1, y))
-                    cannonId = layers.getLaserCannonID(i-1, y);
-                if (cannonId == 0 || cannonId == -1) {
-                    i = x-1;
-                    while(i >= 0) {
-                        if (layers.assertLaserNotNull(i,y))
-                            i--;
-                        else
-                            break;
-                    }
-                    if (layers.assertLaserCannonNotNull(i+1, y))
-                        cannonId = layers.getLaserCannonID(i+1, y);
-                }
-            }
-            System.out.println(cannonId);
-            if(cannonId == 46) {
-                int i = x;
-                restoreLaserCell = layers.getLaserCell(i, y);
-                if (!name.equals(clumsyRobot))
-                    restoreLaserCoordinates = new Queue<>();
-                while (layers.assertLaserNotNull(--i,y)) {
-                    layers.setLaserCell(i, y, null);
-                    restoreLaserCoordinates.addFirst(new GridPoint2(i,y));
-                }
-                clumsyRobot = name;
-            }
 
+    public void checkForLasers(int x, int y, String name) {
+        GridPoint2 pos = new GridPoint2(x, y);
+        int id;
+        if (layers.assertLaserNotNull(x, y)) {
+            id = layers.getLaserID(x, y);
+            lasers.createLaser(id, pos, name);
         }
+        else
+            lasers.checkIfRobotWasInLaser(name, pos);
     }
 
     /**

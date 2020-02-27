@@ -81,7 +81,7 @@ public class Layers {
     }
 
     // Floor
-
+    // Returns the floorLayer
     public TiledMapTileLayer getFloor() {
         return layers.get("Floor");
     }
@@ -92,6 +92,16 @@ public class Layers {
             return layers.get("Floor").getCell(x, y) != null;
         System.out.println("Floor layer does not exist");
         return false;
+    }
+
+    // Returns the width of the map
+    public int getWidth() {
+        return layers.get("Floor").getWidth();
+    }
+
+    // Returns the height of the map
+    public int getHeight() {
+        return layers.get("Floor").getHeight();
     }
 
     // Holes
