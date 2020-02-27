@@ -1,5 +1,6 @@
 package roborally.game;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.game.objects.Flag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
@@ -59,7 +60,7 @@ public class Game implements IGame {
         if (this.i == 8) {
             this.i = 0;
         }
-        return robots[i++];
+        return robots[4];
     }
 
     @Override

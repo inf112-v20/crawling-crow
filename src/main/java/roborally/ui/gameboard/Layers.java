@@ -134,41 +134,41 @@ public class Layers {
     // Start positions
     // Returns the startPosLayer
     public TiledMapTileLayer getStartPos() {
-        return layers.get("Startpositions");
+        return layers.get("startPositions");
     }
 
     // Checks if there is a start position at the position x, y.
     public boolean assertStartPosNotNull(int x, int y) {
-        if (contains("Startpositions"))
-            return layers.get("Startpositions").getCell(x, y) != null;
-        System.out.println("Startpositions does not exist");
+        if (contains("startPositions"))
+            return layers.get("startPositions").getCell(x, y) != null;
+        System.out.println("startPositions does not exist");
         return false;
     }
 
     // Conveyor belts
     // Returns the slow conveyor belt layer
     public TiledMapTileLayer getConveyorSlow() {
-        return layers.get("Slowconveyorbelt");
+        return layers.get("slowConveyorBelt");
     }
 
     // Checks if there is a Slow conveyor belt at the position x, y.
     public boolean assertConveyorSlowNotNull(int x, int y) {
-        if (contains("Slowconveyorbelt"))
-            return layers.get("Slowconveyorbelt").getCell(x, y) != null;
-        System.out.println("Slowconveyorbelt does not exist");
+        if (contains("slowConveyorBelt"))
+            return layers.get("slowConveyorBelt").getCell(x, y) != null;
+        System.out.println("slowConveyorBelt does not exist");
         return false;
     }
 
     // Returns the fast conveyor belt layer.
     public TiledMapTileLayer getConveyorFast() {
-        return layers.get("Fastconveyorbelt");
+        return layers.get("fastConveyorBelt");
     }
 
     // Checks if there is a fast conveyor belt at the position x, y.
     public boolean assertConveyorFastNotNull(int x, int y) {
-        if (contains("Fastconveyorbelt"))
-            return layers.get("Fastconveyorbelt").getCell(x, y) != null;
-        System.out.println("Fastconveyorbelt does not exist");
+        if (contains("fastConveyorBelt"))
+            return layers.get("fastConveyorBelt").getCell(x, y) != null;
+        System.out.println("fastConveyorBelt does not exist");
         return false;
     }
 
@@ -188,14 +188,62 @@ public class Layers {
 
     // Returns the wrench hammer layer.
     public TiledMapTileLayer getWrenchHammer() {
-        return layers.get("WrenchHammer");
+        return layers.get("wrenchHammer");
     }
 
     // checks if there is a wrench hammer at the position x, y.
     public boolean assertWrenchHammerNotNull(int x, int y) {
-        if (contains("WrenchHammer"))
-            return layers.get("WrenchHammer").getCell(x, y) != null;
-        System.out.println("WrenchHammer layer does not exist");
+        if (contains("wrenchHammer"))
+            return layers.get("wrenchHammer").getCell(x, y) != null;
+        System.out.println("wrenchHammer layer does not exist");
+        return false;
+    }
+    // Lasers
+    // Return the laser layers
+    public TiledMapTileLayer getLaser() {
+        return layers.get("Laser");
+    }
+
+    public boolean assertLaserNotNull(int x, int y) {
+        if (contains("Laser"))
+            return layers.get("Laser").getCell(x, y) != null;
+        System.out.println("Laser layer does not exist");
+        return false;
+    }
+
+    public TiledMapTileLayer.Cell getLaserCell(int x, int y) {
+        if (!contains("Laser"))
+            return null;
+        return layers.get("Laser").getCell(x, y);
+    }
+
+    public void setLaserCell(int x, int y, TiledMapTileLayer.Cell cell) {
+        if (contains("Laser"))
+            layers.get("Laser").setCell(x, y, cell);
+        else
+            System.out.println("Laser layer does not exist");
+    }
+
+    public int getLaserID(int x, int y) {
+        if(contains("Laser"))
+            return layers.get("Laser").getCell(x, y).getTile().getId();
+        else
+            System.out.println("Laser layer does not exist");
+        return -1;
+    }
+
+    public int getLaserCannonID(int x, int y) {
+        if(contains("laserCannon"))
+            return layers.get("laserCannon").getCell(x, y).getTile().getId();
+        else
+            System.out.println("laserCannon layer does not exist");
+        return -1;
+    }
+
+    public boolean assertLaserCannonNotNull(int x, int y) {
+        if (contains("laserCannon"))
+            return layers.get("laserCannon").getCell(x, y) != null;
+        System.out.println("laserCannon layer does not exist");
         return false;
     }
 

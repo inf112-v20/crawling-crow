@@ -62,11 +62,12 @@ public class Robot {
         System.out.println(x + " " + y);
 
         // Checks for robots in its path before moving.
-        if(!this.getCalc().checkIfBlocked(x, y, dx, dy)) {
+        if(!getCalc().checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
                 this.robotState.setPosition(x + dx, y + dy);
                 System.out.println("New position: ");
                 System.out.println((x + dx) + " " + (y + dy));
+                getCalc().checkForLaser(x + dx, y + dy, this.getName());
             }
         }
         else

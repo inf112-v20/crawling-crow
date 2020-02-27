@@ -102,8 +102,8 @@ public class AssetsManager {
         airobots = new AI[8];
         airobots[0] = new AI(3,0, 0);
         airobots[1] = new AI(0,1, 1);
-        airobots[2] = new AI(3, 2, 2);
-        airobots[3] = new AI(8, 3, 3);
+        airobots[2] = new AI(3,2, 2);
+        airobots[3] = new AI(8,3, 3);
         airobots[4] = new AI(3,3, 4);
         airobots[5] = new AI(4,4, 5);
         airobots[6] = new AI(4,5, 6);
