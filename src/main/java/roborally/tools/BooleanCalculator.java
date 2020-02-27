@@ -112,7 +112,7 @@ public class BooleanCalculator {
      * laser id 39 = vertical laser, laser id 47 = horizontal laser.
      * cannonId 45 = downWards, 46 = leftGoing, 38 = rightGoing, 37 = upWards
      */
-    public void checkForLaser(int x, int y, String name) {
+    public boolean checkForLaser(int x, int y, String name) {
         if (name.equals(clumsyRobot) && !layers.assertLaserNotNull(x, y)) {
             GridPoint2 pos = new GridPoint2(x, y);
             for (GridPoint2 oldPos : restoreLaserCoordinates) {
@@ -121,6 +121,7 @@ public class BooleanCalculator {
                     layers.setLaserCell(x, y, restoreLaserCell);
                     if(restoreLaserCoordinates.isEmpty())
                         clumsyRobot = "";
+                    return true;
                 }
             }
             while(!restoreLaserCoordinates.isEmpty()) {
@@ -130,6 +131,7 @@ public class BooleanCalculator {
             clumsyRobot = "";
             restoreLaserCoordinates.clear();
             restoreLaserCell = null;
+            return true;
         }
         int cannonId = 0;
         if (layers.assertLaserNotNull(x, y)) {
@@ -169,6 +171,7 @@ public class BooleanCalculator {
             }
 
         }
+        return true;
     }
 
     /**
