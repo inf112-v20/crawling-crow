@@ -236,22 +236,26 @@ public class Game implements IGame {
 
     @Override
     public void moveRobots() {
-
+        // Redundant?
     }
 
     @Override
     public void revealProgramCards() {
+        // TODO: Implement simple method to make some use of our ProgramCards class.
     }
 
     @Override
     public void programRobots() {
+        // TODO: Implement some simple method to make some use of ProgramCards.
     }
 
     @Override
     public void dealCards() {
+        // TODO: Implement some simple method to make some use of ProgramCards.
     }
 
     @Override
     public void announcePowerDown() {
+        // TODO: Implement some damage system.
     }
 }

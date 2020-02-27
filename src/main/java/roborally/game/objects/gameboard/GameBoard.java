@@ -32,9 +32,8 @@ public class GameBoard implements IGameBoard {
 
     @Override
     public boolean onHole(int x, int y) {
-        if(layers.contains("bug"))
-            if(layers.assertBugNotNull(x, y))
-                return true;
+        if(layers.contains("bug") && layers.assertBugNotNull(x, y))
+            return true;
         if(!layers.contains("Hole"))
             return false;
         return layers.assertHoleNotNull(x, y);

@@ -96,7 +96,8 @@ public class Robot {
     }
 
     public boolean moveBackward() {
-        int dy = 0, dx = 0;
+        int dy = 0;
+        int dx = 0;
         System.out.println("Moving backwards...");
 
         Direction dir = this.direction;

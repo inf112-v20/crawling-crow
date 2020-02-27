@@ -12,7 +12,10 @@ import java.util.HashMap;
 public class BooleanCalculator {
     HashMap<String, Boolean> operations;
     private Layers layers;
-    private int x, y, height, width;
+    private int x;
+    private int y;
+    private int height;
+    private int width;
     private Queue<GridPoint2> restoreLaserCoordinates;
     private TiledMapTileLayer.Cell restoreLaserCell;
     private String clumsyRobot;
@@ -76,9 +79,8 @@ public class BooleanCalculator {
         else {
             if(checkForWall(newX, newY, dx, dy))
                 return true;
-            if(layers.assertRobotNotNull(newX + dx, newY +dy ))
-                if(robotNextToRobot(newX, newY, dx, dy))
-                    return true;
+            if(layers.assertRobotNotNull(newX + dx, newY + dy) && robotNextToRobot(newX, newY, dx, dy))
+                return true;
 
         }
         findCollidingRobot(newX, newY, dx, dy);
@@ -98,22 +100,22 @@ public class BooleanCalculator {
             int id = layers.getWallID(x, y);
             if (dy > 0)
                 wall = id == 31 || id == 16 || id == 24;
-            if (dy < 0)
+            else if (dy < 0)
                 wall = id == 29 || id == 8 || id == 32;
-            if (dx > 0)
+            else if (dx > 0)
                 wall = id == 23 || id == 16 || id == 8;
-            if (dx < 0)
+            else if (dx < 0)
                 wall = id == 30 || id == 32 || id == 24;
         }
         if(layers.assertWallNotNull(x + dx, y + dy) && !wall) {
             int id = layers.getWallID(x + dx, y + dy);
             if (dy > 0)
                 return id == 8 || id == 29 || id == 32;
-            if (dy < 0)
+            else if (dy < 0)
                 return id == 24 || id == 16 || id == 31;
-            if (dx > 0)
+            else if (dx > 0)
                 return id == 30 || id == 24 || id == 32;
-            if (dx < 0)
+            else if (dx < 0)
                 return id == 16 || id == 8 || id == 23;
         }
         return wall;
@@ -234,19 +236,19 @@ public class BooleanCalculator {
         return new Vector2(this.x,this.y);
     }
 
-    private boolean isBelowFlagOnMap(int x, int y){
+    private boolean isBelowFlagOnMap(int y){
         return y < this.y;
     }
 
-    private boolean isAboveFlagOnMap(int x, int y){
+    private boolean isAboveFlagOnMap(int y){
         return y > this.y;
     }
 
-    private boolean isToTheRightOfFlagOnMap(int x, int y){
+    private boolean isToTheRightOfFlagOnMap(int x){
         return x > this.x;
     }
 
-    private boolean isToTheLeftOfFlagOnMap(int x, int y){
+    private boolean isToTheLeftOfFlagOnMap(int x){
         return x < this.x;
     }
 
@@ -255,9 +257,9 @@ public class BooleanCalculator {
     }
 
     public void loadAICalc(int x, int y) {
-    operations.put("Left", isToTheLeftOfFlagOnMap(x, y));
-    operations.put("Right", isToTheRightOfFlagOnMap(x, y));
-    operations.put("Up", isAboveFlagOnMap(x, y));
-    operations.put("Down", isBelowFlagOnMap(x, y));
+    operations.put("Left", isToTheLeftOfFlagOnMap(x));
+    operations.put("Right", isToTheRightOfFlagOnMap(x));
+    operations.put("Up", isAboveFlagOnMap(y));
+    operations.put("Down", isBelowFlagOnMap(y));
     }
 }
