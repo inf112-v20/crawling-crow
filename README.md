@@ -80,7 +80,6 @@ Please see the [controls for combat](#combat) above
 See [Isses with Bug label](issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
 -   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](/../../issues/38).
 -   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](/../../issues/37).
--   Only when a robot is pushed ontop of a **hole** or a **flag** will it change state (texture), but the robot being controlled will not change it's state. See [#87](/../../issues/87).
 -   Lasers only shoot when the robot is either looking left or right, so only horizontal works now. See [#88](/../../issues/88)
 
 ### From Maven template
