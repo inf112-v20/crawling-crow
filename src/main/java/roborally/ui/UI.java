@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.tools.AssetsManager;
+import roborally.tools.AssetManagerUtil;
 import roborally.tools.controls.ControlsMenu;
 import roborally.tools.controls.ControlsProgramRobot;
 
@@ -31,12 +31,12 @@ public class UI extends InputAdapter implements ApplicationListener {
     @Override
     public void create() {
         // Prepare assets manager
-        AssetsManager.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        AssetsManager.load();
-        AssetsManager.manager.finishLoading();
+        AssetManagerUtil.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetManagerUtil.load();
+        AssetManagerUtil.manager.finishLoading();
 
         // Initialize the uimap
-        tiledMap = AssetsManager.getMap();
+        tiledMap = AssetManagerUtil.getMap();
 
         // Start a new game
         //boolean runAIGame = true;
@@ -62,7 +62,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void dispose() {
         tiledMap.dispose();
         mapRenderer.dispose();
-        AssetsManager.dispose();
+        AssetManagerUtil.dispose();
     }
 
     @Override

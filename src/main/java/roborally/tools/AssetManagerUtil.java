@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Stack;
 
-public class AssetsManager {
+public class AssetManagerUtil {
     private static TiledMap loadedMap;
     private static HashMap<String,TiledMapTileLayer> layers;
     private static Stack<String> robotNames;

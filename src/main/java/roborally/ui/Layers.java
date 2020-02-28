@@ -1,7 +1,7 @@
 package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import roborally.tools.AssetsManager;
+import roborally.tools.AssetManagerUtil;
 import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap. 
@@ -9,7 +9,7 @@ public class Layers implements ILayers {
     private HashMap<String,TiledMapTileLayer> layers;
     public Layers() {
         layers = new HashMap<>();
-        layers = AssetsManager.getLoadedLayers();
+        layers = AssetManagerUtil.getLoadedLayers();
     }
 
     @Override

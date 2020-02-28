@@ -6,7 +6,7 @@ import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
-import roborally.tools.AssetsManager;
+import roborally.tools.AssetManagerUtil;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import java.util.ArrayList;
@@ -31,15 +31,15 @@ public class Game implements IGame {
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
-        robots = AssetsManager.makeRobots();
+        robots = AssetManagerUtil.makeRobots();
     }
 
     public Game(boolean runAIGame){
         assert(runAIGame);
         layers = new Layers();
         gameBoard = new GameBoard(layers);
-        AssetsManager.makeAIRobots();
-        aiRobots = AssetsManager.getAIRobots();
+        AssetManagerUtil.makeAIRobots();
+        aiRobots = AssetManagerUtil.getAIRobots();
     }
 
     @Override

@@ -3,7 +3,7 @@ package roborally.ui.robot;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import roborally.tools.AssetsManager;
+import roborally.tools.AssetManagerUtil;
 import roborally.tools.Direction;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
@@ -31,7 +31,7 @@ public class RobotUI implements IRobotUI {
     }
 
     public void setTextureRegion(int cellId) {
-        this.robotTextureRegion = TextureRegion.split(AssetsManager.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
+        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
         layers.setRobotCell(this.uiRobotPosX, this.uiRobotPosY, getTexture());
     }
 

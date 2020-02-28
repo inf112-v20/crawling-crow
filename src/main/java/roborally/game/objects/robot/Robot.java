@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Laser;
-import roborally.tools.AssetsManager;
+import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;
 import roborally.tools.Direction;
 import roborally.ui.robot.IRobotUI;
@@ -25,7 +25,7 @@ public class Robot implements IRobot {
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public Robot(int x, int y, int cellId) {
-        IRobotState robot = new RobotState(AssetsManager.getRobotName());
+        IRobotState robot = new RobotState(AssetManagerUtil.getRobotName());
         IRobotUI uiRobot = new RobotUI(x, y);
         this.robotState = robot;
         this.uiRobot = uiRobot;
@@ -57,7 +57,7 @@ public class Robot implements IRobot {
         int x = (int)getPosition().x;
         int y = (int)getPosition().y;
         getCalc().getLasers().fireLaser(laser, new GridPoint2(x, y), getDegrees());
-        Sound sound = AssetsManager.manager.get(AssetsManager.SHOOT_LASER);
+        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.5);
     }
 

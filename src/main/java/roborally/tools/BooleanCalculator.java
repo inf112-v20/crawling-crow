@@ -45,13 +45,13 @@ public class BooleanCalculator {
                     return true;
                 if (layers.assertRobotNotNull(x+dx,y+dy))
                     recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
-                for (IRobot robot : AssetsManager.getRobots())
+                for (IRobot robot : AssetManagerUtil.getRobots())
                     if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot)
                         robot.move(dx,dy);
         }
             // Robot "deletion"
             else
-                for(IRobot robot : AssetsManager.getRobots())
+                for(IRobot robot : AssetManagerUtil.getRobots())
                     if(robot.getPosition().x == x && robot.getPosition().y == y) {
                         layers.setRobotCell(x, y, null);
                         robot.setPos(-1,-1);
@@ -152,7 +152,7 @@ public class BooleanCalculator {
      * @param dy steps taken in y-direction
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
-        for (IRobot robot : AssetsManager.getRobots()){
+        for (IRobot robot : AssetManagerUtil.getRobots()){
             GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
                 GridPoint2 bumpedPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);

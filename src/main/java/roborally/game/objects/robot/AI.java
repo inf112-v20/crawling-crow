@@ -1,7 +1,7 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.tools.AssetsManager;
+import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
@@ -20,7 +20,7 @@ public class AI extends Robot {
         super(x, y, cellId);
         setTextureRegion(1);
         this.booleanCalculator = new BooleanCalculator();
-        this.flagPositions = AssetsManager.makeFlagPos();
+        this.flagPositions = AssetManagerUtil.makeFlagPos();
         this.layers = new Layers();
         getCalc().determineFlagPos(this.flagPositions.pop());
     }
@@ -74,7 +74,7 @@ public class AI extends Robot {
     }
     public void setFlagPos() {
         if (this.flagPositions.isEmpty())
-            this.flagPositions = AssetsManager.makeFlagPos();
+            this.flagPositions = AssetManagerUtil.makeFlagPos();
         else
             getCalc().determineFlagPos(this.flagPositions.pop());
     }
