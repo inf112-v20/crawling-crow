@@ -15,8 +15,6 @@ public class Laser {
     private GridPoint2 robotsOrigin;
     private ArrayList<GridPoint2> storedCoordsOpposite;
     private ArrayList<GridPoint2> storedCoordsDirect;
-    private int width;
-    private int height;
     private TiledMapTileLayer.Cell storedLaserCell;
     private BooleanCalculator booleanCalculator;
 
@@ -29,8 +27,6 @@ public class Laser {
         laserType.put(39, "HORIZONTAL");
         laserType.put(47, "VERTICAL");
         this.laserDegree = laserDegree;
-        this.width = layers.getWidth();
-        this.height = layers.getHeight();
         storedCoordsOpposite = new ArrayList<>(); // Stores coordinates of laser-cells that are removed.
         storedCoordsDirect = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
         this.booleanCalculator = new BooleanCalculator();
@@ -67,7 +63,7 @@ public class Laser {
         else if(direction == 3) {
             if (booleanCalculator.checkForWall(i, j, 1, 0)) // Makes sure there's not a wall blocking the laser.
                 return;
-            while(i < width-1) {
+            while(i < layers.getWidth()-1) {
                 if (!layers.assertLaserNotNull(++i, j)) { // Makes sure it doesnt stack laser on top of other laser cells.
                     layers.setLaserCell(i, j, storedLaserCell);
                     storedCoordsOpposite.add(new GridPoint2(i, j));
@@ -107,23 +103,20 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         this.robotsOrigin = robotsOrigin;
         storedLaserCell = layers.getLaserCell(robotsOrigin.x, robotsOrigin.y);
-        int i = robotsOrigin.x + 1;
-        int j = robotsOrigin.x - 1;
-        int k = robotsOrigin.y;
         if (laserType.get(laserDegree).equals("HORIZONTAL")) {
-            findHorizontal(i, j, k);
+            findHorizontal();
         }
     }
 
     /** Finds the cannon projecting a horizontal laser, and stores laser cells to the left and right of the robot.
-     * @param i The x-coordinate to the  cell to the right of the robot
-     * @param j The x-coordinate to the cell to the left of the robot
-     * @param k The y-coordinate of the robot
      */
-    public void findHorizontal(int i, int j, int k) {
+    public void findHorizontal() {
         boolean cannon1;
         boolean cannon2;
-        while (i < width) {
+        int i = robotsOrigin.x + 1;
+        int j = robotsOrigin.x - 1;
+        int k = robotsOrigin.y;
+        while (i < layers.getWidth()) {
             if (layers.assertLaserNotNull(i, k))
                 storedCoordsDirect.add(new GridPoint2(i++, k));
             else {

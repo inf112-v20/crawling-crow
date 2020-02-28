@@ -153,26 +153,26 @@ public class BooleanCalculator {
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
         for (IRobot robot : AssetsManager.getRobots()){
+            GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
-                if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
-                    if (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0) {
-                        // Robot "deletion".
-                        robot.setPos(-1,-1);
-                        layers.setRobotCell(x, y, null);
-                    }
-                    else {
-                        System.out.println("The bumped robot: ");
-                        robot.move(dx, dy);
-                        System.out.println("The bumping robot: ");
-                        if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
-                            robot.setWinTexture();
-                        else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.
-                            robot.setLostTexture();
+                GridPoint2 bumpedPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);
+                if(bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
+                    // Robot "deletion".
+                    robot.setPos(-1, -1);
+                    layers.setRobotCell(x, y, null);
+                }
+                else if (bumpedPos.equals(bumpingPos)){
+                    System.out.println("The bumped robot: ");
+                    robot.move(dx, dy);
+                    System.out.println("The bumping robot: ");
+                    if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
+                        robot.setWinTexture();
+                    else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.
+                        robot.setLostTexture();
                     }
                 }
             }
         }
-    }
 
     // Check a specific position if it is blocked
     public boolean isBlocked(int x, int y) {
