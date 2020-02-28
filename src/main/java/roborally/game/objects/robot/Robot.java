@@ -17,7 +17,6 @@ public class Robot implements IRobot {
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
-    private Sound sound;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -55,7 +54,7 @@ public class Robot implements IRobot {
         int x = (int)getPosition().x;
         int y = (int)getPosition().y;
         getCalc().getLasers().fireLaser(laser, new GridPoint2(x, y), getDegrees());
-        sound = AssetsManager.manager.get(AssetsManager.SHOOT_LASER);
+        Sound sound = AssetsManager.manager.get(AssetsManager.SHOOT_LASER);
         sound.play((float) 0.5);
     }
 

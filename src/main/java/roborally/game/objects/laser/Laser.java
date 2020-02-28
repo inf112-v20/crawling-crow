@@ -48,25 +48,31 @@ public class Laser {
         storedCoordsOpposite.clear();
         int i = gp2.x;
         int j = gp2.y;
+        // Shooting laser to the left.
         if(direction == 1) {
-            if (booleanCalculator.checkForWall(i, j, -1, 0))
+            if (booleanCalculator.checkForWall(i, j, -1, 0)) // Makes sure there's not a wall blocking the laser.
                 return;
             while (i > 0) {
-                layers.setLaserCell(--i, j, storedLaserCell);
-                storedCoordsOpposite.add(new GridPoint2(i, j));
-                if (booleanCalculator.checkForWall(i, j, -1, 0) || layers.assertRobotNotNull(i, j))
-                    break;
+                if(!layers.assertLaserNotNull(--i, j)) { // Makes sure it doesnt stack laser on top of other laser cells.
+                    layers.setLaserCell(i, j, storedLaserCell);
+                    storedCoordsOpposite.add(new GridPoint2(i, j));
+                    if (booleanCalculator.checkForWall(i, j, -1, 0) || layers.assertRobotNotNull(i, j))
+                        break;
+                }
             }
         }
 
+        // Shooting laser to the right.
         else if(direction == 3) {
-            if (booleanCalculator.checkForWall(i, j, 1, 0))
+            if (booleanCalculator.checkForWall(i, j, 1, 0)) // Makes sure there's not a wall blocking the laser.
                 return;
             while(i < width-1) {
-                layers.setLaserCell(++i, j, storedLaserCell);
-                storedCoordsOpposite.add(new GridPoint2(i, j));
-                if (booleanCalculator.checkForWall(i, j, 1, 0) || layers.assertRobotNotNull(i, j))
-                    break;
+                if (!layers.assertLaserNotNull(++i, j)) { // Makes sure it doesnt stack laser on top of other laser cells.
+                    layers.setLaserCell(i, j, storedLaserCell);
+                    storedCoordsOpposite.add(new GridPoint2(i, j));
+                    if (booleanCalculator.checkForWall(i, j, 1, 0) || layers.assertRobotNotNull(i, j))
+                        break;
+                }
             }
         }
     }
@@ -114,13 +120,15 @@ public class Laser {
      * @param k The y-coordinate of the robot
      */
     public void findHorizontal(int i, int j, int k) {
+        boolean cannon1;
+        boolean cannon2;
         while (i < width) {
             if (layers.assertLaserNotNull(i, k))
                 storedCoordsDirect.add(new GridPoint2(i++, k));
             else {
                 break;
             }
-        }
+        } cannon1 = layers.assertLaserCannonNotNull(i-1, k);
         while (j >= 0) {
             if (layers.assertLaserNotNull(j, k))
                 storedCoordsOpposite.add(new GridPoint2(j--, k));
@@ -128,12 +136,17 @@ public class Laser {
                 break;
             }
         }
+        cannon2 = layers.assertLaserCannonNotNull(j+1, k);
         if (layers.assertLaserCannonNotNull(j+1, k)) {
             ArrayList<GridPoint2> temp = new ArrayList<>(storedCoordsDirect);
             storedCoordsDirect = storedCoordsOpposite;
             storedCoordsOpposite = temp;
         }
-        storedCoordsDirect.add(robotsOrigin);
+        if(cannon1 || cannon2)
+            storedCoordsDirect.add(robotsOrigin);
+        else {
+            clearStoredCoordinates();
+        }
     }
 
     /** Sees if the new position is going into or out of the lasers path.
