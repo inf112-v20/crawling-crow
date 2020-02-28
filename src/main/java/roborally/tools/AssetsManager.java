@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.IRobot;
 import roborally.game.objects.robot.IRobotState;
 import roborally.game.objects.robot.Robot;
 
@@ -24,7 +25,7 @@ public class AssetsManager {
     public static Stack<Vector2> flagPositions;
     public static AI[] airobots;
     public static IRobotState[] robots;
-    public static Robot[] robotcores;
+    public static IRobot[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     // Sounds
@@ -114,7 +115,7 @@ public class AssetsManager {
         airobots[7] = new AI(6,4, 7);
     }
 
-    public static Robot[] getRobots() {
+    public static IRobot[] getRobots() {
         return robotcores;
     }
     public static AI[] getAIRobots() {
@@ -122,7 +123,7 @@ public class AssetsManager {
     }
 
     // Default Robots robots
-    public static Robot[] makeRobots() {
+    public static IRobot[] makeRobots() {
         robotcores = new Robot[8];
         robotcores[0] = new Robot(3, 0, 0);
         robotcores[1] = new Robot(0, 1, 1);

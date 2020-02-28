@@ -2,7 +2,7 @@ package roborally.game;
 
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.IRobot;
 import roborally.ui.gameboard.Layers;
 
 public interface IGame {
@@ -18,7 +18,7 @@ public interface IGame {
 
     AI[] getAIRobots();
 
-    Robot getRobots();
+    IRobot getRobots();
 
     /**
      * Serves ONLY feed the keyUp method..
@@ -60,7 +60,7 @@ public interface IGame {
 
     boolean checkIfSomeoneWon();
 
-    Robot getWinner();
+    IRobot getWinner();
 
     void endGame();
 

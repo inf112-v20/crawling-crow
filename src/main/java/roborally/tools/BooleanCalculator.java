@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.objects.laser.Lasers;
+import roborally.game.objects.robot.IRobot;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.gameboard.Layers;
 import java.util.HashMap;
@@ -46,13 +47,13 @@ public class BooleanCalculator {
                     return true;
                 if (layers.assertRobotNotNull(x+dx,y+dy))
                     recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
-                for (Robot robot : AssetsManager.getRobots())
+                for (IRobot robot : AssetsManager.getRobots())
                     if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot)
                         robot.move(dx,dy);
         }
             // Robot "deletion"
             else
-                for(Robot robot : AssetsManager.getRobots())
+                for(IRobot robot : AssetsManager.getRobots())
                     if(robot.getPosition().x == x && robot.getPosition().y == y) {
                         layers.setRobotCell(x, y, null);
                         robot.setPos(-1,-1);
@@ -153,7 +154,7 @@ public class BooleanCalculator {
      * @param dy steps taken in y-direction
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
-        for (Robot robot : AssetsManager.getRobots()){
+        for (IRobot robot : AssetsManager.getRobots()){
             if (robot != null) {
                 if((int)robot.getPosition().x == x && (int)robot.getPosition().y == y) {
                     if (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0) {

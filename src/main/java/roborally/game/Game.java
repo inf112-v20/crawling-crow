@@ -4,7 +4,7 @@ import roborally.game.objects.Flag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
 
@@ -16,10 +16,10 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private Layers layers;
     private AI[] aiRobots;
-    private Robot[] robots;
+    private IRobot[] robots;
     private ArrayList<Flag> flags;
 
-    private Robot winner;
+    private IRobot winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
@@ -55,7 +55,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public Robot getRobots() {
+    public IRobot getRobots() {
         if (this.i == 8) {
             this.i = 0;
         }
@@ -150,7 +150,7 @@ public class Game implements IGame {
         for (Flag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
-            for (Robot robot : robots) {
+            for (IRobot robot : robots) {
                 int robotX = (int) robot.getPosition().x;
                 int robotY = (int) robot.getPosition().y;
                 if (flagX == robotX && flagY == robotY) {
@@ -186,7 +186,7 @@ public class Game implements IGame {
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for(Robot robot : robots){
+        for(IRobot robot : robots){
             if (robot.hasVisitedAllFlags()){
                 winner = robot;
             }
@@ -200,7 +200,7 @@ public class Game implements IGame {
         if(robots == null) {
             robotsAreCreated = false;
         } else {
-            for (Robot robot : robots) {
+            for (IRobot robot : robots) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
@@ -214,7 +214,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public Robot getWinner() {
+    public IRobot getWinner() {
         return winner;
     }
 
