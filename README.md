@@ -48,21 +48,23 @@ All of our automatic tests can be found in `src/test/java/roborally`.
 ### Manual tests (while running the game)
 #### Movement test
 Please see the [controls for movement](#movement) above.
--   We use these to see if the robot moves as expected.
+-   We use these to see if the `Robot` moves as expected with arrow keys
 -   Push other `Robot`s around.
--   Check if `Robot` cannot go outside game board (This will be changed later).
+-   Check if `Robot` cannot go outside game board (This will be changed later, because of the game rules).
 -   Move `Robot` into wall to see if collision works.
 -   Push `Robot`s into walls to see if collision works.
+-   Push `Robot`s outside of game bord, to see if they go outside
 
 #### Robot's State changes
 -   Push other `Robot`s ontop of _holes_ or _flags_ to see if their state (texture) changes.
 
 #### Combat test
 Please see the [controls for combat](#combat) above
--   Check if lasers fire when looking left or right and if sounds executes. (Works only horizontal atm)
+-   Check if lasers fire when looking left or right and if sounds executes by pressing <kbd>F</kbd>. (Works only horizontal atm)
+    -   Check if laser stops on `Robot`s and walls.
     
 #### Other test
--   Move `Robot` to **flag 1**, press <kbd>SPACE</kbd>, check console if `A flag has been visited` appears.
+-   Move `Robot` to **flag 1**, press <kbd>SPACE</kbd>, check console print `A flag has been visited` appears.
     -   Continue for the other flags in ascending order.
     -   When all flags has been visited, check if someone has _won_ by pressing <kbd>W</kbd>.
 
