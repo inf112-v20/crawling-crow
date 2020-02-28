@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.Flag;
+import roborally.game.objects.IFlag;
 import roborally.game.objects.robot.AI;
 import roborally.ui.gameboard.Layers;
 
@@ -51,8 +52,8 @@ public class GameBoard implements IGameBoard {
     }
 
     @Override
-    public ArrayList<Flag> findAllFlags() {
-        ArrayList<Flag> flags = new ArrayList<>();
+    public ArrayList<IFlag> findAllFlags() {
+        ArrayList<IFlag> flags = new ArrayList<>();
         TiledMapTileLayer flagLayer = layers.getFlag();
 
         for (int i = 0; i < flagLayer.getWidth(); i++) {

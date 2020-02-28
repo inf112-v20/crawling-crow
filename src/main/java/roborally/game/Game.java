@@ -1,6 +1,7 @@
 package roborally.game;
 
 import roborally.game.objects.Flag;
+import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
@@ -17,7 +18,7 @@ public class Game implements IGame {
     private Layers layers;
     private AI[] aiRobots;
     private IRobot[] robots;
-    private ArrayList<Flag> flags;
+    private ArrayList<IFlag> flags;
 
     private IRobot winner;
     private boolean gameRunning = false;
@@ -147,7 +148,7 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
-        for (Flag flag : flags) {
+        for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
             for (IRobot robot : robots) {

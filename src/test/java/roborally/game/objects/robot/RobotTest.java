@@ -7,8 +7,8 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class RobotTest {
-    private Robot testRobot1;
-    private Robot testRobot2;
+    private IRobot testRobot1;
+    private IRobot testRobot2;
     @Before
     public void setUp() {
         testRobot1 = new Robot(new RobotState("T1"));

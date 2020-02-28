@@ -1,7 +1,7 @@
 package roborally.game.objects.gameboard;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.Flag;
+import roborally.game.objects.IFlag;
 import roborally.game.objects.robot.AI;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public interface IGameBoard {
     /**
      * @return All the flags on the game board
      */
-    ArrayList<Flag> findAllFlags();
+    ArrayList<IFlag> findAllFlags();
 
     /**
      * Check if Robot can move. (Might be a wall or another Robot).
