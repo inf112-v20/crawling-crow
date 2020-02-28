@@ -20,6 +20,7 @@ For now, you have to run the game manually.
     -   Alternatively use the command `java -jar target/roborally-crawlingcrow-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 2.  Move around using the [controls](#controls)
+
 3.  When you want to exit, press <kbd>ESC</kbd> or exit the game manually by clicking on the **X**-button.
 
 ### How to play
@@ -69,7 +70,9 @@ Please see the [controls for combat](#combat) above
     -   When all flags has been visited, check if someone has _won_ by pressing <kbd>W</kbd>.
 
 -   Check if someone has _won_ prematurely (without visiting any flags) by pressing <kbd>W</kbd>.
+
 -   Start round by pressing <kbd>ENTER</kbd> (this will wait for program card input, which haven't been implemented yet).
+
 -   Check if game exits/quits by pressing <kbd>ESC</kbd>.
 
 ## Known bugs
