@@ -14,7 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.tools.AssetManagerUtil;
-import roborally.tools.controls.ControlsMenu;
+import roborally.tools.controls.ControlsDebug;
 import roborally.tools.controls.ControlsProgramRobot;
 
 public class UI extends InputAdapter implements ApplicationListener {
@@ -25,7 +25,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
-    private ControlsMenu menuControls;
+    private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
 
     @Override
@@ -44,7 +44,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         game = new Game();
 
         // Setup controls for the game
-        menuControls = new ControlsMenu(game);
+        debugControls = new ControlsDebug(game);
         programRobotControls = new ControlsProgramRobot(game);
 
         // Initialize the camera
@@ -91,7 +91,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode) {
 
         if(!game.isRunning()){
-            menuControls.getAction(keycode).run();
+            debugControls.getAction(keycode).run();
         }
 
         if(game.isRunning()){

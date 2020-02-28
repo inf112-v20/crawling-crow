@@ -1,5 +1,6 @@
 package roborally.tools.controls;
 
+import com.badlogic.gdx.Input;
 import roborally.game.IGame;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ public class ControlsProgramRobot implements IControls {
         controlMap = new HashMap<>();
         game.checkIfSomeoneWon();
         // TODO: Add controls for programming robot
+        controlMap.put(Input.Keys.ESCAPE, game::exitGame);
     }
 
     @Override
