@@ -154,6 +154,7 @@ public class Robot implements IRobot {
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
+        clearLaser(); // TODO: Move this, so it's called one time
     }
 
     @Override
@@ -167,7 +168,7 @@ public class Robot implements IRobot {
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
-
+        clearLaser(); // TODO: Move this, so it's called one time
     }
 
     @Override
