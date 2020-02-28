@@ -1,9 +1,8 @@
 ---
 name: Bug
 about: Generell bugrapport
-title: ''
+title: '[BUG] '
 labels: bug
 assignees: ''
-project: 1
 
 ---

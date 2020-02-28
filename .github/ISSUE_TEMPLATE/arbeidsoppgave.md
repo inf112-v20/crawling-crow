@@ -4,8 +4,7 @@ about: Generell arbeidsoppgave
 title: ''
 labels: WORK TASK
 assignees: ''
-projects: 1
 
 ---
 
-
+Beskrivende arbeidsoppgave, som helst burde ha en overordnet brukerhistorie.
