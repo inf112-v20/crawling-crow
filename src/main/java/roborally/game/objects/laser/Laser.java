@@ -48,20 +48,26 @@ public class Laser {
         storedCoordsOpposite.clear();
         int i = gp2.x;
         int j = gp2.y;
-        if(direction == 1)
-            while(i > 0) {
+        if(direction == 1) {
+            if (booleanCalculator.checkForWall(i, j, -1, 0))
+                return;
+            while (i > 0) {
                 layers.setLaserCell(--i, j, storedLaserCell);
                 storedCoordsOpposite.add(new GridPoint2(i, j));
-                if(booleanCalculator.checkForWall(i,j,-1,0) || layers.assertRobotNotNull(i, j))
+                if (booleanCalculator.checkForWall(i, j, -1, 0) || layers.assertRobotNotNull(i, j))
                     break;
             }
+        }
 
-        else if(direction == 3)
+        else if(direction == 3) {
+            if (booleanCalculator.checkForWall(i, j, 1, 0))
+                return;
             while(i < width-1) {
                 layers.setLaserCell(++i, j, storedLaserCell);
                 storedCoordsOpposite.add(new GridPoint2(i, j));
-                if(booleanCalculator.checkForWall(i,j,1,0) || layers.assertRobotNotNull(i, j))
+                if (booleanCalculator.checkForWall(i, j, 1, 0) || layers.assertRobotNotNull(i, j))
                     break;
+            }
         }
     }
 
