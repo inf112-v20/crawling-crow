@@ -1,6 +1,5 @@
 package roborally.tools.controls;
 
-import roborally.game.IGame;
 import java.util.HashMap;
 
 public class ControlsProgramRobot implements IControls {
