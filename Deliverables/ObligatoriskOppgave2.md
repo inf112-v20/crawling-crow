@@ -33,4 +33,4 @@
 
 ## Deloppgave 3
 -   Instruksjoner ligger i vår [README](README.md#how-to-run) for hvordan prosjektet bygger, testes og kjøres.
--   Oppdatert klassediagram i vår [README](README.md#class-diagram).
+-   Oppdatert klassediagram i vår  [README](crawling-crow/blob/master/README.md#class-diagram).
