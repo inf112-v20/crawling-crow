@@ -34,5 +34,4 @@
 ## Deloppgave 3
 -   Se vår [README](https://github.com/inf112-v20/crawling-crow/blob/master/README.md) for hvordan prosjektet bygger, testes og kjøres.
 
-
 ### Klassediagram

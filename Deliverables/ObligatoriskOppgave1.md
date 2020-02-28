@@ -134,7 +134,8 @@ Ting som gikk bra:
 -   Wiki, fått nyttige ting på plass. 
     -   alle får oversikt over nyttig info man kan se tilbake til.
     -   retningslinjer, co-author/shortcut
-    
+
+
 -   God kommunikasjon på Slack.
     -   lett å avtale møter, holde alle oppdatert
 
