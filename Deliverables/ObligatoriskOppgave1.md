@@ -1,28 +1,29 @@
-# Deloppgave 1
-## Kartlegging av kompetanse
-### Lise og Sol
+# Obligatorisk oppgave 1
+## Deloppgave 1
+### Kartlegging av kompetanse
+#### Lise og Sol
 -   Programmering: Behersker godt java, erfaring fra INF101 og INF102. 
 -   Git: brukt litt i INF101
 -   Tester: brukt litt i INF101
 
-### Sigmund
+#### Sigmund
 -   Programmering: Behersker godt java, bakgrunn i kryptografi.
 -   Git: Ny til git.
 -   Tester: Litt ny til tester
 
-### Tim
+#### Tim
 -   Programmering: behersker godt java, python, webutikling/webdesgin
 -   Git: Har brukt git i mange år
 -   Tester: Brukt litt tester primært i INF101, INF102
 -   Har arbeidserfaring med systemkonstruksjon fra tidligere sommerjobb. 
 
-### Thomas
+#### Thomas
 -   Programmering: Behersker godt java, python
 -   Git: Har brukt litt i INF101
 -   Tester: Brukt TDD i INF101
 
-## Rollefordeling
-### Tim - Gruppeleder
+### Rollefordeling
+#### Tim - Gruppeleder
 -   Hovedansvar for Git-repo'en. At alt blir gjort på en oversiktig og god måte.
     -   Hjelpe gruppen med å forstå Git og hvordan man bruker det.
     
@@ -32,11 +33,11 @@
     
 -   Passe på at alle får hjelp til det de holder på med.
 
-### Sol - Kundekontakt
+#### Sol - Kundekontakt
 -   Kommuniserer med vår kunde (Siv (og evt. gruppeleder))
     -   Stiller spørsmål angående oppgavene vi blir tildelt.
 
-### Researcher
+#### Researcher
 -   Sette seg inn i et tema og fungere som orakel for gruppen.
 
 #### Thomas - Game Master/Hovedtester
@@ -45,7 +46,7 @@
 #### Sigmund - LibGdx 
 -   Hovedansvar for å forstå spillmotoren.
   
-## Lise - Møteansvarlig
+#### Lise - Møteansvarlig
 -   Ansvar for å følge agenda.
 -   Skrive møtereferat, og lagde agenda for neste møte.
 
@@ -95,7 +96,8 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet roborally.
 ### Arbeidsfordeling
 1.  Skriver user stories (Bruker et eget GitHub Project board til dette)
     -   Går igjennom de i fellesskap i møter
-    
+
+
 2.  Definerer arbeidsoppgaver ut i fra user stories
 
 3.  Arbeidsoppgavene fordeles etter interesse og ønske.
@@ -113,7 +115,7 @@ Overordnet mål: Vi skal lage en digital versjon av brettspillet roborally.
 -   Bruker GitHub til all kode.
 
 ## Deloppgave 4
-Vi har valgt å lage en egen Project board til, [user stories](https://github.com/inf112-v20/crawling-crow/projects/2). Her tagger vi de ulike arbeidsoppgavene ([work tasks](https://github.com/inf112-v20/crawling-crow/projects/1)) fortløpende. 
+Vi har valgt å lage en egen Project board til, [user stories](/../../projects/2). Her tagger vi de ulike arbeidsoppgavene ([work tasks](/../../projects/1)) fortløpende. 
 
 ## Retrospektiv 
 ### Prosjektmetodikk
