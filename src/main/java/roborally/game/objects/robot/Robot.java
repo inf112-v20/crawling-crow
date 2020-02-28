@@ -207,6 +207,7 @@ public class Robot implements IRobot {
 
     @Override
     public void visitNextFlag() {
+        this.setWinTexture();
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag-1] = true;
