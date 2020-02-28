@@ -7,7 +7,6 @@ import roborally.game.objects.Flag;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.robot.AI;
 import roborally.ui.gameboard.Layers;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

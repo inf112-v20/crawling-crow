@@ -2,7 +2,6 @@ package roborally.game.objects.robot;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 

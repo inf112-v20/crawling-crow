@@ -6,7 +6,6 @@ import org.junit.Test;
 import roborally.game.objects.robot.IRobot;
 import roborally.game.objects.robot.RobotState;
 import roborally.game.objects.robot.Robot;
-
 import static org.junit.Assert.*;
 
 public class RobotStateTest {

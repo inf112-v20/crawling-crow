@@ -1,6 +1,5 @@
 package roborally.game;
 
-import roborally.game.objects.Flag;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
@@ -8,7 +7,6 @@ import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetsManager;
 import roborally.ui.gameboard.Layers;
-
 import java.util.ArrayList;
 
 public class Game implements IGame {
@@ -26,7 +24,6 @@ public class Game implements IGame {
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int i;
 
-
     public Game(){
         i = 0;
         layers = new Layers();
@@ -35,14 +32,12 @@ public class Game implements IGame {
         robots = AssetsManager.makeRobots();
     }
 
-
     public Game(boolean runAIGame){
         assert(runAIGame);
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         AssetsManager.makeAIRobots();
         aiRobots = AssetsManager.getAIRobots();
-
     }
 
     @Override

@@ -2,7 +2,6 @@ package roborally.ui.gameboard;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.tools.AssetsManager;
-
 import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap. 

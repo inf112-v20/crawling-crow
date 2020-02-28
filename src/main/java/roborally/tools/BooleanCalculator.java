@@ -1,12 +1,9 @@
 package roborally.tools;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Queue;
 import roborally.game.objects.laser.Lasers;
 import roborally.game.objects.robot.IRobot;
-import roborally.game.objects.robot.Robot;
 import roborally.ui.gameboard.Layers;
 import java.util.HashMap;
 
