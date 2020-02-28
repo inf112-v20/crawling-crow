@@ -1,30 +1,29 @@
 package roborally.game;
 
-import roborally.game.objects.Flag;
+import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetsManager;
+import roborally.ui.ILayers;
 import roborally.ui.Layers;
-
 import java.util.ArrayList;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
 
     private IGameBoard gameBoard;
-    private Layers layers;
+    private ILayers layers;
     private AI[] aiRobots;
     private IRobot[] robots;
-    private ArrayList<Flag> flags;
+    private ArrayList<IFlag> flags;
 
     private IRobot winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int i;
-
 
     public Game(){
         i = 0;
@@ -34,18 +33,16 @@ public class Game implements IGame {
         robots = AssetsManager.makeRobots();
     }
 
-
     public Game(boolean runAIGame){
         assert(runAIGame);
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         AssetsManager.makeAIRobots();
         aiRobots = AssetsManager.getAIRobots();
-
     }
 
     @Override
-    public Layers getLayers(){
+    public ILayers getLayers(){
         return this.layers;
     }
 
@@ -114,6 +111,7 @@ public class Game implements IGame {
         return phaseStep;
     }
 
+    // It reset game states at the end of a round
     private void cleanUp() {
         assert(gameRunning);
         roundStep = RoundStep.NULL_STEP;
@@ -147,7 +145,7 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
-        for (Flag flag : flags) {
+        for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
             for (IRobot robot : robots) {

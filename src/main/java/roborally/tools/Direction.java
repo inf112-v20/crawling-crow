@@ -6,7 +6,6 @@ public enum Direction {
     South(2),
     West(1);
 
-
     private final int directionId;
 
     Direction(int directionId) {

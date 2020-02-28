@@ -2,7 +2,6 @@ package roborally.tools.controls;
 
 import com.badlogic.gdx.Input;
 import roborally.game.IGame;
-
 import java.util.HashMap;
 
 public class ControlsMenu implements IControls{

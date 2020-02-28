@@ -3,16 +3,16 @@ package roborally.game.objects;
 import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
 import org.junit.Test;
+import roborally.game.objects.robot.IRobot;
 import roborally.game.objects.robot.RobotState;
 import roborally.game.objects.robot.Robot;
-
 import static org.junit.Assert.*;
 
 public class RobotStateTest {
     private Vector2 initialStartPosition;
     private int posX;
     private int posY;
-    private Robot robot;
+    private IRobot robot;
     private String robotName;
 
     @Before

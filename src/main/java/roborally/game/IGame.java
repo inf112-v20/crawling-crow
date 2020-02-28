@@ -3,14 +3,15 @@ package roborally.game;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
-import roborally.ui.Layers;
+import roborally.ui.ILayers;
 
 public interface IGame {
     /**
      * Serves ONLY feed the keyUp method..
+     * @return
      */
 
-    Layers getLayers();
+    ILayers getLayers();
 
     /**
      * Serves ONLY feed the keyUp method..
