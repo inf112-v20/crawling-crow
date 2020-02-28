@@ -6,7 +6,8 @@ import java.util.HashMap;
 public class ControlsProgramRobot implements IControls {
     private HashMap<Integer, Runnable> controlMap;
 
-    public ControlsProgramRobot(IGame game){
+    // Meant to take constructor variable game, but leaving it empty for codacy.
+    public ControlsProgramRobot(){
         controlMap = new HashMap<>();
         // TODO: Add controls for programming robot
     }
