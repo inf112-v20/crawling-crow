@@ -1,6 +1,6 @@
 package roborally;
 
-import roborally.ui.gameboard.UIGameBoard;
+import roborally.ui.UI;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -10,8 +10,9 @@ public class Main {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "RoboRally by CrawlingCrow";
         cfg.width = 600;
-        cfg.height = 600;
+        //height is 600 without starting area, when the size of the board is just 12x12
+        cfg.height = 800;
 
-        new LwjglApplication(new UIGameBoard(), cfg);
+        new LwjglApplication(new UI(), cfg);
     }
 }

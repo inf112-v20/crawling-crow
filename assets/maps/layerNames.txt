@@ -6,4 +6,11 @@ hole Hole
 pit Hole
 flag Flag
 gear Gear
+startpositions startPositions
+slowconveyorbelt slowConveyorBelt
+fastconveyorbelt fastConveyorBelt
+wrench Wrench
+hammer Hammer
+laser Laser
+cannon laserCannon
 end
