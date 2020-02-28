@@ -2,7 +2,7 @@
 name: Bug
 about: Generell bugrapport
 title: ''
-labels: Bug
+labels: bug
 assignees: ''
 
 ---
