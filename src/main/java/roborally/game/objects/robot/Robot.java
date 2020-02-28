@@ -7,11 +7,11 @@ import roborally.game.objects.laser.Laser;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
 import roborally.tools.Direction;
-import roborally.ui.robot.IUIRobot;
-import roborally.ui.robot.UIRobot;
+import roborally.ui.robot.IRobotUI;
+import roborally.ui.robot.RobotUI;
 
 public class Robot implements IRobot {
-    private IUIRobot uiRobot;
+    private IRobotUI uiRobot;
     private IRobotState robotState;
     private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
@@ -26,7 +26,7 @@ public class Robot implements IRobot {
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public Robot(int x, int y, int cellId) {
         IRobotState robot = new RobotState(AssetsManager.getRobotName());
-        IUIRobot uiRobot = new UIRobot(x, y);
+        IRobotUI uiRobot = new RobotUI(x, y);
         this.robotState = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(x,y);

@@ -8,7 +8,7 @@ import roborally.tools.Direction;
 import roborally.ui.Layers;
 import roborally.ui.UI;
 
-public class UIRobot implements IUIRobot {
+public class RobotUI implements IRobotUI {
 
     private TiledMapTileLayer.Cell robotWonCellTexture;
     private TiledMapTileLayer.Cell robotLostCellTexture;
@@ -21,7 +21,7 @@ public class UIRobot implements IUIRobot {
     private int width;
 
     // Creates new UIRobot in position x and y.
-    public UIRobot(int x, int y) {
+    public RobotUI(int x, int y) {
         this.uiRobotPosX = x;
         this.uiRobotPosY = y;
         this.layers = new Layers();

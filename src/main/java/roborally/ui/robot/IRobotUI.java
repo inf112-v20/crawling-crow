@@ -3,7 +3,7 @@ package roborally.ui.robot;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.tools.Direction;
 
-public interface IUIRobot {
+public interface IRobotUI {
     /**
      * Gets texture region from AssetsManager and sets the starting position with this texture.
      *
