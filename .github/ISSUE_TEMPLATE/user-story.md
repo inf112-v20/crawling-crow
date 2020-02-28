@@ -4,7 +4,7 @@ about: For brukerhistorier
 title: Som <rolle> trenger den <funksjon> for <å kunne utføre funksjonen>
 labels: USER STORY
 assignees: ''
-project: User stories
+projects: User stories
 
 ---
 
