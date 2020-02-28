@@ -4,6 +4,6 @@ about: Generell bugrapport
 title: ''
 labels: bug
 assignees: ''
-project: Arbeidsoppgaver
+project: 1
 
 ---

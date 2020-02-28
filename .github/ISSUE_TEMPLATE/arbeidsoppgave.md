@@ -4,7 +4,7 @@ about: Generell arbeidsoppgave
 title: ''
 labels: WORK TASK
 assignees: ''
-projects: Arbeidsoppgaver
+projects: 1
 
 ---
 
