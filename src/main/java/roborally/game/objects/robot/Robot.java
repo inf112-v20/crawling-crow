@@ -37,19 +37,22 @@ public class Robot implements IRobot {
         laser = new Laser(39);
     }
 
+    @Override
     public String getName() {
         return this.robotState.getName();
     }
 
+    @Override
     public BooleanCalculator getCalc() {
         return this.booleanCalculator;
     }
 
+    @Override
     public Vector2 getPosition() {
         return robotState.getPosition();
     }
 
-    // Shoots a laser, bound to key "F"
+    @Override
     public void fireLaser() {
         int x = (int)getPosition().x;
         int y = (int)getPosition().y;
@@ -58,16 +61,18 @@ public class Robot implements IRobot {
         sound.play((float) 0.5);
     }
 
-    // Clears the laser
+    @Override
     public void clearLaser() {
         if (this.laser.checkForLaserCells())
             getCalc().getLasers().clearLaser(this.laser);
     }
 
+    @Override
     public void setTextureRegion(int i) {
         this.uiRobot.setTextureRegion(i);
     }
 
+    @Override
     public boolean move(int dx, int dy) {
         Vector2 pos = this.getPosition();
         int x = (int)pos.x;
@@ -93,6 +98,7 @@ public class Robot implements IRobot {
         return true;
     }
 
+    @Override
     public boolean moveForward() {
         System.out.println(this.getName());
         int dy = 0;
@@ -113,6 +119,7 @@ public class Robot implements IRobot {
         return move(dx, dy);
     }
 
+    @Override
     public boolean moveBackward() {
         int dy = 0;
         int dx = 0;
@@ -132,6 +139,7 @@ public class Robot implements IRobot {
         return move(dx, dy);
     }
 
+    @Override
     public void turnRight() {
         System.out.println("Turning right... ");
         System.out.print("Old direction: ");
@@ -144,6 +152,7 @@ public class Robot implements IRobot {
         System.out.println(this.direction.toString());
     }
 
+    @Override
     public void turnLeft() {
         System.out.println("Turning left...");
         System.out.print("Old direction: ");
@@ -157,22 +166,27 @@ public class Robot implements IRobot {
 
     }
 
+    @Override
     public void setPos(int x, int y) {
         this.robotState.setPosition(x, y);
     }
 
+    @Override
     public void setWinTexture() {
         this.uiRobot.setWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
+    @Override
     public void setLostTexture() {
         this.uiRobot.setLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
     }
 
+    @Override
     public int getDegrees(){
         return this.direction.getDirectionId();
     }
 
+    @Override
     public boolean hasVisitedAllFlags() {
         boolean visitedAll = true;
         for(boolean visitedFlag : visitedFlags){
@@ -181,6 +195,7 @@ public class Robot implements IRobot {
         return visitedAll;
     }
 
+    @Override
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
             if (!visitedFlags[i]) {
@@ -190,12 +205,15 @@ public class Robot implements IRobot {
         return -1;
     }
 
+    @Override
     public void visitNextFlag() {
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag-1] = true;
         System.out.println("Next flag to visit: " + (nextFlag+1));
     }
+
+    @Override
     // TODO: Get number of flags from the size of the flags array in gameBoard.
     public void setNumberOfFlags(int nFlags) {
         this.visitedFlags = new boolean[nFlags];

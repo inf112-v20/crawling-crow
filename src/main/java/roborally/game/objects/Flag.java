@@ -11,10 +11,12 @@ public class Flag implements IFlag{
         this.pos = pos;
     }
 
+    @Override
     public GridPoint2 getPos() {
         return pos;
     }
 
+    @Override
     public int getId() {
         return id;
     }

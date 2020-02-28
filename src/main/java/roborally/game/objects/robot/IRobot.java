@@ -23,6 +23,16 @@ public interface IRobot {
     Vector2 getPosition();
 
     /**
+     * Shoots a laser, bound to key "F"
+     */
+    void fireLaser();
+
+    /**
+     * Clears the laser
+     */
+    void clearLaser();
+
+    /**
      *
      * @param i
      * For setting different textureRegions for AI and Players
@@ -31,8 +41,8 @@ public interface IRobot {
 
     /**
      *
-     * @param dx
-     * @param dy
+     * @param dx - change in x direction
+     * @param dy - change in y direction
      * @return
      * Makes move inside the graphical interface for uiRobot.
      */
@@ -100,4 +110,10 @@ public interface IRobot {
      *
      */
     void visitNextFlag();
+
+    /**
+     *
+     * @param nFlags
+     */
+    void setNumberOfFlags(int nFlags);
 }
