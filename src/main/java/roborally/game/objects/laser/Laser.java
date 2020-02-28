@@ -3,7 +3,7 @@ package roborally.game.objects.laser;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.BooleanCalculator;
-import roborally.ui.gameboard.Layers;
+import roborally.ui.Layers;
 
 import java.util.ArrayList;
 import java.util.HashMap;

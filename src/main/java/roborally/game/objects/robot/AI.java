@@ -3,7 +3,7 @@ package roborally.game.objects.robot;
 import com.badlogic.gdx.math.Vector2;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
-import roborally.ui.gameboard.Layers;
+import roborally.ui.Layers;
 
 import java.util.HashMap;
 import java.util.Stack;
