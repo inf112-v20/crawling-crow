@@ -8,10 +8,17 @@ Currently a simple and not functional implementation of Robo Rally.
 -   [Obligatorisk oppgave 1](Deliverables/ObligatoriskOppgave1.md)
 -   [Obligatorisk oppgave 2](Deliverables/ObligatoriskOppgave2.md)
 
+## Setup
+1.  Install [Maven](https://maven.apache.org/download.cgi)
+2.  Clone the repository, `git clone git@github.com:inf112-v20/crawling-crow.git`
+3.  Build game with dependencies, `mvn clean verify assembly:single`
+
 ## How to run
 For now, you have to run the game manually.
 
-1.  Run `Main.java` located in `src/main/java/roborally`.
+1.  Run `Main.java` located in `src/main/java/roborally` in your IDE of choice.
+    -   Alternatively use the command `java -jar target/roborally-crawlingcrow-1.0-SNAPSHOT-jar-with-dependencies.jar`
+
 2.  Move around using the [controls](#controls)
 3.  When you want to exit, press <kbd>ESC</kbd> or exit the game manually by clicking on the **X**-button.
 
@@ -39,16 +46,36 @@ Since you can't program the robot yet, you can move the robot with the following
 All of our automatic tests can be found in `src/test/java/roborally`.
 
 ### Manual tests (while running the game)
--   Movement: please see the [controls for movement](#movement) above.
-    -   We use these to see if the robot behaves as expected
+#### Movement test
+Please see the [controls for movement](#movement) above.
+-   We use these to see if the robot moves as expected.
+-   Push other `Robot`s around.
+-   Check if `Robot` cannot go outside game board (This will be changed later).
+-   Move `Robot` into wall to see if collision works.
+-   Push `Robot`s into walls to see if collision works.
 
--   Combat: please see the [controls for combat](#combat) above
-    -   Currently only for lasers, check if
+#### Robot's State changes
+-   Push other `Robot`s ontop of _holes_ or _flags_ to see if their state (texture) changes.
+
+#### Combat test
+Please see the [controls for combat](#combat) above
+-   Check if lasers fire when looking left or right and if sounds executes. (Works only horizontal atm)
+    
+#### Other test
+-   Move `Robot` to **flag 1**, press <kbd>SPACE</kbd>, check console if `A flag has been visited` appears.
+    -   Continue for the other flags in ascending order.
+    -   When all flags has been visited, check if someone has _won_ by pressing <kbd>W</kbd>.
+
+-   Check if someone has _won_ prematurely (without visiting any flags) by pressing <kbd>W</kbd>.
+-   Start round by pressing <kbd>ENTER</kbd> (this will wait for program card input, which haven't been implemented yet).
+-   Check if game exits/quits by pressing <kbd>ESC</kbd>.
 
 ## Known bugs
+See [Isses with Bug label](issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
 -   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](/../../issues/38).
 -   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](/../../issues/37).
 -   Only when a robot is pushed ontop of a **hole** or a **flag** will it change state (texture), but the robot being controlled will not change it's state. See [#87](/../../issues/87).
+-   Lasers only shoot when the robot is either looking left or right, so only horizontal works now. See [#88](/../../issues/88)
 
 ### From Maven template
 Currently throws "WARNING: An illegal reflective access operation has occurred", 
