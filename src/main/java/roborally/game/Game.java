@@ -56,7 +56,7 @@ public class Game implements IGame {
         if (this.i == 8) {
             this.i = 0;
         }
-        return robots[0];
+        return robots[7];
     }
 
     @Override

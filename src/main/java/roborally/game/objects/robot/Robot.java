@@ -90,6 +90,10 @@ public class Robot implements IRobot {
                 System.out.println((newX) + " " + (newY));
                 clearLaser();
                 getCalc().checkForLasers(newX, newY, getName());
+                if (getCalc().isOnHole(newX, newY)) {
+                    this.setLostTexture();
+                }
+                this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
             }
         }
         else
@@ -208,6 +212,7 @@ public class Robot implements IRobot {
     @Override
     public void visitNextFlag() {
         this.setWinTexture();
+        this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag-1] = true;
