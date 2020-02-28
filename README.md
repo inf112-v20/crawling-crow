@@ -47,9 +47,12 @@ All of our automatic tests can be found in `src/test/java/roborally`.
 
 ## Known bugs
 -   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](/../../issues/38).
--   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](https://github.com/inf112-v20/crawling-crow/issues/37).
--   Only when a robot is pushed ontop of a **hole** or a **flag** will it change state (texture), but the robot being controlled will not change it's state. See [#87](https://github.com/inf112-v20/crawling-crow/issues/87).
+-   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](/../../issues/37).
+-   Only when a robot is pushed ontop of a **hole** or a **flag** will it change state (texture), but the robot being controlled will not change it's state. See [#87](/../../issues/87).
 
 ### From Maven template
 Currently throws "WARNING: An illegal reflective access operation has occurred", 
 when the java version used is >8. This has no effect on function or performance, and is just a warning.
+
+## Class diagram
+![Oblig2UML](https://user-images.githubusercontent.com/45336748/75541155-b1b1ea80-5a1d-11ea-8a34-e57d7586e76a.png)
