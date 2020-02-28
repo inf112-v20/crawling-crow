@@ -1,4 +1,4 @@
-package roborally.ui.gameboard;
+package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.tools.AssetsManager;

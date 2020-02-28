@@ -6,7 +6,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetsManager;
-import roborally.ui.gameboard.Layers;
+import roborally.ui.Layers;
 
 import java.util.ArrayList;
 

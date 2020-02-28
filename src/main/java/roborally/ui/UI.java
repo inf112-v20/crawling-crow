@@ -1,4 +1,4 @@
-package roborally.ui.gameboard;
+package roborally.ui;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import roborally.game.Game;
