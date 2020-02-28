@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Lasers;
 import roborally.game.objects.robot.IRobot;
-import roborally.ui.gameboard.Layers;
+import roborally.ui.Layers;
 import java.util.HashMap;
 
 // Beep... Robots need to calculate.
