@@ -71,10 +71,9 @@ Please see the [controls for combat](#combat) above
     -   When all flags has been visited, check if someone has _won_ by pressing <kbd>W</kbd>.
 
 -   Check if someone has _won_ prematurely (without visiting any flags) by pressing <kbd>W</kbd>.
-
 -   Start round by pressing <kbd>ENTER</kbd> (this will wait for program card input, which haven't been implemented yet).
-
 -   Check if game exits/quits by pressing <kbd>ESC</kbd>.
+-   Move into laser to see if stops on the cell the `Robot` is currently on.
 
 ## Known bugs
 See [Isses with Bug label](issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
