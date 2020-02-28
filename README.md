@@ -4,6 +4,10 @@
 
 Currently a simple and not functional implementation of Robo Rally.
 
+## Deliverables
+-   [Obligatorisk oppgave 1](Deliverables/ObligatoriskOppgave1.md)
+-   [Obligatorisk oppgave 2](Deliverables/ObligatoriskOppgave2.md)
+
 ## How to run
 For now, you have to run the game manually.
 
@@ -42,7 +46,7 @@ All of our automatic tests can be found in `src/test/java/roborally`.
     -   Currently only for lasers, check if
 
 ## Known bugs
--   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](https://github.com/inf112-v20/crawling-crow/issues/38).
+-   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](/../../issues/38).
 -   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](https://github.com/inf112-v20/crawling-crow/issues/37).
 -   Only when a robot is pushed ontop of a **hole** or a **flag** will it change state (texture), but the robot being controlled will not change it's state. See [#87](https://github.com/inf112-v20/crawling-crow/issues/87).
 

@@ -27,10 +27,10 @@
     -   registrering av flagg [#76](https://github.com/inf112-v20/crawling-crow/issues/76)
     -   å kunne vinne [#77](https://github.com/inf112-v20/crawling-crow/issues/77)
 
--   Kjente [bugs](https://github.com/inf112-v20/crawling-crow/blob/master/README.md#known-bugs)
+-   Kjente [bugs](../README.md#known-bugs)
 
 -   [Lenke](https://github.com/inf112-v20/crawling-crow/wiki/Spillkrav) til det vi anser som MVP.
 
 ## Deloppgave 3
 -   Instruksjoner ligger i vår [README](../README.md#how-to-run) for hvordan prosjektet bygger, testes og kjøres.
--   Oppdatert klassediagram i vår  [README](crawling-crow/blob/master/README.md#class-diagram).
+-   Oppdatert klassediagram i vår  [README](../README.md#class-diagram).
