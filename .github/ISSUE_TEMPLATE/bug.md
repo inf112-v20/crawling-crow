@@ -2,7 +2,7 @@
 name: Bug
 about: Generell bugrapport
 title: '[BUG] '
-labels: bug
+labels: bug, WORK TASK
 assignees: ''
 
 ---
