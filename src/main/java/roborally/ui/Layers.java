@@ -5,7 +5,7 @@ import roborally.tools.AssetsManager;
 import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap. 
-public class Layers {
+public class Layers implements ILayers {
     private HashMap<String,TiledMapTileLayer> layers;
     public Layers() {
         layers = new HashMap<>();
