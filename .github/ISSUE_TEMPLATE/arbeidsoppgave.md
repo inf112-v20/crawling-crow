@@ -2,7 +2,7 @@
 name: Arbeidsoppgave
 about: Generell arbeidsoppgave
 title: ''
-labels: ''
+labels: WORK TASK
 assignees: ''
 
 ---
