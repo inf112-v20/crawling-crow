@@ -138,7 +138,7 @@ public class Laser {
             }
         }
         cannon2 = layers.assertLaserCannonNotNull(j+1, k);
-        if (layers.assertLaserCannonNotNull(j+1, k)) {
+        if (cannon2) {
             ArrayList<GridPoint2> temp = new ArrayList<>(storedCoordsDirect);
             storedCoordsDirect = storedCoordsOpposite;
             storedCoordsOpposite = temp;
@@ -146,6 +146,7 @@ public class Laser {
         if(cannon1 || cannon2)
             storedCoordsDirect.add(robotsOrigin);
         else {
+            removeLaser();
             clearStoredCoordinates();
         }
     }
