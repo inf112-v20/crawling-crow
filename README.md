@@ -58,6 +58,7 @@ Please see the [controls for movement](#movement) above.
 
 #### Robot's State changes
 -   Push other `Robot`s ontop of _holes_ or _flags_ to see if their state (texture) changes.
+-   When your `Robot` is ontop of _holes_ or _flags_, check  if their texture changes.
 
 #### Combat test
 Please see the [controls for combat](#combat) above
