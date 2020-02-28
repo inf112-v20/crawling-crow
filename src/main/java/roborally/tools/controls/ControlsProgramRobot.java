@@ -1,13 +1,15 @@
 package roborally.tools.controls;
 
+import roborally.game.IGame;
+
 import java.util.HashMap;
 
 public class ControlsProgramRobot implements IControls {
     private HashMap<Integer, Runnable> controlMap;
 
-    // Meant to take constructor variable game, but leaving it empty for codacy.
-    public ControlsProgramRobot(){
+    public ControlsProgramRobot(IGame game){
         controlMap = new HashMap<>();
+        game.checkIfSomeoneWon();
         // TODO: Add controls for programming robot
     }
 
