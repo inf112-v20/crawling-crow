@@ -90,6 +90,10 @@ public class Robot implements IRobot {
                 System.out.println((newX) + " " + (newY));
                 clearLaser();
                 getCalc().checkForLasers(newX, newY, getName());
+                if (getCalc().isOnHole(newX, newY)) {
+                    this.setLostTexture();
+                }
+                this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
             }
         }
         else

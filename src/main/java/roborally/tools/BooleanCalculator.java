@@ -179,6 +179,10 @@ public class BooleanCalculator {
         return layers.assertRobotNotNull(x, y);
     }
 
+    public boolean isOnHole(int x, int y) {
+        return layers.assertHoleNotNull(x, y);
+    }
+
     // AI methods
     public void determineFlagPos(Vector2 flagPos) {
         this.x = (int) flagPos.x;
