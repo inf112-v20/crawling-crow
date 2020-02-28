@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import roborally.tools.AssetsManager;
 import roborally.tools.Direction;
+import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.UI;
 
@@ -14,7 +15,7 @@ public class RobotUI implements IRobotUI {
     private TiledMapTileLayer.Cell robotLostCellTexture;
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotDefaultCellTexture;
-    private Layers layers;
+    private ILayers layers;
     private int uiRobotPosX;
     private int uiRobotPosY;
     private int height;

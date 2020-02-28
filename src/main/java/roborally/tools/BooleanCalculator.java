@@ -4,13 +4,14 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Lasers;
 import roborally.game.objects.robot.IRobot;
+import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import java.util.HashMap;
 
 // Beep... Robots need to calculate.
 public class BooleanCalculator {
     private HashMap<String, Boolean> operations;
-    private Layers layers;
+    private ILayers layers;
     private int x;
     private int y;
     private int height;

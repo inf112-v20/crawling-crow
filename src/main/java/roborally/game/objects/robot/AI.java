@@ -3,6 +3,7 @@ package roborally.game.objects.robot;
 import com.badlogic.gdx.math.Vector2;
 import roborally.tools.AssetsManager;
 import roborally.tools.BooleanCalculator;
+import roborally.ui.ILayers;
 import roborally.ui.Layers;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 public class AI extends Robot {
     private BooleanCalculator booleanCalculator;
     private Stack<Vector2> flagPositions;
-    private Layers layers;
+    private ILayers layers;
 
     public AI(int x, int y, int cellId) {
         super(x, y, cellId);

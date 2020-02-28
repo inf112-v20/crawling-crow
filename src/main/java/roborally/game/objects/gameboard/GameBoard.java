@@ -6,16 +6,17 @@ import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.Flag;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.robot.AI;
+import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameBoard implements IGameBoard {
 
-    private Layers layers;
+    private ILayers layers;
     private HashMap<Integer, Integer> flagIdMap;
 
-    public GameBoard(Layers layers) {
+    public GameBoard(ILayers layers) {
         this.flagIdMap = new HashMap<>();
         this.flagIdMap.put(55, 1);
         this.flagIdMap.put(63, 2);

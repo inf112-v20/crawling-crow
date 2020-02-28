@@ -12,30 +12,30 @@ public class Layers implements ILayers {
         layers = AssetsManager.getLoadedLayers();
     }
 
-    // Checks if the layers has been loaded.
+    @Override
     public boolean isLoaded() {
         return !layers.isEmpty();
     }
 
-    // Checks if a given layer is within the layers of the loaded map.
+    @Override
     public boolean contains(String key) {
         return layers.containsKey(key);
     }
 
     // Robots
-    // Returns the robotLayer.
+    @Override
     public TiledMapTileLayer getRobots() {
         return layers.get("Robot");
     }
 
-    // Returns a robotCell at position x, y.
+    @Override
     public TiledMapTileLayer.Cell getRobotCell(int x, int y) {
         if (!contains("Robot"))
             return null;
         return layers.get("Robot").getCell(x, y);
     }
 
-    // Set a cell in the robotLayer to a new cell value.
+    @Override
     public void setRobotCell(int x, int y, TiledMapTileLayer.Cell cell) {
         if (contains("Robot"))
             layers.get("Robot").setCell(x, y, cell);
@@ -43,7 +43,7 @@ public class Layers implements ILayers {
             System.out.println("Robot layer does not exist");
     }
 
-    // Checks if there is a robot at the position x, y in the robotLayer
+    @Override
     public boolean assertRobotNotNull(int x, int y) {
         if (contains("Robot"))
             return layers.get("Robot").getCell(x, y) != null;
@@ -52,17 +52,17 @@ public class Layers implements ILayers {
     }
 
     // Walls
-    // Returns the wallLayer
+    @Override
     public TiledMapTileLayer getWall() {
         return layers.get("Wall"); }
 
-    // Returns a Wall Cell at position x, y.
+    @Override
     public TiledMapTileLayer.Cell getWallCell(int x, int y) {
         if (!contains("Wall"))
             return null;
         return layers.get("Wall").getCell(x, y); }
 
-    // Checks if there is a wall at the position x, y.
+    @Override
     public boolean assertWallNotNull(int x, int y) {
         if (contains("Wall"))
             return layers.get("Wall").getCell(x, y) != null;
@@ -70,7 +70,7 @@ public class Layers implements ILayers {
         return false;
     }
 
-    // Returns the ID for the wall at the position x, y in the wallLayer.
+    @Override
     public int getWallID(int x, int y) {
         if (contains("Wall"))
             return layers.get("Wall").getCell(x, y).getTile().getId();
@@ -80,12 +80,12 @@ public class Layers implements ILayers {
     }
 
     // Floor
-    // Returns the floorLayer
+    @Override
     public TiledMapTileLayer getFloor() {
         return layers.get("Floor");
     }
 
-    // Checks if there is floor at the position x, y.
+    @Override
     public boolean assertFloorNotNull(int x, int y) {
         if (contains("Floor"))
             return layers.get("Floor").getCell(x, y) != null;
@@ -93,23 +93,23 @@ public class Layers implements ILayers {
         return false;
     }
 
-    // Returns the width of the map
+    @Override
     public int getWidth() {
         return layers.get("Floor").getWidth();
     }
 
-    // Returns the height of the map
+    @Override
     public int getHeight() {
         return layers.get("Floor").getHeight();
     }
 
     // Holes
-    // Returns the holeLayer.
+    @Override
     public TiledMapTileLayer getHole() {
         return layers.get("Hole");
     }
 
-    // Checks if there is a hole at the position x, y.
+    @Override
     public boolean assertHoleNotNull(int x, int y) {
         if (contains("Hole"))
             return layers.get("Hole").getCell(x, y) != null;
@@ -118,12 +118,12 @@ public class Layers implements ILayers {
     }
 
     // Flags
-    // Returns the flagLayer.
+    @Override
     public TiledMapTileLayer getFlag() {
         return layers.get("Flag");
     }
 
-    // Checks if there is a flag at position x, y.
+    @Override
     public boolean assertFlagNotNull(int x, int y) {
         if (contains("Flag"))
             return layers.get("Flag").getCell(x, y) != null;
@@ -131,7 +131,7 @@ public class Layers implements ILayers {
         return false;
     }
 
-    // Returns the ID for the wall at the location x, y in the flagLayer.
+    @Override
     public int getFlagID(int x, int y) {
         if(contains("Flag"))
             return layers.get("Flag").getCell(x, y).getTile().getId();
@@ -141,12 +141,12 @@ public class Layers implements ILayers {
     }
 
     // Start positions
-    // Returns the startPosLayer
+    @Override
     public TiledMapTileLayer getStartPos() {
         return layers.get("startPositions");
     }
 
-    // Checks if there is a start position at the position x, y.
+    @Override
     public boolean assertStartPosNotNull(int x, int y) {
         if (contains("startPositions"))
             return layers.get("startPositions").getCell(x, y) != null;
@@ -155,12 +155,12 @@ public class Layers implements ILayers {
     }
 
     // Conveyor belts
-    // Returns the slow conveyor belt layer
+    @Override
     public TiledMapTileLayer getConveyorSlow() {
         return layers.get("slowConveyorBelt");
     }
 
-    // Checks if there is a Slow conveyor belt at the position x, y.
+    @Override
     public boolean assertConveyorSlowNotNull(int x, int y) {
         if (contains("slowConveyorBelt"))
             return layers.get("slowConveyorBelt").getCell(x, y) != null;
@@ -168,12 +168,12 @@ public class Layers implements ILayers {
         return false;
     }
 
-    // Returns the fast conveyor belt layer.
+    @Override
     public TiledMapTileLayer getConveyorFast() {
         return layers.get("fastConveyorBelt");
     }
 
-    // Checks if there is a fast conveyor belt at the position x, y.
+    @Override
     public boolean assertConveyorFastNotNull(int x, int y) {
         if (contains("fastConveyorBelt"))
             return layers.get("fastConveyorBelt").getCell(x, y) != null;
@@ -182,12 +182,12 @@ public class Layers implements ILayers {
     }
 
     // Wrenches
-    // Returns the wrench layer.
+    @Override
     public TiledMapTileLayer getWrench() {
         return layers.get("Wrench");
     }
 
-    // Checks if there is a wrench at position x, y.
+    @Override
     public boolean assertWrenchNotNull(int x, int y) {
         if (contains("Wrench"))
             return layers.get("Wrench").getCell(x, y) != null;
@@ -195,12 +195,12 @@ public class Layers implements ILayers {
         return false;
     }
 
-    // Returns the wrench hammer layer.
+    @Override
     public TiledMapTileLayer getWrenchHammer() {
         return layers.get("wrenchHammer");
     }
 
-    // checks if there is a wrench hammer at the position x, y.
+    @Override
     public boolean assertWrenchHammerNotNull(int x, int y) {
         if (contains("wrenchHammer"))
             return layers.get("wrenchHammer").getCell(x, y) != null;
@@ -208,11 +208,12 @@ public class Layers implements ILayers {
         return false;
     }
     // Lasers
-    // Return the laser layers
+    @Override
     public TiledMapTileLayer getLaser() {
         return layers.get("Laser");
     }
 
+    @Override
     public boolean assertLaserNotNull(int x, int y) {
         if (contains("Laser"))
             return layers.get("Laser").getCell(x, y) != null;
@@ -220,12 +221,14 @@ public class Layers implements ILayers {
         return false;
     }
 
+    @Override
     public TiledMapTileLayer.Cell getLaserCell(int x, int y) {
         if (!contains("Laser"))
             return null;
         return layers.get("Laser").getCell(x, y);
     }
 
+    @Override
     public void setLaserCell(int x, int y, TiledMapTileLayer.Cell cell) {
         if (contains("Laser"))
             layers.get("Laser").setCell(x, y, cell);
@@ -233,6 +236,7 @@ public class Layers implements ILayers {
             System.out.println("Laser layer does not exist");
     }
 
+    @Override
     public int getLaserID(int x, int y) {
         if(contains("Laser"))
             return layers.get("Laser").getCell(x, y).getTile().getId();
@@ -241,6 +245,7 @@ public class Layers implements ILayers {
         return -1;
     }
 
+    @Override
     public int getLaserCannonID(int x, int y) {
         if(contains("laserCannon"))
             return layers.get("laserCannon").getCell(x, y).getTile().getId();
@@ -249,6 +254,7 @@ public class Layers implements ILayers {
         return -1;
     }
 
+    @Override
     public boolean assertLaserCannonNotNull(int x, int y) {
         if (contains("laserCannon"))
             return layers.get("laserCannon").getCell(x, y) != null;
@@ -258,9 +264,11 @@ public class Layers implements ILayers {
 
     // Bug
     // Returns the bug layer.
+    @Override
     public TiledMapTileLayer getBug() {
         return layers.get("bug");
     }
+    @Override
     public boolean assertBugNotNull(int x, int y) {
         return layers.get("bug").getCell(x, y) != null;
     }
