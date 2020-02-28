@@ -41,13 +41,10 @@ All of our automatic tests can be found in `src/test/java/roborally`.
 -   Combat: please see the [controls for combat](#combat) above
     -   Currently only for lasers, check if
 
-
 ## Known bugs
 -   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](https://github.com/inf112-v20/crawling-crow/issues/38).
 -   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](https://github.com/inf112-v20/crawling-crow/issues/37).
 -   Only when a robot is pushed ontop of a **hole** or a **flag** will it change state (texture), but the robot being controlled will not change it's state. See [#87](https://github.com/inf112-v20/crawling-crow/issues/87).
-
-
 
 ### From Maven template
 Currently throws "WARNING: An illegal reflective access operation has occurred", 
