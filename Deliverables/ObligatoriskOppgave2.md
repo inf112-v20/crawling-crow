@@ -32,5 +32,5 @@
 -   [Lenke](https://github.com/inf112-v20/crawling-crow/wiki/Spillkrav) til det vi anser som MVP.
 
 ## Deloppgave 3
--   Instruksjoner ligger i vår [README](README.md#how-to-run) for hvordan prosjektet bygger, testes og kjøres.
+-   Instruksjoner ligger i vår [README](../README.md#how-to-run) for hvordan prosjektet bygger, testes og kjøres.
 -   Oppdatert klassediagram i vår  [README](crawling-crow/blob/master/README.md#class-diagram).
