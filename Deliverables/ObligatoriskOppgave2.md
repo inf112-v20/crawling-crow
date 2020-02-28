@@ -7,7 +7,7 @@
 -   Er ikke like flinke til å oppdatere User-stories. Dette må vi bli flinkere til å oppdatere. Prøver å heller bruke issues til user-stories. 
 -   Vi må bli flinkere til å kommunisere i forhold til tilbakemeldninger og når vi jobber med egne deler av koden. 
 -   Har fått til project board, men har ikke vært like flink til å oppdatere user-stories som vi har vært med work tasks. Som skrevet tideligere har ikke kommunikasjon alltid  vært like bra, men har vært flinke til å arrangere møter når vi trenger det. Bruker de samme prosjektmetodikken som tideligere. 
--   Grunnen til at det er stor forskjell i commits er at vi har lagt inn medforfattere og jobbet i store grupper hvor det bare er en som har skrevet noe men alle har diskutert.
+-   Grunnen til at det er stor forskjell i commits er at vi har lagt inn medforfattere (se [wiki](/../../wiki#co-authored-by)) og jobbet i store grupper hvor det bare er en som har skrevet noe men alle har vært med å diskutert.
 -   Link til våre [møtereferat](/../../wiki/M%C3%B8tereferater) or [kodemøter](/../../wiki/Kodemøter) (som vi har skrevet i Wiki)
 
 ### Tre forbedringspunkt
