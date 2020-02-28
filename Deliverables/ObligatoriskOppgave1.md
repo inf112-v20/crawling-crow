@@ -130,7 +130,8 @@ Ikke vært så flinke til å følge:
 Ting som gikk bra:
 -   Project Board 2 stk, User-stories, work tasks.
     -   oversiktlig, lett å forstå.
-    
+
+
 -   Wiki, fått nyttige ting på plass. 
     -   alle får oversikt over nyttig info man kan se tilbake til.
     -   retningslinjer, co-author/shortcut
@@ -138,6 +139,7 @@ Ting som gikk bra:
 
 -   God kommunikasjon på Slack.
     -   lett å avtale møter, holde alle oppdatert
+
 
 -   Mye parprogrammering. 
     -   Blitt kjent med hvordan ulike personer jobber. 
