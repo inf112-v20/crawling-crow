@@ -33,7 +33,7 @@ public class ProgramCardsTest {
 
     @Test
     public void cardPriorityIsWithinRange() {
-        assertTrue(card.priorityRangeMin <= card.getPriority() && card.getPriority() <= card.priorityRangeMax);
+        assertTrue(card.getPriorityRangeMin() <= card.getPriority() && card.getPriority() <= card.getPriorityRangeMax());
     }
 
     @Test
