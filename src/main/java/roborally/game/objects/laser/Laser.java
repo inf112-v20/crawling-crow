@@ -36,7 +36,7 @@ public class Laser {
     }
 
     // Creates a laser for a robot to shoot.
-    public void createLaser(GridPoint2 pos) {
+    public void createLaser() {
         storedLaserCell = layers.getLaserCell(11,13);
     }
 
@@ -77,9 +77,6 @@ public class Laser {
         restoreLaserOpposite();
     }
 
-    private void restoreLaserDirect() {
-    }
-
     private void restoreLaserOpposite() {
         for (GridPoint2 coords : storedCoordsOpposite)
             layers.setLaserCell(coords.x, coords.y, storedLaserCell);
@@ -89,9 +86,6 @@ public class Laser {
     // Removes the opposite part of the direction the laser is going in relation to the robots position.
     public void removeLaser() {
         removeLaserOpposite();
-    }
-
-    private void removeLaserDirect() {
     }
 
     private void removeLaserOpposite() {
@@ -119,8 +113,7 @@ public class Laser {
      * @param j The x-coordinate to the cell to the left of the robot
      * @param k The y-coordinate of the robot
      */
-    public int findHorizontal(int i, int j, int k) {
-        int cannonId = 0;
+    public void findHorizontal(int i, int j, int k) {
         while (i < width) {
             if (layers.assertLaserNotNull(i, k))
                 storedCoordsDirect.add(new GridPoint2(i++, k));
@@ -128,9 +121,6 @@ public class Laser {
                 break;
             }
         }
-        if (layers.assertLaserCannonNotNull(i-1, k))
-            cannonId = layers.getLaserCannonID(i-1, k);
-
         while (j >= 0) {
             if (layers.assertLaserNotNull(j, k))
                 storedCoordsOpposite.add(new GridPoint2(j--, k));
@@ -139,14 +129,11 @@ public class Laser {
             }
         }
         if (layers.assertLaserCannonNotNull(j+1, k)) {
-            cannonId = layers.getLaserCannonID(j+1, k);
-            ArrayList<GridPoint2> temp = new ArrayList<>();
-            temp.addAll(storedCoordsDirect);
+            ArrayList<GridPoint2> temp = new ArrayList<>(storedCoordsDirect);
             storedCoordsDirect = storedCoordsOpposite;
             storedCoordsOpposite = temp;
         }
         storedCoordsDirect.add(robotsOrigin);
-        return cannonId;
     }
 
     /** Sees if the new position is going into or out of the lasers path.
@@ -174,5 +161,9 @@ public class Laser {
     }
     public boolean checkForLaserCells() {
         return (!storedCoordsOpposite.isEmpty());
+    }
+    public void clearStoredCoordinates() {
+        storedCoordsOpposite.clear();
+        storedCoordsDirect.clear();
     }
 }

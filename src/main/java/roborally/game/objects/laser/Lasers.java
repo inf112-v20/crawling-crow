@@ -35,13 +35,18 @@ public class Lasers {
      * @param direction The direction the robot is looking.
      */
     public void fireLaser(Laser laser, GridPoint2 pos, int direction) {
-        laser.createLaser(pos);
-        laser.fireLaser(pos, direction);
+        if(!laser.checkForLaserCells()) {
+            laser.createLaser();
+            laser.fireLaser(pos, direction);
+        }
+        else
+            clearLaser(laser);
     }
 
     // Clears the laser cells created by the robots laser.
     public void clearLaser(Laser laser) {
         laser.removeLaser();
+        laser.clearStoredCoordinates();
     }
 
     /** Checks if the robot was in a laser and has moved out of the laser, but first checks if it is still in the instance.

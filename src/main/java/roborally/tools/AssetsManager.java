@@ -1,6 +1,7 @@
 package roborally.tools;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -25,6 +26,10 @@ public class AssetsManager {
     public static IRobotState[] robots;
     public static Robot[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
+
+    // Sounds
+    public static final AssetDescriptor<Sound> SHOOT_LASER
+            = new AssetDescriptor<>("assets/sounds/fireLaser.wav", Sound.class);
 
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
@@ -58,6 +63,7 @@ public class AssetsManager {
         manager.load(PURPLE);
         manager.load(RED);
         manager.load(YELLOW);
+        manager.load(SHOOT_LASER);
     }
 
     // Only one map so far, but can add more and return a list.

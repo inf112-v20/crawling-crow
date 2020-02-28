@@ -1,5 +1,6 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Laser;
@@ -16,6 +17,7 @@ public class Robot implements IRobot {
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
+    private Sound sound;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -53,6 +55,8 @@ public class Robot implements IRobot {
         int x = (int)getPosition().x;
         int y = (int)getPosition().y;
         getCalc().getLasers().fireLaser(laser, new GridPoint2(x, y), getDegrees());
+        sound = AssetsManager.manager.get(AssetsManager.SHOOT_LASER);
+        sound.play((float) 0.5);
     }
 
     // Clears the laser

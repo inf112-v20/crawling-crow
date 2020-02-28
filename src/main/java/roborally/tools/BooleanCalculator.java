@@ -17,9 +17,6 @@ public class BooleanCalculator {
     private int y;
     private int height;
     private int width;
-    private Queue<GridPoint2> restoreLaserCoordinates;
-    private TiledMapTileLayer.Cell restoreLaserCell;
-    private String clumsyRobot;
     private Lasers lasers;
 
     public BooleanCalculator() {
