@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;
 import roborally.ui.ILayers;
@@ -33,6 +34,7 @@ public class Laser {
         laserType = new HashMap<>();
         laserType.put(39, "HORIZONTAL");
         laserType.put(47, "VERTICAL");
+        laserType.put(123, "BOTH");
         this.laserDegree = laserDegree;
         storedCoordsOpposite = new ArrayList<>(); // Stores coordinates of laser-cells that are removed.
         storedCoordsDirect = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
@@ -73,17 +75,19 @@ public class Laser {
         int[] dir = setDirection(direction);
         int i = robotsPos.x + dir[0];
         int j = robotsPos.y + dir[1];
-        if (booleanCalculator.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1])) // Makes sure there's not a wall blocking the laser.
+        // Makes sure there's not a wall blocking the laser.
+        if (booleanCalculator.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
-            if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) { // Makes sure it doesnt stack laser on top of other laser cells.
+            // Makes sure it doesnt stack laser on top of other laser cells.
+            if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
                 layers.setLaserCell(i, j, storedLaserCell);
                 storedCoordsOpposite.add(new GridPoint2(i, j));
                 if (booleanCalculator.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
             }
-            //Creates a crossing laser-cell where there was a horizontal, but is now being projected a vertical laser on.
+            //Creates a crossing laser-cell as a combination of a vertical and horizontal laser.
             else if(storedLaserCell.getTile().getId() != layers.getLaserID(i, j)){
                 layers.setLaserCell(i, j, storedLaserCellOnVertical);
                 storedCoordsOpposite.add(new GridPoint2(i, j));
@@ -150,12 +154,17 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         this.robotsOrigin = robotsOrigin;
         storedLaserCell = layers.getLaserCell(robotsOrigin.x, robotsOrigin.y);
-        System.out.println(laserDegree);
         if (laserType.get(laserDegree).equals("HORIZONTAL")) {
             findHorizontal();
         }
         else if(laserType.get(laserDegree).equals("VERTICAL"))
             findVertical();
+        else {
+            laserDegree = 47;
+            findVertical();
+            laserDegree = 39;
+            findHorizontal();
+        }
     }
 
     /**
@@ -165,7 +174,6 @@ public class Laser {
         int i = robotsOrigin.x + 1;
         int j = robotsOrigin.x - 1;
         int k = robotsOrigin.y;
-        storedCoordsDirect.add(new GridPoint2(robotsOrigin.x, robotsOrigin.y));
         while (i < layers.getWidth()) {
             if (layers.assertLaserNotNull(i, k))
                 storedCoordsDirect.add(new GridPoint2(i++, k));
@@ -180,7 +188,7 @@ public class Laser {
                 break;
             }
         }
-        findAndRemove(i - 1, j + 1, k);
+        findAndRemove(i, j, k);
     }
 
     /**
@@ -190,8 +198,7 @@ public class Laser {
         int i = robotsOrigin.y + 1;
         int j = robotsOrigin.y - 1;
         int k = robotsOrigin.x;
-        storedCoordsDirect.add(new GridPoint2(robotsOrigin.x, robotsOrigin.y));
-        while (i < layers.getWidth()) {
+        while (i < layers.getHeight()) {
             if (layers.assertLaserNotNull(k, i))
                 storedCoordsDirect.add(new GridPoint2(k, i++));
             else {
@@ -199,13 +206,13 @@ public class Laser {
             }
         }
         while (j >= 0) {
-            if (layers.assertLaserNotNull(j, k))
+            if (layers.assertLaserNotNull(k, j))
                 storedCoordsOpposite.add(new GridPoint2(k, j--));
             else {
                 break;
             }
         }
-        findAndRemove(i - 1, j + 1, k);
+        findAndRemove(i, j, k);
     }
 
     /**
@@ -218,15 +225,14 @@ public class Laser {
         boolean cannon1;
         boolean cannon2;
         boolean robot;
-        if(laserType.get(this.laserDegree).equals("VERTICAL")) {
-            cannon1 = layers.assertLaserCannonNotNull(k, i);
-            robot = layers.assertRobotNotNull(k, i);
-            cannon2 = layers.assertLaserCannonNotNull(k, j);
-        }
-        else {
-            cannon1 = layers.assertLaserCannonNotNull(i, k);
-            robot = layers.assertRobotNotNull(i, k);
-            cannon2 = layers.assertLaserCannonNotNull(j, k);
+        if (laserType.get(this.laserDegree).equals("VERTICAL")) {
+            cannon1 = layers.assertLaserCannonNotNull(k, i - 1);
+            robot = layers.assertRobotNotNull(k, i) && containsOrigin(k, i);
+            cannon2 = layers.assertLaserCannonNotNull(k, j + 1);
+        } else {
+            cannon1 = layers.assertLaserCannonNotNull(i - 1, k);
+            robot = layers.assertRobotNotNull(i, k) && containsOrigin(i, k);
+            cannon2 = layers.assertLaserCannonNotNull(j + 1, k);
         }
         if (cannon2) {
             ArrayList<GridPoint2> temp = new ArrayList<>(storedCoordsDirect);
@@ -235,12 +241,23 @@ public class Laser {
         }
         // A robot is blocking the path, not a laser cannon.
         else if (!cannon1) {
-            if (robot)
+            // The robot is the one projecting the laser.
+            if (robot) {
                 removeLaser(storedCoordsOpposite);
-            else
+            } else
                 removeLaser(storedCoordsDirect);
             clearStoredCoordinates();
         }
+    }
+
+    // Checks if the robot found is the one projecting the laser.
+    public boolean containsOrigin(int i, int j) {
+        for (IRobot robot : AssetManagerUtil.getRobots()) {
+            if (robot.getLaser().getOpposite().contains(robotsOrigin) && robot.getPosition().x == i && robot.getPosition().y == j) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Sees if the new position is going into or out of the lasers path.
@@ -252,13 +269,12 @@ public class Laser {
             storedCoordsDirect.add(pos);
             storedCoordsOpposite.remove(pos);
             layers.setLaserCell(pos.x, pos.y, storedLaserCell);
-        } else if (storedCoordsDirect.contains(pos)) {
+        }
+        else if (storedCoordsDirect.contains(pos)) {
             storedCoordsOpposite.add(robotsOrigin);
             storedCoordsDirect.remove(robotsOrigin);
             layers.setLaserCell(robotsOrigin.x, robotsOrigin.y, null);
         }
-        System.out.println(storedCoordsDirect);
-        System.out.println(storedCoordsOpposite);
         this.robotsOrigin = pos;
     }
 
@@ -267,14 +283,13 @@ public class Laser {
         return (storedCoordsOpposite.contains(pos) || storedCoordsDirect.contains(pos));
     }
 
-    // Checks if there are any stored coordinates which previously were laser cells.
-    public boolean checkForLaserCells() {
-        return (!storedCoordsOpposite.isEmpty());
-    }
-
     // Clears all stored coordinates.
     public void clearStoredCoordinates() {
         storedCoordsOpposite.clear();
         storedCoordsDirect.clear();
+    }
+    // Returns the list of opposite coordinates.
+    public ArrayList<GridPoint2> getOpposite() {
+        return this.storedCoordsOpposite;
     }
 }

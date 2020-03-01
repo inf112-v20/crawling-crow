@@ -60,8 +60,13 @@ public class Robot implements IRobot {
 
     @Override
     public void clearLaser() {
-        if (this.laser.checkForLaserCells())
+        if (!this.laser.getOpposite().isEmpty())
             getCalc().getLasers().clearLaser(this.laser);
+    }
+
+    @Override
+    public Laser getLaser() {
+        return this.laser;
     }
 
     @Override

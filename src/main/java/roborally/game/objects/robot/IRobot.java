@@ -1,6 +1,7 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
+import roborally.game.objects.laser.Laser;
 import roborally.tools.BooleanCalculator;
 
 public interface IRobot {
@@ -31,6 +32,8 @@ public interface IRobot {
      * Clears the laser
      */
     void clearLaser();
+
+    Laser getLaser();
 
     /**
      *

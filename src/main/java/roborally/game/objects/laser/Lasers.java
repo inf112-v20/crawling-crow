@@ -40,7 +40,7 @@ public class Lasers {
      * @param direction The direction the robot is looking.
      */
     public void fireLaser(Laser laser, GridPoint2 pos, int direction) {
-        if(!laser.checkForLaserCells()) {
+        if(laser.getOpposite().isEmpty()) {
             laser.fireLaser(pos, direction);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
             sound.play((float) 0.5);
