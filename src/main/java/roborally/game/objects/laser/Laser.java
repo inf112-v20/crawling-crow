@@ -165,6 +165,7 @@ public class Laser {
             laserDegree = 39;
             findHorizontal();
         }
+        storedCoordsDirect.add(robotsOrigin);
     }
 
     /**
