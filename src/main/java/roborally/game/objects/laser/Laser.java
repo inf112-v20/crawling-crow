@@ -70,7 +70,7 @@ public class Laser {
     public void fireLaser(GridPoint2 robotsPos, int direction) {
         storedCoordsOpposite.clear();
         storedLaserCell = createLaser(direction);
-        int[] dir = setDirection(direction, 0, 0);
+        int[] dir = setDirection(direction);
         int i = robotsPos.x + dir[0];
         int j = robotsPos.y + dir[1];
         if (booleanCalculator.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1])) // Makes sure there's not a wall blocking the laser.
@@ -96,11 +96,11 @@ public class Laser {
     /**
      *
      * @param direction The direction the robot is facing
-     * @param dx steps to be taken horizontally
-     * @param dy steps to be taken vertically
      * @return an array with values that determines which direction the laser is being fired.
      */
-    public int[] setDirection(int direction, int dx, int dy) {
+    public int[] setDirection(int direction) {
+        int dx = 0;
+        int dy = 0;
         if (direction == 0)
             dy = 1;
         else if (direction == 1)
@@ -150,6 +150,7 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         this.robotsOrigin = robotsOrigin;
         storedLaserCell = layers.getLaserCell(robotsOrigin.x, robotsOrigin.y);
+        System.out.println(laserDegree);
         if (laserType.get(laserDegree).equals("HORIZONTAL")) {
             findHorizontal();
         }
@@ -179,7 +180,7 @@ public class Laser {
                 break;
             }
         }
-        getBoolean(i - 1, j + 1, k);
+        findAndRemove(i - 1, j + 1, k);
     }
 
     /**
@@ -204,7 +205,7 @@ public class Laser {
                 break;
             }
         }
-        getBoolean(i - 1, j + 1, k);
+        findAndRemove(i - 1, j + 1, k);
     }
 
     /**
@@ -213,7 +214,7 @@ public class Laser {
      * @param j The positive sides endpoint (up or right) which the laser might be coming from.
      * @param k The static x or y coordinate.
      */
-    private void getBoolean(int i, int j, int k) {
+    private void findAndRemove(int i, int j, int k) {
         boolean cannon1;
         boolean cannon2;
         boolean robot;
