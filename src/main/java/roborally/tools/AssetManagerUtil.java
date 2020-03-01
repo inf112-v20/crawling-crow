@@ -31,6 +31,8 @@ public class AssetManagerUtil {
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
             = new AssetDescriptor<>("assets/sounds/fireLaser.wav", Sound.class);
+    public static final AssetDescriptor<Sound> STEPIN_LASER
+            = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
 
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
@@ -52,6 +54,12 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("assets/robots/new/Yellow.png", Texture.class);
+    private static final AssetDescriptor<Texture> LASER_HORIZONTAL
+            = new AssetDescriptor<>("assets/laserHorizontal.png", Texture.class);
+    private static final AssetDescriptor<Texture> LASER_ONVERTICAL
+            = new AssetDescriptor<>("assets/lazerOnVertical.png", Texture.class);
+    private static final AssetDescriptor<Texture> LASER_VERTICAL
+            = new AssetDescriptor<>("assets/laserVertical.png", Texture.class);
 
     public static void load() {
         //Robots
@@ -65,6 +73,10 @@ public class AssetManagerUtil {
         manager.load(RED);
         manager.load(YELLOW);
         manager.load(SHOOT_LASER);
+        manager.load(STEPIN_LASER);
+        manager.load(LASER_HORIZONTAL);
+        manager.load(LASER_ONVERTICAL);
+        manager.load(LASER_VERTICAL);
     }
 
     // Only one map so far, but can add more and return a list.
@@ -85,6 +97,18 @@ public class AssetManagerUtil {
         robotTexture[6] = manager.get(RED);
         robotTexture[7] = manager.get(YELLOW);
         return robotTexture[i];
+    }
+
+    public static Texture getLaserTexture() {
+        return manager.get(LASER_HORIZONTAL);
+    }
+
+    public static Texture getLaserVerticalTexture() {
+        return manager.get(LASER_VERTICAL);
+    }
+
+    public static Texture getLaserOnVerticalTexture() {
+        return manager.get(LASER_ONVERTICAL);
     }
 
     public static void dispose() {

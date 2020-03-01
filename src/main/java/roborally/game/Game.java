@@ -57,7 +57,7 @@ public class Game implements IGame {
         if (this.i == 8) {
             this.i = 0;
         }
-        return robots[0];
+        return robots[i++];
     }
 
     @Override
@@ -83,12 +83,6 @@ public class Game implements IGame {
         assert(phaseStep == PhaseStep.NULL_PHASE);
 
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
-
-        // TODO: REMOVE from here. This just makes the robot "Crazt" autowin the game.
-        //roundStep = RoundStep.PHASES;
-        //phaseStep = PhaseStep.CHECK_FOR_WINNER;
-        //winner = new Robot("Crazy");
-        // TODO: REMOVE until here
 
         if(DEBUG) {
             System.out.println("Round started...");
