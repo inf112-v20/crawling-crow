@@ -25,7 +25,7 @@ public class Lasers {
         this.pos = pos;
         if(!checkIfRobotMovesInLaser(name)) {
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
-            sound.play((float)0.5);
+            sound.play((float)0.1);
             this.laser = new Laser(id);
             laser.findLaser(this.pos);
             laser.remove();
