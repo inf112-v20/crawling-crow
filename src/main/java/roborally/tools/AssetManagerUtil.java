@@ -177,7 +177,7 @@ public class AssetManagerUtil {
     }
 
     public static String getRobotName() {
-        if(robotNames==null) {
+        if(robotNames==null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
         }

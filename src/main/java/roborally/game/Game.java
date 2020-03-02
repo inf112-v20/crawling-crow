@@ -25,6 +25,7 @@ public class Game implements IGame {
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int i;
+    private boolean restart;
 
     public Game(){
         i = 0;
@@ -32,6 +33,7 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
+        restart = false;
     }
 
     public Game(boolean runAIGame){
@@ -74,6 +76,15 @@ public class Game implements IGame {
         }
         gameRunning = true;
         startNewRound();
+    }
+
+    @Override
+    public void restartGame() {
+        this.restart = true;
+    }
+    @Override
+    public boolean getRestart() {
+        return this.restart;
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import roborally.game.objects.robot.IRobot;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.controls.ControlsDebug;
 import roborally.tools.controls.ControlsProgramRobot;
@@ -124,6 +125,15 @@ public class UI extends InputAdapter implements ApplicationListener {
                 }
             }
         }
+        if(game.getRestart()){
+            for (IRobot robot : AssetManagerUtil.getRobots()) {
+                robot.clearLaser();
+                game.getLayers().setRobotCell((int)robot.getPosition().x, (int)robot.getPosition().y, null);
+                robot.setPos(-1, -1);
+            }
+            create();
+        }
         return true;
     }
 }
+

@@ -27,6 +27,10 @@ public interface IGame {
 
     IGameBoard getGameBoard();
 
+    void restartGame();
+
+    boolean getRestart();
+
     void startGame();
 
     void startNewRound();
