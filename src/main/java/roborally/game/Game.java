@@ -36,7 +36,7 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
-        funMode();
+        //funMode();
     }
 
     public boolean funMode() {
