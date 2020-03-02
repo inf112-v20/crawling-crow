@@ -6,6 +6,6 @@ public class SettingsUtil {
     public static int NUMBER_OF_FLAGS = 3;
 
     public static int WINDOW_WIDTH = 450;
-    public static int WINDOW_HEIGHT = 450;
+    public static int WINDOW_HEIGHT = 600;
 
 }
