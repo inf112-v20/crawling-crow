@@ -40,6 +40,8 @@ public class BooleanCalculator {
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
         boolean recursiveRobot = false;
+        if(checkForWall(x, y, dx, dy))
+            return true;
             if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
                 if(checkForWall(x,y,dx,dy))
                     return true;
