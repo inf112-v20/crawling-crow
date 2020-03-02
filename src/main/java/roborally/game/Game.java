@@ -7,6 +7,7 @@ import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
+import roborally.game.objects.robot.Robot;
 import roborally.tools.AssetManagerUtil;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
@@ -33,6 +34,18 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
+        //funMode();
+    }
+
+    public void funMode() {
+        robots = new Robot[layers.getHeight()*layers.getWidth()];
+        int it = 0;
+        for(int j = 0; j < layers.getWidth(); j++) {
+            for (int k = 0; k < layers.getHeight(); k++) {
+                robots[it] = new Robot(j, k, k % 8);
+                it++;
+            }
+        }
     }
 
     public Game(boolean runAIGame){

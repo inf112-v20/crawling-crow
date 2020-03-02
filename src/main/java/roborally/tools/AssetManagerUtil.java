@@ -139,6 +139,9 @@ public class AssetManagerUtil {
         airobots[7] = new AI(6,4, 7);
     }
 
+    public static void setRobots(IRobot[] robots) {
+        robotcores = robots;
+    }
     public static IRobot[] getRobots() {
         return robotcores;
     }
