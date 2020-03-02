@@ -38,6 +38,7 @@ public class Game implements IGame {
     }
 
     public void funMode() {
+        robots = null;
         robots = new Robot[layers.getHeight()*layers.getWidth()];
         int it = 0;
         for(int j = 0; j < layers.getWidth(); j++) {
@@ -46,6 +47,7 @@ public class Game implements IGame {
                 it++;
             }
         }
+        AssetManagerUtil.setRobots(robots);
     }
 
     public Game(boolean runAIGame){
