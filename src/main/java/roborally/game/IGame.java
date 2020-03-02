@@ -29,8 +29,6 @@ public interface IGame {
 
     void restartGame();
 
-    boolean getRestart();
-
     void startGame();
 
     void startNewRound();

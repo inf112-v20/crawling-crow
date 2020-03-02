@@ -35,6 +35,8 @@ public interface IRobot {
 
     Laser getLaser();
 
+    void backToCheckPoint();
+
     /**
      *
      * @param i

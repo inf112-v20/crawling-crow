@@ -1,6 +1,7 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
@@ -25,7 +26,6 @@ public class Game implements IGame {
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int i;
-    private boolean restart;
 
     public Game(){
         i = 0;
@@ -33,7 +33,6 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
-        restart = false;
     }
 
     public Game(boolean runAIGame){
@@ -80,11 +79,12 @@ public class Game implements IGame {
 
     @Override
     public void restartGame() {
-        this.restart = true;
-    }
-    @Override
-    public boolean getRestart() {
-        return this.restart;
+        for (IRobot robot : robots) {
+            robot.clearLaser();
+            robot.backToCheckPoint();
+            GridPoint2 robotPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);
+            robot.getCalc().getLasers().checkIfRobotWasInLaser(robot.getName(), robotPos);
+        }
     }
 
     @Override

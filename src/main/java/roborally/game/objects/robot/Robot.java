@@ -16,6 +16,7 @@ public class Robot implements IRobot {
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
+    private GridPoint2 checkPoint;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -34,6 +35,7 @@ public class Robot implements IRobot {
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
         laser = new Laser(39);
+        this.checkPoint = new GridPoint2(x, y);
     }
 
     @Override
@@ -49,6 +51,13 @@ public class Robot implements IRobot {
     @Override
     public Vector2 getPosition() {
         return robotState.getPosition();
+    }
+
+    @Override
+    public void backToCheckPoint() {
+        uiRobot.goToCheckPoint(robotState.getPositionX(), robotState.getPositionY(), this.checkPoint);
+        this.robotState.setPosition(checkPoint.x, checkPoint.y);
+        this.direction = Direction.North;
     }
 
     @Override
