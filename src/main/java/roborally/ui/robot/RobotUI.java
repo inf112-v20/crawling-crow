@@ -76,7 +76,6 @@ public class RobotUI implements IRobotUI {
 
     @Override
     public void setDirection(int x, int y, Direction direction) {
-        System.out.println("ui position " + uiRobotPosX + " " + uiRobotPosY);
         if (layers.assertRobotNotNull(x, y))
             layers.getRobotCell(x, y).setRotation(direction.getDirectionId());
     }
