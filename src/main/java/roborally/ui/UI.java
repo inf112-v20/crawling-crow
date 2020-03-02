@@ -1,10 +1,9 @@
 package roborally.ui;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import roborally.game.Game;
-import roborally.game.IGame;
-import roborally.game.PhaseStep;
-import roborally.game.RoundStep;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Scaling;
+import roborally.game.*;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -76,6 +75,13 @@ public class UI extends InputAdapter implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         // Maybe this can help us run the game even on smaller screen than Tim Cooks.
+        Vector2 size = Scaling.fit.apply(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT, width, height);
+        int viewportX = (int)(width - size.x) / 2;
+        int viewportY = (int)(height - size.y) / 2;
+        int viewportWidth = (int)size.x;
+        int viewportHeight = (int)size.y;
+        Gdx.gl.glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
+        //stage.setViewport(800, 480, true, viewportX, viewportY, viewportWidth, viewportHeight);
     }
 
     @Override
