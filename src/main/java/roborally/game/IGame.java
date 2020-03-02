@@ -21,6 +21,8 @@ public interface IGame {
 
     IRobot getRobots();
 
+    boolean funMode();
+
     /**
      * Serves ONLY feed the keyUp method..
      */

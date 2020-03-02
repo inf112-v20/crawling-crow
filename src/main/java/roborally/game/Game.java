@@ -12,6 +12,7 @@ import roborally.tools.AssetManagerUtil;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -27,6 +28,7 @@ public class Game implements IGame {
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int i;
+    private boolean funMode;
 
     public Game(){
         i = 0;
@@ -34,10 +36,14 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
-        //funMode();
+        funMode();
     }
 
-    public void funMode() {
+    public boolean funMode() {
+        if(!funMode) {
+            funMode = true;
+            return false;
+        }
         robots = null;
         robots = new Robot[layers.getHeight()*layers.getWidth()];
         int it = 0;
@@ -48,6 +54,8 @@ public class Game implements IGame {
             }
         }
         AssetManagerUtil.setRobots(robots);
+        System.out.println("Fun mode activated, click 'A' to fire all lasers, 'M' to randomly move all robots");
+        return funMode;
     }
 
     public Game(boolean runAIGame){
@@ -156,6 +164,8 @@ public class Game implements IGame {
 
     @Override
     public void fireLasers() {
+        for (IRobot robot : robots)
+            robot.fireLaser();
         // TODO: Implement the corresponding phase.
     }
 
@@ -255,7 +265,19 @@ public class Game implements IGame {
 
     @Override
     public void moveRobots() {
-        // Redundant?
+        Random r = new Random();
+        int m;
+        for(IRobot robot : robots) {
+            m = r.nextInt(4);
+            if(m == 0)
+                robot.turnLeft();
+            else if(m == 1)
+                robot.moveForward();
+            else if(m == 2)
+                robot.moveBackward();
+            else if(m == 3)
+                robot.turnRight();
+        }
     }
 
     @Override

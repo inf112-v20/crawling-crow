@@ -6,8 +6,10 @@ import java.util.HashMap;
 
 public class ControlsDebug implements IControls{
     private HashMap<Integer, Runnable> menuControlMap;
+    private IGame game;
 
     public ControlsDebug(IGame game){
+        this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.ENTER, game::startGame);
         menuControlMap.put(Input.Keys.UP, () -> game.getRobots().moveForward());
@@ -19,6 +21,7 @@ public class ControlsDebug implements IControls{
         menuControlMap.put(Input.Keys.W, game::checkIfSomeoneWon);
         menuControlMap.put(Input.Keys.R, game::restartGame);
         menuControlMap.put(Input.Keys.ESCAPE, game::exitGame);
+        funMode();
     }
 
     @Override
@@ -32,5 +35,11 @@ public class ControlsDebug implements IControls{
 
     private void doNothing() {
         // Ok!
+    }
+    private void funMode() {
+        if(game.funMode()) {
+            menuControlMap.put(Input.Keys.A, game::fireLasers);
+            menuControlMap.put(Input.Keys.M, game::moveRobots);
+        }
     }
 }
