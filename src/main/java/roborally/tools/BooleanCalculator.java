@@ -51,6 +51,7 @@ public class BooleanCalculator {
                     if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
                         System.out.println("\nPushing robot...");
                         robot.move(dx, dy);
+                        System.out.println("Pushing robot complete");
                     }
         }
             // Robot "deletion"
@@ -166,9 +167,9 @@ public class BooleanCalculator {
                     layers.setRobotCell(x, y, null);
                 }
                 else if (bumpedPos.equals(bumpingPos)){
-                    System.out.println("The bumped robot: ");
+                    System.out.println("\nPushing... ");
                     robot.move(dx, dy);
-                    System.out.println("The bumping robot: ");
+                    System.out.println("Pushing complete... ");
                     if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
                         robot.setWinTexture();
                     else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.

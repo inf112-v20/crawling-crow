@@ -93,8 +93,7 @@ public class Game implements IGame {
     public void startGame(){
         assert(!gameRunning);
         if(DEBUG){
-            System.out.println();
-            System.out.println("Game started...");
+            System.out.println("\nGame started...");
         }
         gameRunning = true;
         startNewRound();
@@ -119,7 +118,7 @@ public class Game implements IGame {
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
         if(DEBUG) {
-            System.out.println("Round started...");
+            System.out.println("\nRound started...");
             System.out.println("Entering " + roundStep + "...");
             System.out.println("Waiting for input..");
         }
@@ -176,6 +175,7 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
+        System.out.println("\nChecking if any robots are currently on a flag position...");
         for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
@@ -198,7 +198,7 @@ public class Game implements IGame {
         assert(gameRunning);
         assert(roundStep == RoundStep.PHASES);
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
-        if(DEBUG) System.out.println("Checking if someone won...");
+        if(DEBUG) System.out.println("\nChecking if someone won...");
 
         boolean someoneWon = checkAllRobotsForWinner();
         if(someoneWon){
@@ -252,7 +252,6 @@ public class Game implements IGame {
         assert(gameRunning);
         if(DEBUG){
             System.out.println("Stopping game...");
-            System.out.println();
         }
         cleanUp();
         gameRunning = false;
