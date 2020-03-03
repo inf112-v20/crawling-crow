@@ -48,8 +48,10 @@ public class BooleanCalculator {
                 if (layers.assertRobotNotNull(x+dx,y+dy))
                     recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
                 for (IRobot robot : AssetManagerUtil.getRobots())
-                    if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot)
-                        robot.move(dx,dy);
+                    if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
+                        System.out.println("\nPushing robot...");
+                        robot.move(dx, dy);
+                    }
         }
             // Robot "deletion"
             else
