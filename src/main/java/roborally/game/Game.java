@@ -1,15 +1,18 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
+import roborally.game.objects.robot.Robot;
 import roborally.tools.AssetManagerUtil;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -25,6 +28,7 @@ public class Game implements IGame {
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int i;
+    private boolean funMode;
 
     public Game(){
         i = 0;
@@ -32,6 +36,27 @@ public class Game implements IGame {
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
+        //funMode();
+    }
+
+    @Override
+    public boolean funMode() {
+        if(!funMode) {
+            funMode = true;
+            return false;
+        }
+        robots = null;
+        robots = new Robot[layers.getHeight()*layers.getWidth()];
+        int it = 0;
+        for(int j = 0; j < layers.getWidth(); j++) {
+            for (int k = 0; k < layers.getHeight(); k++) {
+                robots[it] = new Robot(j, k, k % 8);
+                it++;
+            }
+        }
+        AssetManagerUtil.setRobots(robots);
+        System.out.println("Fun mode activated, click 'A' to fire all lasers, 'M' to randomly move all robots");
+        return funMode;
     }
 
     public Game(boolean runAIGame){
@@ -69,11 +94,20 @@ public class Game implements IGame {
     public void startGame(){
         assert(!gameRunning);
         if(DEBUG){
-            System.out.println();
-            System.out.println("Game started...");
+            System.out.println("\nGame started...");
         }
         gameRunning = true;
         startNewRound();
+    }
+
+    @Override
+    public void restartGame() {
+        for (IRobot robot : robots) {
+            robot.clearLaser();
+            robot.backToCheckPoint();
+            GridPoint2 robotPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);
+            robot.getCalc().getLasers().checkIfRobotWasInLaser(robot.getName(), robotPos);
+        }
     }
 
     @Override
@@ -84,14 +118,8 @@ public class Game implements IGame {
 
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
-        // TODO: REMOVE from here. This just makes the robot "Crazt" autowin the game.
-        //roundStep = RoundStep.PHASES;
-        //phaseStep = PhaseStep.CHECK_FOR_WINNER;
-        //winner = new Robot("Crazy");
-        // TODO: REMOVE until here
-
         if(DEBUG) {
-            System.out.println("Round started...");
+            System.out.println("\nRound started...");
             System.out.println("Entering " + roundStep + "...");
             System.out.println("Waiting for input..");
         }
@@ -136,6 +164,8 @@ public class Game implements IGame {
 
     @Override
     public void fireLasers() {
+        for (IRobot robot : robots)
+            robot.fireLaser();
         // TODO: Implement the corresponding phase.
     }
 
@@ -146,6 +176,7 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
+        System.out.println("\nChecking if any robots have currently arrived at their next flag position...");
         for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
@@ -168,7 +199,7 @@ public class Game implements IGame {
         assert(gameRunning);
         assert(roundStep == RoundStep.PHASES);
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
-        if(DEBUG) System.out.println("Checking if someone won...");
+        if(DEBUG) System.out.println("\nChecking if someone won...");
 
         boolean someoneWon = checkAllRobotsForWinner();
         if(someoneWon){
@@ -220,10 +251,9 @@ public class Game implements IGame {
     @Override
     public void endGame() {
         assert(gameRunning);
-        if(DEBUG){
-            System.out.println("Stopping game...");
-            System.out.println();
-        }
+        //if(DEBUG){
+            //System.out.println("Stopping game...");
+        //}
         cleanUp();
         gameRunning = false;
     }
@@ -235,7 +265,19 @@ public class Game implements IGame {
 
     @Override
     public void moveRobots() {
-        // Redundant?
+        Random r = new Random();
+        int m;
+        for(IRobot robot : robots) {
+            m = r.nextInt(4);
+            if(m == 0)
+                robot.turnLeft();
+            else if(m == 1)
+                robot.moveForward();
+            else if(m == 2)
+                robot.moveBackward();
+            else if(m == 3)
+                robot.turnRight();
+        }
     }
 
     @Override

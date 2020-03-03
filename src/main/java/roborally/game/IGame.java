@@ -21,11 +21,15 @@ public interface IGame {
 
     IRobot getRobots();
 
+    boolean funMode();
+
     /**
      * Serves ONLY feed the keyUp method..
      */
 
     IGameBoard getGameBoard();
+
+    void restartGame();
 
     void startGame();
 

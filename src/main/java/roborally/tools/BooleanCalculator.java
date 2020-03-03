@@ -40,14 +40,19 @@ public class BooleanCalculator {
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
         boolean recursiveRobot = false;
+        if(checkForWall(x, y, dx, dy))
+            return true;
             if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
                 if(checkForWall(x,y,dx,dy))
                     return true;
                 if (layers.assertRobotNotNull(x+dx,y+dy))
                     recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
                 for (IRobot robot : AssetManagerUtil.getRobots())
-                    if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot)
-                        robot.move(dx,dy);
+                    if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
+                        System.out.println("\nPushing robot...");
+                        robot.move(dx, dy);
+                        System.out.println("Pushing robot complete");
+                    }
         }
             // Robot "deletion"
             else
@@ -162,9 +167,9 @@ public class BooleanCalculator {
                     layers.setRobotCell(x, y, null);
                 }
                 else if (bumpedPos.equals(bumpingPos)){
-                    System.out.println("The bumped robot: ");
+                    System.out.println("\nPushing... ");
                     robot.move(dx, dy);
-                    System.out.println("The bumping robot: ");
+                    System.out.println("Pushing complete... ");
                     if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
                         robot.setWinTexture();
                     else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.

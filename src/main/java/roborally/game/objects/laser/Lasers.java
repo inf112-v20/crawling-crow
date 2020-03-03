@@ -1,5 +1,8 @@
 package roborally.game.objects.laser;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.tools.AssetManagerUtil;
+
 import java.util.HashMap;
 
 public class Lasers {
@@ -21,9 +24,11 @@ public class Lasers {
     public void createLaser(int id, GridPoint2 pos, String name) {
         this.pos = pos;
         if(!checkIfRobotMovesInLaser(name)) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
+            sound.play((float)0.1);
             this.laser = new Laser(id);
             laser.findLaser(this.pos);
-            laser.removeLaser();
+            laser.remove();
             this.name = name;
             lasers.put(name, laser);
         }
@@ -35,9 +40,10 @@ public class Lasers {
      * @param direction The direction the robot is looking.
      */
     public void fireLaser(Laser laser, GridPoint2 pos, int direction) {
-        if(!laser.checkForLaserCells()) {
-            laser.createLaser();
+        if(laser.getOpposite().isEmpty()) {
             laser.fireLaser(pos, direction);
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+            sound.play((float) 0.5);
         }
         else
             clearLaser(laser);
@@ -45,7 +51,7 @@ public class Lasers {
 
     // Clears the laser cells created by the robots laser.
     public void clearLaser(Laser laser) {
-        laser.removeLaser();
+        laser.remove();
         laser.clearStoredCoordinates();
     }
 

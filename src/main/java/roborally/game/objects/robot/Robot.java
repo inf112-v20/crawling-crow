@@ -1,6 +1,5 @@
 package roborally.game.objects.robot;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Laser;
@@ -17,6 +16,7 @@ public class Robot implements IRobot {
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
+    private GridPoint2 checkPoint;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -35,6 +35,7 @@ public class Robot implements IRobot {
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
         laser = new Laser(39);
+        this.checkPoint = new GridPoint2(x, y);
     }
 
     @Override
@@ -53,18 +54,28 @@ public class Robot implements IRobot {
     }
 
     @Override
+    public void backToCheckPoint() {
+        uiRobot.goToCheckPoint(robotState.getPositionX(), robotState.getPositionY(), this.checkPoint);
+        this.robotState.setPosition(checkPoint.x, checkPoint.y);
+        this.direction = Direction.North;
+    }
+
+    @Override
     public void fireLaser() {
         int x = (int)getPosition().x;
         int y = (int)getPosition().y;
         getCalc().getLasers().fireLaser(laser, new GridPoint2(x, y), getDegrees());
-        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.5);
     }
 
     @Override
     public void clearLaser() {
-        if (this.laser.checkForLaserCells())
+        if (!this.laser.getOpposite().isEmpty())
             getCalc().getLasers().clearLaser(this.laser);
+    }
+
+    @Override
+    public Laser getLaser() {
+        return this.laser;
     }
 
     @Override
@@ -79,15 +90,13 @@ public class Robot implements IRobot {
         int y = (int)pos.y;
         int newX = x + dx;
         int newY = y + dy;
-        System.out.println("Old position: ");
-        System.out.println(x + " " + y);
+        System.out.println("Old position: " + x + " " + y);
 
         // Checks for robots in its path before moving.
         if(!getCalc().checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
                 this.robotState.setPosition(newX, newY);
-                System.out.println("New position: ");
-                System.out.println((newX) + " " + (newY));
+                System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
                 getCalc().checkForLasers(newX, newY, getName());
                 if (getCalc().isOnHole(newX, newY)) {
@@ -107,7 +116,7 @@ public class Robot implements IRobot {
         System.out.println(this.getName());
         int dy = 0;
         int dx = 0;
-        System.out.println("Moving forward...");
+        System.out.println("\nMoving forward...");
 
         Direction dir = this.direction;
         if(dir == Direction.North){
@@ -127,7 +136,7 @@ public class Robot implements IRobot {
     public boolean moveBackward() {
         int dy = 0;
         int dx = 0;
-        System.out.println("Moving backwards...");
+        System.out.println("\nMoving backwards...");
 
         Direction dir = this.direction;
         if(dir == Direction.North){
@@ -145,7 +154,7 @@ public class Robot implements IRobot {
 
     @Override
     public void turnRight() {
-        System.out.println("Turning right... ");
+        System.out.println("\nTurning right... ");
         System.out.print("Old direction: ");
         System.out.println(this.direction.toString());
 
@@ -159,7 +168,7 @@ public class Robot implements IRobot {
 
     @Override
     public void turnLeft() {
-        System.out.println("Turning left...");
+        System.out.println("\nTurning left...");
         System.out.print("Old direction: ");
         System.out.println(this.direction.toString());
 

@@ -31,6 +31,8 @@ public class AssetManagerUtil {
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
             = new AssetDescriptor<>("assets/sounds/fireLaser.wav", Sound.class);
+    public static final AssetDescriptor<Sound> STEPIN_LASER
+            = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
 
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
@@ -52,6 +54,12 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("assets/robots/new/Yellow.png", Texture.class);
+    private static final AssetDescriptor<Texture> LASER_HORIZONTAL
+            = new AssetDescriptor<>("assets/laserHorizontal.png", Texture.class);
+    private static final AssetDescriptor<Texture> LASER_ONVERTICAL
+            = new AssetDescriptor<>("assets/lazerOnVertical.png", Texture.class);
+    private static final AssetDescriptor<Texture> LASER_VERTICAL
+            = new AssetDescriptor<>("assets/laserVertical.png", Texture.class);
 
     public static void load() {
         //Robots
@@ -65,6 +73,10 @@ public class AssetManagerUtil {
         manager.load(RED);
         manager.load(YELLOW);
         manager.load(SHOOT_LASER);
+        manager.load(STEPIN_LASER);
+        manager.load(LASER_HORIZONTAL);
+        manager.load(LASER_ONVERTICAL);
+        manager.load(LASER_VERTICAL);
     }
 
     // Only one map so far, but can add more and return a list.
@@ -85,6 +97,18 @@ public class AssetManagerUtil {
         robotTexture[6] = manager.get(RED);
         robotTexture[7] = manager.get(YELLOW);
         return robotTexture[i];
+    }
+
+    public static Texture getLaserTexture() {
+        return manager.get(LASER_HORIZONTAL);
+    }
+
+    public static Texture getLaserVerticalTexture() {
+        return manager.get(LASER_VERTICAL);
+    }
+
+    public static Texture getLaserOnVerticalTexture() {
+        return manager.get(LASER_ONVERTICAL);
     }
 
     public static void dispose() {
@@ -115,6 +139,9 @@ public class AssetManagerUtil {
         airobots[7] = new AI(6,4, 7);
     }
 
+    public static void setRobots(IRobot[] robots) {
+        robotcores = robots;
+    }
     public static IRobot[] getRobots() {
         return robotcores;
     }
@@ -125,14 +152,14 @@ public class AssetManagerUtil {
     // Default Robots robots
     public static IRobot[] makeRobots() {
         robotcores = new Robot[8];
-        robotcores[0] = new Robot(3, 0, 0);
-        robotcores[1] = new Robot(0, 1, 1);
-        robotcores[2] = new Robot(3, 2, 2);
-        robotcores[3] = new Robot(8, 3, 3);
-        robotcores[4] = new Robot(3, 3, 4);
-        robotcores[5] = new Robot(4, 4, 5);
-        robotcores[6] = new Robot(4, 5, 6);
-        robotcores[7] = new Robot(6, 4, 7);
+        robotcores[0] = new Robot(5, 0, 0);
+        robotcores[1] = new Robot(6, 0, 1);
+        robotcores[2] = new Robot(3, 1, 2);
+        robotcores[3] = new Robot(8, 1, 3);
+        robotcores[4] = new Robot(1, 2, 4);
+        robotcores[5] = new Robot(5, 6, 5);
+        robotcores[6] = new Robot(5, 4, 6);
+        robotcores[7] = new Robot(5, 5, 7);
 
         // Texture region is not automatically set in constructor (for now).
         return robotcores;
@@ -153,7 +180,7 @@ public class AssetManagerUtil {
     }
 
     public static String getRobotName() {
-        if(robotNames==null) {
+        if(robotNames==null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
         }

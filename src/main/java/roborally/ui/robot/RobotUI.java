@@ -3,6 +3,7 @@ package roborally.ui.robot;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.Direction;
 import roborally.ui.ILayers;
@@ -75,8 +76,15 @@ public class RobotUI implements IRobotUI {
     }
 
     @Override
+    public void goToCheckPoint(int x, int y, GridPoint2 checkPoint) {
+        layers.setRobotCell(checkPoint.x, checkPoint.y, getTexture());
+        layers.getRobotCell(checkPoint.x, checkPoint.y).setRotation(0);
+        if(x!=checkPoint.x || y!=checkPoint.y)
+            layers.setRobotCell(x, y, null);
+    }
+
+    @Override
     public void setDirection(int x, int y, Direction direction) {
-        System.out.println("ui position " + uiRobotPosX + " " + uiRobotPosY);
         if (layers.assertRobotNotNull(x, y))
             layers.getRobotCell(x, y).setRotation(direction.getDirectionId());
     }

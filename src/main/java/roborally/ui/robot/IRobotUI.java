@@ -1,6 +1,7 @@
 package roborally.ui.robot;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.Direction;
 
 public interface IRobotUI {
@@ -43,9 +44,11 @@ public interface IRobotUI {
 
     /**
      *
-     * @param x
-     * @param y
-     * @param direction
+     * @param x The robots y position
+     * @param y The robots x position
+     * @param direction The direction the robot is now facing.
      */
     void setDirection(int x, int y, Direction direction);
+
+    void goToCheckPoint(int x, int y, GridPoint2 checkPoint);
 }
