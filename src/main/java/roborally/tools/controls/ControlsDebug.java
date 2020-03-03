@@ -21,13 +21,13 @@ public class ControlsDebug implements IControls{
         menuControlMap.put(Input.Keys.W, game::checkIfSomeoneWon);
         menuControlMap.put(Input.Keys.R, game::restartGame);
         menuControlMap.put(Input.Keys.ESCAPE, game::exitGame);
-        funMode();
+        menuControlMap.put(Input.Keys.X, game::funMode);
     }
 
     @Override
     public Runnable getAction(int keycode){
         if(!menuControlMap.containsKey(keycode)){
-            return ()-> doNothing();
+            return this::doNothing;
         }
 
         return menuControlMap.get(keycode);
