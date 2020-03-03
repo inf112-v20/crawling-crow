@@ -152,14 +152,14 @@ public class AssetManagerUtil {
     // Default Robots robots
     public static IRobot[] makeRobots() {
         robotcores = new Robot[8];
-        robotcores[0] = new Robot(3, 0, 0);
-        robotcores[1] = new Robot(0, 1, 1);
-        robotcores[2] = new Robot(3, 2, 2);
-        robotcores[3] = new Robot(8, 3, 3);
-        robotcores[4] = new Robot(3, 3, 4);
-        robotcores[5] = new Robot(4, 4, 5);
-        robotcores[6] = new Robot(4, 5, 6);
-        robotcores[7] = new Robot(6, 4, 7);
+        robotcores[0] = new Robot(5, 0, 0);
+        robotcores[1] = new Robot(6, 0, 1);
+        robotcores[2] = new Robot(3, 1, 2);
+        robotcores[3] = new Robot(8, 1, 3);
+        robotcores[4] = new Robot(1, 2, 4);
+        robotcores[5] = new Robot(5, 6, 5);
+        robotcores[6] = new Robot(5, 4, 6);
+        robotcores[7] = new Robot(5, 5, 7);
 
         // Texture region is not automatically set in constructor (for now).
         return robotcores;
