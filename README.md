@@ -42,7 +42,7 @@ Since you can't program the robot yet, you can move the robot with the following
 -   Check if someone won: <kbd>W</kbd>
 -   Register flag: <kbd>SPACE</kbd>
 -   Activate FunMode: <kbd>X</kbd>
-    -   FunMode: Move all rovots randomly: <kbd>M</kbd>
+    -   FunMode: Move all robots randomly: <kbd>M</kbd>
     -   Funmode: Fire lasers for all robots: <kbd>A</kbd>
 
 ## Tests
