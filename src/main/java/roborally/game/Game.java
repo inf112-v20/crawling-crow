@@ -251,9 +251,9 @@ public class Game implements IGame {
     @Override
     public void endGame() {
         assert(gameRunning);
-        if(DEBUG){
-            System.out.println("Stopping game...");
-        }
+        //if(DEBUG){
+            //System.out.println("Stopping game...");
+        //}
         cleanUp();
         gameRunning = false;
     }
