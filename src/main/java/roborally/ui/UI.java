@@ -52,7 +52,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         camera.update();
 
         // Initialize the map renderer
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/8f);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3/16f);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
     }
