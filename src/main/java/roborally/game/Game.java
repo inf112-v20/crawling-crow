@@ -175,7 +175,7 @@ public class Game implements IGame {
 
     @Override
     public void registerFlagPositions() {
-        System.out.println("\nChecking if any robots are currently on a flag position...");
+        System.out.println("\nChecking if any robots have currently arrived at their next flag position...");
         for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
