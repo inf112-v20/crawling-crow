@@ -39,6 +39,7 @@ public class Game implements IGame {
         //funMode();
     }
 
+    @Override
     public boolean funMode() {
         if(!funMode) {
             funMode = true;
