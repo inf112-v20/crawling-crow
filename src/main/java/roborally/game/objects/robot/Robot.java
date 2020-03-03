@@ -90,15 +90,14 @@ public class Robot implements IRobot {
         int y = (int)pos.y;
         int newX = x + dx;
         int newY = y + dy;
-        System.out.println("Old position: ");
-        System.out.println(x + " " + y);
+        System.out.println("Old position: " + x + " " + y);
 
         // Checks for robots in its path before moving.
         if(!getCalc().checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
                 this.robotState.setPosition(newX, newY);
-                System.out.println("New position: ");
-                System.out.println((newX) + " " + (newY));
+                System.out.println("New position: " + (newX) + " " + (newY));
+                System.out.println();
                 clearLaser();
                 getCalc().checkForLasers(newX, newY, getName());
                 if (getCalc().isOnHole(newX, newY)) {
@@ -109,6 +108,7 @@ public class Robot implements IRobot {
         }
         else
             System.out.println("New position: " + x + " " + y);
+            System.out.println();
         // update checkpoints etc.
         return true;
     }
@@ -165,6 +165,7 @@ public class Robot implements IRobot {
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
+        System.out.println();
         clearLaser(); // TODO: Move this, so it's called one time
     }
 
@@ -179,6 +180,7 @@ public class Robot implements IRobot {
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
+        System.out.println();
         clearLaser(); // TODO: Move this, so it's called one time
     }
 
