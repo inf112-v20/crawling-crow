@@ -3,6 +3,7 @@ package roborally.game.objects.laser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.AssetManagerUtil;
@@ -36,7 +37,7 @@ public class Laser {
         laserType = new HashMap<>();
         laserType.put(39, "HORIZONTAL");
         laserType.put(47, "VERTICAL");
-        laserType.put(123, "BOTH");
+        laserType.put(40, "BOTH");
         laserType.put(46, "LeftCannon");
         this.laserDegree = laserDegree;
         storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
@@ -215,7 +216,7 @@ public class Laser {
 
     public boolean identifyLaser(int i, int j) {
         if (layers.assertLaserNotNull(i, j)) {
-            if (layers.getLaserID(i, j) == 123) {
+            if (layers.getLaserID(i, j) == 40) {
                 if (laserType.get(storedLaserCell.getTile().getId()).equals("VERTICAL"))
                     layers.setLaserCell(i, j, horizontalLaser);
                 else
@@ -229,19 +230,13 @@ public class Laser {
     public TiledMapTileLayer.Cell createLaser(int direction) {
 
         horizontalLaser = new TiledMapTileLayer.Cell();
-        TextureRegion tr = new TextureRegion(AssetManagerUtil.getLaserTexture());
-        horizontalLaser.setTile(new StaticTiledMapTile(tr));
-        horizontalLaser.getTile().setId(39);
+        horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(39));
 
         verticalLaser = new TiledMapTileLayer.Cell();
-        TextureRegion tr1 = new TextureRegion(AssetManagerUtil.getLaserVerticalTexture());
-        verticalLaser.setTile(new StaticTiledMapTile(tr1));
-        verticalLaser.getTile().setId(47);
+        verticalLaser.setTile(AssetManagerUtil.getTileSets().getTile(47));
 
         crossLaser = new TiledMapTileLayer.Cell();
-        TextureRegion tr2 = new TextureRegion(AssetManagerUtil.getLaserOnVerticalTexture());
-        crossLaser.setTile(new StaticTiledMapTile(tr2));
-        crossLaser.getTile().setId(123);
+        crossLaser.setTile(AssetManagerUtil.getTileSets().getTile(40));
         if (direction == 0 || direction == 2)
             return verticalLaser;
         else

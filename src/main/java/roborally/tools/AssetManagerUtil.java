@@ -1,11 +1,12 @@
 package roborally.tools;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
@@ -124,6 +125,10 @@ public class AssetManagerUtil {
         if(layers==null)
             layers = createLayers(getLoadedMap());
         return layers;
+    }
+
+    public static TiledMapTileSets getTileSets() {
+        return loadedMap.getTileSets();
     }
 
     // Default AI robots
