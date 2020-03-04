@@ -106,7 +106,6 @@ public class Game implements IGame {
             robot.clearLaser();
             robot.backToCheckPoint();
             GridPoint2 robotPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);
-            robot.getCalc().getLasers().checkIfRobotWasInLaser(robot.getName(), robotPos);
         }
     }
 

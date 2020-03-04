@@ -1,7 +1,6 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Laser;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;
@@ -29,7 +28,7 @@ public class Robot implements IRobot {
         IRobotUI uiRobot = new RobotUI(x, y);
         this.robotState = robot;
         this.uiRobot = uiRobot;
-        robot.setPosition(x,y);
+        robot.setPosition(new GridPoint2(x, y));
         booleanCalculator = new BooleanCalculator();
         this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
@@ -49,28 +48,27 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public Vector2 getPosition() {
+    public GridPoint2 getPosition() {
         return robotState.getPosition();
     }
 
     @Override
     public void backToCheckPoint() {
         uiRobot.goToCheckPoint(robotState.getPositionX(), robotState.getPositionY(), this.checkPoint);
-        this.robotState.setPosition(checkPoint.x, checkPoint.y);
+        this.robotState.setPosition(checkPoint);
         this.direction = Direction.North;
     }
 
     @Override
     public void fireLaser() {
-        int x = (int)getPosition().x;
-        int y = (int)getPosition().y;
-        getCalc().getLasers().fireLaser(laser, new GridPoint2(x, y), getDegrees());
+        GridPoint2 pos = getPosition();
+        laser.fireLaser(pos, getDegrees());
     }
 
     @Override
     public void clearLaser() {
-        if (!this.laser.getOpposite().isEmpty())
-            getCalc().getLasers().clearLaser(this.laser);
+        if (!this.laser.getCoords().isEmpty())
+            laser.clearLaser();
     }
 
     @Override
@@ -85,9 +83,9 @@ public class Robot implements IRobot {
 
     @Override
     public boolean move(int dx, int dy) {
-        Vector2 pos = this.getPosition();
-        int x = (int)pos.x;
-        int y = (int)pos.y;
+        GridPoint2 pos = this.getPosition();
+        int x = pos.x;
+        int y = pos.y;
         int newX = x + dx;
         int newY = y + dy;
         System.out.println("Old position: " + x + " " + y);
@@ -95,7 +93,7 @@ public class Robot implements IRobot {
         // Checks for robots in its path before moving.
         if(!getCalc().checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
-                this.robotState.setPosition(newX, newY);
+                this.robotState.setPosition(new GridPoint2(newX, newY));
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
                 getCalc().checkForLasers(newX, newY, getName());
@@ -182,17 +180,17 @@ public class Robot implements IRobot {
 
     @Override
     public void setPos(int x, int y) {
-        this.robotState.setPosition(x, y);
+        this.robotState.setPosition(new GridPoint2(x, y));
     }
 
     @Override
     public void setWinTexture() {
-        this.uiRobot.setWinTexture((int)this.getPosition().x, (int)this.getPosition().y);
+        this.uiRobot.setWinTexture(this.getPosition().x, this.getPosition().y);
     }
 
     @Override
     public void setLostTexture() {
-        this.uiRobot.setLostTexture((int)this.getPosition().x, (int)this.getPosition().y);
+        this.uiRobot.setLostTexture(this.getPosition().x, this.getPosition().y);
     }
 
     @Override

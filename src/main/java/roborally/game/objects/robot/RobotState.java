@@ -1,14 +1,14 @@
 package roborally.game.objects.robot;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.GridPoint2;
 
 public class RobotState implements IRobotState {
     private String name;
-    private Vector2 robotPosition;
+    private GridPoint2 robotPosition;
 
     public RobotState(String name) {
         this.name = name;
-        this.robotPosition = new Vector2(0, 0);
+        this.robotPosition = new GridPoint2();
     }
 
     public String getName() {
@@ -16,23 +16,22 @@ public class RobotState implements IRobotState {
     }
 
     @Override
-    public void setPosition(float x, float y) {
-        this.robotPosition.x = x;
-        this.robotPosition.y = y;
+    public void setPosition(GridPoint2 pos) {
+        this.robotPosition = pos;
     }
 
     @Override
-    public Vector2 getPosition() {
+    public GridPoint2 getPosition() {
         return this.robotPosition;
     }
 
     @Override
     public int getPositionX() {
-        return (int) this.robotPosition.x;
+        return this.robotPosition.x;
     }
 
     @Override
     public int getPositionY() {
-        return (int) this.robotPosition.y;
+        return this.robotPosition.y;
     }
 }

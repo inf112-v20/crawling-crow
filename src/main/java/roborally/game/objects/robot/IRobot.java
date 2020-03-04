@@ -1,6 +1,6 @@
 package roborally.game.objects.robot;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
 import roborally.tools.BooleanCalculator;
 
@@ -21,7 +21,7 @@ public interface IRobot {
      *
      * @return the position for this robotCores robot.
      */
-    Vector2 getPosition();
+    GridPoint2 getPosition();
 
     /**
      * Shoots a laser, bound to key "F"
@@ -35,6 +35,10 @@ public interface IRobot {
 
     Laser getLaser();
 
+
+    /**
+     * Sends the robot back to its checkpoint.
+     */
     void backToCheckPoint();
 
     /**

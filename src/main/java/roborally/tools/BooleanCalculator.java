@@ -42,25 +42,25 @@ public class BooleanCalculator {
         boolean recursiveRobot = false;
         if(checkForWall(x, y, dx, dy))
             return true;
-            if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
-                if(checkForWall(x,y,dx,dy))
-                    return true;
-                if (layers.assertRobotNotNull(x+dx,y+dy))
-                    recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
-                for (IRobot robot : AssetManagerUtil.getRobots())
-                    if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
-                        System.out.println("\nPushing robot...");
-                        robot.move(dx, dy);
-                        System.out.println("Pushing robot complete");
-                    }
+        if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
+            if(checkForWall(x,y,dx,dy))
+                return true;
+            if (layers.assertRobotNotNull(x+dx,y+dy))
+                recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
+            for (IRobot robot : AssetManagerUtil.getRobots())
+                if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
+                    System.out.println("\nPushing robot...");
+                    robot.move(dx, dy);
+                    System.out.println("Pushing robot complete");
+                }
         }
-            // Robot "deletion"
-            else
-                for(IRobot robot : AssetManagerUtil.getRobots())
-                    if(robot.getPosition().x == x && robot.getPosition().y == y) {
-                        layers.setRobotCell(x, y, null);
-                        robot.setPos(-1,-1);
-                    }
+        // Robot "deletion"
+        else
+            for(IRobot robot : AssetManagerUtil.getRobots())
+                if(robot.getPosition().equals(new GridPoint2(x, y))) {
+                    layers.setRobotCell(x, y, null);
+                    robot.setPos(-1, -1);
+                }
         return recursiveRobot;
     }
 
@@ -94,14 +94,14 @@ public class BooleanCalculator {
         findCollidingRobot(newX, newY, dx, dy);
         return false;
     }
-     /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
-      * tries to move.
-      * @param x the x position
-      * @param y the y position
-      * @param dx steps taken in x-direction
-      * @param dy steps taken in y-direction
-      * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
-      */
+    /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
+     * tries to move.
+     * @param x the x position
+     * @param y the y position
+     * @param dx steps taken in x-direction
+     * @param dy steps taken in y-direction
+     * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
+     */
     public boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
         if(layers.assertWallNotNull(x, y)) {
@@ -144,7 +144,7 @@ public class BooleanCalculator {
             lasers.createLaser(id, pos, name);
         }
         else
-            lasers.checkIfRobotWasInLaser(name, pos);
+            lasers.getName(name, pos);
     }
 
     /**
@@ -160,7 +160,7 @@ public class BooleanCalculator {
         for (IRobot robot : AssetManagerUtil.getRobots()){
             GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
-                GridPoint2 bumpedPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);
+                GridPoint2 bumpedPos = robot.getPosition();
                 if(bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
                     // Robot "deletion".
                     robot.setPos(-1, -1);
@@ -174,10 +174,10 @@ public class BooleanCalculator {
                         robot.setWinTexture();
                     else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.
                         robot.setLostTexture();
-                    }
                 }
             }
         }
+    }
 
     // Check a specific position if it is blocked
     public boolean isBlocked(int x, int y) {
@@ -219,9 +219,9 @@ public class BooleanCalculator {
     }
 
     public void loadAICalc(int x, int y) {
-    operations.put("Left", isToTheLeftOfFlagOnMap(x));
-    operations.put("Right", isToTheRightOfFlagOnMap(x));
-    operations.put("Up", isAboveFlagOnMap(y));
-    operations.put("Down", isBelowFlagOnMap(y));
+        operations.put("Left", isToTheLeftOfFlagOnMap(x));
+        operations.put("Right", isToTheRightOfFlagOnMap(x));
+        operations.put("Up", isAboveFlagOnMap(y));
+        operations.put("Down", isBelowFlagOnMap(y));
     }
 }
