@@ -6,8 +6,16 @@ import roborally.game.objects.laser.Cannon;
 import roborally.game.objects.robot.IRobot;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.BooleanCalculator;
+import roborally.utilities.enums.TileName;
+import roborally.utilities.tiledtranslator.TiledTranslator;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public interface ILayers {
+    HashMap<String, List<TileName>> mapOfWallNames = makeWallMap();
+    TiledTranslator tiledTranslator = new TiledTranslator();
 
     /**
      *
@@ -293,29 +301,43 @@ public interface ILayers {
      */
     default boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
+        TileName wallName;
         if(assertWallNotNull(x, y)) {
-            int id = getWallID(x, y);
+            wallName = tiledTranslator.getTileName(getWallID(x, y));
             if (dy > 0)
-                wall = id == 31 || id == 16 || id == 24;
+                wall = mapOfWallNames.get("North").contains(wallName);
             else if (dy < 0)
-                wall = id == 29 || id == 8 || id == 32;
+                wall = mapOfWallNames.get("South").contains(wallName);
             else if (dx > 0)
-                wall = id == 23 || id == 16 || id == 8;
+                wall = mapOfWallNames.get("East").contains(wallName);
             else if (dx < 0)
-                wall = id == 30 || id == 32 || id == 24;
+                wall = mapOfWallNames.get("West").contains(wallName);
         }
         if(assertWallNotNull(x + dx, y + dy) && !wall) {
-            int id = getWallID(x + dx, y + dy);
+            wallName = tiledTranslator.getTileName(getWallID(x + dx, y + dy));
             if (dy > 0)
-                return id == 8 || id == 29 || id == 32;
+                return mapOfWallNames.get("South").contains(wallName);
             else if (dy < 0)
-                return id == 24 || id == 16 || id == 31;
+                return mapOfWallNames.get("North").contains(wallName);
             else if (dx > 0)
-                return id == 30 || id == 24 || id == 32;
+                return mapOfWallNames.get("West").contains(wallName);
             else if (dx < 0)
-                return id == 16 || id == 8 || id == 23;
+                return mapOfWallNames.get("East").contains(wallName);
         }
         return wall;
+    }
+
+    static HashMap<String, List<TileName>> makeWallMap() {
+        HashMap<String, List<TileName>> mapOfWallNames = new HashMap<>();
+        TileName[] tnNorth = {TileName.WALL_TOP, TileName.WALL_CORNER_TOP_LEFT, TileName.WALL_CORNER_TOP_RIGHT};
+        TileName[] tnSouth = {TileName.WALL_BOTTOM, TileName.WALL_CORNER_BOTTOM_LEFT, TileName.WALL_CORNER_BOTTOM_RIGHT};
+        TileName[] tnWest = {TileName.WALL_LEFT, TileName.WALL_CORNER_BOTTOM_LEFT, TileName.WALL_CORNER_TOP_LEFT};
+        TileName[] tnEast = {TileName.WALL_RIGHT, TileName.WALL_CORNER_TOP_RIGHT, TileName.WALL_CORNER_BOTTOM_RIGHT};
+        mapOfWallNames.put("North", (Arrays.asList(tnNorth)));
+        mapOfWallNames.put("South", (Arrays.asList(tnSouth)));
+        mapOfWallNames.put("East", (Arrays.asList(tnEast)));
+        mapOfWallNames.put("West", (Arrays.asList(tnWest)));
+        return mapOfWallNames;
     }
 
     /**
