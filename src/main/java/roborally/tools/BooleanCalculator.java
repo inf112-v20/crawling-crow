@@ -144,7 +144,7 @@ public class BooleanCalculator {
             lasers.createLaser(id, pos, name);
         }
         else
-            lasers.getName(name, pos);
+            lasers.updateLaser(name, pos);
     }
 
     /**

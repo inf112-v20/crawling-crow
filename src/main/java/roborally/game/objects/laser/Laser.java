@@ -113,9 +113,8 @@ public class Laser {
     /**
      * Finds the laser cannon and adds the coordinates of its projected laser.
      * @param robotsOrigin The position the robot is or was currently in.
-     * @return the id of the cannon.
      */
-    public int findLaser(GridPoint2 robotsOrigin) {
+    public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
         if (laserType.get(laserDegree).equals("HORIZONTAL")) {
@@ -128,7 +127,6 @@ public class Laser {
         }
         storedCoordsCoords.add(robotsOrigin);
         this.cannonId = cannonId;
-        return cannonId;
     }
 
     /**
@@ -150,9 +148,10 @@ public class Laser {
                 dx = 1;
                 i = j;
             }
+            this.cannonPos.set(i+dx, k);
             do {
                 storedCoordsCoords.add(new GridPoint2(i+=dx, k));
-            } while (!booleanCalculator.checkForWall(i, k, dx, 0) && i > 0 && i < layers.getWidth());
+            } while (!booleanCalculator.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
         return cannonId;
     }
@@ -173,13 +172,14 @@ public class Laser {
             if(laserType.get(cannonId).equals("UpCannon"))
                 dy = 1;
             else {
-                dy = -1;
-                j = i;
-            }
+                    dy = -1;
+                    j = i;
+                }
+            System.out.println((cannonId));
             this.cannonPos.set(k, j + dy);
             do {
-                storedCoordsCoords.add(new GridPoint2(k, j += dy));
-            } while (!booleanCalculator.checkForWall(k, j, 0, dy));
+                storedCoordsCoords.add(new GridPoint2(k, j+=dy));
+            } while (!booleanCalculator.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
         return cannonId;
     }
@@ -190,13 +190,14 @@ public class Laser {
      */
     public void update() {
         for (GridPoint2 pos : storedCoordsCoords) {
-            if(!identifyLaser(pos.x, pos.y))
+            if(identifyLaser(pos.x, pos.y, false))
                 layers.setLaserCell(pos.x, pos.y, null);
         }
         if (removeLaser)
             return;
         for (GridPoint2 pos : storedCoordsCoords) {
-            layers.setLaserCell(pos.x, pos.y, this.storedLaserCell);
+            if(identifyLaser(pos.x, pos.y, true))
+                layers.setLaserCell(pos.x, pos.y, this.storedLaserCell);
             if (layers.assertRobotNotNull(pos.x, pos.y))
                 break;
         }
@@ -212,6 +213,7 @@ public class Laser {
 
     private int findCannon(int i, int j, int k) {
         if (laserType.get(this.laserDegree).equals("VERTICAL")) {
+            System.out.println(i + " " + j + " " + k);
             if (layers.assertLaserCannonNotNull(k, i - 1))
                 return layers.getLaserCannonID(k, i - 1);
             if (layers.assertLaserCannonNotNull(k, j + 1))
@@ -246,17 +248,22 @@ public class Laser {
     }
 
     // Identifies when to different laser cells intersect, creates a cross laser.
-    public boolean identifyLaser(int i, int j) {
+    public boolean identifyLaser(int i, int j, boolean create) {
         if (layers.assertLaserNotNull(i, j)) {
-            if (layers.getLaserID(i, j) == 40) {
+            if (layers.getLaserID(i, j) == 40 && !create) {
                 if (laserType.get(storedLaserCell.getTile().getId()).equals("VERTICAL"))
                     layers.setLaserCell(i, j, horizontalLaser);
                 else
                     layers.setLaserCell(i, j, verticalLaser);
-                return true;
+                return false;
             }
+            else if (layers.getLaserID(i, j) != storedLaserCell.getTile().getId() && create) {
+                layers.setLaserCell(i, j, crossLaser);
+                return false;
+            }
+            else return layers.getLaserID(i, j) == storedLaserCell.getTile().getId() || create;
         }
-        return false;
+        return true;
     }
 
     public int getId() {

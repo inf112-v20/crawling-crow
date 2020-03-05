@@ -22,10 +22,15 @@ public class UI extends InputAdapter implements ApplicationListener {
     public static final int TILE_SIZE = 300;
     private IGame game;
     private TiledMap tiledMap;
+    private int map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
+
+    public UI(int map) {
+        this.map = map;
+    }
 
     @Override
     public void create() {
@@ -35,7 +40,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.manager.finishLoading();
 
         // Initialize the uimap
-        tiledMap = AssetManagerUtil.getMap();
+        tiledMap = AssetManagerUtil.getMap(map);
 
         // Start a new game
         //boolean runAIGame = true;

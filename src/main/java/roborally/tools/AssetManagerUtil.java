@@ -75,9 +75,15 @@ public class AssetManagerUtil {
     }
 
     // Only one map so far, but can add more and return a list.
-    public static TiledMap getMap () {
-        loadedMap = manager.get(MAP_TEST2);
-        return manager.get(MAP_TEST2);
+    public static TiledMap getMap (int map) {
+        if(map == 1)
+            loadedMap = manager.get(MAP_TEST);
+        if(map == 2)
+            loadedMap = manager.get(MAP_TEST2);
+        if(map == 3)
+            loadedMap = manager.get(MAP_LASER_TEST);
+
+        return loadedMap;
     }
 
     // Only one robotTexture so far but can add more and return a list.

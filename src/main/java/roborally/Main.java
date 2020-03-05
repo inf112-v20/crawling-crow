@@ -6,6 +6,8 @@ import roborally.ui.UI;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +18,9 @@ public class Main {
         cfg.addIcon("icons/icon@4x.png", Files.FileType.Internal);
         cfg.addIcon("icons/icon@2x.png", Files.FileType.Internal);
         cfg.addIcon("icons/icon.png", Files.FileType.Internal);
-
-        new LwjglApplication(new UI(), cfg);
+        Scanner in = new Scanner(System.in);
+        System.out.println("1: MAP_TEST  2: MAP_TEST2  3: MAP_LASER_TEST");
+        int map = in.nextInt();
+        new LwjglApplication(new UI(map), cfg);
     }
 }
