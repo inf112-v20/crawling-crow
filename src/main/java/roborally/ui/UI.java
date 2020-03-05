@@ -28,8 +28,8 @@ public class UI extends InputAdapter implements ApplicationListener {
     private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
 
-    public UI(int mapID) {
-        this.mapID = mapID;
+    public UI(int mapId) {
+        this.mapID = mapId;
     }
 
     @Override

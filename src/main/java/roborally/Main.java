@@ -20,7 +20,7 @@ public class Main {
         cfg.addIcon("icons/icon.png", Files.FileType.Internal);
         Scanner in = new Scanner(System.in);
         System.out.println("1: MAP_TEST  2: MAP_TEST2  3: MAP_LASER_TEST");
-        int map = in.nextInt();
-        new LwjglApplication(new UI(map), cfg);
+        int mapID = in.nextInt();
+        new LwjglApplication(new UI(mapID), cfg);
     }
 }
