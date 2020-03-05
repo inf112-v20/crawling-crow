@@ -1,10 +1,7 @@
 package roborally.game.objects.laser;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;

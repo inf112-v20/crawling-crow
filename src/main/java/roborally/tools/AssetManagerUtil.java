@@ -1,8 +1,6 @@
 package roborally.tools;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
@@ -10,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobot;
-import roborally.game.objects.robot.IRobotState;
 import roborally.game.objects.robot.Robot;
 
 import java.io.BufferedReader;
@@ -25,7 +22,6 @@ public class AssetManagerUtil {
     private static Stack<String> robotNames;
     public static Stack<Vector2> flagPositions;
     public static AI[] airobots;
-    public static IRobotState[] robots;
     public static IRobot[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
