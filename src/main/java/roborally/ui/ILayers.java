@@ -2,6 +2,7 @@ package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.game.objects.laser.Cannon;
 import roborally.game.objects.robot.IRobot;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.BooleanCalculator;
@@ -416,4 +417,25 @@ public interface ILayers {
         findCollidingRobot(newX, newY, dx, dy);
         return false;
     }
+
+    /** Creates a new laser instance if there is a laser cell in the position the robot is moving to.
+     *  Else it will see if the robot is currently in a laser instance.
+     * @param x The x-coordinate the robot is moving to
+     * @param y The y-coordinate the robot is moving to
+     * @param name The name of the robot
+     */
+
+    default void checkForLasers(int x, int y, String name) {
+        GridPoint2 pos = new GridPoint2(x, y);
+        int id;
+        Cannon cannon = getCannon();
+        if (assertLaserNotNull(x, y)) {
+            id = getLaserID(x, y);
+            cannon.createLaser(id, pos, name);
+        }
+        else
+            cannon.updateLaser(name, pos);
+    }
+
+    Cannon getCannon();
 }

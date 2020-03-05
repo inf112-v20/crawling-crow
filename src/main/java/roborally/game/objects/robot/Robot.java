@@ -94,7 +94,7 @@ public class Robot implements IRobot {
                 this.robotState.setPosition(new GridPoint2(newX, newY));
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
-                getCalc().checkForLasers(newX, newY, getName());
+                getCalc().layers.checkForLasers(newX, newY, getName());
                 if (getCalc().isOnHole(newX, newY)) {
                     this.setLostTexture();
                 }
