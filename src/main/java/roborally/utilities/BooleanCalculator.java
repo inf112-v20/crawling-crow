@@ -27,43 +27,6 @@ public class BooleanCalculator {
         cannon = new Cannon();
     }
 
-    /**
-     * This method is run if there are more than 2 robots in a row, with a robot at one end making a move onto the whole
-     * line of robots. What happens is all of the robots except the first 2 makes a single step in the same direction,
-     * and then finally the 2 first robots will bump normally in the final part of checkIfBlocked.
-     * Robot disappears the same way as stated in findCollidingRobot.
-     * @param x the x position
-     * @param y the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
-     * @return True if there is a wall blocking the path.
-     */
-    public boolean robotNextToRobot(int x, int y, int dx, int dy) {
-        boolean recursiveRobot = false;
-        if(layers.checkForWall(x, y, dx, dy))
-            return true;
-        if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
-            if(layers.checkForWall(x,y,dx,dy))
-                return true;
-            if (layers.assertRobotNotNull(x+dx,y+dy))
-                recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
-            for (IRobot robot : AssetManagerUtil.getRobots())
-                if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
-                    System.out.println("\nPushing robot...");
-                    robot.move(dx, dy);
-                    System.out.println("Pushing robot complete");
-                }
-        }
-        // Robot "deletion"
-        else
-            for(IRobot robot : AssetManagerUtil.getRobots())
-                if(robot.getPosition().equals(new GridPoint2(x, y))) {
-                    layers.setRobotCell(x, y, null);
-                    robot.setPos(-1, -1);
-                }
-        return recursiveRobot;
-    }
-
     public Cannon getCannon() {
         return this.cannon;
     }
@@ -87,7 +50,7 @@ public class BooleanCalculator {
         else {
             if(layers.checkForWall(newX, newY, dx, dy))
                 return true;
-            if(layers.assertRobotNotNull(newX + dx, newY + dy) && robotNextToRobot(newX, newY, dx, dy))
+            if(layers.assertRobotNotNull(newX + dx, newY + dy) && layers.robotNextToRobot(newX, newY, dx, dy))
                 return true;
 
         }
