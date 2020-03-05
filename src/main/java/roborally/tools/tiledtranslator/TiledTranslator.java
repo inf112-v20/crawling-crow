@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class TiledTranslator implements ITiledTranslator {
 
-    private HashMap<Integer, TileName> tiles;
+    private static HashMap<Integer, TileName> tiles;
 
-    TiledTranslator() {
+    public TiledTranslator() {
         tiles = new HashMap<>();
 
         for (TileName tileName : TileName.values()) {
