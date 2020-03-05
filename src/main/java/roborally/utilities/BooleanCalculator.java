@@ -30,33 +30,6 @@ public class BooleanCalculator {
         return this.cannon;
     }
 
-    /**
-     * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping.
-     * @param x the x position
-     * @param y the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
-     * @return True if the robot or any robot on a straight line in its direction is facing a wall.
-     */
-    public boolean checkIfBlocked(int x, int y, int dx, int dy) {
-        if(layers.checkForWall(x, y, dx, dy))
-            return true;
-        int newX = x + dx;
-        int newY = y + dy;
-        // There is no Robot on the next position.
-        if(!layers.assertRobotNotNull(newX, newY))
-            return false;
-        else {
-            if(layers.checkForWall(newX, newY, dx, dy))
-                return true;
-            if(layers.assertRobotNotNull(newX + dx, newY + dy) && layers.robotNextToRobot(newX, newY, dx, dy))
-                return true;
-
-        }
-        layers.findCollidingRobot(newX, newY, dx, dy);
-        return false;
-    }
-
     /** Creates a new laser instance if there is a laser cell in the position the robot is moving to.
      *  Else it will see if the robot is currently in a laser instance.
      * @param x The x-coordinate the robot is moving to

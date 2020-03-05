@@ -389,4 +389,31 @@ public interface ILayers {
             }
         }
     }
+
+    /**
+     * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping.
+     * @param x the x position
+     * @param y the y position
+     * @param dx steps taken in x-direction
+     * @param dy steps taken in y-direction
+     * @return True if the robot or any robot on a straight line in its direction is facing a wall.
+     */
+    default boolean checkIfBlocked(int x, int y, int dx, int dy) {
+        if(checkForWall(x, y, dx, dy))
+            return true;
+        int newX = x + dx;
+        int newY = y + dy;
+        // There is no Robot on the next position.
+        if(!assertRobotNotNull(newX, newY))
+            return false;
+        else {
+            if(checkForWall(newX, newY, dx, dy))
+                return true;
+            if(assertRobotNotNull(newX + dx, newY + dy) && robotNextToRobot(newX, newY, dx, dy))
+                return true;
+
+        }
+        findCollidingRobot(newX, newY, dx, dy);
+        return false;
+    }
 }

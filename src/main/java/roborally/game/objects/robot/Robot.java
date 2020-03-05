@@ -89,7 +89,7 @@ public class Robot implements IRobot {
         System.out.println("Old position: " + x + " " + y);
 
         // Checks for robots in its path before moving.
-        if(!getCalc().checkIfBlocked(x, y, dx, dy)) {
+        if(!getCalc().layers.checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
                 this.robotState.setPosition(new GridPoint2(newX, newY));
                 System.out.println("New position: " + (newX) + " " + (newY));
