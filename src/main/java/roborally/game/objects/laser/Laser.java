@@ -39,6 +39,9 @@ public class Laser {
         laserType.put(47, "VERTICAL");
         laserType.put(40, "BOTH");
         laserType.put(46, "LeftCannon");
+        laserType.put(38, "RightCannon");
+        laserType.put(37, "UpCannon");
+        laserType.put(45, "DownCannon");
         this.laserDegree = laserDegree;
         storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
         this.booleanCalculator = new BooleanCalculator();
@@ -139,9 +142,14 @@ public class Laser {
         while (j >= 0 && layers.assertLaserNotNull(j, k)) j--;
         cannonId = findCannon(i, j, k);
         if (cannonId != 0) {
+            int dx;
+            if(laserType.get(cannonId).equals("LeftCannon"))
+                dx = -1;
+            else
+                dx = 1;
             do {
-                storedCoordsCoords.add(new GridPoint2(--i, k));
-            } while (!booleanCalculator.checkForWall(i, k, -1, 0));
+                storedCoordsCoords.add(new GridPoint2(i+=dx, k));
+            } while (!booleanCalculator.checkForWall(i, k, dx, 0));
         }
         return cannonId;
     }
@@ -155,7 +163,18 @@ public class Laser {
         int k = robotsOrigin.x;
         while (i < layers.getHeight() && layers.assertLaserNotNull(k, i)) i++;
         while (j >= 0 && layers.assertLaserNotNull(k, j)) j--;
-        return findCannon(i, j, k);
+        cannonId = findCannon(i, j, k);
+        if (cannonId != 0) {
+            int dy;
+            if(laserType.get(cannonId).equals("UpCannon"))
+                dy = 1;
+            else
+                dy = -1;
+            do {
+                storedCoordsCoords.add(new GridPoint2(i+=dy, k));
+            } while (!booleanCalculator.checkForWall(i, k, 0, dy));
+        }
+        return cannonId;
     }
 
     public void update() {
