@@ -175,7 +175,6 @@ public class Laser {
                     dy = -1;
                     j = i;
                 }
-            System.out.println((cannonId));
             this.cannonPos.set(k, j + dy);
             do {
                 storedCoordsCoords.add(new GridPoint2(k, j+=dy));
@@ -213,7 +212,6 @@ public class Laser {
 
     private int findCannon(int i, int j, int k) {
         if (laserType.get(this.laserDegree).equals("VERTICAL")) {
-            System.out.println(i + " " + j + " " + k);
             if (layers.assertLaserCannonNotNull(k, i - 1))
                 return layers.getLaserCannonID(k, i - 1);
             if (layers.assertLaserCannonNotNull(k, j + 1))

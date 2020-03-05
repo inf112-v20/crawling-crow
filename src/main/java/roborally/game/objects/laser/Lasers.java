@@ -47,7 +47,6 @@ public class Lasers {
                     temp.add(laser);
             });
             temp.forEach(laser -> activeLasers.get(name).remove(laser));
-            System.out.println(activeLasers.get(name));
         }
     }
 
@@ -62,7 +61,6 @@ public class Lasers {
         if (activeLasers.containsKey(name)) {
             HashSet<Laser> lasers = activeLasers.get(name);
             for (Laser laser : lasers) {
-                System.out.println(laser.getId() + " " + laser.getPos() + " " + newLaser.getPos());
                 laser.update();
                 if (laser.getPos().equals(newLaser.getPos()))
                     hasLaser = true;
