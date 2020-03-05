@@ -5,10 +5,10 @@ import roborally.tools.AssetManagerUtil;
 
 import java.util.*;
 
-public class Lasers {
+public class Cannon {
     private HashMap<String, HashSet<Laser>> activeLasers;
 
-    public Lasers() {
+    public Cannon() {
         activeLasers = new HashMap<>();
     }
 
@@ -22,11 +22,10 @@ public class Lasers {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
         sound.play((float) 0.1);
         Laser laser = new Laser(id);
-        if(id!=40) {
+        if (id!=40) {
             laser.findLaser(pos);
             checkForLaser(name, laser);
-        }
-        else
+        } else
             makeTwoLasers(name, pos);
     }
 

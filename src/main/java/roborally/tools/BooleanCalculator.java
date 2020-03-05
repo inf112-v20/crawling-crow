@@ -2,7 +2,7 @@ package roborally.tools;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import roborally.game.objects.laser.Lasers;
+import roborally.game.objects.laser.Cannon;
 import roborally.game.objects.robot.IRobot;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
@@ -16,7 +16,7 @@ public class BooleanCalculator {
     private int y;
     private int height;
     private int width;
-    private Lasers lasers;
+    private Cannon cannon;
 
     public BooleanCalculator() {
         layers = new Layers();
@@ -24,7 +24,7 @@ public class BooleanCalculator {
         height = layers.getRobots().getHeight();
         // Advanced calculations for AI, can take multiple conditions to figure out a good move.
         operations = new HashMap<>();
-        lasers = new Lasers();
+        cannon = new Cannon();
     }
 
     /**
@@ -64,8 +64,8 @@ public class BooleanCalculator {
         return recursiveRobot;
     }
 
-    public Lasers getLasers() {
-        return this.lasers;
+    public Cannon getCannon() {
+        return this.cannon;
     }
 
     /**
@@ -141,10 +141,10 @@ public class BooleanCalculator {
         int id;
         if (layers.assertLaserNotNull(x, y)) {
             id = layers.getLaserID(x, y);
-            lasers.createLaser(id, pos, name);
+            cannon.createLaser(id, pos, name);
         }
         else
-            lasers.updateLaser(name, pos);
+            cannon.updateLaser(name, pos);
     }
 
     /**

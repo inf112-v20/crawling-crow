@@ -6,18 +6,18 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;
 import roborally.tools.tiledtranslator.ITiledTranslator;
-import roborally.tools.tiledtranslator.TiledTranslator;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 public class Laser {
-    private int laserDegree;
+    private int laserTileID; // TODO: Change to Direction
     private int cannonId;
     private boolean removeLaser;
 
-    private HashMap<Integer, String> laserType;
+    private HashMap<Integer, String> laserType; //TODO: Remove when deprecate
     private ITiledTranslator tiledTranslator;
     private ILayers layers;
 
@@ -34,10 +34,9 @@ public class Laser {
 
     /**
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
-     * @param laserDegree Horizontal or Vertical laser.
+     * @param laserTileID Horizontal or Vertical laser.
      */
-    public Laser(int laserDegree) {
-        tiledTranslator = new TiledTranslator();
+    public Laser(int laserTileID) {
         layers = new Layers();
         laserType = new HashMap<>();
         laserType.put(39, "HORIZONTAL");
@@ -47,7 +46,7 @@ public class Laser {
         laserType.put(38, "RightCannon");
         laserType.put(37, "UpCannon");
         laserType.put(45, "DownCannon");
-        this.laserDegree = laserDegree;
+        this.laserTileID = laserTileID;
         storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
         this.booleanCalculator = new BooleanCalculator();
         removeLaser = false;
@@ -125,11 +124,11 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
-        if (laserType.get(laserDegree).equals("HORIZONTAL")) {
+        if (laserType.get(laserTileID).equals("HORIZONTAL")) {
             storedLaserCell = getLaser(1);
             cannonId = findHorizontal();
         }
-        else if (laserType.get(laserDegree).equals("VERTICAL")) {
+        else if (laserType.get(laserTileID).equals("VERTICAL")) {
             storedLaserCell = getLaser(2);
             cannonId = findVertical();
         }
@@ -180,9 +179,9 @@ public class Laser {
             if(laserType.get(cannonId).equals("UpCannon"))
                 dy = 1;
             else {
-                    dy = -1;
-                    j = i;
-                }
+                dy = -1;
+                j = i;
+            }
             this.cannonPos.set(k, j + dy);
             do {
                 storedCoordsCoords.add(new GridPoint2(k, j+=dy));
@@ -219,7 +218,7 @@ public class Laser {
      */
 
     private int findCannon(int i, int j, int k) {
-        if (laserType.get(this.laserDegree).equals("VERTICAL")) {
+        if (laserType.get(this.laserTileID).equals("VERTICAL")) {
             if (layers.assertLaserCannonNotNull(k, i - 1))
                 return layers.getLaserCannonID(k, i - 1);
             if (layers.assertLaserCannonNotNull(k, j + 1))
