@@ -40,7 +40,6 @@ public class GameBoard implements IGameBoard {
             for (int y = 0; y < flagLayer.getHeight(); y++) {
                 TiledMapTileLayer.Cell cell = flagLayer.getCell(x, y);
                 if (cell != null) {
-
                     int tileID = cell.getTile().getId();
                     TileName tileName = tiledTranslator.getTileName(tileID);
                     int flagId = flagIdMap.get(tileName);
