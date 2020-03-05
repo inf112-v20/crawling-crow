@@ -14,7 +14,7 @@ import roborally.utilities.tiledtranslator.TiledTranslator;
 import java.util.ArrayList;
 
 public class Laser {
-    private int laserTileID; // TODO: Change to Direction
+    private int laserTileID;
     private int cannonId;
     private boolean removeLaser;
 
