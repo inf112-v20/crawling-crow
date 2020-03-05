@@ -23,7 +23,7 @@ public class Laser {
 
     private GridPoint2 robotsOrigin;
     private GridPoint2 cannonPos;
-    private ArrayList<GridPoint2> storedCoordsCoords;
+    private ArrayList<GridPoint2> laserEndPositions;
 
     private TiledMapTileLayer.Cell storedLaserCell;
     private TiledMapTileLayer.Cell crossLaser;
@@ -40,7 +40,7 @@ public class Laser {
         tiledTranslator = new TiledTranslator();
         layers = new Layers();
         this.laserTileID = laserTileID;
-        storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
+        laserEndPositions = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
         this.booleanCalculator = new BooleanCalculator();
         removeLaser = false;
         cannonPos = new GridPoint2();
@@ -64,7 +64,7 @@ public class Laser {
         }
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.5);
-        storedCoordsCoords.clear();
+        laserEndPositions.clear();
         storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
         int i = robotsPos.x + dir[0];
@@ -77,7 +77,7 @@ public class Laser {
             // Makes sure it doesnt stack laser on top of other laser cells.
             if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
                 layers.setLaserCell(i, j, storedLaserCell);
-                storedCoordsCoords.add(new GridPoint2(i, j));
+                laserEndPositions.add(new GridPoint2(i, j));
                 if (booleanCalculator.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
@@ -85,7 +85,7 @@ public class Laser {
             //Creates a crossing laser-cell as a combination of a vertical and horizontal laser.
             else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)) {
                 layers.setLaserCell(i, j, crossLaser);
-                storedCoordsCoords.add(new GridPoint2(i, j));
+                laserEndPositions.add(new GridPoint2(i, j));
             }
             i = i + dir[0];
             j = j + dir[1];
@@ -127,7 +127,7 @@ public class Laser {
             storedLaserCell = getLaser(2);
             cannonId = findVertical();
         }
-        storedCoordsCoords.add(robotsOrigin);
+        laserEndPositions.add(robotsOrigin);
         this.cannonId = cannonId;
     }
 
@@ -153,7 +153,7 @@ public class Laser {
             }
             this.cannonPos.set(i+dx, k);
             do {
-                storedCoordsCoords.add(new GridPoint2(i+=dx, k));
+                laserEndPositions.add(new GridPoint2(i+=dx, k));
             } while (!booleanCalculator.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
         return cannonId;
@@ -181,7 +181,7 @@ public class Laser {
             }
             this.cannonPos.set(k, j + dy);
             do {
-                storedCoordsCoords.add(new GridPoint2(k, j+=dy));
+                laserEndPositions.add(new GridPoint2(k, j+=dy));
             } while (!booleanCalculator.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
         return cannonId;
@@ -192,13 +192,13 @@ public class Laser {
      * that no robot is no longer active in the laser.
      */
     public void update() {
-        for (GridPoint2 pos : storedCoordsCoords) {
+        for (GridPoint2 pos : laserEndPositions) {
             if(identifyLaser(pos.x, pos.y, false))
                 layers.setLaserCell(pos.x, pos.y, null);
         }
         if (removeLaser)
             return;
-        for (GridPoint2 pos : storedCoordsCoords) {
+        for (GridPoint2 pos : laserEndPositions) {
             if(identifyLaser(pos.x, pos.y, true))
                 layers.setLaserCell(pos.x, pos.y, this.storedLaserCell);
             if (layers.assertRobotNotNull(pos.x, pos.y))
@@ -232,12 +232,12 @@ public class Laser {
 
     // Checks if the robot is in a laser instance.
     public boolean gotPos(GridPoint2 pos) {
-        return storedCoordsCoords.contains(pos);
+        return laserEndPositions.contains(pos);
     }
 
     // Clears all stored coordinates.
     public void clearStoredCoordinates() {
-        storedCoordsCoords.clear();
+        laserEndPositions.clear();
     }
 
     // When robots shoot it is registered in the update method that it shall not put laser cells after clearing them.
@@ -247,7 +247,7 @@ public class Laser {
 
     // The coordinates of the laser cells.
     public ArrayList<GridPoint2> getCoords() {
-        return this.storedCoordsCoords;
+        return this.laserEndPositions;
     }
 
     // Identifies when to different laser cells intersect, creates a cross laser.
