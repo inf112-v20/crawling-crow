@@ -1,8 +1,6 @@
 package roborally.tools.tiledtranslator;
 
-import java.security.PublicKey;
-
-public enum TileNames {
+public enum TileName {
     FLOOR(5),
     HOLE_ALTERNATIVE(6),
     WRENCH_HAMMER(7),
@@ -95,7 +93,7 @@ public enum TileNames {
 
     private final int tileID;
 
-    TileNames(int tileID) {
+    TileName(int tileID) {
         this.tileID = tileID;
         //TODO: Throw exception if two matching IDs
     }
