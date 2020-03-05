@@ -10,7 +10,6 @@ public class ControlsProgramRobot implements IControls {
 
     public ControlsProgramRobot(IGame game){
         controlMap = new HashMap<>();
-        game.checkIfSomeoneWon();
         // TODO: Add controls for programming robot
         controlMap.put(Input.Keys.ESCAPE, game::exitGame);
     }

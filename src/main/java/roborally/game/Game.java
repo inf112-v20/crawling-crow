@@ -38,6 +38,8 @@ public class Game implements IGame {
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
+        for(IRobot robot : robots)
+            robot.setNumberOfFlags(flags.size());
     }
 
 
@@ -61,6 +63,7 @@ public class Game implements IGame {
         for(int j = 0; j < layers.getWidth(); j++) {
             for (int k = 0; k < layers.getHeight(); k++) {
                 robots[it] = new Robot(j, k, k % 8);
+                robots[it].setNumberOfFlags(flags.size());
                 it++;
             }
         }
@@ -107,7 +110,6 @@ public class Game implements IGame {
         for (IRobot robot : robots) {
             robot.clearLaser();
             robot.backToCheckPoint();
-            GridPoint2 robotPos = new GridPoint2((int)robot.getPosition().x, (int)robot.getPosition().y);
         }
     }
 
@@ -182,8 +184,8 @@ public class Game implements IGame {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
             for (IRobot robot : robots) {
-                int robotX = (int) robot.getPosition().x;
-                int robotY = (int) robot.getPosition().y;
+                int robotX = robot.getPosition().x;
+                int robotY = robot.getPosition().y;
                 if (flagX == robotX && flagY == robotY) {
                     int nextFlag = robot.getNextFlag();
                     if (flag.getId() == nextFlag) {

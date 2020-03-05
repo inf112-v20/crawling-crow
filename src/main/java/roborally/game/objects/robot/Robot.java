@@ -29,7 +29,6 @@ public class Robot implements IRobot {
         this.robotState = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(new GridPoint2(x, y));
-        this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
         laser = new Laser(39);
@@ -218,11 +217,13 @@ public class Robot implements IRobot {
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag-1] = true;
-        System.out.println("Next flag to visit: " + (nextFlag+1));
+        if(nextFlag == visitedFlags.length)
+            System.out.println("Congratulations you have collected all the flags, press 'W' to win the game.");
+        else
+            System.out.println("Next flag to visit: " + (nextFlag+1));
     }
 
     @Override
-    // TODO: Get number of flags from the size of the flags array in gameBoard.
     public void setNumberOfFlags(int nFlags) {
         this.visitedFlags = new boolean[nFlags];
     }
