@@ -28,8 +28,7 @@ public class Laser {
     private boolean removeLaser;
 
     /**
-     * Constructs a laser.
-     *
+     * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
      * @param laserDegree Horizontal or Vertical laser.
      */
     public Laser(int laserDegree) {
@@ -56,7 +55,6 @@ public class Laser {
 
     /**
      * Shoots a laser until it hits a wall or a robot. Stores the cells for clearing them after.
-     *
      * @param robotsPos The position of the robot that is shooting the laser.
      * @param direction The direction the robot is looking.
      */
@@ -68,7 +66,7 @@ public class Laser {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.5);
         storedCoordsCoords.clear();
-        storedLaserCell = createLaser(direction);
+        storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
         int i = robotsPos.x + dir[0];
         int j = robotsPos.y + dir[1];
@@ -114,25 +112,29 @@ public class Laser {
     }
 
     /**
-     * Finds the laser cannon and adds the laser cells opposite and direct of the robot.
-     *
+     * Finds the laser cannon and adds the coordinates of its projected laser.
      * @param robotsOrigin The position the robot is or was currently in.
+     * @return the id of the cannon.
      */
     public int findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
-        storedLaserCell = createLaser(1);
         if (laserType.get(laserDegree).equals("HORIZONTAL")) {
+            storedLaserCell = getLaser(1);
             cannonId = findHorizontal();
-        } else if (laserType.get(laserDegree).equals("VERTICAL"))
+        }
+        else if (laserType.get(laserDegree).equals("VERTICAL")) {
+            storedLaserCell = getLaser(2);
             cannonId = findVertical();
+        }
         storedCoordsCoords.add(robotsOrigin);
         this.cannonId = cannonId;
         return cannonId;
     }
 
     /**
-     * Finds the cannon projecting a horizontal laser, and stores laser cells to the left and right of the robot.
+     * Finds the cannon projecting a horizontal laser, and stores the cells of the laser.
+     * @return cannonId
      */
     public int findHorizontal() {
         int i = robotsOrigin.x + 1;
@@ -155,7 +157,8 @@ public class Laser {
     }
 
     /**
-     * Finds the cannon projecting a vertical laser, and stores laser cells to the left and right of the robot.
+     * Finds the cannon projecting a vertical laser, and stores laser cells.
+     * @return cannonId
      */
     public int findVertical() {
         int i = robotsOrigin.y + 1;
@@ -177,6 +180,10 @@ public class Laser {
         return cannonId;
     }
 
+    /**
+     * Updates the cannon when there is activity, and continues to do so until it is registered in Lasers
+     * that no robot is no longer active in the laser.
+     */
     public void update() {
         for (GridPoint2 pos : storedCoordsCoords) {
             if(!identifyLaser(pos.x, pos.y))
@@ -188,16 +195,15 @@ public class Laser {
             layers.setLaserCell(pos.x, pos.y, this.storedLaserCell);
             if (layers.assertRobotNotNull(pos.x, pos.y))
                 break;
-
         }
     }
 
     /**
-     * Calculates where the laser is coming from, and removes laser cells accordingly.
-     *
+     * Calculates where the laser is coming from.
      * @param i The negative sides endpoint (down or left) which the laser might be coming from.
      * @param j The positive sides endpoint (up or right) which the laser might be coming from.
      * @param k The static x or y coordinate.
+     * @return cannonId
      */
 
     private int findCannon(int i, int j, int k) {
@@ -225,14 +231,17 @@ public class Laser {
         storedCoordsCoords.clear();
     }
 
+    // When robots shoot it is registered in the update method that it shall not put laser cells after clearing them.
     public void removeLaser() {
         this.removeLaser = true;
     }
 
+    // The coordinates of the laser cells.
     public ArrayList<GridPoint2> getCoords() {
         return this.storedCoordsCoords;
     }
 
+    // Identifies when to different laser cells intersect, creates a cross laser.
     public boolean identifyLaser(int i, int j) {
         if (layers.assertLaserNotNull(i, j)) {
             if (layers.getLaserID(i, j) == 40) {
@@ -245,17 +254,19 @@ public class Laser {
         }
         return false;
     }
-    // Creates a laser for a robot to shoot.
-    public TiledMapTileLayer.Cell createLaser(int direction) {
 
-        horizontalLaser = new TiledMapTileLayer.Cell();
-        horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(39));
+    // At first use it creates the laser tiles for the laser class, else it returns the specific laser tile to use.
+    public TiledMapTileLayer.Cell getLaser(int direction) {
+        if(storedLaserCell==null) {
+            horizontalLaser = new TiledMapTileLayer.Cell();
+            horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(39));
 
-        verticalLaser = new TiledMapTileLayer.Cell();
-        verticalLaser.setTile(AssetManagerUtil.getTileSets().getTile(47));
+            verticalLaser = new TiledMapTileLayer.Cell();
+            verticalLaser.setTile(AssetManagerUtil.getTileSets().getTile(47));
 
-        crossLaser = new TiledMapTileLayer.Cell();
-        crossLaser.setTile(AssetManagerUtil.getTileSets().getTile(40));
+            crossLaser = new TiledMapTileLayer.Cell();
+            crossLaser.setTile(AssetManagerUtil.getTileSets().getTile(40));
+        }
         if (direction == 0 || direction == 2)
             return verticalLaser;
         else
