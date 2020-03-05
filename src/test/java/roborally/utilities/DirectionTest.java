@@ -1,6 +1,7 @@
-package roborally.tools;
+package roborally.utilities;
 
 import org.junit.Test;
+import roborally.utilities.enums.Direction;
 
 import static org.junit.Assert.*;
 

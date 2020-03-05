@@ -1,4 +1,4 @@
-package roborally.tools;
+package roborally.utilities.enums;
 
 public enum Direction {
     North(0),
@@ -12,7 +12,7 @@ public enum Direction {
         this.directionId = directionId;
     }
 
-    public int getDirectionId(){
+    public int getDirectionID(){
         return this.directionId;
     }
 

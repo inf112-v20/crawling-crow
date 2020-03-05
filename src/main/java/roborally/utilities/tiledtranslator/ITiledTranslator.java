@@ -1,4 +1,6 @@
-package roborally.tools.tiledtranslator;
+package roborally.utilities.tiledtranslator;
+
+import roborally.utilities.enums.TileName;
 
 public interface ITiledTranslator {
     /**

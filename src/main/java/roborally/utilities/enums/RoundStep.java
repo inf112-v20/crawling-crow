@@ -1,4 +1,4 @@
-package roborally.game;
+package roborally.utilities.enums;
 
 public enum RoundStep {
     ANNOUNCE_POWERDOWN,

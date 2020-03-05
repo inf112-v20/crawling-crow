@@ -1,4 +1,4 @@
-package roborally.tools.tiledtranslator;
+package roborally.utilities.enums;
 
 public enum TileName {
     // Walls

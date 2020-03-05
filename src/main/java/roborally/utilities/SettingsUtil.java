@@ -1,4 +1,4 @@
-package roborally.game;
+package roborally.utilities;
 
 public class SettingsUtil {
     public static int NUMBER_OF_PHASES = 5;

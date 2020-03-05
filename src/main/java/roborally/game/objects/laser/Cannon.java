@@ -1,7 +1,7 @@
 package roborally.game.objects.laser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.tools.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 
 import java.util.*;
 

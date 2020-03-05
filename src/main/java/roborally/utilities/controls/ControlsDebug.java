@@ -1,4 +1,4 @@
-package roborally.tools.controls;
+package roborally.utilities.controls;
 
 import com.badlogic.gdx.Input;
 import roborally.game.IGame;

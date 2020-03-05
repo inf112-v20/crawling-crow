@@ -2,9 +2,9 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
-import roborally.tools.AssetManagerUtil;
-import roborally.tools.BooleanCalculator;
-import roborally.tools.Direction;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.BooleanCalculator;
+import roborally.utilities.enums.Direction;
 import roborally.ui.robot.IRobotUI;
 import roborally.ui.robot.RobotUI;
 
@@ -60,12 +60,11 @@ public class Robot implements IRobot {
 
     @Override
     public void fireLaser() {
-        GridPoint2 pos = getPosition();
-        laser.fireLaser(pos, getDegrees());
+        laser.fireLaser(getPosition(), getDirectionID());
     }
 
     @Override
-    public void clearLaser() {
+    public void clearLaser() { // TODO: Mabye more suitable elsewhere
         if (!this.laser.getCoords().isEmpty())
             laser.clearLaser();
     }
@@ -193,8 +192,8 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public int getDegrees(){
-        return this.direction.getDirectionId();
+    public int getDirectionID(){
+        return this.direction.getDirectionID();
     }
 
     @Override

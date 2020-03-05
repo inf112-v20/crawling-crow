@@ -3,9 +3,9 @@ package roborally.game.objects.laser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.tools.AssetManagerUtil;
-import roborally.tools.BooleanCalculator;
-import roborally.tools.tiledtranslator.ITiledTranslator;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.BooleanCalculator;
+import roborally.utilities.tiledtranslator.ITiledTranslator;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 
@@ -32,13 +32,14 @@ public class Laser {
 
     private BooleanCalculator booleanCalculator;
 
-    /**
+    /** FIXME: Make Interface instead
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
      * @param laserTileID Horizontal or Vertical laser.
      */
     public Laser(int laserTileID) {
         layers = new Layers();
         laserType = new HashMap<>();
+        // TODO: Should use TiledTranslator instead
         laserType.put(39, "HORIZONTAL");
         laserType.put(47, "VERTICAL");
         laserType.put(40, "BOTH");
@@ -47,7 +48,7 @@ public class Laser {
         laserType.put(37, "UpCannon");
         laserType.put(45, "DownCannon");
         this.laserTileID = laserTileID;
-        storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
+        storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
         this.booleanCalculator = new BooleanCalculator();
         removeLaser = false;
         cannonPos = new GridPoint2();
@@ -271,11 +272,11 @@ public class Laser {
         return true;
     }
 
-    public int getId() {
+    public int getId() { // TODO: This should be in Cannon class
         return this.cannonId;
     }
 
-    public GridPoint2 getPos () {
+    public GridPoint2 getPos () { // TODO: This should be in Cannon class
         return this.cannonPos;
     }
 

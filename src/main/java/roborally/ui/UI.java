@@ -12,9 +12,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import roborally.tools.AssetManagerUtil;
-import roborally.tools.controls.ControlsDebug;
-import roborally.tools.controls.ControlsProgramRobot;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.PhaseStep;
+import roborally.utilities.enums.RoundStep;
+import roborally.utilities.SettingsUtil;
+import roborally.utilities.controls.ControlsDebug;
+import roborally.utilities.controls.ControlsProgramRobot;
 
 public class UI extends InputAdapter implements ApplicationListener {
 

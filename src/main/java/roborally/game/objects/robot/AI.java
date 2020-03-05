@@ -1,8 +1,8 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.Vector2;
-import roborally.tools.AssetManagerUtil;
-import roborally.tools.BooleanCalculator;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.BooleanCalculator;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 

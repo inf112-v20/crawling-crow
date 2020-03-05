@@ -2,7 +2,7 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
-import roborally.tools.BooleanCalculator;
+import roborally.utilities.BooleanCalculator;
 
 public interface IRobot {
     /**
@@ -101,7 +101,7 @@ public interface IRobot {
      *
      * @return
      */
-    int getDegrees();
+    int getDirectionID();
 
     /**
      *

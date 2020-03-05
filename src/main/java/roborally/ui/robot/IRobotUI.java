@@ -2,7 +2,7 @@ package roborally.ui.robot;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.tools.Direction;
+import roborally.utilities.enums.Direction;
 
 public interface IRobotUI {
     /**

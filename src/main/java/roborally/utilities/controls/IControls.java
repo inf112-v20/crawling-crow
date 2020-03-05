@@ -1,4 +1,4 @@
-package roborally.tools.controls;
+package roborally.utilities.controls;
 
 public interface IControls {
     Runnable getAction(int keycode);

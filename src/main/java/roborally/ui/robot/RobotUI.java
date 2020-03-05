@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.tools.AssetManagerUtil;
-import roborally.tools.Direction;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.Direction;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.UI;
@@ -86,6 +86,6 @@ public class RobotUI implements IRobotUI {
     @Override
     public void setDirection(int x, int y, Direction direction) {
         if (layers.assertRobotNotNull(x, y))
-            layers.getRobotCell(x, y).setRotation(direction.getDirectionId());
+            layers.getRobotCell(x, y).setRotation(direction.getDirectionID());
     }
 }
