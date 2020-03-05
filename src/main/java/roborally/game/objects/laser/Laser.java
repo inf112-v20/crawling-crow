@@ -12,14 +12,12 @@ import roborally.ui.Layers;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Laser {
     private int laserTileID; // TODO: Change to Direction
     private int cannonId;
     private boolean removeLaser;
 
-    private HashMap<Integer, String> laserType; //TODO: Remove when deprecate
     private ITiledTranslator tiledTranslator;
     private ILayers layers;
 
@@ -41,12 +39,6 @@ public class Laser {
     public Laser(int laserTileID) {
         tiledTranslator = new TiledTranslator();
         layers = new Layers();
-        laserType = new HashMap<>();
-        // TODO: Should use TiledTranslator instead
-        laserType.put(46, "LeftCannon");
-        laserType.put(38, "RightCannon");
-        laserType.put(37, "UpCannon");
-        laserType.put(45, "DownCannon");
         this.laserTileID = laserTileID;
         storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
         this.booleanCalculator = new BooleanCalculator();
@@ -152,7 +144,8 @@ public class Laser {
         cannonId = findCannon(i, j, k);
         if (cannonId != 0) {
             int dx;
-            if(laserType.get(cannonId).equals("LeftCannon"))
+            TileName cannonTileName = tiledTranslator.getTileName(cannonId);
+            if(cannonTileName == TileName.WALL_CANNON_RIGHT)
                 dx = -1;
             else {
                 dx = 1;
@@ -179,7 +172,8 @@ public class Laser {
         cannonId = findCannon(i, j, k);
         if (cannonId != 0) {
             int dy;
-            if(laserType.get(cannonId).equals("UpCannon"))
+            TileName cannonTileName = tiledTranslator.getTileName(cannonId);
+            if(cannonTileName == TileName.WALL_CANNON_BOTTOM)
                 dy = 1;
             else {
                 dy = -1;
