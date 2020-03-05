@@ -50,5 +50,5 @@ public interface IRobotUI {
      */
     void setDirection(int x, int y, Direction direction);
 
-    void goToCheckPoint(int x, int y, GridPoint2 checkPoint);
+    void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint);
 }

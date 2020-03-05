@@ -14,4 +14,8 @@ public interface IRobotState {
     int getPositionX();
 
     int getPositionY();
+
+    void setCheckPoint(int x, int y);
+
+    GridPoint2 getCheckPoint();
 }

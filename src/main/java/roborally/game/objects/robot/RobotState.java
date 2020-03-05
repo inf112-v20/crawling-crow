@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 public class RobotState implements IRobotState {
     private String name;
     private GridPoint2 robotPosition;
+    private GridPoint2 checkPoint;
 
     public RobotState(String name) {
         this.name = name;
@@ -33,5 +34,15 @@ public class RobotState implements IRobotState {
     @Override
     public int getPositionY() {
         return this.robotPosition.y;
+    }
+
+    @Override
+    public GridPoint2 getCheckPoint() {
+        return this.checkPoint;
+    }
+
+    @Override
+    public void setCheckPoint(int x, int y) {
+        this.checkPoint = new GridPoint2(x, y);
     }
 }
