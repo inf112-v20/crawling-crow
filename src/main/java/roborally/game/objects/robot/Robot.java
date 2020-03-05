@@ -2,8 +2,9 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
+import roborally.ui.ILayers;
+import roborally.ui.Layers;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.BooleanCalculator;
 import roborally.utilities.enums.Direction;
 import roborally.ui.robot.IRobotUI;
 import roborally.ui.robot.RobotUI;
@@ -11,10 +12,10 @@ import roborally.ui.robot.RobotUI;
 public class Robot implements IRobot {
     private IRobotUI uiRobot;
     private IRobotState robotState;
-    private BooleanCalculator booleanCalculator;
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
+    private ILayers layers;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -28,22 +29,17 @@ public class Robot implements IRobot {
         this.robotState = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(new GridPoint2(x, y));
-        booleanCalculator = new BooleanCalculator();
         this.visitedFlags = new boolean[3]; //TODO : make sure number of flags are correct
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
         laser = new Laser(39);
         robotState.setCheckPoint(x, y);
+        this.layers = new Layers();
     }
 
     @Override
     public String getName() {
         return this.robotState.getName();
-    }
-
-    @Override
-    public BooleanCalculator getCalc() {
-        return this.booleanCalculator;
     }
 
     @Override
@@ -89,13 +85,13 @@ public class Robot implements IRobot {
         System.out.println("Old position: " + x + " " + y);
 
         // Checks for robots in its path before moving.
-        if(!getCalc().layers.checkIfBlocked(x, y, dx, dy)) {
+        if(!layers.checkIfBlocked(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
                 this.robotState.setPosition(new GridPoint2(newX, newY));
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
-                getCalc().layers.checkForLasers(newX, newY, getName());
-                if (getCalc().isOnHole(newX, newY)) {
+                layers.checkForLasers(newX, newY, getName());
+                if (layers.assertHoleNotNull(newX, newY)) {
                     this.setLostTexture();
                 }
                 this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);

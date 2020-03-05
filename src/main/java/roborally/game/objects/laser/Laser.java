@@ -4,7 +4,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.BooleanCalculator;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.ITiledTranslator;
 import roborally.ui.ILayers;
@@ -30,8 +29,6 @@ public class Laser {
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
 
-    private BooleanCalculator booleanCalculator;
-
     /** FIXME: Make Interface instead
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
      * @param laserTileID Horizontal or Vertical laser.
@@ -41,7 +38,6 @@ public class Laser {
         layers = new Layers();
         this.laserTileID = laserTileID;
         laserEndPositions = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
-        this.booleanCalculator = new BooleanCalculator();
         removeLaser = false;
         cannonPos = new GridPoint2();
     }
@@ -71,14 +67,14 @@ public class Laser {
         int j = robotsPos.y + dir[1];
 
         // Makes sure there's not a wall blocking the laser.
-        if (booleanCalculator.layers.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
+        if (layers.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
             // Makes sure it doesnt stack laser on top of other laser cells.
             if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
                 layers.setLaserCell(i, j, storedLaserCell);
                 laserEndPositions.add(new GridPoint2(i, j));
-                if (booleanCalculator.layers.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
+                if (layers.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
             }
@@ -154,7 +150,7 @@ public class Laser {
             this.cannonPos.set(i+dx, k);
             do {
                 laserEndPositions.add(new GridPoint2(i+=dx, k));
-            } while (!booleanCalculator.layers.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
+            } while (!layers.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
         return cannonTileID;
     }
@@ -182,7 +178,7 @@ public class Laser {
             this.cannonPos.set(k, j + dy);
             do {
                 laserEndPositions.add(new GridPoint2(k, j+=dy));
-            } while (!booleanCalculator.layers.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
+            } while (!layers.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
         return cannonTileID;
     }
@@ -284,13 +280,13 @@ public class Laser {
     public TiledMapTileLayer.Cell getLaser(int direction) {
         if(storedLaserCell==null) {
             horizontalLaser = new TiledMapTileLayer.Cell();
-            horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(39));
+            horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(TileName.LASER_HORIZONTAL.getTileID()));
 
             verticalLaser = new TiledMapTileLayer.Cell();
-            verticalLaser.setTile(AssetManagerUtil.getTileSets().getTile(47));
+            verticalLaser.setTile(AssetManagerUtil.getTileSets().getTile(TileName.LASER_VERTICAL.getTileID()));
 
             crossLaser = new TiledMapTileLayer.Cell();
-            crossLaser.setTile(AssetManagerUtil.getTileSets().getTile(40));
+            crossLaser.setTile(AssetManagerUtil.getTileSets().getTile(TileName.LASER_CROSS.getTileID()));
         }
         if (direction == 0 || direction == 2)
             return verticalLaser;

@@ -2,7 +2,6 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
-import roborally.utilities.BooleanCalculator;
 
 public interface IRobot {
     /**
@@ -10,12 +9,6 @@ public interface IRobot {
      * @return the models name.
      */
     String getName();
-
-    /**
-     *
-     * @return a true\false calculator.
-     */
-    BooleanCalculator getCalc();
 
     /**
      *

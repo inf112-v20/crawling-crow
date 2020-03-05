@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Cannon;
 import roborally.game.objects.robot.IRobot;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.BooleanCalculator;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
