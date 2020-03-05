@@ -5,31 +5,39 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.tools.AssetManagerUtil;
 import roborally.tools.BooleanCalculator;
+import roborally.tools.tiledtranslator.ITiledTranslator;
+import roborally.tools.tiledtranslator.TiledTranslator;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 public class Laser {
-    private HashMap<Integer, String> laserType;
     private int laserDegree;
+    private int cannonId;
+    private boolean removeLaser;
+
+    private HashMap<Integer, String> laserType;
+    private ITiledTranslator tiledTranslator;
     private ILayers layers;
+
     private GridPoint2 robotsOrigin;
+    private GridPoint2 cannonPos;
     private ArrayList<GridPoint2> storedCoordsCoords;
+
     private TiledMapTileLayer.Cell storedLaserCell;
     private TiledMapTileLayer.Cell crossLaser;
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
+
     private BooleanCalculator booleanCalculator;
-    private int cannonId;
-    private boolean removeLaser;
-    private GridPoint2 cannonPos;
 
     /**
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
      * @param laserDegree Horizontal or Vertical laser.
      */
     public Laser(int laserDegree) {
+        tiledTranslator = new TiledTranslator();
         layers = new Layers();
         laserType = new HashMap<>();
         laserType.put(39, "HORIZONTAL");

@@ -30,13 +30,12 @@ public class Game implements IGame {
     private int i;
     private boolean funMode;
 
-    public Game(){
+    public Game() {
         i = 0;
         layers = new Layers();
         gameBoard = new GameBoard(layers);
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
-        //funMode();
     }
 
     @Override
