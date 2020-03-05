@@ -22,14 +22,14 @@ public class UI extends InputAdapter implements ApplicationListener {
     public static final int TILE_SIZE = 300;
     private IGame game;
     private TiledMap tiledMap;
-    private int map;
+    private int mapID;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
 
-    public UI(int map) {
-        this.map = map;
+    public UI(int mapID) {
+        this.mapID = mapID;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.manager.finishLoading();
 
         // Initialize the uimap
-        tiledMap = AssetManagerUtil.getMap(map);
+        tiledMap = AssetManagerUtil.getMap(mapID);
 
         // Start a new game
         //boolean runAIGame = true;
@@ -106,7 +106,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
 
         if(game.isRunning()){
-            // Start new round if no round is currently active
+            // Start new round if no round is currently activ1e
             if(game.currentRoundStep() == RoundStep.NULL_STEP){
                 game.startNewRound();
             }
