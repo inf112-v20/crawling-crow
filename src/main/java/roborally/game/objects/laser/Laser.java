@@ -249,7 +249,7 @@ public class Laser {
     // Identifies when to different laser cells intersect, creates a cross laser.
     public boolean identifyLaser(int i, int j, boolean create) {
         if (layers.assertLaserNotNull(i, j)) {
-            if (layers.getLaserID(i, j) == 40 && !create) {
+            if (layers.getLaserID(i, j) == crossLaser.getTile().getId() && !create) {
                 int storedLaserCellID = storedLaserCell.getTile().getId();
 
                 TileName laserTileName = tiledTranslator.getTileName(storedLaserCellID);

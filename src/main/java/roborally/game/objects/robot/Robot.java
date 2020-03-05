@@ -31,7 +31,7 @@ public class Robot implements IRobot {
         robot.setPosition(new GridPoint2(x, y));
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
-        laser = new Laser(39);
+        laser = new Laser(0);
         robotState.setCheckPoint(x, y);
         this.layers = new Layers();
     }

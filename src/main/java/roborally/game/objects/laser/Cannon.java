@@ -2,6 +2,7 @@ package roborally.game.objects.laser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.TileName;
 
 import java.util.*;
 
@@ -75,10 +76,10 @@ public class Cannon {
 
     // Finds both the vertical and horizontal cannon. Adds them.
     public void makeTwoLasers(String name, GridPoint2 pos) {
-        Laser laser = new Laser(39);
+        Laser laser = new Laser(TileName.LASER_HORIZONTAL.getTileID());
         laser.findLaser(pos);
         checkForLaser(name, laser);
-        Laser laser2 = new Laser(47);
+        Laser laser2 = new Laser(TileName.LASER_VERTICAL.getTileID());
         laser2.findLaser(pos);
         checkForLaser(name, laser2);
     }
