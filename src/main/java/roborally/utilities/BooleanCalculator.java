@@ -3,7 +3,6 @@ package roborally.utilities;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.laser.Cannon;
-import roborally.game.objects.robot.IRobot;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public class BooleanCalculator {
                 return true;
 
         }
-        findCollidingRobot(newX, newY, dx, dy);
+        layers.findCollidingRobot(newX, newY, dx, dy);
         return false;
     }
 
@@ -74,38 +73,6 @@ public class BooleanCalculator {
         }
         else
             cannon.updateLaser(name, pos);
-    }
-
-    /**
-     * Finds the given robot at the colliding position and moves it one step in the bumping direction then clears its old position.
-     * If the robot of interest is on the edge of the map it will temporary get position -1,-1, and it's cell set to null.
-     * This is until we find a better way to deal with damage\robots getting destroyed.
-     * @param x the x position
-     * @param y the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
-     */
-    public void findCollidingRobot(int x, int y, int dx, int dy) {
-        for (IRobot robot : AssetManagerUtil.getRobots()){
-            GridPoint2 bumpingPos = new GridPoint2(x, y);
-            if (robot != null) {
-                GridPoint2 bumpedPos = robot.getPosition();
-                if(bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
-                    // Robot "deletion".
-                    robot.setPos(-1, -1);
-                    layers.setRobotCell(x, y, null);
-                }
-                else if (bumpedPos.equals(bumpingPos)){
-                    System.out.println("\nPushing... ");
-                    robot.move(dx, dy);
-                    System.out.println("Pushing complete... ");
-                    if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
-                        robot.setWinTexture();
-                    else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.
-                        robot.setLostTexture();
-                }
-            }
-        }
     }
 
     // Check a specific position if it is blocked
