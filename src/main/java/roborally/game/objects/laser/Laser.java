@@ -5,9 +5,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.BooleanCalculator;
+import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.ITiledTranslator;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
+import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,12 +39,10 @@ public class Laser {
      * @param laserTileID Horizontal or Vertical laser.
      */
     public Laser(int laserTileID) {
+        tiledTranslator = new TiledTranslator();
         layers = new Layers();
         laserType = new HashMap<>();
         // TODO: Should use TiledTranslator instead
-        laserType.put(39, "HORIZONTAL");
-        laserType.put(47, "VERTICAL");
-        laserType.put(40, "BOTH");
         laserType.put(46, "LeftCannon");
         laserType.put(38, "RightCannon");
         laserType.put(37, "UpCannon");
@@ -125,11 +125,13 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
-        if (laserType.get(laserTileID).equals("HORIZONTAL")) {
+
+        TileName laserTileName = tiledTranslator.getTileName(laserTileID);
+        if (laserTileName == TileName.LASER_HORIZONTAL) {
             storedLaserCell = getLaser(1);
             cannonId = findHorizontal();
         }
-        else if (laserType.get(laserTileID).equals("VERTICAL")) {
+        else if (laserTileName == TileName.LASER_VERTICAL) {
             storedLaserCell = getLaser(2);
             cannonId = findVertical();
         }
@@ -219,7 +221,8 @@ public class Laser {
      */
 
     private int findCannon(int i, int j, int k) {
-        if (laserType.get(this.laserTileID).equals("VERTICAL")) {
+        TileName laserTileName = tiledTranslator.getTileName(laserTileID);
+        if (laserTileName == TileName.LASER_VERTICAL) {
             if (layers.assertLaserCannonNotNull(k, i - 1))
                 return layers.getLaserCannonID(k, i - 1);
             if (layers.assertLaserCannonNotNull(k, j + 1))
@@ -257,7 +260,10 @@ public class Laser {
     public boolean identifyLaser(int i, int j, boolean create) {
         if (layers.assertLaserNotNull(i, j)) {
             if (layers.getLaserID(i, j) == 40 && !create) {
-                if (laserType.get(storedLaserCell.getTile().getId()).equals("VERTICAL"))
+                int storedLaserCellID = storedLaserCell.getTile().getId();
+
+                TileName laserTileName = tiledTranslator.getTileName(storedLaserCellID);
+                if (laserTileName == TileName.LASER_VERTICAL)
                     layers.setLaserCell(i, j, horizontalLaser);
                 else
                     layers.setLaserCell(i, j, verticalLaser);
