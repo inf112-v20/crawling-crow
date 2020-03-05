@@ -8,6 +8,8 @@ import roborally.tools.tiledtranslator.ITiledTranslator;
 import roborally.tools.tiledtranslator.TileName;
 import roborally.tools.tiledtranslator.TiledTranslator;
 import roborally.ui.ILayers;
+import roborally.ui.Layers;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +20,7 @@ public class GameBoard implements IGameBoard {
 
     private ITiledTranslator tiledTranslator;
 
-    public GameBoard(ILayers layers) {
+    public GameBoard() {
         tiledTranslator = new TiledTranslator();
 
         this.flagIdMap = new HashMap<>();
@@ -26,7 +28,7 @@ public class GameBoard implements IGameBoard {
         this.flagIdMap.put(TileName.FLAG_2, 2);
         this.flagIdMap.put(TileName.FLAG_3, 3);
         this.flagIdMap.put(TileName.FLAG_4, 4);
-        this.layers = layers;
+        this.layers = new Layers();
     }
 
     @Override
@@ -48,5 +50,10 @@ public class GameBoard implements IGameBoard {
             }
         }
         return flags;
+    }
+
+    @Override
+    public ILayers getLayers() {
+        return this.layers;
     }
 }

@@ -27,15 +27,24 @@ public class Game implements IGame {
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
-    private int i;
+    private int robotPointerID;
     private boolean funMode;
 
     public Game() {
-        i = 0;
-        layers = new Layers();
-        gameBoard = new GameBoard(layers);
+        robotPointerID = 0;
+        gameBoard = new GameBoard();
+        layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
+    }
+
+
+    public Game(boolean runAIGame) {
+        assert(runAIGame);
+        gameBoard = new GameBoard();
+        layers = gameBoard.getLayers();
+        AssetManagerUtil.makeAIRobots();
+        aiRobots = AssetManagerUtil.getAIRobots();
     }
 
     @Override
@@ -58,14 +67,6 @@ public class Game implements IGame {
         return funMode;
     }
 
-    public Game(boolean runAIGame){
-        assert(runAIGame);
-        layers = new Layers();
-        gameBoard = new GameBoard(layers);
-        AssetManagerUtil.makeAIRobots();
-        aiRobots = AssetManagerUtil.getAIRobots();
-    }
-
     @Override
     public ILayers getLayers(){
         return this.layers;
@@ -78,8 +79,8 @@ public class Game implements IGame {
 
     @Override
     public IRobot getRobots() {
-        if (this.i == 8) {
-            this.i = 0;
+        if (this.robotPointerID == 8) {
+            this.robotPointerID = 0;
         }
         return robots[0];
     }
