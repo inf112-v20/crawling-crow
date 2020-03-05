@@ -71,14 +71,14 @@ public class Laser {
         int j = robotsPos.y + dir[1];
 
         // Makes sure there's not a wall blocking the laser.
-        if (booleanCalculator.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
+        if (booleanCalculator.layers.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
             // Makes sure it doesnt stack laser on top of other laser cells.
             if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
                 layers.setLaserCell(i, j, storedLaserCell);
                 laserEndPositions.add(new GridPoint2(i, j));
-                if (booleanCalculator.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
+                if (booleanCalculator.layers.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
             }
@@ -154,7 +154,7 @@ public class Laser {
             this.cannonPos.set(i+dx, k);
             do {
                 laserEndPositions.add(new GridPoint2(i+=dx, k));
-            } while (!booleanCalculator.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
+            } while (!booleanCalculator.layers.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
         return cannonTileID;
     }
@@ -182,7 +182,7 @@ public class Laser {
             this.cannonPos.set(k, j + dy);
             do {
                 laserEndPositions.add(new GridPoint2(k, j+=dy));
-            } while (!booleanCalculator.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
+            } while (!booleanCalculator.layers.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
         return cannonTileID;
     }

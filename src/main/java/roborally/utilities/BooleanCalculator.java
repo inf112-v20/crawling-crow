@@ -11,7 +11,7 @@ import java.util.HashMap;
 // Beep... Robots need to calculate.
 public class BooleanCalculator {
     private HashMap<String, Boolean> operations;
-    private ILayers layers;
+    public ILayers layers;
     private int x;
     private int y;
     private int height;
@@ -40,10 +40,10 @@ public class BooleanCalculator {
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
         boolean recursiveRobot = false;
-        if(checkForWall(x, y, dx, dy))
+        if(layers.checkForWall(x, y, dx, dy))
             return true;
         if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
-            if(checkForWall(x,y,dx,dy))
+            if(layers.checkForWall(x,y,dx,dy))
                 return true;
             if (layers.assertRobotNotNull(x+dx,y+dy))
                 recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
@@ -77,7 +77,7 @@ public class BooleanCalculator {
      * @return True if the robot or any robot on a straight line in its direction is facing a wall.
      */
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
-        if(checkForWall(x, y, dx, dy))
+        if(layers.checkForWall(x, y, dx, dy))
             return true;
         int newX = x + dx;
         int newY = y + dy;
@@ -85,7 +85,7 @@ public class BooleanCalculator {
         if(!layers.assertRobotNotNull(newX, newY))
             return false;
         else {
-            if(checkForWall(newX, newY, dx, dy))
+            if(layers.checkForWall(newX, newY, dx, dy))
                 return true;
             if(layers.assertRobotNotNull(newX + dx, newY + dy) && robotNextToRobot(newX, newY, dx, dy))
                 return true;
@@ -93,40 +93,6 @@ public class BooleanCalculator {
         }
         findCollidingRobot(newX, newY, dx, dy);
         return false;
-    }
-    /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
-     * tries to move.
-     * @param x the x position
-     * @param y the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
-     * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
-     */
-    public boolean checkForWall(int x, int y, int dx, int dy) {
-        boolean wall = false;
-        if(layers.assertWallNotNull(x, y)) {
-            int id = layers.getWallID(x, y);
-            if (dy > 0)
-                wall = id == 31 || id == 16 || id == 24;
-            else if (dy < 0)
-                wall = id == 29 || id == 8 || id == 32;
-            else if (dx > 0)
-                wall = id == 23 || id == 16 || id == 8;
-            else if (dx < 0)
-                wall = id == 30 || id == 32 || id == 24;
-        }
-        if(layers.assertWallNotNull(x + dx, y + dy) && !wall) {
-            int id = layers.getWallID(x + dx, y + dy);
-            if (dy > 0)
-                return id == 8 || id == 29 || id == 32;
-            else if (dy < 0)
-                return id == 24 || id == 16 || id == 31;
-            else if (dx > 0)
-                return id == 30 || id == 24 || id == 32;
-            else if (dx < 0)
-                return id == 16 || id == 8 || id == 23;
-        }
-        return wall;
     }
 
     /** Creates a new laser instance if there is a laser cell in the position the robot is moving to.

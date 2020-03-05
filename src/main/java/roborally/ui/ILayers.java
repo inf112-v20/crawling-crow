@@ -277,4 +277,39 @@ public interface ILayers {
      * @return true if there is a bug at the position x, y.
      */
     boolean assertBugNotNull(int x, int y);
+
+    /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
+     * tries to move.
+     * @param x the x position
+     * @param y the y position
+     * @param dx steps taken in x-direction
+     * @param dy steps taken in y-direction
+     * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
+     */
+    default boolean checkForWall(int x, int y, int dx, int dy) {
+        boolean wall = false;
+        if(assertWallNotNull(x, y)) {
+            int id = getWallID(x, y);
+            if (dy > 0)
+                wall = id == 31 || id == 16 || id == 24;
+            else if (dy < 0)
+                wall = id == 29 || id == 8 || id == 32;
+            else if (dx > 0)
+                wall = id == 23 || id == 16 || id == 8;
+            else if (dx < 0)
+                wall = id == 30 || id == 32 || id == 24;
+        }
+        if(assertWallNotNull(x + dx, y + dy) && !wall) {
+            int id = getWallID(x + dx, y + dy);
+            if (dy > 0)
+                return id == 8 || id == 29 || id == 32;
+            else if (dy < 0)
+                return id == 24 || id == 16 || id == 31;
+            else if (dx > 0)
+                return id == 30 || id == 24 || id == 32;
+            else if (dx < 0)
+                return id == 16 || id == 8 || id == 23;
+        }
+        return wall;
+    }
 }
