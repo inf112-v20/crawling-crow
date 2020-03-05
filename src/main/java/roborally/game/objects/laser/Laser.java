@@ -147,8 +147,10 @@ public class Laser {
             int dx;
             if(laserType.get(cannonId).equals("LeftCannon"))
                 dx = -1;
-            else
+            else {
                 dx = 1;
+                i = j;
+            }
             do {
                 storedCoordsCoords.add(new GridPoint2(i+=dx, k));
             } while (!booleanCalculator.checkForWall(i, k, dx, 0));
@@ -171,11 +173,13 @@ public class Laser {
             int dy;
             if(laserType.get(cannonId).equals("UpCannon"))
                 dy = 1;
-            else
+            else {
                 dy = -1;
+                j = i;
+            }
             do {
-                storedCoordsCoords.add(new GridPoint2(i+=dy, k));
-            } while (!booleanCalculator.checkForWall(i, k, 0, dy));
+                storedCoordsCoords.add(new GridPoint2(k, j += dy));
+            } while (!booleanCalculator.checkForWall(k, j, 0, dy));
         }
         return cannonId;
     }

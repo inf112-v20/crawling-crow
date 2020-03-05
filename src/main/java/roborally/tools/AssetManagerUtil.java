@@ -38,6 +38,9 @@ public class AssetManagerUtil {
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
+    //Maps
+    private static final AssetDescriptor<TiledMap> MAP_TEST2
+            = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("assets/robots/new/Angry.png", Texture.class);
@@ -55,16 +58,11 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("assets/robots/new/Yellow.png", Texture.class);
-    private static final AssetDescriptor<Texture> LASER_HORIZONTAL
-            = new AssetDescriptor<>("assets/laserHorizontal.png", Texture.class);
-    private static final AssetDescriptor<Texture> LASER_ONVERTICAL
-            = new AssetDescriptor<>("assets/lazerOnVertical.png", Texture.class);
-    private static final AssetDescriptor<Texture> LASER_VERTICAL
-            = new AssetDescriptor<>("assets/laserVertical.png", Texture.class);
 
     public static void load() {
         //Robots
         manager.load(MAP_TEST);
+        manager.load(MAP_TEST2);
         manager.load(ANGRY);
         manager.load(BLUE);
         manager.load(GREEN);
@@ -75,15 +73,12 @@ public class AssetManagerUtil {
         manager.load(YELLOW);
         manager.load(SHOOT_LASER);
         manager.load(STEPIN_LASER);
-        manager.load(LASER_HORIZONTAL);
-        manager.load(LASER_ONVERTICAL);
-        manager.load(LASER_VERTICAL);
     }
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap () {
-        loadedMap = manager.get(MAP_TEST);
-        return manager.get(MAP_TEST);
+        loadedMap = manager.get(MAP_TEST2);
+        return manager.get(MAP_TEST2);
     }
 
     // Only one robotTexture so far but can add more and return a list.
@@ -98,18 +93,6 @@ public class AssetManagerUtil {
         robotTexture[6] = manager.get(RED);
         robotTexture[7] = manager.get(YELLOW);
         return robotTexture[i];
-    }
-
-    public static Texture getLaserTexture() {
-        return manager.get(LASER_HORIZONTAL);
-    }
-
-    public static Texture getLaserVerticalTexture() {
-        return manager.get(LASER_VERTICAL);
-    }
-
-    public static Texture getLaserOnVerticalTexture() {
-        return manager.get(LASER_ONVERTICAL);
     }
 
     public static void dispose() {
