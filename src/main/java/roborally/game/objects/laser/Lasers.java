@@ -7,11 +7,9 @@ import java.util.*;
 
 public class Lasers {
     private HashMap<String, HashSet<Laser>> activeLasers;
-    private ArrayList<Integer> laserId;
 
     public Lasers() {
         activeLasers = new HashMap<>();
-        laserId = new ArrayList<>();
     }
 
     /**
@@ -26,20 +24,19 @@ public class Lasers {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
         sound.play((float) 0.1);
         Laser laser = new Laser(id); // sjekke id først, er det fler enn 1 laser så legger man til flere lasere.
-        int cannonId = laser.findLaser(pos);
+        laser.findLaser(pos);
         laser.update(); // update
-        if (!checkForLaser(name, pos, cannonId)) {
-            activeLasers.get(name).add(laser);
-            laserId.add(cannonId);
-        }
+        checkForLaser(name, laser);
+        activeLasers.get(name).add(laser);
     }
 
     public void getName(String name, GridPoint2 pos) {
         if (activeLasers.get(name) != null) {
             for (Laser laser : activeLasers.get(name)) {
                 laser.update();
-                if (!laser.gotPos(pos))
+                if (!laser.gotPos(pos)) {
                     activeLasers.get(name).remove(laser);
+                }
             }
         }
     }
@@ -48,22 +45,19 @@ public class Lasers {
      * Checks if the robot was in a laser and has moved out of the laser, but first checks if it is still in the instance.
      *
      * @param name The name of the robot
-     * @param pos  The position of the robot.
+     * @param newLaser  The new laser being added
      *             Restores the entire laser if it's no longer in the instance, else it moves in the laser.
      */
-    public boolean checkForLaser(String name, GridPoint2 pos, int id) {
-        boolean hasId = false;
+    public void checkForLaser(String name, Laser newLaser) {
         if (activeLasers.containsKey(name)) {
             HashSet<Laser> lasers = activeLasers.get(name);
             for (Laser laser : lasers) {
                 laser.update();
-                if (laserId.contains(id))
-                    hasId = true;
-                if (!laser.gotPos(pos))
+                if (laser.getPos().equals(newLaser.getPos()))
                     activeLasers.get(name).remove(laser);
             }
-        } else
+        }
+        else
             activeLasers.put(name, new HashSet<>());
-        return hasId;
     }
 }

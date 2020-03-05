@@ -32,6 +32,8 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
 
     //Maps
+    private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
+            = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
     //Maps
@@ -59,6 +61,7 @@ public class AssetManagerUtil {
         //Robots
         manager.load(MAP_TEST);
         manager.load(MAP_TEST2);
+        manager.load(MAP_LASER_TEST);
         manager.load(ANGRY);
         manager.load(BLUE);
         manager.load(GREEN);

@@ -79,7 +79,7 @@ public class RobotUI implements IRobotUI {
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
         layers.setRobotCell(checkPoint.x, checkPoint.y, getTexture());
         layers.getRobotCell(checkPoint.x, checkPoint.y).setRotation(0);
-        if(pos.x!=checkPoint.x || pos.y!=checkPoint.y)
+        if(!pos.equals(checkPoint))
             layers.setRobotCell(pos.x, pos.y, null);
     }
 

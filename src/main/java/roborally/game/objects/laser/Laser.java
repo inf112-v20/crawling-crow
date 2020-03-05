@@ -23,6 +23,7 @@ public class Laser {
     private BooleanCalculator booleanCalculator;
     private int cannonId;
     private boolean removeLaser;
+    private GridPoint2 cannonPos;
 
     /**
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
@@ -42,6 +43,7 @@ public class Laser {
         storedCoordsCoords = new ArrayList<>(); // Stores coordinates of laser-cells that are active.
         this.booleanCalculator = new BooleanCalculator();
         removeLaser = false;
+        cannonPos = new GridPoint2();
     }
 
     public void clearLaser() {
@@ -150,7 +152,7 @@ public class Laser {
             }
             do {
                 storedCoordsCoords.add(new GridPoint2(i+=dx, k));
-            } while (!booleanCalculator.checkForWall(i, k, dx, 0));
+            } while (!booleanCalculator.checkForWall(i, k, dx, 0) && i > 0 && i < layers.getWidth());
         }
         return cannonId;
     }
@@ -174,6 +176,7 @@ public class Laser {
                 dy = -1;
                 j = i;
             }
+            this.cannonPos.set(k, j + dy);
             do {
                 storedCoordsCoords.add(new GridPoint2(k, j += dy));
             } while (!booleanCalculator.checkForWall(k, j, 0, dy));
@@ -254,6 +257,14 @@ public class Laser {
             }
         }
         return false;
+    }
+
+    public int getId() {
+        return this.cannonId;
+    }
+
+    public GridPoint2 getPos () {
+        return this.cannonPos;
     }
 
     // At first use it creates the laser tiles for the laser class, else it returns the specific laser tile to use.
