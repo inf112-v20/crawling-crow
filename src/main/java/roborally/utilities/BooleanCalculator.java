@@ -7,6 +7,10 @@ import roborally.ui.Layers;
 import java.util.HashMap;
 
 // Beep... Robots need to calculate.
+
+// TODO: @Thomas: Suspect all this code is deprecate now (05.04.20, 16:19). this have be carefully assessed.
+// TODO: I do not have time safely go through it all in this session. Enjoy!
+
 public class BooleanCalculator {
     private HashMap<String, Boolean> operations;
     public ILayers layers;
