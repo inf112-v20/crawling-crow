@@ -36,6 +36,9 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
+    private static final AssetDescriptor<TiledMap> MAP_TEST_SINGLE_LASERS
+            = new AssetDescriptor<>("assets/maps/testMapSingleLasers.tmx", TiledMap.class);
+
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST2
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
@@ -59,6 +62,7 @@ public class AssetManagerUtil {
 
     public static void load() {
         //Robots
+        manager.load(MAP_TEST_SINGLE_LASERS);
         manager.load(MAP_TEST);
         manager.load(MAP_TEST2);
         manager.load(MAP_LASER_TEST);
@@ -82,6 +86,8 @@ public class AssetManagerUtil {
             loadedMap = manager.get(MAP_TEST2);
         if(map == 3)
             loadedMap = manager.get(MAP_LASER_TEST);
+        if(map == 4)
+            loadedMap = manager.get(MAP_TEST_SINGLE_LASERS);
 
         return loadedMap;
     }

@@ -59,6 +59,7 @@ public class GameBoard implements IGameBoard {
             for (int j = 0; j < flagLayer.getHeight(); j++) {
                 TiledMapTileLayer.Cell cell = flagLayer.getCell(i, j);
                 if (cell != null) {
+
                     int flagId = flagIdMap.get(cell.getTile().getId());
                     flags.add(new Flag (flagId, new GridPoint2(i,j)));
                 }
