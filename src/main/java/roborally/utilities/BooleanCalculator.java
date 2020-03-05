@@ -10,23 +10,13 @@ import java.util.HashMap;
 public class BooleanCalculator {
     private HashMap<String, Boolean> operations;
     public ILayers layers;
-    private int x;
-    private int y;
-    private int height;
-    private int width;
-    private Cannon cannon;
+    private int aFlagPosX;
+    private int aFlagPosY;
 
     public BooleanCalculator() {
         layers = new Layers();
-        width = layers.getRobots().getWidth();
-        height = layers.getRobots().getHeight();
         // Advanced calculations for AI, can take multiple conditions to figure out a good move.
         operations = new HashMap<>();
-        cannon = new Cannon();
-    }
-
-    public Cannon getCannon() {
-        return this.cannon;
     }
 
     // Check a specific position if it is blocked
@@ -40,28 +30,28 @@ public class BooleanCalculator {
 
     // AI methods
     public void determineFlagPos(Vector2 flagPos) {
-        this.x = (int) flagPos.x;
-        this.y = (int) flagPos.y;
+        this.aFlagPosX = (int) flagPos.x;
+        this.aFlagPosY = (int) flagPos.y;
     }
 
     public Vector2 getCurrFlagPos() {
-        return new Vector2(this.x,this.y);
+        return new Vector2(this.aFlagPosX,this.aFlagPosY);
     }
 
     private boolean isBelowFlagOnMap(int y){
-        return y < this.y;
+        return y < this.aFlagPosY;
     }
 
     private boolean isAboveFlagOnMap(int y){
-        return y > this.y;
+        return y > this.aFlagPosY;
     }
 
     private boolean isToTheRightOfFlagOnMap(int x){
-        return x > this.x;
+        return x > this.aFlagPosX;
     }
 
     private boolean isToTheLeftOfFlagOnMap(int x){
-        return x < this.x;
+        return x < this.aFlagPosX;
     }
 
     public HashMap<String, Boolean> getOperations() {
