@@ -29,7 +29,7 @@ public class Laser {
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
 
-    /** FIXME: Make Interface instead
+    /**
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
      * @param laserTileID Horizontal or Vertical laser.
      */
