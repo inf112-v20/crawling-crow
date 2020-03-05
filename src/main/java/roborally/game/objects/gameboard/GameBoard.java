@@ -34,16 +34,16 @@ public class GameBoard implements IGameBoard {
         ArrayList<IFlag> flags = new ArrayList<>();
         TiledMapTileLayer flagLayer = layers.getFlag();
 
-        for (int i = 0; i < flagLayer.getWidth(); i++) {
-            for (int j = 0; j < flagLayer.getHeight(); j++) {
-                TiledMapTileLayer.Cell cell = flagLayer.getCell(i, j);
+        for (int x = 0; x < flagLayer.getWidth(); x++) {
+            for (int y = 0; y < flagLayer.getHeight(); y++) {
+                TiledMapTileLayer.Cell cell = flagLayer.getCell(x, y);
                 if (cell != null) {
 
                     int tileID = cell.getTile().getId();
                     TileName tileName = tiledTranslator.getTileName(tileID);
                     int flagId = flagIdMap.get(tileName);
 
-                    flags.add(new Flag (flagId, new GridPoint2(i,j)));
+                    flags.add(new Flag (flagId, new GridPoint2(x, y)));
                 }
             }
         }
