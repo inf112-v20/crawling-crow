@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Laser {
     private int laserTileID;
-    private int cannonTileId;
+    private int cannonTileID;
     private boolean removeLaser;
 
     private ITiledTranslator tiledTranslator;
@@ -128,7 +128,7 @@ public class Laser {
             cannonId = findVertical();
         }
         laserEndPositions.add(robotsOrigin);
-        this.cannonTileId = cannonId;
+        this.cannonTileID = cannonId;
     }
 
     /**
@@ -141,10 +141,10 @@ public class Laser {
         int k = robotsOrigin.y;
         while (i < layers.getWidth() && layers.assertLaserNotNull(i, k)) i++;
         while (j >= 0 && layers.assertLaserNotNull(j, k)) j--;
-        cannonTileId = findCannon(i, j, k);
-        if (cannonTileId != 0) {
+        cannonTileID = findCannon(i, j, k);
+        if (cannonTileID != 0) {
             int dx;
-            TileName cannonTileName = tiledTranslator.getTileName(cannonTileId);
+            TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
             if(cannonTileName == TileName.WALL_CANNON_RIGHT)
                 dx = -1;
             else {
@@ -156,7 +156,7 @@ public class Laser {
                 laserEndPositions.add(new GridPoint2(i+=dx, k));
             } while (!booleanCalculator.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
-        return cannonTileId;
+        return cannonTileID;
     }
 
     /**
@@ -169,10 +169,10 @@ public class Laser {
         int k = robotsOrigin.x;
         while (i < layers.getHeight() && layers.assertLaserNotNull(k, i)) i++;
         while (j >= 0 && layers.assertLaserNotNull(k, j)) j--;
-        cannonTileId = findCannon(i, j, k);
-        if (cannonTileId != 0) {
+        cannonTileID = findCannon(i, j, k);
+        if (cannonTileID != 0) {
             int dy;
-            TileName cannonTileName = tiledTranslator.getTileName(cannonTileId);
+            TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
             if(cannonTileName == TileName.WALL_CANNON_BOTTOM)
                 dy = 1;
             else {
@@ -184,7 +184,7 @@ public class Laser {
                 laserEndPositions.add(new GridPoint2(k, j+=dy));
             } while (!booleanCalculator.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
-        return cannonTileId;
+        return cannonTileID;
     }
 
     /**
@@ -273,7 +273,7 @@ public class Laser {
     }
 
     public int getId() { // TODO: This should be in Cannon class
-        return this.cannonTileId;
+        return this.cannonTileID;
     }
 
     public GridPoint2 getPos () { // TODO: This should be in Cannon class
