@@ -3,16 +3,11 @@ package roborally.utilities;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
-import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobotPresenter;
 import roborally.game.objects.robot.RobotPresenter;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -20,7 +15,6 @@ public class AssetManagerUtil {
     private static TiledMap loadedMap;
     private static HashMap<String,TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
-    public static Stack<Vector2> flagPositions;
     public static AI[] airobots;
     public static IRobotPresenter[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
@@ -111,13 +105,17 @@ public class AssetManagerUtil {
     }
 
     public static TiledMap getLoadedMap() {
-        //TODO: Add precondition to make sure map is loaded.
+        if (loadedMap == null) {
+            loadedMap = manager.get(MAP_TEST2);
+        }
         return loadedMap;
     }
 
     public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
-        if(layers==null)
-            layers = createLayers(getLoadedMap());
+        if(layers==null) {
+            ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
+            layers = readAndWriteLayers.createLayers(getLoadedMap());
+        }
         return layers;
     }
 
@@ -141,9 +139,11 @@ public class AssetManagerUtil {
     public static void setRobots(IRobotPresenter[] robots) {
         robotcores = robots;
     }
+
     public static IRobotPresenter[] getRobots() {
         return robotcores;
     }
+
     public static AI[] getAIRobots() {
         return airobots;
     }
@@ -184,70 +184,5 @@ public class AssetManagerUtil {
             makeRobotNames();
         }
         return robotNames.pop();
-    }
-
-
-    public static Stack<Vector2> makeFlagPos() {
-        flagPositions = new Stack<>();
-        flagPositions.push(new Vector2(9,1));
-        flagPositions.push(new Vector2(2,1));
-        flagPositions.push(new Vector2(2,10));
-        flagPositions.push(new Vector2(9,10));
-        return flagPositions;
-    }
-
-    // Potential stuff we might call the layers when creating maps, feel free to add some! =)
-    public static String[][] readLayerNames() {
-        String[][] layerNames = new String[getNumberOfLinesInLayerNames()-1][2];
-        String[] string;
-        int i = 0;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
-            while (!(string = br.readLine().split(" "))[0].equals("end")) {
-                layerNames[i][0] = string[0]; layerNames[i++][1] = string[1];
-            }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return layerNames;
-    }
-
-    // Gets the total number of lines in our layerNames file.
-    public static int getNumberOfLinesInLayerNames() {
-        int count = 0;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
-            while(br.readLine()!=null)
-                count++;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-
-    // Puts all the layers for the current map into a Map, accessible by standard names defined by us.
-    public static HashMap<String,TiledMapTileLayer> createLayers(TiledMap tiledMap) {
-        HashMap<String, TiledMapTileLayer> map = new HashMap<>();
-        String[][] layerNames = readLayerNames();
-        for(MapLayer layer : tiledMap.getLayers()) {
-            TiledMapTileLayer key = (TiledMapTileLayer) layer;
-            boolean layerImpl = false;
-            String s = key.getName().toLowerCase();
-            for (String[] layerName : layerNames)
-                if (s.contains(layerName[0])) {
-                    layerImpl = true;
-                    map.put(layerName[1], key);
-                    break;
-                }
-            if (!layerImpl) {
-                System.out.println("The layer: '" + s + "' has not yet been implemented in the game. \n" +
-                        "check the layer in Tiled Map Editor and the list of names in map/layernames.txt\n" +
-                        "this layer will act as a hole.");
-                map.put("bug", key);
-            }
-        }
-        return map;
     }
 }
