@@ -8,8 +8,7 @@ import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobotPresenter;
 import roborally.game.objects.robot.RobotPresenter;
 
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
 public class AssetManagerUtil {
     private static TiledMap loadedMap;
@@ -74,15 +73,10 @@ public class AssetManagerUtil {
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap (int map) {
-        if(map == 1)
-            loadedMap = manager.get(MAP_TEST);
-        if(map == 2)
-            loadedMap = manager.get(MAP_TEST2);
-        if(map == 3)
-            loadedMap = manager.get(MAP_LASER_TEST);
-        if(map == 4)
-            loadedMap = manager.get(MAP_TEST_SINGLE_LASERS);
-
+        TiledMap[] tiledMaps = {manager.get(MAP_TEST), manager.get(MAP_TEST2),
+                manager.get(MAP_LASER_TEST), manager.get(MAP_TEST_SINGLE_LASERS)};
+        List<TiledMap> maps = Arrays.asList(tiledMaps);
+        loadedMap = maps.get(map);
         return loadedMap;
     }
 

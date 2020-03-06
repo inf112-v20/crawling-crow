@@ -19,7 +19,7 @@ public class Main {
         cfg.addIcon("icons/icon@2x.png", Files.FileType.Internal);
         cfg.addIcon("icons/icon.png", Files.FileType.Internal);
         Scanner in = new Scanner(System.in);
-        System.out.println("1: MAP_TEST  2: MAP_TEST2  3: MAP_LASER_TEST 4: MAP_TEST_SINGLE_LASERS");
+        System.out.println("0: MAP_TEST  1: MAP_TEST2  2: MAP_LASER_TEST 3: MAP_TEST_SINGLE_LASERS");
         int mapID = in.nextInt();
         new LwjglApplication(new UI(mapID), cfg);
     }
