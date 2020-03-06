@@ -17,15 +17,13 @@ public class RobotView implements IRobotView {
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotDefaultCellTexture;
     private ILayers layers;
-    private int uiRobotPosX;
-    private int uiRobotPosY;
+    private GridPoint2 pos;
     private int height;
     private int width;
 
     // Creates new UIRobot in position x and y.
     public RobotView(int x, int y) {
-        this.uiRobotPosX = x;
-        this.uiRobotPosY = y;
+        this.pos = new GridPoint2(x, y);
         this.layers = new Layers();
         this.height = layers.getHeight();
         this.width = layers.getWidth();
@@ -33,25 +31,25 @@ public class RobotView implements IRobotView {
 
     public void setTextureRegion(int cellId) {
         this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
-        layers.setRobotCell(this.uiRobotPosX, this.uiRobotPosY, getTexture());
+        layers.setRobotCell(this.pos.x, this.pos.y, getTexture());
     }
 
     @Override
-    public void setWinTexture(int x, int y) {
+    public void setWinTexture(GridPoint2 pos) {
         if (this.robotWonCellTexture == null) {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        layers.setRobotCell(x, y, this.robotWonCellTexture);
+        layers.setRobotCell(pos.x, pos.y, this.robotWonCellTexture);
     }
 
     @Override
-    public void setLostTexture(int x, int y) {
+    public void setLostTexture(GridPoint2 pos) {
         if (this.robotLostCellTexture == null) {
             this.robotLostCellTexture = new TiledMapTileLayer.Cell();
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        layers.setRobotCell(x, y, this.robotLostCellTexture);
+        layers.setRobotCell(pos.x, pos.y, this.robotLostCellTexture);
     }
 
     @Override

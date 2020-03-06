@@ -12,7 +12,7 @@ import roborally.ui.robot.IRobotView;
 import roborally.ui.robot.RobotView;
 
 public class RobotPresenter implements IRobotPresenter {
-    private IRobotView uiRobot;
+    private IRobotView robotView;
     private IRobotModel robotState;
     private boolean[] visitedFlags;
     private Direction direction;
@@ -31,7 +31,7 @@ public class RobotPresenter implements IRobotPresenter {
         IRobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
         this.robotState = robotModel;
-        this.uiRobot = robotView;
+        this.robotView = robotView;
         setPos(x, y);
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
@@ -55,7 +55,7 @@ public class RobotPresenter implements IRobotPresenter {
 
     @Override
     public void backToCheckPoint() {
-        uiRobot.goToCheckPoint(this.getPosition(), robotState.getCheckPoint());
+        robotView.goToCheckPoint(this.getPosition(), robotState.getCheckPoint());
         this.robotState.setPosition(robotState.getCheckPoint());
         this.direction = Direction.North;
     }
@@ -78,7 +78,7 @@ public class RobotPresenter implements IRobotPresenter {
 
     @Override
     public void setTextureRegion(int i) {
-        this.uiRobot.setTextureRegion(i);
+        this.robotView.setTextureRegion(i);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class RobotPresenter implements IRobotPresenter {
 
         // Checks for robots in its path before moving.
         if(!listener.listenCollision(x, y, dx, dy)) {
-            if (this.uiRobot.moveRobot(x, y, dx, dy)) {
+            if (this.robotView.moveRobot(x, y, dx, dy)) {
                 this.setPos(newX, newY);
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
@@ -100,7 +100,7 @@ public class RobotPresenter implements IRobotPresenter {
                 if (layers.assertHoleNotNull(newX, newY)) {
                     this.setLostTexture();
                 }
-                this.uiRobot.setDirection(getPosition(), this.direction);
+                this.robotView.setDirection(getPosition(), this.direction);
             }
         }
         else
@@ -157,7 +157,7 @@ public class RobotPresenter implements IRobotPresenter {
         System.out.println(this.direction.toString());
 
         this.direction = Direction.turnRightFrom(this.direction);
-        this.uiRobot.setDirection(getPosition(), this.direction);
+        this.robotView.setDirection(getPosition(), this.direction);
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
@@ -171,7 +171,7 @@ public class RobotPresenter implements IRobotPresenter {
         System.out.println(this.direction.toString());
 
         this.direction = Direction.turnLeftFrom(this.direction);
-        this.uiRobot.setDirection(getPosition(), this.direction);
+        this.robotView.setDirection(getPosition(), this.direction);
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
@@ -185,12 +185,12 @@ public class RobotPresenter implements IRobotPresenter {
 
     @Override
     public void setWinTexture() {
-        this.uiRobot.setWinTexture(this.getPosition().x, this.getPosition().y);
+        this.robotView.setWinTexture(getPosition());
     }
 
     @Override
     public void setLostTexture() {
-        this.uiRobot.setLostTexture(this.getPosition().x, this.getPosition().y);
+        this.robotView.setLostTexture(getPosition());
     }
 
     @Override
@@ -220,7 +220,7 @@ public class RobotPresenter implements IRobotPresenter {
     @Override
     public void visitNextFlag() {
         this.setWinTexture();
-        this.uiRobot.setDirection(getPosition(), this.direction);
+        this.robotView.setDirection(getPosition(), this.direction);
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag-1] = true;

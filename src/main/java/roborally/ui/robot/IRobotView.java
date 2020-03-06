@@ -15,18 +15,16 @@ public interface IRobotView {
     /**
      * Creates new WinTexture at given position.
      *
-     * @param x the x coordinate
-     * @param y the y coordinate
+     * @param pos the position
      */
-    void setWinTexture(int x, int y);
+    void setWinTexture(GridPoint2 pos);
 
     /**
      * Creates new damageTaken/robotDestroyed texture at position.
      *
-     * @param x the x coordinate
-     * @param y the y coordinate
+     * @param pos the position
      */
-    void setLostTexture(int x, int y);
+    void setLostTexture(GridPoint2 pos);
 
     /**
      * @return The normal robot texture.
