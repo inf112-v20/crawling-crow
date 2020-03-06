@@ -36,14 +36,12 @@ public class LaserRegister {
      * @param pos the position of the robot.
      */
     public void updateLaser(String name, GridPoint2 pos) {
-        System.out.println("yeah");
-        System.out.println(activeLasers.get(name));
         HashSet<Laser> temp = new HashSet<>();
         if (activeLasers.get(name) != null) {
             activeLasers.get(name).forEach(laser -> {
                 laser.update();
                 if (laser.gotPos(pos)) {
-                    System.out.println("Cannon at " + pos);
+                    System.out.println("Cannon at " + laser.getPos());
                 }
                 else
                     temp.add(laser);
