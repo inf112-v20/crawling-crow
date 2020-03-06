@@ -17,7 +17,6 @@ public class LaserListener {
      * @param y The y-coordinate the robot is moving to
      * @param name The name of the robot
      */
-
     public void checkForLasers(int x, int y, String name) {
         GridPoint2 pos = new GridPoint2(x, y);
         int id;

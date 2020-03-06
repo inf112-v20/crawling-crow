@@ -107,7 +107,6 @@ public class CollisionListener {
                 return true;
             if(layers.assertRobotNotNull(newX + dx, newY + dy) && robotNextToRobot(newX, newY, dx, dy))
                 return true;
-
         }
         findCollidingRobot(newX, newY, dx, dy);
         return false;
