@@ -3,7 +3,9 @@ package roborally.utilities;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobotPresenter;
 import roborally.game.objects.robot.RobotPresenter;
@@ -12,10 +14,10 @@ import java.util.*;
 
 public class AssetManagerUtil {
     private static TiledMap loadedMap;
-    private static HashMap<String,TiledMapTileLayer> layers;
+    private static HashMap<String, TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
-    public static AI[] airobots;
-    public static IRobotPresenter[] robotcores;
+    public static AI[] ai;
+    public static IRobotPresenter[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     // Sounds
@@ -119,43 +121,43 @@ public class AssetManagerUtil {
 
     // Default AI robots
     public static void makeAIRobots() {
-        airobots = new AI[8];
-        airobots[0] = new AI(3,0, 0);
-        airobots[1] = new AI(0,1, 1);
-        airobots[2] = new AI(3,2, 2);
-        airobots[3] = new AI(8,3, 3);
-        airobots[4] = new AI(3,3, 4);
-        airobots[5] = new AI(4,4, 5);
-        airobots[6] = new AI(4,5, 6);
-        airobots[7] = new AI(6,4, 7);
+        ai = new AI[8];
+        ai[0] = new AI(3,0, 0);
+        ai[1] = new AI(0,1, 1);
+        ai[2] = new AI(3,2, 2);
+        ai[3] = new AI(8,3, 3);
+        ai[4] = new AI(3,3, 4);
+        ai[5] = new AI(4,4, 5);
+        ai[6] = new AI(4,5, 6);
+        ai[7] = new AI(6,4, 7);
     }
 
-    public static void setRobots(IRobotPresenter[] robots) {
-        robotcores = robots;
+    public static void setRobots(IRobotPresenter[] robotPresenters) {
+        robots = robotPresenters;
     }
 
     public static IRobotPresenter[] getRobots() {
-        return robotcores;
+        return robots;
     }
 
     public static AI[] getAIRobots() {
-        return airobots;
+        return ai;
     }
 
     // Default Robots robots
     public static IRobotPresenter[] makeRobots() {
-        robotcores = new RobotPresenter[8];
-        robotcores[0] = new RobotPresenter(5, 0, 0);
-        robotcores[1] = new RobotPresenter(6, 0, 1);
-        robotcores[2] = new RobotPresenter(3, 1, 2);
-        robotcores[3] = new RobotPresenter(8, 1, 3);
-        robotcores[4] = new RobotPresenter(1, 2, 4);
-        robotcores[5] = new RobotPresenter(5, 6, 5);
-        robotcores[6] = new RobotPresenter(5, 4, 6);
-        robotcores[7] = new RobotPresenter(5, 5, 7);
+        robots = new RobotPresenter[8];
+        robots[0] = new RobotPresenter(5, 0, 0);
+        robots[1] = new RobotPresenter(6, 0, 1);
+        robots[2] = new RobotPresenter(3, 1, 2);
+        robots[3] = new RobotPresenter(8, 1, 3);
+        robots[4] = new RobotPresenter(1, 2, 4);
+        robots[5] = new RobotPresenter(5, 6, 5);
+        robots[6] = new RobotPresenter(5, 4, 6);
+        robots[7] = new RobotPresenter(5, 5, 7);
 
         // Texture region is not automatically set in constructor (for now).
-        return robotcores;
+        return robots;
     }
 
 

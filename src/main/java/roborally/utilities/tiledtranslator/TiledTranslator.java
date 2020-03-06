@@ -6,10 +6,10 @@ import java.util.HashMap;
 
 public class TiledTranslator implements ITiledTranslator {
 
-    private static HashMap<Integer, TileName> tiles;
+    private HashMap<Integer, TileName> tiles;
 
     public TiledTranslator() {
-        tiles = new HashMap<>();
+        this.tiles = new HashMap<>();
 
         for (TileName tileName : TileName.values()) {
             tiles.put(tileName.getTileID(), tileName);
