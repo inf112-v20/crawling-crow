@@ -5,17 +5,17 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class RobotPresenterStateTest {
+public class RobotModelTest {
     private GridPoint2 initialStartPosition;
     private int posX;
     private int posY;
-    private IRobotModel robotState;
+    private IRobotModel robotModel;
     private String robotName;
 
     @Before
     public void setUp() {
         robotName = "TestRobot";
-        robotState = new RobotModel(robotName);
+        robotModel = new RobotModel(robotName);
         // For setting direct x and y coordinates in RobotPresenter Position
         posX = 12;
         posY = 10;
@@ -24,17 +24,17 @@ public class RobotPresenterStateTest {
 
     @Test
     public void robotHasInitialPosition() {
-        assertEquals(initialStartPosition, robotState.getPosition());
+        assertEquals(initialStartPosition, robotModel.getPosition());
     }
 
     @Test
     public void robotSetAndGetPosition() {
-        robotState.setPosition(new GridPoint2(posX, posY));
-        assertEquals(new GridPoint2(posX, posY), robotState.getPosition());
+        robotModel.setPosition(new GridPoint2(posX, posY));
+        assertEquals(new GridPoint2(posX, posY), robotModel.getPosition());
     }
 
     @Test
     public void checkNameIsCorrect() {
-        assertEquals(robotName, robotState.getName());
+        assertEquals(robotName, robotModel.getName());
     }
 }

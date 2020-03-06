@@ -28,11 +28,11 @@ public class RobotPresenter implements IRobotPresenter {
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public RobotPresenter(int x, int y, int cellId) {
-        IRobotModel robot = new RobotModel(AssetManagerUtil.getRobotName());
-        IRobotView uiRobot = new RobotView(x, y);
-        this.robotState = robot;
-        this.uiRobot = uiRobot;
-        robot.setPosition(new GridPoint2(x, y));
+        IRobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
+        IRobotView robotView = new RobotView(x, y);
+        this.robotState = robotModel;
+        this.uiRobot = robotView;
+        setPos(x, y);
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
         laser = new Laser(0);
