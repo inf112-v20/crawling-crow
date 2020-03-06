@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.enums.Direction;
 
-public interface IRobotUI {
+public interface IRobotView {
     /**
      * Gets texture region from AssetsManager and sets the starting position with this texture.
      *

@@ -1,7 +1,7 @@
 package roborally.ui.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.robot.IRobot;
+import roborally.game.objects.robot.IRobotPresenter;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 
@@ -17,7 +17,7 @@ public class CollisionListener {
      * This method is run if there are more than 2 robots in a row, with a robot at one end making a move onto the whole
      * line of robots. What happens is all of the robots except the first 2 makes a single step in the same direction,
      * and then finally the 2 first robots will bump normally in the final part of checkIfBlocked.
-     * Robot disappears the same way as stated in findCollidingRobot.
+     * RobotPresenter disappears the same way as stated in findCollidingRobot.
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
@@ -35,16 +35,16 @@ public class CollisionListener {
                 return true;
             if (layers.assertRobotNotNull(x+dx,y+dy))
                 recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
-            for (IRobot robot : AssetManagerUtil.getRobots())
+            for (IRobotPresenter robot : AssetManagerUtil.getRobots())
                 if(robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
                     robot.move(dx, dy);
                     System.out.println("Pushing robot complete");
                 }
         }
-        // Robot "deletion"
+        // RobotPresenter "deletion"
         else
-            for(IRobot robot : AssetManagerUtil.getRobots())
+            for(IRobotPresenter robot : AssetManagerUtil.getRobots())
                 if(robot.getPosition().equals(new GridPoint2(x, y))) {
                     layers.setRobotCell(x, y, null);
                     robot.setPos(-1, -1);
@@ -64,12 +64,12 @@ public class CollisionListener {
     public void findCollidingRobot(int x, int y, int dx, int dy) {
         int width = layers.getRobots().getWidth();
         int height = layers.getRobots().getHeight();
-        for (IRobot robot : AssetManagerUtil.getRobots()){
+        for (IRobotPresenter robot : AssetManagerUtil.getRobots()){
             GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
                 GridPoint2 bumpedPos = robot.getPosition();
                 if(bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
-                    // Robot "deletion".
+                    // RobotPresenter "deletion".
                     robot.setPos(-1, -1);
                     layers.setRobotCell(x, y, null);
                 }
@@ -99,7 +99,7 @@ public class CollisionListener {
             return true;
         int newX = x + dx;
         int newY = y + dy;
-        // There is no Robot on the next position.
+        // There is no RobotPresenter on the next position.
         if(!layers.assertRobotNotNull(newX, newY))
             return false;
         else {

@@ -10,7 +10,7 @@ import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.UI;
 
-public class RobotUI implements IRobotUI {
+public class RobotView implements IRobotView {
 
     private TiledMapTileLayer.Cell robotWonCellTexture;
     private TiledMapTileLayer.Cell robotLostCellTexture;
@@ -23,12 +23,12 @@ public class RobotUI implements IRobotUI {
     private int width;
 
     // Creates new UIRobot in position x and y.
-    public RobotUI(int x, int y) {
+    public RobotView(int x, int y) {
         this.uiRobotPosX = x;
         this.uiRobotPosY = y;
         this.layers = new Layers();
-        this.height = layers.getRobots().getHeight();
-        this.width = layers.getRobots().getWidth();
+        this.height = layers.getHeight();
+        this.width = layers.getWidth();
     }
 
     public void setTextureRegion(int cellId) {

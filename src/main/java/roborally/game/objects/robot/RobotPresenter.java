@@ -8,12 +8,12 @@ import roborally.ui.Layers;
 import roborally.ui.listeners.Listener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
-import roborally.ui.robot.IRobotUI;
-import roborally.ui.robot.RobotUI;
+import roborally.ui.robot.IRobotView;
+import roborally.ui.robot.RobotView;
 
-public class Robot implements IRobot {
-    private IRobotUI uiRobot;
-    private IRobotState robotState;
+public class RobotPresenter implements IRobotPresenter {
+    private IRobotView uiRobot;
+    private IRobotModel robotState;
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
@@ -22,14 +22,14 @@ public class Robot implements IRobot {
     private LaserRegister laserRegister;
 
     // Constructor for testing the robot model.
-    public Robot(RobotState robotState) {
+    public RobotPresenter(RobotModel robotState) {
         this.robotState = robotState;
     }
 
     // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
-    public Robot(int x, int y, int cellId) {
-        IRobotState robot = new RobotState(AssetManagerUtil.getRobotName());
-        IRobotUI uiRobot = new RobotUI(x, y);
+    public RobotPresenter(int x, int y, int cellId) {
+        IRobotModel robot = new RobotModel(AssetManagerUtil.getRobotName());
+        IRobotView uiRobot = new RobotView(x, y);
         this.robotState = robot;
         this.uiRobot = uiRobot;
         robot.setPosition(new GridPoint2(x, y));

@@ -3,7 +3,7 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-public interface IRobotState {
+public interface IRobotModel {
 
     void setPosition(GridPoint2 pos);
 

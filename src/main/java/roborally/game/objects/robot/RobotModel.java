@@ -2,12 +2,12 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-public class RobotState implements IRobotState {
+public class RobotModel implements IRobotModel {
     private String name;
     private GridPoint2 robotPosition;
     private GridPoint2 checkPoint;
 
-    public RobotState(String name) {
+    public RobotModel(String name) {
         this.name = name;
         this.robotPosition = new GridPoint2();
     }

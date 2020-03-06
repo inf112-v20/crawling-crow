@@ -5,8 +5,8 @@ import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobot;
-import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.IRobotPresenter;
+import roborally.game.objects.robot.RobotPresenter;
 import roborally.utilities.AssetManagerUtil;
 import roborally.ui.ILayers;
 import roborally.utilities.enums.PhaseStep;
@@ -21,10 +21,10 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private ILayers layers;
     private AI[] aiRobots;
-    private IRobot[] robots;
+    private IRobotPresenter[] robots;
     private ArrayList<IFlag> flags;
 
-    private IRobot winner;
+    private IRobotPresenter winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
@@ -37,7 +37,7 @@ public class Game implements IGame {
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
-        for(IRobot robot : robots)
+        for(IRobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());
     }
 
@@ -57,11 +57,11 @@ public class Game implements IGame {
             return false;
         }
         robots = null;
-        robots = new Robot[layers.getHeight()*layers.getWidth()];
+        robots = new RobotPresenter[layers.getHeight()*layers.getWidth()];
         int it = 0;
         for(int j = 0; j < layers.getWidth(); j++) {
             for (int k = 0; k < layers.getHeight(); k++) {
-                robots[it] = new Robot(j, k, k % 8);
+                robots[it] = new RobotPresenter(j, k, k % 8);
                 robots[it].setNumberOfFlags(flags.size());
                 it++;
             }
@@ -82,7 +82,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public IRobot getRobots() {
+    public IRobotPresenter getRobots() {
         if (this.robotPointerID == 8) {
             this.robotPointerID = 0;
         }
@@ -106,7 +106,7 @@ public class Game implements IGame {
 
     @Override
     public void restartGame() {
-        for (IRobot robot : robots) {
+        for (IRobotPresenter robot : robots) {
             robot.clearLaser();
             robot.backToCheckPoint();
         }
@@ -166,7 +166,7 @@ public class Game implements IGame {
 
     @Override
     public void fireLasers() {
-        for (IRobot robot : robots)
+        for (IRobotPresenter robot : robots)
             robot.fireLaser();
         // TODO: Implement the corresponding phase.
     }
@@ -182,7 +182,7 @@ public class Game implements IGame {
         for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
-            for (IRobot robot : robots) {
+            for (IRobotPresenter robot : robots) {
                 int robotX = robot.getPosition().x;
                 int robotY = robot.getPosition().y;
                 if (flagX == robotX && flagY == robotY) {
@@ -218,7 +218,7 @@ public class Game implements IGame {
         assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for(IRobot robot : robots){
+        for(IRobotPresenter robot : robots){
             if (robot.hasVisitedAllFlags()){
                 winner = robot;
             }
@@ -232,7 +232,7 @@ public class Game implements IGame {
         if(robots == null) {
             robotsAreCreated = false;
         } else {
-            for (IRobot robot : robots) {
+            for (IRobotPresenter robot : robots) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
@@ -246,7 +246,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public IRobot getWinner() {
+    public IRobotPresenter getWinner() {
         return winner;
     }
 
@@ -269,7 +269,7 @@ public class Game implements IGame {
     public void moveRobots() {
         Random r = new Random();
         int m;
-        for(IRobot robot : robots) {
+        for(IRobotPresenter robot : robots) {
             m = r.nextInt(4);
             if(m == 0)
                 robot.turnLeft();

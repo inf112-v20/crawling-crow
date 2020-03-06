@@ -7,8 +7,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.math.Vector2;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobot;
-import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.IRobotPresenter;
+import roborally.game.objects.robot.RobotPresenter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,7 +22,7 @@ public class AssetManagerUtil {
     private static Stack<String> robotNames;
     public static Stack<Vector2> flagPositions;
     public static AI[] airobots;
-    public static IRobot[] robotcores;
+    public static IRobotPresenter[] robotcores;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     // Sounds
@@ -138,10 +138,10 @@ public class AssetManagerUtil {
         airobots[7] = new AI(6,4, 7);
     }
 
-    public static void setRobots(IRobot[] robots) {
+    public static void setRobots(IRobotPresenter[] robots) {
         robotcores = robots;
     }
-    public static IRobot[] getRobots() {
+    public static IRobotPresenter[] getRobots() {
         return robotcores;
     }
     public static AI[] getAIRobots() {
@@ -149,16 +149,16 @@ public class AssetManagerUtil {
     }
 
     // Default Robots robots
-    public static IRobot[] makeRobots() {
-        robotcores = new Robot[8];
-        robotcores[0] = new Robot(5, 0, 0);
-        robotcores[1] = new Robot(6, 0, 1);
-        robotcores[2] = new Robot(3, 1, 2);
-        robotcores[3] = new Robot(8, 1, 3);
-        robotcores[4] = new Robot(1, 2, 4);
-        robotcores[5] = new Robot(5, 6, 5);
-        robotcores[6] = new Robot(5, 4, 6);
-        robotcores[7] = new Robot(5, 5, 7);
+    public static IRobotPresenter[] makeRobots() {
+        robotcores = new RobotPresenter[8];
+        robotcores[0] = new RobotPresenter(5, 0, 0);
+        robotcores[1] = new RobotPresenter(6, 0, 1);
+        robotcores[2] = new RobotPresenter(3, 1, 2);
+        robotcores[3] = new RobotPresenter(8, 1, 3);
+        robotcores[4] = new RobotPresenter(1, 2, 4);
+        robotcores[5] = new RobotPresenter(5, 6, 5);
+        robotcores[6] = new RobotPresenter(5, 4, 6);
+        robotcores[7] = new RobotPresenter(5, 5, 7);
 
         // Texture region is not automatically set in constructor (for now).
         return robotcores;

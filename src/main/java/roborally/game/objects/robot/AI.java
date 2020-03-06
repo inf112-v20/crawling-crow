@@ -1,6 +1,6 @@
 package roborally.game.objects.robot;
 
-public class AI extends Robot {
+public class AI extends RobotPresenter {
 
     public AI(int x, int y, int cellId) {
         super(x, y, cellId);
