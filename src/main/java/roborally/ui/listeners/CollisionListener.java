@@ -14,10 +14,9 @@ public class CollisionListener {
     }
 
     /**
-     * This method is run if there are more than 2 robots in a row, with a robot at one end making a move onto the whole
-     * line of robots. What happens is all of the robots except the first 2 makes a single step in the same direction,
-     * and then finally the 2 first robots will bump normally in the final part of checkIfBlocked.
-     * RobotPresenter disappears the same way as stated in findCollidingRobot.
+     * Called from {@link #checkIfBlocked} if there is multiple robots in a line in the direction the robot is moving.
+     * Iterates through all the robots to see if the foremost robot in the direction is blocked, moves robots
+     * accordingly.
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
@@ -25,8 +24,8 @@ public class CollisionListener {
      * @return True if there is a wall blocking the path.
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
-        int width = layers.getRobots().getWidth();
-        int height = layers.getRobots().getHeight();
+        int width = layers.getWidth();
+        int height = layers.getHeight();
         boolean recursiveRobot = false;
         if(wallListener.checkForWall(x, y, dx, dy))
             return true;
@@ -53,9 +52,8 @@ public class CollisionListener {
     }
 
     /**
-     * Finds the given robot at the colliding position and moves it one step in the bumping direction then clears its old position.
-     * If the robot of interest is on the edge of the map it will temporary get position -1,-1, and it's cell set to null.
-     * This is until we find a better way to deal with damage\robots getting destroyed.
+     * Called from {@link #checkIfBlocked} if it is possible for the moving robot to bump into a robot.
+     * Moves the robots accordingly.
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
@@ -87,12 +85,13 @@ public class CollisionListener {
     }
 
     /**
-     * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping.
+     * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping
+     * with the method {@link #findCollidingRobot}
      * @param x the x position
      * @param y the y position
      * @param dx steps taken in x-direction
      * @param dy steps taken in y-direction
-     * @return True if the robot or any robot on a straight line in its direction is facing a wall.
+     * @return True if the robot or any of the robots in front of it is found in {@link #robotNextToRobot} is blocked.
      */
     public boolean checkIfBlocked(int x, int y, int dx, int dy) {
         if(wallListener.checkForWall(x, y, dx, dy))

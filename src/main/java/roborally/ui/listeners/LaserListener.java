@@ -11,11 +11,11 @@ public class LaserListener {
         this.layers = layers;
     }
 
-    /** Creates a new laser instance if there is a laser cell in the position the robot is moving to.
-     *  Else it will see if the robot is currently in a laser instance.
+    /** Checks the laser the robot has stepped in against the register to update, remove or add the laser.
      * @param x The x-coordinate the robot is moving to
      * @param y The y-coordinate the robot is moving to
      * @param name The name of the robot
+     * @param laserRegister the register.
      */
     public void checkForLasers(int x, int y, String name, LaserRegister laserRegister) {
         GridPoint2 pos = new GridPoint2(x, y);

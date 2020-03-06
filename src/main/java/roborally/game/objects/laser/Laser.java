@@ -31,15 +31,15 @@ public class Laser {
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
 
-    /**7
-     * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
+    /**
+     * Constructs a new laser.
      * @param laserTileID Horizontal or Vertical laser.
      */
     public Laser(int laserTileID) {
         tiledTranslator = new TiledTranslator();
         layers = new Layers();
         this.laserTileID = laserTileID;
-        laserEndPositions = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
+        laserEndPositions = new ArrayList<>();
         removeLaser = false;
         cannonPos = new GridPoint2();
         wallListener = new WallListener(layers);
@@ -53,6 +53,7 @@ public class Laser {
 
     /**
      * Shoots a laser until it hits a wall or a robot. Stores the cells for clearing them after.
+     * {@link #setDirection(int direction)} to figure out the iterative values to shoot with.
      * @param robotsPos The position of the robot that is shooting the laser.
      * @param direction The direction the robot is looking.
      */
@@ -69,11 +70,9 @@ public class Laser {
         int i = robotsPos.x + dir[0];
         int j = robotsPos.y + dir[1];
 
-        // Makes sure there's not a wall blocking the laser.
         if (wallListener.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
-            // Makes sure it doesnt stack laser on top of other laser cells.
             if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
                 layers.setLaserCell(i, j, storedLaserCell);
                 laserEndPositions.add(new GridPoint2(i, j));
@@ -81,7 +80,6 @@ public class Laser {
                     break;
                 }
             }
-            //Creates a crossing laser-cell as a combination of a vertical and horizontal laser.
             else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)) {
                 layers.setLaserCell(i, j, crossLaser);
                 laserEndPositions.add(new GridPoint2(i, j));
@@ -91,7 +89,7 @@ public class Laser {
         }
     }
 
-    /**
+    /** Determines which direction the robot is firing it's laser.
      * @param direction The direction the robot is facing
      * @return an array with values that determines which direction the laser is being fired.
      */
@@ -212,7 +210,6 @@ public class Laser {
      * @param k The static x or y coordinate.
      * @return cannonId
      */
-
     private int findCannon(int i, int j, int k) {
         TileName laserTileName = tiledTranslator.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_VERTICAL) {
@@ -229,27 +226,29 @@ public class Laser {
         return 0;
     }
 
-    // Checks if the robot is in a laser instance.
+    /** Returns true if the robot is currently in a laser instance */
     public boolean gotPos(GridPoint2 pos) {
         return laserEndPositions.contains(pos);
     }
 
-    // Clears all stored coordinates.
     public void clearStoredCoordinates() {
         laserEndPositions.clear();
     }
 
-    // When robots shoot it is registered in the update method that it shall not put laser cells after clearing them.
     public void removeLaser() {
         this.removeLaser = true;
     }
 
-    // The coordinates of the laser cells.
     public ArrayList<GridPoint2> getCoords() {
         return this.laserEndPositions;
     }
 
-    // Identifies when to different laser cells intersect, creates a cross laser.
+    /**
+     * Identifies when to different laser cells intersect, creates a cross laser.
+     * @param i the x-position of the cell
+     * @param j the y-position of the cell
+     * @return false if there is a cross-laser present
+     */
     public boolean identifyLaser(int i, int j, boolean create) {
         if (layers.assertLaserNotNull(i, j)) {
             if (layers.getLaserID(i, j) == crossLaser.getTile().getId() && !create) {
@@ -279,7 +278,11 @@ public class Laser {
         return this.cannonPos;
     }
 
-    // At first use it creates the laser tiles for the laser class, else it returns the specific laser tile to use.
+    /**
+     * Creates laser tiles if they are not created.
+     * @param direction the direction the laser is going
+     * @return the laser cell.
+     */
     public TiledMapTileLayer.Cell getLaser(int direction) {
         if(storedLaserCell==null) {
             horizontalLaser = new TiledMapTileLayer.Cell();

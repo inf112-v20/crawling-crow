@@ -15,6 +15,7 @@ public class LaserRegister {
 
     /**
      * Makes lasers and adds them into a register of lasers the robot is active in.
+     * {@link #checkForLaser} to process the laser. {@link #makeTwoLasers} if the laser is a cross-laser.
      * @param id   the id of the laser, be it (47) vertical or (39) horizontal.
      * @param name The name of the robot
      * @param pos  The position of the robot
@@ -23,7 +24,7 @@ public class LaserRegister {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
         sound.play((float) 0.1);
         Laser laser = new Laser(id);
-        if (id!=40) {
+        if (id != TileName.LASER_CROSS.getTileID()) {
             laser.findLaser(pos);
             checkForLaser(name, laser);
         } else
@@ -51,8 +52,7 @@ public class LaserRegister {
     }
 
     /**
-     * Checks through the set of lasers the robot is in, if the new laser is from the same cannon.
-     * Adds a new laser if its not the same cannon. Updates the laser.
+     * Checks if the laser the robot is checking is already in the register, updates them and adds if not found.
      * @param name The name of the robot
      * @param newLaser  The new laser being added
      */
@@ -74,7 +74,11 @@ public class LaserRegister {
         }
     }
 
-    // Finds both the vertical and horizontal cannon. Adds them.
+    /**
+     * Finds both the vertical and horizontal cannon, checks them against other lasers in the register and adds them.
+     * @param name The name of the Robot
+     * @param pos the position of the robot
+     */
     public void makeTwoLasers(String name, GridPoint2 pos) {
         Laser horizontalLaser = new Laser(TileName.LASER_HORIZONTAL.getTileID());
         horizontalLaser.findLaser(pos);
