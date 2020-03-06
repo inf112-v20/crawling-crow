@@ -27,16 +27,6 @@ public class RobotState implements IRobotState {
     }
 
     @Override
-    public int getPositionX() {
-        return this.robotPosition.x;
-    }
-
-    @Override
-    public int getPositionY() {
-        return this.robotPosition.y;
-    }
-
-    @Override
     public GridPoint2 getCheckPoint() {
         return this.checkPoint;
     }

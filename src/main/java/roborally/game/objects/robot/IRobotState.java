@@ -11,10 +11,6 @@ public interface IRobotState {
 
     String getName();
 
-    int getPositionX();
-
-    int getPositionY();
-
     void setCheckPoint(int x, int y);
 
     GridPoint2 getCheckPoint();
