@@ -93,14 +93,14 @@ public class Robot implements IRobot {
         // Checks for robots in its path before moving.
         if(!listener.listenCollision(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
-                this.robotState.setPosition(new GridPoint2(newX, newY));
+                this.setPos(newX, newY);
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
                 listener.listenLaser(newX, newY, getName(), laserRegister);
                 if (layers.assertHoleNotNull(newX, newY)) {
                     this.setLostTexture();
                 }
-                this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
+                this.uiRobot.setDirection(getPosition(), this.direction);
             }
         }
         else
@@ -157,7 +157,7 @@ public class Robot implements IRobot {
         System.out.println(this.direction.toString());
 
         this.direction = Direction.turnRightFrom(this.direction);
-        this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
+        this.uiRobot.setDirection(getPosition(), this.direction);
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
@@ -171,7 +171,7 @@ public class Robot implements IRobot {
         System.out.println(this.direction.toString());
 
         this.direction = Direction.turnLeftFrom(this.direction);
-        this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
+        this.uiRobot.setDirection(getPosition(), this.direction);
 
         System.out.print("New direction: ");
         System.out.println(this.direction.toString());
@@ -220,7 +220,7 @@ public class Robot implements IRobot {
     @Override
     public void visitNextFlag() {
         this.setWinTexture();
-        this.uiRobot.setDirection(robotState.getPositionX(), robotState.getPositionY(), this.direction);
+        this.uiRobot.setDirection(getPosition(), this.direction);
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag-1] = true;

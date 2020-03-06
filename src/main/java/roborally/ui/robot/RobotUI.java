@@ -84,8 +84,8 @@ public class RobotUI implements IRobotUI {
     }
 
     @Override
-    public void setDirection(int x, int y, Direction direction) {
-        if (layers.assertRobotNotNull(x, y))
-            layers.getRobotCell(x, y).setRotation(direction.getDirectionID());
+    public void setDirection(GridPoint2 pos, Direction direction) {
+        if (layers.assertRobotNotNull(pos.x, pos.y))
+            layers.getRobotCell(pos.x, pos.y).setRotation(direction.getDirectionID());
     }
 }
