@@ -2,6 +2,7 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
+import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.listeners.Listener;
@@ -18,6 +19,7 @@ public class Robot implements IRobot {
     private Laser laser;
     private ILayers layers;
     private Listener listener;
+    private LaserRegister laserRegister;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -37,6 +39,7 @@ public class Robot implements IRobot {
         robotState.setCheckPoint(x, y);
         this.layers = new Layers();
         this.listener = new Listener(layers);
+        this.laserRegister = new LaserRegister();
 
     }
 
@@ -93,7 +96,7 @@ public class Robot implements IRobot {
                 this.robotState.setPosition(new GridPoint2(newX, newY));
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
-                listener.listenLaser(newX, newY, getName());
+                listener.listenLaser(newX, newY, getName(), laserRegister);
                 if (layers.assertHoleNotNull(newX, newY)) {
                     this.setLostTexture();
                 }

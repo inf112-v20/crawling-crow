@@ -1,7 +1,7 @@
 package roborally.ui.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.laser.Cannon;
+import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 
 public class LaserListener {
@@ -17,15 +17,14 @@ public class LaserListener {
      * @param y The y-coordinate the robot is moving to
      * @param name The name of the robot
      */
-    public void checkForLasers(int x, int y, String name) {
+    public void checkForLasers(int x, int y, String name, LaserRegister laserRegister) {
         GridPoint2 pos = new GridPoint2(x, y);
         int id;
-        Cannon cannon = new Cannon();
         if (layers.assertLaserNotNull(x, y)) {
             id = layers.getLaserID(x, y);
-            cannon.createLaser(id, pos, name);
+            laserRegister.createLaser(id, pos, name);
         }
         else
-            cannon.updateLaser(name, pos);
+            laserRegister.updateLaser(name, pos);
     }
 }

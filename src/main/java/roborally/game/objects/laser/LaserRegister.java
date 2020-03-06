@@ -6,10 +6,10 @@ import roborally.utilities.enums.TileName;
 
 import java.util.*;
 
-public class Cannon {
+public class LaserRegister {
     private HashMap<String, HashSet<Laser>> activeLasers;
 
-    public Cannon() {
+    public LaserRegister() {
         activeLasers = new HashMap<>();
     }
 
@@ -36,6 +36,8 @@ public class Cannon {
      * @param pos the position of the robot.
      */
     public void updateLaser(String name, GridPoint2 pos) {
+        System.out.println("yeah");
+        System.out.println(activeLasers.get(name));
         HashSet<Laser> temp = new HashSet<>();
         if (activeLasers.get(name) != null) {
             activeLasers.get(name).forEach(laser -> {
@@ -76,11 +78,11 @@ public class Cannon {
 
     // Finds both the vertical and horizontal cannon. Adds them.
     public void makeTwoLasers(String name, GridPoint2 pos) {
-        Laser laser = new Laser(TileName.LASER_HORIZONTAL.getTileID());
-        laser.findLaser(pos);
-        checkForLaser(name, laser);
-        Laser laser2 = new Laser(TileName.LASER_VERTICAL.getTileID());
-        laser2.findLaser(pos);
-        checkForLaser(name, laser2);
+        Laser horizontalLaser = new Laser(TileName.LASER_HORIZONTAL.getTileID());
+        horizontalLaser.findLaser(pos);
+        checkForLaser(name, horizontalLaser);
+        Laser verticalLaser = new Laser(TileName.LASER_VERTICAL.getTileID());
+        verticalLaser.findLaser(pos);
+        checkForLaser(name, verticalLaser);
     }
 }

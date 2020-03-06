@@ -1,21 +1,16 @@
 package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import roborally.game.objects.laser.Cannon;
 import roborally.utilities.AssetManagerUtil;
-
 import java.util.HashMap;
 
-// Getters for various layers in the current TiledMap. 
+// Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
     private HashMap<String,TiledMapTileLayer> layers;
-    private Cannon cannon;
 
     public Layers() {
         layers = new HashMap<>();
         layers = AssetManagerUtil.getLoadedLayers();
-        cannon = new Cannon();
-
     }
 
     @Override
@@ -278,10 +273,4 @@ public class Layers implements ILayers {
     public boolean assertBugNotNull(int x, int y) {
         return layers.get("bug").getCell(x, y) != null;
     }
-
-    @Override
-    public Cannon getCannon() {
-        return cannon;
-    }
-
 }

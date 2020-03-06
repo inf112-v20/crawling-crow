@@ -1,5 +1,6 @@
 package roborally.ui.listeners;
 
+import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 
 public class Listener {
@@ -22,7 +23,7 @@ public class Listener {
         return collisionListener.checkIfBlocked(x, y, dx, dy);
     }
 
-    public void listenLaser(int x, int y, String name) {
-        this.laserListener.checkForLasers(x, y, name);
+    public void listenLaser(int x, int y, String name, LaserRegister laserRegister) {
+        this.laserListener.checkForLasers(x, y, name, laserRegister);
     }
 }
