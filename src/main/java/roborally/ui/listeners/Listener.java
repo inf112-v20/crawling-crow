@@ -3,14 +3,12 @@ package roborally.ui.listeners;
 import roborally.ui.ILayers;
 
 public class Listener {
-    private ILayers layers;
     private WallListener wallListener;
     private CollisionListener collisionListener;
     private LaserListener laserListener;
 
     // Makes a new Listener to listen to the different listeners.
     public Listener(ILayers layers) {
-        this.layers = layers;
         this.wallListener = new WallListener(layers);
         this.collisionListener = new CollisionListener(layers);
         this.laserListener = new LaserListener(layers);

@@ -1,16 +1,7 @@
 package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Cannon;
-import roborally.game.objects.robot.IRobot;
-import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.enums.TileName;
-import roborally.utilities.tiledtranslator.TiledTranslator;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public interface ILayers {
 

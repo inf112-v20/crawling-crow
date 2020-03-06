@@ -55,7 +55,7 @@ public class WallListener {
         return wall;
     }
 
-    static HashMap<String, List<TileName>> makeWallMap() {
+    public HashMap<String, List<TileName>> makeWallMap() {
         HashMap<String, List<TileName>> mapOfWallNames = new HashMap<>();
         TileName[] tnNorth = {TileName.WALL_TOP, TileName.WALL_CORNER_TOP_LEFT, TileName.WALL_CORNER_TOP_RIGHT};
         TileName[] tnSouth = {TileName.WALL_BOTTOM, TileName.WALL_CORNER_BOTTOM_LEFT, TileName.WALL_CORNER_BOTTOM_RIGHT};

@@ -3,11 +3,8 @@ package roborally.ui;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.game.objects.laser.Cannon;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.enums.TileName;
-import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.HashMap;
-import java.util.List;
 
 // Getters for various layers in the current TiledMap. 
 public class Layers implements ILayers {

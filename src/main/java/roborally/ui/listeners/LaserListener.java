@@ -5,7 +5,7 @@ import roborally.game.objects.laser.Cannon;
 import roborally.ui.ILayers;
 
 public class LaserListener {
-    ILayers layers;
+    private ILayers layers;
 
     public LaserListener(ILayers layers) {
         this.layers = layers;

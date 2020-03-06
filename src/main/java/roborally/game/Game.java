@@ -1,7 +1,6 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
