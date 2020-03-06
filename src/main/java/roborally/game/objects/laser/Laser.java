@@ -150,9 +150,9 @@ public class Laser {
                 dx = 1;
                 i = j;
             }
-            this.cannonPos.set(i+dx, k);
+            this.cannonPos.set(i + dx, k);
             do {
-                laserEndPositions.add(new GridPoint2(i+=dx, k));
+                laserEndPositions.add(new GridPoint2(i += dx, k));
             } while (!wallListener.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
         return cannonTileID;
