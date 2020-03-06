@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
+import roborally.ui.listeners.Listener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 import roborally.ui.robot.IRobotUI;
@@ -16,6 +17,7 @@ public class Robot implements IRobot {
     private Direction direction;
     private Laser laser;
     private ILayers layers;
+    private Listener listener;
 
     // Constructor for testing the robot model.
     public Robot(RobotState robotState) {
@@ -34,6 +36,8 @@ public class Robot implements IRobot {
         laser = new Laser(0);
         robotState.setCheckPoint(x, y);
         this.layers = new Layers();
+        this.listener = new Listener(layers);
+
     }
 
     @Override
@@ -84,12 +88,12 @@ public class Robot implements IRobot {
         System.out.println("Old position: " + x + " " + y);
 
         // Checks for robots in its path before moving.
-        if(!layers.checkIfBlocked(x, y, dx, dy)) {
+        if(!listener.listenCollision(x, y, dx, dy)) {
             if (this.uiRobot.moveRobot(x, y, dx, dy)) {
                 this.robotState.setPosition(new GridPoint2(newX, newY));
                 System.out.println("New position: " + (newX) + " " + (newY));
                 clearLaser();
-                layers.checkForLasers(newX, newY, getName());
+                listener.listenLaser(newX, newY, getName());
                 if (layers.assertHoleNotNull(newX, newY)) {
                     this.setLostTexture();
                 }

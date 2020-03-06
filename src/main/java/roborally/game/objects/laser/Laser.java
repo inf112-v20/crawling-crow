@@ -3,6 +3,7 @@ package roborally.game.objects.laser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.ui.listeners.WallListener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.ITiledTranslator;
@@ -19,6 +20,7 @@ public class Laser {
 
     private ITiledTranslator tiledTranslator;
     private ILayers layers;
+    private WallListener wallListener;
 
     private GridPoint2 robotsOrigin;
     private GridPoint2 cannonPos;
@@ -29,7 +31,7 @@ public class Laser {
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
 
-    /**
+    /**7
      * Constructs a laser with a map of directions the lasers are going, as well as for the direction the cannons are going.
      * @param laserTileID Horizontal or Vertical laser.
      */
@@ -40,6 +42,7 @@ public class Laser {
         laserEndPositions = new ArrayList<>(); // Stores coordinates of laser-cells that are activated
         removeLaser = false;
         cannonPos = new GridPoint2();
+        wallListener = new WallListener(layers);
     }
 
     public void clearLaser() {
@@ -67,14 +70,14 @@ public class Laser {
         int j = robotsPos.y + dir[1];
 
         // Makes sure there's not a wall blocking the laser.
-        if (layers.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
+        if (wallListener.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
             // Makes sure it doesnt stack laser on top of other laser cells.
             if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
                 layers.setLaserCell(i, j, storedLaserCell);
                 laserEndPositions.add(new GridPoint2(i, j));
-                if (layers.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
+                if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
             }
@@ -150,7 +153,7 @@ public class Laser {
             this.cannonPos.set(i+dx, k);
             do {
                 laserEndPositions.add(new GridPoint2(i+=dx, k));
-            } while (!layers.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
+            } while (!wallListener.checkForWall(i, k, dx, 0) && i >= 0 && i <= layers.getWidth());
         }
         return cannonTileID;
     }
@@ -178,7 +181,7 @@ public class Laser {
             this.cannonPos.set(k, j + dy);
             do {
                 laserEndPositions.add(new GridPoint2(k, j+=dy));
-            } while (!layers.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
+            } while (!wallListener.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
         return cannonTileID;
     }
