@@ -133,7 +133,7 @@ public class Laser {
 
     /**
      * Finds the cannon projecting a horizontal laser, and stores the cells of the laser.
-     * Calls {@link #findCannon} with values where the laser cells end in x and y direction.
+     * Calls {@link #findCannon} with values where the laser cells end in a horizontal line.
      *
      * @return cannonId
      */
@@ -163,7 +163,7 @@ public class Laser {
 
     /**
      * Finds the cannon projecting a vertical laser, and stores laser cells.
-     * Calls {@link #findCannon} with values where the laser cells end in x and y direction.
+     * Calls {@link #findCannon} with values where the laser cells end in a vertical line.
      *
      * @return cannonId
      */
