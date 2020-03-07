@@ -21,7 +21,6 @@ public class RobotView implements IRobotView {
     private int height;
     private int width;
 
-    // Creates new UIRobot in position x and y.
     public RobotView(int x, int y) {
         this.pos = new GridPoint2(x, y);
         this.layers = new Layers();

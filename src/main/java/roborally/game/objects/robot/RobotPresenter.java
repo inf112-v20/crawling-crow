@@ -109,6 +109,7 @@ public class RobotPresenter implements IRobotPresenter {
         return true;
     }
 
+    // TODO: Refactor to RobotModel. One method here to call one of the two in RobotModel (forward, backward).
     @Override
     public boolean moveForward() {
         System.out.println(this.getName());
@@ -130,6 +131,7 @@ public class RobotPresenter implements IRobotPresenter {
         return move(dx, dy);
     }
 
+    // TODO: Refactor to RobotModel
     @Override
     public boolean moveBackward() {
         int dy = 0;
@@ -150,6 +152,7 @@ public class RobotPresenter implements IRobotPresenter {
         return move(dx, dy);
     }
 
+    // TODO: Refactor to RobotModel, same as move.
     @Override
     public void turnRight() {
         System.out.println("\nTurning right... ");
@@ -164,6 +167,7 @@ public class RobotPresenter implements IRobotPresenter {
         clearLaser(); // TODO: Move this, so it's called one time
     }
 
+    // TODO: Refactor to RobotModel.
     @Override
     public void turnLeft() {
         System.out.println("\nTurning left...");
@@ -198,6 +202,7 @@ public class RobotPresenter implements IRobotPresenter {
         return this.direction.getDirectionID();
     }
 
+    // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
     @Override
     public boolean hasVisitedAllFlags() {
         boolean visitedAll = true;
@@ -207,6 +212,7 @@ public class RobotPresenter implements IRobotPresenter {
         return visitedAll;
     }
 
+    // TODO: Refactor to RobotModel.
     @Override
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
@@ -217,6 +223,7 @@ public class RobotPresenter implements IRobotPresenter {
         return -1;
     }
 
+    // TODO: Refactor to RobotModel
     @Override
     public void visitNextFlag() {
         this.setWinTexture();
@@ -230,6 +237,7 @@ public class RobotPresenter implements IRobotPresenter {
             System.out.println("Next flag to visit: " + (nextFlag+1));
     }
 
+    //TODO: Refactor to RobotModel
     @Override
     public void setNumberOfFlags(int nFlags) {
         this.visitedFlags = new boolean[nFlags];
