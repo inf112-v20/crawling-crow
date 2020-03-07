@@ -54,7 +54,7 @@ public class CollisionListener {
     }
 
     /**
-     * Called from {@link #checkIfBlocked} if it is possible for the moving robot to bump into a robot.
+     * Called from {@link #checkIfBlocked} if the robot collides with another robot.
      * Moves the robots accordingly.
      *
      * @param x  the x position
@@ -87,8 +87,8 @@ public class CollisionListener {
     }
 
     /**
-     * Checks if the robot is blocked by another robot, true if the robot is on the edge. If not, then bumping
-     * with the method {@link #findCollidingRobot}
+     * Checks if the robot is blocked by another robot, true if that robot is blocked by a wall. If not,
+     * inspects further with {@link #robotNextToRobot} and collides with {@link #findCollidingRobot}
      *
      * @param x  the x position
      * @param y  the y position
