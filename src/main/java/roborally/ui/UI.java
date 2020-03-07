@@ -61,7 +61,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         camera.update();
 
         // Initialize the map renderer
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3/16f);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
     }
@@ -85,10 +85,10 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void resize(int width, int height) {
         // Maybe this can help us run the game even on smaller screen than Tim Cooks.
         Vector2 size = Scaling.fit.apply(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT, width, height);
-        int viewportX = (int)(width - size.x) / 2;
-        int viewportY = (int)(height - size.y) / 2;
-        int viewportWidth = (int)size.x;
-        int viewportHeight = (int)size.y;
+        int viewportX = (int) (width - size.x) / 2;
+        int viewportY = (int) (height - size.y) / 2;
+        int viewportWidth = (int) size.x;
+        int viewportHeight = (int) size.y;
         Gdx.gl.glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
         //stage.setViewport(800, 480, true, viewportX, viewportY, viewportWidth, viewportHeight);
     }
@@ -105,30 +105,30 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public boolean keyUp(int keycode) {
 
-        if(!game.isRunning()){
+        if (!game.isRunning()) {
             debugControls.getAction(keycode).run();
         }
 
-        if(game.isRunning()){
+        if (game.isRunning()) {
             // Start new round if no round is currently activ1e
-            if(game.currentRoundStep() == RoundStep.NULL_STEP){
+            if (game.currentRoundStep() == RoundStep.NULL_STEP) {
                 game.startNewRound();
             }
 
-            if(game.currentRoundStep() == RoundStep.PROGRAM_ROBOT){
+            if (game.currentRoundStep() == RoundStep.PROGRAM_ROBOT) {
                 programRobotControls.getAction(keycode).run();
             }
 
 
             // Decides what happens when we are running through phases
-            if(game.currentRoundStep() == RoundStep.PHASES){
+            if (game.currentRoundStep() == RoundStep.PHASES) {
 
-                if(game.currentPhaseStep() == PhaseStep.REVEAL_CARDS){
+                if (game.currentPhaseStep() == PhaseStep.REVEAL_CARDS) {
                     game.revealProgramCards();
                 }
 
                 // Handles logic when in "Check for winner step
-                if(game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER){
+                if (game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER) {
                     game.checkIfSomeoneWon();
                 }
             }

@@ -12,10 +12,6 @@ public enum Direction {
         this.directionId = directionId;
     }
 
-    public int getDirectionID(){
-        return this.directionId;
-    }
-
     public static Direction turnRightFrom(Direction direction) {
         return getDirection(direction, North, South);
     }
@@ -36,5 +32,9 @@ public enum Direction {
         } else {
             throw new IllegalStateException();
         }
+    }
+
+    public int getDirectionID() {
+        return this.directionId;
     }
 }
