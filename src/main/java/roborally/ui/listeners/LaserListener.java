@@ -11,10 +11,12 @@ public class LaserListener {
         this.layers = layers;
     }
 
-    /** Checks the laser the robot has stepped in against the register to update, remove or add the laser.
-     * @param x The x-coordinate the robot is moving to
-     * @param y The y-coordinate the robot is moving to
-     * @param name The name of the robot
+    /**
+     * Checks the laser the robot has stepped in against the register to update, remove or add the laser.
+     *
+     * @param x             The x-coordinate the robot is moving to
+     * @param y             The y-coordinate the robot is moving to
+     * @param name          The name of the robot
      * @param laserRegister the register.
      */
     public void checkForLasers(int x, int y, String name, LaserRegister laserRegister) {
@@ -23,8 +25,7 @@ public class LaserListener {
         if (layers.assertLaserNotNull(x, y)) {
             id = layers.getLaserID(x, y);
             laserRegister.createLaser(id, pos, name);
-        }
-        else
+        } else
             laserRegister.updateLaser(name, pos);
     }
 }

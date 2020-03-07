@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WallListener {
-    private HashMap<String,List<TileName>> mapOfWallNames;
+    private HashMap<String, List<TileName>> mapOfWallNames;
     private TiledTranslator tiledTranslator;
     private ILayers layers;
 
@@ -19,10 +19,12 @@ public class WallListener {
         this.layers = layers;
     }
 
-    /** A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
+    /**
+     * A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
      * tries to move.
-     * @param x the x position
-     * @param y the y position
+     *
+     * @param x  the x position
+     * @param y  the y position
      * @param dx steps taken in x-direction
      * @param dy steps taken in y-direction
      * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
@@ -30,7 +32,7 @@ public class WallListener {
     public boolean checkForWall(int x, int y, int dx, int dy) {
         boolean wall = false;
         TileName wallName;
-        if(layers.assertWallNotNull(x, y)) {
+        if (layers.assertWallNotNull(x, y)) {
             wallName = tiledTranslator.getTileName(layers.getWallID(x, y));
             if (dy > 0)
                 wall = mapOfWallNames.get("North").contains(wallName);
@@ -41,7 +43,7 @@ public class WallListener {
             else if (dx < 0)
                 wall = mapOfWallNames.get("West").contains(wallName);
         }
-        if(layers.assertWallNotNull(x + dx, y + dy) && !wall) {
+        if (layers.assertWallNotNull(x + dx, y + dy) && !wall) {
             wallName = tiledTranslator.getTileName(layers.getWallID(x + dx, y + dy));
             if (dy > 0)
                 return mapOfWallNames.get("South").contains(wallName);
