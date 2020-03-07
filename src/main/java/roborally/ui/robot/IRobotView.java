@@ -41,8 +41,7 @@ public interface IRobotView {
     boolean moveRobot(int x, int y, int dx, int dy);
 
     /**
-     *
-     * @param pos the Position
+     * @param pos       the Position
      * @param direction The direction the robot is now facing.
      */
     void setDirection(GridPoint2 pos, Direction direction);

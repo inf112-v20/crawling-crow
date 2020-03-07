@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.enums.Direction;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.UI;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.Direction;
 
 public class RobotView implements IRobotView {
 
@@ -66,7 +66,7 @@ public class RobotView implements IRobotView {
         int newY = y + dy;
         if ((newX >= 0) && (newY >= 0) && (newX < width) && (newY < height)) {
             layers.setRobotCell(newX, newY, getTexture());
-            layers.setRobotCell(x, y,null);
+            layers.setRobotCell(x, y, null);
             return true;
         }
         return false;
@@ -76,7 +76,7 @@ public class RobotView implements IRobotView {
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
         layers.setRobotCell(checkPoint.x, checkPoint.y, getTexture());
         layers.getRobotCell(checkPoint.x, checkPoint.y).setRotation(0);
-        if(!pos.equals(checkPoint))
+        if (!pos.equals(checkPoint))
             layers.setRobotCell(pos.x, pos.y, null);
     }
 

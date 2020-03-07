@@ -2,11 +2,12 @@ package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import roborally.utilities.AssetManagerUtil;
+
 import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
-    private HashMap<String,TiledMapTileLayer> layers;
+    private HashMap<String, TiledMapTileLayer> layers;
 
     public Layers() {
         layers = new HashMap<>();
@@ -55,13 +56,15 @@ public class Layers implements ILayers {
     // Walls
     @Override
     public TiledMapTileLayer getWall() {
-        return layers.get("Wall"); }
+        return layers.get("Wall");
+    }
 
     @Override
     public TiledMapTileLayer.Cell getWallCell(int x, int y) {
         if (!contains("Wall"))
             return null;
-        return layers.get("Wall").getCell(x, y); }
+        return layers.get("Wall").getCell(x, y);
+    }
 
     @Override
     public boolean assertWallNotNull(int x, int y) {
@@ -134,7 +137,7 @@ public class Layers implements ILayers {
 
     @Override
     public int getFlagID(int x, int y) {
-        if(contains("Flag"))
+        if (contains("Flag"))
             return layers.get("Flag").getCell(x, y).getTile().getId();
         else
             System.out.println("Flag layer does not exist");
@@ -208,6 +211,7 @@ public class Layers implements ILayers {
         System.out.println("wrenchHammer layer does not exist");
         return false;
     }
+
     // Lasers
     @Override
     public TiledMapTileLayer getLaser() {
@@ -239,7 +243,7 @@ public class Layers implements ILayers {
 
     @Override
     public int getLaserID(int x, int y) {
-        if(contains("Laser"))
+        if (contains("Laser"))
             return layers.get("Laser").getCell(x, y).getTile().getId();
         else
             System.out.println("Laser layer does not exist");
@@ -248,7 +252,7 @@ public class Layers implements ILayers {
 
     @Override
     public int getLaserCannonID(int x, int y) {
-        if(contains("laserCannon"))
+        if (contains("laserCannon"))
             return layers.get("laserCannon").getCell(x, y).getTile().getId();
         else
             System.out.println("laserCannon layer does not exist");
@@ -269,6 +273,7 @@ public class Layers implements ILayers {
     public TiledMapTileLayer getBug() {
         return layers.get("bug");
     }
+
     @Override
     public boolean assertBugNotNull(int x, int y) {
         return layers.get("bug").getCell(x, y) != null;

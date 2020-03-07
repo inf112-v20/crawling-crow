@@ -11,17 +11,17 @@ import java.util.HashMap;
 
 public class ReadAndWriteLayers {
     // Potential stuff we might call the layers when creating maps, feel free to add some! =)
-    public  String[][] readLayerNames() {
-        String[][] layerNames = new String[getNumberOfLinesInLayerNames()-1][2];
+    public String[][] readLayerNames() {
+        String[][] layerNames = new String[getNumberOfLinesInLayerNames() - 1][2];
         String[] string;
         int i = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
             while (!(string = br.readLine().split(" "))[0].equals("end")) {
-                layerNames[i][0] = string[0]; layerNames[i++][1] = string[1];
+                layerNames[i][0] = string[0];
+                layerNames[i++][1] = string[1];
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return layerNames;
@@ -32,10 +32,9 @@ public class ReadAndWriteLayers {
         int count = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("assets/maps/layerNames.txt"));
-            while(br.readLine()!=null)
+            while (br.readLine() != null)
                 count++;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return count;
@@ -45,7 +44,7 @@ public class ReadAndWriteLayers {
     public HashMap<String, TiledMapTileLayer> createLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
         String[][] layerNames = readLayerNames();
-        for(MapLayer layer : tiledMap.getLayers()) {
+        for (MapLayer layer : tiledMap.getLayers()) {
             TiledMapTileLayer key = (TiledMapTileLayer) layer;
             boolean layerImpl = false;
             String s = key.getName().toLowerCase();
