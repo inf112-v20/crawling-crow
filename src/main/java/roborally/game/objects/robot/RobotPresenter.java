@@ -6,10 +6,10 @@ import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.listeners.Listener;
-import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.enums.Direction;
 import roborally.ui.robot.IRobotView;
 import roborally.ui.robot.RobotView;
+import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.Direction;
 
 public class RobotPresenter implements IRobotPresenter {
     private IRobotView robotView;
@@ -90,7 +90,7 @@ public class RobotPresenter implements IRobotPresenter {
         System.out.println("Old position: " + x + " " + y);
 
         // Checks for robots in its path before moving.
-        if(!listener.listenCollision(x, y, dx, dy)) {
+        if (!listener.listenCollision(x, y, dx, dy)) {
             if (this.robotView.moveRobot(x, y, dx, dy)) {
                 this.setPos(newX, newY);
                 System.out.println("New position: " + (newX) + " " + (newY));
@@ -101,8 +101,7 @@ public class RobotPresenter implements IRobotPresenter {
                 }
                 this.robotView.setDirection(getPosition(), this.direction);
             }
-        }
-        else
+        } else
             System.out.println("New position: " + x + " " + y);
         // update checkpoints etc.
         return true;
@@ -117,13 +116,16 @@ public class RobotPresenter implements IRobotPresenter {
         System.out.println("\nMoving forward...");
 
         Direction dir = this.direction;
-        if(dir == Direction.North){
+        if (dir == Direction.North) {
             dy = 1;
-        } if(dir == Direction.East){
+        }
+        if (dir == Direction.East) {
             dx = 1;
-        } if(dir == Direction.West){
+        }
+        if (dir == Direction.West) {
             dx = -1;
-        } if(dir == Direction.South){
+        }
+        if (dir == Direction.South) {
             dy = -1;
         }
 
@@ -138,13 +140,16 @@ public class RobotPresenter implements IRobotPresenter {
         System.out.println("\nMoving backwards...");
 
         Direction dir = this.direction;
-        if(dir == Direction.North){
+        if (dir == Direction.North) {
             dy = -1;
-        } if(dir == Direction.East){
+        }
+        if (dir == Direction.East) {
             dx = -1;
-        } if(dir == Direction.West){
+        }
+        if (dir == Direction.West) {
             dx = 1;
-        } if(dir == Direction.South){
+        }
+        if (dir == Direction.South) {
             dy = 1;
         }
 
@@ -197,7 +202,7 @@ public class RobotPresenter implements IRobotPresenter {
     }
 
     @Override
-    public int getDirectionID(){
+    public int getDirectionID() {
         return this.direction.getDirectionID();
     }
 
@@ -205,7 +210,7 @@ public class RobotPresenter implements IRobotPresenter {
     @Override
     public boolean hasVisitedAllFlags() {
         boolean visitedAll = true;
-        for(boolean visitedFlag : visitedFlags){
+        for (boolean visitedFlag : visitedFlags) {
             visitedAll = visitedAll && visitedFlag;
         }
         return visitedAll;
@@ -216,7 +221,7 @@ public class RobotPresenter implements IRobotPresenter {
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
             if (!visitedFlags[i]) {
-                return i+1;
+                return i + 1;
             }
         }
         return -1;
@@ -229,11 +234,11 @@ public class RobotPresenter implements IRobotPresenter {
         this.robotView.setDirection(getPosition(), this.direction);
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
-        visitedFlags[nextFlag-1] = true;
-        if(nextFlag == visitedFlags.length)
+        visitedFlags[nextFlag - 1] = true;
+        if (nextFlag == visitedFlags.length)
             System.out.println("Congratulations you have collected all the flags, press 'W' to win the game.");
         else
-            System.out.println("Next flag to visit: " + (nextFlag+1));
+            System.out.println("Next flag to visit: " + (nextFlag + 1));
     }
 
     //TODO: Refactor to RobotModel

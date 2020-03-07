@@ -17,13 +17,13 @@ public class RobotModel implements IRobotModel {
     }
 
     @Override
-    public void setPosition(GridPoint2 pos) {
-        this.robotPosition = pos;
+    public GridPoint2 getPosition() {
+        return this.robotPosition;
     }
 
     @Override
-    public GridPoint2 getPosition() {
-        return this.robotPosition;
+    public void setPosition(GridPoint2 pos) {
+        this.robotPosition = pos;
     }
 
     @Override
