@@ -26,7 +26,6 @@ public class RobotPresenter implements IRobotPresenter {
         this.robotState = robotState;
     }
 
-    // Creates new RobotCore wth a robot shell to update its movement and a ui\view to update its graphic interface.
     public RobotPresenter(int x, int y, int cellId) {
         IRobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);

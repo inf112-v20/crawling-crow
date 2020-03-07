@@ -7,8 +7,8 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.IRobotPresenter;
 import roborally.game.objects.robot.RobotPresenter;
-import roborally.utilities.AssetManagerUtil;
 import roborally.ui.ILayers;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
@@ -37,13 +37,13 @@ public class Game implements IGame {
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
         robots = AssetManagerUtil.makeRobots();
-        for(IRobotPresenter robot : robots)
+        for (IRobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());
     }
 
 
     public Game(boolean runAIGame) {
-        assert(runAIGame);
+        assert (runAIGame);
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         AssetManagerUtil.makeAIRobots();
@@ -52,14 +52,14 @@ public class Game implements IGame {
 
     @Override
     public boolean funMode() {
-        if(!funMode) {
+        if (!funMode) {
             funMode = true;
             return false;
         }
         robots = null;
-        robots = new RobotPresenter[layers.getHeight()*layers.getWidth()];
+        robots = new RobotPresenter[layers.getHeight() * layers.getWidth()];
         int it = 0;
-        for(int j = 0; j < layers.getWidth(); j++) {
+        for (int j = 0; j < layers.getWidth(); j++) {
             for (int k = 0; k < layers.getHeight(); k++) {
                 robots[it] = new RobotPresenter(j, k, k % 8);
                 robots[it].setNumberOfFlags(flags.size());
@@ -72,7 +72,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public ILayers getLayers(){
+    public ILayers getLayers() {
         return this.layers;
     }
 
@@ -95,9 +95,9 @@ public class Game implements IGame {
     }
 
     @Override
-    public void startGame(){
-        assert(!gameRunning);
-        if(DEBUG){
+    public void startGame() {
+        assert (!gameRunning);
+        if (DEBUG) {
             System.out.println("\nGame started...");
         }
         gameRunning = true;
@@ -114,13 +114,13 @@ public class Game implements IGame {
 
     @Override
     public void startNewRound() {
-        assert(gameRunning);
-        assert(roundStep == RoundStep.NULL_STEP);
-        assert(phaseStep == PhaseStep.NULL_PHASE);
+        assert (gameRunning);
+        assert (roundStep == RoundStep.NULL_STEP);
+        assert (phaseStep == PhaseStep.NULL_PHASE);
 
         roundStep = RoundStep.ANNOUNCE_POWERDOWN;
 
-        if(DEBUG) {
+        if (DEBUG) {
             System.out.println("\nRound started...");
             System.out.println("Entering " + roundStep + "...");
             System.out.println("Waiting for input..");
@@ -128,12 +128,12 @@ public class Game implements IGame {
     }
 
     @Override
-    public RoundStep currentRoundStep(){
+    public RoundStep currentRoundStep() {
         return roundStep;
     }
 
     @Override
-    public boolean isRunning(){
+    public boolean isRunning() {
         return gameRunning;
     }
 
@@ -144,7 +144,7 @@ public class Game implements IGame {
 
     // It reset game states at the end of a round
     private void cleanUp() {
-        assert(gameRunning);
+        assert (gameRunning);
         roundStep = RoundStep.NULL_STEP;
         phaseStep = PhaseStep.NULL_PHASE;
     }
@@ -198,38 +198,38 @@ public class Game implements IGame {
 
     @Override
     public boolean checkIfSomeoneWon() {
-        assert(gameRunning);
-        assert(roundStep == RoundStep.PHASES);
-        assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
-        if(DEBUG) System.out.println("\nChecking if someone won...");
+        assert (gameRunning);
+        assert (roundStep == RoundStep.PHASES);
+        assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
+        if (DEBUG) System.out.println("\nChecking if someone won...");
 
         boolean someoneWon = checkAllRobotsForWinner();
-        if(someoneWon){
+        if (someoneWon) {
             endGame();
         }
 
-        if(DEBUG) System.out.println("Found winner: " + someoneWon);
+        if (DEBUG) System.out.println("Found winner: " + someoneWon);
         return someoneWon;
     }
 
     private boolean checkAllRobotsForWinner() {
-        assert(gameRunning);
-        assert(roundStep == RoundStep.PHASES);
-        assert(phaseStep == PhaseStep.CHECK_FOR_WINNER);
+        assert (gameRunning);
+        assert (roundStep == RoundStep.PHASES);
+        assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for(IRobotPresenter robot : robots){
-            if (robot.hasVisitedAllFlags()){
+        for (IRobotPresenter robot : robots) {
+            if (robot.hasVisitedAllFlags()) {
                 winner = robot;
             }
         }
 
-        return(winner != null);
+        return (winner != null);
     }
 
     private boolean checkAllRobotsAreCreated() {
-        boolean robotsAreCreated =true;
-        if(robots == null) {
+        boolean robotsAreCreated = true;
+        if (robots == null) {
             robotsAreCreated = false;
         } else {
             for (IRobotPresenter robot : robots) {
@@ -239,7 +239,7 @@ public class Game implements IGame {
                 }
             }
         }
-        if(!robotsAreCreated){
+        if (!robotsAreCreated) {
             throw new IllegalStateException("Robots are not created");
         }
         return true;
@@ -252,9 +252,9 @@ public class Game implements IGame {
 
     @Override
     public void endGame() {
-        assert(gameRunning);
+        assert (gameRunning);
         //if(DEBUG){
-            //System.out.println("Stopping game...");
+        //System.out.println("Stopping game...");
         //}
         cleanUp();
         gameRunning = false;
@@ -269,15 +269,15 @@ public class Game implements IGame {
     public void moveRobots() {
         Random r = new Random();
         int m;
-        for(IRobotPresenter robot : robots) {
+        for (IRobotPresenter robot : robots) {
             m = r.nextInt(4);
-            if(m == 0)
+            if (m == 0)
                 robot.turnLeft();
-            else if(m == 1)
+            else if (m == 1)
                 robot.moveForward();
-            else if(m == 2)
+            else if (m == 2)
                 robot.moveBackward();
-            else if(m == 3)
+            else if (m == 3)
                 robot.turnRight();
         }
     }

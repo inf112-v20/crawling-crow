@@ -1,10 +1,12 @@
 package roborally.game.objects.laser;
+
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class LaserRegister {
     private HashMap<String, HashSet<Laser>> activeLasers;
@@ -16,6 +18,7 @@ public class LaserRegister {
     /**
      * Makes lasers and adds them into a register of lasers the robot is active in.
      * {@link #checkForLaser} to process the laser. {@link #makeTwoLasers} if the laser is a cross-laser.
+     *
      * @param id   the id of the laser, be it (47) vertical or (39) horizontal.
      * @param name The name of the robot
      * @param pos  The position of the robot
@@ -33,8 +36,9 @@ public class LaserRegister {
 
     /**
      * See if the robot still is in one of the laser it is registered in, removes the ones it is no longer in.
+     *
      * @param name The name of the robot
-     * @param pos the position of the robot.
+     * @param pos  the position of the robot.
      */
     public void updateLaser(String name, GridPoint2 pos) {
         HashSet<Laser> temp = new HashSet<>();
@@ -43,8 +47,7 @@ public class LaserRegister {
                 laser.update();
                 if (laser.gotPos(pos)) {
                     System.out.println("Cannon at " + laser.getPos());
-                }
-                else
+                } else
                     temp.add(laser);
             });
             temp.forEach(laser -> activeLasers.get(name).remove(laser));
@@ -53,8 +56,9 @@ public class LaserRegister {
 
     /**
      * Checks if the laser the robot is checking is already in the register, updates them and adds if not found.
-     * @param name The name of the robot
-     * @param newLaser  The new laser being added
+     *
+     * @param name     The name of the robot
+     * @param newLaser The new laser being added
      */
     public void checkForLaser(String name, Laser newLaser) {
         boolean hasLaser = false;
@@ -65,10 +69,9 @@ public class LaserRegister {
                 if (laser.getPos().equals(newLaser.getPos()))
                     hasLaser = true;
             }
-        }
-        else
+        } else
             activeLasers.put(name, new HashSet<>());
-        if(!hasLaser) {
+        if (!hasLaser) {
             activeLasers.get(name).add(newLaser);
             newLaser.update(); // update
         }
@@ -76,8 +79,9 @@ public class LaserRegister {
 
     /**
      * Finds both the vertical and horizontal cannon, checks them against other lasers in the register and adds them.
+     *
      * @param name The name of the Robot
-     * @param pos the position of the robot
+     * @param pos  the position of the robot
      */
     public void makeTwoLasers(String name, GridPoint2 pos) {
         Laser horizontalLaser = new Laser(TileName.LASER_HORIZONTAL.getTileID());

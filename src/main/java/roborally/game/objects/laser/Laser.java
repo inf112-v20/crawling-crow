@@ -3,12 +3,12 @@ package roborally.game.objects.laser;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.ui.ILayers;
+import roborally.ui.Layers;
 import roborally.ui.listeners.WallListener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.ITiledTranslator;
-import roborally.ui.ILayers;
-import roborally.ui.Layers;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class Laser {
 
     /**
      * Constructs a new laser.
+     *
      * @param laserTileID Horizontal or Vertical laser.
      */
     public Laser(int laserTileID) {
@@ -54,6 +55,7 @@ public class Laser {
     /**
      * Shoots a laser until it hits a wall or a robot. Stores the cells for clearing them after.
      * {@link #setDirection(int direction)} to figure out the iterative values to shoot with.
+     *
      * @param robotsPos The position of the robot that is shooting the laser.
      * @param direction The direction the robot is looking.
      */
@@ -79,8 +81,7 @@ public class Laser {
                 if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
-            }
-            else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)) {
+            } else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)) {
                 layers.setLaserCell(i, j, crossLaser);
                 laserEndPositions.add(new GridPoint2(i, j));
             }
@@ -89,7 +90,9 @@ public class Laser {
         }
     }
 
-    /** Determines which direction the robot is firing it's laser.
+    /**
+     * Determines which direction the robot is firing it's laser.
+     *
      * @param direction The direction the robot is facing
      * @return an array with values that determines which direction the laser is being fired.
      */
@@ -109,6 +112,7 @@ public class Laser {
 
     /**
      * Finds the laser cannon and adds the coordinates of its projected laser.
+     *
      * @param robotsOrigin The position the robot is or was currently in.
      */
     public void findLaser(GridPoint2 robotsOrigin) {
@@ -119,8 +123,7 @@ public class Laser {
         if (laserTileName == TileName.LASER_HORIZONTAL) {
             storedLaserCell = getLaser(1);
             cannonId = findHorizontal();
-        }
-        else if (laserTileName == TileName.LASER_VERTICAL) {
+        } else if (laserTileName == TileName.LASER_VERTICAL) {
             storedLaserCell = getLaser(2);
             cannonId = findVertical();
         }
@@ -130,6 +133,7 @@ public class Laser {
 
     /**
      * Finds the cannon projecting a horizontal laser, and stores the cells of the laser.
+     *
      * @return cannonId
      */
     public int findHorizontal() {
@@ -142,7 +146,7 @@ public class Laser {
         if (cannonTileID != 0) {
             int dx;
             TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
-            if(cannonTileName == TileName.WALL_CANNON_RIGHT)
+            if (cannonTileName == TileName.WALL_CANNON_RIGHT)
                 dx = -1;
             else {
                 dx = 1;
@@ -158,6 +162,7 @@ public class Laser {
 
     /**
      * Finds the cannon projecting a vertical laser, and stores laser cells.
+     *
      * @return cannonId
      */
     public int findVertical() {
@@ -170,7 +175,7 @@ public class Laser {
         if (cannonTileID != 0) {
             int dy;
             TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
-            if(cannonTileName == TileName.WALL_CANNON_BOTTOM)
+            if (cannonTileName == TileName.WALL_CANNON_BOTTOM)
                 dy = 1;
             else {
                 dy = -1;
@@ -178,7 +183,7 @@ public class Laser {
             }
             this.cannonPos.set(k, j + dy);
             do {
-                laserEndPositions.add(new GridPoint2(k, j+=dy));
+                laserEndPositions.add(new GridPoint2(k, j += dy));
             } while (!wallListener.checkForWall(k, j, 0, dy) && j >= 0 && j <= layers.getHeight());
         }
         return cannonTileID;
@@ -190,13 +195,13 @@ public class Laser {
      */
     public void update() {
         for (GridPoint2 pos : laserEndPositions) {
-            if(identifyLaser(pos.x, pos.y, false))
+            if (identifyLaser(pos.x, pos.y, false))
                 layers.setLaserCell(pos.x, pos.y, null);
         }
         if (removeLaser)
             return;
         for (GridPoint2 pos : laserEndPositions) {
-            if(identifyLaser(pos.x, pos.y, true))
+            if (identifyLaser(pos.x, pos.y, true))
                 layers.setLaserCell(pos.x, pos.y, this.storedLaserCell);
             if (layers.assertRobotNotNull(pos.x, pos.y))
                 break;
@@ -205,6 +210,7 @@ public class Laser {
 
     /**
      * Calculates where the laser is coming from.
+     *
      * @param i The negative sides endpoint (down or left) which the laser might be coming from.
      * @param j The positive sides endpoint (up or right) which the laser might be coming from.
      * @param k The static x or y coordinate.
@@ -226,7 +232,9 @@ public class Laser {
         return 0;
     }
 
-    /** Returns true if the robot is currently in a laser instance */
+    /**
+     * Returns true if the robot is currently in a laser instance
+     */
     public boolean gotPos(GridPoint2 pos) {
         return laserEndPositions.contains(pos);
     }
@@ -245,6 +253,7 @@ public class Laser {
 
     /**
      * Identifies when to different laser cells intersect, creates a cross laser.
+     *
      * @param i the x-position of the cell
      * @param j the y-position of the cell
      * @return false if there is a cross-laser present
@@ -260,31 +269,30 @@ public class Laser {
                 else
                     layers.setLaserCell(i, j, verticalLaser);
                 return false;
-            }
-            else if (layers.getLaserID(i, j) != storedLaserCell.getTile().getId() && create) {
+            } else if (layers.getLaserID(i, j) != storedLaserCell.getTile().getId() && create) {
                 layers.setLaserCell(i, j, crossLaser);
                 return false;
-            }
-            else return layers.getLaserID(i, j) == storedLaserCell.getTile().getId() || create;
+            } else return layers.getLaserID(i, j) == storedLaserCell.getTile().getId() || create;
         }
         return true;
     }
 
-    public int getId() { // TODO: This should be in Cannon class
+    public int getId() {
         return this.cannonTileID;
     }
 
-    public GridPoint2 getPos () { // TODO: This should be in Cannon class
+    public GridPoint2 getPos() {
         return this.cannonPos;
     }
 
     /**
      * Creates laser tiles if they are not created.
+     *
      * @param direction the direction the laser is going
      * @return the laser cell.
      */
     public TiledMapTileLayer.Cell getLaser(int direction) {
-        if(storedLaserCell==null) {
+        if (storedLaserCell == null) {
             horizontalLaser = new TiledMapTileLayer.Cell();
             horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(TileName.LASER_HORIZONTAL.getTileID()));
 
