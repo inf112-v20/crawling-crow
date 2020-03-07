@@ -82,7 +82,7 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
-    // Only one robotTexture so far but can add more and return a list.
+    /** Returns the robotTexture in position i, in chronological order */
     public static Texture getRobotTexture (int i) {
         Texture[] robotTexture = new Texture[8];
         robotTexture[0] = manager.get(ANGRY);
@@ -100,6 +100,7 @@ public class AssetManagerUtil {
         manager.clear();
     }
 
+    /** Returns the map that is loaded into the current game. */
     public static TiledMap getLoadedMap() {
         if (loadedMap == null) {
             loadedMap = manager.get(MAP_TEST2);
@@ -107,6 +108,7 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
+    /** Returns a HashMap with the layers of the current TiledMap. */
     public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
         if(layers==null) {
             ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
@@ -132,6 +134,7 @@ public class AssetManagerUtil {
         ai[7] = new AI(6,4, 7);
     }
 
+    /** Sets the robots array to be something different for other game modes */
     public static void setRobots(IRobotPresenter[] robotPresenters) {
         robots = robotPresenters;
     }
@@ -144,7 +147,7 @@ public class AssetManagerUtil {
         return ai;
     }
 
-    // Default Robots robots
+    // Default Robots
     public static IRobotPresenter[] makeRobots() {
         robots = new RobotPresenter[8];
         robots[0] = new RobotPresenter(5, 0, 0);
