@@ -133,6 +133,7 @@ public class Laser {
 
     /**
      * Finds the cannon projecting a horizontal laser, and stores the cells of the laser.
+     * Calls {@link #findCannon} with values where the laser cells end in x and y direction.
      *
      * @return cannonId
      */
@@ -162,6 +163,7 @@ public class Laser {
 
     /**
      * Finds the cannon projecting a vertical laser, and stores laser cells.
+     * Calls {@link #findCannon} with values where the laser cells end in x and y direction.
      *
      * @return cannonId
      */
@@ -191,7 +193,7 @@ public class Laser {
 
     /**
      * Updates the cannon when there is activity, and continues to do so until it is registered in Lasers
-     * that no robot is no longer active in the laser.
+     * that no robot is no longer active in the laser. Calls {@link #identifyLaser} to handle cross-lasers.
      */
     public void update() {
         for (GridPoint2 pos : laserEndPositions) {
@@ -232,9 +234,7 @@ public class Laser {
         return 0;
     }
 
-    /**
-     * Returns true if the robot is currently in a laser instance
-     */
+    /** Returns true if the robot is currently in a laser instance */
     public boolean gotPos(GridPoint2 pos) {
         return laserEndPositions.contains(pos);
     }
@@ -256,7 +256,7 @@ public class Laser {
      *
      * @param i the x-position of the cell
      * @param j the y-position of the cell
-     * @return false if there is a cross-laser present
+     * @return false if there is a cross-laser present, or if logic determines there to be one.
      */
     public boolean identifyLaser(int i, int j, boolean create) {
         if (layers.assertLaserNotNull(i, j)) {
