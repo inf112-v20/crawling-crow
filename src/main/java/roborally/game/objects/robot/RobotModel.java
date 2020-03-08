@@ -6,6 +6,8 @@ public class RobotModel implements IRobotModel {
     private String name;
     private GridPoint2 robotPosition;
     private GridPoint2 checkPoint;
+    private int health = 10;
+    private int reboots = 3;
 
     public RobotModel(String name) {
         this.name = name;
@@ -30,6 +32,12 @@ public class RobotModel implements IRobotModel {
     public GridPoint2 getCheckPoint() {
         return this.checkPoint;
     }
+
+    @Override
+    public int getHealth() { return health; }
+
+    @Override
+    public int getReboots() { return reboots; }
 
     @Override
     public void setCheckPoint(int x, int y) {
