@@ -34,13 +34,32 @@ public class RobotModel implements IRobotModel {
     }
 
     @Override
-    public int getHealth() { return health; }
+    public int getHealth() {
+        return health;
+    }
 
     @Override
-    public int getReboots() { return reboots; }
+    public int getReboots() {
+        return reboots;
+    }
 
     @Override
     public void setCheckPoint(int x, int y) {
         this.checkPoint = new GridPoint2(x, y);
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        this.health -= damage;
+    }
+
+    @Override
+    public String getStatus() {
+        if (this.health < 5 && this.health > 0)
+            return "Badly damaged";
+        else if (this.health <= 0)
+            return "Destroyed";
+        else
+            return "Everything ok!";
     }
 }

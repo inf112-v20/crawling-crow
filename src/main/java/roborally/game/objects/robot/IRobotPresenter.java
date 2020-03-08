@@ -28,6 +28,8 @@ public interface IRobotPresenter {
 
     Laser getLaser();
 
+    IRobotModel getModel();
+
 
     /**
      * Sends the robot back to its checkpoint.

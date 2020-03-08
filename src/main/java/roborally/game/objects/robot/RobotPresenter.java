@@ -13,7 +13,7 @@ import roborally.utilities.enums.Direction;
 
 public class RobotPresenter implements IRobotPresenter {
     private IRobotView robotView;
-    private IRobotModel robotState;
+    private IRobotModel robotModel;
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
@@ -22,20 +22,20 @@ public class RobotPresenter implements IRobotPresenter {
     private LaserRegister laserRegister;
 
     // Constructor for testing the robot model.
-    public RobotPresenter(RobotModel robotState) {
-        this.robotState = robotState;
+    public RobotPresenter(RobotModel robotModel) {
+        this.robotModel = robotModel;
     }
 
     public RobotPresenter(int x, int y, int cellId) {
         IRobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
-        this.robotState = robotModel;
+        this.robotModel = robotModel;
         this.robotView = robotView;
         setPos(x, y);
         this.direction = Direction.North;
         this.setTextureRegion(cellId);
         laser = new Laser(0);
-        robotState.setCheckPoint(x, y);
+        this.robotModel.setCheckPoint(x, y);
         this.layers = new Layers();
         this.listener = new Listener(layers);
         this.laserRegister = new LaserRegister();
@@ -44,18 +44,23 @@ public class RobotPresenter implements IRobotPresenter {
 
     @Override
     public String getName() {
-        return this.robotState.getName();
+        return this.robotModel.getName();
+    }
+
+    @Override
+    public IRobotModel getModel() {
+        return this.robotModel;
     }
 
     @Override
     public GridPoint2 getPosition() {
-        return robotState.getPosition();
+        return robotModel.getPosition();
     }
 
     @Override
     public void backToCheckPoint() {
-        robotView.goToCheckPoint(this.getPosition(), robotState.getCheckPoint());
-        this.robotState.setPosition(robotState.getCheckPoint());
+        robotView.goToCheckPoint(this.getPosition(), robotModel.getCheckPoint());
+        this.robotModel.setPosition(robotModel.getCheckPoint());
         this.direction = Direction.North;
     }
 
@@ -188,7 +193,7 @@ public class RobotPresenter implements IRobotPresenter {
 
     @Override
     public void setPos(int x, int y) {
-        this.robotState.setPosition(new GridPoint2(x, y));
+        this.robotModel.setPosition(new GridPoint2(x, y));
     }
 
     @Override
