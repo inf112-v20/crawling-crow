@@ -2,6 +2,7 @@ package roborally.ui;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,7 +50,7 @@ public class Menu extends InputAdapter implements ApplicationListener {
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == 41 && i == 1)
+        if (keycode == Input.Keys.M && i == 1)
             resume = true;
         return true;
     }
