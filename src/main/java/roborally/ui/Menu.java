@@ -7,10 +7,13 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import roborally.utilities.AssetManagerUtil;
+
+import java.util.Random;
 
 
 // Learn more about menu badlogicgames.com -> InputAdapter
@@ -20,14 +23,16 @@ public class Menu extends InputAdapter implements ApplicationListener {
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private int i = 0;
+    private int nextMap = 0;
     private boolean resume;
     private Vector2 mouseScreenPosition;
     private Vector2 mouseLocalPosition;
     private Actor actor;
-
-    public Menu() {
+    private TiledMap tiledMap;
+    public Menu(TiledMap tiledMap) {
         menu = AssetManagerUtil.getMenu();
         batch = new SpriteBatch();
+        this.tiledMap = tiledMap;
 
     }
 
@@ -41,11 +46,22 @@ public class Menu extends InputAdapter implements ApplicationListener {
             } else
                 System.out.println("Resuming game");
             resume = true;
-        } else if (screenX > 100 && screenX < 400 && screenY > 450) {
+        } else if(screenX  > 150 && screenX < 343 && screenY > 144 && screenY < 180) {
+            if(nextMap == 4)
+                nextMap = 0;
+            tiledMap = AssetManagerUtil.getMap(nextMap++);
+            System.out.println("asdf");
+        }
+
+        else if (screenX > 100 && screenX < 400 && screenY > 450) {
             System.out.println("Exiting game");
             Gdx.app.exit();
         }
         return true;
+    }
+
+    public TiledMap getMap() {
+        return this.tiledMap;
     }
 
     @Override

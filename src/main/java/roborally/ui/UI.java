@@ -73,7 +73,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         paused = true;
         menuTexture = AssetManagerUtil.getMenu();
         batch = new SpriteBatch();
-        menu = new Menu();
+        menu = new Menu(tiledMap);
     }
 
     @Override
@@ -91,6 +91,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
         if(paused) {
             pause();
+            tiledMap = menu.getMap();
+            mapRenderer.setMap(tiledMap);
         }
     }
 

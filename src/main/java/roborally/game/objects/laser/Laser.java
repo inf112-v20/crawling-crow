@@ -81,7 +81,8 @@ public class Laser {
                 if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
-            } else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)  && layers.getLaserID(i, j) != crossLaser.getTile().getId()) {
+            }
+            else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)  && layers.getLaserID(i, j) != crossLaser.getTile().getId()) {
                 layers.setLaserCell(i, j, crossLaser);
                 laserEndPositions.add(new GridPoint2(i, j));
             }
