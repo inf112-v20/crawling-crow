@@ -29,6 +29,7 @@ public class Menu extends InputAdapter implements ApplicationListener {
     private Vector2 mouseLocalPosition;
     private Actor actor;
     private TiledMap tiledMap;
+    private boolean changeMap;
     public Menu(TiledMap tiledMap) {
         menu = AssetManagerUtil.getMenu();
         batch = new SpriteBatch();
@@ -47,10 +48,10 @@ public class Menu extends InputAdapter implements ApplicationListener {
                 System.out.println("Resuming game");
             resume = true;
         } else if(screenX  > 150 && screenX < 343 && screenY > 144 && screenY < 180) {
+            changeMap = true;
             if(nextMap == 4)
                 nextMap = 0;
             tiledMap = AssetManagerUtil.getMap(nextMap++);
-            System.out.println("asdf");
         }
 
         else if (screenX > 100 && screenX < 400 && screenY > 450) {
@@ -58,6 +59,13 @@ public class Menu extends InputAdapter implements ApplicationListener {
             Gdx.app.exit();
         }
         return true;
+    }
+    public boolean changeMap() {
+        if(changeMap) {
+            changeMap = false;
+            return true;
+        }
+        return false;
     }
 
     public TiledMap getMap() {

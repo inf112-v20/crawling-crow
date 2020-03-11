@@ -118,10 +118,10 @@ public class AssetManagerUtil {
 
     /** Returns a HashMap with the layers of the current TiledMap. */
     public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
-        if(layers==null) {
-            ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
-            layers = readAndWriteLayers.createLayers(getLoadedMap());
-        }
+
+        ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
+        layers = readAndWriteLayers.createLayers(getLoadedMap());
+
         return layers;
     }
 

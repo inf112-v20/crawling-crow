@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.game.Game;
 import roborally.game.IGame;
+import roborally.game.objects.robot.IRobotPresenter;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
@@ -91,8 +92,18 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
         if(paused) {
             pause();
-            tiledMap = menu.getMap();
-            mapRenderer.setMap(tiledMap);
+            if(menu.changeMap()) {
+                game.restartGame();
+                tiledMap = menu.getMap();
+                AssetManagerUtil.getLoadedLayers();
+                game = new Game();
+                debugControls = new ControlsDebug(game);
+                programRobotControls = new ControlsProgramRobot(game);
+                mapRenderer.setMap(tiledMap);
+                camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                camera.update();
+                game.restartGame();
+            }
         }
     }
 
