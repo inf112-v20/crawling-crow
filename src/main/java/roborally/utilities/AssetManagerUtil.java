@@ -34,6 +34,9 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<TiledMap> MAP_TEST_SINGLE_LASERS
             = new AssetDescriptor<>("assets/maps/testMapSingleLasers.tmx", TiledMap.class);
 
+    private static final AssetDescriptor<Texture> MENU
+            = new AssetDescriptor<>("assets/menu.png", Texture.class);
+
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST2
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
@@ -71,6 +74,11 @@ public class AssetManagerUtil {
         manager.load(YELLOW);
         manager.load(SHOOT_LASER);
         manager.load(STEPIN_LASER);
+        manager.load(MENU);
+    }
+
+    public static Texture getMenu() {
+        return manager.get(MENU);
     }
 
     // Only one map so far, but can add more and return a list.

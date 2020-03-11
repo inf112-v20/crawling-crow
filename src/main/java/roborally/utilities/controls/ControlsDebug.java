@@ -23,6 +23,7 @@ public class ControlsDebug implements IControls{
         menuControlMap.put(Input.Keys.ESCAPE, game::exitGame);
         menuControlMap.put(Input.Keys.A, game::fireLasers);
         menuControlMap.put(Input.Keys.X, this::funMode);
+        menuControlMap.put(Input.Keys.M, game::enterMenu);
     }
 
     @Override

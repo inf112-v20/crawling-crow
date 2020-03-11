@@ -1,6 +1,8 @@
 package roborally.ui;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.ApplicationListener;
@@ -28,9 +30,13 @@ public class UI extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private int mapID;
     private OrthogonalTiledMapRenderer mapRenderer;
+    private Texture menuTexture;
+    private Menu menu;
+    private SpriteBatch batch;
     private OrthographicCamera camera;
     private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
+    private boolean paused;
 
     public UI(int mapID) {
         this.mapID = mapID;
@@ -64,6 +70,10 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
+        paused = true;
+        menuTexture = AssetManagerUtil.getMenu();
+        batch = new SpriteBatch();
+        menu = new Menu();
     }
 
     @Override
@@ -79,6 +89,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
+        if(paused) {
+            pause();
+        }
     }
 
     @Override
@@ -95,16 +108,20 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void pause() {
-        // TODO: Integrate with menu for a pause function.
+        Gdx.input.setInputProcessor(menu);
+        menu.render();
+        if(menu.resumeGame())
+            resume();
     }
 
     @Override
     public void resume() {
-        // TODO: Integrate with menu for a  pause function.
+        paused = false;
+        Gdx.input.setInputProcessor(this);
+        game.enterMenu();
     }
 
     public boolean keyUp(int keycode) {
-
         if (!game.isRunning()) {
             debugControls.getAction(keycode).run();
         }
@@ -133,6 +150,8 @@ public class UI extends InputAdapter implements ApplicationListener {
                 }
             }
         }
+        if(game.getMenu())
+            paused = true;
         return true;
     }
 }

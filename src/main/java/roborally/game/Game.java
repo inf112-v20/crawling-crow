@@ -30,12 +30,14 @@ public class Game implements IGame {
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int robotPointerID;
     private boolean funMode;
+    private boolean menu;
 
     public Game() {
         robotPointerID = 0;
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
+        menu = true;
         robots = AssetManagerUtil.makeRobots();
         for (IRobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());
@@ -48,6 +50,16 @@ public class Game implements IGame {
         layers = gameBoard.getLayers();
         AssetManagerUtil.makeAIRobots();
         aiRobots = AssetManagerUtil.getAIRobots();
+    }
+
+    @Override
+    public void enterMenu() {
+        this.menu = !this.menu;
+    }
+
+    @Override
+    public boolean getMenu() {
+        return this.menu;
     }
 
     @Override

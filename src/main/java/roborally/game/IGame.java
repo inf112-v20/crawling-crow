@@ -35,6 +35,10 @@ public interface IGame {
 
     void startGame();
 
+    boolean getMenu();
+
+    void enterMenu();
+
     void startNewRound();
 
     boolean isRunning();
