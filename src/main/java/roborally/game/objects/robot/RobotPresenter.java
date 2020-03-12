@@ -1,6 +1,9 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.utils.Queue;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.PlayCards;
 import roborally.game.objects.laser.Laser;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
@@ -19,6 +22,8 @@ public class RobotPresenter implements Programmable {
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
+    private PlayCards playCards;
+    private Queue<IProgramCards.Card> nextCard;
 
     // Constructor for testing the robot model.
     public RobotPresenter(RobotModel robotModel) {
@@ -61,7 +66,7 @@ public class RobotPresenter implements Programmable {
     }
 
     public RobotModel getModel() {
-        return this.robotModel;
+        return this.robotModel.getModel();
     }
 
     public void backToCheckPoint() {
@@ -119,6 +124,11 @@ public class RobotPresenter implements Programmable {
 
     public void setLostTexture() {
         this.robotView.setLostTexture(getPos());
+    }
+
+    public void playNextCard() {
+        IProgramCards.Card card = getModel().getNextCard();
+        // play the card
     }
 
     // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).

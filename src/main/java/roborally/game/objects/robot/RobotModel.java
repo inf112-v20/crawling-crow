@@ -1,6 +1,9 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.utils.Queue;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.PlayCards;
 import roborally.utilities.enums.Direction;
 
 public class RobotModel implements Programmable {
@@ -10,6 +13,8 @@ public class RobotModel implements Programmable {
     private int health = 10;
     private int reboots = 3;
     private Direction direction;
+    private PlayCards playCards;
+    private Queue<IProgramCards.Card> nextCard;
 
     public RobotModel(String name) {
         this.name = name;
@@ -19,6 +24,10 @@ public class RobotModel implements Programmable {
 
     public String getName() {
         return this.name;
+    }
+
+    public RobotModel getModel() {
+        return this;
     }
 
     public GridPoint2 getPos() {
@@ -62,8 +71,7 @@ public class RobotModel implements Programmable {
     public Direction rotate(String direction, int factor) {
         if (direction.equals("L"))
             this.direction = Direction.turnLeftFrom(this.direction);
-
-        else
+        else if (direction.equals("R"))
             this.direction = Direction.turnRightFrom(this.direction);
         return this.direction;
     }
@@ -113,4 +121,21 @@ public class RobotModel implements Programmable {
         else
             return "Everything ok!";
     }
+
+    public void newCards(PlayCards playCards) {
+        this.playCards = playCards;
+    }
+
+    public void arrangeCards(int[] order) {
+        this.playCards.arrangeCards(order);
+        Queue<IProgramCards.Card> nextCard = new Queue<>();
+        for (IProgramCards.Card card : playCards.getCards())
+            nextCard.addLast(card);
+        this.nextCard = nextCard;
+    }
+
+    public IProgramCards.Card getNextCard() {
+        return nextCard.removeLast();
+    }
+
 }

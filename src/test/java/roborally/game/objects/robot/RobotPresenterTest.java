@@ -3,19 +3,29 @@ package roborally.game.objects.robot;
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.Before;
 import org.junit.Test;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.ProgramCards;
+import roborally.utilities.enums.Direction;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class RobotPresenterTest {
-    private RobotPresenter testRobot1;
-    private RobotPresenter testRobot2;
+    private Programmable testRobot1;
+    private Programmable testRobot2;
 
     @Before
     public void setUp() {
         testRobot1 = new RobotPresenter(new RobotModel("T1"));
         testRobot2 = new RobotPresenter(new RobotModel("T2"));
+        IProgramCards programCards = new ProgramCards();
+        System.out.println(programCards.getDeck().get(0).getCard()); // returns all cards of the same type
+        PlayCards playCards = new PlayCards(programCards.getDeck());
+        testRobot1.getModel().newCards(playCards);
+        int[] order = {2,0,1,3,4};
+        testRobot1.getModel().arrangeCards(order);
     }
 
     @Test
@@ -29,6 +39,14 @@ public class RobotPresenterTest {
         testRobot2.setPos(new GridPoint2(4, 4));
         assertThat(testRobot1.getPos(), not(testRobot2.getPos()));
     }
+
+    @Test
+    public void testThatRobotRotatesLeft() {
+        testRobot1.getModel().rotate("L", 1);
+        assertEquals(testRobot1.getModel().getDirection(), Direction.West);
+    }
+
+
 
     @Test
     public void assertThatRobotHasFullHealth() {

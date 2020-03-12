@@ -2,6 +2,8 @@ package roborally.game.objects;
 
 import org.junit.Before;
 import org.junit.Test;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.ProgramCards;
 
 import static org.junit.Assert.*;
 
