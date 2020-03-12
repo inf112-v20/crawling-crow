@@ -1,5 +1,6 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.math.GridPoint2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,8 +9,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class RobotPresenterTest {
-    private IRobotPresenter testRobot1;
-    private IRobotPresenter testRobot2;
+    private RobotPresenter testRobot1;
+    private RobotPresenter testRobot2;
 
     @Before
     public void setUp() {
@@ -24,9 +25,9 @@ public class RobotPresenterTest {
 
     @Test
     public void verifyThatRobot1PositionNotEqualToRobot2Position() {
-        testRobot1.setPos(5, 5);
-        testRobot2.setPos(4, 4);
-        assertThat(testRobot1.getPosition(), not(testRobot2.getPosition()));
+        testRobot1.setPos(new GridPoint2(5, 5));
+        testRobot2.setPos(new GridPoint2(4, 4));
+        assertThat(testRobot1.getPos(), not(testRobot2.getPos()));
     }
 
     @Test

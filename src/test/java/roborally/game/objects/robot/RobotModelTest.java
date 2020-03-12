@@ -9,7 +9,7 @@ public class RobotModelTest {
     private GridPoint2 initialStartPosition;
     private int posX;
     private int posY;
-    private IRobotModel robotModel;
+    private RobotModel robotModel;
     private String robotName;
 
     @Before
@@ -24,13 +24,13 @@ public class RobotModelTest {
 
     @Test
     public void robotHasInitialPosition() {
-        assertEquals(initialStartPosition, robotModel.getPosition());
+        assertEquals(initialStartPosition, robotModel.getPos());
     }
 
     @Test
     public void robotSetAndGetPosition() {
-        robotModel.setPosition(new GridPoint2(posX, posY));
-        assertEquals(new GridPoint2(posX, posY), robotModel.getPosition());
+        robotModel.setPos(new GridPoint2(posX, posY));
+        assertEquals(new GridPoint2(posX, posY), robotModel.getPos());
     }
 
     @Test

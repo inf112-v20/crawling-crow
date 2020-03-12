@@ -4,37 +4,26 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import roborally.utilities.AssetManagerUtil;
-
-import java.util.Random;
-
 
 // Learn more about menu badlogicgames.com -> InputAdapter
 public class Menu extends InputAdapter implements ApplicationListener {
     private SpriteBatch batch;
     private Texture menu;
-    private OrthogonalTiledMapRenderer renderer;
-    private OrthographicCamera camera;
     private int i = 0;
     private int nextMap = 0;
     private boolean resume;
     private Vector2 mouseScreenPosition;
-    private Vector2 mouseLocalPosition;
-    private Actor actor;
     private TiledMap tiledMap;
     private boolean changeMap;
     public Menu(TiledMap tiledMap) {
         menu = AssetManagerUtil.getMenu();
         batch = new SpriteBatch();
         this.tiledMap = tiledMap;
-
     }
 
     @Override

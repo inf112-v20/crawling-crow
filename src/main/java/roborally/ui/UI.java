@@ -15,7 +15,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.game.Game;
 import roborally.game.IGame;
-import roborally.game.objects.robot.IRobotPresenter;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
@@ -39,8 +38,8 @@ public class UI extends InputAdapter implements ApplicationListener {
     private ControlsProgramRobot programRobotControls;
     private boolean paused;
 
-    public UI(int mapID) {
-        this.mapID = mapID;
+    public UI() {
+        this.mapID = 0;
     }
 
     @Override

@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobotPresenter;
 import roborally.game.objects.robot.RobotPresenter;
 
 import java.util.*;
@@ -17,7 +16,7 @@ public class AssetManagerUtil {
     private static HashMap<String, TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
     public static AI[] ai;
-    public static IRobotPresenter[] robots;
+    public static RobotPresenter[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
 
     // Sounds
@@ -143,11 +142,11 @@ public class AssetManagerUtil {
     }
 
     /** Sets the robots array to be something different for other game modes */
-    public static void setRobots(IRobotPresenter[] robotPresenters) {
+    public static void setRobots(RobotPresenter[] robotPresenters) {
         robots = robotPresenters;
     }
 
-    public static IRobotPresenter[] getRobots() {
+    public static RobotPresenter[] getRobots() {
         return robots;
     }
 
@@ -156,7 +155,7 @@ public class AssetManagerUtil {
     }
 
     // Default Robots
-    public static IRobotPresenter[] makeRobots() {
+    public static RobotPresenter[] makeRobots() {
         robots = new RobotPresenter[8];
         robots[0] = new RobotPresenter(5, 0, 0);
         robots[1] = new RobotPresenter(6, 0, 1);

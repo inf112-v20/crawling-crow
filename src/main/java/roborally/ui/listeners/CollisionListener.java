@@ -1,7 +1,7 @@
 package roborally.ui.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.robot.IRobotPresenter;
+import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 
@@ -36,19 +36,19 @@ public class CollisionListener {
                 return true;
             if (layers.assertRobotNotNull(x + dx, y + dy))
                 recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
-            for (IRobotPresenter robot : AssetManagerUtil.getRobots())
-                if (robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
+            for (RobotPresenter robot : AssetManagerUtil.getRobots())
+                if (robot.getPos().x == x && robot.getPos().y == y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
-                    robot.move(dx, dy);
+                    robot.moveRobot(dx, dy);
                     System.out.println("Pushing robot complete");
                 }
         }
         // RobotPresenter "deletion"
         else
-            for (IRobotPresenter robot : AssetManagerUtil.getRobots())
-                if (robot.getPosition().equals(new GridPoint2(x, y))) {
+            for (RobotPresenter robot : AssetManagerUtil.getRobots())
+                if (robot.getPos().equals(new GridPoint2(x, y))) {
                     layers.setRobotCell(x, y, null);
-                    robot.setPos(-1, -1);
+                    robot.setPos(new GridPoint2(-1,-1));
                 }
         return recursiveRobot;
     }
@@ -65,17 +65,17 @@ public class CollisionListener {
     public void findCollidingRobot(int x, int y, int dx, int dy) {
         int width = layers.getRobots().getWidth();
         int height = layers.getRobots().getHeight();
-        for (IRobotPresenter robot : AssetManagerUtil.getRobots()) {
+        for (RobotPresenter robot : AssetManagerUtil.getRobots()) {
             GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
-                GridPoint2 bumpedPos = robot.getPosition();
+                GridPoint2 bumpedPos = robot.getPos();
                 if (bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
                     // RobotPresenter "deletion".
-                    robot.setPos(-1, -1);
+                    robot.setPos(new GridPoint2(-1, -1));
                     layers.setRobotCell(x, y, null);
                 } else if (bumpedPos.equals(bumpingPos)) {
                     System.out.println("\nPushing... ");
-                    robot.move(dx, dy);
+                    robot.moveRobot(dx, dy);
                     System.out.println("Pushing complete... ");
                     if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
                         robot.setWinTexture();

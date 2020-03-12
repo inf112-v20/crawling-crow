@@ -12,10 +12,10 @@ public class ControlsDebug implements IControls{
         this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.ENTER, game::startGame);
-        menuControlMap.put(Input.Keys.UP, () -> game.getRobots().moveForward());
-        menuControlMap.put(Input.Keys.DOWN, () -> game.getRobots().moveBackward());
-        menuControlMap.put(Input.Keys.LEFT, () -> game.getRobots().turnLeft());
-        menuControlMap.put(Input.Keys.RIGHT, () -> game.getRobots().turnRight());
+        menuControlMap.put(Input.Keys.UP, () -> game.getRobots().move(1));
+        menuControlMap.put(Input.Keys.DOWN, () -> game.getRobots().move(-1));
+        menuControlMap.put(Input.Keys.LEFT, () -> game.getRobots().rotate("L", 1));
+        menuControlMap.put(Input.Keys.RIGHT, () -> game.getRobots().rotate("R", 1));
         menuControlMap.put(Input.Keys.F, () -> game.getRobots().fireLaser());
         menuControlMap.put(Input.Keys.SPACE, game::registerFlagPositions);
         menuControlMap.put(Input.Keys.W, game::checkIfSomeoneWon);
