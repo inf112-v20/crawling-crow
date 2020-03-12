@@ -130,7 +130,7 @@ public class RobotModel implements Programmable {
         this.playCards.arrangeCards(order);
         Queue<IProgramCards.Card> nextCard = new Queue<>();
         for (IProgramCards.Card card : playCards.getCards())
-            nextCard.addLast(card);
+            nextCard.addFirst(card);
         this.nextCard = nextCard;
     }
 

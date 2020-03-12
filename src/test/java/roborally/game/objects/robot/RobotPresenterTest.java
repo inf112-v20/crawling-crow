@@ -15,17 +15,23 @@ import static org.junit.Assert.assertThat;
 public class RobotPresenterTest {
     private Programmable testRobot1;
     private Programmable testRobot2;
+    private IProgramCards.Card card;
 
     @Before
     public void setUp() {
         testRobot1 = new RobotPresenter(new RobotModel("T1"));
         testRobot2 = new RobotPresenter(new RobotModel("T2"));
         IProgramCards programCards = new ProgramCards();
-        System.out.println(programCards.getDeck().get(0).getCard()); // returns all cards of the same type
         PlayCards playCards = new PlayCards(programCards.getDeck());
         testRobot1.getModel().newCards(playCards);
+        card = playCards.getCards().get(2);
+    }
+
+    @Test
+    public void verifyThatCardsArePlayedInTheCorrectOrder() {
         int[] order = {2,0,1,3,4};
         testRobot1.getModel().arrangeCards(order);
+        assertEquals(card, testRobot1.getModel().getNextCard());
     }
 
     @Test
