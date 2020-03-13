@@ -1,12 +1,18 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.objects.IFlag;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.Programmable;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
+import roborally.ui.MakeCards;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
@@ -158,6 +164,41 @@ public class Game implements IGame {
         assert (gameRunning);
         roundStep = RoundStep.NULL_STEP;
         phaseStep = PhaseStep.NULL_PHASE;
+    }
+
+    @Override
+    public MakeCards getCards() {
+        ArrayList<Image> images = new ArrayList<>();
+        ProgramCards programCards = new ProgramCards();
+        programCards.shuffleCards();
+        ArrayList<IProgramCards.Card> temp = new ArrayList<>();
+        for(int i = 0; i < 9; i++) {
+            temp.add(programCards.getDeck().get(i));
+        }
+        PlayCards playCards = new PlayCards(temp);
+        robots[0].getModel().newCards(playCards);
+        MakeCards makeCards = new MakeCards();
+        for (IProgramCards.Card card : robots[0].getModel().getCards()) {
+            if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
+                    || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
+                makeCards.makeMove();
+            }
+            else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
+                makeCards.makeRotateLeft();
+            else if(card.getCardType() == IProgramCards.CardTypes.BACKUP)
+                makeCards.addImage(makeCards.makeBackup());
+            else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+                makeCards.makeRotateRight();
+        }
+        return makeCards;
+    }
+
+    @Override
+    public void shuffleTheRobotsCards(int[] order) {
+        robots[0].getModel().arrangeCards(order);
+        for(int i = 0; i < 5; i++ ) {
+            robots[0].playNextCard();
+        }
     }
 
     @Override

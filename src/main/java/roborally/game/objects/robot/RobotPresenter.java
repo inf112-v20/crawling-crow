@@ -128,7 +128,16 @@ public class RobotPresenter implements Programmable {
 
     public void playNextCard() {
         IProgramCards.Card card = getModel().getNextCard();
-        // play the card
+        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
+        || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
+            move(1);
+        }
+        else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+            rotate("R", 1);
+        else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
+            rotate("L", 1);
+        else if(card.getCardType() == IProgramCards.CardTypes.BACKUP)
+            move(-1);
     }
 
     // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).

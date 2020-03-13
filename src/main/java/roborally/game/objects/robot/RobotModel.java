@@ -6,6 +6,8 @@ import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
 import roborally.utilities.enums.Direction;
 
+import java.util.ArrayList;
+
 public class RobotModel implements Programmable {
     private String name;
     private GridPoint2 robotPosition;
@@ -136,6 +138,10 @@ public class RobotModel implements Programmable {
 
     public IProgramCards.Card getNextCard() {
         return nextCard.removeLast();
+    }
+
+    public ArrayList<IProgramCards.Card> getCards() {
+        return this.playCards.getCards();
     }
 
 }

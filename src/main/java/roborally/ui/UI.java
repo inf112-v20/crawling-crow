@@ -1,9 +1,12 @@
 package roborally.ui;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -22,6 +25,8 @@ import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.controls.ControlsProgramRobot;
 
+import java.util.ArrayList;
+
 public class UI extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
@@ -37,6 +42,11 @@ public class UI extends InputAdapter implements ApplicationListener {
     private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
     private boolean paused;
+    private Image[] startImage;
+    private Stage stage;
+    private boolean cardPhase;
+    private ArrayList<Image> images;
+    private MakeCards makeCards;
 
     public UI() {
         this.mapID = 0;
@@ -74,6 +84,10 @@ public class UI extends InputAdapter implements ApplicationListener {
         menuTexture = AssetManagerUtil.getMenu();
         batch = new SpriteBatch();
         menu = new Menu(tiledMap);
+        stage = new Stage();
+        cardPhase = false;
+        images = new ArrayList<>();
+        makeCards = new MakeCards();
     }
 
     @Override
@@ -89,6 +103,23 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
+        if(cardPhase) {
+            batch.begin();
+            for(Image image : images) {
+                image.draw(batch, 10);
+            }
+            batch.end();
+            Gdx.input.setInputProcessor(stage);
+            if(makeCards.fiveCards()) {
+                Gdx.input.setInputProcessor(this);
+                cardPhase = false;
+                game.shuffleTheRobotsCards(makeCards.getOrder());
+                makeCards.getImages().clear();
+                makeCards.clearStuff();
+                return;
+            }
+            stage.act();
+        }
         if(paused) {
             pause();
             if(menu.changeMap()) {
@@ -133,7 +164,22 @@ public class UI extends InputAdapter implements ApplicationListener {
         game.enterMenu();
     }
 
+    public void runCardPhase(MakeCards makeCards) {
+        this.makeCards = makeCards;
+        int i = 0;
+        for (Image image : this.makeCards.getImages()) {
+            image.setX(i += 100);
+            stage.addActor(image);
+            this.images.add(image);
+        }
+        cardPhase = true;
+    }
+
     public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.ENTER) {
+            runCardPhase(game.getCards());
+            return true;
+        }
         if (!game.isRunning()) {
             debugControls.getAction(keycode).run();
         }

@@ -32,13 +32,21 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST_SINGLE_LASERS
             = new AssetDescriptor<>("assets/maps/testMapSingleLasers.tmx", TiledMap.class);
-
-    private static final AssetDescriptor<Texture> MENU
-            = new AssetDescriptor<>("assets/menu.png", Texture.class);
-
-    //Maps
     private static final AssetDescriptor<TiledMap> MAP_TEST2
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
+
+    //Other
+    private static final AssetDescriptor<Texture> MENU
+            = new AssetDescriptor<>("assets/menu.png", Texture.class);
+    private static final AssetDescriptor<Texture> BACKUP
+            = new AssetDescriptor<>("assets/cards/backup.png", Texture.class);
+    private static final AssetDescriptor<Texture> ROTATELEFT
+            = new AssetDescriptor<>("assets/cards/rotatel.png", Texture.class);
+    private static final AssetDescriptor<Texture> ROTATERIGHT
+            = new AssetDescriptor<>("assets/cards/rotater.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE
+            = new AssetDescriptor<>("assets/cards/move1.png", Texture.class);
+
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("assets/robots/new/Angry.png", Texture.class);
@@ -64,6 +72,7 @@ public class AssetManagerUtil {
         manager.load(MAP_TEST2);
         manager.load(MAP_LASER_TEST);
         manager.load(ANGRY);
+        manager.load(BACKUP);
         manager.load(BLUE);
         manager.load(GREEN);
         manager.load(ORANGE);
@@ -74,6 +83,9 @@ public class AssetManagerUtil {
         manager.load(SHOOT_LASER);
         manager.load(STEPIN_LASER);
         manager.load(MENU);
+        manager.load(ROTATERIGHT);
+        manager.load(ROTATELEFT);
+        manager.load(MOVE);
     }
 
     public static Texture getMenu() {
@@ -87,6 +99,19 @@ public class AssetManagerUtil {
         List<TiledMap> maps = Arrays.asList(tiledMaps);
         loadedMap = maps.get(map);
         return loadedMap;
+    }
+
+    public static Texture getBackup() {
+        return manager.get(BACKUP);
+    }
+    public static Texture getMove() {
+        return manager.get(MOVE);
+    }
+    public static Texture getRotateR() {
+        return manager.get(ROTATERIGHT);
+    }
+    public static Texture getRotateL() {
+        return manager.get(ROTATELEFT);
     }
 
     /** Returns the robotTexture in position i, in chronological order */
