@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -103,7 +104,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
         if (cardPhase) {
             batch.begin();
-            for (Image image : makeCards.getImages()) {
+            for (Group image : makeCards.getImages()) {
                 image.draw(batch, 1);
             }
             batch.end();
@@ -165,7 +166,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void runCardPhase(MakeCards makeCards) {
         this.makeCards = makeCards;
         int i = -75;
-        for (Image image : this.makeCards.getImages()) {
+        for (Group image : this.makeCards.getImages()) {
             image.setX(i += 75);
             stage.addActor(image);
         }

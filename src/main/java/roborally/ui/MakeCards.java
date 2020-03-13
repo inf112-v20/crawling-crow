@@ -1,16 +1,19 @@
 package roborally.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import roborally.utilities.AssetManagerUtil;
 
 import java.util.ArrayList;
 
 public class MakeCards {
     private int cardPick;
-    private ArrayList<Image> images;
+    private ArrayList<Group> images;
     private int[] order;
     private ArrayList<Integer> priorities;
 
@@ -23,91 +26,75 @@ public class MakeCards {
 
     public void makeBackup(int priority) {
         Image backup = new Image(AssetManagerUtil.getBackup());
-        backup.setSize(75, 100);
-        backup.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for(int i = 0; i < order.length; i++)
-                    if(images.indexOf(backup)==order[i]) {
-                        backup.setColor(Color.WHITE);
-                        reArrange(i);
-                        cardPick--;
-                        return true;
-                    }
-                order[cardPick++] = images.indexOf(backup);
-                backup.setColor(Color.GREEN);
-                return true;
-            }
-        });
-        this.images.add(backup);
-        this.priorities.add(images.indexOf(backup), priority);
+        makeSomething(priority, backup);
     }
 
     public void makeMove(int priority) {
         Image move = new Image(AssetManagerUtil.getMove());
-        move.setSize(75, 100);
-        move.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for(int i = 0; i < order.length; i++)
-                    if(images.indexOf(move)==order[i]) {
-                        move.setColor(Color.WHITE);
-                        reArrange(i);
-                        cardPick--;
-                        return true;
-                    }
-                order[cardPick++] = images.indexOf(move);
-                move.setColor(Color.GREEN);
-                return true;
-            }
-        });
-        this.images.add(move);
-        this.priorities.add(images.indexOf(move), priority);
+        makeSomething(priority, move);
     }
 
     public void makeRotateRight(int priority) {
-        Image RotateRight = new Image(AssetManagerUtil.getRotateR());
-        RotateRight.setSize(75, 100);
-        RotateRight.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for(int i = 0; i < order.length; i++)
-                    if(images.indexOf(RotateRight)==order[i]) {
-                        RotateRight.setColor(Color.WHITE);
-                        reArrange(i);
-                        cardPick--;
-                        return true;
-                    }
-                order[cardPick++] = images.indexOf(RotateRight);
-                RotateRight.setColor(Color.GREEN);
-                return true;
-            }
-        });
-        this.images.add(RotateRight);
-        this.priorities.add(images.indexOf(RotateRight), priority);
+        Image RotateR = new Image(AssetManagerUtil.getRotateR());
+        makeSomething(priority, RotateR);
     }
 
     public void makeRotateLeft(int priority) {
-        Image RotateLeft = new Image(AssetManagerUtil.getRotateL());
-        RotateLeft.setSize(75, 100);
-        RotateLeft.addListener(new InputListener() {
+        Image RotateL = new Image(AssetManagerUtil.getRotateL());
+        makeSomething(priority, RotateL);
+    }
+
+    private void makeSomething(int priority, Image image) {
+        image.setSize(75, 100);
+        Group group = new Group();
+        group.addActor(image);
+        Label topLabel = makeTopLabel();
+        Label label = makeLabel(priority);
+        group.addActor(label);
+        group.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 for(int i = 0; i < order.length; i++)
-                    if(images.indexOf(RotateLeft)==order[i]) {
-                        RotateLeft.setColor(Color.WHITE);
+                    if(images.indexOf(group)==order[i]) {
+                        group.getChildren().get(1).setColor(Color.ORANGE);
+                        group.getChildren().get(0).setColor(Color.WHITE);
+                        group.removeActor(topLabel);
                         reArrange(i);
                         cardPick--;
                         return true;
                     }
 
-                order[cardPick++] = images.indexOf(RotateLeft);
-                RotateLeft.setColor(Color.GREEN);
+                topLabel.setText(Integer.toString(cardPick));
+                group.addActor(topLabel);
+                order[cardPick++] = images.indexOf(group);
+                group.getChildren().get(1).setColor(Color.GREEN);
+                group.getChildren().get(0).setColor(Color.GREEN);
                 return true;
             }
         });
-        this.images.add(RotateLeft);
-        this.priorities.add(images.indexOf(RotateLeft), priority);
+        this.images.add(group);
+    }
+
+    public Label makeTopLabel() {
+        Label.LabelStyle topLabelStyle = new Label.LabelStyle();
+        topLabelStyle.font = new BitmapFont();
+        Label topLabel = new Label("0", topLabelStyle);
+        topLabel.setY(100);
+        topLabel.setX(25);
+        topLabel.setColor(Color.GREEN);
+        topLabel.setFontScale(2f);
+        return topLabel;
+    }
+
+    public Label makeLabel(int priority) {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        Label label = new Label(Integer.toString(priority), labelStyle);
+        label.setX(25);
+        label.setY(1);
+        label.setFontScale(1.2f, 0.75f);
+        label.setColor(Color.ORANGE);
+        return label;
     }
 
     public void reArrange(int i) {
@@ -116,7 +103,7 @@ public class MakeCards {
             order[i]=order[++i];
     }
 
-    public ArrayList<Image> getImages() {
+    public ArrayList<Group> getImages() {
         return this.images;
     }
 
@@ -135,8 +122,5 @@ public class MakeCards {
         this.priorities.clear();
         this.images = new ArrayList<>();
         this.priorities = new ArrayList<>();
-    }
-    public ArrayList<Integer> getPrio() {
-        return this.priorities;
     }
 }
