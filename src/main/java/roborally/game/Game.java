@@ -1,7 +1,7 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Timer;
 import roborally.game.objects.IFlag;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
@@ -191,11 +191,13 @@ public class Game implements IGame {
     }
 
     @Override
+    public void playNextCard() {
+        robots[0].playNextCard();
+    }
+
+    @Override
     public void shuffleTheRobotsCards(int[] order) {
         robots[0].getModel().arrangeCards(order);
-        for (int i = 0; i < 5; i++) {
-            robots[0].playNextCard();
-        }
     }
 
     @Override

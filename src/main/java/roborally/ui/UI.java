@@ -5,11 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -17,8 +14,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Scaling;
 import roborally.game.Game;
 import roborally.game.IGame;
@@ -28,8 +23,6 @@ import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.controls.ControlsProgramRobot;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
-
-import java.util.ArrayList;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -48,6 +41,9 @@ public class UI extends InputAdapter implements ApplicationListener {
     private Stage stage;
     private boolean cardPhase;
     private MakeCards makeCards;
+    private float waiting;
+    private boolean reallyWaiting;
+    private int waitCount;
 
     public UI() {
         this.mapID = 0;
@@ -87,6 +83,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         stage = new Stage();
         cardPhase = false;
         makeCards = new MakeCards();
+        waiting = 0f;
+        reallyWaiting = false;
+        waitCount = 0;
     }
 
     @Override
@@ -98,6 +97,19 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
+        if(reallyWaiting) {
+            waiting+=Gdx.graphics.getDeltaTime();
+            if(waiting >= 0.5) {
+                game.playNextCard();
+                waiting = 0f;
+                waitCount++;
+                if(waitCount == 5) {
+                    reallyWaiting = false;
+                    waitCount = 0;
+                    waiting = 0;
+                }
+            }
+        }
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
@@ -114,7 +126,9 @@ public class UI extends InputAdapter implements ApplicationListener {
                 stage.clear();
                 game.shuffleTheRobotsCards(makeCards.getOrder());
                 makeCards.clearStuff();
-                return;
+                game.playNextCard();
+                waitCount+=1;
+                reallyWaiting = true;
             }
         }
         stage.act();

@@ -20,7 +20,7 @@ public class MakeCards {
     public MakeCards() {
         this.cardPick = 0;
         this.images = new ArrayList<>();
-        this.order = new int[]{-1,-1,-1,-1,-1};
+        this.order = new int[]{-1, -1, -1, -1, -1};
         this.priorities = new ArrayList<>();
     }
 
@@ -54,8 +54,8 @@ public class MakeCards {
         group.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for(int i = 0; i < order.length; i++)
-                    if(images.indexOf(group)==order[i]) {
+                for (int i = 0; i < order.length; i++)
+                    if (images.indexOf(group) == order[i]) {
                         group.getChildren().get(1).setColor(Color.ORANGE);
                         group.getChildren().get(0).setColor(Color.WHITE);
                         group.removeActor(topLabel);
@@ -99,8 +99,8 @@ public class MakeCards {
 
     public void reArrange(int i) {
         order[i] = -1;
-        while(i < 4)
-            order[i]=order[++i];
+        while (i < 4)
+            order[i] = order[++i];
     }
 
     public ArrayList<Group> getImages() {
@@ -116,7 +116,7 @@ public class MakeCards {
     }
 
     public void clearStuff() {
-        this.order = new int[]{-1,-1,-1,-1,-1};
+        this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;
         this.images.clear();
         this.priorities.clear();

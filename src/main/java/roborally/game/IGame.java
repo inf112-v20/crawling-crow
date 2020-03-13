@@ -79,6 +79,8 @@ public interface IGame {
 
     void shuffleTheRobotsCards(int[] order);
 
+    void playNextCard();
+
     void endGame();
 
     void exitGame();
