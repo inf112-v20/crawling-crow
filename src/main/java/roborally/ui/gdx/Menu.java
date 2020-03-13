@@ -1,4 +1,4 @@
-package roborally.ui;
+package roborally.ui.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

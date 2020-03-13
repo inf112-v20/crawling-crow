@@ -1,4 +1,4 @@
-package roborally.ui;
+package roborally.ui.gdx;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,34 +13,34 @@ import java.util.ArrayList;
 
 public class MakeCards {
     private int cardPick;
-    private ArrayList<Group> images;
+    private ArrayList<Group> groups;
     private int[] order;
     private ArrayList<Integer> priorities;
 
     public MakeCards() {
         this.cardPick = 0;
-        this.images = new ArrayList<>();
+        this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.priorities = new ArrayList<>();
     }
 
     public void makeBackup(int priority) {
-        Image backup = new Image(AssetManagerUtil.getBackup());
+        Image backup = new Image(AssetManagerUtil.getCardTexture("Backup"));
         makeSomething(priority, backup);
     }
 
     public void makeMove(int priority) {
-        Image move = new Image(AssetManagerUtil.getMove());
+        Image move = new Image(AssetManagerUtil.getCardTexture("Move"));
         makeSomething(priority, move);
     }
 
     public void makeRotateRight(int priority) {
-        Image RotateR = new Image(AssetManagerUtil.getRotateR());
+        Image RotateR = new Image(AssetManagerUtil.getCardTexture("RotateRight"));
         makeSomething(priority, RotateR);
     }
 
     public void makeRotateLeft(int priority) {
-        Image RotateL = new Image(AssetManagerUtil.getRotateL());
+        Image RotateL = new Image(AssetManagerUtil.getCardTexture("RotateLeft"));
         makeSomething(priority, RotateL);
     }
 
@@ -55,7 +55,7 @@ public class MakeCards {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 for (int i = 0; i < order.length; i++)
-                    if (images.indexOf(group) == order[i]) {
+                    if (groups.indexOf(group) == order[i]) {
                         group.getChildren().get(1).setColor(Color.ORANGE);
                         group.getChildren().get(0).setColor(Color.WHITE);
                         group.removeActor(topLabel);
@@ -66,13 +66,13 @@ public class MakeCards {
 
                 topLabel.setText(Integer.toString(cardPick));
                 group.addActor(topLabel);
-                order[cardPick++] = images.indexOf(group);
+                order[cardPick++] = groups.indexOf(group);
                 group.getChildren().get(1).setColor(Color.GREEN);
                 group.getChildren().get(0).setColor(Color.GREEN);
                 return true;
             }
         });
-        this.images.add(group);
+        this.groups.add(group);
     }
 
     public Label makeTopLabel() {
@@ -103,8 +103,8 @@ public class MakeCards {
             order[i] = order[++i];
     }
 
-    public ArrayList<Group> getImages() {
-        return this.images;
+    public ArrayList<Group> getGroups() {
+        return this.groups;
     }
 
     public int[] getOrder() {
@@ -118,9 +118,9 @@ public class MakeCards {
     public void clearStuff() {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;
-        this.images.clear();
+        this.groups.clear();
         this.priorities.clear();
-        this.images = new ArrayList<>();
+        this.groups = new ArrayList<>();
         this.priorities = new ArrayList<>();
     }
 }

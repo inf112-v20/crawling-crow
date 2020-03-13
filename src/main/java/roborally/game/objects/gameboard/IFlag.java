@@ -1,4 +1,4 @@
-package roborally.game.objects;
+package roborally.game.objects.gameboard;
 
 import com.badlogic.gdx.math.GridPoint2;
 

@@ -9,22 +9,18 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
 public class AssetManagerUtil {
-    private static TiledMap loadedMap;
-    private static HashMap<String, TiledMapTileLayer> layers;
-    private static Stack<String> robotNames;
-    public static AI[] ai;
-    public static RobotPresenter[] robots;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
-
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
             = new AssetDescriptor<>("assets/sounds/fireLaser.wav", Sound.class);
     public static final AssetDescriptor<Sound> STEPIN_LASER
             = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
-
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
             = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
@@ -34,7 +30,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/maps/testMapSingleLasers.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST2
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
-
     //Other
     private static final AssetDescriptor<Texture> MENU
             = new AssetDescriptor<>("assets/menu.png", Texture.class);
@@ -46,7 +41,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/cards/rotater.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE
             = new AssetDescriptor<>("assets/cards/move1.png", Texture.class);
-
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("assets/robots/new/Angry.png", Texture.class);
@@ -64,6 +58,11 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("assets/robots/new/Yellow.png", Texture.class);
+    public static AI[] ai;
+    public static RobotPresenter[] robots;
+    private static TiledMap loadedMap;
+    private static HashMap<String, TiledMapTileLayer> layers;
+    private static Stack<String> robotNames;
 
     public static void load() {
         //Robots
@@ -93,7 +92,7 @@ public class AssetManagerUtil {
     }
 
     // Only one map so far, but can add more and return a list.
-    public static TiledMap getMap (int map) {
+    public static TiledMap getMap(int map) {
         TiledMap[] tiledMaps = {manager.get(MAP_TEST), manager.get(MAP_TEST2),
                 manager.get(MAP_LASER_TEST), manager.get(MAP_TEST_SINGLE_LASERS)};
         List<TiledMap> maps = Arrays.asList(tiledMaps);
@@ -101,21 +100,19 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
-    public static Texture getBackup() {
-        return manager.get(BACKUP);
-    }
-    public static Texture getMove() {
-        return manager.get(MOVE);
-    }
-    public static Texture getRotateR() {
-        return manager.get(ROTATERIGHT);
-    }
-    public static Texture getRotateL() {
-        return manager.get(ROTATELEFT);
+    public static Texture getCardTexture(String card) {
+        HashMap<String, Texture> map = new HashMap<>();
+        map.put("RotateRight", manager.get(ROTATERIGHT));
+        map.put("RotateLeft", manager.get(ROTATELEFT));
+        map.put("Move", manager.get(MOVE));
+        map.put("Backup", manager.get(BACKUP));
+        return map.get(card);
     }
 
-    /** Returns the robotTexture in position i, in chronological order */
-    public static Texture getRobotTexture (int i) {
+    /**
+     * Returns the robotTexture in position i, in chronological order
+     */
+    public static Texture getRobotTexture(int i) {
         Texture[] robotTexture = new Texture[8];
         robotTexture[0] = manager.get(ANGRY);
         robotTexture[1] = manager.get(BLUE);
@@ -132,7 +129,9 @@ public class AssetManagerUtil {
         manager.clear();
     }
 
-    /** Returns the map that is loaded into the current game. */
+    /**
+     * Returns the map that is loaded into the current game.
+     */
     public static TiledMap getLoadedMap() {
         if (loadedMap == null) {
             loadedMap = manager.get(MAP_TEST2);
@@ -140,8 +139,10 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
-    /** Returns a HashMap with the layers of the current TiledMap. */
-    public static HashMap<String,TiledMapTileLayer> getLoadedLayers() {
+    /**
+     * Returns a HashMap with the layers of the current TiledMap.
+     */
+    public static HashMap<String, TiledMapTileLayer> getLoadedLayers() {
 
         ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
         layers = readAndWriteLayers.createLayers(getLoadedMap());
@@ -156,23 +157,25 @@ public class AssetManagerUtil {
     // Default AI robots
     public static void makeAIRobots() {
         ai = new AI[8];
-        ai[0] = new AI(3,0, 0);
-        ai[1] = new AI(0,1, 1);
-        ai[2] = new AI(3,2, 2);
-        ai[3] = new AI(8,3, 3);
-        ai[4] = new AI(3,3, 4);
-        ai[5] = new AI(4,4, 5);
-        ai[6] = new AI(4,5, 6);
-        ai[7] = new AI(6,4, 7);
-    }
-
-    /** Sets the robots array to be something different for other game modes */
-    public static void setRobots(RobotPresenter[] robotPresenters) {
-        robots = robotPresenters;
+        ai[0] = new AI(3, 0, 0);
+        ai[1] = new AI(0, 1, 1);
+        ai[2] = new AI(3, 2, 2);
+        ai[3] = new AI(8, 3, 3);
+        ai[4] = new AI(3, 3, 4);
+        ai[5] = new AI(4, 4, 5);
+        ai[6] = new AI(4, 5, 6);
+        ai[7] = new AI(6, 4, 7);
     }
 
     public static RobotPresenter[] getRobots() {
         return robots;
+    }
+
+    /**
+     * Sets the robots array to be something different for other game modes
+     */
+    public static void setRobots(RobotPresenter[] robotPresenters) {
+        robots = robotPresenters;
     }
 
     public static AI[] getAIRobots() {
@@ -210,7 +213,7 @@ public class AssetManagerUtil {
     }
 
     public static String getRobotName() {
-        if(robotNames==null || robotNames.isEmpty()) {
+        if (robotNames == null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
         }

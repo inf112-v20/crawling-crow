@@ -1,4 +1,4 @@
-package roborally.ui;
+package roborally.ui.gdx;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -41,12 +41,14 @@ public class UI extends InputAdapter implements ApplicationListener {
     private Stage stage;
     private boolean cardPhase;
     private MakeCards makeCards;
-    private float waiting;
-    private boolean reallyWaiting;
-    private int waitCount;
+    private Events events;
 
     public UI() {
+        this.paused = true;
         this.mapID = 0;
+        this.cardPhase = false;
+        this.events = new Events();
+        this.makeCards = new MakeCards();
     }
 
     @Override
@@ -77,15 +79,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
-        paused = true;
         batch = new SpriteBatch();
         menu = new Menu(tiledMap);
         stage = new Stage();
-        cardPhase = false;
-        makeCards = new MakeCards();
-        waiting = 0f;
-        reallyWaiting = false;
-        waitCount = 0;
     }
 
     @Override
@@ -97,54 +93,19 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
-        if(reallyWaiting) {
-            waiting+=Gdx.graphics.getDeltaTime();
-            if(waiting >= 0.5) {
-                game.playNextCard();
-                waiting = 0f;
-                waitCount++;
-                if(waitCount == 5) {
-                    reallyWaiting = false;
-                    waitCount = 0;
-                    waiting = 0;
-                }
-            }
-        }
+        if (events.hasWaitEvent())
+            events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        if (cardPhase) {
-            batch.begin();
-            for (Group image : makeCards.getImages()) {
-                image.draw(batch, 1);
-            }
-            batch.end();
-            if (makeCards.fiveCards()) {
-                Gdx.input.setInputProcessor(this);
-                cardPhase = false;
-                stage.clear();
-                game.shuffleTheRobotsCards(makeCards.getOrder());
-                makeCards.clearStuff();
-                game.playNextCard();
-                waitCount+=1;
-                reallyWaiting = true;
-            }
-        }
+        if (cardPhase)
+            cardPhaseRun();
         stage.act();
         if (paused) {
             pause();
             if (menu.changeMap()) {
-                game.restartGame();
-                tiledMap = menu.getMap();
-                AssetManagerUtil.getLoadedLayers();
-                game = new Game();
-                debugControls = new ControlsDebug(game);
-                programRobotControls = new ControlsProgramRobot(game);
-                mapRenderer.setMap(tiledMap);
-                camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-                camera.update();
-                game.restartGame();
+                changeMap();
             }
         }
     }
@@ -175,17 +136,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.input.setInputProcessor(this);
         game.enterMenu();
         menu.dispose();
-    }
-
-    public void runCardPhase(MakeCards makeCards) {
-        this.makeCards = makeCards;
-        int i = -75;
-        for (Group image : this.makeCards.getImages()) {
-            image.setX(i += 75);
-            stage.addActor(image);
-        }
-        cardPhase = true;
-        Gdx.input.setInputProcessor(stage);
     }
 
     public boolean keyUp(int keycode) {
@@ -225,5 +175,47 @@ public class UI extends InputAdapter implements ApplicationListener {
             paused = true;
         return true;
     }
+
+    public void changeMap() {
+        game.restartGame();
+        tiledMap = menu.getMap();
+        AssetManagerUtil.getLoadedLayers();
+        game = new Game();
+        debugControls = new ControlsDebug(game);
+        programRobotControls = new ControlsProgramRobot(game);
+        mapRenderer.setMap(tiledMap);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.update();
+        game.restartGame();
+    }
+
+    public void cardPhaseRun() {
+        batch.begin();
+        for (Group group : makeCards.getGroups()) {
+            group.draw(batch, 1);
+        }
+        batch.end();
+        if (makeCards.fiveCards()) {
+            Gdx.input.setInputProcessor(this);
+            cardPhase = false;
+            stage.clear();
+            game.shuffleTheRobotsCards(makeCards.getOrder());
+            makeCards.clearStuff();
+            game.playNextCard();
+            events.setPauseEvent(true);
+        }
+    }
+
+    public void runCardPhase(MakeCards makeCards) {
+        this.makeCards = makeCards;
+        int i = -75;
+        for (Group image : this.makeCards.getGroups()) {
+            image.setX(i += 75);
+            stage.addActor(image);
+        }
+        cardPhase = true;
+        Gdx.input.setInputProcessor(stage);
+    }
+
 }
 

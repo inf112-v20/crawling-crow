@@ -4,7 +4,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
-import roborally.ui.MakeCards;
+import roborally.ui.gdx.MakeCards;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 

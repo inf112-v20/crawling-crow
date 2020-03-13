@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
-import roborally.ui.UI;
+import roborally.ui.gdx.UI;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 

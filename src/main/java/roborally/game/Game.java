@@ -1,8 +1,7 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Timer;
-import roborally.game.objects.IFlag;
+import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
 import roborally.game.objects.cards.ProgramCards;
@@ -11,7 +10,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
-import roborally.ui.MakeCards;
+import roborally.ui.gdx.MakeCards;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;

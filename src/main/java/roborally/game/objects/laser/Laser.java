@@ -1,5 +1,6 @@
 package roborally.game.objects.laser;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
@@ -67,6 +68,7 @@ public class Laser {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.5);
         laserEndPositions.clear();
+        float d = 0f;
         storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
         int i = robotsPos.x + dir[0];
