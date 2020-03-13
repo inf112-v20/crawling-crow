@@ -113,6 +113,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             if(makeCards.fiveCards()) {
                 Gdx.input.setInputProcessor(this);
                 cardPhase = false;
+                stage.clear();
                 game.shuffleTheRobotsCards(makeCards.getOrder());
                 makeCards.getImages().clear();
                 makeCards.clearStuff();
