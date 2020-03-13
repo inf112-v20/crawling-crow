@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Scaling;
 import roborally.game.Game;
 import roborally.game.IGame;
@@ -35,17 +38,14 @@ public class UI extends InputAdapter implements ApplicationListener {
     private TiledMap tiledMap;
     private int mapID;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Texture menuTexture;
     private Menu menu;
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private ControlsDebug debugControls;
     private ControlsProgramRobot programRobotControls;
     private boolean paused;
-    private Image[] startImage;
     private Stage stage;
     private boolean cardPhase;
-    private ArrayList<Image> images;
     private MakeCards makeCards;
 
     public UI() {
@@ -81,12 +81,10 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
         paused = true;
-        menuTexture = AssetManagerUtil.getMenu();
         batch = new SpriteBatch();
         menu = new Menu(tiledMap);
         stage = new Stage();
         cardPhase = false;
-        images = new ArrayList<>();
         makeCards = new MakeCards();
     }
 
@@ -105,22 +103,20 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.render();
         if (cardPhase) {
             batch.begin();
-            for (Image image : images) {
-                image.draw(batch, 10);
+            for (Image image : makeCards.getImages()) {
+                image.draw(batch, 1);
             }
             batch.end();
-            Gdx.input.setInputProcessor(stage);
             if (makeCards.fiveCards()) {
                 Gdx.input.setInputProcessor(this);
                 cardPhase = false;
                 stage.clear();
                 game.shuffleTheRobotsCards(makeCards.getOrder());
-                makeCards.getImages().clear();
                 makeCards.clearStuff();
                 return;
             }
-            stage.act();
         }
+        stage.act();
         if (paused) {
             pause();
             if (menu.changeMap()) {
@@ -163,6 +159,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         paused = false;
         Gdx.input.setInputProcessor(this);
         game.enterMenu();
+        menu.dispose();
     }
 
     public void runCardPhase(MakeCards makeCards) {
@@ -171,9 +168,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         for (Image image : this.makeCards.getImages()) {
             image.setX(i += 75);
             stage.addActor(image);
-            this.images.add(image);
         }
         cardPhase = true;
+        Gdx.input.setInputProcessor(stage);
     }
 
     public boolean keyUp(int keycode) {

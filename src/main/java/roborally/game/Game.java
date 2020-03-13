@@ -167,7 +167,6 @@ public class Game implements IGame {
 
     @Override
     public MakeCards getCards() {
-        ArrayList<Image> images = new ArrayList<>();
         ProgramCards programCards = new ProgramCards();
         programCards.shuffleCards();
         ArrayList<IProgramCards.Card> temp = new ArrayList<>();
@@ -180,13 +179,13 @@ public class Game implements IGame {
         for (IProgramCards.Card card : robots[0].getModel().getCards()) {
             if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
                     || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
-                makeCards.makeMove();
+                makeCards.makeMove(card.getPriority());
             } else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
-                makeCards.makeRotateLeft();
+                makeCards.makeRotateLeft(card.getPriority());
             else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
-                makeCards.makeBackup();
+                makeCards.makeBackup(card.getPriority());
             else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
-                makeCards.makeRotateRight();
+                makeCards.makeRotateRight(card.getPriority());
         }
         return makeCards;
     }
