@@ -11,13 +11,14 @@ public class MakeCards {
     private int cardPick;
     private ArrayList<Image> images;
     private int[] order;
+
     public MakeCards() {
         this.cardPick = 0;
         this.images = new ArrayList<>();
         order = new int[5];
     }
 
-    public Image makeBackup() {
+    public void makeBackup() {
         Image backup = new Image(AssetManagerUtil.getBackup());
         backup.setSize(75, 100);
         backup.addListener(new InputListener() {
@@ -28,7 +29,6 @@ public class MakeCards {
             }
         });
         this.images.add(backup);
-        return backup;
     }
 
     public void makeMove() {
@@ -73,15 +73,19 @@ public class MakeCards {
     public ArrayList<Image> getImages() {
         return this.images;
     }
+
     public void addImage(Image image) {
         this.images.add(image);
     }
+
     public int[] getOrder() {
         return this.order;
     }
+
     public boolean fiveCards() {
         return this.cardPick == 5;
     }
+
     public void clearStuff() {
         this.order = new int[5];
         this.cardPick = 0;

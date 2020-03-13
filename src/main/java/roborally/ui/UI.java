@@ -1,29 +1,29 @@
 package roborally.ui;
 
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.enums.PhaseStep;
-import roborally.utilities.enums.RoundStep;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.controls.ControlsProgramRobot;
+import roborally.utilities.enums.PhaseStep;
+import roborally.utilities.enums.RoundStep;
 
 import java.util.ArrayList;
 
@@ -103,14 +103,14 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        if(cardPhase) {
+        if (cardPhase) {
             batch.begin();
-            for(Image image : images) {
+            for (Image image : images) {
                 image.draw(batch, 10);
             }
             batch.end();
             Gdx.input.setInputProcessor(stage);
-            if(makeCards.fiveCards()) {
+            if (makeCards.fiveCards()) {
                 Gdx.input.setInputProcessor(this);
                 cardPhase = false;
                 stage.clear();
@@ -121,9 +121,9 @@ public class UI extends InputAdapter implements ApplicationListener {
             }
             stage.act();
         }
-        if(paused) {
+        if (paused) {
             pause();
-            if(menu.changeMap()) {
+            if (menu.changeMap()) {
                 game.restartGame();
                 tiledMap = menu.getMap();
                 AssetManagerUtil.getLoadedLayers();
@@ -154,7 +154,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void pause() {
         Gdx.input.setInputProcessor(menu);
         menu.render();
-        if(menu.resumeGame())
+        if (menu.resumeGame())
             resume();
     }
 
@@ -167,9 +167,9 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void runCardPhase(MakeCards makeCards) {
         this.makeCards = makeCards;
-        int i = 0;
+        int i = -75;
         for (Image image : this.makeCards.getImages()) {
-            image.setX(i += 100);
+            image.setX(i += 75);
             stage.addActor(image);
             this.images.add(image);
         }
@@ -209,7 +209,7 @@ public class UI extends InputAdapter implements ApplicationListener {
                 }
             }
         }
-        if(game.getMenu())
+        if (game.getMenu())
             paused = true;
         return true;
     }

@@ -9,7 +9,6 @@ import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.Programmable;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
 import roborally.ui.MakeCards;
@@ -172,7 +171,7 @@ public class Game implements IGame {
         ProgramCards programCards = new ProgramCards();
         programCards.shuffleCards();
         ArrayList<IProgramCards.Card> temp = new ArrayList<>();
-        for(int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             temp.add(programCards.getDeck().get(i));
         }
         PlayCards playCards = new PlayCards(temp);
@@ -182,12 +181,11 @@ public class Game implements IGame {
             if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
                     || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
                 makeCards.makeMove();
-            }
-            else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
+            } else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
                 makeCards.makeRotateLeft();
-            else if(card.getCardType() == IProgramCards.CardTypes.BACKUP)
-                makeCards.addImage(makeCards.makeBackup());
-            else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+            else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+                makeCards.makeBackup();
+            else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
                 makeCards.makeRotateRight();
         }
         return makeCards;
@@ -196,7 +194,7 @@ public class Game implements IGame {
     @Override
     public void shuffleTheRobotsCards(int[] order) {
         robots[0].getModel().arrangeCards(order);
-        for(int i = 0; i < 5; i++ ) {
+        for (int i = 0; i < 5; i++) {
             robots[0].playNextCard();
         }
     }
