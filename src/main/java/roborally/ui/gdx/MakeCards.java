@@ -97,7 +97,8 @@ public class MakeCards {
         return label;
     }
 
-    public void reArrange(int i) {
+    public void reArrange(int oldI) {
+        int i = oldI;
         order[i] = -1;
         while (i < 4)
             order[i] = order[++i];
