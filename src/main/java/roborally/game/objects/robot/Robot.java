@@ -11,9 +11,9 @@ import roborally.ui.robot.RobotView;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 
-public class RobotPresenter implements IRobotPresenter {
+public class Robot implements IRobot {
     private IRobotView robotView;
-    private IRobotModel robotModel;
+    private IRobotLogic robotModel;
     private boolean[] visitedFlags;
     private Direction direction;
     private Laser laser;
@@ -22,12 +22,12 @@ public class RobotPresenter implements IRobotPresenter {
     private LaserRegister laserRegister;
 
     // Constructor for testing the robot model.
-    public RobotPresenter(RobotModel robotModel) {
+    public Robot(RobotLogic robotModel) {
         this.robotModel = robotModel;
     }
 
-    public RobotPresenter(int x, int y, int cellId) {
-        IRobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
+    public Robot(int x, int y, int cellId) {
+        IRobotLogic robotModel = new RobotLogic(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
         this.robotModel = robotModel;
         this.robotView = robotView;
@@ -48,7 +48,7 @@ public class RobotPresenter implements IRobotPresenter {
     }
 
     @Override
-    public IRobotModel getModel() {
+    public IRobotLogic getModel() {
         return this.robotModel;
     }
 

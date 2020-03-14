@@ -3,7 +3,7 @@ package roborally.game.objects.robot;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.Laser;
 
-public interface IRobotPresenter {
+public interface IRobot {
     /**
      *
      * @return the models name.
@@ -28,7 +28,7 @@ public interface IRobotPresenter {
 
     Laser getLaser();
 
-    IRobotModel getModel();
+    IRobotLogic getModel();
 
 
     /**

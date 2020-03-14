@@ -7,14 +7,14 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class RobotPresenterTest {
-    private IRobotPresenter testRobot1;
-    private IRobotPresenter testRobot2;
+public class RobotTest {
+    private IRobot testRobot1;
+    private IRobot testRobot2;
 
     @Before
     public void setUp() {
-        testRobot1 = new RobotPresenter(new RobotModel("T1"));
-        testRobot2 = new RobotPresenter(new RobotModel("T2"));
+        testRobot1 = new Robot(new RobotLogic("T1"));
+        testRobot2 = new Robot(new RobotLogic("T2"));
     }
 
     @Test

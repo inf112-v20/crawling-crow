@@ -2,7 +2,7 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 
-public interface IRobotModel {
+public interface IRobotLogic {
 
     /** Returns the nonGraphical position of the robot. */
     GridPoint2 getPosition();

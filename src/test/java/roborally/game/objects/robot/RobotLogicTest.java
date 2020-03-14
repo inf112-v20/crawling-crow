@@ -5,17 +5,17 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class RobotModelTest {
+public class RobotLogicTest {
     private GridPoint2 initialStartPosition;
     private int posX;
     private int posY;
-    private IRobotModel robotModel;
+    private IRobotLogic robotModel;
     private String robotName;
 
     @Before
     public void setUp() {
         robotName = "TestRobot";
-        robotModel = new RobotModel(robotName);
+        robotModel = new RobotLogic(robotName);
         // For setting direct x and y coordinates in RobotPresenter Position
         posX = 12;
         posY = 10;
