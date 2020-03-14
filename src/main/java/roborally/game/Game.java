@@ -11,7 +11,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.Events;
+import roborally.ui.gdx.events.Events;
 import roborally.ui.gdx.MakeCards;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
@@ -184,6 +184,14 @@ public class Game implements IGame {
         assert (gameRunning);
         roundStep = RoundStep.NULL_STEP;
         phaseStep = PhaseStep.NULL_PHASE;
+    }
+
+    public void fireLaser() {
+        robots[0].fireLaser();
+        ArrayList<GridPoint2> coords = robots[0].getLaser().getCoords();
+        if(!coords.isEmpty())
+            events.getLaserEvent().laserEvent(robots[0].getPos(), coords.get(coords.size()-1));
+        robots[0].clearLaser();
     }
 
     @Override

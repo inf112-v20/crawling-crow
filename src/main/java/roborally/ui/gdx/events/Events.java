@@ -1,4 +1,4 @@
-package roborally.ui.gdx;
+package roborally.ui.gdx.events;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +16,7 @@ public class Events {
     private boolean robotFadeOrder;
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
+    private LaserEvent laserEvent;
 
     public Events() {
         this.waitEvent = false;
@@ -24,6 +25,7 @@ public class Events {
         this.robotFadeOrder = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
+        this.laserEvent = new LaserEvent();
 
     }
 
@@ -76,9 +78,17 @@ public class Events {
         if (fadeCounter == this.fadeableRobots.size()) {
             this.fadeableRobots.clear();
             setFadeRobot(false);
-        }
-        else
+        } else
             fadeCounter = 0;
+    }
+
+
+    public boolean hasLaserEvent() {
+        return this.laserEvent.hasLaserEvent();
+    }
+
+    public LaserEvent getLaserEvent() {
+        return this.laserEvent;
     }
 
     private static class Alpha {

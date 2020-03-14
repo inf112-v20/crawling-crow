@@ -33,6 +33,8 @@ public interface IGame {
 
     IGameBoard getGameBoard();
 
+    void fireLaser();
+
     void restartGame();
 
     void startGame();
