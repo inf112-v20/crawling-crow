@@ -43,7 +43,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean cardPhase;
     private MakeCards makeCards;
     private Events events;
-    private float drawAlpha;
 
 
     public UI() {
@@ -52,7 +51,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.cardPhase = false;
         this.events = new Events();
         this.makeCards = new MakeCards();
-        this.drawAlpha = 1f;
     }
 
     @Override
@@ -115,16 +113,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             }
         }
         if (events.getFadeRobot() && !paused) {
-            drawAlpha -= (0.2f * Gdx.graphics.getDeltaTime());
-            if (drawAlpha <= 0) {
-                events.getFadeableRobot().clear();
-                events.setFadeRobot(false);
-                drawAlpha = 1;
-            }
-            batch.begin();
-            for (Image robot : events.getFadeableRobot())
-                robot.draw(batch, drawAlpha);
-            batch.end();
+            events.fadeRobots(batch);
         }
     }
 
@@ -205,7 +194,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         tiledMap = AssetManagerUtil.getMap(menu.getMapId());
         AssetManagerUtil.getLoadedLayers();
         this.events = new Events();
-        this.drawAlpha = 1;
         game = new Game(this.events);
         debugControls = new ControlsDebug(game);
         programRobotControls = new ControlsProgramRobot(game);
