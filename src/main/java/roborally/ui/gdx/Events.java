@@ -24,7 +24,7 @@ public class Events {
 
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
-        if (this.dt >= 0.5) {
+        if (this.dt >= 0.35) {
             game.playNextCard();
             this.dt = 0;
             this.pauseCount++;

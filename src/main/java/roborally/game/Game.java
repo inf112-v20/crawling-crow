@@ -1,6 +1,7 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
 import roborally.game.objects.cards.ProgramCards;
@@ -100,6 +101,7 @@ public class Game implements IGame {
             if (robots[i].getModel().getStatus().equals("Destroyed")) {
                 events.fadeRobot(robots[i].getPos(), robots[i].getTexture());
                 layers.setRobotCell(robots[i].getPos().x, robots[i].getPos().y, null);
+                robots[i].setPos(new GridPoint2(-1,-1));
                 this.events.setFadeRobot(true);
             }
         }
@@ -212,6 +214,7 @@ public class Game implements IGame {
     @Override
     public void playNextCard() {
         robots[0].playNextCard();
+        checkForDestroyedRobots();
     }
 
     @Override
