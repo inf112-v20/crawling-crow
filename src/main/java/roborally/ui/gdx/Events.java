@@ -94,7 +94,7 @@ public class Events {
         }
 
         private float update(float dt) {
-            this.dt -= (0.33f * dt);
+            this.dt -= (0.5f * dt);
             return this.dt;
         }
     }

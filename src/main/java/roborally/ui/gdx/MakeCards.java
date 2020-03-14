@@ -15,13 +15,11 @@ public class MakeCards {
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
-    private ArrayList<Integer> priorities;
 
     public MakeCards() {
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
-        this.priorities = new ArrayList<>();
     }
 
     public void makeBackup(int priority) {
@@ -120,8 +118,6 @@ public class MakeCards {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;
         this.groups.clear();
-        this.priorities.clear();
         this.groups = new ArrayList<>();
-        this.priorities = new ArrayList<>();
     }
 }
