@@ -71,9 +71,9 @@ public class RobotModel implements Programmable {
     }
 
     public Direction rotate(String direction, int factor) {
-        if (direction.equals("L"))
+        if ("L".equals(direction))
             this.direction = Direction.turnLeftFrom(this.direction);
-        else if (direction.equals("R"))
+        else if ("R".equals(direction))
             this.direction = Direction.turnRightFrom(this.direction);
         return this.direction;
     }

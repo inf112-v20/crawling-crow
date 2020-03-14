@@ -17,7 +17,7 @@ public class Listener {
     }
 
     public void listenMove(GridPoint2 pos, int dx, int dy, String name, LaserRegister laserRegister) {
-
+        // Adding a move listener to listen to them all in one swoop.
     }
 
     public void listenWall(int x, int y, int dx, int dy) {

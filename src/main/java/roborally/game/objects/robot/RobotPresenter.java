@@ -22,8 +22,6 @@ public class RobotPresenter implements Programmable {
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
-    private PlayCards playCards;
-    private Queue<IProgramCards.Card> nextCard;
 
     // Constructor for testing the robot model.
     public RobotPresenter(RobotModel robotModel) {

@@ -1,6 +1,5 @@
 package roborally.game.objects.laser;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
@@ -68,7 +67,6 @@ public class Laser {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.5);
         laserEndPositions.clear();
-        float d = 0f;
         storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
         int i = robotsPos.x + dir[0];
@@ -83,8 +81,7 @@ public class Laser {
                 if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
-            }
-            else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)  && layers.getLaserID(i, j) != crossLaser.getTile().getId()) {
+            } else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j) && layers.getLaserID(i, j) != crossLaser.getTile().getId()) {
                 layers.setLaserCell(i, j, crossLaser);
                 laserEndPositions.add(new GridPoint2(i, j));
             }
@@ -237,7 +234,9 @@ public class Laser {
         return 0;
     }
 
-    /** Returns true if the robot is currently in a laser instance */
+    /**
+     * Returns true if the robot is currently in a laser instance
+     */
     public boolean gotPos(GridPoint2 pos) {
         return laserEndPositions.contains(pos);
     }

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 // Learn more about menu badlogicgames.com -> InputAdapter
 public class Menu {
-    private TextureRegion[][] buttons;
     private ArrayList<Image> clickableButtons;
     private boolean resume;
     private boolean changeMap;
@@ -23,7 +22,7 @@ public class Menu {
 
     public Menu(Stage stage) {
         this.clickableButtons = new ArrayList<>();
-        this.buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
+        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
