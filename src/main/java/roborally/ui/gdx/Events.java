@@ -74,7 +74,7 @@ public class Events {
         batch.begin();
         for (Alpha alpha : this.fadeableRobots) {
             alpha.getImage().draw(batch, alpha.update(Gdx.graphics.getDeltaTime()));
-            if (alpha.dt <= -0.5)
+            if (alpha.dt <= -1)
                 fadeCounter++;
         }
         batch.end();
