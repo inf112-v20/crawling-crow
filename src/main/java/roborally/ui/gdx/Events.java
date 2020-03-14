@@ -66,18 +66,19 @@ public class Events {
     }
 
     public void fadeRobots(SpriteBatch batch) {
-        if (fadeCounter == this.fadeableRobots.size()) {
-            this.fadeableRobots.clear();
-            setFadeRobot(false);
-            fadeCounter = 0;
-        }
         batch.begin();
         for (Alpha alpha : this.fadeableRobots) {
             alpha.getImage().draw(batch, alpha.update(Gdx.graphics.getDeltaTime()));
-            if (alpha.dt <= -1)
+            if (alpha.dt <= 0)
                 fadeCounter++;
         }
         batch.end();
+        if (fadeCounter == this.fadeableRobots.size()) {
+            this.fadeableRobots.clear();
+            setFadeRobot(false);
+        }
+        else
+            fadeCounter = 0;
     }
 
     private static class Alpha {

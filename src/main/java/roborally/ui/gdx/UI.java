@@ -108,9 +108,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
         if (paused) {
             pause();
-            if (menu.isChangeMap()) {
-                changeMap();
-            }
         }
         if (events.getFadeRobot() && !paused) {
             events.fadeRobots(batch);
@@ -139,6 +136,8 @@ public class UI extends InputAdapter implements ApplicationListener {
             image.draw(batch, 1);
         }
         stage.act();
+        if (menu.isChangeMap())
+            changeMap();
         batch.end();
         if (menu.isResume())
             resume();
