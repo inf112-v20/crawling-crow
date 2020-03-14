@@ -118,10 +118,13 @@ public class RobotModel implements Programmable {
     public String getStatus() {
         if (this.health < 5 && this.health > 0)
             return "Badly damaged";
-        else if (this.health <= 0)
+        else if (this.health == 0) {
+            this.health = -1;
             return "Destroyed";
-        else
+        } else if (this.health > 5)
             return "Everything ok!";
+        else
+            return "Robot is gone";
     }
 
     public void newCards(PlayCards playCards) {

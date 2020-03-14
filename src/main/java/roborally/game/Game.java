@@ -1,15 +1,16 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
+import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
+import roborally.ui.gdx.Events;
 import roborally.ui.gdx.MakeCards;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
@@ -34,13 +35,15 @@ public class Game implements IGame {
     private int robotPointerID;
     private boolean funMode;
     private boolean menu;
+    private Events events;
 
-    public Game() {
+    public Game(Events events) {
         robotPointerID = 0;
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
         menu = false;
+        this.events = events;
         robots = AssetManagerUtil.makeRobots();
         for (RobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());
@@ -58,6 +61,11 @@ public class Game implements IGame {
     @Override
     public void enterMenu() {
         this.menu = !this.menu;
+    }
+
+    @Override
+    public void enterMenu(boolean value) {
+        this.menu = value;
     }
 
     @Override
@@ -87,6 +95,17 @@ public class Game implements IGame {
     }
 
     @Override
+    public void checkForDestroyedRobots() {
+        for (int i = 0; i < 8; i++) {
+            if (robots[i].getModel().getStatus().equals("Destroyed")) {
+                events.fadeRobot(robots[i].getPos(), robots[i].getTexture());
+                layers.setRobotCell(robots[i].getPos().x, robots[i].getPos().y, null);
+                this.events.setFadeRobot(true);
+            }
+        }
+    }
+
+    @Override
     public ILayers getLayers() {
         return this.layers;
     }
@@ -101,6 +120,7 @@ public class Game implements IGame {
         if (this.robotPointerID == 8) {
             this.robotPointerID = 0;
         }
+        checkForDestroyedRobots();
         return robots[0];
     }
 

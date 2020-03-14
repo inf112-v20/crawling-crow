@@ -43,6 +43,8 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean cardPhase;
     private MakeCards makeCards;
     private Events events;
+    private float drawAlpha;
+
 
     public UI() {
         this.paused = true;
@@ -50,6 +52,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.cardPhase = false;
         this.events = new Events();
         this.makeCards = new MakeCards();
+        this.drawAlpha = 1f;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         // Start a new game
         //boolean runAIGame = true;
         //game = new Game(runAIGame);
-        game = new Game();
+        game = new Game(this.events);
 
         // Setup controls for the game
         debugControls = new ControlsDebug(game);
@@ -83,7 +86,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         batch = new SpriteBatch();
         stage = new Stage();
         menu = new Menu(stage);
-        game.enterMenu();
+        game.enterMenu(true);
     }
 
     @Override
@@ -110,6 +113,18 @@ public class UI extends InputAdapter implements ApplicationListener {
             if (menu.isChangeMap()) {
                 changeMap();
             }
+        }
+        if (events.getFadeRobot() && !paused) {
+            drawAlpha -= (0.2f * Gdx.graphics.getDeltaTime());
+            if (drawAlpha <= 0) {
+                events.getFadeableRobot().clear();
+                events.setFadeRobot(false);
+                drawAlpha = 1;
+            }
+            batch.begin();
+            for (Image robot : events.getFadeableRobot())
+                robot.draw(batch, drawAlpha);
+            batch.end();
         }
     }
 
@@ -142,6 +157,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resume() {
+        game.enterMenu(false);
         paused = false;
         Gdx.input.setInputProcessor(this);
     }
@@ -188,13 +204,14 @@ public class UI extends InputAdapter implements ApplicationListener {
         game.restartGame();
         tiledMap = AssetManagerUtil.getMap(menu.getMapId());
         AssetManagerUtil.getLoadedLayers();
-        game = new Game();
+        this.events = new Events();
+        this.drawAlpha = 1;
+        game = new Game(this.events);
         debugControls = new ControlsDebug(game);
         programRobotControls = new ControlsProgramRobot(game);
         mapRenderer.setMap(tiledMap);
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
-        game.restartGame();
     }
 
     public void cardPhaseRun() {

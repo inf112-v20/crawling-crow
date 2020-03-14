@@ -1,5 +1,6 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.laser.Laser;
@@ -39,6 +40,10 @@ public class RobotPresenter implements Programmable {
         this.listener = new Listener(layers);
         this.laserRegister = new LaserRegister();
 
+    }
+
+    public TextureRegion[][] getTexture() {
+        return this.robotView.getTextureRegion();
     }
 
     public String getName() {
@@ -125,14 +130,13 @@ public class RobotPresenter implements Programmable {
     public void playNextCard() {
         IProgramCards.Card card = getModel().getNextCard();
         if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
-        || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
+                || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
             move(1);
-        }
-        else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+        } else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
             rotate("R", 1);
-        else if(card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
+        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
             rotate("L", 1);
-        else if(card.getCardType() == IProgramCards.CardTypes.BACKUP)
+        else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
             move(-1);
     }
 

@@ -41,6 +41,10 @@ public interface IGame {
 
     void enterMenu();
 
+    void enterMenu(boolean value);
+
+    void checkForDestroyedRobots();
+
     void startNewRound();
 
     boolean isRunning();
