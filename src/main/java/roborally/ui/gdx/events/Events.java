@@ -16,7 +16,7 @@ public class Events {
     private boolean robotFadeOrder;
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
-    private LaserEvent laserEvent;
+    private ArrayList<LaserEvent> laserEvent;
 
     public Events() {
         this.waitEvent = false;
@@ -25,7 +25,7 @@ public class Events {
         this.robotFadeOrder = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
-        this.laserEvent = new LaserEvent();
+        this.laserEvent = new ArrayList<>();
 
     }
 
@@ -84,11 +84,23 @@ public class Events {
 
 
     public boolean hasLaserEvent() {
-        return this.laserEvent.hasLaserEvent();
+        return !this.laserEvent.isEmpty();
     }
 
-    public LaserEvent getLaserEvent() {
+    public ArrayList<LaserEvent> getLaserEvent() {
+        ArrayList<Integer> temp = new ArrayList<>();
+        for(int i = 0; i < this.laserEvent.size(); i++) {
+            if(!this.laserEvent.get(i).hasLaserEvent())
+                temp.add(i);
+        }
+        for (int i : temp)
+            this.laserEvent.remove(i);
         return this.laserEvent;
+    }
+
+    public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
+        this.laserEvent.add(new LaserEvent());
+        this.laserEvent.get(this.laserEvent.size()-1).laserEvent(origin, pos);
     }
 
     private static class Alpha {

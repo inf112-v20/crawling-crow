@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Scaling;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
+import roborally.ui.gdx.events.LaserEvent;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
@@ -114,7 +115,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         if (events.getFadeRobot() && !paused)
             events.fadeRobots(batch);
         if (events.hasLaserEvent())
-            events.getLaserEvent().drawLaserEvent(batch);
+            for(LaserEvent laserEvent : events.getLaserEvent())
+                laserEvent.drawLaserEvent(batch);
         batch.end();
     }
 
