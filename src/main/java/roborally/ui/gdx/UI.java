@@ -103,8 +103,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        if (events.hasLaserEvent())
-            events.getLaserEvent().drawLaserEvent(batch);
         if (cardPhase) {
             cardPhaseRun();
             stage.act();
@@ -112,10 +110,12 @@ public class UI extends InputAdapter implements ApplicationListener {
         if (paused) {
             pause();
         }
-        if (events.getFadeRobot() && !paused) {
+        batch.begin();
+        if (events.getFadeRobot() && !paused)
             events.fadeRobots(batch);
-        }
-
+        if (events.hasLaserEvent())
+            events.getLaserEvent().drawLaserEvent(batch);
+        batch.end();
     }
 
     @Override

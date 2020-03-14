@@ -53,9 +53,7 @@ public class LaserEvent {
 
     public void drawLaserEventHorizontally(SpriteBatch batch) {
         this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor));
-        batch.begin();
         this.laserImage.draw(batch, 1);
-        batch.end();
         if (this.laserImage.getWidth() < 15)
             this.laserEvent = false;
         boolean whichWay;
@@ -76,9 +74,7 @@ public class LaserEvent {
 
     public void drawLaserEventVertically(SpriteBatch batch) {
         this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor));
-        batch.begin();
         this.laserImage.draw(batch, 1);
-        batch.end();
         if (this.laserImage.getHeight() < 15)
             this.laserEvent = false;
         boolean whichway;

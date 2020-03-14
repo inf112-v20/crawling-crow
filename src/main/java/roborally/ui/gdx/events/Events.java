@@ -68,18 +68,18 @@ public class Events {
     }
 
     public void fadeRobots(SpriteBatch batch) {
-        batch.begin();
+
         for (Alpha alpha : this.fadeableRobots) {
             alpha.getImage().draw(batch, alpha.update(Gdx.graphics.getDeltaTime()));
             if (alpha.dt <= 0)
                 fadeCounter++;
         }
-        batch.end();
+
         if (fadeCounter == this.fadeableRobots.size()) {
             this.fadeableRobots.clear();
             setFadeRobot(false);
-        } else
-            fadeCounter = 0;
+        }
+        fadeCounter = 0;
     }
 
 
