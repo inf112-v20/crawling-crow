@@ -1,80 +1,74 @@
 package roborally.ui.gdx;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.utilities.AssetManagerUtil;
 
+import java.util.ArrayList;
+
 // Learn more about menu badlogicgames.com -> InputAdapter
-public class Menu extends InputAdapter implements ApplicationListener {
-    private SpriteBatch batch;
-    private Texture menu;
-    private int i = 0;
-    private int nextMap = 0;
+public class Menu {
+    private TextureRegion[][] buttons;
+    private ArrayList<Image> clickableButtons;
     private boolean resume;
-    private Vector2 mouseScreenPosition;
-    private TiledMap tiledMap;
     private boolean changeMap;
-    public Menu(TiledMap tiledMap) {
+    private int mapId;
+    private Texture menu;
+    private ArrayList<Texture> maps;
+
+    public Menu(Stage stage) {
+        this.clickableButtons = new ArrayList<>();
+        this.buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
+        this.resume = false;
+        this.changeMap = false;
+        this.mapId = 1;
+        int y = 600;
         menu = AssetManagerUtil.getMenu();
-        batch = new SpriteBatch();
-        this.tiledMap = tiledMap;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        resume = false;
-        if (screenX > 100 && screenY > 250 && screenX < 400 && screenY < 300) {
-            if (i == 0) {
-                System.out.println("Starting game");
-                i = 1;
-            } else
-                System.out.println("Resuming game");
-            resume = true;
-        } else if(screenX  > 150 && screenX < 343 && screenY > 144 && screenY < 180) {
-            changeMap = true;
-            if(nextMap == 4)
-                nextMap = 0;
-            tiledMap = AssetManagerUtil.getMap(nextMap++);
+        for (int i = 0; i < 3; i++) {
+            clickableButtons.add(new Image(buttons[i][0]));
+            clickableButtons.get(i).setY(y -= 50);
+            clickableButtons.get(i).setX(675);
+            stage.addActor(clickableButtons.get(i));
         }
+        clickableButtons.get(0).addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                resume = true;
+                return true;
+            }
+        });
+        clickableButtons.get(1).addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                changeMap = true;
+                return true;
+            }
+        });
+        clickableButtons.get(2).addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.exit();
+                return true;
+            }
+        });
+        maps = new ArrayList<>();
+        maps.add(new Texture(Gdx.files.internal("assets/maps/models/map0.png")));
+        maps.add(new Texture(Gdx.files.internal("assets/maps/models/map1.png")));
+        maps.add(new Texture(Gdx.files.internal("assets/maps/models/map2.png")));
+        maps.add(new Texture(Gdx.files.internal("assets/maps/models/map3.png")));
 
-        else if (screenX > 100 && screenX < 400 && screenY > 450) {
-            System.out.println("Exiting game");
-            Gdx.app.exit();
-        }
-        return true;
-    }
-    public boolean changeMap() {
-        if(changeMap) {
-            changeMap = false;
-            return true;
-        }
-        return false;
-    }
-
-    public TiledMap getMap() {
-        return this.tiledMap;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.M && i == 1)
-            resume = true;
-        return true;
-    }
-
-    public void draw() {
-        batch.begin();
-        batch.draw(menu, 10, 10);
-        batch.end();
     }
 
-    public boolean resumeGame() {
+    public ArrayList<Image> getButtons() {
+        return this.clickableButtons;
+    }
+
+    public boolean isResume() {
         if (resume) {
             resume = false;
             return true;
@@ -82,41 +76,31 @@ public class Menu extends InputAdapter implements ApplicationListener {
         return false;
     }
 
-    @Override
-    public void create() {
-
-    }
-
-    @Override
-    public void resize(int i, int i1) {
-
-    }
-
-    @Override
-    public void render() {
-        draw();
-        mouseScreenPosition = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-        if (mouseScreenPosition.x > 120 && mouseScreenPosition.x < 400
-                && mouseScreenPosition.y > 250 && mouseScreenPosition.y < 300) {
-            batch.setColor(555, 123, 450, 600);
-            batch.begin();
-            batch.draw(menu, 100, 10);
-            batch.end();
+    public boolean isChangeMap() {
+        if (changeMap) {
+            changeMap = false;
+            return true;
         }
+        return false;
     }
 
-    @Override
-    public void pause() {
-
+    public int getMapId() {
+        mapId++;
+        if (mapId == 4)
+            mapId = 0;
+        return this.mapId;
     }
 
-    @Override
-    public void resume() {
-
+    public Texture getMenu() {
+        return this.menu;
     }
 
-    @Override
-    public void dispose() {
+    public Texture getMap() {
+        return maps.get(mapId);
+    }
 
+    public void reloadStage(Stage stage) {
+        for (Image image : getButtons())
+            stage.addActor(image);
     }
 }

@@ -40,7 +40,7 @@ public class Game implements IGame {
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
-        menu = true;
+        menu = false;
         robots = AssetManagerUtil.makeRobots();
         for (RobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());

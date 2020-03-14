@@ -67,8 +67,8 @@ public class MakeCards {
                 topLabel.setText(Integer.toString(cardPick));
                 group.addActor(topLabel);
                 order[cardPick++] = groups.indexOf(group);
-                group.getChildren().get(1).setColor(Color.GREEN);
-                group.getChildren().get(0).setColor(Color.GREEN);
+                group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
+                group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
                 return true;
             }
         });
@@ -80,7 +80,7 @@ public class MakeCards {
         topLabelStyle.font = new BitmapFont();
         Label topLabel = new Label("0", topLabelStyle);
         topLabel.setY(100);
-        topLabel.setX(25);
+        topLabel.setX(28);
         topLabel.setColor(Color.GREEN);
         topLabel.setFontScale(2f);
         return topLabel;

@@ -9,10 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class AssetManagerUtil {
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
@@ -30,9 +27,12 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/maps/testMapSingleLasers.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST2
             = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
+
     //Other
     private static final AssetDescriptor<Texture> MENU
-            = new AssetDescriptor<>("assets/menu.png", Texture.class);
+            = new AssetDescriptor<>("assets/menu/menu.png", Texture.class);
+    private static final AssetDescriptor<Texture> BUTTONS
+            = new AssetDescriptor<>("assets/menu/buttons.png", Texture.class);
     private static final AssetDescriptor<Texture> BACKUP
             = new AssetDescriptor<>("assets/cards/backup.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATELEFT
@@ -41,6 +41,7 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/cards/rotater.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE
             = new AssetDescriptor<>("assets/cards/move1.png", Texture.class);
+
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("assets/robots/new/Angry.png", Texture.class);
@@ -85,10 +86,14 @@ public class AssetManagerUtil {
         manager.load(ROTATERIGHT);
         manager.load(ROTATELEFT);
         manager.load(MOVE);
+        manager.load(BUTTONS);
     }
 
     public static Texture getMenu() {
         return manager.get(MENU);
+    }
+    public static Texture getButtons() {
+        return manager.get(BUTTONS);
     }
 
     // Only one map so far, but can add more and return a list.

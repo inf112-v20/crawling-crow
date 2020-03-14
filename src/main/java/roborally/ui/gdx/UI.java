@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
 import roborally.game.Game;
 import roborally.game.IGame;
@@ -45,7 +46,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public UI() {
         this.paused = true;
-        this.mapID = 0;
+        this.mapID = 1;
         this.cardPhase = false;
         this.events = new Events();
         this.makeCards = new MakeCards();
@@ -80,8 +81,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        menu = new Menu(tiledMap);
         stage = new Stage();
+        menu = new Menu(stage);
+        game.enterMenu();
     }
 
     @Override
@@ -99,12 +101,13 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        if (cardPhase)
+        if (cardPhase) {
             cardPhaseRun();
-        stage.act();
+            stage.act();
+        }
         if (paused) {
             pause();
-            if (menu.changeMap()) {
+            if (menu.isChangeMap()) {
                 changeMap();
             }
         }
@@ -124,9 +127,16 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void pause() {
-        Gdx.input.setInputProcessor(menu);
-        menu.render();
-        if (menu.resumeGame())
+        Gdx.input.setInputProcessor(stage);
+        batch.begin();
+        batch.draw(menu.getMenu(), 0, 0);
+        batch.draw(menu.getMap(), 225, 0);
+        for (Image image : menu.getButtons()) {
+            image.draw(batch, 1);
+        }
+        stage.act();
+        batch.end();
+        if (menu.isResume())
             resume();
     }
 
@@ -135,7 +145,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         paused = false;
         Gdx.input.setInputProcessor(this);
         game.enterMenu();
-        menu.dispose();
     }
 
     public boolean keyUp(int keycode) {
@@ -178,7 +187,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void changeMap() {
         game.restartGame();
-        tiledMap = menu.getMap();
+        tiledMap = AssetManagerUtil.getMap(menu.getMapId());
         AssetManagerUtil.getLoadedLayers();
         game = new Game();
         debugControls = new ControlsDebug(game);
@@ -202,6 +211,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             game.shuffleTheRobotsCards(makeCards.getOrder());
             makeCards.clearStuff();
             game.playNextCard();
+            menu.reloadStage(stage);
             events.setPauseEvent(true);
         }
     }
