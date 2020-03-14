@@ -144,7 +144,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void resume() {
         paused = false;
         Gdx.input.setInputProcessor(this);
-        game.enterMenu();
     }
 
     public boolean keyUp(int keycode) {
