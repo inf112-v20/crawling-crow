@@ -5,7 +5,6 @@ import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class GameOptions {

@@ -70,11 +70,11 @@ public class Game implements IGame {
 
     @Override
     public void checkForDestroyedRobots() {
-        for (int i = 0; i < 8; i++) {
-            if (robots[i].getModel().getStatus().equals("Destroyed")) {
-                events.fadeRobot(robots[i].getPos(), robots[i].getTexture());
-                layers.setRobotCell(robots[i].getPos().x, robots[i].getPos().y, null);
-                robots[i].setPos(new GridPoint2(-1,-1));
+        for (RobotPresenter robot : robots) {
+            if (robot.getModel().getStatus().equals("Destroyed")) {
+                events.fadeRobot(robot.getPos(), robot.getTexture());
+                layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
+                robot.setPos(new GridPoint2(-1, -1));
                 this.events.setFadeRobot(true);
             }
         }
