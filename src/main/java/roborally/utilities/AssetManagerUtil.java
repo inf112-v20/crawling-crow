@@ -15,11 +15,17 @@ public class AssetManagerUtil {
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
-            = new AssetDescriptor<>("assets/sounds/fireLaser.wav", Sound.class);
+            = new AssetDescriptor<>("assets/sounds/fireLaser.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEPIN_LASER
             = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
     public static final AssetDescriptor<Sound> ROBOT_HIT
-            = new AssetDescriptor<>("assets/sounds/robotHit.wav", Sound.class);
+            = new AssetDescriptor<>("assets/sounds/robotHit.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> STEP1
+            = new AssetDescriptor<>("assets/sounds/step1.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> STEP2
+            = new AssetDescriptor<>("assets/sounds/step2.mp3", Sound.class);
+    public static final AssetDescriptor<Sound> STEP3
+            = new AssetDescriptor<>("assets/sounds/step3.mp3", Sound.class);
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
             = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
@@ -99,6 +105,9 @@ public class AssetManagerUtil {
         manager.load(U_TURN);
         manager.load(BUTTONS);
         manager.load(ROBOT_HIT);
+        manager.load(STEP1);
+        manager.load(STEP2);
+        manager.load(STEP3);
     }
 
     public static Texture getMenu() {

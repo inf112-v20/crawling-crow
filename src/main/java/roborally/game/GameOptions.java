@@ -51,4 +51,8 @@ public class GameOptions {
     public ArrayList<RobotPresenter> getRobots() {
         return this.robots;
     }
+
+    public void setRobots(ArrayList<RobotPresenter> robots) {
+        this.robots = robots;
+    }
 }

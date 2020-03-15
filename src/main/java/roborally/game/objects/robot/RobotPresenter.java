@@ -1,5 +1,6 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.cards.IProgramCards;
@@ -131,12 +132,21 @@ public class RobotPresenter implements Programmable {
         IProgramCards.Card card = getModel().getNextCard();
         if (card == null)
             return;
-        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
+        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
+            sound.play(0.25f);
             move(1);
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
+        }
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
+            sound.play(0.25f);
             move(2);
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+        }
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
+            sound.play(0.25f);
             move(3);
+        }
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
             rotate("L", 1);
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)

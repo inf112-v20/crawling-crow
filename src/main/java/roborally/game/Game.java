@@ -1,6 +1,7 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
@@ -164,6 +165,8 @@ public class Game implements IGame {
     }
 
     public void fireLaser() {
+        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+        sound.play((float) 0.2);
         robots.get(0).fireLaser();
         ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
         if (!coords.isEmpty())
@@ -172,6 +175,7 @@ public class Game implements IGame {
 
     @Override
     public MakeCards getCards() {
+        checkForDestroyedRobots();
         ProgramCards programCards = new ProgramCards();
         ArrayList<IProgramCards.Card> temp;
         PlayCards playCards;
@@ -232,6 +236,8 @@ public class Game implements IGame {
 
     @Override
     public void fireLasers() {
+        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+        sound.play((float) 0.2);
         for (RobotPresenter robot : robots) {
             robot.fireLaser();
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
