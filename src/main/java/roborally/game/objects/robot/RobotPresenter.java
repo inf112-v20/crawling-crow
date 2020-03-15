@@ -96,7 +96,7 @@ public class RobotPresenter implements Programmable {
 
     public int[] move(int steps) {
         int[] moveValues = robotModel.move(steps);
-        for(int i = 0; i < steps; i++)
+        for(int i = 0; i < Math.abs(steps); i++)
             moveRobot(moveValues[0], moveValues[1]);
         return this.robotModel.move(steps);
     }

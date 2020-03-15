@@ -37,7 +37,7 @@ public class Events {
     }
 
     public void setGameSpeed(String gameSpeed) {
-        if(gameSpeed.equals("fastest"))
+        if("fastest".equals(gameSpeed))
             this.gameSpeed = 0.01;
     }
 
