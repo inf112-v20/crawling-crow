@@ -20,6 +20,7 @@ public class Events {
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvent;
     private int registerPhase;
+    public static final float unitScale = 300 * 3f / 16f;
 
     public Events() {
         this.waitEvent = false;
@@ -62,9 +63,9 @@ public class Events {
 
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
         Image image = new Image(texture[0][0]);
-        image.setX(pos.x * (300 * 3f / 16f));
-        image.setY(pos.y * (300 * 3f / 16f));
-        image.setSize((300 * 3f / 16f), (300 * 3f / 16f));
+        image.setX(pos.x * unitScale);
+        image.setY(pos.y * unitScale);
+        image.setSize(unitScale, unitScale);
         this.fadeableRobots.add(new Alpha(1f, image));
     }
 
