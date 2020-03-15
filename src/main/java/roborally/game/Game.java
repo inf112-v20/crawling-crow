@@ -175,15 +175,10 @@ public class Game implements IGame {
     @Override
     public MakeCards getCards() {
         ProgramCards programCards = new ProgramCards();
-        programCards.shuffleCards();
-        ArrayList<IProgramCards.Card> temp = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            temp.add(programCards.getDeck().get(i));
-        }
-        PlayCards playCards = new PlayCards(temp);
-        robots[0].getModel().newCards(playCards);
+        ArrayList<IProgramCards.Card> temp;
+        PlayCards playCards;
         int it = 0;
-        for (int i = 1; i < robots.length; i++) {
+        for (int i = 0; i < robots.length; i++) {
             temp = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
                 if (it == 84) {
@@ -194,25 +189,12 @@ public class Game implements IGame {
             }
             playCards = new PlayCards(temp);
             robots[i].getModel().newCards(playCards);
-            robots[i].getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
+            if (i > 0)
+                robots[i].getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
         }
         MakeCards makeCards = new MakeCards();
-        for (IProgramCards.Card card : robots[0].getModel().getCards()) {
-            if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
-                makeCards.makeMove1(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
-                makeCards.makeMove2(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
-                makeCards.makeMove3(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
-                makeCards.makeRotateLeft(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
-                makeCards.makeRotateRight(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.U_TURN)
-                makeCards.makeUTurn(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
-                makeCards.makeBackup(card.getPriority());
-        }
+        for (IProgramCards.Card card : robots[0].getModel().getCards())
+            makeCards.makeCard(card);
         return makeCards;
     }
 

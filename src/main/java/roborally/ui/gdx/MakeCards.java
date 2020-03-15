@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import roborally.game.objects.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
 
 import java.util.ArrayList;
@@ -20,6 +21,23 @@ public class MakeCards {
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
+    }
+
+    public void makeCard(IProgramCards.Card card) {
+        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
+            this.makeMove1(card.getPriority());
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
+            this.makeMove2(card.getPriority());
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+            this.makeMove3(card.getPriority());
+        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
+            this.makeRotateLeft(card.getPriority());
+        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+            this.makeRotateRight(card.getPriority());
+        else if (card.getCardType() == IProgramCards.CardTypes.U_TURN)
+            this.makeUTurn(card.getPriority());
+        else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+            this.makeBackup(card.getPriority());
     }
 
     public void makeUTurn(int priority) {
