@@ -67,6 +67,7 @@ public class LaserEvent {
                 this.robot.getModel().takeDamage(1);
                 Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
                 sound.play(0.1f);
+                System.out.println(this.robot.getModel().getHealth());
                 hitRobot = false;
             }
             this.laserEvent = false;
@@ -95,6 +96,7 @@ public class LaserEvent {
                 this.robot.getModel().takeDamage(1);
                 Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
                 sound.play(0.1f);
+                System.out.println(this.robot.getModel().getHealth());
                 hitRobot = false;
             }
             this.laserEvent = false;

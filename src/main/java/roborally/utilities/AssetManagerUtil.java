@@ -41,8 +41,14 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/cards/rotatel.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATERIGHT
             = new AssetDescriptor<>("assets/cards/rotater.png", Texture.class);
-    private static final AssetDescriptor<Texture> MOVE
+    private static final AssetDescriptor<Texture> MOVE_1
             = new AssetDescriptor<>("assets/cards/move1.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_2
+            = new AssetDescriptor<>("assets/cards/move2.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_3
+            = new AssetDescriptor<>("assets/cards/move3.png", Texture.class);
+    private static final AssetDescriptor<Texture> U_TURN
+            = new AssetDescriptor<>("assets/cards/u-turn.png", Texture.class);
 
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
@@ -87,7 +93,10 @@ public class AssetManagerUtil {
         manager.load(MENU);
         manager.load(ROTATERIGHT);
         manager.load(ROTATELEFT);
-        manager.load(MOVE);
+        manager.load(MOVE_1);
+        manager.load(MOVE_2);
+        manager.load(MOVE_3);
+        manager.load(U_TURN);
         manager.load(BUTTONS);
         manager.load(ROBOT_HIT);
     }
@@ -112,7 +121,10 @@ public class AssetManagerUtil {
         HashMap<String, Texture> map = new HashMap<>();
         map.put("RotateRight", manager.get(ROTATERIGHT));
         map.put("RotateLeft", manager.get(ROTATELEFT));
-        map.put("Move", manager.get(MOVE));
+        map.put("Move1", manager.get(MOVE_1));
+        map.put("Move2", manager.get(MOVE_2));
+        map.put("Move3", manager.get(MOVE_3));
+        map.put("Uturn", manager.get(U_TURN));
         map.put("Backup", manager.get(BACKUP));
         return map.get(card);
     }

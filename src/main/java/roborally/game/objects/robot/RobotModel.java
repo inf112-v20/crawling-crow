@@ -75,6 +75,13 @@ public class RobotModel implements Programmable {
             this.direction = Direction.turnLeftFrom(this.direction);
         else if ("R".equals(direction))
             this.direction = Direction.turnRightFrom(this.direction);
+        if(factor == 2) {
+            if ("L".equals(direction))
+                this.direction = Direction.turnLeftFrom(this.direction);
+            else if ("R".equals(direction))
+                this.direction = Direction.turnRightFrom(this.direction);
+        }
+
         return this.direction;
     }
 

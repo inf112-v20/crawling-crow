@@ -191,15 +191,20 @@ public class Game implements IGame {
         }
         MakeCards makeCards = new MakeCards();
         for (IProgramCards.Card card : robots[0].getModel().getCards()) {
-            if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
-                    || card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
-                makeCards.makeMove(card.getPriority());
-            } else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == IProgramCards.CardTypes.U_TURN)
+            if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
+                makeCards.makeMove1(card.getPriority());
+            else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
+                makeCards.makeMove2(card.getPriority());
+            else if(card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+                makeCards.makeMove3(card.getPriority());
+            else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
                 makeCards.makeRotateLeft(card.getPriority());
-            else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
-                makeCards.makeBackup(card.getPriority());
             else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
                 makeCards.makeRotateRight(card.getPriority());
+            else if (card.getCardType() == IProgramCards.CardTypes.U_TURN)
+                makeCards.makeUTurn(card.getPriority());
+            else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+                makeCards.makeBackup(card.getPriority());
         }
         return makeCards;
     }

@@ -22,13 +22,28 @@ public class MakeCards {
         this.order = new int[]{-1, -1, -1, -1, -1};
     }
 
+    public void makeUTurn(int priority) {
+        Image uTurn = new Image(AssetManagerUtil.getCardTexture("Uturn"));
+        makeSomething(priority, uTurn);
+    }
+
     public void makeBackup(int priority) {
         Image backup = new Image(AssetManagerUtil.getCardTexture("Backup"));
         makeSomething(priority, backup);
     }
 
-    public void makeMove(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move"));
+    public void makeMove1(int priority) {
+        Image move = new Image(AssetManagerUtil.getCardTexture("Move1"));
+        makeSomething(priority, move);
+    }
+
+    public void makeMove2(int priority) {
+        Image move = new Image(AssetManagerUtil.getCardTexture("Move2"));
+        makeSomething(priority, move);
+    }
+
+    public void makeMove3(int priority) {
+        Image move = new Image(AssetManagerUtil.getCardTexture("Move3"));
         makeSomething(priority, move);
     }
 
