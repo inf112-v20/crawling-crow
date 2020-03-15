@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class GameOptions {
     private boolean menu;
     private boolean funMode;
-    private RobotPresenter[] robots;
+    private ArrayList<RobotPresenter> robots;
 
-    public GameOptions(RobotPresenter[] robots) {
+    public GameOptions(ArrayList<RobotPresenter> robots) {
         this.robots = robots;
         this.menu = false;
     }
@@ -34,12 +34,12 @@ public class GameOptions {
             funMode = true;
             return false;
         }
-        this.robots = new RobotPresenter[layers.getHeight() * layers.getWidth()];
+        this.robots.clear();
         int it = 0;
         for (int j = 0; j < layers.getWidth(); j++) {
             for (int k = 0; k < layers.getHeight(); k++) {
-                this.robots[it] = new RobotPresenter(j, k, k % 8);
-                this.robots[it].setNumberOfFlags(flags.size());
+                robots.add(new RobotPresenter(j, k, k % 8));
+                this.robots.get(it).setNumberOfFlags(flags.size());
                 it++;
             }
         }
@@ -48,7 +48,7 @@ public class GameOptions {
         return funMode;
     }
 
-    public RobotPresenter[] getRobots() {
+    public ArrayList<RobotPresenter> getRobots() {
         return this.robots;
     }
 }

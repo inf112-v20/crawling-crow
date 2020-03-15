@@ -60,7 +60,7 @@ public class Laser {
     public void fireLaser(GridPoint2 robotsPos, int direction) {
         clearLaser();
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.4);
+        sound.play((float) 0.2);
         laserEndPositions.clear();
         storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
@@ -232,10 +232,6 @@ public class Laser {
 
     public void clearStoredCoordinates() {
         laserEndPositions.clear();
-    }
-
-    public void removeLaser() {
-        this.removeLaser = true;
     }
 
     public ArrayList<GridPoint2> getCoords() {

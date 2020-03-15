@@ -26,7 +26,7 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private ILayers layers;
     private AI[] aiRobots;
-    private RobotPresenter[] robots;
+    private ArrayList<RobotPresenter> robots;
     private ArrayList<IFlag> flags;
 
     private RobotPresenter winner;
@@ -92,11 +92,11 @@ public class Game implements IGame {
 
     @Override
     public RobotPresenter getRobots() {
-        if (this.robotPointerID == robots.length) {
+        if (this.robotPointerID == robots.size()) {
             this.robotPointerID = 0;
         }
         checkForDestroyedRobots();
-        return robots[0];
+        return robots.get(0);
     }
 
     @Override
@@ -164,10 +164,10 @@ public class Game implements IGame {
     }
 
     public void fireLaser() {
-        robots[0].fireLaser();
-        ArrayList<GridPoint2> coords = robots[0].getLaser().getCoords();
+        robots.get(0).fireLaser();
+        ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
         if (!coords.isEmpty())
-            events.createNewLaserEvent(robots[0].getPos(), coords.get(coords.size() - 1));
+            events.createNewLaserEvent(robots.get(0).getPos(), coords.get(coords.size() - 1));
     }
 
     @Override
@@ -176,7 +176,7 @@ public class Game implements IGame {
         ArrayList<IProgramCards.Card> temp;
         PlayCards playCards;
         int it = 0;
-        for (int i = 0; i < robots.length; i++) {
+        for (int i = 0; i < robots.size(); i++) {
             temp = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
                 if (it == 84) {
@@ -186,33 +186,33 @@ public class Game implements IGame {
                 temp.add(programCards.getDeck().get(it++));
             }
             playCards = new PlayCards(temp);
-            robots[i].getModel().newCards(playCards);
+            robots.get(i).getModel().newCards(playCards);
             if (i > 0)
-                robots[i].getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
+                robots.get(i).getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
         }
         MakeCards makeCards = new MakeCards();
-        for (IProgramCards.Card card : robots[0].getModel().getCards())
+        for (IProgramCards.Card card : robots.get(0).getModel().getCards())
             makeCards.makeCard(card);
         return makeCards;
     }
 
     @Override
     public void playNextCard() {
-        if (robots[robotPointerID].getPos().x < 0 || robots[robotPointerID].getPos().y < 0) {
+        if (robots.get(robotPointerID).getPos().x < 0 || robots.get(robotPointerID).getPos().y < 0) {
             robotPointerID++;
-            if (robotPointerID == robots.length)
+            if (robotPointerID == robots.size())
                 robotPointerID = 0;
             return;
         }
-        robots[robotPointerID++].playNextCard();
-        if (robotPointerID == robots.length)
+        robots.get(robotPointerID++).playNextCard();
+        if (robotPointerID == robots.size())
             robotPointerID = 0;
         checkForDestroyedRobots();
     }
 
     @Override
     public void shuffleTheRobotsCards(int[] order) {
-        robots[0].getModel().arrangeCards(order);
+        robots.get(0).getModel().arrangeCards(order);
     }
 
     @Override

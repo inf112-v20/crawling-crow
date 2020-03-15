@@ -10,6 +10,8 @@ import roborally.game.objects.robot.RobotPresenter;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
+import java.util.ArrayList;
+
 public class LaserEvent {
     public static final float unitScale = 300 * 3f / 16f;
     private GridPoint2 laserPoint;
@@ -55,14 +57,14 @@ public class LaserEvent {
      * @param batch  the SpriteBatch from UI.
      * @param robots The list of robots that's playing the game.
      */
-    public void drawLaserEvent(SpriteBatch batch, RobotPresenter[] robots) {
+    public void drawLaserEvent(SpriteBatch batch, ArrayList<RobotPresenter> robots) {
         if (this.id == TileName.LASER_HORIZONTAL.getTileID())
             drawLaserEventHorizontally(batch, robots);
         else
             drawLaserEventVertically(batch, robots);
     }
 
-    public void drawLaserEventHorizontally(SpriteBatch batch, RobotPresenter[] robots) {
+    public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<RobotPresenter> robots) {
         for (RobotPresenter robot : robots)
             if (robot.getPos().equals(laserPoint)) {
                 hitRobot = true;
@@ -84,7 +86,7 @@ public class LaserEvent {
         }
     }
 
-    public void drawLaserEventVertically(SpriteBatch batch, RobotPresenter[] robots) {
+    public void drawLaserEventVertically(SpriteBatch batch, ArrayList<RobotPresenter> robots) {
         for (RobotPresenter robot : robots)
             if (robot.getPos().equals(laserPoint)) {
                 hitRobot = true;
@@ -110,7 +112,7 @@ public class LaserEvent {
         if (hitRobot) {
             this.robot.getModel().takeDamage(1);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
-            sound.play(0.1f);
+            sound.play(0.05f);
             System.out.println(this.robot.getModel().getHealth());
             hitRobot = false;
         }

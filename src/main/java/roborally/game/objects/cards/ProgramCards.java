@@ -13,6 +13,7 @@ public class ProgramCards implements IProgramCards {
                 this.deckOfCards.add(new Card(type));
             }
         }
+        shuffleCards();
     }
 
     @Override

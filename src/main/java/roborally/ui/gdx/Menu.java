@@ -14,6 +14,7 @@ import java.util.ArrayList;
 // Learn more about menu badlogicgames.com -> InputAdapter
 public class Menu {
     private ArrayList<Image> clickableButtons;
+    private ArrayList<Image> tempClickableButtons;
     private boolean resume;
     private boolean changeMap;
     private int mapId;
@@ -107,4 +108,10 @@ public class Menu {
         for (Image image : getButtons())
             stage.addActor(image);
     }
+
+    public void changeToMapMenu() {
+        this.tempClickableButtons = this.clickableButtons;
+        this.clickableButtons.clear();
+    }
+
 }

@@ -68,7 +68,7 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("assets/robots/new/Yellow.png", Texture.class);
     public static AI[] ai;
-    public static RobotPresenter[] robots;
+    public static ArrayList<RobotPresenter> robots;
     private static TiledMap loadedMap;
     private static HashMap<String, TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
@@ -187,14 +187,14 @@ public class AssetManagerUtil {
         ai[7] = new AI(6, 4, 7);
     }
 
-    public static RobotPresenter[] getRobots() {
+    public static ArrayList<RobotPresenter> getRobots() {
         return robots;
     }
 
     /**
      * Sets the robots array to be something different for other game modes
      */
-    public static void setRobots(RobotPresenter[] robotPresenters) {
+    public static void setRobots(ArrayList<RobotPresenter> robotPresenters) {
         robots = robotPresenters;
     }
 
@@ -203,16 +203,16 @@ public class AssetManagerUtil {
     }
 
     // Default Robots
-    public static RobotPresenter[] makeRobots() {
-        robots = new RobotPresenter[8];
-        robots[0] = new RobotPresenter(5, 0, 0);
-        robots[1] = new RobotPresenter(6, 0, 1);
-        robots[2] = new RobotPresenter(3, 1, 2);
-        robots[3] = new RobotPresenter(8, 1, 3);
-        robots[4] = new RobotPresenter(1, 2, 4);
-        robots[5] = new RobotPresenter(5, 6, 5);
-        robots[6] = new RobotPresenter(5, 4, 6);
-        robots[7] = new RobotPresenter(5, 5, 7);
+    public static ArrayList<RobotPresenter> makeRobots() {
+        robots = new ArrayList<>();
+        robots.add(new RobotPresenter(5, 0, 0));
+        robots.add(new RobotPresenter(6, 0, 1));
+        robots.add(new RobotPresenter(3, 1, 2));
+        robots.add(new RobotPresenter(8, 1, 3));
+        robots.add(new RobotPresenter(1, 2, 4));
+        robots.add(new RobotPresenter(5, 6, 5));
+        robots.add(new RobotPresenter(5, 4, 6));
+        robots.add(new RobotPresenter(5, 5, 7));
 
         // Texture region is not automatically set in constructor (for now).
         return robots;

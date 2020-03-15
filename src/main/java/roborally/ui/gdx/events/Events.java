@@ -54,11 +54,11 @@ public class Events {
             this.dt = 0;
             this.pauseCount++;
         }
-        if (pauseCount / registerPhase == game.getGameOptions().getRobots().length) {
+        if (pauseCount / registerPhase == game.getGameOptions().getRobots().size()) {
             game.fireLasers();
             registerPhase++;
         }
-        if (pauseCount == 5 * game.getGameOptions().getRobots().length) {
+        if (pauseCount == 5 * game.getGameOptions().getRobots().size()) {
             this.dt = 0f;
             this.pauseCount = 1;
             this.registerPhase = 1;
