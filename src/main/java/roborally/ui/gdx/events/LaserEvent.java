@@ -31,16 +31,16 @@ public class LaserEvent {
             this.id = 47;
             this.laserImage(47);
             if (origin.y > laserPoint.y)
-                this.factor = -300;
+                this.factor = -400;
             else
-                this.factor = 300;
+                this.factor = 400;
         } else {
             this.id = 39;
             this.laserImage(39);
             if (origin.x > laserPoint.x)
-                this.factor = -300;
+                this.factor = -400;
             else
-                this.factor = 300;
+                this.factor = 400;
         }
         this.laserImage.setX((300 * 3f / 16f) * origin.x);
         this.laserImage.setY((300 * 3f / 16f) * origin.y);

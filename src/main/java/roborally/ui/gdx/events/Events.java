@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Events {
     private boolean waitEvent;
@@ -95,16 +97,10 @@ public class Events {
     }
 
     public ArrayList<LaserEvent> getLaserEvent() {
-        ArrayList<Integer> temp = new ArrayList<>();
-        for(int i = 0; i < this.laserEvent.size(); i++) {
-            if(!this.laserEvent.get(i).hasLaserEvent())
-                temp.add(i);
-        }
-        for (int i : temp) {
-            if(this.laserEvent.size() > i) {
-                this.laserEvent.remove(i);
-            }
-        }
+        List<LaserEvent> temp = this.laserEvent.stream()
+                .filter(LaserEvent::hasLaserEvent)
+                .collect(Collectors.toList());
+        this.laserEvent = (ArrayList<LaserEvent>) temp;
         return this.laserEvent;
     }
 
