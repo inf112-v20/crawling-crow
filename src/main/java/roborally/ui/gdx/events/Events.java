@@ -41,6 +41,12 @@ public class Events {
             this.gameSpeed = 0.01;
     }
 
+    /**
+     * Adds the time lapsed between frames to the variable, plays the next card when it reaches the gameSpeed.
+     *
+     * @param dt   Time lapsed between frames.
+     * @param game The game.
+     */
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
         if (this.dt >= gameSpeed) {
@@ -64,10 +70,17 @@ public class Events {
         return waitEvent;
     }
 
+    // Lets the UI know wether or not there are robots ready to move.
     public void setPauseEvent(boolean value) {
         this.waitEvent = value;
     }
 
+    /**
+     * Replaces the robots texture with an image and fades it.
+     *
+     * @param pos     The robots position.
+     * @param texture The robots texture.
+     */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
         Image image = new Image(texture[0][0]);
         image.setX(pos.x * unitScale);
@@ -76,6 +89,7 @@ public class Events {
         this.fadeableRobots.add(new Alpha(1f, image));
     }
 
+    // Returns true if there are robots to be faded.
     public boolean getFadeRobot() {
         return this.robotFadeOrder;
     }
@@ -84,6 +98,7 @@ public class Events {
         this.robotFadeOrder = value;
     }
 
+    // Fades the robots.
     public void fadeRobots(SpriteBatch batch) {
 
         for (Alpha alpha : this.fadeableRobots) {
@@ -100,10 +115,12 @@ public class Events {
     }
 
 
+    // Returns true if there are lasers on the screen.
     public boolean hasLaserEvent() {
         return !this.laserEvent.isEmpty();
     }
 
+    // Removes lasers that have served their purpose. Returns and sets the list excluding these lasers.
     public ArrayList<LaserEvent> getLaserEvent() {
         List<LaserEvent> temp = this.laserEvent.stream()
                 .filter(LaserEvent::hasLaserEvent)
@@ -112,6 +129,12 @@ public class Events {
         return this.laserEvent;
     }
 
+    /**
+     * Creates a new Laser event for the laser that has been fired.
+     *
+     * @param origin The position the laser was fired from.
+     * @param pos    The endpoint of the laser.
+     */
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
         this.laserEvent.add(new LaserEvent());
         this.laserEvent.get(this.laserEvent.size() - 1).laserEvent(origin, pos);

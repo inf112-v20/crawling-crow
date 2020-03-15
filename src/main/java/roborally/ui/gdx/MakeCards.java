@@ -57,6 +57,13 @@ public class MakeCards {
         makeSomething(priority, RotateL);
     }
 
+    /**
+     * Makes a new Image of the card that is being played. Adds top
+     * label for the order the card is played, and a label for the priority.
+     *
+     * @param priority The priority of this card.
+     * @param image    The image created for the card, with the related texture.
+     */
     private void makeSomething(int priority, Image image) {
         image.setSize(75, 100);
         Group group = new Group();

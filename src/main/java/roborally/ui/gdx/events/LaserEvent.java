@@ -49,6 +49,12 @@ public class LaserEvent {
         this.laserEvent = true;
     }
 
+    /**
+     * Draws an image through the batch from UI.
+     *
+     * @param batch  the SpriteBatch from UI.
+     * @param robots The list of robots that's playing the game.
+     */
     public void drawLaserEvent(SpriteBatch batch, RobotPresenter[] robots) {
         if (this.id == TileName.LASER_HORIZONTAL.getTileID())
             drawLaserEventHorizontally(batch, robots);
@@ -99,6 +105,7 @@ public class LaserEvent {
         }
     }
 
+    // The robot that is hit takes damage and screams like r2d2.
     private void hitRobot() {
         if (hitRobot) {
             this.robot.getModel().takeDamage(1);
