@@ -19,13 +19,15 @@ public class LaserListener {
      * @param name          The name of the robot
      * @param laserRegister the register.
      */
-    public void checkForLasers(int x, int y, String name, LaserRegister laserRegister) {
+    public boolean checkForLasers(int x, int y, String name, LaserRegister laserRegister) {
         GridPoint2 pos = new GridPoint2(x, y);
         int id;
         if (layers.assertLaserNotNull(x, y)) {
             id = layers.getLaserID(x, y);
             laserRegister.createLaser(id, pos, name);
+            return true;
         } else
             laserRegister.updateLaser(name, pos);
+        return false;
     }
 }

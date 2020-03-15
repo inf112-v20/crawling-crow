@@ -111,8 +111,10 @@ public class RobotPresenter implements Programmable {
                 this.setPos(newPos);
                 System.out.println("New position: " + newPos);
                 clearLaser();
-                listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister);
+                if(listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
+                    robotModel.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
+                    robotModel.takeDamage(1);
                     this.setLostTexture();
                 }
                 this.robotView.setDirection(getPos(), robotModel.getDirection());

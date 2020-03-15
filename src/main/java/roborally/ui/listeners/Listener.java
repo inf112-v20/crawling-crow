@@ -28,7 +28,7 @@ public class Listener {
         return collisionListener.checkIfBlocked(x, y, dx, dy);
     }
 
-    public void listenLaser(int x, int y, String name, LaserRegister laserRegister) {
-        this.laserListener.checkForLasers(x, y, name, laserRegister);
+    public boolean listenLaser(int x, int y, String name, LaserRegister laserRegister) {
+        return this.laserListener.checkForLasers(x, y, name, laserRegister);
     }
 }
