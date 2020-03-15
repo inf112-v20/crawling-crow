@@ -111,6 +111,8 @@ public class RobotModel implements Programmable {
 
     public void takeDamage(int damage) {
         this.health -= damage;
+        if(this.health < 0)
+            this.health = 0;
     }
 
     public int getDirectionID() {
@@ -147,7 +149,9 @@ public class RobotModel implements Programmable {
     }
 
     public IProgramCards.Card getNextCard() {
-        return nextCard.removeLast();
+        if(!nextCard.isEmpty())
+            return nextCard.removeLast();
+        return null;
     }
 
     public ArrayList<IProgramCards.Card> getCards() {

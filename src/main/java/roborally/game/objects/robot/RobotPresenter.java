@@ -133,6 +133,8 @@ public class RobotPresenter implements Programmable {
     public void playNextCard() {
         Random r = new Random();
         IProgramCards.Card card = getModel().getNextCard();
+        if(card == null)
+            return;
         if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
             move(1);
         else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
