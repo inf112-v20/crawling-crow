@@ -47,8 +47,6 @@ public class Laser {
     }
 
     public void clearLaser() {
-        removeLaser();
-        update();
         clearStoredCoordinates();
     }
 
@@ -60,12 +58,9 @@ public class Laser {
      * @param direction The direction the robot is looking.
      */
     public void fireLaser(GridPoint2 robotsPos, int direction) {
-        if (!getCoords().isEmpty()) {
-            clearLaser();
-            return;
-        }
+        clearLaser();
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.5);
+        sound.play((float) 0.4);
         laserEndPositions.clear();
         storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
@@ -75,20 +70,14 @@ public class Laser {
         if (wallListener.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
-            if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
-                layers.setLaserCell(i, j, storedLaserCell);
                 laserEndPositions.add(new GridPoint2(i, j));
                 if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
                     break;
                 }
-            } else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j) && layers.getLaserID(i, j) != crossLaser.getTile().getId()) {
-                layers.setLaserCell(i, j, crossLaser);
-                laserEndPositions.add(new GridPoint2(i, j));
+                i = i + dir[0];
+                j = j + dir[1];
             }
-            i = i + dir[0];
-            j = j + dir[1];
         }
-    }
 
     /**
      * Determines which direction the robot is firing it's laser.

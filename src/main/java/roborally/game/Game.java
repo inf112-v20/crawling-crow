@@ -117,7 +117,6 @@ public class Game implements IGame {
     @Override
     public void restartGame() {
         for (RobotPresenter robot : robots) {
-            robot.clearLaser();
             robot.backToCheckPoint();
         }
     }
@@ -169,7 +168,6 @@ public class Game implements IGame {
         ArrayList<GridPoint2> coords = robots[0].getLaser().getCoords();
         if (!coords.isEmpty())
             events.createNewLaserEvent(robots[0].getPos(), coords.get(coords.size() - 1));
-        robots[0].clearLaser();
     }
 
     @Override
@@ -239,7 +237,6 @@ public class Game implements IGame {
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
             if (!coords.isEmpty())
                 events.createNewLaserEvent(robot.getPos(), coords.get(coords.size() - 1));
-            robot.clearLaser();
         }
         // TODO: Implement the corresponding phase.
     }

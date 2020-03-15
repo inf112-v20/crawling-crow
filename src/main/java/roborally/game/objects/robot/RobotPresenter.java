@@ -81,11 +81,6 @@ public class RobotPresenter implements Programmable {
         laser.fireLaser(getPos(), this.robotModel.getDirectionID());
     }
 
-    public void clearLaser() { // TODO: Mabye more suitable elsewhere
-        if (!this.laser.getCoords().isEmpty())
-            laser.clearLaser();
-    }
-
     public Laser getLaser() {
         return this.laser;
     }
@@ -110,7 +105,6 @@ public class RobotPresenter implements Programmable {
             if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
                 this.setPos(newPos);
                 System.out.println("New position: " + newPos);
-                clearLaser();
                 if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
                     robotModel.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
