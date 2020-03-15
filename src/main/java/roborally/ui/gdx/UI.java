@@ -98,7 +98,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
-        if (events.hasWaitEvent())
+        if (events.hasWaitEvent() && !events.hasLaserEvent())
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -116,7 +116,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             events.fadeRobots(batch);
         if (events.hasLaserEvent() && !paused)
             for(LaserEvent laserEvent : events.getLaserEvent())
-                laserEvent.drawLaserEvent(batch);
+                laserEvent.drawLaserEvent(batch, game.getGameOptions().getRobots());
         batch.end();
     }
 

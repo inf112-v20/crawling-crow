@@ -17,6 +17,7 @@ public class Events {
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvent;
+    private int registerPhase;
 
     public Events() {
         this.waitEvent = false;
@@ -26,19 +27,25 @@ public class Events {
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
         this.laserEvent = new ArrayList<>();
+        registerPhase = 1;
 
     }
 
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
-        if (this.dt >= 0.35) {
+        if (this.dt >= 0.2) {
             game.playNextCard();
             this.dt = 0;
             this.pauseCount++;
         }
-        if (pauseCount >= 5) {
+        if (pauseCount / registerPhase == 8) {
+            game.fireLasers();
+            registerPhase++;
+        }
+        if (pauseCount == 5*8) {
             this.dt = 0f;
             this.pauseCount = 1;
+            this.registerPhase = 1;
             setPauseEvent(false);
         }
     }
@@ -94,8 +101,9 @@ public class Events {
                 temp.add(i);
         }
         for (int i : temp) {
-            if(this.laserEvent.size() > i)
+            if(this.laserEvent.size() > i) {
                 this.laserEvent.remove(i);
+            }
         }
         return this.laserEvent;
     }

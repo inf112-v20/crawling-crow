@@ -46,7 +46,7 @@ public class Game implements IGame {
         robots = AssetManagerUtil.makeRobots();
         for (RobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());
-        this.gameOptions = new GameOptions();
+        this.gameOptions = new GameOptions(robots);
     }
 
 
@@ -180,6 +180,15 @@ public class Game implements IGame {
         }
         PlayCards playCards = new PlayCards(temp);
         robots[0].getModel().newCards(playCards);
+        for (int i = 1; i < 8; i++) {
+            temp = new ArrayList<>();
+            for (int j = 0; j < 9; j++) {
+                temp.add(programCards.getDeck().get(i*j));
+            }
+            playCards = new PlayCards(temp);
+            robots[i].getModel().newCards(playCards);
+            robots[i].getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
+        }
         MakeCards makeCards = new MakeCards();
         for (IProgramCards.Card card : robots[0].getModel().getCards()) {
             if (card.getCardType() == IProgramCards.CardTypes.MOVE_1 || card.getCardType() == IProgramCards.CardTypes.MOVE_2
@@ -197,7 +206,9 @@ public class Game implements IGame {
 
     @Override
     public void playNextCard() {
-        robots[0].playNextCard();
+        robots[robotPointerID++].playNextCard();
+        if(robotPointerID == 8)
+            robotPointerID = 0;
         checkForDestroyedRobots();
     }
 
@@ -223,8 +234,13 @@ public class Game implements IGame {
 
     @Override
     public void fireLasers() {
-        for (RobotPresenter robot : robots)
+        for (RobotPresenter robot : robots) {
             robot.fireLaser();
+            ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
+            if (!coords.isEmpty())
+                events.createNewLaserEvent(robot.getPos(), coords.get(coords.size() - 1));
+            robot.clearLaser();
+        }
         // TODO: Implement the corresponding phase.
     }
 

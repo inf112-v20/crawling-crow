@@ -5,13 +5,15 @@ import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class GameOptions {
     private boolean menu;
     private boolean funMode;
     private RobotPresenter[] robots;
-    public GameOptions() {
+    public GameOptions(RobotPresenter[] robots) {
+        this.robots = robots;
         this.menu = false;
     }
 

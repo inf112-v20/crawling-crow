@@ -18,6 +18,8 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/sounds/fireLaser.wav", Sound.class);
     public static final AssetDescriptor<Sound> STEPIN_LASER
             = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
+    public static final AssetDescriptor<Sound> ROBOT_HIT
+            = new AssetDescriptor<>("assets/sounds/robotHit.wav", Sound.class);
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
             = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
@@ -87,6 +89,7 @@ public class AssetManagerUtil {
         manager.load(ROTATELEFT);
         manager.load(MOVE);
         manager.load(BUTTONS);
+        manager.load(ROBOT_HIT);
     }
 
     public static Texture getMenu() {

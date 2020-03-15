@@ -1,9 +1,12 @@
 package roborally.ui.gdx.events;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import roborally.game.objects.robot.RobotPresenter;
 import roborally.utilities.AssetManagerUtil;
 
 public class LaserEvent {
@@ -12,10 +15,13 @@ public class LaserEvent {
     private Image laserImage;
     private int factor;
     private int id;
+    private boolean hitRobot;
+    private RobotPresenter robot;
 
     public void laserImage(int id) {
         Image laserImage = new Image(AssetManagerUtil.getTileSets().getTile(id).getTextureRegion());
         laserImage.setSize((300 * 3f / 16f), (300 * 3f / 16f));
+        laserImage.setColor(Color.MAGENTA);
         this.laserImage = laserImage;
     }
 
@@ -41,52 +47,65 @@ public class LaserEvent {
         this.laserEvent = true;
     }
 
-    public void drawLaserEvent(SpriteBatch batch) {
+    public void drawLaserEvent(SpriteBatch batch, RobotPresenter[] robots) {
         if (this.id == 39)
-            drawLaserEventHorizontally(batch);
+            drawLaserEventHorizontally(batch, robots);
         else
-            drawLaserEventVertically(batch);
+            drawLaserEventVertically(batch, robots);
     }
 
-    public void drawLaserEventHorizontally(SpriteBatch batch) {
+    public void drawLaserEventHorizontally(SpriteBatch batch, RobotPresenter[] robots) {
+        for (RobotPresenter robot : robots)
+            if(robot.getPos().equals(laserPoint)) {
+                hitRobot = true;
+                this.robot = robot;
+            }
         this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor));
         this.laserImage.draw(batch, 1);
-        if (this.laserImage.getWidth() < 15)
+        if (this.laserImage.getWidth() < 20) {
+            if(hitRobot) {
+                this.robot.getModel().takeDamage(1);
+                Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
+                sound.play(0.1f);
+                hitRobot = false;
+            }
             this.laserEvent = false;
+        }
         boolean whichWay;
         if (factor > 0)
-            whichWay = this.laserImage.getX() >= (this.laserPoint.x - 1) * (300 * 3f / 16f);
-        else
-            whichWay = this.laserImage.getX() <= (this.laserPoint.x + 1.75) * (300 * 3f / 16f);
+            whichWay = this.laserImage.getX() >= (this.laserPoint.x) * (300 * 3f / 16f);
+        else {
+            whichWay = this.laserImage.getX() <= (this.laserPoint.x + 0.7) * (300 * 3f / 16f);
+        }
         if (whichWay) {
-            float f;
-            if (factor > 0)
-                f = this.laserImage.getWidth() - this.laserImage.getWidth() / 1.1f;
-            else
-                f = this.laserImage.getWidth() / 1.1f - this.laserImage.getWidth();
-            this.laserImage.setWidth(this.laserImage.getWidth() / 1.1f);
-            this.laserImage.setX(this.laserImage.getX() + f);
+            this.laserImage.setWidth(this.laserImage.getWidth() / 1.2f);
         }
     }
 
-    public void drawLaserEventVertically(SpriteBatch batch) {
+    public void drawLaserEventVertically(SpriteBatch batch, RobotPresenter[] robots) {
+        for (RobotPresenter robot : robots)
+            if(robot.getPos().equals(laserPoint)) {
+                hitRobot = true;
+                this.robot = robot;
+            }
         this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor));
         this.laserImage.draw(batch, 1);
-        if (this.laserImage.getHeight() < 15)
+        if (this.laserImage.getHeight() < 20) {
+            if(hitRobot) {
+                this.robot.getModel().takeDamage(1);
+                Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
+                sound.play(0.1f);
+                hitRobot = false;
+            }
             this.laserEvent = false;
-        boolean whichway;
+        }
+        boolean whichWay;
         if (factor > 0)
-            whichway = this.laserImage.getY() >= (this.laserPoint.y - 1) * (300 * 3f / 16f);
+            whichWay = this.laserImage.getY() >= (this.laserPoint.y) * (300 * 3f / 16f);
         else
-            whichway = this.laserImage.getY() <= (this.laserPoint.y + 1.75) * (300 * 3f / 16f);
-        if (whichway) {
-            float f;
-            if (factor > 0)
-                f = this.laserImage.getHeight() - this.laserImage.getHeight() / 1.1f;
-            else
-                f = this.laserImage.getHeight() / 1.1f - this.laserImage.getHeight();
-            this.laserImage.setHeight(this.laserImage.getHeight() / 1.1f);
-            this.laserImage.setY(this.laserImage.getY() + f);
+            whichWay = this.laserImage.getY() <= (this.laserPoint.y + 0.7) * (300 * 3f / 16f);
+        if (whichWay) {
+            this.laserImage.setHeight(this.laserImage.getHeight() / 1.2f);
         }
     }
 
