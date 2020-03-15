@@ -19,6 +19,7 @@ public class Menu {
     private int mapId;
     private Texture menu;
     private ArrayList<Texture> maps;
+    private int startGame;
 
     public Menu(Stage stage) {
         this.clickableButtons = new ArrayList<>();
@@ -27,6 +28,7 @@ public class Menu {
         this.changeMap = false;
         this.mapId = 1;
         int y = 600;
+        startGame = 0;
         menu = AssetManagerUtil.getMenu();
         for (int i = 0; i < 3; i++) {
             clickableButtons.add(new Image(buttons[i][0]));
@@ -69,6 +71,9 @@ public class Menu {
 
     public boolean isResume() {
         if (resume) {
+            if (startGame == 0)
+                System.out.println("Press Enter to play a phase of cards, press X for Fun Mode, press F to fire laser");
+            startGame = 1;
             resume = false;
             return true;
         }
