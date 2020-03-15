@@ -61,8 +61,10 @@ public class Game implements IGame {
     @Override
     public boolean funMode() {
         boolean funMode = gameOptions.funMode(layers, flags);
-        if (funMode)
+        if (funMode) {
             this.robots = gameOptions.getRobots();
+            this.events.setGameSpeed("fastest");
+        }
        return funMode;
     }
 
@@ -90,7 +92,7 @@ public class Game implements IGame {
 
     @Override
     public RobotPresenter getRobots() {
-        if (this.robotPointerID == 8) {
+        if (this.robotPointerID == robots.length) {
             this.robotPointerID = 0;
         }
         checkForDestroyedRobots();
@@ -180,10 +182,15 @@ public class Game implements IGame {
         }
         PlayCards playCards = new PlayCards(temp);
         robots[0].getModel().newCards(playCards);
-        for (int i = 1; i < 8; i++) {
+        int it = 0;
+        for (int i = 1; i < robots.length; i++) {
             temp = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
-                temp.add(programCards.getDeck().get(i*j));
+                if(it==84) {
+                    programCards.shuffleCards();
+                    it = 0;
+                }
+                temp.add(programCards.getDeck().get(it++));
             }
             playCards = new PlayCards(temp);
             robots[i].getModel().newCards(playCards);
@@ -212,7 +219,7 @@ public class Game implements IGame {
     @Override
     public void playNextCard() {
         robots[robotPointerID++].playNextCard();
-        if(robotPointerID == 8)
+        if(robotPointerID == robots.length)
             robotPointerID = 0;
         checkForDestroyedRobots();
     }

@@ -21,6 +21,7 @@ public class Events {
     private ArrayList<LaserEvent> laserEvent;
     private int registerPhase;
     public static final float unitScale = 300 * 3f / 16f;
+    private double gameSpeed;
 
     public Events() {
         this.waitEvent = false;
@@ -31,21 +32,27 @@ public class Events {
         this.fadeCounter = 0;
         this.laserEvent = new ArrayList<>();
         registerPhase = 1;
+        this.gameSpeed = 0.2;
 
+    }
+
+    public void setGameSpeed(String gameSpeed) {
+        if(gameSpeed.equals("fastest"))
+            this.gameSpeed = 0.01;
     }
 
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
-        if (this.dt >= 0.2) {
+        if (this.dt >= gameSpeed) {
             game.playNextCard();
             this.dt = 0;
             this.pauseCount++;
         }
-        if (pauseCount / registerPhase == 8) {
+        if (pauseCount / registerPhase == game.getGameOptions().getRobots().length) {
             game.fireLasers();
             registerPhase++;
         }
-        if (pauseCount == 5*8) {
+        if (pauseCount == 5*game.getGameOptions().getRobots().length) {
             this.dt = 0f;
             this.pauseCount = 1;
             this.registerPhase = 1;
