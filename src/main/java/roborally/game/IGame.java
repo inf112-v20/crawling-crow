@@ -39,17 +39,13 @@ public interface IGame {
 
     void startGame();
 
-    boolean getMenu();
-
-    void enterMenu();
-
-    void enterMenu(boolean value);
-
     void checkForDestroyedRobots();
 
     void startNewRound();
 
     boolean isRunning();
+
+    GameOptions getGameOptions();
 
     RoundStep currentRoundStep();
 

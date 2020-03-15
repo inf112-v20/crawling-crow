@@ -86,7 +86,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         batch = new SpriteBatch();
         stage = new Stage();
         menu = new Menu(stage);
-        game.enterMenu(true);
+        game.getGameOptions().enterMenu(true);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resume() {
-        game.enterMenu(false);
+        game.getGameOptions().enterMenu(false);
         paused = false;
         Gdx.input.setInputProcessor(this);
     }
@@ -189,7 +189,7 @@ public class UI extends InputAdapter implements ApplicationListener {
                 }
             }
         }
-        if (game.getMenu())
+        if (game.getGameOptions().getMenu())
             paused = true;
         return true;
     }

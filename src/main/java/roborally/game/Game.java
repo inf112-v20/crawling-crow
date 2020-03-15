@@ -37,6 +37,7 @@ public class Game implements IGame {
     private boolean funMode;
     private boolean menu;
     private Events events;
+    private GameOptions gameOptions;
 
     public Game(Events events) {
         robotPointerID = 0;
@@ -48,6 +49,7 @@ public class Game implements IGame {
         robots = AssetManagerUtil.makeRobots();
         for (RobotPresenter robot : robots)
             robot.setNumberOfFlags(flags.size());
+        this.gameOptions = new GameOptions();
     }
 
 
@@ -60,39 +62,11 @@ public class Game implements IGame {
     }
 
     @Override
-    public void enterMenu() {
-        this.menu = !this.menu;
-    }
-
-    @Override
-    public void enterMenu(boolean value) {
-        this.menu = value;
-    }
-
-    @Override
-    public boolean getMenu() {
-        return this.menu;
-    }
-
-    @Override
     public boolean funMode() {
-        if (!funMode) {
-            funMode = true;
-            return false;
-        }
-        robots = null;
-        robots = new RobotPresenter[layers.getHeight() * layers.getWidth()];
-        int it = 0;
-        for (int j = 0; j < layers.getWidth(); j++) {
-            for (int k = 0; k < layers.getHeight(); k++) {
-                robots[it] = new RobotPresenter(j, k, k % 8);
-                robots[it].setNumberOfFlags(flags.size());
-                it++;
-            }
-        }
-        AssetManagerUtil.setRobots(robots);
-        System.out.println("Fun mode activated, click 'A' to fire all lasers, 'M' to randomly move all robots");
-        return funMode;
+        funMode = gameOptions.funMode(layers, flags);
+        if (funMode)
+            this.robots = gameOptions.getRobots();
+       return funMode;
     }
 
     @Override
@@ -172,6 +146,11 @@ public class Game implements IGame {
     @Override
     public boolean isRunning() {
         return gameRunning;
+    }
+
+    @Override
+    public GameOptions getGameOptions() {
+        return this.gameOptions;
     }
 
     @Override
