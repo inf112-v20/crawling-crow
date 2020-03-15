@@ -96,7 +96,7 @@ public class RobotPresenter implements Programmable {
 
     public int[] move(int steps) {
         int[] moveValues = robotModel.move(steps);
-        for(int i = 0; i < Math.abs(steps); i++)
+        for (int i = 0; i < Math.abs(steps); i++)
             moveRobot(moveValues[0], moveValues[1]);
         return this.robotModel.move(steps);
     }
@@ -111,7 +111,7 @@ public class RobotPresenter implements Programmable {
                 this.setPos(newPos);
                 System.out.println("New position: " + newPos);
                 clearLaser();
-                if(listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
+                if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
                     robotModel.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
                     robotModel.takeDamage(1);
@@ -135,25 +135,24 @@ public class RobotPresenter implements Programmable {
     public void playNextCard() {
         Random r = new Random();
         IProgramCards.Card card = getModel().getNextCard();
-        if(card == null)
+        if (card == null)
             return;
         if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
             move(1);
         else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
             move(2);
-        else if(card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
             move(3);
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
             rotate("L", 1);
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
             rotate("R", 1);
         else if (card.getCardType() == IProgramCards.CardTypes.U_TURN) {
-            if(r.nextInt(2) == 1)
+            if (r.nextInt(2) == 1)
                 rotate("L", 2);
             else
                 rotate("R", 2);
-        }
-        else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+        } else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
             move(-1);
     }
 

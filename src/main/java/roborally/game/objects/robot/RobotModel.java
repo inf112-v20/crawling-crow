@@ -75,7 +75,7 @@ public class RobotModel implements Programmable {
             this.direction = Direction.turnLeftFrom(this.direction);
         else if ("R".equals(direction))
             this.direction = Direction.turnRightFrom(this.direction);
-        if(factor == 2) {
+        if (factor == 2) {
             if ("L".equals(direction))
                 this.direction = Direction.turnLeftFrom(this.direction);
             else if ("R".equals(direction))
@@ -111,7 +111,7 @@ public class RobotModel implements Programmable {
 
     public void takeDamage(int damage) {
         this.health -= damage;
-        if(this.health < 0)
+        if (this.health < 0)
             this.health = 0;
     }
 
@@ -149,7 +149,7 @@ public class RobotModel implements Programmable {
     }
 
     public IProgramCards.Card getNextCard() {
-        if(!nextCard.isEmpty())
+        if (!nextCard.isEmpty())
             return nextCard.removeLast();
         return null;
     }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Events {
+    public static final float unitScale = 300 * 3f / 16f;
     private boolean waitEvent;
     private int pauseCount;
     private float dt;
@@ -20,7 +21,6 @@ public class Events {
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvent;
     private int registerPhase;
-    public static final float unitScale = 300 * 3f / 16f;
     private double gameSpeed;
 
     public Events() {
@@ -37,7 +37,7 @@ public class Events {
     }
 
     public void setGameSpeed(String gameSpeed) {
-        if("fastest".equals(gameSpeed))
+        if ("fastest".equals(gameSpeed))
             this.gameSpeed = 0.01;
     }
 
@@ -52,7 +52,7 @@ public class Events {
             game.fireLasers();
             registerPhase++;
         }
-        if (pauseCount == 5*game.getGameOptions().getRobots().length) {
+        if (pauseCount == 5 * game.getGameOptions().getRobots().length) {
             this.dt = 0f;
             this.pauseCount = 1;
             this.registerPhase = 1;
@@ -114,7 +114,7 @@ public class Events {
 
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
         this.laserEvent.add(new LaserEvent());
-        this.laserEvent.get(this.laserEvent.size()-1).laserEvent(origin, pos);
+        this.laserEvent.get(this.laserEvent.size() - 1).laserEvent(origin, pos);
     }
 
     private static class Alpha {

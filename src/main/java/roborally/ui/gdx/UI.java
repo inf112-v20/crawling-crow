@@ -115,7 +115,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         if (events.getFadeRobot() && !paused)
             events.fadeRobots(batch);
         if (events.hasLaserEvent() && !paused)
-            for(LaserEvent laserEvent : events.getLaserEvent())
+            for (LaserEvent laserEvent : events.getLaserEvent())
                 laserEvent.drawLaserEvent(batch, game.getGameOptions().getRobots());
         batch.end();
     }

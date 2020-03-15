@@ -11,6 +11,7 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
 public class LaserEvent {
+    public static final float unitScale = 300 * 3f / 16f;
     private GridPoint2 laserPoint;
     private boolean laserEvent;
     private Image laserImage;
@@ -18,7 +19,6 @@ public class LaserEvent {
     private int id;
     private boolean hitRobot;
     private RobotPresenter robot;
-    public static final float unitScale = 300 * 3f / 16f;
 
     public void laserImage(int id) {
         Image laserImage = new Image(AssetManagerUtil.getTileSets().getTile(id).getTextureRegion());
@@ -58,7 +58,7 @@ public class LaserEvent {
 
     public void drawLaserEventHorizontally(SpriteBatch batch, RobotPresenter[] robots) {
         for (RobotPresenter robot : robots)
-            if(robot.getPos().equals(laserPoint)) {
+            if (robot.getPos().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
             }
@@ -80,7 +80,7 @@ public class LaserEvent {
 
     public void drawLaserEventVertically(SpriteBatch batch, RobotPresenter[] robots) {
         for (RobotPresenter robot : robots)
-            if(robot.getPos().equals(laserPoint)) {
+            if (robot.getPos().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
             }
@@ -100,7 +100,7 @@ public class LaserEvent {
     }
 
     private void hitRobot() {
-        if(hitRobot) {
+        if (hitRobot) {
             this.robot.getModel().takeDamage(1);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
             sound.play(0.1f);
@@ -113,6 +113,7 @@ public class LaserEvent {
     public boolean hasLaserEvent() {
         return this.laserEvent;
     }
+
     public void setLaserSpeed(int factor) {
         this.factor = factor;
     }

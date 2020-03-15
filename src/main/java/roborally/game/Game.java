@@ -11,8 +11,8 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.events.Events;
 import roborally.ui.gdx.MakeCards;
+import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
@@ -65,7 +65,7 @@ public class Game implements IGame {
             this.robots = gameOptions.getRobots();
             this.events.setGameSpeed("fastest");
         }
-       return funMode;
+        return funMode;
     }
 
     @Override
@@ -167,8 +167,8 @@ public class Game implements IGame {
     public void fireLaser() {
         robots[0].fireLaser();
         ArrayList<GridPoint2> coords = robots[0].getLaser().getCoords();
-        if(!coords.isEmpty())
-            events.createNewLaserEvent(robots[0].getPos(), coords.get(coords.size()-1));
+        if (!coords.isEmpty())
+            events.createNewLaserEvent(robots[0].getPos(), coords.get(coords.size() - 1));
         robots[0].clearLaser();
     }
 
@@ -186,7 +186,7 @@ public class Game implements IGame {
         for (int i = 1; i < robots.length; i++) {
             temp = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
-                if(it==84) {
+                if (it == 84) {
                     programCards.shuffleCards();
                     it = 0;
                 }
@@ -202,7 +202,7 @@ public class Game implements IGame {
                 makeCards.makeMove1(card.getPriority());
             else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
                 makeCards.makeMove2(card.getPriority());
-            else if(card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+            else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
                 makeCards.makeMove3(card.getPriority());
             else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
                 makeCards.makeRotateLeft(card.getPriority());
@@ -218,8 +218,14 @@ public class Game implements IGame {
 
     @Override
     public void playNextCard() {
+        if (robots[robotPointerID].getPos().x < 0 || robots[robotPointerID].getPos().y < 0) {
+            robotPointerID++;
+            if (robotPointerID == robots.length)
+                robotPointerID = 0;
+            return;
+        }
         robots[robotPointerID++].playNextCard();
-        if(robotPointerID == robots.length)
+        if (robotPointerID == robots.length)
             robotPointerID = 0;
         checkForDestroyedRobots();
     }
