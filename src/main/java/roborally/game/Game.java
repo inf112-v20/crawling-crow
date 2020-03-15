@@ -34,8 +34,6 @@ public class Game implements IGame {
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int robotPointerID;
-    private boolean funMode;
-    private boolean menu;
     private Events events;
     private GameOptions gameOptions;
 
@@ -44,7 +42,6 @@ public class Game implements IGame {
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
-        menu = false;
         this.events = events;
         robots = AssetManagerUtil.makeRobots();
         for (RobotPresenter robot : robots)
@@ -63,7 +60,7 @@ public class Game implements IGame {
 
     @Override
     public boolean funMode() {
-        funMode = gameOptions.funMode(layers, flags);
+        boolean funMode = gameOptions.funMode(layers, flags);
         if (funMode)
             this.robots = gameOptions.getRobots();
        return funMode;

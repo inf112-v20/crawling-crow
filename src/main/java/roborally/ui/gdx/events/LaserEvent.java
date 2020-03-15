@@ -13,9 +13,6 @@ public class LaserEvent {
     private int factor;
     private int id;
 
-    public LaserEvent() {
-    }
-
     public void laserImage(int id) {
         Image laserImage = new Image(AssetManagerUtil.getTileSets().getTile(id).getTextureRegion());
         laserImage.setSize((300 * 3f / 16f), (300 * 3f / 16f));

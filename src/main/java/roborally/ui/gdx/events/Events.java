@@ -94,7 +94,7 @@ public class Events {
                 temp.add(i);
         }
         for (int i : temp) {
-            if(!(this.laserEvent.size() <= i))
+            if(this.laserEvent.size() > i)
                 this.laserEvent.remove(i);
         }
         return this.laserEvent;
