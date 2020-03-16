@@ -189,15 +189,19 @@ public class Menu {
     }
 
     public boolean isResume(IGame game) {
-        if (resume) {
+        if (resume && startGame == 0) {
             if (isFunMode)
                 game.funMode();
             else {
                 game.startUp();
             }
-            if (startGame == 0)
-                System.out.println("Press Enter to play a phase of cards, press X for Fun Mode, press F to fire laser");
             startGame = 1;
+            resume = false;
+            return true;
+        }
+        else if(resume) {
+            if(isFunMode)
+                game.funMode();
             resume = false;
             return true;
         }
