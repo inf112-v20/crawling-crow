@@ -1,6 +1,5 @@
 package roborally.game.objects.laser;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
@@ -68,14 +67,14 @@ public class Laser {
         if (wallListener.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
-                laserEndPositions.add(new GridPoint2(i, j));
-                if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
-                    break;
-                }
-                i = i + dir[0];
-                j = j + dir[1];
+            laserEndPositions.add(new GridPoint2(i, j));
+            if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
+                break;
             }
+            i = i + dir[0];
+            j = j + dir[1];
         }
+    }
 
     /**
      * Determines which direction the robot is firing it's laser.

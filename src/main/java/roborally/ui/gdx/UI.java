@@ -14,7 +14,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
 import roborally.game.Game;
 import roborally.game.IGame;
@@ -138,7 +137,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         batch.begin();
         menu.drawMenu(batch, stage);
         batch.end();
-        if(menu.isChangeMap())
+        if (menu.isChangeMap())
             changeMap();
         if (menu.isResume())
             resume();

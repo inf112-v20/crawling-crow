@@ -41,18 +41,18 @@ public class Events {
     public void setGameSpeed(String gameSpeed) {
         if ("fastest".equals(gameSpeed))
             this.gameSpeed = 0.01;
-        else if("fast".equals(gameSpeed))
+        else if ("fast".equals(gameSpeed))
             this.gameSpeed = 0.2;
-        else if("normal".equals(gameSpeed))
+        else if ("normal".equals(gameSpeed))
             this.gameSpeed = 0.5;
     }
 
     public void setLaserSpeed(String laserSpeed) {
-        if("slow".equals(laserSpeed))
+        if ("slow".equals(laserSpeed))
             this.factor = 200;
-        else if("normal".equals(laserSpeed))
+        else if ("normal".equals(laserSpeed))
             this.factor = 400;
-        else if("fast".equals(laserSpeed))
+        else if ("fast".equals(laserSpeed))
             this.factor = 800;
     }
 

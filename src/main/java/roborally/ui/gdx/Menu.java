@@ -1,7 +1,6 @@
 package roborally.ui.gdx;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -85,10 +84,12 @@ public class Menu {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 mapButton.setColor(Color.RED);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 mapButton.setColor(Color.BLUE);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeMap = true;
@@ -103,7 +104,7 @@ public class Menu {
         left.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(mapId == 0)
+                if (mapId == 0)
                     mapId = 3;
                 else
                     mapId -= 1;
@@ -113,7 +114,7 @@ public class Menu {
         right.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(mapId == 3)
+                if (mapId == 3)
                     mapId = 0;
                 else
                     mapId += 1;
@@ -125,23 +126,23 @@ public class Menu {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 gameSpeed.setColor(Color.RED);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 gameSpeed.setColor(Color.WHITE);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(gSpeed == 0) {
+                if (gSpeed == 0) {
                     gameSpeed.setText("Game Speed: fast");
                     gSpeed++;
                     getEvents().setGameSpeed("fast");
-                }
-                else if(gSpeed == 1) {
+                } else if (gSpeed == 1) {
                     gameSpeed.setText("Game Speed: fastest");
                     gSpeed++;
                     getEvents().setGameSpeed("fastest");
-                }
-                else if(gSpeed == 2) {
+                } else if (gSpeed == 2) {
                     gameSpeed.setText("Game Speed: normal");
                     getEvents().setGameSpeed("normal");
                     gSpeed = 0;
@@ -153,23 +154,23 @@ public class Menu {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 laserSpeed.setColor(Color.RED);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 laserSpeed.setColor(Color.WHITE);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(lSpeed == 0) {
+                if (lSpeed == 0) {
                     laserSpeed.setText("Laser Speed: normal");
                     lSpeed++;
                     getEvents().setLaserSpeed("normal");
-                }
-                else if(lSpeed == 1) {
+                } else if (lSpeed == 1) {
                     laserSpeed.setText("Laser Speed: fast");
                     lSpeed++;
                     getEvents().setLaserSpeed("fast");
-                }
-                else if(lSpeed == 2) {
+                } else if (lSpeed == 2) {
                     laserSpeed.setText("Laser Speed: slow");
                     getEvents().setLaserSpeed("slow");
                     lSpeed = 0;
@@ -181,10 +182,12 @@ public class Menu {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 clickableButtons.get(0).setColor(Color.RED);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 clickableButtons.get(0).setColor(Color.BLUE);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 resume = true;
@@ -195,10 +198,12 @@ public class Menu {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 clickableButtons.get(1).setColor(Color.RED);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 clickableButtons.get(1).setColor(Color.BLUE);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 changeMapMenu = true;
@@ -213,16 +218,18 @@ public class Menu {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 clickableButtons.get(2).setColor(Color.RED);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 clickableButtons.get(2).setColor(Color.BLUE);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
-        for(Image image : maps)
+        for (Image image : maps)
             image.setPosition(150, 100);
         imageLists.put("maps", maps);
         imageLists.put("buttons", clickableButtons);
@@ -268,19 +275,18 @@ public class Menu {
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
         imageLists.get("menus").get(0).draw(batch, 1);
-        if(!changeMapMenu) {
+        if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
-        }
-        else {
+        } else {
             imageLists.get("maps").get(mapId).draw(batch, 1);
             left.draw(batch, 1);
             right.draw(batch, 1);
             mapButton.draw(batch, 1);
         }
-        if(changeMap)
+        if (changeMap)
             changeMapMenu = false;
         stage.act();
     }
