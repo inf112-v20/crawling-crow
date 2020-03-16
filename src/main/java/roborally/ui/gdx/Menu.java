@@ -148,18 +148,18 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (lSpeed == 0) {
+                if (lSpeed == 1) {
                     laserSpeed.setText("Laser Speed: normal");
                     lSpeed++;
                     getEvents().setLaserSpeed("normal");
-                } else if (lSpeed == 1) {
-                    laserSpeed.setText("Laser Speed: fast");
-                    lSpeed++;
-                    getEvents().setLaserSpeed("fast");
                 } else if (lSpeed == 2) {
+                    laserSpeed.setText("Laser Speed: fast");
+                    lSpeed = 0;
+                    getEvents().setLaserSpeed("fast");
+                } else if (lSpeed == 0) {
                     laserSpeed.setText("Laser Speed: slow");
                     getEvents().setLaserSpeed("slow");
-                    lSpeed = 0;
+                    lSpeed++;
                 }
             }
         });
@@ -274,7 +274,7 @@ public class Menu {
         laserSpeed = new Label("Laser Speed: normal", labelStyle);
         funMode = new Label("FunMode: Off", labelStyle);
         gSpeed = 0;
-        lSpeed = 0;
+        lSpeed = 2;
         funMode.setPosition(700, 510);
         laserSpeed.setPosition(700, 485);
         gameSpeed.setPosition(700, 460);

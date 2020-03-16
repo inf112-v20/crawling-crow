@@ -144,9 +144,7 @@ public class MakeCards {
         while (i < 4) {
             order[i] = order[++i];
             if (order[i] != -1) {
-                Label label = topLabelList.get(i-1);
-                label.setText(Integer.toString(i-1));
-                topLabelList.set(i-1, label);
+                topLabelList.get(i-1).setText(Integer.toString(i-1));
             }
         }
     }
