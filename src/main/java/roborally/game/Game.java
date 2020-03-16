@@ -1,13 +1,19 @@
 package roborally.game;
 
 import com.badlogic.gdx.Gdx;
-import roborally.game.objects.IFlag;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.GridPoint2;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
+import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobot;
-import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
+import roborally.ui.gdx.MakeCards;
+import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
@@ -21,24 +27,25 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private ILayers layers;
     private AI[] aiRobots;
-    private IRobot[] robots;
+    private ArrayList<RobotPresenter> robots;
     private ArrayList<IFlag> flags;
 
-    private IRobot winner;
+    private RobotPresenter winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int robotPointerID;
-    private boolean funMode;
+    private Events events;
+    private GameOptions gameOptions;
+    private boolean fun;
 
-    public Game() {
+    public Game(Events events) {
         robotPointerID = 0;
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
-        robots = AssetManagerUtil.makeRobots();
-        for (IRobot robot : robots)
-            robot.setNumberOfFlags(flags.size());
+        this.events = events;
+        this.gameOptions = new GameOptions(robots);
     }
 
 
@@ -51,24 +58,32 @@ public class Game implements IGame {
     }
 
     @Override
-    public boolean funMode() {
-        if (!funMode) {
-            funMode = true;
-            return false;
-        }
-        robots = null;
-        robots = new Robot[layers.getHeight() * layers.getWidth()];
-        int it = 0;
-        for (int j = 0; j < layers.getWidth(); j++) {
-            for (int k = 0; k < layers.getHeight(); k++) {
-                robots[it] = new Robot(j, k, k % 8);
-                robots[it].setNumberOfFlags(flags.size());
-                it++;
+    public void startUp() {
+        robots = AssetManagerUtil.makeRobots();
+        for (RobotPresenter robot : robots)
+            robot.setNumberOfFlags(flags.size());
+        gameOptions.setRobots(robots);
+    }
+
+    @Override
+    public void funMode() {
+        gameOptions.funMode(layers, flags);
+        this.robots = gameOptions.getRobots();
+        this.events.setGameSpeed("fastest");
+        fun = true;
+    }
+
+    @Override
+    public void checkForDestroyedRobots() {
+        for (RobotPresenter robot : robots) {
+            if (robot.getModel().getStatus().equals("Destroyed")) {
+                events.fadeRobot(robot.getPos(), robot.getTexture());
+                layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
+                robot.setPos(new GridPoint2(-1, -1));
+                robot.clearRegister();
+                this.events.setFadeRobot(true);
             }
         }
-        AssetManagerUtil.setRobots(robots);
-        System.out.println("Fun mode activated, click 'A' to fire all lasers, 'M' to randomly move all robots");
-        return funMode;
     }
 
     @Override
@@ -82,11 +97,12 @@ public class Game implements IGame {
     }
 
     @Override
-    public IRobot getRobots() {
-        if (this.robotPointerID == 8) {
+    public RobotPresenter getRobots() {
+        if (this.robotPointerID == robots.size()) {
             this.robotPointerID = 0;
         }
-        return robots[0];
+        checkForDestroyedRobots();
+        return robots.get(0);
     }
 
     @Override
@@ -106,8 +122,7 @@ public class Game implements IGame {
 
     @Override
     public void restartGame() {
-        for (IRobot robot : robots) {
-            robot.clearLaser();
+        for (RobotPresenter robot : robots) {
             robot.backToCheckPoint();
         }
     }
@@ -138,6 +153,11 @@ public class Game implements IGame {
     }
 
     @Override
+    public GameOptions getGameOptions() {
+        return this.gameOptions;
+    }
+
+    @Override
     public PhaseStep currentPhaseStep() {
         return phaseStep;
     }
@@ -147,6 +167,78 @@ public class Game implements IGame {
         assert (gameRunning);
         roundStep = RoundStep.NULL_STEP;
         phaseStep = PhaseStep.NULL_PHASE;
+    }
+
+    public void fireLaser() {
+        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+        sound.play((float) 0.2);
+        robots.get(0).fireLaser();
+        ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
+        if (!coords.isEmpty())
+            events.createNewLaserEvent(robots.get(0).getPos(), coords.get(coords.size() - 1));
+    }
+
+    @Override
+    public MakeCards getCards() {
+        checkForDestroyedRobots();
+        if (fun)
+            removeOutOfPlayRobots();
+        ProgramCards programCards = new ProgramCards();
+        ArrayList<IProgramCards.Card> temp;
+        PlayCards playCards;
+        int it = 0;
+        for (int i = 0; i < robots.size(); i++) {
+            temp = new ArrayList<>();
+            for (int j = 0; j < 9; j++) {
+                if (it == 84) {
+                    programCards.shuffleCards();
+                    it = 0;
+                }
+                temp.add(programCards.getDeck().get(it++));
+            }
+            playCards = new PlayCards(temp);
+            robots.get(i).getModel().newCards(playCards);
+            if (i > 0)
+                robots.get(i).getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
+        }
+        MakeCards makeCards = new MakeCards();
+        for (IProgramCards.Card card : robots.get(0).getModel().getCards())
+            makeCards.makeCard(card);
+        return makeCards;
+    }
+
+    private void removeOutOfPlayRobots() {
+        GridPoint2 pos = new GridPoint2(-1, -1);
+        ArrayList<RobotPresenter> temp = new ArrayList<>();
+        for (RobotPresenter robot : robots) {
+            if (!robot.getPos().equals(pos))
+                temp.add(robot);
+        }
+        this.robots = temp;
+        gameOptions.setRobots(this.robots);
+        if (this.robots.size() < 2) {
+            System.out.println("Entering menu");
+            gameOptions.enterMenu();
+        }
+    }
+
+    @Override
+    public void playNextCard() {
+        if (robots.get(robotPointerID).getPos().x < 0 || robots.get(robotPointerID).getPos().y < 0) {
+            robotPointerID++;
+            if (robotPointerID == robots.size())
+                robotPointerID = 0;
+            return;
+        }
+        robots.get(robotPointerID++).playNextCard();
+        if (robotPointerID == robots.size())
+            robotPointerID = 0;
+        checkForDestroyedRobots();
+    }
+
+    @Override
+    public void shuffleTheRobotsCards(int[] order) {
+        robots.get(0).getModel().arrangeCards(order);
     }
 
     @Override
@@ -166,8 +258,14 @@ public class Game implements IGame {
 
     @Override
     public void fireLasers() {
-        for (IRobot robot : robots)
+        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+        sound.play((float) 0.2);
+        for (RobotPresenter robot : robots) {
             robot.fireLaser();
+            ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
+            if (!coords.isEmpty())
+                events.createNewLaserEvent(robot.getPos(), coords.get(coords.size() - 1));
+        }
         // TODO: Implement the corresponding phase.
     }
 
@@ -182,9 +280,9 @@ public class Game implements IGame {
         for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
-            for (IRobot robot : robots) {
-                int robotX = robot.getPosition().x;
-                int robotY = robot.getPosition().y;
+            for (RobotPresenter robot : robots) {
+                int robotX = robot.getPos().x;
+                int robotY = robot.getPos().y;
                 if (flagX == robotX && flagY == robotY) {
                     int nextFlag = robot.getNextFlag();
                     if (flag.getId() == nextFlag) {
@@ -218,7 +316,7 @@ public class Game implements IGame {
         assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for (IRobot robot : robots) {
+        for (RobotPresenter robot : robots) {
             if (robot.hasVisitedAllFlags()) {
                 winner = robot;
             }
@@ -232,7 +330,7 @@ public class Game implements IGame {
         if (robots == null) {
             robotsAreCreated = false;
         } else {
-            for (IRobot robot : robots) {
+            for (RobotPresenter robot : robots) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
@@ -246,7 +344,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public IRobot getWinner() {
+    public RobotPresenter getWinner() {
         return winner;
     }
 
@@ -269,16 +367,16 @@ public class Game implements IGame {
     public void moveRobots() {
         Random r = new Random();
         int m;
-        for (IRobot robot : robots) {
+        for (RobotPresenter robot : robots) {
             m = r.nextInt(4);
             if (m == 0)
-                robot.turnLeft();
+                robot.rotate("L", 1);
             else if (m == 1)
-                robot.moveForward();
+                robot.move(1);
             else if (m == 2)
-                robot.moveBackward();
+                robot.move(-1);
             else if (m == 3)
-                robot.turnRight();
+                robot.rotate("R", 1);
         }
     }
 

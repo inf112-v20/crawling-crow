@@ -1,6 +1,5 @@
 package roborally.game.objects.gameboard;
 
-import roborally.game.objects.IFlag;
 import roborally.ui.ILayers;
 import java.util.ArrayList;
 

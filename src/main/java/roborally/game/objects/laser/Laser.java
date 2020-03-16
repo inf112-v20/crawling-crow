@@ -1,6 +1,5 @@
 package roborally.game.objects.laser;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
@@ -47,8 +46,6 @@ public class Laser {
     }
 
     public void clearLaser() {
-        removeLaser();
-        update();
         clearStoredCoordinates();
     }
 
@@ -60,12 +57,7 @@ public class Laser {
      * @param direction The direction the robot is looking.
      */
     public void fireLaser(GridPoint2 robotsPos, int direction) {
-        if (!getCoords().isEmpty()) {
-            clearLaser();
-            return;
-        }
-        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.5);
+        clearLaser();
         laserEndPositions.clear();
         storedLaserCell = getLaser(direction);
         int[] dir = setDirection(direction);
@@ -75,15 +67,9 @@ public class Laser {
         if (wallListener.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
             return;
         while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
-            if (!layers.assertLaserNotNull(i, j) || layers.assertRobotNotNull(i, j)) {
-                layers.setLaserCell(i, j, storedLaserCell);
-                laserEndPositions.add(new GridPoint2(i, j));
-                if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
-                    break;
-                }
-            } else if (storedLaserCell.getTile().getId() != layers.getLaserID(i, j)) {
-                layers.setLaserCell(i, j, crossLaser);
-                laserEndPositions.add(new GridPoint2(i, j));
+            laserEndPositions.add(new GridPoint2(i, j));
+            if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
+                break;
             }
             i = i + dir[0];
             j = j + dir[1];
@@ -234,17 +220,15 @@ public class Laser {
         return 0;
     }
 
-    /** Returns true if the robot is currently in a laser instance */
+    /**
+     * Returns true if the robot is currently in a laser instance
+     */
     public boolean gotPos(GridPoint2 pos) {
         return laserEndPositions.contains(pos);
     }
 
     public void clearStoredCoordinates() {
         laserEndPositions.clear();
-    }
-
-    public void removeLaser() {
-        this.removeLaser = true;
     }
 
     public ArrayList<GridPoint2> getCoords() {

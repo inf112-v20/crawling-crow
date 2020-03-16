@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
-import roborally.ui.UI;
+import roborally.ui.gdx.UI;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 
@@ -26,11 +26,6 @@ public class RobotView implements IRobotView {
         this.layers = new Layers();
         this.height = layers.getHeight();
         this.width = layers.getWidth();
-    }
-
-    public void setTextureRegion(int cellId) {
-        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
-        layers.setRobotCell(this.pos.x, this.pos.y, getTexture());
     }
 
     @Override
@@ -58,6 +53,16 @@ public class RobotView implements IRobotView {
             this.robotDefaultCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         }
         return this.robotDefaultCellTexture;
+    }
+
+    @Override
+    public TextureRegion[][] getTextureRegion() {
+        return this.robotTextureRegion;
+    }
+
+    public void setTextureRegion(int cellId) {
+        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
+        layers.setRobotCell(this.pos.x, this.pos.y, getTexture());
     }
 
     @Override

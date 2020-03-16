@@ -1,4 +1,4 @@
-package roborally.game.objects;
+package roborally.game.objects.cards;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +13,7 @@ public class ProgramCards implements IProgramCards {
                 this.deckOfCards.add(new Card(type));
             }
         }
+        shuffleCards();
     }
 
     @Override

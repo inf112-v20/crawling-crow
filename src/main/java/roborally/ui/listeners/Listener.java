@@ -1,5 +1,6 @@
 package roborally.ui.listeners;
 
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 
@@ -15,6 +16,10 @@ public class Listener {
         this.laserListener = new LaserListener(layers);
     }
 
+    public void listenMove(GridPoint2 pos, int dx, int dy, String name, LaserRegister laserRegister) {
+        // Adding a move listener to listen to them all in one swoop.
+    }
+
     public void listenWall(int x, int y, int dx, int dy) {
         wallListener.checkForWall(x, y, dx, dy);
     }
@@ -23,7 +28,7 @@ public class Listener {
         return collisionListener.checkIfBlocked(x, y, dx, dy);
     }
 
-    public void listenLaser(int x, int y, String name, LaserRegister laserRegister) {
-        this.laserListener.checkForLasers(x, y, name, laserRegister);
+    public boolean listenLaser(int x, int y, String name, LaserRegister laserRegister) {
+        return this.laserListener.checkForLasers(x, y, name, laserRegister);
     }
 }

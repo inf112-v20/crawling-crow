@@ -1,6 +1,9 @@
 package roborally.game.objects.robot;
 
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.laser.Laser;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
@@ -11,208 +14,156 @@ import roborally.ui.robot.RobotView;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 
-public class Robot implements IRobot {
+import java.util.Random;
+
+public class RobotPresenter implements Programmable {
     private IRobotView robotView;
-    private IRobotLogic robotModel;
+    private RobotModel robotModel;
     private boolean[] visitedFlags;
-    private Direction direction;
     private Laser laser;
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
 
     // Constructor for testing the robot model.
-    public Robot(RobotLogic robotModel) {
+    public RobotPresenter(RobotModel robotModel) {
         this.robotModel = robotModel;
     }
 
-    public Robot(int x, int y, int cellId) {
-        IRobotLogic robotModel = new RobotLogic(AssetManagerUtil.getRobotName());
+    public RobotPresenter(int x, int y, int cellId) {
+        RobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
         this.robotModel = robotModel;
         this.robotView = robotView;
-        setPos(x, y);
-        this.direction = Direction.North;
+        setPos(new GridPoint2(x, y));
         this.setTextureRegion(cellId);
         laser = new Laser(0);
         this.robotModel.setCheckPoint(x, y);
         this.layers = new Layers();
         this.listener = new Listener(layers);
         this.laserRegister = new LaserRegister();
+        listener.listenLaser(x, y, getName(), laserRegister);
 
     }
 
-    @Override
+    public TextureRegion[][] getTexture() {
+        return this.robotView.getTextureRegion();
+    }
+
     public String getName() {
         return this.robotModel.getName();
     }
 
-    @Override
-    public IRobotLogic getModel() {
-        return this.robotModel;
+
+    public GridPoint2 getPos() {
+        return this.robotModel.getPos();
     }
 
-    @Override
-    public GridPoint2 getPosition() {
-        return robotModel.getPosition();
+
+    public void setPos(GridPoint2 newPos) {
+        this.robotModel.setPos(newPos);
     }
 
-    @Override
+    public Direction rotate(String way, int factor) {
+        Direction direction = this.robotModel.rotate(way, factor);
+        this.robotView.setDirection(getPos(), direction);
+        return direction;
+    }
+
+    public RobotModel getModel() {
+        return this.robotModel.getModel();
+    }
+
     public void backToCheckPoint() {
-        robotView.goToCheckPoint(this.getPosition(), robotModel.getCheckPoint());
-        this.robotModel.setPosition(robotModel.getCheckPoint());
-        this.direction = Direction.North;
+        robotView.goToCheckPoint(this.getPos(), robotModel.getCheckPoint());
+        this.robotModel.backToCheckPoint();
     }
 
-    @Override
     public void fireLaser() {
-        laser.fireLaser(getPosition(), getDirectionID());
+        laser.fireLaser(getPos(), this.robotModel.getDirectionID());
     }
 
-    @Override
-    public void clearLaser() { // TODO: Mabye more suitable elsewhere
-        if (!this.laser.getCoords().isEmpty())
-            laser.clearLaser();
-    }
-
-    @Override
     public Laser getLaser() {
         return this.laser;
     }
 
-    @Override
     public void setTextureRegion(int i) {
         this.robotView.setTextureRegion(i);
     }
 
-    @Override
-    public boolean move(int dx, int dy) {
-        GridPoint2 pos = this.getPosition();
-        int x = pos.x;
-        int y = pos.y;
-        int newX = x + dx;
-        int newY = y + dy;
-        System.out.println("Old position: " + x + " " + y);
+    public int[] move(int steps) {
+        int[] moveValues = robotModel.move(steps);
+        for (int i = 0; i < Math.abs(steps); i++)
+            moveRobot(moveValues[0], moveValues[1]);
+        return this.robotModel.move(steps);
+    }
 
+    public void moveRobot(int dx, int dy) {
+        GridPoint2 pos = this.getPos();
+        GridPoint2 newPos = new GridPoint2(pos.x + dx, pos.y + dy);
+        System.out.println("Old position: " + pos);
         // Checks for robots in its path before moving.
-        if (!listener.listenCollision(x, y, dx, dy)) {
-            if (this.robotView.moveRobot(x, y, dx, dy)) {
-                this.setPos(newX, newY);
-                System.out.println("New position: " + (newX) + " " + (newY));
-                clearLaser();
-                listener.listenLaser(newX, newY, getName(), laserRegister);
-                if (layers.assertHoleNotNull(newX, newY)) {
+        if (!listener.listenCollision(pos.x, pos.y, dx, dy)) {
+            if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
+                clearRegister();
+                this.setPos(newPos);
+                System.out.println("New position: " + newPos);
+                if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
+                    robotModel.takeDamage(1);
+                if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
+                    robotModel.takeDamage(1);
                     this.setLostTexture();
                 }
-                this.robotView.setDirection(getPosition(), this.direction);
+                this.robotView.setDirection(getPos(), robotModel.getDirection());
             }
         } else
-            System.out.println("New position: " + x + " " + y);
-        // update checkpoints etc.
-        return true;
+            System.out.println("New position: " + pos);
     }
 
-    // TODO: Refactor to RobotModel. One method here to call one of the two in RobotModel (forward, backward).
-    @Override
-    public boolean moveForward() {
-        System.out.println(this.getName());
-        int dy = 0;
-        int dx = 0;
-        System.out.println("\nMoving forward...");
-
-        Direction dir = this.direction;
-        if (dir == Direction.North) {
-            dy = 1;
-        }
-        if (dir == Direction.East) {
-            dx = 1;
-        }
-        if (dir == Direction.West) {
-            dx = -1;
-        }
-        if (dir == Direction.South) {
-            dy = -1;
-        }
-
-        return move(dx, dy);
-    }
-
-    // TODO: Refactor to RobotModel
-    @Override
-    public boolean moveBackward() {
-        int dy = 0;
-        int dx = 0;
-        System.out.println("\nMoving backwards...");
-
-        Direction dir = this.direction;
-        if (dir == Direction.North) {
-            dy = -1;
-        }
-        if (dir == Direction.East) {
-            dx = -1;
-        }
-        if (dir == Direction.West) {
-            dx = 1;
-        }
-        if (dir == Direction.South) {
-            dy = 1;
-        }
-
-        return move(dx, dy);
-    }
-
-    // TODO: Refactor to RobotModel, same as move.
-    @Override
-    public void turnRight() {
-        System.out.println("\nTurning right... ");
-        System.out.print("Old direction: ");
-        System.out.println(this.direction.toString());
-
-        this.direction = Direction.turnRightFrom(this.direction);
-        this.robotView.setDirection(getPosition(), this.direction);
-
-        System.out.print("New direction: ");
-        System.out.println(this.direction.toString());
-        clearLaser(); // TODO: Move this, so it's called one time
-    }
-
-    // TODO: Refactor to RobotModel.
-    @Override
-    public void turnLeft() {
-        System.out.println("\nTurning left...");
-        System.out.print("Old direction: ");
-        System.out.println(this.direction.toString());
-
-        this.direction = Direction.turnLeftFrom(this.direction);
-        this.robotView.setDirection(getPosition(), this.direction);
-
-        System.out.print("New direction: ");
-        System.out.println(this.direction.toString());
-        clearLaser(); // TODO: Move this, so it's called one time
-    }
-
-    @Override
-    public void setPos(int x, int y) {
-        this.robotModel.setPosition(new GridPoint2(x, y));
-    }
-
-    @Override
     public void setWinTexture() {
-        this.robotView.setWinTexture(getPosition());
+        this.robotView.setWinTexture(getPos());
     }
 
-    @Override
+
     public void setLostTexture() {
-        this.robotView.setLostTexture(getPosition());
+        this.robotView.setLostTexture(getPos());
     }
 
-    @Override
-    public int getDirectionID() {
-        return this.direction.getDirectionID();
+    public void playNextCard() {
+        Random r = new Random();
+        IProgramCards.Card card = getModel().getNextCard();
+        if (card == null)
+            return;
+        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
+            sound.play(0.25f);
+            move(1);
+        }
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
+            sound.play(0.25f);
+            move(2);
+        }
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
+            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
+            sound.play(0.25f);
+            move(3);
+        }
+        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
+            rotate("L", 1);
+        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+            rotate("R", 1);
+        else if (card.getCardType() == IProgramCards.CardTypes.U_TURN) {
+            if (r.nextInt(2) == 1)
+                rotate("L", 2);
+            else
+                rotate("R", 2);
+        } else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+            move(-1);
     }
 
     // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
-    @Override
+
     public boolean hasVisitedAllFlags() {
         boolean visitedAll = true;
         for (boolean visitedFlag : visitedFlags) {
@@ -222,7 +173,7 @@ public class Robot implements IRobot {
     }
 
     // TODO: Refactor to RobotModel.
-    @Override
+
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
             if (!visitedFlags[i]) {
@@ -233,10 +184,10 @@ public class Robot implements IRobot {
     }
 
     // TODO: Refactor to RobotModel
-    @Override
+
     public void visitNextFlag() {
         this.setWinTexture();
-        this.robotView.setDirection(getPosition(), this.direction);
+        this.robotView.setDirection(getPos(), robotModel.getDirection());
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
@@ -247,8 +198,12 @@ public class Robot implements IRobot {
     }
 
     //TODO: Refactor to RobotModel
-    @Override
+
     public void setNumberOfFlags(int nFlags) {
         this.visitedFlags = new boolean[nFlags];
+    }
+
+    public void clearRegister() {
+        laserRegister.updateLaser(getName(), getPos());
     }
 }

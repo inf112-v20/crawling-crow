@@ -2,14 +2,16 @@ package roborally.game;
 
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.IRobot;
+import roborally.game.objects.robot.RobotPresenter;
 import roborally.ui.ILayers;
+import roborally.ui.gdx.MakeCards;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
 public interface IGame {
     /**
      * Serves ONLY feed the keyUp method..
+     *
      * @return
      */
 
@@ -21,9 +23,11 @@ public interface IGame {
 
     AI[] getAIRobots();
 
-    IRobot getRobots();
+    RobotPresenter getRobots();
 
-    boolean funMode();
+    void funMode();
+
+    void startUp();
 
     /**
      * Serves ONLY feed the keyUp method..
@@ -31,13 +35,19 @@ public interface IGame {
 
     IGameBoard getGameBoard();
 
+    void fireLaser();
+
     void restartGame();
 
     void startGame();
 
+    void checkForDestroyedRobots();
+
     void startNewRound();
 
     boolean isRunning();
+
+    GameOptions getGameOptions();
 
     RoundStep currentRoundStep();
 
@@ -67,7 +77,13 @@ public interface IGame {
 
     boolean checkIfSomeoneWon();
 
-    IRobot getWinner();
+    RobotPresenter getWinner();
+
+    MakeCards getCards();
+
+    void shuffleTheRobotsCards(int[] order);
+
+    void playNextCard();
 
     void endGame();
 
