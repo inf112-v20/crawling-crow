@@ -3,7 +3,6 @@ package roborally.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.utils.Array;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.PlayCards;
 import roborally.game.objects.cards.ProgramCards;
@@ -19,7 +18,6 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -183,7 +181,7 @@ public class Game implements IGame {
     @Override
     public MakeCards getCards() {
         checkForDestroyedRobots();
-        if(fun)
+        if (fun)
             removeOutOfPlayRobots();
         ProgramCards programCards = new ProgramCards();
         ArrayList<IProgramCards.Card> temp;
@@ -210,15 +208,15 @@ public class Game implements IGame {
     }
 
     private void removeOutOfPlayRobots() {
-        GridPoint2 pos = new GridPoint2(-1,-1);
+        GridPoint2 pos = new GridPoint2(-1, -1);
         ArrayList<RobotPresenter> temp = new ArrayList<>();
-        for(RobotPresenter robot : robots) {
+        for (RobotPresenter robot : robots) {
             if (!robot.getPos().equals(pos))
                 temp.add(robot);
         }
         this.robots = temp;
         gameOptions.setRobots(this.robots);
-        if(this.robots.size() < 2) {
+        if (this.robots.size() < 2) {
             System.out.println("Entering menu");
             gameOptions.enterMenu();
         }
