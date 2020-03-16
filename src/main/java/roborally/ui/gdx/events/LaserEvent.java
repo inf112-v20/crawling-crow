@@ -22,6 +22,10 @@ public class LaserEvent {
     private boolean hitRobot;
     private RobotPresenter robot;
 
+    public LaserEvent(int factor) {
+        this.factor = factor;
+    }
+
     public void laserImage(int id) {
         Image laserImage = new Image(AssetManagerUtil.getTileSets().getTile(id).getTextureRegion());
         laserImage.setSize(unitScale, unitScale);
@@ -35,16 +39,12 @@ public class LaserEvent {
             this.id = TileName.LASER_VERTICAL.getTileID();
             this.laserImage(this.id);
             if (origin.y > laserPoint.y)
-                this.factor = -400;
-            else
-                this.factor = 400;
+                this.factor = -this.factor;
         } else {
             this.id = TileName.LASER_HORIZONTAL.getTileID();
             this.laserImage(this.id);
             if (origin.x > laserPoint.x)
-                this.factor = -400;
-            else
-                this.factor = 400;
+                this.factor = -this.factor;
         }
         this.laserImage.setX(unitScale * origin.x);
         this.laserImage.setY(unitScale * origin.y);

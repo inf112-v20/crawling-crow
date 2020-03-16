@@ -22,6 +22,7 @@ public class Events {
     private ArrayList<LaserEvent> laserEvent;
     private int registerPhase;
     private double gameSpeed;
+    private int factor;
 
     public Events() {
         this.waitEvent = false;
@@ -33,12 +34,26 @@ public class Events {
         this.laserEvent = new ArrayList<>();
         registerPhase = 1;
         this.gameSpeed = 0.2;
+        this.factor = 400;
 
     }
 
     public void setGameSpeed(String gameSpeed) {
         if ("fastest".equals(gameSpeed))
             this.gameSpeed = 0.01;
+        else if("fast".equals(gameSpeed))
+            this.gameSpeed = 0.2;
+        else if("normal".equals(gameSpeed))
+            this.gameSpeed = 0.5;
+    }
+
+    public void setLaserSpeed(String laserSpeed) {
+        if("slow".equals(laserSpeed))
+            this.factor = 200;
+        else if("normal".equals(laserSpeed))
+            this.factor = 400;
+        else if("fast".equals(laserSpeed))
+            this.factor = 800;
     }
 
     /**
@@ -136,7 +151,7 @@ public class Events {
      * @param pos    The endpoint of the laser.
      */
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
-        this.laserEvent.add(new LaserEvent());
+        this.laserEvent.add(new LaserEvent(factor));
         this.laserEvent.get(this.laserEvent.size() - 1).laserEvent(origin, pos);
     }
 

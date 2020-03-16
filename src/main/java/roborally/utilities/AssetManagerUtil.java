@@ -41,6 +41,8 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("assets/menu/menu.png", Texture.class);
     private static final AssetDescriptor<Texture> BUTTONS
             = new AssetDescriptor<>("assets/menu/buttons.png", Texture.class);
+    private static final AssetDescriptor<Texture> MAP_BUTTON
+            = new AssetDescriptor<>("assets/menu/mapButton.png", Texture.class);
     private static final AssetDescriptor<Texture> BACKUP
             = new AssetDescriptor<>("assets/cards/backup.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATELEFT
@@ -108,6 +110,7 @@ public class AssetManagerUtil {
         manager.load(STEP1);
         manager.load(STEP2);
         manager.load(STEP3);
+        manager.load(MAP_BUTTON);
     }
 
     public static Texture getMenu() {
@@ -116,6 +119,7 @@ public class AssetManagerUtil {
     public static Texture getButtons() {
         return manager.get(BUTTONS);
     }
+    public static Texture getMapButton() {return manager.get(MAP_BUTTON);}
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {

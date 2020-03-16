@@ -85,7 +85,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         stage = new Stage();
-        menu = new Menu(stage);
+        menu = new Menu(stage, events);
         game.getGameOptions().enterMenu(true);
     }
 
@@ -136,15 +136,10 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void pause() {
         Gdx.input.setInputProcessor(stage);
         batch.begin();
-        batch.draw(menu.getMenu(), 0, 0);
-        batch.draw(menu.getMap(), 225, 0);
-        for (Image image : menu.getButtons()) {
-            image.draw(batch, 1);
-        }
-        stage.act();
-        if (menu.isChangeMap())
-            changeMap();
+        menu.drawMenu(batch, stage);
         batch.end();
+        if(menu.isChangeMap())
+            changeMap();
         if (menu.isResume())
             resume();
     }
@@ -157,7 +152,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     }
 
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.ENTER) {
+        if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
             runCardPhase(game.getCards());
             return true;
         }
@@ -202,6 +197,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         game = new Game(this.events);
         debugControls = new ControlsDebug(game);
         programRobotControls = new ControlsProgramRobot(game);
+        menu.updateEvents(this.events);
         mapRenderer.setMap(tiledMap);
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
