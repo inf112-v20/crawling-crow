@@ -16,8 +16,10 @@ public class MakeCards {
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
+    private ArrayList<Label> topLabelList;
 
     public MakeCards() {
+        this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
@@ -96,14 +98,14 @@ public class MakeCards {
                     if (groups.indexOf(group) == order[i]) {
                         group.getChildren().get(1).setColor(Color.ORANGE);
                         group.getChildren().get(0).setColor(Color.WHITE);
-                        group.removeActor(topLabel);
+                        topLabel.setText("");
                         reArrange(i);
                         cardPick--;
                         return true;
                     }
-
-                topLabel.setText(Integer.toString(cardPick));
-                group.addActor(topLabel);
+                topLabelList.add(cardPick, topLabel);
+                topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
+                group.addActor(topLabelList.get(cardPick));
                 order[cardPick++] = groups.indexOf(group);
                 group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
                 group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
@@ -116,7 +118,7 @@ public class MakeCards {
     public Label makeTopLabel() {
         Label.LabelStyle topLabelStyle = new Label.LabelStyle();
         topLabelStyle.font = new BitmapFont();
-        Label topLabel = new Label("0", topLabelStyle);
+        Label topLabel = new Label("", topLabelStyle);
         topLabel.setY(100);
         topLabel.setX(28);
         topLabel.setColor(Color.GREEN);
@@ -138,8 +140,15 @@ public class MakeCards {
     public void reArrange(int oldI) {
         int i = oldI;
         order[i] = -1;
-        while (i < 4)
+        topLabelList.remove(i);
+        while (i < 4) {
             order[i] = order[++i];
+            if (order[i] != -1) {
+                Label label = topLabelList.get(i-1);
+                label.setText(Integer.toString(i-1));
+                topLabelList.set(i-1, label);
+            }
+        }
     }
 
     public ArrayList<Group> getGroups() {

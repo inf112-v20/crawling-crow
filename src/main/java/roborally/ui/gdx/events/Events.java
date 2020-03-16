@@ -117,7 +117,7 @@ public class Events {
     public void fadeRobots(SpriteBatch batch) {
 
         for (Alpha alpha : this.fadeableRobots) {
-            alpha.getImage().draw(batch, alpha.update(Gdx.graphics.getDeltaTime()));
+            alpha.image.draw(batch, alpha.update(Gdx.graphics.getDeltaTime()));
             if (alpha.dt <= 0)
                 fadeCounter++;
         }
