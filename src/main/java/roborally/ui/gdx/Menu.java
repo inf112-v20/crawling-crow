@@ -51,7 +51,9 @@ public class Menu {
         imageLists = new HashMap<>();
         startGame = 0;
         imageLists.put("menus", new ArrayList<>());
-        imageLists.get("menus").add(new Image(AssetManagerUtil.getMenu()));
+        Image menu = new Image(AssetManagerUtil.getMenu());
+        menu.setHeight(menu.getHeight() + 50);
+        imageLists.get("menus").add(menu);
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;

@@ -111,7 +111,7 @@ public class Robot implements Programmable {
                 if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
                     robotLogic.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
-                    robotLogic.takeDamage(1);
+                    robotLogic.takeDamage(10);
                     this.setLostTexture();
                 }
                 this.robotView.setDirection(getPos(), robotLogic.getDirection());
@@ -138,18 +138,15 @@ public class Robot implements Programmable {
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
             sound.play(0.25f);
             move(1);
-        }
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2) {
+        } else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2) {
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
             sound.play(0.25f);
             move(2);
-        }
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
+        } else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
             sound.play(0.25f);
             move(3);
-        }
-        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
+        } else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
             rotate("L", 1);
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
             rotate("R", 1);

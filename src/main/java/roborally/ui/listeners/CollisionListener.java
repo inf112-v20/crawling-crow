@@ -40,7 +40,6 @@ public class CollisionListener {
                 if (robot.getPos().x == x && robot.getPos().y == y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
                     robot.moveRobot(dx, dy);
-                    robot.getModel().takeDamage(2);
                     System.out.println("Pushing robot complete");
                 }
         }
@@ -79,7 +78,6 @@ public class CollisionListener {
                 } else if (bumpedPos.equals(bumpingPos)) {
                     System.out.println("\nPushing... ");
                     robot.moveRobot(dx, dy);
-                    robot.getModel().takeDamage(1);
                     System.out.println("Pushing complete... ");
                     if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
                         robot.setWinTexture();
