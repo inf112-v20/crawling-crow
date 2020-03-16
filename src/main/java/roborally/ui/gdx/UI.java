@@ -135,7 +135,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         batch.end();
         if (menu.isChangeMap())
             changeMap();
-        if (menu.isResume())
+        if (menu.isResume(game))
             resume();
     }
 
@@ -185,16 +185,10 @@ public class UI extends InputAdapter implements ApplicationListener {
     }
 
     public void changeMap() {
-        game.restartGame();
-        tiledMap = AssetManagerUtil.getMap(menu.getMapId());
-        AssetManagerUtil.getLoadedLayers();
-        this.events = new Events();
-        game = new Game(this.events);
-        debugControls = new ControlsDebug(game);
-        menu.updateEvents(this.events);
-        mapRenderer.setMap(tiledMap);
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.update();
+        this.mapID = menu.getMapId();
+        dispose();
+        create();
+        menu.setMapId(this.mapID);
     }
 
     public void cardPhaseRun() {

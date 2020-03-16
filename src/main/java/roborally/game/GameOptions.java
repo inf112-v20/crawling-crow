@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class GameOptions {
     private boolean menu;
-    private boolean funMode;
     private ArrayList<RobotPresenter> robots;
 
     public GameOptions(ArrayList<RobotPresenter> robots) {
@@ -29,12 +28,8 @@ public class GameOptions {
         return this.menu;
     }
 
-    public boolean funMode(ILayers layers, ArrayList<IFlag> flags) {
-        if (!funMode) {
-            funMode = true;
-            return false;
-        }
-        this.robots.clear();
+    public void funMode(ILayers layers, ArrayList<IFlag> flags) {
+        robots = new ArrayList<>();
         int it = 0;
         for (int j = 0; j < layers.getWidth(); j++) {
             for (int k = 0; k < layers.getHeight(); k++) {
@@ -46,7 +41,6 @@ public class GameOptions {
         AssetManagerUtil.setRobots(this.robots);
         System.out.println("Fun mode activated, click 'A' to fire all lasers, move all robots has been " +
                 "removed but playing with cards works just as well");
-        return funMode;
     }
 
     public ArrayList<RobotPresenter> getRobots() {

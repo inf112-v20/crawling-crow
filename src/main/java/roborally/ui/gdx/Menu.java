@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 
@@ -27,6 +28,7 @@ public class Menu {
     private int startGame;
     private HashMap<String, ArrayList<Image>> imageLists;
     private boolean changeMapMenu;
+    private Label funMode;
     private Label left;
     private Label right;
     private Label gameSpeed;
@@ -35,11 +37,14 @@ public class Menu {
     private Events events;
     private int gSpeed;
     private int lSpeed;
+    private int fun;
+    private boolean isFunMode;
 
     public Menu(Stage stage, Events events) {
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
+        this.fun = 0;
         this.events = events;
         imageLists = new HashMap<>();
         startGame = 0;
@@ -52,10 +57,9 @@ public class Menu {
         addMaps();
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
+        stage.addActor(funMode);
         makeClickableButtons(stage);
         addMoreListeners(stage);
-
-
     }
 
     private void addMoreListeners(Stage stage) {
@@ -77,6 +81,7 @@ public class Menu {
                 stage.clear();
                 stage.addActor(gameSpeed);
                 stage.addActor(laserSpeed);
+                stage.addActor(funMode);
                 for (Image image : imageLists.get("buttons"))
                     stage.addActor(image);
             }
@@ -157,10 +162,39 @@ public class Menu {
                 }
             }
         });
+        funMode.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                funMode.setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                funMode.setColor(Color.WHITE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (fun == 0) {
+                    funMode.setText("FunMode: On");
+                    isFunMode = true;
+                    fun = 1;
+                } else {
+                    funMode.setText("FunMode: Off");
+                    isFunMode = false;
+                    fun = 0;
+                }
+            }
+        });
     }
 
-    public boolean isResume() {
+    public boolean isResume(IGame game) {
         if (resume) {
+            if (isFunMode)
+                game.funMode();
+            else {
+                game.startUp();
+            }
             if (startGame == 0)
                 System.out.println("Press Enter to play a phase of cards, press X for Fun Mode, press F to fire laser");
             startGame = 1;
@@ -182,6 +216,10 @@ public class Menu {
         return this.mapId;
     }
 
+    public void setMapId(int mapId) {
+        this.mapId = mapId;
+    }
+
     public Events getEvents() {
         return this.events;
     }
@@ -195,6 +233,7 @@ public class Menu {
             stage.addActor(image);
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
+        stage.addActor(funMode);
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
@@ -204,6 +243,7 @@ public class Menu {
                 image.draw(batch, 1);
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
+            funMode.draw(batch, 1);
         } else {
             imageLists.get("maps").get(mapId).draw(batch, 1);
             left.draw(batch, 1);
@@ -215,22 +255,16 @@ public class Menu {
         stage.act();
     }
 
-    public void updateEvents(Events events) {
-        this.events = events;
-        laserSpeed.setText("Laser Speed: normal");
-        gameSpeed.setText("Game Speed: normal");
-        gSpeed = 0;
-        lSpeed = 0;
-    }
-
     private void makeLabels() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         gameSpeed = new Label("Game Speed: normal", labelStyle);
         laserSpeed = new Label("Laser Speed: normal", labelStyle);
+        funMode = new Label("FunMode: Off", labelStyle);
         gSpeed = 0;
         lSpeed = 0;
-        laserSpeed.setPosition(700, 480);
+        funMode.setPosition(700, 510);
+        laserSpeed.setPosition(700, 485);
         gameSpeed.setPosition(700, 460);
         left = new Label(" < ", labelStyle);
         right = new Label(" > ", labelStyle);

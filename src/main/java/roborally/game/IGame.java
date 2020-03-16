@@ -25,7 +25,9 @@ public interface IGame {
 
     RobotPresenter getRobots();
 
-    boolean funMode();
+    void funMode();
+
+    void startUp();
 
     /**
      * Serves ONLY feed the keyUp method..

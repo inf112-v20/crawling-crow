@@ -22,7 +22,6 @@ public class ControlsDebug implements IControls {
         menuControlMap.put(Input.Keys.R, game::restartGame);
         menuControlMap.put(Input.Keys.ESCAPE, game::exitGame);
         menuControlMap.put(Input.Keys.A, game::fireLasers);
-        menuControlMap.put(Input.Keys.X, this::funMode);
         menuControlMap.put(Input.Keys.M, game.getGameOptions()::enterMenu);
         menuControlMap.put(Input.Keys.O, game::playNextCard);
     }
@@ -38,10 +37,5 @@ public class ControlsDebug implements IControls {
 
     private void doNothing() {
         // Ok!
-    }
-
-    private void funMode() {
-        game.funMode();
-        game.funMode();
     }
 }
