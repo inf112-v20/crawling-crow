@@ -128,6 +128,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         int viewportWidth = (int) size.x;
         int viewportHeight = (int) size.y;
         Gdx.gl.glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
+        stage.getViewport().update(width, height, true);
         //stage.setViewport(800, 480, true, viewportX, viewportY, viewportWidth, viewportHeight);
     }
 

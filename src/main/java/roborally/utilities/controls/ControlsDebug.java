@@ -2,13 +2,14 @@ package roborally.utilities.controls;
 
 import com.badlogic.gdx.Input;
 import roborally.game.IGame;
+
 import java.util.HashMap;
 
-public class ControlsDebug implements IControls{
+public class ControlsDebug implements IControls {
     private HashMap<Integer, Runnable> menuControlMap;
     private IGame game;
 
-    public ControlsDebug(IGame game){
+    public ControlsDebug(IGame game) {
         this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.UP, () -> game.getRobots().move(1));
@@ -27,8 +28,8 @@ public class ControlsDebug implements IControls{
     }
 
     @Override
-    public Runnable getAction(int keycode){
-        if(!menuControlMap.containsKey(keycode)){
+    public Runnable getAction(int keycode) {
+        if (!menuControlMap.containsKey(keycode)) {
             return this::doNothing;
         }
 
@@ -38,10 +39,9 @@ public class ControlsDebug implements IControls{
     private void doNothing() {
         // Ok!
     }
+
     private void funMode() {
         game.funMode();
-        if(game.funMode()) {
-            menuControlMap.put(Input.Keys.M, game::moveRobots);
-        }
+        game.funMode();
     }
 }

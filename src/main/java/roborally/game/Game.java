@@ -76,6 +76,7 @@ public class Game implements IGame {
                 events.fadeRobot(robot.getPos(), robot.getTexture());
                 layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
                 robot.setPos(new GridPoint2(-1, -1));
+                robot.clearRegister();
                 this.events.setFadeRobot(true);
             }
         }

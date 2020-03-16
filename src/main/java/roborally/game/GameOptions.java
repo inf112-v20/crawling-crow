@@ -44,7 +44,8 @@ public class GameOptions {
             }
         }
         AssetManagerUtil.setRobots(this.robots);
-        System.out.println("Fun mode activated, click 'A' to fire all lasers, 'M' to randomly move all robots");
+        System.out.println("Fun mode activated, click 'A' to fire all lasers, move all robots has been " +
+                "removed but playing with cards works just as well");
         return funMode;
     }
 

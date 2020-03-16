@@ -42,6 +42,7 @@ public class RobotPresenter implements Programmable {
         this.layers = new Layers();
         this.listener = new Listener(layers);
         this.laserRegister = new LaserRegister();
+        listener.listenLaser(x, y, getName(), laserRegister);
 
     }
 
@@ -104,6 +105,7 @@ public class RobotPresenter implements Programmable {
         // Checks for robots in its path before moving.
         if (!listener.listenCollision(pos.x, pos.y, dx, dy)) {
             if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
+                clearRegister();
                 this.setPos(newPos);
                 System.out.println("New position: " + newPos);
                 if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
@@ -199,5 +201,9 @@ public class RobotPresenter implements Programmable {
 
     public void setNumberOfFlags(int nFlags) {
         this.visitedFlags = new boolean[nFlags];
+    }
+
+    public void clearRegister() {
+        laserRegister.updateLaser(getName(), getPos());
     }
 }

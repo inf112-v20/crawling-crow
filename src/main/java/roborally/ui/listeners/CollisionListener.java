@@ -49,7 +49,8 @@ public class CollisionListener {
             for (RobotPresenter robot : AssetManagerUtil.getRobots())
                 if (robot.getPos().equals(new GridPoint2(x, y))) {
                     layers.setRobotCell(x, y, null);
-                    robot.setPos(new GridPoint2(-1,-1));
+                    robot.setPos(new GridPoint2(-1, -1));
+                    robot.clearRegister();
                 }
         return recursiveRobot;
     }
@@ -73,6 +74,7 @@ public class CollisionListener {
                 if (bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
                     // RobotPresenter "deletion".
                     robot.setPos(new GridPoint2(-1, -1));
+                    robot.clearRegister();
                     layers.setRobotCell(x, y, null);
                 } else if (bumpedPos.equals(bumpingPos)) {
                     System.out.println("\nPushing... ");
