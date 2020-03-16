@@ -30,13 +30,13 @@ public class RobotPresenter implements Programmable {
         this.robotModel = robotModel;
     }
 
-    public RobotPresenter(int x, int y, int cellId) {
+    public RobotPresenter(int x, int y, int robotID) {
         RobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
         this.robotModel = robotModel;
         this.robotView = robotView;
         setPos(new GridPoint2(x, y));
-        this.setTextureRegion(cellId);
+        this.setTextureRegion(robotID);
         laser = new Laser(0);
         this.robotModel.setCheckPoint(x, y);
         this.layers = new Layers();
