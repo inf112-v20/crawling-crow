@@ -16,9 +16,9 @@ import roborally.utilities.enums.Direction;
 
 import java.util.Random;
 
-public class RobotPresenter implements Programmable {
+public class Robot implements Programmable {
     private IRobotView robotView;
-    private RobotModel robotModel;
+    private RobotLogic robotLogic;
     private boolean[] visitedFlags;
     private Laser laser;
     private ILayers layers;
@@ -26,19 +26,19 @@ public class RobotPresenter implements Programmable {
     private LaserRegister laserRegister;
 
     // Constructor for testing the robot model.
-    public RobotPresenter(RobotModel robotModel) {
-        this.robotModel = robotModel;
+    public Robot(RobotLogic robotLogic) {
+        this.robotLogic = robotLogic;
     }
 
-    public RobotPresenter(int x, int y, int robotID) {
-        RobotModel robotModel = new RobotModel(AssetManagerUtil.getRobotName());
+    public Robot(int x, int y, int robotID) {
+        RobotLogic robotModel = new RobotLogic(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
-        this.robotModel = robotModel;
+        this.robotLogic = robotModel;
         this.robotView = robotView;
         setPos(new GridPoint2(x, y));
         this.setTextureRegion(robotID);
         laser = new Laser(0);
-        this.robotModel.setCheckPoint(x, y);
+        this.robotLogic.setCheckPoint(x, y);
         this.layers = new Layers();
         this.listener = new Listener(layers);
         this.laserRegister = new LaserRegister();
@@ -51,36 +51,36 @@ public class RobotPresenter implements Programmable {
     }
 
     public String getName() {
-        return this.robotModel.getName();
+        return this.robotLogic.getName();
     }
 
 
     public GridPoint2 getPos() {
-        return this.robotModel.getPos();
+        return this.robotLogic.getPos();
     }
 
 
     public void setPos(GridPoint2 newPos) {
-        this.robotModel.setPos(newPos);
+        this.robotLogic.setPos(newPos);
     }
 
     public Direction rotate(String way, int factor) {
-        Direction direction = this.robotModel.rotate(way, factor);
+        Direction direction = this.robotLogic.rotate(way, factor);
         this.robotView.setDirection(getPos(), direction);
         return direction;
     }
 
-    public RobotModel getModel() {
-        return this.robotModel.getModel();
+    public RobotLogic getModel() {
+        return this.robotLogic.getModel();
     }
 
     public void backToCheckPoint() {
-        robotView.goToCheckPoint(this.getPos(), robotModel.getCheckPoint());
-        this.robotModel.backToCheckPoint();
+        robotView.goToCheckPoint(this.getPos(), robotLogic.getCheckPoint());
+        this.robotLogic.backToCheckPoint();
     }
 
     public void fireLaser() {
-        laser.fireLaser(getPos(), this.robotModel.getDirectionID());
+        laser.fireLaser(getPos(), this.robotLogic.getDirectionID());
     }
 
     public Laser getLaser() {
@@ -92,10 +92,10 @@ public class RobotPresenter implements Programmable {
     }
 
     public int[] move(int steps) {
-        int[] moveValues = robotModel.move(steps);
+        int[] moveValues = robotLogic.move(steps);
         for (int i = 0; i < Math.abs(steps); i++)
             moveRobot(moveValues[0], moveValues[1]);
-        return this.robotModel.move(steps);
+        return this.robotLogic.move(steps);
     }
 
     public void moveRobot(int dx, int dy) {
@@ -109,12 +109,12 @@ public class RobotPresenter implements Programmable {
                 this.setPos(newPos);
                 System.out.println("New position: " + newPos);
                 if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
-                    robotModel.takeDamage(1);
+                    robotLogic.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
-                    robotModel.takeDamage(1);
+                    robotLogic.takeDamage(1);
                     this.setLostTexture();
                 }
-                this.robotView.setDirection(getPos(), robotModel.getDirection());
+                this.robotView.setDirection(getPos(), robotLogic.getDirection());
             }
         } else
             System.out.println("New position: " + pos);
@@ -187,7 +187,7 @@ public class RobotPresenter implements Programmable {
 
     public void visitNextFlag() {
         this.setWinTexture();
-        this.robotView.setDirection(getPos(), robotModel.getDirection());
+        this.robotView.setDirection(getPos(), robotLogic.getDirection());
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
