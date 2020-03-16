@@ -37,48 +37,29 @@ public class Menu {
     private int lSpeed;
 
     public Menu(Stage stage, Events events) {
-        ArrayList<Image> clickableButtons = new ArrayList<>();
-        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
         this.events = events;
         imageLists = new HashMap<>();
         startGame = 0;
-        Texture menu = AssetManagerUtil.getMenu();
         imageLists.put("menus", new ArrayList<>());
-        imageLists.get("menus").add(new Image(menu));
+        imageLists.get("menus").add(new Image(AssetManagerUtil.getMenu()));
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        gameSpeed = new Label("Game Speed: normal", labelStyle);
-        laserSpeed = new Label("Laser Speed: normal", labelStyle);
-        gSpeed = 0;
-        lSpeed = 0;
-        gameSpeed.setPosition(700, 460);
+        makeLabels();
         stage.addActor(gameSpeed);
-        laserSpeed.setPosition(700, 480);
         stage.addActor(laserSpeed);
-        left = new Label(" < ", labelStyle);
-        right = new Label(" > ", labelStyle);
-        left.setSize(120, 120);
-        right.setSize(120, 120);
-        left.setPosition(80, 300);
-        right.setPosition(635, 300);
         ArrayList<Image> maps = new ArrayList<>();
         maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map0.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map1.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map2.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map3.png"))));
-        int y = 475;
-        for (int i = 0; i < 3; i++) {
-            clickableButtons.add(new Image(buttons[i][0]));
-            clickableButtons.get(i).setY(y -= 75);
-            clickableButtons.get(i).setX(375);
-            stage.addActor(clickableButtons.get(i));
-        }
+        for (Image image : maps)
+            image.setPosition(150, 100);
+        imageLists.put("maps", maps);
+        makeClickableButtons(stage);
         mapButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -177,62 +158,7 @@ public class Menu {
                 }
             }
         });
-        clickableButtons.get(0).addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                clickableButtons.get(0).setColor(Color.RED);
-            }
 
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                clickableButtons.get(0).setColor(Color.BLUE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                resume = true;
-            }
-        });
-        clickableButtons.get(1).addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                clickableButtons.get(1).setColor(Color.RED);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                clickableButtons.get(1).setColor(Color.BLUE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeMapMenu = true;
-                stage.clear();
-                stage.addActor(left);
-                stage.addActor(right);
-                stage.addActor(mapButton);
-            }
-        });
-        clickableButtons.get(2).addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                clickableButtons.get(2).setColor(Color.RED);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                clickableButtons.get(2).setColor(Color.BLUE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-        for (Image image : maps)
-            image.setPosition(150, 100);
-        imageLists.put("maps", maps);
-        imageLists.put("buttons", clickableButtons);
     }
 
     public boolean isResume() {
@@ -297,6 +223,92 @@ public class Menu {
         gameSpeed.setText("Game Speed: normal");
         gSpeed = 0;
         lSpeed = 0;
+    }
+
+    private void makeLabels() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        gameSpeed = new Label("Game Speed: normal", labelStyle);
+        laserSpeed = new Label("Laser Speed: normal", labelStyle);
+        gSpeed = 0;
+        lSpeed = 0;
+        laserSpeed.setPosition(700, 480);
+        gameSpeed.setPosition(700, 460);
+        left = new Label(" < ", labelStyle);
+        right = new Label(" > ", labelStyle);
+        left.setSize(120, 120);
+        right.setSize(120, 120);
+        left.setPosition(80, 300);
+        right.setPosition(635, 300);
+    }
+
+    private void makeClickableButtons(Stage stage) {
+        ArrayList<Image> clickableButtons = new ArrayList<>();
+        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
+        int y = 475;
+        for (int i = 0; i < 3; i++) {
+            clickableButtons.add(new Image(buttons[i][0]));
+            clickableButtons.get(i).setY(y -= 75);
+            clickableButtons.get(i).setX(375);
+            stage.addActor(clickableButtons.get(i));
+        }
+        makeClickListeners(stage, clickableButtons);
+    }
+
+    private void makeClickListeners(Stage stage, ArrayList<Image> clickableButtons) {
+        clickableButtons.get(0).addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                clickableButtons.get(0).setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                clickableButtons.get(0).setColor(Color.BLUE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                resume = true;
+            }
+        });
+        clickableButtons.get(1).addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                clickableButtons.get(1).setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                clickableButtons.get(1).setColor(Color.BLUE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                changeMapMenu = true;
+                stage.clear();
+                stage.addActor(left);
+                stage.addActor(right);
+                stage.addActor(mapButton);
+            }
+        });
+        clickableButtons.get(2).addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                clickableButtons.get(2).setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                clickableButtons.get(2).setColor(Color.BLUE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+        imageLists.put("buttons", clickableButtons);
     }
 
 }

@@ -23,8 +23,6 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.controls.ControlsProgramRobot;
-import roborally.utilities.enums.PhaseStep;
-import roborally.utilities.enums.RoundStep;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -160,7 +158,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             debugControls.getAction(keycode).run();
         }
 
-        if (game.isRunning()) {
+        /*if (game.isRunning()) {
             // Start new round if no round is currently activ1e
             if (game.currentRoundStep() == RoundStep.NULL_STEP) {
                 game.startNewRound();
@@ -183,7 +181,7 @@ public class UI extends InputAdapter implements ApplicationListener {
                     game.checkIfSomeoneWon();
                 }
             }
-        }
+        }*/
         if (game.getGameOptions().getMenu())
             paused = true;
         return true;
