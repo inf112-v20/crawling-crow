@@ -47,7 +47,7 @@ public interface IRobotView {
     /**
      * Gets texture region from AssetsManager and sets the starting position with this texture.
      *
-     * @param cellId The id of the position of the cell texture
+     * @param robotID The id of the position of the cell texture
      */
-    void setTextureRegion(int cellId);
+    void setTextureRegion(int robotID);
 }

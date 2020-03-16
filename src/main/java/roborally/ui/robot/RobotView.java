@@ -60,8 +60,9 @@ public class RobotView implements IRobotView {
         return this.robotTextureRegion;
     }
 
-    public void setTextureRegion(int cellId) {
-        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(cellId), UI.TILE_SIZE, UI.TILE_SIZE);
+    @Override
+    public void setTextureRegion(int robotID) {
+        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), UI.TILE_SIZE, UI.TILE_SIZE);
         layers.setRobotCell(this.pos.x, this.pos.y, getTexture());
     }
 
