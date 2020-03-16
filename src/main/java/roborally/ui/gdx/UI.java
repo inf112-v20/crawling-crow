@@ -102,6 +102,8 @@ public class UI extends InputAdapter implements ApplicationListener {
             cardPhaseRun();
             stage.act();
         }
+        if (game.getGameOptions().getMenu())
+            paused = true;
         if (paused) {
             pause();
         }
@@ -179,8 +181,6 @@ public class UI extends InputAdapter implements ApplicationListener {
                 }
             }
         }*/
-        if (game.getGameOptions().getMenu())
-            paused = true;
         return true;
     }
 
