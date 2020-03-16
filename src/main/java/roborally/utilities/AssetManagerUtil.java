@@ -15,66 +15,66 @@ public class AssetManagerUtil {
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
-            = new AssetDescriptor<>("assets/sounds/fireLaser.mp3", Sound.class);
+            = new AssetDescriptor<>("sounds/fireLaser.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEPIN_LASER
-            = new AssetDescriptor<>("assets/sounds/stepIntoLaser.wav", Sound.class);
+            = new AssetDescriptor<>("sounds/stepIntoLaser.wav", Sound.class);
     public static final AssetDescriptor<Sound> ROBOT_HIT
-            = new AssetDescriptor<>("assets/sounds/robotHit.mp3", Sound.class);
+            = new AssetDescriptor<>("sounds/robotHit.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEP1
-            = new AssetDescriptor<>("assets/sounds/step1.mp3", Sound.class);
+            = new AssetDescriptor<>("sounds/step1.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEP2
-            = new AssetDescriptor<>("assets/sounds/step2.mp3", Sound.class);
+            = new AssetDescriptor<>("sounds/step2.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEP3
-            = new AssetDescriptor<>("assets/sounds/step3.mp3", Sound.class);
+            = new AssetDescriptor<>("sounds/step3.mp3", Sound.class);
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
-            = new AssetDescriptor<>("assets/maps/testMap001.tmx", TiledMap.class);
+            = new AssetDescriptor<>("maps/testMap001.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST
-            = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
-    private static final AssetDescriptor<TiledMap> MAP_TEST_SINGLE_LASERS
-            = new AssetDescriptor<>("assets/maps/testMapSingleLasers.tmx", TiledMap.class);
+            = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
+    private static final AssetDescriptor<TiledMap> MAP_TEST3
+            = new AssetDescriptor<>("maps/testMapSingleLasers.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> MAP_TEST2
-            = new AssetDescriptor<>("assets/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
+            = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
 
     //Other
     private static final AssetDescriptor<Texture> MENU
-            = new AssetDescriptor<>("assets/menu/menu.png", Texture.class);
+            = new AssetDescriptor<>("menu/menu.png", Texture.class);
     private static final AssetDescriptor<Texture> BUTTONS
-            = new AssetDescriptor<>("assets/menu/buttons.png", Texture.class);
+            = new AssetDescriptor<>("menu/buttons.png", Texture.class);
     private static final AssetDescriptor<Texture> MAP_BUTTON
-            = new AssetDescriptor<>("assets/menu/mapButton.png", Texture.class);
+            = new AssetDescriptor<>("menu/mapButton.png", Texture.class);
     private static final AssetDescriptor<Texture> BACKUP
-            = new AssetDescriptor<>("assets/cards/backup.png", Texture.class);
+            = new AssetDescriptor<>("cards/backup.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATELEFT
-            = new AssetDescriptor<>("assets/cards/rotatel.png", Texture.class);
+            = new AssetDescriptor<>("cards/rotatel.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATERIGHT
-            = new AssetDescriptor<>("assets/cards/rotater.png", Texture.class);
+            = new AssetDescriptor<>("cards/rotater.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1
-            = new AssetDescriptor<>("assets/cards/move1.png", Texture.class);
+            = new AssetDescriptor<>("cards/move1.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_2
-            = new AssetDescriptor<>("assets/cards/move2.png", Texture.class);
+            = new AssetDescriptor<>("cards/move2.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_3
-            = new AssetDescriptor<>("assets/cards/move3.png", Texture.class);
+            = new AssetDescriptor<>("cards/move3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
-            = new AssetDescriptor<>("assets/cards/u-turn.png", Texture.class);
+            = new AssetDescriptor<>("cards/u-turn.png", Texture.class);
 
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
-            = new AssetDescriptor<>("assets/robots/new/Angry.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
     private static final AssetDescriptor<Texture> BLUE
-            = new AssetDescriptor<>("assets/robots/new/Blue.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Blue.png", Texture.class);
     private static final AssetDescriptor<Texture> GREEN
-            = new AssetDescriptor<>("assets/robots/new/Green.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Green.png", Texture.class);
     private static final AssetDescriptor<Texture> ORANGE
-            = new AssetDescriptor<>("assets/robots/new/Orange.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Orange.png", Texture.class);
     private static final AssetDescriptor<Texture> PINK
-            = new AssetDescriptor<>("assets/robots/new/Pink.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Pink.png", Texture.class);
     private static final AssetDescriptor<Texture> PURPLE
-            = new AssetDescriptor<>("assets/robots/new/Purple.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Purple.png", Texture.class);
     private static final AssetDescriptor<Texture> RED
-            = new AssetDescriptor<>("assets/robots/new/Red.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
-            = new AssetDescriptor<>("assets/robots/new/Yellow.png", Texture.class);
+            = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
     public static AI[] ai;
     public static ArrayList<RobotPresenter> robots;
     private static TiledMap loadedMap;
@@ -82,10 +82,9 @@ public class AssetManagerUtil {
     private static Stack<String> robotNames;
 
     public static void load() {
-        //Robots
-        manager.load(MAP_TEST_SINGLE_LASERS);
         manager.load(MAP_TEST);
         manager.load(MAP_TEST2);
+        manager.load(MAP_TEST3);
         manager.load(MAP_LASER_TEST);
         manager.load(ANGRY);
         manager.load(BACKUP);
@@ -111,6 +110,7 @@ public class AssetManagerUtil {
         manager.load(STEP2);
         manager.load(STEP3);
         manager.load(MAP_BUTTON);
+
     }
 
     public static Texture getMenu() {
@@ -124,7 +124,7 @@ public class AssetManagerUtil {
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {
         TiledMap[] tiledMaps = {manager.get(MAP_TEST), manager.get(MAP_TEST2),
-                manager.get(MAP_LASER_TEST), manager.get(MAP_TEST_SINGLE_LASERS)};
+                manager.get(MAP_LASER_TEST), manager.get(MAP_TEST3)};
         List<TiledMap> maps = Arrays.asList(tiledMaps);
         loadedMap = maps.get(map);
         return loadedMap;

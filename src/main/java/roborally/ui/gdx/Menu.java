@@ -55,7 +55,7 @@ public class Menu {
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
-        continueButton = new Image(new Texture(Gdx.files.internal("assets/menu/continue.png")));
+        continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
         continueButton.setPosition(350, 450);
         continueButton.setWidth(continueButton.getWidth() + 150);
         continueButton.addListener(new ClickListener() {
@@ -81,10 +81,10 @@ public class Menu {
         stage.addActor(laserSpeed);
         stage.addActor(funMode);
         makeClickableButtons(stage);
-        addMoreListeners(stage);
+        addMoreListeners();
     }
 
-    private void addMoreListeners(Stage stage) {
+    private void addMoreListeners() {
         left.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -188,8 +188,9 @@ public class Menu {
     }
 
     public boolean isResume(IGame game) {
-        if(Continue) {
+        if (Continue) {
             Continue = false;
+            resume = false;
             return true;
         }
         if (resume && startGame == 0) {
@@ -201,9 +202,8 @@ public class Menu {
             startGame = 1;
             resume = false;
             return true;
-        }
-        else if(resume) {
-            if(isFunMode && !events.hasWaitEvent())
+        } else if (resume) {
+            if (isFunMode && !events.hasWaitEvent())
                 game.funMode();
             resume = false;
             return true;
@@ -252,7 +252,7 @@ public class Menu {
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
             funMode.draw(batch, 1);
-            if(startGame == 1)
+            if (startGame == 1)
                 continueButton.draw(batch, 1);
         } else {
             imageLists.get("maps").get(mapId).draw(batch, 1);
@@ -379,10 +379,10 @@ public class Menu {
 
     public void addMaps() {
         ArrayList<Image> maps = new ArrayList<>();
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map0.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map1.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map2.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map3.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map0.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.PNG"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map3.png"))));
         for (Image image : maps)
             image.setPosition(150, 100);
         imageLists.put("maps", maps);
