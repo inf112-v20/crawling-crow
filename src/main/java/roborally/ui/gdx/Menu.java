@@ -49,17 +49,16 @@ public class Menu {
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
         makeLabels();
+        addMaps();
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
-        ArrayList<Image> maps = new ArrayList<>();
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map0.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map1.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map2.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map3.png"))));
-        for (Image image : maps)
-            image.setPosition(150, 100);
-        imageLists.put("maps", maps);
         makeClickableButtons(stage);
+        addMoreListeners(stage);
+
+
+    }
+
+    private void addMoreListeners(Stage stage) {
         mapButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -158,7 +157,6 @@ public class Menu {
                 }
             }
         });
-
     }
 
     public boolean isResume() {
@@ -309,6 +307,17 @@ public class Menu {
             }
         });
         imageLists.put("buttons", clickableButtons);
+    }
+
+    public void addMaps() {
+        ArrayList<Image> maps = new ArrayList<>();
+        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map0.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map1.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map2.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("assets/maps/models/map3.png"))));
+        for (Image image : maps)
+            image.setPosition(150, 100);
+        imageLists.put("maps", maps);
     }
 
 }

@@ -22,7 +22,6 @@ import roborally.ui.gdx.events.LaserEvent;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
-import roborally.utilities.controls.ControlsProgramRobot;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -36,7 +35,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private ControlsDebug debugControls;
-    private ControlsProgramRobot programRobotControls;
     private boolean paused;
     private Stage stage;
     private boolean cardPhase;
@@ -69,7 +67,6 @@ public class UI extends InputAdapter implements ApplicationListener {
 
         // Setup controls for the game
         debugControls = new ControlsDebug(game);
-        programRobotControls = new ControlsProgramRobot(game);
 
         // Initialize the camera
         camera = new OrthographicCamera();
@@ -194,7 +191,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.events = new Events();
         game = new Game(this.events);
         debugControls = new ControlsDebug(game);
-        programRobotControls = new ControlsProgramRobot(game);
         menu.updateEvents(this.events);
         mapRenderer.setMap(tiledMap);
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
