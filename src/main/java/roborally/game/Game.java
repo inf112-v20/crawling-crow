@@ -10,7 +10,7 @@ import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.RobotPresenter;
+import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.MakeCards;
 import roborally.ui.gdx.events.Events;
@@ -27,10 +27,10 @@ public class Game implements IGame {
     private IGameBoard gameBoard;
     private ILayers layers;
     private AI[] aiRobots;
-    private ArrayList<RobotPresenter> robots;
+    private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
 
-    private RobotPresenter winner;
+    private Robot winner;
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
@@ -60,7 +60,7 @@ public class Game implements IGame {
     @Override
     public void startUp() {
         robots = AssetManagerUtil.makeRobots();
-        for (RobotPresenter robot : robots)
+        for (Robot robot : robots)
             robot.setNumberOfFlags(flags.size());
         gameOptions.setRobots(robots);
     }
@@ -75,7 +75,7 @@ public class Game implements IGame {
 
     @Override
     public void checkForDestroyedRobots() {
-        for (RobotPresenter robot : robots) {
+        for (Robot robot : robots) {
             if (robot.getModel().getStatus().equals("Destroyed")) {
                 events.fadeRobot(robot.getPos(), robot.getTexture());
                 layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
@@ -97,7 +97,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public RobotPresenter getRobots() {
+    public Robot getRobots() {
         if (this.robotPointerID == robots.size()) {
             this.robotPointerID = 0;
         }
@@ -122,7 +122,7 @@ public class Game implements IGame {
 
     @Override
     public void restartGame() {
-        for (RobotPresenter robot : robots) {
+        for (Robot robot : robots) {
             robot.backToCheckPoint();
         }
     }
@@ -209,8 +209,8 @@ public class Game implements IGame {
 
     private void removeOutOfPlayRobots() {
         GridPoint2 pos = new GridPoint2(-1, -1);
-        ArrayList<RobotPresenter> temp = new ArrayList<>();
-        for (RobotPresenter robot : robots) {
+        ArrayList<Robot> temp = new ArrayList<>();
+        for (Robot robot : robots) {
             if (!robot.getPos().equals(pos))
                 temp.add(robot);
         }
@@ -260,7 +260,7 @@ public class Game implements IGame {
     public void fireLasers() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.2);
-        for (RobotPresenter robot : robots) {
+        for (Robot robot : robots) {
             robot.fireLaser();
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
             if (!coords.isEmpty())
@@ -280,7 +280,7 @@ public class Game implements IGame {
         for (IFlag flag : flags) {
             int flagX = flag.getPos().x;
             int flagY = flag.getPos().y;
-            for (RobotPresenter robot : robots) {
+            for (Robot robot : robots) {
                 int robotX = robot.getPos().x;
                 int robotY = robot.getPos().y;
                 if (flagX == robotX && flagY == robotY) {
@@ -316,7 +316,7 @@ public class Game implements IGame {
         assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
-        for (RobotPresenter robot : robots) {
+        for (Robot robot : robots) {
             if (robot.hasVisitedAllFlags()) {
                 winner = robot;
             }
@@ -330,7 +330,7 @@ public class Game implements IGame {
         if (robots == null) {
             robotsAreCreated = false;
         } else {
-            for (RobotPresenter robot : robots) {
+            for (Robot robot : robots) {
                 if (robot == null) {
                     robotsAreCreated = false;
                     break;
@@ -344,7 +344,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public RobotPresenter getWinner() {
+    public Robot getWinner() {
         return winner;
     }
 
@@ -367,7 +367,7 @@ public class Game implements IGame {
     public void moveRobots() {
         Random r = new Random();
         int m;
-        for (RobotPresenter robot : robots) {
+        for (Robot robot : robots) {
             m = r.nextInt(4);
             if (m == 0)
                 robot.rotate("L", 1);

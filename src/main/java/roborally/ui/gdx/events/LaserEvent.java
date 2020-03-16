@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import roborally.game.objects.robot.RobotPresenter;
+import roborally.game.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
@@ -20,7 +20,7 @@ public class LaserEvent {
     private int factor;
     private int id;
     private boolean hitRobot;
-    private RobotPresenter robot;
+    private Robot robot;
 
     public LaserEvent(int factor) {
         this.factor = factor;
@@ -57,15 +57,15 @@ public class LaserEvent {
      * @param batch  the SpriteBatch from UI.
      * @param robots The list of robots that's playing the game.
      */
-    public void drawLaserEvent(SpriteBatch batch, ArrayList<RobotPresenter> robots) {
+    public void drawLaserEvent(SpriteBatch batch, ArrayList<Robot> robots) {
         if (this.id == TileName.LASER_HORIZONTAL.getTileID())
             drawLaserEventHorizontally(batch, robots);
         else
             drawLaserEventVertically(batch, robots);
     }
 
-    public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<RobotPresenter> robots) {
-        for (RobotPresenter robot : robots)
+    public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<Robot> robots) {
+        for (Robot robot : robots)
             if (robot.getPos().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
@@ -86,8 +86,8 @@ public class LaserEvent {
         }
     }
 
-    public void drawLaserEventVertically(SpriteBatch batch, ArrayList<RobotPresenter> robots) {
-        for (RobotPresenter robot : robots)
+    public void drawLaserEventVertically(SpriteBatch batch, ArrayList<Robot> robots) {
+        for (Robot robot : robots)
             if (robot.getPos().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;

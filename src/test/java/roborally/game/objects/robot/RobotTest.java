@@ -12,15 +12,15 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class RobotPresenterTest {
+public class RobotTest {
     private Programmable testRobot1;
     private Programmable testRobot2;
     private IProgramCards.Card card;
 
     @Before
     public void setUp() {
-        testRobot1 = new RobotPresenter(new RobotModel("T1"));
-        testRobot2 = new RobotPresenter(new RobotModel("T2"));
+        testRobot1 = new Robot(new RobotLogic("T1"));
+        testRobot2 = new Robot(new RobotLogic("T2"));
         IProgramCards programCards = new ProgramCards();
         PlayCards playCards = new PlayCards(programCards.getDeck());
         testRobot1.getModel().newCards(playCards);

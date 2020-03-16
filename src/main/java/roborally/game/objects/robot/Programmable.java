@@ -18,6 +18,6 @@ public interface Programmable {
 
     void backToCheckPoint();
 
-    RobotModel getModel();
+    RobotLogic getModel();
 
 }

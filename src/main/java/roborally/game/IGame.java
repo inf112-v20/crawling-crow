@@ -2,7 +2,7 @@ package roborally.game;
 
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.RobotPresenter;
+import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.MakeCards;
 import roborally.utilities.enums.PhaseStep;
@@ -23,7 +23,7 @@ public interface IGame {
 
     AI[] getAIRobots();
 
-    RobotPresenter getRobots();
+    Robot getRobots();
 
     void funMode();
 
@@ -77,7 +77,7 @@ public interface IGame {
 
     boolean checkIfSomeoneWon();
 
-    RobotPresenter getWinner();
+    Robot getWinner();
 
     MakeCards getCards();
 

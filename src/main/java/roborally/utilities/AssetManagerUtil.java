@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.objects.robot.AI;
-import roborally.game.objects.robot.RobotPresenter;
+import roborally.game.objects.robot.Robot;
 
 import java.util.*;
 
@@ -76,7 +76,7 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
     public static AI[] ai;
-    public static ArrayList<RobotPresenter> robots;
+    public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
     private static HashMap<String, TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
@@ -200,15 +200,15 @@ public class AssetManagerUtil {
         ai[7] = new AI(6, 4, 7);
     }
 
-    public static ArrayList<RobotPresenter> getRobots() {
+    public static ArrayList<Robot> getRobots() {
         return robots;
     }
 
     /**
      * Sets the robots array to be something different for other game modes
      */
-    public static void setRobots(ArrayList<RobotPresenter> robotPresenters) {
-        robots = robotPresenters;
+    public static void setRobots(ArrayList<Robot> robots) {
+        AssetManagerUtil.robots = robots;
     }
 
     public static AI[] getAIRobots() {
@@ -216,16 +216,16 @@ public class AssetManagerUtil {
     }
 
     // Default Robots
-    public static ArrayList<RobotPresenter> makeRobots() {
+    public static ArrayList<Robot> makeRobots() {
         robots = new ArrayList<>();
-        robots.add(new RobotPresenter(5, 0, 0));
-        robots.add(new RobotPresenter(6, 0, 1));
-        robots.add(new RobotPresenter(3, 1, 2));
-        robots.add(new RobotPresenter(8, 1, 3));
-        robots.add(new RobotPresenter(1, 2, 4));
-        robots.add(new RobotPresenter(5, 6, 5));
-        robots.add(new RobotPresenter(5, 4, 6));
-        robots.add(new RobotPresenter(5, 5, 7));
+        robots.add(new Robot(5, 0, 0));
+        robots.add(new Robot(6, 0, 1));
+        robots.add(new Robot(3, 1, 2));
+        robots.add(new Robot(8, 1, 3));
+        robots.add(new Robot(1, 2, 4));
+        robots.add(new Robot(5, 6, 5));
+        robots.add(new Robot(5, 4, 6));
+        robots.add(new Robot(5, 5, 7));
 
         // Texture region is not automatically set in constructor (for now).
         return robots;

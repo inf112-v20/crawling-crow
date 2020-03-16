@@ -8,7 +8,7 @@ import roborally.utilities.enums.Direction;
 
 import java.util.ArrayList;
 
-public class RobotModel implements Programmable {
+public class RobotLogic implements Programmable {
     private String name;
     private GridPoint2 robotPosition;
     private GridPoint2 checkPoint;
@@ -18,7 +18,7 @@ public class RobotModel implements Programmable {
     private PlayCards playCards;
     private Queue<IProgramCards.Card> nextCard;
 
-    public RobotModel(String name) {
+    public RobotLogic(String name) {
         this.name = name;
         this.robotPosition = new GridPoint2();
         this.direction = Direction.North;
@@ -28,7 +28,7 @@ public class RobotModel implements Programmable {
         return this.name;
     }
 
-    public RobotModel getModel() {
+    public RobotLogic getModel() {
         return this;
     }
 

@@ -1,7 +1,7 @@
 package roborally.game;
 
 import roborally.game.objects.gameboard.IFlag;
-import roborally.game.objects.robot.RobotPresenter;
+import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class GameOptions {
     private boolean menu;
-    private ArrayList<RobotPresenter> robots;
+    private ArrayList<Robot> robots;
 
-    public GameOptions(ArrayList<RobotPresenter> robots) {
+    public GameOptions(ArrayList<Robot> robots) {
         this.robots = robots;
         this.menu = false;
     }
@@ -33,7 +33,7 @@ public class GameOptions {
         int it = 0;
         for (int j = 0; j < layers.getWidth(); j++) {
             for (int k = 0; k < layers.getHeight(); k++) {
-                robots.add(new RobotPresenter(j, k, k % 8));
+                robots.add(new Robot(j, k, k % 8));
                 this.robots.get(it).setNumberOfFlags(flags.size());
                 it++;
             }
@@ -41,11 +41,11 @@ public class GameOptions {
         AssetManagerUtil.setRobots(this.robots);
     }
 
-    public ArrayList<RobotPresenter> getRobots() {
+    public ArrayList<Robot> getRobots() {
         return this.robots;
     }
 
-    public void setRobots(ArrayList<RobotPresenter> robots) {
+    public void setRobots(ArrayList<Robot> robots) {
         this.robots = robots;
     }
 }
