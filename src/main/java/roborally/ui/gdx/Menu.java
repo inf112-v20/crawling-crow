@@ -34,11 +34,13 @@ public class Menu {
     private Label gameSpeed;
     private Label laserSpeed;
     private Image mapButton;
+    private Image continueButton;
     private Events events;
     private int gSpeed;
     private int lSpeed;
     private int fun;
     private boolean isFunMode;
+    private boolean Continue;
 
     public Menu(Stage stage, Events events) {
         this.resume = false;
@@ -53,8 +55,28 @@ public class Menu {
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
+        continueButton = new Image(new Texture(Gdx.files.internal("assets/menu/continue.png")));
+        continueButton.setPosition(350, 450);
+        continueButton.setWidth(continueButton.getWidth() + 150);
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                continueButton.setColor(Color.GOLD);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                continueButton.setColor(Color.YELLOW);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Continue = true;
+            }
+        });
         makeLabels();
         addMaps();
+        stage.addActor(continueButton);
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
         stage.addActor(funMode);
@@ -63,29 +85,6 @@ public class Menu {
     }
 
     private void addMoreListeners(Stage stage) {
-        mapButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                mapButton.setColor(Color.RED);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                mapButton.setColor(Color.BLUE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeMap = true;
-                changeMapMenu = false;
-                stage.clear();
-                stage.addActor(gameSpeed);
-                stage.addActor(laserSpeed);
-                stage.addActor(funMode);
-                for (Image image : imageLists.get("buttons"))
-                    stage.addActor(image);
-            }
-        });
         left.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -189,6 +188,10 @@ public class Menu {
     }
 
     public boolean isResume(IGame game) {
+        if(Continue) {
+            Continue = false;
+            return true;
+        }
         if (resume && startGame == 0) {
             if (isFunMode)
                 game.funMode();
@@ -200,7 +203,7 @@ public class Menu {
             return true;
         }
         else if(resume) {
-            if(isFunMode)
+            if(isFunMode && !events.hasWaitEvent())
                 game.funMode();
             resume = false;
             return true;
@@ -238,6 +241,7 @@ public class Menu {
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
         stage.addActor(funMode);
+        stage.addActor(continueButton);
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
@@ -248,6 +252,8 @@ public class Menu {
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
             funMode.draw(batch, 1);
+            if(startGame == 1)
+                continueButton.draw(batch, 1);
         } else {
             imageLists.get("maps").get(mapId).draw(batch, 1);
             left.draw(batch, 1);
@@ -285,13 +291,37 @@ public class Menu {
         for (int i = 0; i < 3; i++) {
             clickableButtons.add(new Image(buttons[i][0]));
             clickableButtons.get(i).setY(y -= 75);
-            clickableButtons.get(i).setX(375);
+            clickableButtons.get(i).setX(420);
             stage.addActor(clickableButtons.get(i));
         }
         makeClickListeners(stage, clickableButtons);
     }
 
     private void makeClickListeners(Stage stage, ArrayList<Image> clickableButtons) {
+        mapButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                mapButton.setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                mapButton.setColor(Color.BLUE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                changeMap = true;
+                changeMapMenu = false;
+                stage.clear();
+                stage.addActor(gameSpeed);
+                stage.addActor(laserSpeed);
+                stage.addActor(funMode);
+                stage.addActor(continueButton);
+                for (Image image : imageLists.get("buttons"))
+                    stage.addActor(image);
+            }
+        });
         clickableButtons.get(0).addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
