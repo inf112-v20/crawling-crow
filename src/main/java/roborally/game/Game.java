@@ -98,16 +98,12 @@ public class Game implements IGame {
 
     @Override
     public Robot getRobots() {
+
         if (this.robotPointerID == robots.size()) {
             this.robotPointerID = 0;
         }
         checkForDestroyedRobots();
         return robots.get(0);
-    }
-
-    @Override
-    public IGameBoard getGameBoard() {
-        return gameBoard;
     }
 
     @Override
@@ -169,6 +165,7 @@ public class Game implements IGame {
         phaseStep = PhaseStep.NULL_PHASE;
     }
 
+    @Override
     public void fireLaser() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.2);

@@ -9,20 +9,25 @@ import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
 public interface IGame {
+
     /**
      * Serves ONLY feed the keyUp method..
      *
-     * @return
+     * @return the layers of the gameboard
      */
-
     ILayers getLayers();
 
     /**
      * Serves ONLY feed the keyUp method..
+     * @deprecated serves no purpose at the moment
      */
-
+    @Deprecated
     AI[] getAIRobots();
 
+    /**
+     * Exists only for debugging.
+     * @return The first of the robots
+     */
     Robot getRobots();
 
     void funMode();
@@ -30,11 +35,8 @@ public interface IGame {
     void startUp();
 
     /**
-     * Serves ONLY feed the keyUp method..
+     * Fire the laser of the first robot. Only used for debugging.
      */
-
-    IGameBoard getGameBoard();
-
     void fireLaser();
 
     void restartGame();
