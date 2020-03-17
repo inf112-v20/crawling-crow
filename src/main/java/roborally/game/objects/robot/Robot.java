@@ -44,58 +44,39 @@ public class Robot implements Programmable {
         this.listener = new Listener(layers);
         this.laserRegister = new LaserRegister();
         listener.listenLaser(x, y, getName(), laserRegister);
-
     }
 
-    public TextureRegion[][] getTexture() {
-        return this.robotView.getTextureRegion();
-    }
-
+    @Override
     public String getName() {
         return this.robotLogic.getName();
     }
 
+    //region Position
+    @Override
     public GridPoint2 getPosition() {
         return this.robotLogic.getPosition();
     }
 
-
+    @Override
     public void setPosition(GridPoint2 newPosition) {
         this.robotLogic.setPosition(newPosition);
     }
+    //endregion
 
-    public Direction rotate(String leftOrRight, int factor) {
-        Direction direction = this.robotLogic.rotate(leftOrRight, factor);
-        this.robotView.setDirection(getPosition(), direction);
-        return direction;
-    }
-
-    public RobotLogic getModel() {
-        return this.robotLogic.getModel();
-    }
-
-    public void backToCheckPoint() {
-        robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
-        this.robotLogic.backToCheckPoint();
-    }
-
-    public void fireLaser() {
-        laser.fireLaser(getPosition(), this.robotLogic.getDirectionID());
-    }
-
-    public Laser getLaser() {
-        return this.laser;
-    }
-
-    public void setTextureRegion(int i) {
-        this.robotView.setTextureRegion(i);
-    }
-
+    //region Movement
+    @Override
     public int[] move(int steps) {
         int[] moveValues = robotLogic.move(steps);
         for (int i = 0; i < Math.abs(steps); i++)
             moveRobot(moveValues[0], moveValues[1]);
         return this.robotLogic.move(steps);
+    }
+
+    @Override
+    public Direction rotate(String leftOrRight, int factor) {
+        Direction direction = this.robotLogic.rotate(leftOrRight, factor);
+        this.robotView.setDirection(getPosition(), direction);
+        return direction;
     }
 
     public void moveRobot(int dx, int dy) {
@@ -119,15 +100,43 @@ public class Robot implements Programmable {
         } else
             System.out.println("New position: " + pos);
     }
+    //endregion
+
+    public void backToCheckPoint() {
+        robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
+        this.robotLogic.backToCheckPoint();
+    }
+
+    public RobotLogic getModel() {
+        return this.robotLogic.getModel();
+    }
+
+
+    public void fireLaser() {
+        laser.fireLaser(getPosition(), this.robotLogic.getDirectionID());
+    }
+
+    public Laser getLaser() {
+        return this.laser;
+    }
+
+    //region Texture
+    public void setTextureRegion(int i) {
+        this.robotView.setTextureRegion(i);
+    }
+
+    public TextureRegion[][] getTexture() {
+        return this.robotView.getTextureRegion();
+    }
 
     public void setWinTexture() {
         this.robotView.setWinTexture(getPosition());
     }
 
-
     public void setLostTexture() {
         this.robotView.setLostTexture(getPosition());
     }
+    //endregion
 
     public void playNextCard() {
         Random r = new Random();

@@ -24,22 +24,30 @@ public class RobotLogic implements Programmable {
         this.direction = Direction.North;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
+    @Override
     public RobotLogic getModel() {
         return this;
     }
 
+    //region Position
+    @Override
     public GridPoint2 getPosition() {
         return this.robotPosition;
     }
 
+    @Override
     public void setPosition(GridPoint2 newPosition) {
         this.robotPosition.set(newPosition);
     }
+    //endregion
 
+    //region Movement
+    @Override
     public int[] move(int steps) {
         System.out.println(this.getName());
         int[] moveValues = getMoveValues();
@@ -49,6 +57,22 @@ public class RobotLogic implements Programmable {
             moveValues[1] = -moveValues[1];
         }
         return moveValues;
+    }
+
+    @Override
+    public Direction rotate(String leftOrRight, int factor) {
+        if ("L".equals(leftOrRight))
+            this.direction = Direction.turnLeftFrom(getDirection());
+        else if ("R".equals(leftOrRight))
+            this.direction = Direction.turnRightFrom(getDirection());
+        if (factor == 2) {
+            if ("L".equals(leftOrRight))
+                this.direction = Direction.turnLeftFrom(getDirection());
+            else if ("R".equals(leftOrRight))
+                this.direction = Direction.turnRightFrom(getDirection());
+        }
+
+        return this.direction;
     }
 
     public int[] getMoveValues() {
@@ -69,22 +93,10 @@ public class RobotLogic implements Programmable {
         }
         return new int[]{dx, dy};
     }
+    //endregion
 
-    public Direction rotate(String leftOrRight, int factor) {
-        if ("L".equals(leftOrRight))
-            this.direction = Direction.turnLeftFrom(getDirection());
-        else if ("R".equals(leftOrRight))
-            this.direction = Direction.turnRightFrom(getDirection());
-        if (factor == 2) {
-            if ("L".equals(leftOrRight))
-                this.direction = Direction.turnLeftFrom(getDirection());
-            else if ("R".equals(leftOrRight))
-                this.direction = Direction.turnRightFrom(getDirection());
-        }
-
-        return this.direction;
-    }
-
+    //region Checkpoint
+    @Override
     public void backToCheckPoint() {
         setPosition(this.checkPoint);
         this.direction = Direction.North;
@@ -97,17 +109,15 @@ public class RobotLogic implements Programmable {
     public void setCheckPoint(int x, int y) {
         this.checkPoint = new GridPoint2(x, y);
     }
-
+    //endregion
 
     public int getHealth() {
         return health;
     }
 
-
     public int getReboots() {
         return reboots;
     }
-
 
     public void takeDamage(int damage) {
         this.health -= damage;
@@ -115,13 +125,15 @@ public class RobotLogic implements Programmable {
             this.health = 0;
     }
 
-    public int getDirectionID() {
-        return this.direction.getDirectionID();
-    }
-
+    //region Direction
     public Direction getDirection() {
         return this.direction;
     }
+
+    public int getDirectionID() {
+        return this.direction.getDirectionID();
+    }
+    //endregion
 
 
     public String getStatus() {
@@ -136,6 +148,7 @@ public class RobotLogic implements Programmable {
             return "Robot is gone";
     }
 
+    //region Cards
     public void newCards(PlayCards playCards) {
         this.playCards = playCards;
     }
@@ -157,5 +170,5 @@ public class RobotLogic implements Programmable {
     public ArrayList<IProgramCards.Card> getCards() {
         return this.playCards.getCards();
     }
-
+    //endregion
 }
