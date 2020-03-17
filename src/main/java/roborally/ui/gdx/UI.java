@@ -211,10 +211,11 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void runCardPhase(MakeCards makeCards) {
         this.makeCards = makeCards;
-        int i = -75;
-        for (Group image : this.makeCards.getGroups()) {
-            image.setX(i += 75);
-            stage.addActor(image);
+        float i = stage.getWidth() - makeCards.getGroups().size() * makeCards.getCardWidth();
+        i = i / 2 - makeCards.getCardWidth();
+        for (Group group : this.makeCards.getGroups()) {
+            group.setX(i += makeCards.getCardWidth());
+            stage.addActor(group);
         }
         cardPhase = true;
         Gdx.input.setInputProcessor(stage);

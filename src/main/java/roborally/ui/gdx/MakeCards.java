@@ -17,12 +17,14 @@ public class MakeCards {
     private ArrayList<Group> groups;
     private int[] order;
     private ArrayList<Label> topLabelList;
+    private int cardWidth;
 
     public MakeCards() {
         this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
+        this.cardWidth = 75;
     }
 
     public void makeCard(IProgramCards.Card card) {
@@ -87,6 +89,7 @@ public class MakeCards {
     private void makeSomething(int priority, Image image) {
         image.setSize(75, 100);
         Group group = new Group();
+        group.setWidth(image.getWidth());
         group.addActor(image);
         Label topLabel = makeTopLabel();
         Label label = makeLabel(priority);
@@ -166,5 +169,8 @@ public class MakeCards {
         this.cardPick = 0;
         this.groups.clear();
         this.groups = new ArrayList<>();
+    }
+    public int getCardWidth() {
+        return this.cardWidth;
     }
 }
