@@ -8,12 +8,16 @@ public class ProgramCards implements IProgramCards {
 
     public ProgramCards() {
         deckOfCards = new ArrayList<>();
+        putAllCardsIntoDeck();
+        shuffleCards();
+    }
+
+    private void putAllCardsIntoDeck() {
         for (CardTypes type : CardTypes.values()) {
             for (int i = 0; i < type.getNumberOfCards(); i++) {
                 this.deckOfCards.add(new Card(type));
             }
         }
-        shuffleCards();
     }
 
     @Override

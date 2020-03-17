@@ -187,6 +187,7 @@ public class Game implements IGame {
 
     @Override
     public MakeCards getCards() {
+        //TODO Refactor for readability
         checkForDestroyedRobots();
         if (fun)
             removeDeadRobots();
