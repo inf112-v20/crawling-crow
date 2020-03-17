@@ -262,7 +262,7 @@ public class Game implements IGame {
     }
 
     private boolean isNotInGraveyard(Robot robot) {
-        return robot.getPosition() != SettingsUtil.GRAVEYARD;
+        return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
     }
 
     @Override
