@@ -82,10 +82,13 @@ public class AssetManagerUtil {
     private static Stack<String> robotNames;
 
     public static void load() {
+        //Maps
         manager.load(MAP_TEST);
         manager.load(MAP_TEST2);
         manager.load(MAP_TEST3);
         manager.load(MAP_LASER_TEST);
+
+        //Robots
         manager.load(ANGRY);
         manager.load(BACKUP);
         manager.load(BLUE);
@@ -95,21 +98,27 @@ public class AssetManagerUtil {
         manager.load(PURPLE);
         manager.load(RED);
         manager.load(YELLOW);
+
+        //Sounds
         manager.load(SHOOT_LASER);
         manager.load(STEPIN_LASER);
+        manager.load(STEP1);
+        manager.load(STEP2);
+        manager.load(STEP3);
+        manager.load(ROBOT_HIT);
+
+        //Menu
         manager.load(MENU);
+        manager.load(BUTTONS);
+        manager.load(MAP_BUTTON);
+
+        //Cards
         manager.load(ROTATERIGHT);
         manager.load(ROTATELEFT);
         manager.load(MOVE_1);
         manager.load(MOVE_2);
         manager.load(MOVE_3);
         manager.load(U_TURN);
-        manager.load(BUTTONS);
-        manager.load(ROBOT_HIT);
-        manager.load(STEP1);
-        manager.load(STEP2);
-        manager.load(STEP3);
-        manager.load(MAP_BUTTON);
 
     }
 

@@ -190,6 +190,7 @@ public class Game implements IGame {
         sound.play((float) 0.2);
         robots.get(0).fireLaser();
         ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
+        System.out.println(coords);
         if (!coords.isEmpty())
             events.createNewLaserEvent(robots.get(0).getPosition(), coords.get(coords.size() - 1));
     }
