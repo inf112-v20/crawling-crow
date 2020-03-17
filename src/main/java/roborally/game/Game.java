@@ -25,11 +25,13 @@ import java.util.Random;
 public class Game implements IGame {
     private final boolean DEBUG = true;
 
+    //region gameobjects
     private IGameBoard gameBoard;
     private ILayers layers;
     private AI[] aiRobots;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
+    //endregion
 
     private Robot winner;
     private boolean gameRunning = false;
@@ -61,9 +63,6 @@ public class Game implements IGame {
     @Override
     public void startUp() {
         robots = AssetManagerUtil.makeRobots();
-        for (Robot robot : robots)
-            robot.setNumberOfFlags(flags.size());
-        //gameOptions.setRobots(robots);
     }
 
     @Override
@@ -77,13 +76,17 @@ public class Game implements IGame {
     public void checkForDestroyedRobots() {
         for (Robot robot : robots) {
             if (robot.getModel().getStatus().equals("Destroyed")) {
-                events.fadeRobot(robot.getPos(), robot.getTexture());
-                layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
-                robot.setPos(new GridPoint2(-1, -1));
-                robot.clearRegister();
-                this.events.setFadeRobot(true);
+                removeFromUI(robot, true);
             }
         }
+    }
+
+    private void removeFromUI(Robot robot, boolean fade) {
+        events.fadeRobot(robot.getPos(), robot.getTexture());
+        layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
+        robot.setPos(SettingsUtil.GRAVEYARD);
+        robot.clearRegister();
+        this.events.setFadeRobot(fade);
     }
 
     @Override
@@ -123,9 +126,11 @@ public class Game implements IGame {
 
     @Override
     public void restartGame() {
+        System.out.println("Restarting game...");
         for (Robot robot : robots) {
-            robot.backToCheckPoint();
+            removeFromUI(robot, false);
         }
+        setRobots(AssetManagerUtil.makeRobots());
     }
 
     @Override

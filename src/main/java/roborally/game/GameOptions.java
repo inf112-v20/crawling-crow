@@ -32,7 +32,6 @@ public class GameOptions {
         for (int x = 0; x < layers.getWidth(); x++) {
             for (int y = 0; y < layers.getHeight(); y++) {
                 robots.add(new Robot(x, y, y % 8));
-                robots.get(it).setNumberOfFlags(flags.size());
                 it++;
             }
         }

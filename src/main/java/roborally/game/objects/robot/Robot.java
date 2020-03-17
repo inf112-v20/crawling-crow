@@ -31,6 +31,7 @@ public class Robot implements Programmable {
     }
 
     public Robot(int x, int y, int robotID) {
+        this.visitedFlags = new boolean[3];
         RobotLogic robotModel = new RobotLogic(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
         this.robotLogic = robotModel;
@@ -192,12 +193,6 @@ public class Robot implements Programmable {
             System.out.println("Congratulations you have collected all the flags, press 'W' to win the game.");
         else
             System.out.println("Next flag to visit: " + (nextFlag + 1));
-    }
-
-    //TODO: Refactor to RobotModel
-
-    public void setNumberOfFlags(int nFlags) {
-        this.visitedFlags = new boolean[nFlags];
     }
 
     public void clearRegister() {
