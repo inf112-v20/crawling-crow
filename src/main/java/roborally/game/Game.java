@@ -15,6 +15,7 @@ import roborally.ui.ILayers;
 import roborally.ui.gdx.MakeCards;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
@@ -34,13 +35,13 @@ public class Game implements IGame {
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
-    private int robotPointerID;
+    private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
     private boolean fun;
 
     public Game(Events events) {
-        robotPointerID = 0;
+        currentRobotID = 0;
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
@@ -98,8 +99,8 @@ public class Game implements IGame {
     @Override
     public Robot getFirstRobot() {
 
-        if (this.robotPointerID == robots.size()) {
-            this.robotPointerID = 0;
+        if (this.currentRobotID == robots.size()) {
+            this.currentRobotID = 0;
         }
         checkForDestroyedRobots();
         return robots.get(0);
@@ -209,11 +210,9 @@ public class Game implements IGame {
     }
 
     private void removeDeadRobots() {
-        // TODO: Add graveyard as final variable
-        GridPoint2 graveyard = new GridPoint2(-1, -1);
         ArrayList<Robot> aliveRobots = new ArrayList<>();
         for (Robot robot : getRobots()) {
-            if (!robot.getPos().equals(graveyard))
+            if (isNotInGraveyard(robot))
                 aliveRobots.add(robot);
         }
         setRobots(aliveRobots);
@@ -234,16 +233,22 @@ public class Game implements IGame {
 
     @Override
     public void playNextCard() {
-        if (robots.get(robotPointerID).getPos().x < 0 || robots.get(robotPointerID).getPos().y < 0) {
-            robotPointerID++;
-            if (robotPointerID == robots.size())
-                robotPointerID = 0;
-            return;
+        Robot robot = getRobots().get(currentRobotID);
+        if (isNotInGraveyard(robot)) {
+            getRobots().get(currentRobotID).playNextCard();
         }
-        robots.get(robotPointerID++).playNextCard();
-        if (robotPointerID == robots.size())
-            robotPointerID = 0;
+        incrementCurrentRobotID();
         checkForDestroyedRobots();
+    }
+
+    private void incrementCurrentRobotID() {
+        currentRobotID++;
+        if (currentRobotID == getRobots().size())
+            currentRobotID = 0;
+    }
+
+    private boolean isNotInGraveyard(Robot robot) {
+        return robot.getPos() != SettingsUtil.GRAVEYARD;
     }
 
     @Override
