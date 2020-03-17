@@ -183,7 +183,7 @@ public class Game implements IGame {
     public MakeCards getCards() {
         checkForDestroyedRobots();
         if (fun)
-            removeOutOfPlayRobots();
+            removeDeadRobots();
         ProgramCards programCards = new ProgramCards();
         ArrayList<IProgramCards.Card> temp;
         PlayCards playCards;
@@ -208,19 +208,28 @@ public class Game implements IGame {
         return makeCards;
     }
 
-    private void removeOutOfPlayRobots() {
-        GridPoint2 pos = new GridPoint2(-1, -1);
-        ArrayList<Robot> temp = new ArrayList<>();
-        for (Robot robot : robots) {
-            if (!robot.getPos().equals(pos))
-                temp.add(robot);
+    private void removeDeadRobots() {
+        // TODO: Add graveyard as final variable
+        GridPoint2 graveyard = new GridPoint2(-1, -1);
+        ArrayList<Robot> aliveRobots = new ArrayList<>();
+        for (Robot robot : getRobots()) {
+            if (!robot.getPos().equals(graveyard))
+                aliveRobots.add(robot);
         }
-        this.robots = temp;
-        //gameOptions.setRobots(this.robots);
-        if (this.robots.size() < 2) {
+        setRobots(aliveRobots);
+
+        returnToMenuIfOnlyOneRobotLeft();
+    }
+
+    private void returnToMenuIfOnlyOneRobotLeft() {
+        if (getRobots().size() < 2) {
             System.out.println("Entering menu");
             gameOptions.enterMenu();
         }
+    }
+
+    private void setRobots(ArrayList<Robot> newRobots) {
+        this.robots = newRobots;
     }
 
     @Override
