@@ -25,7 +25,7 @@ import java.util.Random;
 public class Game implements IGame {
     private final boolean DEBUG = true;
 
-    //region gameobjects
+    //region Game Objects
     private IGameBoard gameBoard;
     private ILayers layers;
     private AI[] aiRobots;
@@ -34,12 +34,14 @@ public class Game implements IGame {
     //endregion
 
     private Robot winner;
+
     private boolean gameRunning = false;
     private RoundStep roundStep = RoundStep.NULL_STEP;
     private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
+
     private boolean fun;
 
     public Game(Events events) {
@@ -50,7 +52,6 @@ public class Game implements IGame {
         this.events = events;
         this.gameOptions = new GameOptions();
     }
-
 
     public Game(boolean runAIGame) {
         assert (runAIGame);
@@ -99,6 +100,7 @@ public class Game implements IGame {
         return aiRobots;
     }
 
+    //region Robots
     @Override
     public Robot getFirstRobot() {
 
@@ -113,6 +115,11 @@ public class Game implements IGame {
     public ArrayList<Robot> getRobots(){
         return this.robots;
     }
+
+    private void setRobots(ArrayList<Robot> newRobots) {
+        this.robots = newRobots;
+    }
+    //endregion
 
     @Override
     public void startGame() {
@@ -133,6 +140,7 @@ public class Game implements IGame {
         setRobots(AssetManagerUtil.makeRobots());
     }
 
+    //region Rounds
     @Override
     public void startNewRound() {
         assert (gameRunning);
@@ -152,6 +160,7 @@ public class Game implements IGame {
     public RoundStep currentRoundStep() {
         return roundStep;
     }
+    //endregion
 
     @Override
     public boolean isRunning() {
@@ -185,6 +194,26 @@ public class Game implements IGame {
             events.createNewLaserEvent(robots.get(0).getPosition(), coords.get(coords.size() - 1));
     }
 
+
+    private void removeDeadRobots() {
+        ArrayList<Robot> aliveRobots = new ArrayList<>();
+        for (Robot robot : getRobots()) {
+            if (isNotInGraveyard(robot))
+                aliveRobots.add(robot);
+        }
+        setRobots(aliveRobots);
+
+        returnToMenuIfOnlyOneRobotLeft();
+    }
+
+    private void returnToMenuIfOnlyOneRobotLeft() {
+        if (getRobots().size() < 2) {
+            System.out.println("Entering menu");
+            gameOptions.enterMenu();
+        }
+    }
+
+    //region Cards
     @Override
     public MakeCards getCards() {
         //TODO Refactor for readability
@@ -215,28 +244,6 @@ public class Game implements IGame {
         return makeCards;
     }
 
-    private void removeDeadRobots() {
-        ArrayList<Robot> aliveRobots = new ArrayList<>();
-        for (Robot robot : getRobots()) {
-            if (isNotInGraveyard(robot))
-                aliveRobots.add(robot);
-        }
-        setRobots(aliveRobots);
-
-        returnToMenuIfOnlyOneRobotLeft();
-    }
-
-    private void returnToMenuIfOnlyOneRobotLeft() {
-        if (getRobots().size() < 2) {
-            System.out.println("Entering menu");
-            gameOptions.enterMenu();
-        }
-    }
-
-    private void setRobots(ArrayList<Robot> newRobots) {
-        this.robots = newRobots;
-    }
-
     @Override
     public void playNextCard() {
         Robot robot = getRobots().get(currentRobotID);
@@ -246,6 +253,7 @@ public class Game implements IGame {
         incrementCurrentRobotID();
         checkForDestroyedRobots();
     }
+    //endregion
 
     private void incrementCurrentRobotID() {
         currentRobotID++;
@@ -262,6 +270,7 @@ public class Game implements IGame {
         robots.get(0).getModel().arrangeCards(order);
     }
 
+    //region Conveyor belts
     @Override
     public void moveAllConveyorBelts() {
         // TODO: Implement the corresponding phase.
@@ -271,6 +280,7 @@ public class Game implements IGame {
     public void moveExpressConveyorBelts() {
         // TODO: Implement the corresponding phase.
     }
+    //endregion
 
     @Override
     public void moveCogs() {
