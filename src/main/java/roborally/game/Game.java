@@ -45,7 +45,7 @@ public class Game implements IGame {
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
         this.events = events;
-        this.gameOptions = new GameOptions(robots);
+        this.gameOptions = new GameOptions();
     }
 
 
@@ -62,13 +62,12 @@ public class Game implements IGame {
         robots = AssetManagerUtil.makeRobots();
         for (Robot robot : robots)
             robot.setNumberOfFlags(flags.size());
-        gameOptions.setRobots(robots);
+        //gameOptions.setRobots(robots);
     }
 
     @Override
     public void funMode() {
-        gameOptions.funMode(layers, flags);
-        this.robots = gameOptions.getRobots();
+        robots = gameOptions.funMode(layers, flags);
         this.events.setGameSpeed("fastest");
         fun = true;
     }
@@ -97,13 +96,18 @@ public class Game implements IGame {
     }
 
     @Override
-    public Robot getRobots() {
+    public Robot getFirstRobot() {
 
         if (this.robotPointerID == robots.size()) {
             this.robotPointerID = 0;
         }
         checkForDestroyedRobots();
         return robots.get(0);
+    }
+
+    @Override
+    public ArrayList<Robot> getRobots(){
+        return this.robots;
     }
 
     @Override
@@ -212,7 +216,7 @@ public class Game implements IGame {
                 temp.add(robot);
         }
         this.robots = temp;
-        gameOptions.setRobots(this.robots);
+        //gameOptions.setRobots(this.robots);
         if (this.robots.size() < 2) {
             System.out.println("Entering menu");
             gameOptions.enterMenu();

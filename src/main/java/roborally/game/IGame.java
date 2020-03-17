@@ -8,6 +8,8 @@ import roborally.ui.gdx.MakeCards;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
+import java.util.ArrayList;
+
 public interface IGame {
 
     /**
@@ -28,7 +30,7 @@ public interface IGame {
      * Exists only for debugging.
      * @return The first of the robots
      */
-    Robot getRobots();
+    Robot getFirstRobot();
 
     void funMode();
 
@@ -40,6 +42,8 @@ public interface IGame {
     void fireLaser();
 
     void restartGame();
+
+    ArrayList<Robot> getRobots();
 
     void startGame();
 

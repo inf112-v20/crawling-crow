@@ -9,10 +9,8 @@ import java.util.ArrayList;
 
 public class GameOptions {
     private boolean menu;
-    private ArrayList<Robot> robots;
 
-    public GameOptions(ArrayList<Robot> robots) {
-        this.robots = robots;
+    public GameOptions() {
         this.menu = false;
     }
 
@@ -28,24 +26,17 @@ public class GameOptions {
         return this.menu;
     }
 
-    public void funMode(ILayers layers, ArrayList<IFlag> flags) {
-        robots = new ArrayList<>();
+    public ArrayList<Robot> funMode(ILayers layers, ArrayList<IFlag> flags) {
+        ArrayList<Robot> robots = new ArrayList<>();
         int it = 0;
-        for (int j = 0; j < layers.getWidth(); j++) {
-            for (int k = 0; k < layers.getHeight(); k++) {
-                robots.add(new Robot(j, k, k % 8));
-                this.robots.get(it).setNumberOfFlags(flags.size());
+        for (int x = 0; x < layers.getWidth(); x++) {
+            for (int y = 0; y < layers.getHeight(); y++) {
+                robots.add(new Robot(x, y, y % 8));
+                robots.get(it).setNumberOfFlags(flags.size());
                 it++;
             }
         }
-        AssetManagerUtil.setRobots(this.robots);
-    }
-
-    public ArrayList<Robot> getRobots() {
-        return this.robots;
-    }
-
-    public void setRobots(ArrayList<Robot> robots) {
-        this.robots = robots;
+        AssetManagerUtil.setRobots(robots);
+        return robots;
     }
 }
