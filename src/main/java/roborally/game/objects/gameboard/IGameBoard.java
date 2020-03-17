@@ -9,5 +9,8 @@ public interface IGameBoard {
      */
     ArrayList<IFlag> findAllFlags();
 
+    /**
+     * @return All the layers on the game board
+     */
     ILayers getLayers();
 }

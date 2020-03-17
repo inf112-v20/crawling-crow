@@ -82,9 +82,9 @@ public class Game implements IGame {
     }
 
     private void removeFromUI(Robot robot, boolean fade) {
-        events.fadeRobot(robot.getPos(), robot.getTexture());
-        layers.setRobotCell(robot.getPos().x, robot.getPos().y, null);
-        robot.setPos(SettingsUtil.GRAVEYARD);
+        events.fadeRobot(robot.getPosition(), robot.getTexture());
+        layers.setRobotCell(robot.getPosition().x, robot.getPosition().y, null);
+        robot.setPosition(SettingsUtil.GRAVEYARD);
         robot.clearRegister();
         this.events.setFadeRobot(fade);
     }
@@ -182,7 +182,7 @@ public class Game implements IGame {
         robots.get(0).fireLaser();
         ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
         if (!coords.isEmpty())
-            events.createNewLaserEvent(robots.get(0).getPos(), coords.get(coords.size() - 1));
+            events.createNewLaserEvent(robots.get(0).getPosition(), coords.get(coords.size() - 1));
     }
 
     @Override
@@ -254,7 +254,7 @@ public class Game implements IGame {
     }
 
     private boolean isNotInGraveyard(Robot robot) {
-        return robot.getPos() != SettingsUtil.GRAVEYARD;
+        return robot.getPosition() != SettingsUtil.GRAVEYARD;
     }
 
     @Override
@@ -285,7 +285,7 @@ public class Game implements IGame {
             robot.fireLaser();
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
             if (!coords.isEmpty())
-                events.createNewLaserEvent(robot.getPos(), coords.get(coords.size() - 1));
+                events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
         }
         // TODO: Implement the corresponding phase.
     }
@@ -299,14 +299,14 @@ public class Game implements IGame {
     public void registerFlagPositions() {
         System.out.println("\nChecking if any robots have currently arrived at their next flag position...");
         for (IFlag flag : flags) {
-            int flagX = flag.getPos().x;
-            int flagY = flag.getPos().y;
+            int flagX = flag.getPosition().x;
+            int flagY = flag.getPosition().y;
             for (Robot robot : robots) {
-                int robotX = robot.getPos().x;
-                int robotY = robot.getPos().y;
+                int robotX = robot.getPosition().x;
+                int robotY = robot.getPosition().y;
                 if (flagX == robotX && flagY == robotY) {
                     int nextFlag = robot.getNextFlag();
-                    if (flag.getId() == nextFlag) {
+                    if (flag.getID() == nextFlag) {
                         robot.visitNextFlag();
                         System.out.println("A flag has been visited");
                     }

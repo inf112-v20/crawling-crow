@@ -46,7 +46,7 @@ public class LaserRegister {
             activeLasers.get(name).forEach(laser -> {
                 laser.update();
                 if (laser.gotPos(pos)) {
-                    System.out.println("Cannon at " + laser.getPos());
+                    System.out.println("Cannon at " + laser.getPosition());
                 } else
                     temp.add(laser);
             });
@@ -66,7 +66,7 @@ public class LaserRegister {
             HashSet<Laser> lasers = activeLasers.get(name);
             for (Laser laser : lasers) {
                 laser.update();
-                if (laser.getPos().equals(newLaser.getPos()))
+                if (laser.getPosition().equals(newLaser.getPosition()))
                     hasLaser = true;
             }
         } else

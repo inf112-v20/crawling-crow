@@ -36,7 +36,7 @@ public class Robot implements Programmable {
         IRobotView robotView = new RobotView(x, y);
         this.robotLogic = robotModel;
         this.robotView = robotView;
-        setPos(new GridPoint2(x, y));
+        setPosition(new GridPoint2(x, y));
         this.setTextureRegion(robotID);
         laser = new Laser(0);
         this.robotLogic.setCheckPoint(x, y);
@@ -55,19 +55,18 @@ public class Robot implements Programmable {
         return this.robotLogic.getName();
     }
 
-
-    public GridPoint2 getPos() {
-        return this.robotLogic.getPos();
+    public GridPoint2 getPosition() {
+        return this.robotLogic.getPosition();
     }
 
 
-    public void setPos(GridPoint2 newPos) {
-        this.robotLogic.setPos(newPos);
+    public void setPosition(GridPoint2 newPosition) {
+        this.robotLogic.setPosition(newPosition);
     }
 
-    public Direction rotate(String way, int factor) {
-        Direction direction = this.robotLogic.rotate(way, factor);
-        this.robotView.setDirection(getPos(), direction);
+    public Direction rotate(String leftOrRight, int factor) {
+        Direction direction = this.robotLogic.rotate(leftOrRight, factor);
+        this.robotView.setDirection(getPosition(), direction);
         return direction;
     }
 
@@ -76,12 +75,12 @@ public class Robot implements Programmable {
     }
 
     public void backToCheckPoint() {
-        robotView.goToCheckPoint(this.getPos(), robotLogic.getCheckPoint());
+        robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
         this.robotLogic.backToCheckPoint();
     }
 
     public void fireLaser() {
-        laser.fireLaser(getPos(), this.robotLogic.getDirectionID());
+        laser.fireLaser(getPosition(), this.robotLogic.getDirectionID());
     }
 
     public Laser getLaser() {
@@ -100,14 +99,14 @@ public class Robot implements Programmable {
     }
 
     public void moveRobot(int dx, int dy) {
-        GridPoint2 pos = this.getPos();
+        GridPoint2 pos = this.getPosition();
         GridPoint2 newPos = new GridPoint2(pos.x + dx, pos.y + dy);
         System.out.println("Old position: " + pos);
         // Checks for robots in its path before moving.
         if (!listener.listenCollision(pos.x, pos.y, dx, dy)) {
             if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
                 clearRegister();
-                this.setPos(newPos);
+                this.setPosition(newPos);
                 System.out.println("New position: " + newPos);
                 if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
                     robotLogic.takeDamage(1);
@@ -115,19 +114,19 @@ public class Robot implements Programmable {
                     robotLogic.takeDamage(10);
                     this.setLostTexture();
                 }
-                this.robotView.setDirection(getPos(), robotLogic.getDirection());
+                this.robotView.setDirection(getPosition(), robotLogic.getDirection());
             }
         } else
             System.out.println("New position: " + pos);
     }
 
     public void setWinTexture() {
-        this.robotView.setWinTexture(getPos());
+        this.robotView.setWinTexture(getPosition());
     }
 
 
     public void setLostTexture() {
-        this.robotView.setLostTexture(getPos());
+        this.robotView.setLostTexture(getPosition());
     }
 
     public void playNextCard() {
@@ -185,7 +184,7 @@ public class Robot implements Programmable {
 
     public void visitNextFlag() {
         this.setWinTexture();
-        this.robotView.setDirection(getPos(), robotLogic.getDirection());
+        this.robotView.setDirection(getPosition(), robotLogic.getDirection());
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
@@ -196,6 +195,6 @@ public class Robot implements Programmable {
     }
 
     public void clearRegister() {
-        laserRegister.updateLaser(getName(), getPos());
+        laserRegister.updateLaser(getName(), getPosition());
     }
 }

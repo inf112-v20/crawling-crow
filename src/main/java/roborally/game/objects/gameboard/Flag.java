@@ -12,12 +12,12 @@ public class Flag implements IFlag {
     }
 
     @Override
-    public GridPoint2 getPos() {
+    public GridPoint2 getPosition() {
         return pos;
     }
 
     @Override
-    public int getId() {
+    public int getID() {
         return id;
     }
 }

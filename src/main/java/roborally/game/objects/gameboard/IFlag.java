@@ -7,10 +7,10 @@ public interface IFlag {
     /**
      * @return the x and y position of a flag
      */
-    GridPoint2 getPos();
+    GridPoint2 getPosition();
 
     /**
      * @return the id from tilemap of a flag
      */
-    int getId();
+    int getID();
 }

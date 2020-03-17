@@ -13,6 +13,7 @@ import roborally.utilities.tiledtranslator.TiledTranslator;
 import java.util.ArrayList;
 
 public class Laser {
+    //region Field variables
     private int laserTileID;
     private int cannonTileID;
     private boolean removeLaser;
@@ -21,14 +22,20 @@ public class Laser {
     private ILayers layers;
     private WallListener wallListener;
 
+    //region GridPoint2 positions
     private GridPoint2 robotsOrigin;
     private GridPoint2 cannonPos;
     private ArrayList<GridPoint2> laserEndPositions;
+    //endregion
 
+    //region Laser types
     private TiledMapTileLayer.Cell storedLaserCell;
     private TiledMapTileLayer.Cell crossLaser;
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
+    //endregion
+
+    //endregion
 
     /**
      * Constructs a new laser.
@@ -36,13 +43,13 @@ public class Laser {
      * @param laserTileID Horizontal or Vertical laser.
      */
     public Laser(int laserTileID) {
-        tiledTranslator = new TiledTranslator();
-        layers = new Layers();
+        this.tiledTranslator = new TiledTranslator();
+        this.layers = new Layers(); // FIXME: Isn't this created in GameBoard?
         this.laserTileID = laserTileID;
-        laserEndPositions = new ArrayList<>();
-        removeLaser = false;
-        cannonPos = new GridPoint2();
-        wallListener = new WallListener(layers);
+        this.laserEndPositions = new ArrayList<>();
+        this.removeLaser = false;
+        this.cannonPos = new GridPoint2();
+        this.wallListener = new WallListener(layers);
     }
 
     public void clearLaser() {
@@ -51,47 +58,47 @@ public class Laser {
 
     /**
      * Shoots a laser until it hits a wall or a robot. Stores the cells for clearing them after.
-     * {@link #setDirection(int direction)} to figure out the iterative values to shoot with.
+     * {@link #setDirection(int robotDirection)} to figure out the iterative values to shoot with.
      *
-     * @param robotsPos The position of the robot that is shooting the laser.
-     * @param direction The direction the robot is looking.
+     * @param robotPosition The position of the robot that is shooting the laser.
+     * @param robotDirection The robotDirection the robot is looking.
      */
-    public void fireLaser(GridPoint2 robotsPos, int direction) {
+    public void fireLaser(GridPoint2 robotPosition, int robotDirection) {
         clearLaser();
-        laserEndPositions.clear();
-        storedLaserCell = getLaser(direction);
-        int[] dir = setDirection(direction);
-        int i = robotsPos.x + dir[0];
-        int j = robotsPos.y + dir[1];
+        this.laserEndPositions.clear();
+        this.storedLaserCell = getLaser(robotDirection);
+        int[] direction = setDirection(robotDirection);
+        int x = robotPosition.x + direction[0];
+        int y = robotPosition.y + direction[1];
 
-        if (wallListener.checkForWall(robotsPos.x, robotsPos.y, dir[0], dir[1]))
+        if (this.wallListener.checkForWall(robotPosition.x, robotPosition.y, direction[0], direction[1]))
             return;
-        while (i >= 0 && i < layers.getWidth() && j >= 0 && j < layers.getHeight()) {
-            laserEndPositions.add(new GridPoint2(i, j));
-            if (wallListener.checkForWall(i, j, dir[0], dir[1]) || layers.assertRobotNotNull(i, j)) {
+        while (x >= 0 && x < layers.getWidth() && y >= 0 && y < this.layers.getHeight()) {
+            this.laserEndPositions.add(new GridPoint2(x, y));
+            if (this.wallListener.checkForWall(x, y, direction[0], direction[1]) || this.layers.assertRobotNotNull(x, y)) {
                 break;
             }
-            i = i + dir[0];
-            j = j + dir[1];
+            x = x + direction[0];
+            y = y + direction[1];
         }
     }
 
     /**
-     * Determines which direction the robot is firing it's laser.
+     * Determines which robotDirection the robot is firing it's laser.
      *
-     * @param direction The direction the robot is facing
-     * @return an array with values that determines which direction the laser is being fired.
+     * @param robotDirection The robotDirection the robot is facing
+     * @return an array with values that determines which robotDirection the laser is being fired.
      */
-    public int[] setDirection(int direction) {
+    public int[] setDirection(int robotDirection) {
         int dx = 0;
         int dy = 0;
-        if (direction == 0)
+        if (robotDirection == 0)
             dy = 1;
-        else if (direction == 1)
+        else if (robotDirection == 1)
             dx = -1;
-        else if (direction == 2)
+        else if (robotDirection == 2)
             dy = -1;
-        else if (direction == 3)
+        else if (robotDirection == 3)
             dx = 1;
         return new int[]{dx, dy};
     }
@@ -124,12 +131,16 @@ public class Laser {
      * @return cannonId
      */
     public int findHorizontal() {
+        // FIXME: Generic names, needs to be more specific
         int i = robotsOrigin.x + 1;
         int j = robotsOrigin.x - 1;
         int k = robotsOrigin.y;
+
         while (i < layers.getWidth() && layers.assertLaserNotNull(i, k)) i++;
         while (j >= 0 && layers.assertLaserNotNull(j, k)) j--;
+
         cannonTileID = findCannon(i, j, k);
+
         if (cannonTileID != 0) {
             int dx;
             TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
@@ -154,9 +165,11 @@ public class Laser {
      * @return cannonId
      */
     public int findVertical() {
+        // FIXME: Generic names, needs to be more specific
         int i = robotsOrigin.y + 1;
         int j = robotsOrigin.y - 1;
         int k = robotsOrigin.x;
+
         while (i < layers.getHeight() && layers.assertLaserNotNull(k, i)) i++;
         while (j >= 0 && layers.assertLaserNotNull(k, j)) j--;
         cannonTileID = findCannon(i, j, k);
@@ -261,21 +274,21 @@ public class Laser {
         return true;
     }
 
-    public int getId() {
+    public int getID() {
         return this.cannonTileID;
     }
 
-    public GridPoint2 getPos() {
+    public GridPoint2 getPosition() {
         return this.cannonPos;
     }
 
     /**
-     * Creates laser tiles if they are not created.
+     * Create laser tiles if they are not created.
      *
-     * @param direction the direction the laser is going
+     * @param laserDirection the direction the laser is going
      * @return the laser cell.
      */
-    public TiledMapTileLayer.Cell getLaser(int direction) {
+    public TiledMapTileLayer.Cell getLaser(int laserDirection) {
         if (storedLaserCell == null) {
             horizontalLaser = new TiledMapTileLayer.Cell();
             horizontalLaser.setTile(AssetManagerUtil.getTileSets().getTile(TileName.LASER_HORIZONTAL.getTileID()));
@@ -286,7 +299,7 @@ public class Laser {
             crossLaser = new TiledMapTileLayer.Cell();
             crossLaser.setTile(AssetManagerUtil.getTileSets().getTile(TileName.LASER_CROSS.getTileID()));
         }
-        if (direction == 0 || direction == 2)
+        if (laserDirection == 0 || laserDirection == 2)
             return verticalLaser;
         else
             return horizontalLaser;

@@ -32,12 +32,12 @@ public class RobotLogic implements Programmable {
         return this;
     }
 
-    public GridPoint2 getPos() {
+    public GridPoint2 getPosition() {
         return this.robotPosition;
     }
 
-    public void setPos(GridPoint2 newPos) {
-        this.robotPosition.set(newPos);
+    public void setPosition(GridPoint2 newPosition) {
+        this.robotPosition.set(newPosition);
     }
 
     public int[] move(int steps) {
@@ -70,23 +70,23 @@ public class RobotLogic implements Programmable {
         return new int[]{dx, dy};
     }
 
-    public Direction rotate(String direction, int factor) {
-        if ("L".equals(direction))
-            this.direction = Direction.turnLeftFrom(this.direction);
-        else if ("R".equals(direction))
-            this.direction = Direction.turnRightFrom(this.direction);
+    public Direction rotate(String leftOrRight, int factor) {
+        if ("L".equals(leftOrRight))
+            this.direction = Direction.turnLeftFrom(getDirection());
+        else if ("R".equals(leftOrRight))
+            this.direction = Direction.turnRightFrom(getDirection());
         if (factor == 2) {
-            if ("L".equals(direction))
-                this.direction = Direction.turnLeftFrom(this.direction);
-            else if ("R".equals(direction))
-                this.direction = Direction.turnRightFrom(this.direction);
+            if ("L".equals(leftOrRight))
+                this.direction = Direction.turnLeftFrom(getDirection());
+            else if ("R".equals(leftOrRight))
+                this.direction = Direction.turnRightFrom(getDirection());
         }
 
         return this.direction;
     }
 
     public void backToCheckPoint() {
-        setPos(this.checkPoint);
+        setPosition(this.checkPoint);
         this.direction = Direction.North;
     }
 

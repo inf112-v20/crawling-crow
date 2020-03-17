@@ -66,7 +66,7 @@ public class LaserEvent {
 
     public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<Robot> robots) {
         for (Robot robot : robots)
-            if (robot.getPos().equals(laserPoint)) {
+            if (robot.getPosition().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
             }
@@ -88,7 +88,7 @@ public class LaserEvent {
 
     public void drawLaserEventVertically(SpriteBatch batch, ArrayList<Robot> robots) {
         for (Robot robot : robots)
-            if (robot.getPos().equals(laserPoint)) {
+            if (robot.getPosition().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
             }

@@ -41,9 +41,9 @@ public class RobotTest {
 
     @Test
     public void verifyThatRobot1PositionNotEqualToRobot2Position() {
-        testRobot1.setPos(new GridPoint2(5, 5));
-        testRobot2.setPos(new GridPoint2(4, 4));
-        assertThat(testRobot1.getPos(), not(testRobot2.getPos()));
+        testRobot1.setPosition(new GridPoint2(5, 5));
+        testRobot2.setPosition(new GridPoint2(4, 4));
+        assertThat(testRobot1.getPosition(), not(testRobot2.getPosition()));
     }
 
     @Test

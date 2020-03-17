@@ -37,7 +37,7 @@ public class CollisionListener {
             if (layers.assertRobotNotNull(x + dx, y + dy))
                 recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
             for (Robot robot : AssetManagerUtil.getRobots())
-                if (robot.getPos().x == x && robot.getPos().y == y && !recursiveRobot) {
+                if (robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
                     robot.moveRobot(dx, dy);
                     System.out.println("Pushing robot complete");
@@ -46,9 +46,9 @@ public class CollisionListener {
         // RobotPresenter "deletion"
         else
             for (Robot robot : AssetManagerUtil.getRobots())
-                if (robot.getPos().equals(new GridPoint2(x, y))) {
+                if (robot.getPosition().equals(new GridPoint2(x, y))) {
                     layers.setRobotCell(x, y, null);
-                    robot.setPos(new GridPoint2(-1, -1));
+                    robot.setPosition(new GridPoint2(-1, -1));
                     robot.clearRegister();
                 }
         return recursiveRobot;
@@ -69,10 +69,10 @@ public class CollisionListener {
         for (Robot robot : AssetManagerUtil.getRobots()) {
             GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
-                GridPoint2 bumpedPos = robot.getPos();
+                GridPoint2 bumpedPos = robot.getPosition();
                 if (bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
                     // RobotPresenter "deletion".
-                    robot.setPos(new GridPoint2(-1, -1));
+                    robot.setPosition(new GridPoint2(-1, -1));
                     robot.clearRegister();
                     layers.setRobotCell(x, y, null);
                 } else if (bumpedPos.equals(bumpingPos)) {
