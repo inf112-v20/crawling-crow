@@ -174,4 +174,9 @@ public class Events {
         }
     }
 
+    public void dispose() {
+        this.laserEvent.clear();
+        this.fadeableRobots.clear();
+    }
+
 }
