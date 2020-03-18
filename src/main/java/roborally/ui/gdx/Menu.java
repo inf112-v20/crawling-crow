@@ -104,9 +104,9 @@ public class Menu {
     private void addEvenMoreListeners() {
         Pixmap colur = new Pixmap(100, 10, Pixmap.Format.RGBA8888);
         Pixmap colur2 = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
-        Pixmap colur3 = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+        Pixmap colur3 = new Pixmap(2, 2, Pixmap.Format.RGB888);
         Pixmap colur4 = new Pixmap(10, 1, Pixmap.Format.RGBA8888);
-        colur3.setColor(Color.GOLD);
+        colur3.setColor(Color.CHARTREUSE);
         colur3.fill();
         colur4.setColor(Color.ORANGE.set(0, 0, 0, 0));
         colur4.fill();
@@ -125,6 +125,7 @@ public class Menu {
         decor1.setPosition(450, 350);
         sliders.add(decor1);
         decoWidth[0] = 140;
+        sliderStyle1.knob = new Image(new Texture(colur3)).getDrawable();
         Slider decor2 = new Slider(0, 10, 0.01f, false, sliderStyle1);
         decor2.setSize(225, 0.2f);
         decor2.setPosition(405, 485);
@@ -387,6 +388,10 @@ public class Menu {
 
     private void drawSliders(SpriteBatch batch) {
         for (int i = 0; i < sliders.size(); i++) {
+            drawManyDots(batch, i);
+            drawManyDots(batch, i);
+            drawManyDots(batch, i);
+            drawManyDots(batch, i);
             sliders.get(i).draw(batch, 1);
             sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i]);
             if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
@@ -410,6 +415,16 @@ public class Menu {
                 }
             }
         }
+    }
+
+    private void drawManyDots(SpriteBatch batch, int i) {
+        sliders.get(i).draw(batch, 1);
+        sliders.get(i).setValue(sliders.get(i).getValue() - sliders.get(i).getValue() * 1/25f);
+        sliders.get(i).draw(batch, 1);
+        sliders.get(i).setValue(sliders.get(i).getValue() - sliders.get(i).getValue() * 1/26f);
+        sliders.get(i).draw(batch, 1);
+        sliders.get(i).setValue(sliders.get(i).getValue() - sliders.get(i).getValue() * 1/27f);
+
     }
 
 

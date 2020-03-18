@@ -7,10 +7,8 @@ import java.util.HashMap;
 
 public class ControlsDebug implements IControls {
     private HashMap<Integer, Runnable> menuControlMap;
-    private IGame game;
 
     public ControlsDebug(IGame game) {
-        this.game = game;
         menuControlMap = new HashMap<>();
         menuControlMap.put(Input.Keys.UP, () -> game.getFirstRobot().move(1));
         menuControlMap.put(Input.Keys.DOWN, () -> game.getFirstRobot().move(-1));
