@@ -24,6 +24,7 @@ public class Robot implements Programmable {
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
+    private Sound sound;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
@@ -66,9 +67,22 @@ public class Robot implements Programmable {
     //region Movement
     @Override
     public int[] move(int steps) {
+        int x = getPosition().x;
+        int y = getPosition().y;
+        Sound sound;
         int[] moveValues = robotLogic.move(steps);
         for (int i = 0; i < Math.abs(steps); i++)
             moveRobot(moveValues[0], moveValues[1]);
+        if (getPosition().dst(x, y) == 1) {
+            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
+            sound.play(0.25f);
+        } else if (getPosition().dst(x, y) == 2) {
+            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
+            sound.play(0.25f);
+        } else if (getPosition().dst(x, y) == 3) {
+            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
+            sound.play(0.25f);
+        }
         return this.robotLogic.move(steps);
     }
 
@@ -143,19 +157,13 @@ public class Robot implements Programmable {
         IProgramCards.Card card = getModel().getNextCard();
         if (card == null)
             return;
-        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1) {
-            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
-            sound.play(0.25f);
+        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
             move(1);
-        } else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2) {
-            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
-            sound.play(0.25f);
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
             move(2);
-        } else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3) {
-            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
-            sound.play(0.25f);
+        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
             move(3);
-        } else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
+        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
             rotate("L", 1);
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
             rotate("R", 1);
