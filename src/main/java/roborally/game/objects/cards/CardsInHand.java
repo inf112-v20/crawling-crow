@@ -1,7 +1,6 @@
 package roborally.game.objects.cards;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CardsInHand {
     private ArrayList<IProgramCards.Card> cards;
@@ -18,6 +17,7 @@ public class CardsInHand {
         }
         this.cards = temp;
     }
+
     public ArrayList<IProgramCards.Card> getCards() {
         return this.cards;
     }

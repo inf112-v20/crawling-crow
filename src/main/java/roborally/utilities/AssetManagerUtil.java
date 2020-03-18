@@ -1,6 +1,7 @@
 package roborally.utilities;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -27,6 +28,8 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("sounds/step2.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEP3
             = new AssetDescriptor<>("sounds/step3.mp3", Sound.class);
+    public static final AssetDescriptor<Music> SOUNDTRACK
+            = new AssetDescriptor<>("sounds/soundTrack.mp3", Music.class);
     //Maps
     private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
             = new AssetDescriptor<>("maps/testMap001.tmx", TiledMap.class);
@@ -107,6 +110,7 @@ public class AssetManagerUtil {
         manager.load(STEP2);
         manager.load(STEP3);
         manager.load(ROBOT_HIT);
+        manager.load(SOUNDTRACK);
 
         //Menu
         manager.load(MENU);
