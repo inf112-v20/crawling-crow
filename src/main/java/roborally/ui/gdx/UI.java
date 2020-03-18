@@ -162,19 +162,14 @@ public class UI extends InputAdapter implements ApplicationListener {
             if (game.currentRoundStep() == RoundStep.NULL_STEP) {
                 game.startNewRound();
             }
-
             if (game.currentRoundStep() == RoundStep.PROGRAM_ROBOT) {
                 programRobotControls.getAction(keycode).run();
             }
-
-
             // Decides what happens when we are running through phases
             if (game.currentRoundStep() == RoundStep.PHASES) {
-
                 if (game.currentPhaseStep() == PhaseStep.REVEAL_CARDS) {
                     game.revealProgramCards();
                 }
-
                 // Handles logic when in "Check for winner step
                 if (game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER) {
                     game.checkIfSomeoneWon();
@@ -229,4 +224,3 @@ public class UI extends InputAdapter implements ApplicationListener {
     }
 
 }
-
