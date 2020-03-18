@@ -107,9 +107,14 @@ public class ProgramCardsView {
                         group.getChildren().get(0).setColor(Color.WHITE);
                         selectedOrderLabel.setText("");
                         reArrange(i);
-                        cardPick--;
+                        if(cardPick -1 != -1)
+                            cardPick--;
                         return true;
                     }
+                if(cardPick == 5) {
+                    doneLabel.setColor(Color.RED);
+                    return true;
+                }
                 topLabelList.add(cardPick, selectedOrderLabel);
                 topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
                 group.addActor(topLabelList.get(cardPick));
@@ -152,6 +157,7 @@ public class ProgramCardsView {
             order[i] = order[++i];
             if (order[i] != -1) {
                 topLabelList.get(i - 1).setText(Integer.toString(i - 1));
+                order[i] = -1;
             }
         }
     }
