@@ -18,6 +18,7 @@ public class ProgramCardsView {
     private int[] order;
     private ArrayList<Label> topLabelList;
     private int cardWidth;
+    private int cardHeight;
 
     public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
@@ -25,6 +26,7 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardWidth = 75;
+        this.cardHeight = 116;
     }
 
     public void makeCard(IProgramCards.Card card) {
@@ -87,13 +89,13 @@ public class ProgramCardsView {
      * @param image    The image created for the card, with the related texture.
      */
     private void makeSomething(int priority, Image image) {
-        image.setSize(75, 100);
+        image.setSize(getCardWidth(), getCardHeight());
         Group group = new Group();
         group.setWidth(image.getWidth());
         group.addActor(image);
-        Label topLabel = makeTopLabel();
-        Label label = makeLabel(priority);
-        group.addActor(label);
+        Label selectedOrderLabel = makeSelectedOrderLabel();
+        Label priorityLabel = makePriorityLabel(priority);
+        group.addActor(priorityLabel);
         group.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -101,12 +103,12 @@ public class ProgramCardsView {
                     if (groups.indexOf(group) == order[i]) {
                         group.getChildren().get(1).setColor(Color.ORANGE);
                         group.getChildren().get(0).setColor(Color.WHITE);
-                        topLabel.setText("");
+                        selectedOrderLabel.setText("");
                         reArrange(i);
                         cardPick--;
                         return true;
                     }
-                topLabelList.add(cardPick, topLabel);
+                topLabelList.add(cardPick, selectedOrderLabel);
                 topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
                 group.addActor(topLabelList.get(cardPick));
                 order[cardPick++] = groups.indexOf(group);
@@ -118,7 +120,7 @@ public class ProgramCardsView {
         this.groups.add(group);
     }
 
-    public Label makeTopLabel() {
+    public Label makeSelectedOrderLabel() {
         Label.LabelStyle topLabelStyle = new Label.LabelStyle();
         topLabelStyle.font = new BitmapFont();
         Label topLabel = new Label("", topLabelStyle);
@@ -129,13 +131,13 @@ public class ProgramCardsView {
         return topLabel;
     }
 
-    public Label makeLabel(int priority) {
+    public Label makePriorityLabel(int priority) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         Label label = new Label(Integer.toString(priority), labelStyle);
-        label.setX(25);
-        label.setY(1);
-        label.setFontScale(1.2f, 0.75f);
+        label.setX(28);
+        label.setY(10);
+        label.setFontScale(0.78f);
         label.setColor(Color.ORANGE);
         return label;
     }
@@ -172,5 +174,9 @@ public class ProgramCardsView {
     }
     public int getCardWidth() {
         return this.cardWidth;
+    }
+
+    public int getCardHeight() {
+        return this.cardHeight;
     }
 }
