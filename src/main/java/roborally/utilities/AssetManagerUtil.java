@@ -12,6 +12,7 @@ import roborally.game.objects.robot.Robot;
 import java.util.*;
 
 public class AssetManagerUtil {
+    public static float volume = 1;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER

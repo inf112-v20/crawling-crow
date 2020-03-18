@@ -2,6 +2,7 @@ package roborally.ui.gdx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
@@ -22,7 +25,18 @@ import java.util.HashMap;
 
 // Menu under construction!
 public class Menu {
+    private ArrayList<Slider> sliders;
+    private Slider.SliderStyle sliderStyle1;
+    private float[] decoIterate;
+    private int[] decoScale;
+    private float[] decoWidth;
+    private boolean flip1;
+    private boolean flip2;
+    private boolean decoH1;
+    private boolean decoH2;
     private boolean resume;
+    private boolean flip3;
+    private boolean decoH3;
     private boolean changeMap;
     private int mapId;
     private int startGame;
@@ -33,6 +47,9 @@ public class Menu {
     private Label right;
     private Label gameSpeed;
     private Label laserSpeed;
+    private Label volume;
+    private Slider volumeSlider;
+    private Label.LabelStyle labelStyle;
     private Image mapButton;
     private Image continueButton;
     private Events events;
@@ -41,13 +58,20 @@ public class Menu {
     private int fun;
     private boolean isFunMode;
     private boolean Continue;
+    public static float dt = 0.00000000000001f;
 
     public Menu(Stage stage, Events events) {
+        labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        this.decoIterate = new float[3];
+        this.decoScale = new int[3];
+        this.decoWidth = new float[3];
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
         this.fun = 0;
         this.events = events;
+        this.sliders = new ArrayList<>();
         imageLists = new HashMap<>();
         startGame = 0;
         imageLists.put("menus", new ArrayList<>());
@@ -57,8 +81,68 @@ public class Menu {
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
+        this.decoScale[0] = 5;
+        this.decoScale[1] = 5;
+        this.decoScale[2] = 5;
+        addEvenMoreListeners();
+        makeLabels();
+        addMaps();
+        stage.addActor(continueButton);
+        stage.addActor(gameSpeed);
+        stage.addActor(laserSpeed);
+        stage.addActor(funMode);
+        stage.addActor(volumeSlider);
+        makeClickableButtons(stage);
+        addMoreListeners();
+    }
+
+    private void addEvenMoreListeners() {
+        Pixmap colur = new Pixmap(100, 10, Pixmap.Format.RGBA8888);
+        Pixmap colur2 = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
+        Pixmap colur3 = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+        Pixmap colur4 = new Pixmap(10, 1, Pixmap.Format.RGBA8888);
+        colur3.setColor(Color.GOLD);
+        colur3.fill();
+        colur4.setColor(Color.ORANGE.set(0,0,0,0));
+        colur4.fill();
+        Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
+        sliderStyle1 = new Slider.SliderStyle();
+        colur.setColor(Color.BLACK);
+        colur.fill();
+        colur2.setColor(Color.WHITE);
+        colur2.fill();
+        sliderStyle.background = new Image(new Texture(colur)).getDrawable();
+        sliderStyle.knob = new Image(new Texture(colur2)).getDrawable();
+        sliderStyle1.background =  new Image(new Texture(colur4)).getDrawable();
+        sliderStyle1.knob = new Image(new Texture(colur3)).getDrawable();
+        Slider decor1 = new Slider(0, 10, 0.01f, false, sliderStyle1);
+        decor1.setSize(140, 0.2f);
+        decor1.setPosition(450, 350);
+        sliders.add(decor1);
+        decoWidth[0] = 140;
+        Slider decor2 = new Slider(0, 10, 0.01f, false, sliderStyle1);
+        decor2.setSize(225, 0.2f);
+        decor2.setPosition(405, 485);
+        sliders.add(decor2);
+        Slider decor3 = new Slider(0, 10, 0.01f, false, sliderStyle1);
+        decor3.setSize(180, 0.2f);
+        decor3.setPosition(430, 420);
+        sliders.add(decor3);
+        decoWidth[1] = decor2.getWidth();
+        decoWidth[2] = decor3.getWidth();
+        volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
+        volumeSlider.setValue(0.6f);
+        volumeSlider.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                AssetManagerUtil.volume = volumeSlider.getValue();
+                volume.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
+            }
+        });
+        volumeSlider.setPosition(750, 600);
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
-        continueButton.setPosition(350, 450);
+        continueButton.setPosition(350, 490);
         continueButton.setWidth(continueButton.getWidth() + 150);
         continueButton.addListener(new ClickListener() {
             @Override
@@ -76,14 +160,6 @@ public class Menu {
                 Continue = true;
             }
         });
-        makeLabels();
-        addMaps();
-        stage.addActor(continueButton);
-        stage.addActor(gameSpeed);
-        stage.addActor(laserSpeed);
-        stage.addActor(funMode);
-        makeClickableButtons(stage);
-        addMoreListeners();
     }
 
     private void addMoreListeners() {
@@ -244,6 +320,8 @@ public class Menu {
         stage.addActor(laserSpeed);
         stage.addActor(funMode);
         stage.addActor(continueButton);
+        stage.addActor(volume);
+        stage.addActor(volumeSlider);
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
@@ -254,6 +332,32 @@ public class Menu {
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
             funMode.draw(batch, 1);
+            volumeSlider.draw(batch, 1);
+            volume.draw(batch, 1);
+            for (int i = 0; i < sliders.size(); i++) {
+                sliders.get(i).draw(batch, 1);
+                sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime()*decoScale[i]);
+                if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
+                    if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
+                        if (decoIterate[i] < sliders.get(i).getMinValue() + dt) {
+                            flipH(i);
+                        }
+                    }
+                    if (flip1 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 0 || flip2 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 1
+                    || flip3 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 2) {
+                        flipH2(i);
+                    }
+                } else  {
+                    if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
+                        if (decoIterate[i] > sliders.get(i).getMaxValue() - dt) {
+                            flipV(i);
+                        }
+                    }
+                    if (flip1 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 0 || flip2 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 1 || flip3 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 2) {
+                        flipV2(i);
+                    }
+                }
+            }
             if (startGame == 1)
                 continueButton.draw(batch, 1);
         } else {
@@ -267,17 +371,18 @@ public class Menu {
         stage.act();
     }
 
+
     private void makeLabels() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
         gameSpeed = new Label("Game Speed: normal", labelStyle);
         laserSpeed = new Label("Laser Speed: normal", labelStyle);
         funMode = new Label("FunMode: Off", labelStyle);
+        volume = new Label("Volume " + volumeSlider.getValue(), labelStyle);
+        volume.setPosition(750, 610);
         gSpeed = 0;
         lSpeed = 2;
-        funMode.setPosition(700, 510);
-        laserSpeed.setPosition(700, 485);
-        gameSpeed.setPosition(700, 460);
+        funMode.setPosition(750, 560);
+        laserSpeed.setPosition(750, 535);
+        gameSpeed.setPosition(750, 510);
         left = new Label(" < ", labelStyle);
         right = new Label(" > ", labelStyle);
         left.setSize(120, 120);
@@ -289,7 +394,7 @@ public class Menu {
     private void makeClickableButtons(Stage stage) {
         ArrayList<Image> clickableButtons = new ArrayList<>();
         TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
-        int y = 475;
+        int y = 525;
         for (int i = 0; i < 3; i++) {
             clickableButtons.add(new Image(buttons[i][0]));
             clickableButtons.get(i).setY(y -= 75);
@@ -320,6 +425,8 @@ public class Menu {
                 stage.addActor(laserSpeed);
                 stage.addActor(funMode);
                 stage.addActor(continueButton);
+                stage.addActor(volume);
+                stage.addActor(volumeSlider);
                 for (Image image : imageLists.get("buttons"))
                     stage.addActor(image);
             }
@@ -388,6 +495,85 @@ public class Menu {
         for (Image image : maps)
             image.setPosition(150, 100);
         imageLists.put("maps", maps);
+    }
+
+    public void flipV(int i) {
+            Slider slider = new Slider(0, 5, 0.1f, true, sliderStyle1);
+            slider.setSize(10, 30);
+            slider.setPosition(sliders.get(i).getX() + sliders.get(i).getWidth() - slider.getWidth(), sliders.get(i).getY() - slider.getHeight());
+            slider.setValue(5 - dt);
+            decoIterate[i] = 5 - dt;
+            decoScale[i] = -decoScale[i];
+            sliders.set(i, slider);
+            if(i==0)
+                decoH1 = true;
+            if (i == 1)
+                decoH2 = true;
+            if(i == 2)
+                decoH3 = true;
+        }
+
+    public void flipH(int i) {
+            Slider slider = new Slider(0, 10, 0.01f, false, sliderStyle1);
+            slider.setSize(decoWidth[i], 0.2f);
+            slider.setPosition(sliders.get(i).getX() - slider.getWidth() + sliders.get(i).getWidth(), sliders.get(i).getY());
+            slider.setValue(10 - dt);
+            decoIterate[i] = 10 - dt;
+            sliders.set(i, slider);
+            if(i==0) {
+                decoH1 = false;
+                flip1 = true;
+            }
+            if(i==1) {
+                decoH2 = false;
+                flip2 = true;
+        }
+            if(i==2) {
+                decoH3 = false;
+                flip3 = true;
+            }
+    }
+
+    private void flipV2(int i) {
+        Slider slider = new Slider(0, 5, 0.1f, true, sliderStyle1);
+        slider.setSize(10, 30);
+        slider.setPosition(sliders.get(i).getX(), sliders.get(i).getY());
+        slider.setValue(0 + dt);
+        decoIterate[i] = 0 + dt;
+        decoScale[i] = Math.abs(decoScale[i]);
+        sliders.set(i, slider);
+        if(i==0)
+            decoH1 = true;
+        if(i==1)
+            decoH2 = true;
+        if(i==2)
+            decoH3 = true;
+    }
+
+    private void flipH2(int i) {
+        Slider slider = new Slider(0, 10, 0.01f, false, sliderStyle1);
+        slider.setSize(decoWidth[i], 0.2f);
+        slider.setPosition(sliders.get(i).getX(), sliders.get(i).getY() + sliders.get(i).getHeight());
+        slider.setValue(0 + dt);
+        sliders.set(i, slider);
+        decoIterate[i] = 0 + dt;
+        decoScale[i] = Math.abs(decoScale[i]);
+        if(i==0) {
+            System.out.println("yeah");
+            decoH1 = false;
+            flip1 = false;
+        }
+        if(i==1) {
+            System.out.println("yeah");
+            decoH2 = false;
+            flip2 = false;
+        }
+        if(i==2) {
+            System.out.println("yeah");
+            decoH3 = false;
+            flip3 = false;
+        }
+
     }
 
 }

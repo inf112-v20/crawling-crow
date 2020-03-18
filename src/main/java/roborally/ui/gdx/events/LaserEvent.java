@@ -112,7 +112,7 @@ public class LaserEvent {
         if (hitRobot) {
             this.robot.getModel().takeDamage(1);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
-            sound.play(0.05f);
+            sound.play(0.05f*AssetManagerUtil.volume);
             System.out.println(this.robot.getModel().getHealth());
             hitRobot = false;
         }

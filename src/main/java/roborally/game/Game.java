@@ -187,7 +187,7 @@ public class Game implements IGame {
     @Override
     public void fireLaser() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.2);
+        sound.play((float) 0.15*AssetManagerUtil.volume);
         robots.get(0).fireLaser();
         ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
         System.out.println(coords);
@@ -291,7 +291,7 @@ public class Game implements IGame {
     @Override
     public void fireLasers() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.2);
+        sound.play((float) 0.15*AssetManagerUtil.volume);
         for (Robot robot : robots) {
             robot.fireLaser();
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();

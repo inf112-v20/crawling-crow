@@ -88,6 +88,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         tiledMap.dispose();
         mapRenderer.dispose();
         events.dispose();
+        stage.dispose();
         AssetManagerUtil.dispose();
     }
 

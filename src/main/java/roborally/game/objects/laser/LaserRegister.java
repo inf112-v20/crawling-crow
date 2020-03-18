@@ -25,7 +25,7 @@ public class LaserRegister {
      */
     public void createLaser(int id, GridPoint2 pos, String name) {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
-        sound.play((float) 0.1);
+        sound.play((float) 0.1*AssetManagerUtil.volume);
         Laser laser = new Laser(id);
         if (id != TileName.LASER_CROSS.getTileID()) {
             laser.findLaser(pos);

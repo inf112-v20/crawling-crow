@@ -24,7 +24,6 @@ public class Robot implements Programmable {
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
-    private Sound sound;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
@@ -69,19 +68,19 @@ public class Robot implements Programmable {
     public int[] move(int steps) {
         int x = getPosition().x;
         int y = getPosition().y;
-        Sound sound;
         int[] moveValues = robotLogic.move(steps);
         for (int i = 0; i < Math.abs(steps); i++)
             moveRobot(moveValues[0], moveValues[1]);
+        Sound sound;
         if (getPosition().dst(x, y) == 1) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
-            sound.play(0.25f);
+            sound.play(0.25f*AssetManagerUtil.volume);
         } else if (getPosition().dst(x, y) == 2) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
-            sound.play(0.25f);
+            sound.play(0.25f*AssetManagerUtil.volume);
         } else if (getPosition().dst(x, y) == 3) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
-            sound.play(0.25f);
+            sound.play(0.25f*AssetManagerUtil.volume);
         }
         return this.robotLogic.move(steps);
     }
