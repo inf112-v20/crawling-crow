@@ -125,7 +125,9 @@ public class Menu {
         decor1.setPosition(450, 350);
         sliders.add(decor1);
         decoWidth[0] = 140;
-        sliderStyle1.knob = new Image(new Texture(colur3)).getDrawable();
+        Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
+        birdImage.setSize(4,4);
+        sliderStyle1.knob = birdImage.getDrawable();
         Slider decor2 = new Slider(0, 10, 0.01f, false, sliderStyle1);
         decor2.setSize(225, 0.2f);
         decor2.setPosition(405, 485);
@@ -388,10 +390,6 @@ public class Menu {
 
     private void drawSliders(SpriteBatch batch) {
         for (int i = 0; i < sliders.size(); i++) {
-            drawManyDots(batch, i);
-            drawManyDots(batch, i);
-            drawManyDots(batch, i);
-            drawManyDots(batch, i);
             sliders.get(i).draw(batch, 1);
             sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i]);
             if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
@@ -416,17 +414,6 @@ public class Menu {
             }
         }
     }
-
-    private void drawManyDots(SpriteBatch batch, int i) {
-        sliders.get(i).draw(batch, 1);
-        sliders.get(i).setValue(sliders.get(i).getValue() - sliders.get(i).getValue() * 1/25f);
-        sliders.get(i).draw(batch, 1);
-        sliders.get(i).setValue(sliders.get(i).getValue() - sliders.get(i).getValue() * 1/26f);
-        sliders.get(i).draw(batch, 1);
-        sliders.get(i).setValue(sliders.get(i).getValue() - sliders.get(i).getValue() * 1/27f);
-
-    }
-
 
     private void makeLabels() {
         gameSpeed = new Label("Game Speed: normal", labelStyle);
