@@ -2,10 +2,10 @@ package roborally.game.objects.cards;
 
 import java.util.ArrayList;
 
-public class PlayCards {
+public class CardsInHand {
     private ArrayList<IProgramCards.Card> cards;
 
-    public PlayCards(ArrayList<IProgramCards.Card> cards) {
+    public CardsInHand(ArrayList<IProgramCards.Card> cards) {
         this.cards = cards;
     }
 

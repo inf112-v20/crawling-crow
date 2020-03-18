@@ -12,14 +12,14 @@ import roborally.utilities.AssetManagerUtil;
 
 import java.util.ArrayList;
 
-public class MakeCards {
+public class ProgramCardsView {
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
     private ArrayList<Label> topLabelList;
     private int cardWidth;
 
-    public MakeCards() {
+    public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();

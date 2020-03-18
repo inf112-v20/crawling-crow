@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
@@ -12,7 +12,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.MakeCards;
+import roborally.ui.gdx.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -216,14 +216,14 @@ public class Game implements IGame {
 
     //region Cards
     @Override
-    public MakeCards getCards() {
+    public ProgramCardsView getCards() {
         //TODO Refactor for readability
         checkForDestroyedRobots();
         if (fun)
             removeDeadRobots();
         ProgramCards programCards = new ProgramCards();
         ArrayList<IProgramCards.Card> temp;
-        PlayCards playCards;
+        CardsInHand cardsInHand;
         int it = 0;
         for (int i = 0; i < robots.size(); i++) {
             temp = new ArrayList<>();
@@ -234,15 +234,15 @@ public class Game implements IGame {
                 }
                 temp.add(programCards.getDeck().get(it++));
             }
-            playCards = new PlayCards(temp);
-            robots.get(i).getModel().newCards(playCards);
+            cardsInHand = new CardsInHand(temp);
+            robots.get(i).getModel().newCards(cardsInHand);
             if (i > 0)
                 robots.get(i).getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
         }
-        MakeCards makeCards = new MakeCards();
+        ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getModel().getCards())
-            makeCards.makeCard(card);
-        return makeCards;
+            programCardsView.makeCard(card);
+        return programCardsView;
     }
 
     @Override

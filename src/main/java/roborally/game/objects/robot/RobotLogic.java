@@ -3,7 +3,7 @@ package roborally.game.objects.robot;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.CardsInHand;
 import roborally.utilities.enums.Direction;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class RobotLogic implements Programmable {
     private int health = 10;
     private int reboots = 3;
     private Direction direction;
-    private PlayCards playCards;
+    private CardsInHand cardsInHand;
     private Queue<IProgramCards.Card> nextCard;
 
     public RobotLogic(String name) {
@@ -149,14 +149,14 @@ public class RobotLogic implements Programmable {
     }
 
     //region Cards
-    public void newCards(PlayCards playCards) {
-        this.playCards = playCards;
+    public void newCards(CardsInHand cardsInHand) {
+        this.cardsInHand = cardsInHand;
     }
 
     public void arrangeCards(int[] order) {
-        this.playCards.arrangeCards(order);
+        this.cardsInHand.arrangeCards(order);
         Queue<IProgramCards.Card> nextCard = new Queue<>();
-        for (IProgramCards.Card card : playCards.getCards())
+        for (IProgramCards.Card card : cardsInHand.getCards())
             nextCard.addFirst(card);
         this.nextCard = nextCard;
     }
@@ -168,7 +168,7 @@ public class RobotLogic implements Programmable {
     }
 
     public ArrayList<IProgramCards.Card> getCards() {
-        return this.playCards.getCards();
+        return this.cardsInHand.getCards();
     }
     //endregion
 }

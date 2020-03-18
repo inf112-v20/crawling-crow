@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import org.junit.Before;
 import org.junit.Test;
 import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.utilities.enums.Direction;
 
@@ -22,9 +22,9 @@ public class RobotTest {
         testRobot1 = new Robot(new RobotLogic("T1"));
         testRobot2 = new Robot(new RobotLogic("T2"));
         IProgramCards programCards = new ProgramCards();
-        PlayCards playCards = new PlayCards(programCards.getDeck());
-        testRobot1.getModel().newCards(playCards);
-        card = playCards.getCards().get(2);
+        CardsInHand cardsInHand = new CardsInHand(programCards.getDeck());
+        testRobot1.getModel().newCards(cardsInHand);
+        card = cardsInHand.getCards().get(2);
     }
 
     @Test
