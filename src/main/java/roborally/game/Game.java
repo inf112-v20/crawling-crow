@@ -31,6 +31,7 @@ public class Game implements IGame {
     private AI[] aiRobots;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
+    private IProgramCards deckOfProgramCards;
     //endregion
 
     private Robot winner;
@@ -49,6 +50,7 @@ public class Game implements IGame {
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
+        deckOfProgramCards = new ProgramCards();
         this.events = events;
         this.gameOptions = new GameOptions();
     }
@@ -221,24 +223,45 @@ public class Game implements IGame {
         checkForDestroyedRobots();
         if (fun)
             removeDeadRobots();
-        ProgramCards programCards = new ProgramCards();
-        ArrayList<IProgramCards.Card> temp;
+
+        ArrayList<IProgramCards.Card> cardsDrawn;
         CardsInHand cardsInHand;
-        int it = 0;
-        for (int i = 0; i < robots.size(); i++) {
-            temp = new ArrayList<>();
-            for (int j = 0; j < 9; j++) {
-                if (it == 84) {
-                    programCards.shuffleCards();
-                    it = 0;
+
+        int numberOfCardsDrawnFromDeck = 0;
+        int sizeOfDeck = deckOfProgramCards.getDeck().size();
+        for (int robotID = 0; robotID < robots.size(); robotID++) {
+            cardsDrawn = new ArrayList<>();
+
+            //TODO FIX. Bugs with drawing cards...
+            int robotHealth = robots.get(robotID).getModel().getHealth()-1;
+            int cardsToDraw = Math.max(0, robotHealth);
+            System.out.println(cardsToDraw);
+
+            for (int j = 0; j < cardsToDraw; j++) {
+                if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
+                    deckOfProgramCards.shuffleCards();
+                    numberOfCardsDrawnFromDeck = 0;
                 }
-                temp.add(programCards.getDeck().get(it++));
+                cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
-            cardsInHand = new CardsInHand(temp);
-            robots.get(i).getModel().newCards(cardsInHand);
-            if (i > 0)
-                robots.get(i).getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
+            cardsInHand = new CardsInHand(cardsDrawn);
+            robots.get(robotID).getModel().newCards(cardsInHand);
+
+
+
+            // This codesnippet lets all robots except the first one,
+
+            if (robotID > 0) {
+                int[] newOrder = new int[cardsToDraw];
+
+                for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
+                    newOrder[i] = i;
+                }
+                robots.get(robotID).getModel().arrangeCards(newOrder);
+            }
         }
+
+
         ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getModel().getCards())
             programCardsView.makeCard(card);
