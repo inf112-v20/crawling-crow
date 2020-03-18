@@ -2,11 +2,13 @@ package roborally.ui.gdx;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
 
@@ -19,6 +21,7 @@ public class ProgramCardsView {
     private ArrayList<Label> topLabelList;
     private int cardWidth;
     private int cardHeight;
+    private Label doneLabel;
 
     public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
@@ -91,7 +94,6 @@ public class ProgramCardsView {
     private void makeSomething(int priority, Image image) {
         image.setSize(getCardWidth(), getCardHeight());
         Group group = new Group();
-        group.setWidth(image.getWidth());
         group.addActor(image);
         Label selectedOrderLabel = makeSelectedOrderLabel();
         Label priorityLabel = makePriorityLabel(priority);
@@ -149,7 +151,7 @@ public class ProgramCardsView {
         while (i < 4) {
             order[i] = order[++i];
             if (order[i] != -1) {
-                topLabelList.get(i-1).setText(Integer.toString(i-1));
+                topLabelList.get(i - 1).setText(Integer.toString(i - 1));
             }
         }
     }
@@ -162,8 +164,8 @@ public class ProgramCardsView {
         return this.order;
     }
 
-    public boolean fiveCards() {
-        return this.cardPick == 5;
+    public boolean done() {
+        return this.cardPick == -1;
     }
 
     public void clearStuff() {
@@ -172,6 +174,7 @@ public class ProgramCardsView {
         this.groups.clear();
         this.groups = new ArrayList<>();
     }
+
     public int getCardWidth() {
         return this.cardWidth;
     }
@@ -179,4 +182,38 @@ public class ProgramCardsView {
     public int getCardHeight() {
         return this.cardHeight;
     }
+
+    public Label getDoneLabel() {
+        return this.doneLabel;
+    }
+
+    public void makeDoneLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        doneLabel = new Label("Done", labelStyle);
+        doneLabel.setPosition(getCardWidth(), getCardHeight());
+        doneLabel.setFontScale(2);
+        doneLabel.setScale(2);
+        doneLabel.setHeight(this.cardHeight);
+        doneLabel.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                doneLabel.setColor(Color.GREEN);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                doneLabel.setColor(Color.WHITE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                int[] newOrder = new int[cardPick];
+                System.arraycopy(order, 0, newOrder, 0, cardPick);
+                order = newOrder;
+                cardPick = -1;
+            }
+        });
+    }
+
 }

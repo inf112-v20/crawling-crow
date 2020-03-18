@@ -195,11 +195,12 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void cardPhaseRun() {
         batch.begin();
+        programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
         batch.end();
-        if (programCardsView.fiveCards()) {
+        if (programCardsView.done()) {
             Gdx.input.setInputProcessor(this);
             cardPhase = false;
             stage.clear();
@@ -213,10 +214,14 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void runCardPhase(ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
+        programCardsView.makeDoneLabel();
+        stage.addActor(programCardsView.getDoneLabel());
         float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
+        programCardsView.getDoneLabel().setX(stage.getWidth() / 2);
         i = i / 2 - programCardsView.getCardWidth();
         for (Group group : this.programCardsView.getGroups()) {
             group.setX(i += programCardsView.getCardWidth());
+            System.out.println(i);
             stage.addActor(group);
         }
         cardPhase = true;
