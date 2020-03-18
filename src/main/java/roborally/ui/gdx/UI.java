@@ -38,7 +38,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean paused;
     private Stage stage;
     private boolean cardPhase;
-    private MakeCards makeCards;
+    private ProgramCardsView programCardsView;
     private Events events;
 
 
@@ -47,7 +47,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.mapID = 1;
         this.cardPhase = false;
         this.events = new Events();
-        this.makeCards = new MakeCards();
+        this.programCardsView = new ProgramCardsView();
     }
 
     @Override
@@ -195,28 +195,28 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void cardPhaseRun() {
         batch.begin();
-        for (Group group : makeCards.getGroups()) {
+        for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
         batch.end();
-        if (makeCards.fiveCards()) {
+        if (programCardsView.fiveCards()) {
             Gdx.input.setInputProcessor(this);
             cardPhase = false;
             stage.clear();
-            game.shuffleTheRobotsCards(makeCards.getOrder());
-            makeCards.clearStuff();
+            game.shuffleTheRobotsCards(programCardsView.getOrder());
+            programCardsView.clearStuff();
             game.playNextCard();
             menu.reloadStage(stage);
             events.setPauseEvent(true);
         }
     }
 
-    public void runCardPhase(MakeCards makeCards) {
-        this.makeCards = makeCards;
-        float i = stage.getWidth() - makeCards.getGroups().size() * makeCards.getCardWidth();
-        i = i / 2 - makeCards.getCardWidth();
-        for (Group group : this.makeCards.getGroups()) {
-            group.setX(i += makeCards.getCardWidth());
+    public void runCardPhase(ProgramCardsView programCardsView) {
+        this.programCardsView = programCardsView;
+        float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
+        i = i / 2 - programCardsView.getCardWidth();
+        for (Group group : this.programCardsView.getGroups()) {
+            group.setX(i += programCardsView.getCardWidth());
             stage.addActor(group);
         }
         cardPhase = true;

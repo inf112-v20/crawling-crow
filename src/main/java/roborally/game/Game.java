@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
@@ -12,7 +12,7 @@ import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.robot.AI;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.MakeCards;
+import roborally.ui.gdx.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -31,6 +31,7 @@ public class Game implements IGame {
     private AI[] aiRobots;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
+    private IProgramCards deckOfProgramCards;
     //endregion
 
     private Robot winner;
@@ -49,6 +50,7 @@ public class Game implements IGame {
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
         flags = gameBoard.findAllFlags();
+        deckOfProgramCards = new ProgramCards();
         this.events = events;
         this.gameOptions = new GameOptions();
     }
@@ -216,33 +218,54 @@ public class Game implements IGame {
 
     //region Cards
     @Override
-    public MakeCards getCards() {
+    public ProgramCardsView getCards() {
         //TODO Refactor for readability
         checkForDestroyedRobots();
         if (fun)
             removeDeadRobots();
-        ProgramCards programCards = new ProgramCards();
-        ArrayList<IProgramCards.Card> temp;
-        PlayCards playCards;
-        int it = 0;
-        for (int i = 0; i < robots.size(); i++) {
-            temp = new ArrayList<>();
-            for (int j = 0; j < 9; j++) {
-                if (it == 84) {
-                    programCards.shuffleCards();
-                    it = 0;
+
+        ArrayList<IProgramCards.Card> cardsDrawn;
+        CardsInHand cardsInHand;
+
+        int numberOfCardsDrawnFromDeck = 0;
+        int sizeOfDeck = deckOfProgramCards.getDeck().size();
+        for (int robotID = 0; robotID < robots.size(); robotID++) {
+            cardsDrawn = new ArrayList<>();
+
+            //TODO FIX. Bugs with drawing cards...
+            int robotHealth = robots.get(robotID).getModel().getHealth()-1;
+            int cardsToDraw = Math.max(0, robotHealth);
+            System.out.println(cardsToDraw);
+
+            for (int j = 0; j < cardsToDraw; j++) {
+                if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
+                    deckOfProgramCards.shuffleCards();
+                    numberOfCardsDrawnFromDeck = 0;
                 }
-                temp.add(programCards.getDeck().get(it++));
+                cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
-            playCards = new PlayCards(temp);
-            robots.get(i).getModel().newCards(playCards);
-            if (i > 0)
-                robots.get(i).getModel().arrangeCards(new int[]{0, 1, 2, 3, 4});
+            cardsInHand = new CardsInHand(cardsDrawn);
+            robots.get(robotID).getModel().newCards(cardsInHand);
+
+
+
+            // This codesnippet lets all robots except the first one,
+
+            if (robotID > 0) {
+                int[] newOrder = new int[cardsToDraw];
+
+                for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
+                    newOrder[i] = i;
+                }
+                robots.get(robotID).getModel().arrangeCards(newOrder);
+            }
         }
-        MakeCards makeCards = new MakeCards();
+
+
+        ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getModel().getCards())
-            makeCards.makeCard(card);
-        return makeCards;
+            programCardsView.makeCard(card);
+        return programCardsView;
     }
 
     @Override

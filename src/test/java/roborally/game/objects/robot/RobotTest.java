@@ -2,9 +2,10 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.PlayCards;
+import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.utilities.enums.Direction;
 
@@ -16,19 +17,22 @@ public class RobotTest {
     private Programmable testRobot1;
     private Programmable testRobot2;
     private IProgramCards.Card card;
+    private IProgramCards programCards;
+
 
     @Before
     public void setUp() {
         testRobot1 = new Robot(new RobotLogic("T1"));
         testRobot2 = new Robot(new RobotLogic("T2"));
-        IProgramCards programCards = new ProgramCards();
-        PlayCards playCards = new PlayCards(programCards.getDeck());
-        testRobot1.getModel().newCards(playCards);
-        card = playCards.getCards().get(2);
+        programCards = new ProgramCards();
     }
 
     @Test
-    public void verifyThatCardsArePlayedInTheCorrectOrder() {
+    public void verifyThatNextCardToPlayIsTheFirstInTheRegister() {
+        // TODO: Cleanup
+        CardsInHand cardsInHand = new CardsInHand(programCards.getDeck());
+        testRobot1.getModel().newCards(cardsInHand);
+        card = cardsInHand.getCards().get(2);
         int[] order = {2,0,1,3,4};
         testRobot1.getModel().arrangeCards(order);
         assertEquals(card, testRobot1.getModel().getNextCard());
