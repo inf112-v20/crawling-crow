@@ -416,25 +416,29 @@ public class Menu {
                 sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i] / 2);
                 superit -= Gdx.graphics.getDeltaTime() * 10;
             }
-            if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
-                if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
-                    if (decoIterate[i] < sliders.get(i).getMinValue() + dt) {
-                        flipH(i);
-                    }
+            checkForFlips(i);
+        }
+    }
+
+    private void checkForFlips(int i) {
+        if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
+            if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
+                if (decoIterate[i] < sliders.get(i).getMinValue() + dt) {
+                    flipH(i);
                 }
-                if (flip1 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 0 || flip2 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 1
-                        || flip3 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 2) {
-                    flipH2(i);
+            }
+            if (flip1 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 0 || flip2 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 1
+                    || flip3 && decoIterate[i] > sliders.get(i).getMaxValue() - dt && i == 2) {
+                flipH2(i);
+            }
+        } else {
+            if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
+                if (decoIterate[i] > sliders.get(i).getMaxValue() - dt) {
+                    flipV(i);
                 }
-            } else {
-                if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
-                    if (decoIterate[i] > sliders.get(i).getMaxValue() - dt) {
-                        flipV(i);
-                    }
-                }
-                if (flip1 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 0 || flip2 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 1 || flip3 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 2) {
-                    flipV2(i);
-                }
+            }
+            if (flip1 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 0 || flip2 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 1 || flip3 && decoIterate[i] < sliders.get(i).getMinValue() + dt && i == 2) {
+                flipV2(i);
             }
         }
     }

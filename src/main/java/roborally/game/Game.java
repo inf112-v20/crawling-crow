@@ -43,7 +43,6 @@ public class Game implements IGame {
     private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
-    private AIPlayer AIPlayer;
 
     private boolean fun;
 

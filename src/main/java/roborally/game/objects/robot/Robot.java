@@ -14,8 +14,6 @@ import roborally.ui.robot.RobotView;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 
-import java.util.Random;
-
 public class Robot implements Programmable {
     private IRobotView robotView;
     private RobotLogic robotLogic;
@@ -74,13 +72,13 @@ public class Robot implements Programmable {
         Sound sound;
         if (getPosition().dst(x, y) == 1) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
-            sound.play(0.25f*AssetManagerUtil.volume);
+            sound.play(0.25f * AssetManagerUtil.volume);
         } else if (getPosition().dst(x, y) == 2) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
-            sound.play(0.25f*AssetManagerUtil.volume);
+            sound.play(0.25f * AssetManagerUtil.volume);
         } else if (getPosition().dst(x, y) == 3) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
-            sound.play(0.25f*AssetManagerUtil.volume);
+            sound.play(0.25f * AssetManagerUtil.volume);
         }
         return this.robotLogic.move(steps);
     }
@@ -152,7 +150,6 @@ public class Robot implements Programmable {
     //endregion
 
     public void playNextCard() {
-        Random r = new Random();
         IProgramCards.Card card = getLogic().getNextCard();
         if (card == null)
             return;

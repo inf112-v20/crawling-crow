@@ -131,62 +131,67 @@ public class AIPlayer {
         if(Math.abs(fPos.x - rPos.x) - Math.abs(fPos.y - rPos.y)
                 < flag.getPosition().dst(hypoPos))
             return rPos.x > fPos.x ? movableValue.set(-1,0) : movableValue.set(1,0);
-        else 
+        else
             return (Math.abs(rPos.x) - fPos.x) > Math.abs(rPos.y - fPos.y) ? rPos.x > fPos.x
-            ? movableValue.set(-1,0) : movableValue.set(1,0) : rPos.y > fPos.y 
+            ? movableValue.set(-1,0) : movableValue.set(1,0) : rPos.y > fPos.y
                     ? movableValue.set(0,-1) : movableValue.set(0,1);
     }
 
     private void findFastestWayToPos(GridPoint2 pos) {
         boolean foundPos = false;
         GridPoint2 movableValue = new GridPoint2(robot.getLogic().getMoveValues()[0], robot.getLogic().getMoveValues()[1]);
-        if(movableValue.equals(pos) && (moveCardValues.contains(Math.max(pos.x, pos.y)))) {
+        if (movableValue.equals(pos) && (moveCardValues.contains(Math.max(pos.x, pos.y)))) {
             hypoPos.add(movableValue);
             ProgramCards.Card card;
             for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
                 card = robot.getLogic().getCards().get(i);
-                if(!card.getCardType().toString().contains("MOVE"))
+                if (!card.getCardType().toString().contains("MOVE"))
                     continue;
                 boolean nope = false;
-                if(Integer.parseInt(robot.getLogic().getCards().get(i).getCard().substring(5,6))==1) {
-                    for(int k = 0; k <= cardPick; k++)
-                        if(order[k]==i) {
+                if (Integer.parseInt(robot.getLogic().getCards().get(i).getCard().substring(5, 6)) == 1) {
+                    for (int k = 0; k <= cardPick; k++)
+                        if (order[k] == i) {
                             nope = true;
                             break;
                         }
-                    if(!nope) {
+                    if (!nope) {
                         order[cardPick++] = i;
                         foundPos = true;
                     }
                 }
             }
         }
-        if(!foundPos) {
-            takeAllTheRotateLeftCards();
-            takeAlltheRotateRightCards();
-            ProgramCards.Card card;
-            boolean nope = false;
-            for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
-                card = robot.getLogic().getCards().get(i);
-                if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == ProgramCards.CardTypes.ROTATE_RIGHT) {
-                    for(int k = 0; k <= cardPick; k++) {
-                        if (order[k] == i) {
-                            nope = true;
-                            break;
-                        }
-                    }
-                    if(!nope) {
-                        order[cardPick++] = i;
-                        if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT)
-                            robot.getLogic().rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-                        else
-                            robot.getLogic().rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
+        if (!foundPos) {
+            insertMethodNameHere();
+        }
+    }
+
+    private void insertMethodNameHere() {
+
+        takeAllTheRotateLeftCards();
+        takeAlltheRotateRightCards();
+        ProgramCards.Card card;
+        boolean nope = false;
+        for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
+            card = robot.getLogic().getCards().get(i);
+            if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == ProgramCards.CardTypes.ROTATE_RIGHT) {
+                for (int k = 0; k <= cardPick; k++) {
+                    if (order[k] == i) {
+                        nope = true;
                         break;
                     }
                 }
+                if (!nope) {
+                    order[cardPick++] = i;
+                    if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT)
+                        robot.getLogic().rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
+                    else
+                        robot.getLogic().rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
+                    break;
+                }
             }
         }
-        if(cardPick!= 5 && !ok)
+        if (cardPick != 5 && !ok)
             findFastestWayToPos(findDirectionToNextFlag());
     }
 

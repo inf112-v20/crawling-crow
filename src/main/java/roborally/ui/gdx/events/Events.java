@@ -34,7 +34,7 @@ public class Events {
         this.laserEvent = new ArrayList<>();
         registerPhase = 1;
         this.gameSpeed = 0.2;
-        this.factor = 400;
+        this.setLaserSpeed("normal");
 
     }
 
@@ -49,11 +49,11 @@ public class Events {
 
     public void setLaserSpeed(String laserSpeed) {
         if ("slow".equals(laserSpeed))
-            this.factor = 200;
-        else if ("normal".equals(laserSpeed))
             this.factor = 400;
-        else if ("fast".equals(laserSpeed))
+        else if ("normal".equals(laserSpeed))
             this.factor = 800;
+        else if ("fast".equals(laserSpeed))
+            this.factor = 1200;
     }
 
     /**
