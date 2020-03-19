@@ -6,6 +6,7 @@ import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
+import roborally.utilities.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -176,7 +177,10 @@ public class ArtificialPlr {
                     }
                     if(!nope) {
                         order[cardPick++] = i;
-                        robot.getLogic().rotate(card.getCard().substring(0, 1), 1);
+                        if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT)
+                            robot.getLogic().rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
+                        else
+                            robot.getLogic().rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
                         break;
                     }
                 }
