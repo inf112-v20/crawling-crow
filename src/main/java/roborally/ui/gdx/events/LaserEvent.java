@@ -79,13 +79,13 @@ public class LaserEvent {
         if (factor > 0) {
             whichWay = this.laserImage.getX() >= (this.laserPoint.x) * unitScale;
             if (whichWay)
-                this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor / 4f));
+                this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor / 4.5f));
         }
         else {
             whichWay = this.laserImage.getX() <= (this.laserPoint.x + 0.2 / Math.abs((200f/factor))) * unitScale;
         }
         if (whichWay) {
-            this.laserImage.setX(this.laserImage.getX() - (Gdx.graphics.getDeltaTime() * factor / 1.4f));
+            this.laserImage.setX(this.laserImage.getX() - (Gdx.graphics.getDeltaTime() * factor / 1.25f));
             this.laserImage.setWidth(this.laserImage.getWidth() - this.laserImage.getWidth() / 4.5f);
         }
     }
@@ -105,13 +105,13 @@ public class LaserEvent {
         if (factor > 0) {
             whichWay = this.laserImage.getY() >= (this.laserPoint.y) * unitScale;
             if (whichWay)
-                this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor / 4f));
+                this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor / 4.5f));
         }
         else
             whichWay = this.laserImage.getY() <= (this.laserPoint.y + 0.2 / Math.abs((200f/factor))) * unitScale;
         if (whichWay) {
             System.out.println(this.laserImage.getHeight());
-            this.laserImage.setY(this.laserImage.getY() - (Gdx.graphics.getDeltaTime() * factor / 1.5f));
+            this.laserImage.setY(this.laserImage.getY() - (Gdx.graphics.getDeltaTime() * factor / 1.25f));
             this.laserImage.setHeight(this.laserImage.getHeight() - this.laserImage.getHeight() / 4.5f);
         }
     }

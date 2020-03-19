@@ -262,8 +262,9 @@ public class Game implements IGame {
         //artificialPlr.printAllCardsAndFlags();
         //robots.get(1).getModel().arrangeCards(artificialPlr.getOrder());
         ProgramCardsView programCardsView = new ProgramCardsView();
-        for (IProgramCards.Card card : robots.get(0).getLogic().getCards())
+        for (IProgramCards.Card card : robots.get(0).getLogic().getCards()) {
             programCardsView.makeCard(card);
+        }
         return programCardsView;
     }
 
