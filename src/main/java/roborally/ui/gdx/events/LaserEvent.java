@@ -76,8 +76,11 @@ public class LaserEvent {
             hitRobot();
         }
         boolean whichWay;
-        if (factor > 0)
+        if (factor > 0) {
             whichWay = this.laserImage.getX() >= (this.laserPoint.x) * unitScale;
+            if (whichWay)
+                this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor / 4f));
+        }
         else {
             whichWay = this.laserImage.getX() <= (this.laserPoint.x + 0.2 / Math.abs((200f/factor))) * unitScale;
         }
@@ -99,8 +102,11 @@ public class LaserEvent {
             hitRobot();
         }
         boolean whichWay;
-        if (factor > 0)
+        if (factor > 0) {
             whichWay = this.laserImage.getY() >= (this.laserPoint.y) * unitScale;
+            if (whichWay)
+                this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor / 4f));
+        }
         else
             whichWay = this.laserImage.getY() <= (this.laserPoint.y + 0.2 / Math.abs((200f/factor))) * unitScale;
         if (whichWay) {
