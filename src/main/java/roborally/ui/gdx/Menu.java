@@ -408,14 +408,13 @@ public class Menu {
             if (superit < 1) {
                 superit += Gdx.graphics.getDeltaTime() * 10;
                 sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i] * 2);
+            } else if (superit2 < -10) {
+                superit = superit2;
+                superit2 = 0;
             }
             if (superit >= 1) {
                 sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i] / 2);
                 superit -= Gdx.graphics.getDeltaTime() * 10;
-            }
-            if (superit2 < -10) {
-                superit = superit2;
-                superit2 = 0;
             }
             if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
                 if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {

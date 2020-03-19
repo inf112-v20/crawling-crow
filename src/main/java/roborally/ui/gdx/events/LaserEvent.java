@@ -67,13 +67,8 @@ public class LaserEvent {
     }
 
     public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<Robot> robots, float dt) {
-        for (Robot robot : robots)
-            if (robot.getPosition().equals(laserPoint)) {
-                hitRobot = true;
-                this.robot = robot;
-            }
         if (this.laserImage.getWidth() < tileEdge) {
-            hitRobot();
+            hitRobot(robots);
         }
         boolean negative = this.laserImage.getX() <= (this.laserPoint.x) * unitScale + tileEdge;
         boolean positive = this.laserImage.getX() >= (this.laserPoint.x) * unitScale - tileEdge;
@@ -87,18 +82,13 @@ public class LaserEvent {
             this.laserImage.setX(this.laserImage.getX() - dt);
             this.laserImage.setWidth(oldWidth + (oldX - this.laserImage.getX()));
         } else if (!(positive && factor > 0))
-            this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor));
+            this.laserImage.setX(this.laserImage.getX() + dt);
         this.laserImage.draw(batch, 1);
     }
 
     public void drawLaserEventVertically(SpriteBatch batch, ArrayList<Robot> robots, float dt) {
-        for (Robot robot : robots)
-            if (robot.getPosition().equals(laserPoint)) {
-                hitRobot = true;
-                this.robot = robot;
-            }
         if (this.laserImage.getHeight() < tileEdge) {
-            hitRobot();
+            hitRobot(robots);
         }
         boolean negative = this.laserImage.getY() <= (this.laserPoint.y) * unitScale + tileEdge;
         boolean positive = this.laserImage.getY() >= (this.laserPoint.y) * unitScale - tileEdge;
@@ -112,12 +102,18 @@ public class LaserEvent {
             this.laserImage.setY(this.laserImage.getY() - dt);
             this.laserImage.setHeight(oldHeight + (oldY - this.laserImage.getY()));
         } else if (!(positive && factor > 0))
-            this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor));
+            this.laserImage.setY(this.laserImage.getY() + dt);
         this.laserImage.draw(batch, 1);
     }
 
     // The robot that is hit takes damage, sound is played and event is stopped.
-    private void hitRobot() {
+    private void hitRobot(ArrayList<Robot> robots) {
+
+        for (Robot robot : robots)
+            if (robot.getPosition().equals(laserPoint)) {
+                hitRobot = true;
+                this.robot = robot;
+            }
         if (hitRobot) {
             this.robot.getLogic().takeDamage(1);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);

@@ -36,4 +36,20 @@ public class GameOptions {
         AssetManagerUtil.setRobots(robots);
         return robots;
     }
+
+    public ArrayList<Robot> makeRobots(ILayers layers) {
+        ArrayList<Robot> robots = new ArrayList<>();
+        int cell = 0;
+        for (int i = 0; i < layers.getHeight(); i++) {
+            for (int j = 0; j < layers.getWidth(); j++) {
+                if (layers.assertStartPosNotNull(i, j)) {
+                    robots.add(new Robot(i, j, cell % 8));
+                    cell++;
+                }
+            }
+        }
+        AssetManagerUtil.setRobots(robots);
+        return robots;
+    }
+
 }

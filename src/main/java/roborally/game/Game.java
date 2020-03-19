@@ -3,8 +3,8 @@ package roborally.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.CardsInHand;
+import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
@@ -65,8 +65,8 @@ public class Game implements IGame {
 
     @Override
     public void startUp() {
-        robots = AssetManagerUtil.makeRobots();
-        this.AIPlayer = new AIPlayer(robots.get(1), this.gameBoard);
+        this.robots = gameOptions.makeRobots(layers);
+        //this.AIPlayer = new AIPlayer(robots.get(1), this.gameBoard);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public ArrayList<Robot> getRobots(){
+    public ArrayList<Robot> getRobots() {
         return this.robots;
     }
 
@@ -190,7 +190,7 @@ public class Game implements IGame {
     @Override
     public void fireLaser() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.15*AssetManagerUtil.volume);
+        sound.play((float) 0.15 * AssetManagerUtil.volume);
         robots.get(0).fireLaser();
         ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
         if (!coords.isEmpty())
@@ -233,7 +233,7 @@ public class Game implements IGame {
             cardsDrawn = new ArrayList<>();
 
             //TODO FIX. Bugs with drawing cards...
-            int robotHealth = robots.get(robotID).getLogic().getHealth()-1;
+            int robotHealth = robots.get(robotID).getLogic().getHealth() - 1;
             int cardsToDraw = Math.max(0, robotHealth);
 
             for (int j = 0; j < cardsToDraw; j++) {
@@ -245,7 +245,6 @@ public class Game implements IGame {
             }
             cardsInHand = new CardsInHand(cardsDrawn);
             robots.get(robotID).getLogic().newCards(cardsInHand);
-
 
 
             // This codesnippet lets all robots except the first one play their cards in default order.
@@ -314,7 +313,7 @@ public class Game implements IGame {
     @Override
     public void fireLasers() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.15*AssetManagerUtil.volume);
+        sound.play((float) 0.15 * AssetManagerUtil.volume);
         for (Robot robot : robots) {
             robot.fireLaser();
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
