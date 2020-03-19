@@ -60,17 +60,8 @@ public class RobotLogic implements Programmable {
     }
 
     @Override
-    public Direction rotate(String leftOrRight, int factor) {
-        if ("L".equals(leftOrRight))
-            this.direction = Direction.turnLeftFrom(getDirection());
-        else if ("R".equals(leftOrRight))
-            this.direction = Direction.turnRightFrom(getDirection());
-        if (factor == 2) {
-            if ("L".equals(leftOrRight))
-                this.direction = Direction.turnLeftFrom(getDirection());
-            else if ("R".equals(leftOrRight))
-                this.direction = Direction.turnRightFrom(getDirection());
-        }
+    public Direction rotate(Direction direction) {
+        this.direction = direction;
 
         return this.direction;
     }

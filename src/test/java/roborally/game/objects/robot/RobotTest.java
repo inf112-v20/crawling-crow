@@ -51,7 +51,7 @@ public class RobotTest {
 
     @Test
     public void verifyThatRobotRotatesLeft() {
-        testRobot1.getModel().rotate("L", 1);
+        testRobot1.getModel().rotate(Direction.turnLeftFrom(testRobot1.getModel().getDirection()));
         assertEquals(testRobot1.getModel().getDirection(), Direction.West);
     }
 
