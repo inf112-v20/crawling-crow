@@ -86,8 +86,8 @@ public class Robot implements Programmable {
     }
 
     @Override
-    public Direction rotate(String leftOrRight, int factor) {
-        Direction direction = this.robotLogic.rotate(leftOrRight, factor);
+    public Direction rotate(Direction direction) {
+        this.robotLogic.rotate(direction);
         this.robotView.setDirection(getPosition(), direction);
         return direction;
     }
@@ -163,14 +163,12 @@ public class Robot implements Programmable {
         else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
             move(3);
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
-            rotate("L", 1);
+            rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
         else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
-            rotate("R", 1);
+            rotate(Direction.turnRightFrom(robotLogic.getDirection()));
         else if (card.getCardType() == IProgramCards.CardTypes.U_TURN) {
-            if (r.nextInt(2) == 1)
-                rotate("L", 2);
-            else
-                rotate("R", 2);
+            rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
+            rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
         } else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
             move(-1);
     }

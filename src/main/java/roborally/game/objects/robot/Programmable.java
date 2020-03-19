@@ -35,10 +35,9 @@ public interface Programmable {
      * Rotates the programmable in the new direction
      *
      * @param leftOrRight Left or Right
-     * @param factor
      * @return
      */
-    Direction rotate(String leftOrRight, int factor);
+    Direction rotate(Direction direction);
 
     /**
      *

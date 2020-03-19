@@ -16,6 +16,7 @@ import roborally.ui.gdx.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
+import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
 
@@ -423,13 +424,13 @@ public class Game implements IGame {
         for (Robot robot : robots) {
             m = r.nextInt(4);
             if (m == 0)
-                robot.rotate("L", 1);
+                robot.rotate(Direction.turnLeftFrom(robot.getModel().getDirection()));
             else if (m == 1)
                 robot.move(1);
             else if (m == 2)
                 robot.move(-1);
             else if (m == 3)
-                robot.rotate("R", 1);
+                robot.rotate(Direction.turnRightFrom(robot.getModel().getDirection()));
         }
     }
 

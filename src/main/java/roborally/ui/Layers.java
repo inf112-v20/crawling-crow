@@ -10,8 +10,7 @@ public class Layers implements ILayers {
     private HashMap<String, TiledMapTileLayer> layers;
 
     public Layers() {
-        layers = new HashMap<>();
-        layers = AssetManagerUtil.getLoadedLayers();
+        layers = new HashMap<>(AssetManagerUtil.getLoadedLayers());
     }
 
     @Override
