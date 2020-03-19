@@ -58,62 +58,61 @@ public class LaserEvent {
      * @param robots The list of robots that's playing the game.
      */
     public void drawLaserEvent(SpriteBatch batch, ArrayList<Robot> robots) {
+        float dt = (Gdx.graphics.getDeltaTime() * factor);
         if (this.id == TileName.LASER_HORIZONTAL.getTileID())
-            drawLaserEventHorizontally(batch, robots);
+            drawLaserEventHorizontally(batch, robots, dt);
         else
-            drawLaserEventVertically(batch, robots);
+            drawLaserEventVertically(batch, robots, dt);
     }
 
-    public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<Robot> robots) {
+    public void drawLaserEventHorizontally(SpriteBatch batch, ArrayList<Robot> robots, float dt) {
         for (Robot robot : robots)
             if (robot.getPosition().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
             }
-        this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor));
-        this.laserImage.draw(batch, 1);
-        if (this.laserImage.getWidth() < 5) {
+        if (this.laserImage.getWidth() < 10) {
             hitRobot();
         }
-        boolean whichWay;
-        if (factor > 0) {
-            whichWay = this.laserImage.getX() >= (this.laserPoint.x) * unitScale;
-            if (whichWay)
-                this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor / 4.5f));
+        boolean negative = this.laserImage.getX() <= (this.laserPoint.x) * unitScale;
+        boolean positive = this.laserImage.getX() >= (this.laserPoint.x) * unitScale;
+        float oldWidth = this.laserImage.getWidth();
+        float oldX = this.laserImage.getX();
+        if (positive && factor > 0) {
+            this.laserImage.setX(this.laserImage.getX() + dt);
+            this.laserImage.setWidth(oldWidth - (this.laserImage.getX() - oldX));
         }
-        else {
-            whichWay = this.laserImage.getX() <= (this.laserPoint.x + 0.2 / Math.abs((200f/factor))) * unitScale;
-        }
-        if (whichWay) {
-            this.laserImage.setX(this.laserImage.getX() - (Gdx.graphics.getDeltaTime() * factor / 1.25f));
-            this.laserImage.setWidth(this.laserImage.getWidth() - this.laserImage.getWidth() / 4.5f);
-        }
+        if (negative && factor < 0) {
+            this.laserImage.setX(this.laserImage.getX() - dt);
+            this.laserImage.setWidth(oldWidth + (oldX - this.laserImage.getX()));
+        } else if (!(positive && factor > 0))
+            this.laserImage.setX(this.laserImage.getX() + (Gdx.graphics.getDeltaTime() * factor));
+        this.laserImage.draw(batch, 1);
     }
 
-    public void drawLaserEventVertically(SpriteBatch batch, ArrayList<Robot> robots) {
+    public void drawLaserEventVertically(SpriteBatch batch, ArrayList<Robot> robots, float dt) {
         for (Robot robot : robots)
             if (robot.getPosition().equals(laserPoint)) {
                 hitRobot = true;
                 this.robot = robot;
             }
-        this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor));
-        this.laserImage.draw(batch, 1);
-        if (this.laserImage.getHeight() < 5) {
+        if (this.laserImage.getHeight() < 10) {
             hitRobot();
         }
-        boolean whichWay;
-        if (factor > 0) {
-            whichWay = this.laserImage.getY() >= (this.laserPoint.y) * unitScale;
-            if (whichWay)
-                this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor / 4.5f));
+        boolean negative = this.laserImage.getY() <= (this.laserPoint.y) * unitScale;
+        boolean positive = this.laserImage.getY() >= (this.laserPoint.y) * unitScale;
+        float oldHeight = this.laserImage.getHeight();
+        float oldY = this.laserImage.getY();
+        if (positive && factor > 0) {
+            this.laserImage.setY(this.laserImage.getY() + dt);
+            this.laserImage.setHeight(oldHeight - (this.laserImage.getY() - oldY));
         }
-        else
-            whichWay = this.laserImage.getY() <= (this.laserPoint.y + 0.2 / Math.abs((200f/factor))) * unitScale;
-        if (whichWay) {
-            System.out.println(this.laserImage.getHeight());
-            this.laserImage.setY(this.laserImage.getY() - (Gdx.graphics.getDeltaTime() * factor / 1.25f));
-            this.laserImage.setHeight(this.laserImage.getHeight() - this.laserImage.getHeight() / 4.5f);
-        }
+        if (negative && factor < 0) {
+            this.laserImage.setY(this.laserImage.getY() - dt);
+            this.laserImage.setHeight(oldHeight + (oldY - this.laserImage.getY()));
+        } else if (!(positive && factor > 0))
+            this.laserImage.setY(this.laserImage.getY() + (Gdx.graphics.getDeltaTime() * factor));
+        this.laserImage.draw(batch, 1);
     }
 
     // The robot that is hit takes damage, sound is played and event is stopped.
