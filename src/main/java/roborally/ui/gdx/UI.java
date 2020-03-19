@@ -216,7 +216,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         i = i / 2 - programCardsView.getCardWidth();
         for (Group group : this.programCardsView.getGroups()) {
             group.setX(i += programCardsView.getCardWidth());
-            System.out.println(i);
             stage.addActor(group);
         }
         cardPhase = true;

@@ -9,7 +9,7 @@ import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
-import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.ArtificialPlr;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;
@@ -28,7 +28,7 @@ public class Game implements IGame {
     //region Game Objects
     private IGameBoard gameBoard;
     private ILayers layers;
-    private AI[] aiRobots;
+    private ArtificialPlr[] aiRobots;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
     private IProgramCards deckOfProgramCards;
@@ -59,8 +59,6 @@ public class Game implements IGame {
         assert (runAIGame);
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
-        AssetManagerUtil.makeAIRobots();
-        aiRobots = AssetManagerUtil.getAIRobots();
     }
 
     @Override
@@ -98,7 +96,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public AI[] getAIRobots() {
+    public ArtificialPlr[] getAIRobots() {
         return aiRobots;
     }
 
@@ -234,7 +232,6 @@ public class Game implements IGame {
             //TODO FIX. Bugs with drawing cards...
             int robotHealth = robots.get(robotID).getModel().getHealth()-1;
             int cardsToDraw = Math.max(0, robotHealth);
-            System.out.println(cardsToDraw);
 
             for (int j = 0; j < cardsToDraw; j++) {
                 if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
@@ -250,7 +247,7 @@ public class Game implements IGame {
 
             // This codesnippet lets all robots except the first one,
 
-            if (robotID > 0) {
+            if (robotID > 1) {
                 int[] newOrder = new int[cardsToDraw];
 
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
@@ -259,7 +256,8 @@ public class Game implements IGame {
                 robots.get(robotID).getModel().arrangeCards(newOrder);
             }
         }
-
+        ArtificialPlr artificialPlr = new ArtificialPlr(robots.get(1),gameBoard);
+        artificialPlr.printAllCardsAndFlags();
 
         ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getModel().getCards())

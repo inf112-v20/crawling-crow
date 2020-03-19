@@ -52,6 +52,16 @@ public interface IProgramCards {
             return this.cardType + " " + this.priority;
         }
 
+        public int getValue() {
+            if ("MOVE".equals(cardType.toString().substring(0, 4)))
+                return Integer.parseInt(getCard().substring(5, 6));
+            else if ("U_TURN".equals(cardType.toString().substring(0,6)))
+                return -180;
+            else if ("ROTATE".equals(cardType.toString().substring(0, 6)))
+                return "RIGHT".equals(getCard().substring(7, 12)) ? 90 : -90;
+            return 0;
+        }
+
         public CardTypes getCardType() {
             return this.cardType;
         }
