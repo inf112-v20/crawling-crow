@@ -2,10 +2,9 @@ package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.CardsInHand;
+import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.ProgramCards;
 import roborally.utilities.enums.Direction;
 
@@ -33,7 +32,7 @@ public class RobotTest {
         CardsInHand cardsInHand = new CardsInHand(programCards.getDeck());
         testRobot1.getModel().newCards(cardsInHand);
         card = cardsInHand.getCards().get(2);
-        int[] order = {2,0,1,3,4};
+        int[] order = {2, 0, 1, 3, 4};
         testRobot1.getModel().arrangeCards(order);
         assertEquals(card, testRobot1.getModel().getNextCard());
     }
@@ -51,7 +50,7 @@ public class RobotTest {
     }
 
     @Test
-    public void testThatRobotRotatesLeft() {
+    public void verifyThatRobotRotatesLeft() {
         testRobot1.getModel().rotate("L", 1);
         assertEquals(testRobot1.getModel().getDirection(), Direction.West);
     }
@@ -59,23 +58,23 @@ public class RobotTest {
 
 
     @Test
-    public void assertThatRobotHasFullHealth() {
+    public void verifyThatRobotHasFullHealth() {
         assertEquals(testRobot1.getModel().getHealth(), 10);
     }
 
     @Test
-    public void assertThatEverythingIsOk() {
+    public void verifyThatEverythingIsOk() {
         assertEquals(testRobot1.getModel().getStatus(), "Everything ok!");
     }
 
     @Test
-    public void assertThatRobotIsBadlyDamaged() {
+    public void verifyThatRobotIsBadlyDamaged() {
         testRobot1.getModel().takeDamage(6);
         assertEquals(testRobot1.getModel().getStatus(), "Badly damaged");
     }
 
     @Test
-    public void assertThatRobotIsDestroyed() {
+    public void verifyThatRobotIsDestroyed() {
         testRobot1.getModel().takeDamage(10);
         assertEquals(testRobot1.getModel().getStatus(), "Destroyed");
     }

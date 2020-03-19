@@ -23,18 +23,18 @@ public class RobotLogicTest {
     }
 
     @Test
-    public void robotHasInitialPosition() {
+    public void verifyThatRobotHasInitialPosition() {
         assertEquals(initialStartPosition, robotLogic.getPosition());
     }
 
     @Test
-    public void robotSetAndGetPosition() {
+    public void verifyThatRobotCanSetAndGetPosition() {
         robotLogic.setPosition(new GridPoint2(posX, posY));
         assertEquals(new GridPoint2(posX, posY), robotLogic.getPosition());
     }
 
     @Test
-    public void checkNameIsCorrect() {
+    public void verifyThatRobotNameIsCorrect() {
         assertEquals(robotName, robotLogic.getName());
     }
 }
