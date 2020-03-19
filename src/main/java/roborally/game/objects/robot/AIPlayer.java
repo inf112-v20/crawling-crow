@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class ArtificialPlr {
+public class AIPlayer {
     private Programmable robot;
     private IGameBoard gameBoard;
     private Queue<IFlag> flags;
@@ -24,7 +24,7 @@ public class ArtificialPlr {
     private GridPoint2 hypoPos;
     private boolean ok;
 
-    public ArtificialPlr(Programmable robot, IGameBoard gameBoard) {
+    public AIPlayer(Programmable robot, IGameBoard gameBoard) {
         this.robot = robot;
         this.gameBoard = gameBoard;
         this.flags = new Queue<>();

@@ -9,7 +9,7 @@ import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
-import roborally.game.objects.robot.ArtificialPlr;
+import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;
@@ -29,7 +29,7 @@ public class Game implements IGame {
     //region Game Objects
     private IGameBoard gameBoard;
     private ILayers layers;
-    private ArtificialPlr[] aiRobots;
+    private AIPlayer[] aiRobots;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
     private IProgramCards deckOfProgramCards;
@@ -43,7 +43,7 @@ public class Game implements IGame {
     private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
-    private ArtificialPlr artificialPlr;
+    private AIPlayer AIPlayer;
 
     private boolean fun;
 
@@ -66,7 +66,7 @@ public class Game implements IGame {
     @Override
     public void startUp() {
         robots = AssetManagerUtil.makeRobots();
-        this.artificialPlr = new ArtificialPlr(robots.get(1), this.gameBoard);
+        this.AIPlayer = new AIPlayer(robots.get(1), this.gameBoard);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public ArtificialPlr[] getAIRobots() {
+    public AIPlayer[] getAIRobots() {
         return aiRobots;
     }
 
