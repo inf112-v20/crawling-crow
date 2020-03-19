@@ -245,9 +245,9 @@ public class Game implements IGame {
 
 
 
-            // This codesnippet lets all robots except the first one,
+            // This codesnippet lets all robots except the first one play their cards in default order.
 
-            if (robotID > 1) {
+            if (robotID > 0) { // > 1 for testing ArtificialPlr.
                 int[] newOrder = new int[cardsToDraw];
 
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
