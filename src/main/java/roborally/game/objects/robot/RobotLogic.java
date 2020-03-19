@@ -30,7 +30,7 @@ public class RobotLogic implements Programmable {
     }
 
     @Override
-    public RobotLogic getModel() {
+    public RobotLogic getLogic() {
         return this;
     }
 

@@ -1,6 +1,6 @@
 package roborally.game;
 
-import roborally.game.objects.robot.ArtificialPlr;
+import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;
@@ -23,7 +23,7 @@ public interface IGame {
      * @deprecated serves no purpose at the moment
      */
     @Deprecated
-    ArtificialPlr[] getAIRobots();
+    AIPlayer[] getAIRobots();
 
     /**
      * Exists only for debugging.

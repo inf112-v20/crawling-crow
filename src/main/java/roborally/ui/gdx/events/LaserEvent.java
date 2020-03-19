@@ -119,7 +119,7 @@ public class LaserEvent {
     // The robot that is hit takes damage, sound is played and event is stopped.
     private void hitRobot() {
         if (hitRobot) {
-            this.robot.getModel().takeDamage(1);
+            this.robot.getLogic().takeDamage(1);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
             sound.play(0.05f * AssetManagerUtil.volume);
             hitRobot = false;

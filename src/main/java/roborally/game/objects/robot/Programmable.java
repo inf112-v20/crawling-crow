@@ -48,5 +48,5 @@ public interface Programmable {
      *
      * @return
      */
-    RobotLogic getModel();
+    RobotLogic getLogic();
 }
