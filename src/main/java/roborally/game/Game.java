@@ -43,6 +43,7 @@ public class Game implements IGame {
     private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
+    private ArtificialPlr artificialPlr;
 
     private boolean fun;
 
@@ -65,6 +66,7 @@ public class Game implements IGame {
     @Override
     public void startUp() {
         robots = AssetManagerUtil.makeRobots();
+        this.artificialPlr = new ArtificialPlr(robots.get(1), this.gameBoard);
     }
 
     @Override
@@ -257,9 +259,8 @@ public class Game implements IGame {
                 robots.get(robotID).getModel().arrangeCards(newOrder);
             }
         }
-        ArtificialPlr artificialPlr = new ArtificialPlr(robots.get(1),gameBoard);
-        artificialPlr.printAllCardsAndFlags();
-
+        //artificialPlr.printAllCardsAndFlags();
+        //robots.get(1).getModel().arrangeCards(artificialPlr.getOrder());
         ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getModel().getCards())
             programCardsView.makeCard(card);
