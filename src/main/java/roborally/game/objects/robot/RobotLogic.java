@@ -61,9 +61,7 @@ public class RobotLogic implements Programmable {
 
     @Override
     public Direction rotate(Direction direction) {
-        this.direction = direction;
-
-        return this.direction;
+        return this.direction = direction;
     }
 
     public int[] getMoveValues() {
