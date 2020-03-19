@@ -162,8 +162,10 @@ public class RobotLogic implements Programmable {
     }
 
     public IProgramCards.Card getNextCard() {
-        if (!nextCard.isEmpty())
+        assert nextCard != null;
+        if (!nextCard.isEmpty()) {
             return nextCard.removeLast();
+        }
         return null;
     }
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import roborally.game.objects.robot.AI;
+import roborally.game.objects.robot.ArtificialPlr;
 import roborally.game.objects.robot.Robot;
 
 import java.util.*;
@@ -79,7 +79,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
-    public static AI[] ai;
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
     private static HashMap<String, TiledMapTileLayer> layers;
@@ -201,19 +200,6 @@ public class AssetManagerUtil {
         return loadedMap.getTileSets();
     }
 
-    // Default AI robots
-    public static void makeAIRobots() {
-        ai = new AI[8];
-        ai[0] = new AI(3, 0, 0);
-        ai[1] = new AI(0, 1, 1);
-        ai[2] = new AI(3, 2, 2);
-        ai[3] = new AI(8, 3, 3);
-        ai[4] = new AI(3, 3, 4);
-        ai[5] = new AI(4, 4, 5);
-        ai[6] = new AI(4, 5, 6);
-        ai[7] = new AI(6, 4, 7);
-    }
-
     public static ArrayList<Robot> getRobots() {
         return robots;
     }
@@ -223,10 +209,6 @@ public class AssetManagerUtil {
      */
     public static void setRobots(ArrayList<Robot> robots) {
         AssetManagerUtil.robots = robots;
-    }
-
-    public static AI[] getAIRobots() {
-        return ai;
     }
 
     // Default Robots

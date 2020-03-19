@@ -32,6 +32,8 @@ public class Menu {
     private float[] decoIterate;
     private int[] decoScale;
     private float[] decoWidth;
+    private float superit;
+    private float superit2;
     private boolean flip1;
     private boolean flip2;
     private boolean decoH1;
@@ -73,6 +75,7 @@ public class Menu {
         this.changeMap = false;
         this.mapId = 1;
         this.fun = 0;
+        this.superit = 0;
         this.events = events;
         this.sliders = new ArrayList<>();
         imageLists = new HashMap<>();
@@ -84,13 +87,14 @@ public class Menu {
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
-        this.decoScale[0] = 5;
-        this.decoScale[1] = 5;
-        this.decoScale[2] = 5;
+        this.decoScale[0] = 2;
+        this.decoScale[1] = 2;
+        this.decoScale[2] = 2;
         addEvenMoreListeners();
         makeLabels();
         makeOptionListeners();
         addMaps();
+        addMoreListeners();
         stage.addActor(continueButton);
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
@@ -98,7 +102,6 @@ public class Menu {
         stage.addActor(volumeSlider);
         stage.addActor(playSong);
         makeClickableButtons(stage);
-        addMoreListeners();
     }
 
     private void addEvenMoreListeners() {
@@ -126,7 +129,7 @@ public class Menu {
         sliders.add(decor1);
         decoWidth[0] = 140;
         Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
-        birdImage.setSize(4,4);
+        birdImage.setSize(4, 4);
         sliderStyle1.knob = birdImage.getDrawable();
         Slider decor2 = new Slider(0, 10, 0.01f, false, sliderStyle1);
         decor2.setSize(225, 0.2f);
@@ -138,17 +141,6 @@ public class Menu {
         sliders.add(decor3);
         decoWidth[1] = decor2.getWidth();
         decoWidth[2] = decor3.getWidth();
-        volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
-        volumeSlider.setValue(0.6f);
-        volumeSlider.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                AssetManagerUtil.volume = volumeSlider.getValue();
-                volume.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
-            }
-        });
-        volumeSlider.setPosition(750, 600);
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
         continueButton.setPosition(350, 490);
         continueButton.setWidth(continueButton.getWidth() + 150);
@@ -301,6 +293,27 @@ public class Menu {
                 }
             }
         });
+        Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
+        Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
+        birdImage.setSize(15, 20);
+        birdImage.scaleBy(100);
+        Pixmap pixmap = new Pixmap(10, 8, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        sliderStyle.background = new Image(new Texture(pixmap)).getDrawable();
+        sliderStyle.knob = birdImage.getDrawable();
+        volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
+        volumeSlider.setValue(0.6f);
+        volumeSlider.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                AssetManagerUtil.volume = volumeSlider.getValue();
+                volume.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
+            }
+        });
+
+        volumeSlider.setPosition(750, 600);
     }
 
     public boolean isResume(IGame game) {
@@ -391,7 +404,19 @@ public class Menu {
     private void drawSliders(SpriteBatch batch) {
         for (int i = 0; i < sliders.size(); i++) {
             sliders.get(i).draw(batch, 1);
-            sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i]);
+            superit2 -= Gdx.graphics.getDeltaTime() * 10;
+            if (superit < 1) {
+                superit += Gdx.graphics.getDeltaTime() * 10;
+                sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i] * 2);
+            }
+            if (superit >= 1) {
+                sliders.get(i).setValue(decoIterate[i] += Gdx.graphics.getDeltaTime() * decoScale[i] / 2);
+                superit -= Gdx.graphics.getDeltaTime() * 10;
+            }
+            if (superit2 < -10) {
+                superit = superit2;
+                superit2 = 0;
+            }
             if (decoH1 && i == 0 || decoH2 && i == 1 || decoH3 && i == 2) {
                 if (!flip1 && i == 0 || !flip2 && i == 1 || !flip3 && i == 2) {
                     if (decoIterate[i] < sliders.get(i).getMinValue() + dt) {
@@ -420,14 +445,14 @@ public class Menu {
         laserSpeed = new Label("Laser Speed: normal", labelStyle);
         funMode = new Label("FunMode: Off", labelStyle);
         playSong = new Label("Play a song: ", labelStyle);
-        volume = new Label("Volume " + volumeSlider.getValue(), labelStyle);
-        volume.setPosition(750, 610);
+        volume = new Label("Volume ", labelStyle);
+        volume.setPosition(750, 620);
         gSpeed = 0;
         lSpeed = 2;
         funMode.setPosition(750, 560);
         laserSpeed.setPosition(750, 535);
         gameSpeed.setPosition(750, 510);
-        playSong.setPosition(750, 630);
+        playSong.setPosition(750, 640);
         left = new Label(" < ", labelStyle);
         right = new Label(" > ", labelStyle);
         left.setSize(120, 120);

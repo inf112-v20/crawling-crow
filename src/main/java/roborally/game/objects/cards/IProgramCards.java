@@ -52,6 +52,16 @@ public interface IProgramCards {
             return this.cardType + " " + this.priority;
         }
 
+        public int getValue() {
+            if (cardType.toString().contains("MOVE"))
+                return Integer.parseInt(getCard().substring(5, 6));
+            else if (cardType.toString().contains("U_TURN"))
+                return -180;
+            else if (cardType.toString().contains("ROTATE"))
+                return cardType.toString().contains("RIGHT") ? 90 : -90;
+            return 0;
+        }
+
         public CardTypes getCardType() {
             return this.cardType;
         }
