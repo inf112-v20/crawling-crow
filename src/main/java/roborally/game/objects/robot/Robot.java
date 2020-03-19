@@ -120,8 +120,8 @@ public class Robot implements Programmable {
         this.robotLogic.backToCheckPoint();
     }
 
-    public RobotLogic getModel() {
-        return this.robotLogic.getModel();
+    public RobotLogic getLogic() {
+        return this.robotLogic.getLogic();
     }
 
 
@@ -153,7 +153,7 @@ public class Robot implements Programmable {
 
     public void playNextCard() {
         Random r = new Random();
-        IProgramCards.Card card = getModel().getNextCard();
+        IProgramCards.Card card = getLogic().getNextCard();
         if (card == null)
             return;
         if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)

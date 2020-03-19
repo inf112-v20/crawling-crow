@@ -30,11 +30,11 @@ public class RobotTest {
     public void verifyThatNextCardToPlayIsTheFirstInTheRegister() {
         // TODO: Cleanup
         CardsInHand cardsInHand = new CardsInHand(programCards.getDeck());
-        testRobot1.getModel().newCards(cardsInHand);
+        testRobot1.getLogic().newCards(cardsInHand);
         card = cardsInHand.getCards().get(2);
         int[] order = {2, 0, 1, 3, 4};
-        testRobot1.getModel().arrangeCards(order);
-        assertEquals(card, testRobot1.getModel().getNextCard());
+        testRobot1.getLogic().arrangeCards(order);
+        assertEquals(card, testRobot1.getLogic().getNextCard());
     }
 
     @Test
@@ -51,32 +51,32 @@ public class RobotTest {
 
     @Test
     public void verifyThatRobotRotatesLeft() {
-        testRobot1.getModel().rotate(Direction.turnLeftFrom(testRobot1.getModel().getDirection()));
-        assertEquals(testRobot1.getModel().getDirection(), Direction.West);
+        testRobot1.getLogic().rotate(Direction.turnLeftFrom(testRobot1.getLogic().getDirection()));
+        assertEquals(testRobot1.getLogic().getDirection(), Direction.West);
     }
 
 
 
     @Test
     public void verifyThatRobotHasFullHealth() {
-        assertEquals(testRobot1.getModel().getHealth(), 10);
+        assertEquals(testRobot1.getLogic().getHealth(), 10);
     }
 
     @Test
     public void verifyThatEverythingIsOk() {
-        assertEquals(testRobot1.getModel().getStatus(), "Everything ok!");
+        assertEquals(testRobot1.getLogic().getStatus(), "Everything ok!");
     }
 
     @Test
     public void verifyThatRobotIsBadlyDamaged() {
-        testRobot1.getModel().takeDamage(6);
-        assertEquals(testRobot1.getModel().getStatus(), "Badly damaged");
+        testRobot1.getLogic().takeDamage(6);
+        assertEquals(testRobot1.getLogic().getStatus(), "Badly damaged");
     }
 
     @Test
     public void verifyThatRobotIsDestroyed() {
-        testRobot1.getModel().takeDamage(10);
-        assertEquals(testRobot1.getModel().getStatus(), "Destroyed");
+        testRobot1.getLogic().takeDamage(10);
+        assertEquals(testRobot1.getLogic().getStatus(), "Destroyed");
     }
 
 

@@ -79,7 +79,7 @@ public class Game implements IGame {
     @Override
     public void checkForDestroyedRobots() {
         for (Robot robot : robots) {
-            if (robot.getModel().getStatus().equals("Destroyed")) {
+            if (robot.getLogic().getStatus().equals("Destroyed")) {
                 removeFromUI(robot, true);
             }
         }
@@ -233,7 +233,7 @@ public class Game implements IGame {
             cardsDrawn = new ArrayList<>();
 
             //TODO FIX. Bugs with drawing cards...
-            int robotHealth = robots.get(robotID).getModel().getHealth()-1;
+            int robotHealth = robots.get(robotID).getLogic().getHealth()-1;
             int cardsToDraw = Math.max(0, robotHealth);
 
             for (int j = 0; j < cardsToDraw; j++) {
@@ -244,7 +244,7 @@ public class Game implements IGame {
                 cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
             cardsInHand = new CardsInHand(cardsDrawn);
-            robots.get(robotID).getModel().newCards(cardsInHand);
+            robots.get(robotID).getLogic().newCards(cardsInHand);
 
 
 
@@ -256,13 +256,13 @@ public class Game implements IGame {
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
                     newOrder[i] = i;
                 }
-                robots.get(robotID).getModel().arrangeCards(newOrder);
+                robots.get(robotID).getLogic().arrangeCards(newOrder);
             }
         }
         //artificialPlr.printAllCardsAndFlags();
         //robots.get(1).getModel().arrangeCards(artificialPlr.getOrder());
         ProgramCardsView programCardsView = new ProgramCardsView();
-        for (IProgramCards.Card card : robots.get(0).getModel().getCards())
+        for (IProgramCards.Card card : robots.get(0).getLogic().getCards())
             programCardsView.makeCard(card);
         return programCardsView;
     }
@@ -290,7 +290,7 @@ public class Game implements IGame {
 
     @Override
     public void shuffleTheRobotsCards(int[] order) {
-        robots.get(0).getModel().arrangeCards(order);
+        robots.get(0).getLogic().arrangeCards(order);
     }
 
     //region Conveyor belts
@@ -424,13 +424,13 @@ public class Game implements IGame {
         for (Robot robot : robots) {
             m = r.nextInt(4);
             if (m == 0)
-                robot.rotate(Direction.turnLeftFrom(robot.getModel().getDirection()));
+                robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
             else if (m == 1)
                 robot.move(1);
             else if (m == 2)
                 robot.move(-1);
             else if (m == 3)
-                robot.rotate(Direction.turnRightFrom(robot.getModel().getDirection()));
+                robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
         }
     }
 

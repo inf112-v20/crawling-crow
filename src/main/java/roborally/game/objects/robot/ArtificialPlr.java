@@ -44,7 +44,7 @@ public class ArtificialPlr {
         int totalLeft = 0;
         this.cardValues = new HashMap<>();
         this.moveCardValues = new ArrayList<>();
-        ArrayList<ProgramCards.Card> temp = robot.getModel().getCards();
+        ArrayList<ProgramCards.Card> temp = robot.getLogic().getCards();
         temp.sort(Comparator.comparing(IProgramCards.Card::getCardType));
         for (ProgramCards.Card card : temp) {
             System.out.print(card.getCard() + " ");
@@ -138,16 +138,16 @@ public class ArtificialPlr {
 
     private void findFastestWayToPos(GridPoint2 pos) {
         boolean foundPos = false;
-        GridPoint2 movableValue = new GridPoint2(robot.getModel().getMoveValues()[0], robot.getModel().getMoveValues()[1]);
+        GridPoint2 movableValue = new GridPoint2(robot.getLogic().getMoveValues()[0], robot.getLogic().getMoveValues()[1]);
         if(movableValue.equals(pos) && (moveCardValues.contains(Math.max(pos.x, pos.y)))) {
             hypoPos.add(movableValue);
             ProgramCards.Card card;
-            for (int i = 0; i < robot.getModel().getCards().size(); i++) {
-                card = robot.getModel().getCards().get(i);
+            for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
+                card = robot.getLogic().getCards().get(i);
                 if(!card.getCardType().toString().contains("MOVE"))
                     continue;
                 boolean nope = false;
-                if(Integer.parseInt(robot.getModel().getCards().get(i).getCard().substring(5,6))==1) {
+                if(Integer.parseInt(robot.getLogic().getCards().get(i).getCard().substring(5,6))==1) {
                     for(int k = 0; k <= cardPick; k++)
                         if(order[k]==i) {
                             nope = true;
@@ -165,8 +165,8 @@ public class ArtificialPlr {
             takeAlltheRotateRightCards();
             ProgramCards.Card card;
             boolean nope = false;
-            for (int i = 0; i < robot.getModel().getCards().size(); i++) {
-                card = robot.getModel().getCards().get(i);
+            for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
+                card = robot.getLogic().getCards().get(i);
                 if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == ProgramCards.CardTypes.ROTATE_RIGHT) {
                     for(int k = 0; k <= cardPick; k++) {
                         if (order[k] == i) {
@@ -176,7 +176,7 @@ public class ArtificialPlr {
                     }
                     if(!nope) {
                         order[cardPick++] = i;
-                        robot.getModel().rotate(card.getCard().substring(0, 1), 1);
+                        robot.getLogic().rotate(card.getCard().substring(0, 1), 1);
                         break;
                     }
                 }
