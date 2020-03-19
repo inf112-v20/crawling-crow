@@ -42,6 +42,7 @@ public class Game implements IGame {
     private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
+    private ArtificialPlr artificialPlr;
 
     private boolean fun;
 
@@ -64,6 +65,7 @@ public class Game implements IGame {
     @Override
     public void startUp() {
         robots = AssetManagerUtil.makeRobots();
+        this.artificialPlr = new ArtificialPlr(robots.get(1), this.gameBoard);
     }
 
     @Override
@@ -247,7 +249,7 @@ public class Game implements IGame {
 
             // This codesnippet lets all robots except the first one play their cards in default order.
 
-            if (robotID > 1) { // > 1 for testing ArtificialPlr.
+            if (robotID > 0) { // > 1 for testing ArtificialPlr.
                 int[] newOrder = new int[cardsToDraw];
 
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
@@ -256,8 +258,8 @@ public class Game implements IGame {
                 robots.get(robotID).getModel().arrangeCards(newOrder);
             }
         }
-        ArtificialPlr artificialPlr = new ArtificialPlr(robots.get(1),gameBoard);
-        artificialPlr.printAllCardsAndFlags();
+        //artificialPlr.printAllCardsAndFlags();
+        //robots.get(1).getModel().arrangeCards(artificialPlr.getOrder());
         ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getModel().getCards())
             programCardsView.makeCard(card);
