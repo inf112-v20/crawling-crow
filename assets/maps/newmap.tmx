@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="16" height="12" tilewidth="300" tileheight="300" infinite="0" nextlayerid="17" nextobjectid="1">
+ <tileset firstgid="1" source="tiles.tsx"/>
+ <layer id="1" name="Floorlayer" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgYBnFo3iEYgCJPAMB
+  </data>
+ </layer>
+ <layer id="7" name="FastConveyorBelt" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh+QASLmDAJ+kWxiPGOIP1DDfCRiUEAAD6fAXQ=
+  </data>
+ </layer>
+ <layer id="8" name="SlowConveyorBelt" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxTZGBgMCYTKwGxEQP5wJAK+jWB2AQN4wLo6rQosHu4AEUGzHjVwaJOG4u6wRL/5AJQ/AMASAsJEg==
+  </data>
+ </layer>
+ <layer id="14" name="Pushers" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBjZgIcCvUx45DgpMJcUQCv3jxQAAD54ACY=
+  </data>
+ </layer>
+ <layer id="2" name="Startpositions" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcVJOhp4YK9tICNBOQb6GLK4YeaCJBbSMB+SosYpUkmE8KAAB7mwP1
+  </data>
+ </layer>
+ <layer id="9" name="Hole" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFgxGwDbQDRggAAAtwAAc=
+  </data>
+ </layer>
+ <layer id="10" name="RotatingGear" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg8wGygHYAFDLSbTAfYflqBgQ5XGAAAUlcA2A==
+  </data>
+ </layer>
+ <layer id="11" name="Hammer" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFtATsA+2AUYAXAAAOYAAI
+  </data>
+ </layer>
+ <layer id="12" name="Wrench" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBiagH+gHYAD0NJdg9XPlIKB9BcAWbgAPQ==
+  </data>
+ </layer>
+ <layer id="13" name="Robot" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DkAgADAAAB
+  </data>
+ </layer>
+ <layer id="3" name="Walls" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJyTYGBgkMeBYQCXvAAQyzGQD8SHgX50IACl5bHISRBhJgcWMVkorYBFbqD9P9D6FRgg4YMNwwAueVBYAwA1/AVV
+  </data>
+ </layer>
+ <layer id="4" name="Cannon" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAOdHGIjwLygRoRavRo7oqRB1TxyAEAB/sApw==
+  </data>
+ </layer>
+ <layer id="5" name="Laser" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAO9HGIEwtGun5sQJ1ITG0w0GExmPUDABQDA10=
+  </data>
+ </layer>
+ <layer id="6" name="Flag" width="16" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhcwH2gHUAGsKeRueZ45PxpZOdIAwDPFwEN
+  </data>
+ </layer>
+</map>
