@@ -12,6 +12,7 @@ import roborally.ui.listeners.Listener;
 import roborally.ui.robot.IRobotView;
 import roborally.ui.robot.RobotView;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
 public class Robot implements Programmable {
@@ -146,6 +147,11 @@ public class Robot implements Programmable {
 
     public void setLostTexture() {
         this.robotView.setLostTexture(getPosition());
+    }
+
+    public void deleteRobot() {
+        this.layers.setRobotCell(getPosition().x, getPosition().y, null);
+        this.setPosition(SettingsUtil.GRAVEYARD);
     }
     //endregion
 

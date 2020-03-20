@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.objects.robot.Robot;
+import roborally.game.objects.robot.RobotLogic;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
@@ -129,5 +130,9 @@ public class LaserEvent {
 
     public void setLaserSpeed(int factor) {
         this.factor = factor;
+    }
+
+    public Robot getRobot() {
+        return this.robot;
     }
 }

@@ -19,7 +19,7 @@ public class Events {
     private boolean robotFadeOrder;
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
-    private ArrayList<LaserEvent> laserEvent;
+    private ArrayList<LaserEvent> laserEvents;
     private int registerPhase;
     private double gameSpeed;
     private int factor;
@@ -31,7 +31,7 @@ public class Events {
         this.robotFadeOrder = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
-        this.laserEvent = new ArrayList<>();
+        this.laserEvents = new ArrayList<>();
         registerPhase = 1;
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
@@ -132,16 +132,29 @@ public class Events {
 
     // Returns true if there are lasers on the screen.
     public boolean hasLaserEvent() {
-        return !this.laserEvent.isEmpty();
+        return !this.laserEvents.isEmpty();
     }
 
     // Removes lasers that have served their purpose. Returns and sets the list excluding these lasers.
-    public ArrayList<LaserEvent> getLaserEvent() {
-        List<LaserEvent> temp = this.laserEvent.stream()
+    public ArrayList<LaserEvent> getLaserEvents() {
+        List<LaserEvent> temp = this.laserEvents.stream()
                 .filter(LaserEvent::hasLaserEvent)
                 .collect(Collectors.toList());
-        this.laserEvent = (ArrayList<LaserEvent>) temp;
-        return this.laserEvent;
+        this.laserEvents.removeAll(temp);
+        for (LaserEvent laserEvent : this.laserEvents) {
+            if (laserEvent.getRobot() != null) {
+                if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
+                    GridPoint2 pos = laserEvent.getRobot().getPosition();
+                    fadeRobot(pos, laserEvent.getRobot().getTexture());
+                    laserEvent.getRobot().deleteRobot();
+                    setFadeRobot(true);
+                } else {
+                    laserEvent.getRobot().setLostTexture();
+                }
+            }
+        }
+        this.laserEvents = (ArrayList<LaserEvent>) temp;
+        return this.laserEvents;
     }
 
     /**
@@ -151,8 +164,8 @@ public class Events {
      * @param pos    The endpoint of the laser.
      */
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
-        this.laserEvent.add(new LaserEvent(factor));
-        this.laserEvent.get(this.laserEvent.size() - 1).laserEvent(origin, pos);
+        this.laserEvents.add(new LaserEvent(factor));
+        this.laserEvents.get(this.laserEvents.size() - 1).laserEvent(origin, pos);
     }
 
     private static class Alpha {
@@ -175,7 +188,7 @@ public class Events {
     }
 
     public void dispose() {
-        this.laserEvent.clear();
+        this.laserEvents.clear();
         this.fadeableRobots.clear();
     }
 

@@ -86,8 +86,7 @@ public class Game implements IGame {
 
     private void removeFromUI(Robot robot, boolean fade) {
         events.fadeRobot(robot.getPosition(), robot.getTexture());
-        layers.setRobotCell(robot.getPosition().x, robot.getPosition().y, null);
-        robot.setPosition(SettingsUtil.GRAVEYARD);
+        robot.deleteRobot();
         robot.clearRegister();
         this.events.setFadeRobot(fade);
     }
