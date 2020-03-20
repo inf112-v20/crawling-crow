@@ -60,7 +60,7 @@ public class Laser {
      * Shoots a laser until it hits a wall or a robot. Stores the cells for clearing them after.
      * {@link #setDirection(int robotDirection)} to figure out the iterative values to shoot with.
      *
-     * @param robotPosition The position of the robot that is shooting the laser.
+     * @param robotPosition  The position of the robot that is shooting the laser.
      * @param robotDirection The robotDirection the robot is looking.
      */
     public void fireLaser(GridPoint2 robotPosition, int robotDirection) {

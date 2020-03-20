@@ -9,6 +9,7 @@ import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
+import roborally.game.objects.laser.LaserRegister;
 import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
@@ -33,6 +34,7 @@ public class Game implements IGame {
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
     private IProgramCards deckOfProgramCards;
+    private LaserRegister laserRegister;
     //endregion
 
     private Robot winner;
@@ -54,6 +56,7 @@ public class Game implements IGame {
         deckOfProgramCards = new ProgramCards();
         this.events = events;
         this.gameOptions = new GameOptions();
+        this.laserRegister = new LaserRegister();
     }
 
     public Game(boolean runAIGame) {
@@ -64,13 +67,13 @@ public class Game implements IGame {
 
     @Override
     public void startUp() {
-        this.robots = gameOptions.makeRobots(layers);
+        this.robots = gameOptions.makeRobots(layers, laserRegister);
         //this.AIPlayer = new AIPlayer(robots.get(1), this.gameBoard);
     }
 
     @Override
     public void funMode() {
-        robots = gameOptions.funMode(layers, flags);
+        robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
         fun = true;
     }
@@ -78,7 +81,8 @@ public class Game implements IGame {
     @Override
     public void checkForDestroyedRobots() {
         for (Robot robot : robots) {
-            if (robot.getLogic().getStatus().equals("Destroyed")) {
+            if (("Destroyed").equals(robot.getLogic().getStatus())) {
+                System.out.println("yeah1");
                 removeFromUI(robot, true);
             }
         }
@@ -87,7 +91,7 @@ public class Game implements IGame {
     private void removeFromUI(Robot robot, boolean fade) {
         events.fadeRobot(robot.getPosition(), robot.getTexture());
         robot.deleteRobot();
-        robot.clearRegister();
+        System.out.println("yeah2");
         this.events.setFadeRobot(fade);
     }
 
@@ -138,7 +142,7 @@ public class Game implements IGame {
         for (Robot robot : robots) {
             removeFromUI(robot, false);
         }
-        setRobots(AssetManagerUtil.makeRobots());
+        setRobots(gameOptions.makeRobots(layers, laserRegister));
     }
 
     //region Rounds
@@ -188,7 +192,7 @@ public class Game implements IGame {
     @Override
     public void fireLaser() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.15 * AssetManagerUtil.volume);
+        sound.play((float) 0.08 * AssetManagerUtil.volume);
         robots.get(0).fireLaser();
         ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
         if (!coords.isEmpty())
@@ -311,7 +315,7 @@ public class Game implements IGame {
     @Override
     public void fireLasers() {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.15 * AssetManagerUtil.volume);
+        sound.play((float) 0.08 * AssetManagerUtil.volume);
         for (Robot robot : robots) {
             robot.fireLaser();
             ArrayList<GridPoint2> coords = robot.getLaser().getCoords();

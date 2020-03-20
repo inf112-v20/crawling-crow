@@ -29,7 +29,7 @@ public class Robot implements Programmable {
         this.robotLogic = robotLogic;
     }
 
-    public Robot(int x, int y, int robotID) {
+    public Robot(int x, int y, int robotID, LaserRegister laserRegister) {
         this.visitedFlags = new boolean[3];
         RobotLogic robotModel = new RobotLogic(AssetManagerUtil.getRobotName());
         IRobotView robotView = new RobotView(x, y);
@@ -41,8 +41,8 @@ public class Robot implements Programmable {
         this.robotLogic.setCheckPoint(x, y);
         this.layers = new Layers();
         this.listener = new Listener(layers);
-        this.laserRegister = new LaserRegister();
         listener.listenLaser(x, y, getName(), laserRegister);
+        this.laserRegister = laserRegister;
     }
 
     @Override
@@ -98,9 +98,9 @@ public class Robot implements Programmable {
         // Checks for robots in its path before moving.
         if (!listener.listenCollision(pos.x, pos.y, dx, dy)) {
             if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
-                clearRegister();
                 this.setPosition(newPos);
                 System.out.println("New position: " + newPos);
+                listener.listenLaser(pos.x, pos.y, getName(), laserRegister);
                 if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
                     robotLogic.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
@@ -147,11 +147,13 @@ public class Robot implements Programmable {
 
     public void setLostTexture() {
         this.robotView.setLostTexture(getPosition());
+
     }
 
     public void deleteRobot() {
         this.layers.setRobotCell(getPosition().x, getPosition().y, null);
         this.setPosition(SettingsUtil.GRAVEYARD);
+        clearRegister();
     }
     //endregion
 

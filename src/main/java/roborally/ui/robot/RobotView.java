@@ -43,7 +43,11 @@ public class RobotView implements IRobotView {
             this.robotLostCellTexture = new TiledMapTileLayer.Cell();
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        layers.setRobotCell(pos.x, pos.y, this.robotLostCellTexture);
+        if(layers.assertRobotNotNull(pos.x, pos.y)) {
+            int rotateId = layers.getRobotCell(pos.x, pos.y).getRotation();
+            layers.setRobotCell(pos.x, pos.y, this.robotLostCellTexture);
+            layers.getRobotCell(pos.x, pos.y).setRotation(rotateId);
+        }
     }
 
     @Override

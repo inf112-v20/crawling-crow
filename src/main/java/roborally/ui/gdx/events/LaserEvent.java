@@ -76,11 +76,11 @@ public class LaserEvent {
         float oldWidth = this.laserImage.getWidth();
         float oldX = this.laserImage.getX();
         if (positive && factor > 0) {
-            this.laserImage.setX(this.laserImage.getX() + dt);
+            this.laserImage.setX(this.laserImage.getX() + dt / 3);
             this.laserImage.setWidth(oldWidth - (this.laserImage.getX() - oldX));
         }
         if (negative && factor < 0) {
-            this.laserImage.setX(this.laserImage.getX() - dt);
+            this.laserImage.setX(this.laserImage.getX() - dt / 3);
             this.laserImage.setWidth(oldWidth + (oldX - this.laserImage.getX()));
         } else if (!(positive && factor > 0))
             this.laserImage.setX(this.laserImage.getX() + dt);
@@ -96,11 +96,11 @@ public class LaserEvent {
         float oldHeight = this.laserImage.getHeight();
         float oldY = this.laserImage.getY();
         if (positive && factor > 0) {
-            this.laserImage.setY(this.laserImage.getY() + dt);
+            this.laserImage.setY(this.laserImage.getY() + dt / 3);
             this.laserImage.setHeight(oldHeight - (this.laserImage.getY() - oldY));
         }
         if (negative && factor < 0) {
-            this.laserImage.setY(this.laserImage.getY() - dt);
+            this.laserImage.setY(this.laserImage.getY() - dt / 3);
             this.laserImage.setHeight(oldHeight + (oldY - this.laserImage.getY()));
         } else if (!(positive && factor > 0))
             this.laserImage.setY(this.laserImage.getY() + dt);
@@ -118,7 +118,7 @@ public class LaserEvent {
         if (hitRobot) {
             this.robot.getLogic().takeDamage(1);
             Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
-            sound.play(0.05f * AssetManagerUtil.volume);
+            sound.play(0.035f * AssetManagerUtil.volume);
             hitRobot = false;
         }
         this.laserEvent = false;

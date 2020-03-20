@@ -13,6 +13,7 @@ import java.util.*;
 
 public class AssetManagerUtil {
     public static float volume = 1;
+    public static int manyRobots = 0;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
@@ -30,13 +31,9 @@ public class AssetManagerUtil {
     public static final AssetDescriptor<Music> SOUNDTRACK
             = new AssetDescriptor<>("sounds/soundTrack.mp3", Music.class);
     //Maps
-    private static final AssetDescriptor<TiledMap> MAP_LASER_TEST
-            = new AssetDescriptor<>("maps/testMap001.tmx", TiledMap.class);
-    private static final AssetDescriptor<TiledMap> MAP_TEST
-            = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartArea.tmx", TiledMap.class);
-    private static final AssetDescriptor<TiledMap> MAP_TEST3
-            = new AssetDescriptor<>("maps/testMapSingleLasers.tmx", TiledMap.class);
-    private static final AssetDescriptor<TiledMap> MAP_TEST2
+    private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP
+            = new AssetDescriptor<>("maps/newmap.tmx", TiledMap.class);
+    private static final AssetDescriptor<TiledMap> LISES_MAP
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
 
     //Other
@@ -85,10 +82,8 @@ public class AssetManagerUtil {
 
     public static void load() {
         //Maps
-        manager.load(MAP_TEST);
-        manager.load(MAP_TEST2);
-        manager.load(MAP_TEST3);
-        manager.load(MAP_LASER_TEST);
+        manager.load(SIGMUNDS_MAP);
+        manager.load(LISES_MAP);
 
         //Robots
         manager.load(ANGRY);
@@ -135,8 +130,7 @@ public class AssetManagerUtil {
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {
-        TiledMap[] tiledMaps = {manager.get(MAP_TEST), manager.get(MAP_TEST2),
-                manager.get(MAP_LASER_TEST), manager.get(MAP_TEST3)};
+        TiledMap[] tiledMaps = {manager.get(SIGMUNDS_MAP), manager.get(LISES_MAP)};
         List<TiledMap> maps = Arrays.asList(tiledMaps);
         loadedMap = maps.get(map);
         return loadedMap;
@@ -179,7 +173,7 @@ public class AssetManagerUtil {
      */
     public static TiledMap getLoadedMap() {
         if (loadedMap == null) {
-            loadedMap = manager.get(MAP_TEST2);
+            loadedMap = manager.get(LISES_MAP);
         }
         return loadedMap;
     }
@@ -210,40 +204,24 @@ public class AssetManagerUtil {
         AssetManagerUtil.robots = robots;
     }
 
-    // Default Robots
-    public static ArrayList<Robot> makeRobots() {
-        robots = new ArrayList<>();
-        robots.add(new Robot(5, 0, 0));
-        robots.add(new Robot(6, 0, 1));
-        robots.add(new Robot(3, 1, 2));
-        robots.add(new Robot(8, 1, 3));
-        robots.add(new Robot(1, 2, 4));
-        robots.add(new Robot(5, 6, 5));
-        robots.add(new Robot(5, 4, 6));
-        robots.add(new Robot(5, 5, 7));
-
-        // Texture region is not automatically set in constructor (for now).
-        return robots;
-    }
-
-
     // Default names for the robots
     public static void makeRobotNames() {
         robotNames = new Stack<>();
-        robotNames.add("Yellow");
-        robotNames.add("Red");
-        robotNames.add("Purple");
-        robotNames.add("Pink");
-        robotNames.add("Orange");
-        robotNames.add("Green");
-        robotNames.add("Blue");
-        robotNames.add("Angry");
+        robotNames.add("Yellow" + manyRobots);
+        robotNames.add("Red" + manyRobots);
+        robotNames.add("Purple" + manyRobots);
+        robotNames.add("Pink" + manyRobots);
+        robotNames.add("Orange" + manyRobots);
+        robotNames.add("Green" + manyRobots);
+        robotNames.add("Blue" + manyRobots);
+        robotNames.add("Angry" + manyRobots);
     }
 
     public static String getRobotName() {
         if (robotNames == null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
+            manyRobots++;
         }
         return robotNames.pop();
     }

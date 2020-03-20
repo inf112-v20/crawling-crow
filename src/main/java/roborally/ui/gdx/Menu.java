@@ -250,7 +250,7 @@ public class Menu {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (mapId == 0)
-                    mapId = 3;
+                    mapId = 1;
                 else
                     mapId -= 1;
                 return true;
@@ -259,7 +259,7 @@ public class Menu {
         right.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 3)
+                if (mapId == 1)
                     mapId = 0;
                 else
                     mapId += 1;
@@ -460,8 +460,10 @@ public class Menu {
         right = new Label(" > ", labelStyle);
         left.setSize(120, 120);
         right.setSize(120, 120);
-        left.setPosition(80, 300);
-        right.setPosition(635, 300);
+        left.scaleBy(2);
+        right.scaleBy(2);
+        left.setPosition(40, 300);
+        right.setPosition(665, 300);
     }
 
     private void makeClickableButtons(Stage stage) {
@@ -564,10 +566,8 @@ public class Menu {
         ArrayList<Image> maps = new ArrayList<>();
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map0.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.PNG"))));
-        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map3.png"))));
         for (Image image : maps)
-            image.setPosition(150, 100);
+            image.setPosition(75, 115);
         imageLists.put("maps", maps);
     }
 
