@@ -149,6 +149,7 @@ public class ProgramCardsView {
         return label;
     }
 
+    // Used to sort cards when deselecting a card.
     public void reArrange(int oldI) {
         int i = oldI;
         order[i] = -1;
@@ -174,6 +175,8 @@ public class ProgramCardsView {
         return this.cardPick == -1;
     }
 
+
+    // Maybe deprecated.
     public void clearStuff() {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;

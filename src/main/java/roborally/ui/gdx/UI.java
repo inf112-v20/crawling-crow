@@ -15,6 +15,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
@@ -22,6 +24,8 @@ import roborally.ui.gdx.events.LaserEvent;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
+
+import java.util.Set;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -70,9 +74,8 @@ public class UI extends InputAdapter implements ApplicationListener {
 
         // Initialize the camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT);
         camera.update();
-
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
         mapRenderer.setView(camera);
@@ -80,6 +83,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         batch = new SpriteBatch();
         stage = new Stage();
         menu = new Menu(stage, events);
+
         game.getGameOptions().enterMenu(true);
     }
 

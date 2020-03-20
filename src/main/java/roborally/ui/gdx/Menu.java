@@ -82,7 +82,7 @@ public class Menu {
         startGame = 0;
         imageLists.put("menus", new ArrayList<>());
         Image menu = new Image(AssetManagerUtil.getMenu());
-        menu.setHeight(menu.getHeight() + 50);
+        menu.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
         imageLists.get("menus").add(menu);
         mapButton = new Image(AssetManagerUtil.getMapButton());
         mapButton.setPosition(680, 480);

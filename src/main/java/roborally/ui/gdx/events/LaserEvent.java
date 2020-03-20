@@ -31,7 +31,6 @@ public class LaserEvent {
     public void laserImage(int id) {
         Image laserImage = new Image(AssetManagerUtil.getTileSets().getTile(id).getTextureRegion());
         laserImage.setSize(unitScale, unitScale);
-        laserImage.setColor(Color.MAGENTA);
         this.laserImage = laserImage;
     }
 
