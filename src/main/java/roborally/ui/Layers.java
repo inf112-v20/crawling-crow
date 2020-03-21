@@ -1,15 +1,20 @@
 package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.TileName;
+import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
+    private TiledTranslator tiledTranslator;
     private HashMap<String, TiledMapTileLayer> layers;
 
     public Layers() {
+        tiledTranslator = new TiledTranslator();
         layers = new HashMap<>(AssetManagerUtil.getLoadedLayers());
     }
 
@@ -172,6 +177,11 @@ public class Layers implements ILayers {
     }
 
     @Override
+    public TileName getConveyorSlowTileName(GridPoint2 pos) {
+        return tiledTranslator.getTileName(layers.get("slowConveyorBelt").getCell(pos.x, pos.y).getTile().getId());
+    }
+
+    @Override
     public TiledMapTileLayer getConveyorFast() {
         return layers.get("fastConveyorBelt");
     }
@@ -182,6 +192,11 @@ public class Layers implements ILayers {
             return layers.get("fastConveyorBelt").getCell(x, y) != null;
         System.out.println("fastConveyorBelt does not exist");
         return false;
+    }
+
+    @Override
+    public TileName getConveyorFastTileName(GridPoint2 pos) {
+        return tiledTranslator.getTileName(layers.get("fastConveyorBelt").getCell(pos.x, pos.y).getTile().getId());
     }
 
     // Wrenches
@@ -264,6 +279,17 @@ public class Layers implements ILayers {
             return layers.get("laserCannon").getCell(x, y) != null;
         System.out.println("laserCannon layer does not exist");
         return false;
+    }
+
+    // Gear
+    @Override
+    public boolean assertGearNotNull(GridPoint2 pos) {
+        return layers.get("Gear").getCell(pos.x, pos.y) != null;
+    }
+
+    @Override
+    public TileName getGearTileName(GridPoint2 pos) {
+        return tiledTranslator.getTileName(layers.get("Gear").getCell(pos.x, pos.y).getTile().getId());
     }
 
     // Bug

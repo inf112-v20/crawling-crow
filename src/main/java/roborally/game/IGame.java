@@ -20,6 +20,7 @@ public interface IGame {
 
     /**
      * Serves ONLY feed the keyUp method..
+     *
      * @deprecated serves no purpose at the moment
      */
     @Deprecated
@@ -27,6 +28,7 @@ public interface IGame {
 
     /**
      * Exists only for debugging.
+     *
      * @return The first of the robots
      */
     Robot getFirstRobot();
@@ -69,6 +71,8 @@ public interface IGame {
     void moveRobots();
 
     void moveAllConveyorBelts();
+
+    void moveNormalConveyorBelts();
 
     void moveExpressConveyorBelts();
 

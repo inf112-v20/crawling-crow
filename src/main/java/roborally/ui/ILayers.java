@@ -1,6 +1,8 @@
 package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.GridPoint2;
+import roborally.utilities.enums.TileName;
 
 public interface ILayers {
 
@@ -145,6 +147,8 @@ public interface ILayers {
      */
     boolean assertConveyorSlowNotNull(int x, int y);
 
+    TileName getConveyorSlowTileName(GridPoint2 pos);
+
     /**
      * @return the fast conveyor belt layer.
      */
@@ -156,6 +160,8 @@ public interface ILayers {
      * @return if there is a fast conveyor belt at the position x, y.
      */
     boolean assertConveyorFastNotNull(int x, int y);
+
+    TileName getConveyorFastTileName(GridPoint2 pos);
 
     /**
      * @return the wrench layer.
@@ -239,4 +245,8 @@ public interface ILayers {
      * @return true if there is a bug at the position x, y.
      */
     boolean assertBugNotNull(int x, int y);
+
+    boolean assertGearNotNull(GridPoint2 pos);
+
+    TileName getGearTileName(GridPoint2 pos);
 }
