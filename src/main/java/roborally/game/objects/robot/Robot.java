@@ -81,6 +81,8 @@ public class Robot implements Programmable {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
             sound.play(0.25f * AssetManagerUtil.volume);
         }
+        if (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister))
+            robotLogic.takeDamage(1);
         return this.robotLogic.move(steps);
     }
 
@@ -100,9 +102,6 @@ public class Robot implements Programmable {
             if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
                 this.setPosition(newPos);
                 System.out.println("New position: " + newPos);
-                listener.listenLaser(pos.x, pos.y, getName(), laserRegister);
-                if (listener.listenLaser(newPos.x, newPos.y, getName(), laserRegister))
-                    robotLogic.takeDamage(1);
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
                     robotLogic.takeDamage(10);
                     this.setLostTexture();
@@ -156,6 +155,11 @@ public class Robot implements Programmable {
         clearRegister();
     }
     //endregion
+
+    public void checkForLaser() {
+        if (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister))
+            robotLogic.takeDamage(1);
+    }
 
     public void playNextCard() {
         IProgramCards.Card card = getLogic().getNextCard();

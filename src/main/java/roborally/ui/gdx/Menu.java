@@ -124,8 +124,8 @@ public class Menu {
         sliderStyle1.background = new Image(new Texture(colur4)).getDrawable();
         sliderStyle1.knob = new Image(new Texture(colur3)).getDrawable();
         Slider decor1 = new Slider(0, 10, 0.01f, false, sliderStyle1);
-        decor1.setSize(140, 0.2f);
-        decor1.setPosition(450, 350);
+        decor1.setSize(170, 0.2f);
+        decor1.setPosition(420, 350);
         sliders.add(decor1);
         decoWidth[0] = 140;
         Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
