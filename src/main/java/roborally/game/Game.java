@@ -412,6 +412,7 @@ public class Game implements IGame {
         //}
         for(Robot robot : robots) {
             layers.setRobotCell(robot.getPosition().x, robot.getPosition().y, null);
+            removeFromUI(robot, true);
         }
         robots.clear();
         cleanUp();
