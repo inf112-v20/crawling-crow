@@ -11,10 +11,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
@@ -77,7 +76,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        stage = new Stage();
+        stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
         menu = new Menu(stage, events);
 
         game.getGameOptions().enterMenu(true);
@@ -118,15 +117,9 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        // Maybe this can help us run the game even on smaller screen than Tim Cooks.
-        Vector2 size = Scaling.fit.apply(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT, width, height);
-        int viewportX = (int) (width - size.x) / 2;
-        int viewportY = (int) (height - size.y) / 2;
-        int viewportWidth = (int) size.x;
-        int viewportHeight = (int) size.y;
-        Gdx.gl.glViewport(viewportX, viewportY, viewportWidth, viewportHeight);
+        // FitViewport, to keep aspect ratio when scaling game window
+        // see @link{https://github.com/libgdx/libgdx/wiki/Viewports}
         stage.getViewport().update(width, height, true);
-        //stage.setViewport(800, 480, true, viewportX, viewportY, viewportWidth, viewportHeight);
     }
 
     @Override
