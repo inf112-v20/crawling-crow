@@ -15,8 +15,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
@@ -24,8 +22,6 @@ import roborally.ui.gdx.events.LaserEvent;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
-
-import java.util.Set;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -187,9 +183,9 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void changeMap() {
         this.mapID = menu.getMapId();
-        dispose();
-        create();
-        menu.setMapId(this.mapID);
+        if(game.getRobots()!=null)
+            game.endGame();
+        mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
     }
 
     public void cardPhaseRun() {

@@ -410,6 +410,10 @@ public class Game implements IGame {
         //if(DEBUG){
         //System.out.println("Stopping game...");
         //}
+        for(Robot robot : robots) {
+            layers.setRobotCell(robot.getPosition().x, robot.getPosition().y, null);
+        }
+        robots.clear();
         cleanUp();
         gameRunning = false;
     }

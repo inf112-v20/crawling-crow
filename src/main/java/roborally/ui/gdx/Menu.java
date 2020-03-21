@@ -322,18 +322,13 @@ public class Menu {
             resume = false;
             return true;
         }
-        if (resume && startGame == 0) {
-            if (isFunMode)
+        if (resume) {
+            if (isFunMode && !events.hasWaitEvent())
                 game.funMode();
             else {
                 game.startUp();
             }
             startGame = 1;
-            resume = false;
-            return true;
-        } else if (resume) {
-            if (isFunMode && !events.hasWaitEvent())
-                game.funMode();
             resume = false;
             return true;
         }
@@ -495,6 +490,7 @@ public class Menu {
             public void clicked(InputEvent event, float x, float y) {
                 changeMap = true;
                 changeMapMenu = false;
+                startGame = 0;
                 stage.clear();
                 stage.addActor(gameSpeed);
                 stage.addActor(laserSpeed);
