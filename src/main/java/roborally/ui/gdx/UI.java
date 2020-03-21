@@ -74,7 +74,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
         // Initialize the camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
         // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
