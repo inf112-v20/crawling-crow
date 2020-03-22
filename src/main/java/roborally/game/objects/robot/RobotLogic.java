@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.IProgramCards;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ public class RobotLogic implements Programmable {
     private String name;
     private GridPoint2 robotPosition;
     private GridPoint2 checkPoint;
-    private int health = 10;
-    private int reboots = 3;
+    private int health = SettingsUtil.ROBOT_MAX_HEALTH;
+    private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
     private Direction direction;
     private CardsInHand cardsInHand;
     private Queue<IProgramCards.Card> nextCard;
