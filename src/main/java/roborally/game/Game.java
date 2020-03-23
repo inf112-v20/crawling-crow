@@ -318,8 +318,8 @@ public class Game implements IGame {
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
+                // FIXME: Refactor with for-loop through TileNames
                 TileName tileName = layers.getConveyorSlowTileName(pos);
-
                 // Move in a special way so that no collision happens.
                 if (tileName == TileName.CONVEYOR_RIGHT)
                     robot.moveRobot(1, 0);
@@ -329,7 +329,28 @@ public class Game implements IGame {
                     robot.moveRobot(-1, 0);
                 else if (tileName == TileName.CONVEYOR_SOUTH)
                     robot.moveRobot(0, -1);
-                // TODO: Add rotation
+                else if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_SOUTH_TO_WEST)
+                    if (robot.getLogic().getDirection() != Direction.West) {
+                        robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
+                    } else
+                        robot.moveRobot(-1, 0);
+                else if (tileName == TileName.CONVEYOR_ROTATE_COUNTER_CLOCKWISE_WEST_TO_SOUTH)
+                    if (robot.getLogic().getDirection() != Direction.South)
+                        robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
+                    else
+                        robot.moveRobot(0, -1);
+                else if (tileName == TileName.CONVEYOR_ROTATE_COUNTER_CLOCKWISE_NORTH_TO_WEST)
+                    if (robot.getLogic().getDirection() != Direction.West)
+                        robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
+                    else
+                        robot.moveRobot(-1, 0);
+                else if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_WEST_TO_NORTH)
+                    if (robot.getLogic().getDirection() != Direction.North)
+                        robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
+                    else
+                        robot.moveRobot(0, 1);
+
+                // TODO: Add rotation missing rotations 😅
                 robot.checkForLaser();
             }
         }

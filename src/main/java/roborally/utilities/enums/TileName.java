@@ -47,7 +47,11 @@ public enum TileName {
     CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_NORTH_AND_WEST(86),
     // Conveyor belts
     CONVEYOR_NORTH(49),
-    CONVEYOR_SOUTH(50),
+    CONVEYOR_SOUTH(50){
+        void step() {
+
+        }
+    },
     CONVEYOR_LEFT(51),
     CONVEYOR_RIGHT(52),
     CONVEYOR_ROTATE_COUNTER_CLOCKWISE_WEST_TO_SOUTH(33),
