@@ -329,6 +329,7 @@ public class Game implements IGame {
                     robot.moveRobot(-1, 0);
                 else if (tileName == TileName.CONVEYOR_SOUTH)
                     robot.moveRobot(0, -1);
+                // TODO: Add rotation
                 robot.checkForLaser();
             }
         }
@@ -350,6 +351,7 @@ public class Game implements IGame {
                     robot.moveRobot(-1, 0);
                 else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH)
                     robot.moveRobot(0, -1);
+                // TODO: Add rotation
                 robot.checkForLaser();
             }
         }
@@ -365,9 +367,9 @@ public class Game implements IGame {
             if (layers.assertGearNotNull(pos)) {
                 TileName tileName = layers.getGearTileName(pos);
                 if (tileName == TileName.COG_CLOCKWISE)
-                    robot.rotate(robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection())));
+                    robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
                 else if (tileName == TileName.COG_COUNTER_CLOCKWISE)
-                    robot.rotate(robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection())));
+                    robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
             }
         }
     }
