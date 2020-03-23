@@ -23,7 +23,6 @@ import roborally.utilities.enums.RoundStep;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -505,23 +504,6 @@ public class Game implements IGame {
     @Override
     public void exitGame() {
         Gdx.app.exit();
-    }
-
-    @Override
-    public void moveRobots() {
-        Random r = new Random();
-        int m;
-        for (Robot robot : robots) {
-            m = r.nextInt(4);
-            if (m == 0)
-                robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-            else if (m == 1)
-                robot.move(1);
-            else if (m == 2)
-                robot.move(-1);
-            else if (m == 3)
-                robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
-        }
     }
 
     @Override

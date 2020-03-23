@@ -68,8 +68,6 @@ public interface IGame {
 
     void revealProgramCards();
 
-    void moveRobots();
-
     void moveAllConveyorBelts();
 
     void moveNormalConveyorBelts();
