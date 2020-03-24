@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public interface IGame {
 
+    void testEndPhase();
+
+    void rotateConveyorBelts();
+
     /**
      * Serves ONLY feed the keyUp method..
      *

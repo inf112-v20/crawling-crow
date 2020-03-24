@@ -317,24 +317,34 @@ public class Game implements IGame {
         moveNormalConveyorBelts();
     }
 
+    @Override
+    public void testEndPhase() {
+        moveExpressConveyorBelts();
+        moveAllConveyorBelts();
+        moveCogs();
+        //fireLasers();
+        movingBackupPoints();
+        registerFlagPositions();
+        checkIfSomeoneWon();
+    }
+
 
     @Override
-    public void moveNormalConveyorBelts() {
+    public void rotateConveyorBelts() {
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
-                // FIXME: Refactor with for-loop through TileNames
                 TileName tileName = layers.getConveyorSlowTileName(pos);
-                // Move in a special way so that no collision happens.
-                if (tileName == TileName.CONVEYOR_RIGHT)
-                    robot.tryToMove(Direction.East.getStep());
-                else if (tileName == TileName.CONVEYOR_NORTH)
-                    robot.tryToMove(Direction.North.getStep());
-                else if (tileName == TileName.CONVEYOR_LEFT)
-                    robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_SOUTH)
-                    robot.tryToMove(Direction.South.getStep());
-                else if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_SOUTH_TO_WEST)
+                if (tileName.toString().contains("COUNTER_CLOCKWISE"))
+                    robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
+                else if (tileName.toString().contains("CLOCKWISE"))
+                    robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
+            }
+        }
+    }
+
+
+                /*if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_SOUTH_TO_WEST)
                     if (robot.getLogic().getDirection() != Direction.West) {
                         robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
                     } else
@@ -353,9 +363,26 @@ public class Game implements IGame {
                     if (robot.getLogic().getDirection() != Direction.North)
                         robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
                     else
-                        robot.tryToMove(Direction.North.getStep());
+                        robot.tryToMove(Direction.North.getStep());*/
 
-                // TODO: Add rotation missing rotations 😅
+    @Override
+    public void moveNormalConveyorBelts() {
+        for (Robot robot : robots) {
+            GridPoint2 pos = robot.getPosition();
+            if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
+                TileName tileName = layers.getConveyorSlowTileName(pos);
+                // Move in a special way so that no collision happens.
+                System.out.println(tileName.toString());
+                if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
+                    robot.tryToMove(Direction.East.getStep());
+                else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH"))
+                    robot.tryToMove(Direction.North.getStep());
+                else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST"))
+                    robot.tryToMove(Direction.West.getStep());
+                else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH"))
+                    robot.tryToMove(Direction.South.getStep());
+                rotateConveyorBelts();
+
                 robot.checkForLaser();
             }
         }
