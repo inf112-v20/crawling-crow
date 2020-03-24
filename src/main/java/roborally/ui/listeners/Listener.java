@@ -24,9 +24,19 @@ public class Listener {
         wallListener.checkForWall(x, y, dx, dy);
     }
 
+    @Deprecated
     public boolean listenCollision(int x, int y, int dx, int dy) {
         return collisionListener.checkIfBlocked(x, y, dx, dy);
     }
+
+    public boolean listenCollision(GridPoint2 oldPos, GridPoint2 step) {
+        int dx = step.x;
+        int dy = step.y;
+        int x = oldPos.x;
+        int y = oldPos.y;
+        return collisionListener.checkIfBlocked(x, y, dx, dy);
+    }
+
 
     public boolean listenLaser(int x, int y, String name, LaserRegister laserRegister) {
         return this.laserListener.checkForLasers(x, y, name, laserRegister);

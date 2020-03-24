@@ -34,7 +34,7 @@ public class RobotView implements IRobotView {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        layers.setRobotCell(pos.x, pos.y, this.robotWonCellTexture);
+        layers.setRobotCell(pos, this.robotWonCellTexture);
     }
 
     @Override
@@ -44,9 +44,9 @@ public class RobotView implements IRobotView {
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
         if(layers.assertRobotNotNull(pos.x, pos.y)) {
-            int rotateId = layers.getRobotCell(pos.x, pos.y).getRotation();
-            layers.setRobotCell(pos.x, pos.y, this.robotLostCellTexture);
-            layers.getRobotCell(pos.x, pos.y).setRotation(rotateId);
+            int rotateId = layers.getRobotCell(pos).getRotation();
+            layers.setRobotCell(pos, this.robotLostCellTexture);
+            layers.getRobotCell(pos).setRotation(rotateId);
         }
     }
 
@@ -67,32 +67,35 @@ public class RobotView implements IRobotView {
     @Override
     public void setTextureRegion(int robotID) {
         this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), UI.TILE_SIZE, UI.TILE_SIZE);
-        layers.setRobotCell(this.pos.x, this.pos.y, getTexture());
+        layers.setRobotCell(pos, getTexture());
     }
 
     @Override
-    public boolean moveRobot(int x, int y, int dx, int dy) {
-        int newX = x + dx;
-        int newY = y + dy;
-        if ((newX >= 0) && (newY >= 0) && (newX < width) && (newY < height)) {
-            layers.setRobotCell(newX, newY, getTexture());
-            layers.setRobotCell(x, y, null);
+    public boolean moveRobot(GridPoint2 oldPos, GridPoint2 step) {
+        GridPoint2 newPos = oldPos.cpy().add(step);
+        if (isPositionOnMap(newPos)) {
+            layers.setRobotCell(newPos, getTexture());
+            layers.setRobotCell(oldPos, null);
             return true;
         }
         return false;
     }
 
+    private boolean isPositionOnMap(GridPoint2 pos){
+        return pos.x >= 0 && pos.y >= 0 && pos.y < height && pos.x < width;
+    }
+
     @Override
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
-        layers.setRobotCell(checkPoint.x, checkPoint.y, getTexture());
-        layers.getRobotCell(checkPoint.x, checkPoint.y).setRotation(0);
+        layers.setRobotCell(checkPoint, getTexture());
+        layers.getRobotCell(checkPoint).setRotation(0);
         if (!pos.equals(checkPoint))
-            layers.setRobotCell(pos.x, pos.y, null);
+            layers.setRobotCell(pos, null);
     }
 
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
         if (layers.assertRobotNotNull(pos.x, pos.y))
-            layers.getRobotCell(pos.x, pos.y).setRotation(direction.getDirectionID());
+            layers.getRobotCell(pos).setRotation(direction.getDirectionID());
     }
 }
