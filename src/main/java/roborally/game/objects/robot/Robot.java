@@ -15,6 +15,8 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
+import java.util.HashMap;
+
 public class Robot implements Programmable {
     private IRobotView robotView;
     private RobotLogic robotLogic;
@@ -23,6 +25,8 @@ public class Robot implements Programmable {
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
+
+    private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
@@ -43,6 +47,9 @@ public class Robot implements Programmable {
         this.listener = new Listener(layers);
         listener.listenLaser(x, y, getName(), laserRegister);
         this.laserRegister = laserRegister;
+
+        this.cardTypeMethod = new HashMap<>();
+        setCardTypeMethod();
     }
 
     @Override
@@ -195,21 +202,24 @@ public class Robot implements Programmable {
         IProgramCards.Card card = getLogic().getNextCard();
         if (card == null)
             return;
-        if (card.getCardType() == IProgramCards.CardType.MOVE_1)
-            move(1);
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
-            move(2);
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_3)
-            move(3);
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
-            rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
-            rotate(Direction.turnRightFrom(robotLogic.getDirection()));
-        else if (card.getCardType() == IProgramCards.CardType.U_TURN) {
-            rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
-            rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
-        } else if (card.getCardType() == IProgramCards.CardType.BACKUP)
-            move(-1);
+
+        for (IProgramCards.CardType cardType : IProgramCards.CardType.values()) {
+            if (cardType.equals(card.getCardType())) {
+                cardTypeMethod.get(cardType).run();
+            }
+        }
+
+    }
+
+    // FIXME: Temp helper-method for playNextCard()
+    private void setCardTypeMethod() {
+        this.cardTypeMethod.put(IProgramCards.CardType.MOVE_1, () -> move(1));
+        this.cardTypeMethod.put(IProgramCards.CardType.MOVE_2, () -> move(2));
+        this.cardTypeMethod.put(IProgramCards.CardType.MOVE_3, () -> move(3));
+        this.cardTypeMethod.put(IProgramCards.CardType.ROTATE_LEFT, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection())));
+        this.cardTypeMethod.put(IProgramCards.CardType.ROTATE_RIGHT, () -> rotate(Direction.turnRightFrom(getLogic().getDirection())));
+        this.cardTypeMethod.put(IProgramCards.CardType.U_TURN, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection()), 2));
+        this.cardTypeMethod.put(IProgramCards.CardType.BACKUP, () -> move(-1));
     }
 
     // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
