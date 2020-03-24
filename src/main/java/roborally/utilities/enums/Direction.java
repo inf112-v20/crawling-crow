@@ -1,15 +1,24 @@
 package roborally.utilities.enums;
 
+import com.badlogic.gdx.math.GridPoint2;
+
+/**
+ * Enums containing the different libGdxDirectionId and their vector change
+ * when moving
+ */
 public enum Direction {
-    North(0),
-    East(3),
-    South(2),
-    West(1);
+    North(0, new GridPoint2(0, 1)),
+    East(3, new GridPoint2(1, 0)),
+    South(2, new GridPoint2(0, -1)),
+    West(1, new GridPoint2(-1, 0));
 
-    private final int directionId;
+    private final int libGdxDirectionId;
+    private final GridPoint2 step;
 
-    Direction(int directionId) {
-        this.directionId = directionId;
+    Direction(int libGdxDirectionId, GridPoint2 step) {
+
+        this.libGdxDirectionId = libGdxDirectionId;
+        this.step = step;
     }
 
     public static Direction turnRightFrom(Direction direction) {
@@ -35,6 +44,10 @@ public enum Direction {
     }
 
     public int getDirectionID() {
-        return this.directionId;
+        return this.libGdxDirectionId;
+    }
+
+    public GridPoint2 getStep() {
+        return this.step;
     }
 }
