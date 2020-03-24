@@ -33,19 +33,19 @@ public class ProgramCardsView {
     }
 
     public void makeCard(IProgramCards.Card card) {
-        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
+        if (card.getCardType() == IProgramCards.CardType.MOVE_1)
             this.makeMove1(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
+        else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
             this.makeMove2(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+        else if (card.getCardType() == IProgramCards.CardType.MOVE_3)
             this.makeMove3(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
+        else if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
             this.makeRotateLeft(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+        else if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
             this.makeRotateRight(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardTypes.U_TURN)
+        else if (card.getCardType() == IProgramCards.CardType.U_TURN)
             this.makeUTurn(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+        else if (card.getCardType() == IProgramCards.CardType.BACKUP)
             this.makeBackup(card.getPriority());
     }
 

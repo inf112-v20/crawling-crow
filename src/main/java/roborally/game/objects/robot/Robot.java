@@ -97,10 +97,15 @@ public class Robot implements Programmable {
     }
 
     @Override
-    public Direction rotate(Direction direction) {
+    public void rotate(Direction direction) {
         this.robotLogic.rotate(direction);
         this.robotView.setDirection(getPosition(), direction);
-        return direction;
+    }
+
+    public void rotate(Direction direction, int times) {
+        for (int i = 0; i < times; i++) {
+            rotate(direction);
+        }
     }
 
     public void tryToMove(GridPoint2 step) {
@@ -186,24 +191,24 @@ public class Robot implements Programmable {
     }
 
     public void playNextCard() {
-        //TODO: Add hashmap and move the hashmap to ProgramCards
+        //TODO: Add hashmap and move the hashmap to ProgramCards #117
         IProgramCards.Card card = getLogic().getNextCard();
         if (card == null)
             return;
-        if (card.getCardType() == IProgramCards.CardTypes.MOVE_1)
+        if (card.getCardType() == IProgramCards.CardType.MOVE_1)
             move(1);
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_2)
+        else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
             move(2);
-        else if (card.getCardType() == IProgramCards.CardTypes.MOVE_3)
+        else if (card.getCardType() == IProgramCards.CardType.MOVE_3)
             move(3);
-        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_LEFT)
+        else if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
             rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
-        else if (card.getCardType() == IProgramCards.CardTypes.ROTATE_RIGHT)
+        else if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
             rotate(Direction.turnRightFrom(robotLogic.getDirection()));
-        else if (card.getCardType() == IProgramCards.CardTypes.U_TURN) {
+        else if (card.getCardType() == IProgramCards.CardType.U_TURN) {
             rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
             rotate(Direction.turnLeftFrom(robotLogic.getDirection()));
-        } else if (card.getCardType() == IProgramCards.CardTypes.BACKUP)
+        } else if (card.getCardType() == IProgramCards.CardType.BACKUP)
             move(-1);
     }
 

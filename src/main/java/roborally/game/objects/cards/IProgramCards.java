@@ -13,7 +13,7 @@ public interface IProgramCards {
      */
     ArrayList<Card> getDeck();
 
-    enum CardTypes {
+    enum CardType {
         MOVE_1(18),
         MOVE_2(12),
         MOVE_3(6),
@@ -25,7 +25,7 @@ public interface IProgramCards {
 
         private final int nCards;
 
-        CardTypes(int nCards) {
+        CardType(int nCards) {
             this.nCards = nCards;
         }
 
@@ -35,12 +35,12 @@ public interface IProgramCards {
     }
 
     class Card {
-        private CardTypes cardType;
+        private CardType cardType;
         private int priority;
         private int priorityRangeMin;
         private int priorityRangeMax;
 
-        public Card(CardTypes cardType) {
+        public Card(CardType cardType) {
             this.cardType = cardType;
             this.priorityRangeMin = 1;
             this.priorityRangeMax = 500;
@@ -62,7 +62,7 @@ public interface IProgramCards {
             return 0;
         }
 
-        public CardTypes getCardType() {
+        public CardType getCardType() {
             return this.cardType;
         }
 

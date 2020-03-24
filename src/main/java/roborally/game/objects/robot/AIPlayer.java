@@ -97,7 +97,7 @@ public class AIPlayer {
         ProgramCards.Card card;
         while(total!=0) {
             card = temp.iterator().next();
-            if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == ProgramCards.CardTypes.U_TURN)
+            if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT || card.getCardType() == IProgramCards.CardType.U_TURN)
                 valueCards.get(valueCards.size()-1).add(card);
             total-=card.getValue();
 
@@ -113,7 +113,7 @@ public class AIPlayer {
         ProgramCards.Card card;
         while(total!=0) {
             card = temp.iterator().next();
-            if (card.getCardType() == ProgramCards.CardTypes.ROTATE_RIGHT)
+            if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
                 valueCards.get(valueCards.size()-1).add(card);
             total-=card.getValue();
         }
@@ -175,7 +175,7 @@ public class AIPlayer {
         boolean nope = false;
         for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
             card = robot.getLogic().getCards().get(i);
-            if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT || card.getCardType() == ProgramCards.CardTypes.ROTATE_RIGHT) {
+            if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT || card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT) {
                 for (int k = 0; k <= cardPick; k++) {
                     if (order[k] == i) {
                         nope = true;
@@ -184,7 +184,7 @@ public class AIPlayer {
                 }
                 if (!nope) {
                     order[cardPick++] = i;
-                    if (card.getCardType() == ProgramCards.CardTypes.ROTATE_LEFT)
+                    if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
                         robot.getLogic().rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
                     else
                         robot.getLogic().rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
