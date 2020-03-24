@@ -138,6 +138,7 @@ public class AIPlayer {
     }
 
     private void findFastestWayToPos(GridPoint2 pos) {
+        // FIXME Code is not complete.... see issue
         boolean foundPos = false;
         GridPoint2 movableValue = new GridPoint2(robot.getLogic().getMoveValues()[0], robot.getLogic().getMoveValues()[1]);
         if (movableValue.equals(pos) && (moveCardValues.contains(Math.max(pos.x, pos.y)))) {

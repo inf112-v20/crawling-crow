@@ -49,15 +49,9 @@ public class RobotLogic implements Programmable {
 
     //region Movement
     @Override
-    public int[] move(int steps) {
-        System.out.println(this.getName());
-        int[] moveValues = getMoveValues();
-        System.out.println("\nMoving forward...");
-        if (steps == -1) {
-            moveValues[0] = -moveValues[0];
-            moveValues[1] = -moveValues[1];
-        }
-        return moveValues;
+    @Deprecated // TODO: Remove when safe
+    public void move(int steps) {
+        // ...
     }
 
     @Override
@@ -65,23 +59,9 @@ public class RobotLogic implements Programmable {
         return this.direction = direction;
     }
 
+    @Deprecated //TODO: Delete when safe.
     public int[] getMoveValues() {
-        int dy = 0;
-        int dx = 0;
-        Direction dir = this.direction;
-        if (dir == Direction.North) {
-            dy = 1;
-        }
-        if (dir == Direction.East) {
-            dx = 1;
-        }
-        if (dir == Direction.West) {
-            dx = -1;
-        }
-        if (dir == Direction.South) {
-            dy = -1;
-        }
-        return new int[]{dx, dy};
+        return null;
     }
     //endregion
 

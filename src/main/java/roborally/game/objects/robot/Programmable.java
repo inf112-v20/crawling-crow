@@ -27,14 +27,13 @@ public interface Programmable {
      * Moves the programmable
      *
      * @param steps Number of steps to move
-     * @return The RobotLogic move according to steps
      */
-    int[] move(int steps);
+    void move(int steps);
 
     /**
      * Rotates the programmable in the new direction
      *
-     * @param leftOrRight Left or Right
+     * @param direction
      * @return
      */
     Direction rotate(Direction direction);

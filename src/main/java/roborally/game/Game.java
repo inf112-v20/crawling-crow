@@ -194,6 +194,7 @@ public class Game implements IGame {
 
     @Override
     public void fireLaser() {
+        // This method is only for bugtesting...
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.08 * AssetManagerUtil.volume);
         robots.get(0).fireLaser();
@@ -289,6 +290,10 @@ public class Game implements IGame {
             moveExpressConveyorBelts();
             moveAllConveyorBelts();
             moveCogs();
+            fireLasers();
+            movingBackupPoints();
+            registerFlagPositions();
+            checkIfSomeoneWon();
             currentRobotID = 0;
         }
     }
@@ -312,6 +317,7 @@ public class Game implements IGame {
         moveNormalConveyorBelts();
     }
 
+
     @Override
     public void moveNormalConveyorBelts() {
         for (Robot robot : robots) {
@@ -321,39 +327,41 @@ public class Game implements IGame {
                 TileName tileName = layers.getConveyorSlowTileName(pos);
                 // Move in a special way so that no collision happens.
                 if (tileName == TileName.CONVEYOR_RIGHT)
-                    robot.moveRobot(1, 0);
+                    robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH)
-                    robot.moveRobot(0, 1);
+                    robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_LEFT)
-                    robot.moveRobot(-1, 0);
+                    robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_SOUTH)
-                    robot.moveRobot(0, -1);
+                    robot.tryToMove(Direction.South.getStep());
                 else if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_SOUTH_TO_WEST)
                     if (robot.getLogic().getDirection() != Direction.West) {
                         robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
                     } else
-                        robot.moveRobot(-1, 0);
+                        robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_ROTATE_COUNTER_CLOCKWISE_WEST_TO_SOUTH)
                     if (robot.getLogic().getDirection() != Direction.South)
                         robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
                     else
-                        robot.moveRobot(0, -1);
+                        robot.tryToMove(Direction.South.getStep());
                 else if (tileName == TileName.CONVEYOR_ROTATE_COUNTER_CLOCKWISE_NORTH_TO_WEST)
                     if (robot.getLogic().getDirection() != Direction.West)
                         robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
                     else
-                        robot.moveRobot(-1, 0);
+                        robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_WEST_TO_NORTH)
                     if (robot.getLogic().getDirection() != Direction.North)
                         robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
                     else
-                        robot.moveRobot(0, 1);
+                        robot.tryToMove(Direction.North.getStep());
 
                 // TODO: Add rotation missing rotations 😅
                 robot.checkForLaser();
             }
         }
     }
+
+
 
     @Override
     public void moveExpressConveyorBelts() {
@@ -364,13 +372,13 @@ public class Game implements IGame {
 
                 // Move in a special way so that no collision happens.
                 if (tileName == TileName.CONVEYOR_EXPRESS_EAST)
-                    robot.moveRobot(1, 0);
+                    robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH)
-                    robot.moveRobot(0, 1);
+                    robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_WEST)
-                    robot.moveRobot(-1, 0);
+                    robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH)
-                    robot.moveRobot(0, -1);
+                    robot.tryToMove(Direction.South.getStep());
                 // TODO: Add rotation
                 robot.checkForLaser();
             }
@@ -408,8 +416,9 @@ public class Game implements IGame {
     }
 
     @Override
-    public void allowMovingBackupPoints() {
-        // TODO: Implement the corresponding phase.
+    public void movingBackupPoints() {
+        // TODO: Let robots create new backup points if legal
+
     }
 
     @Override
@@ -493,7 +502,7 @@ public class Game implements IGame {
         //System.out.println("Stopping game...");
         //}
         for (Robot robot : robots) {
-            layers.setRobotCell(robot.getPosition().x, robot.getPosition().y, null);
+            layers.setRobotCell(robot.getPosition(), null);
             removeFromUI(robot, true);
         }
         robots.clear();

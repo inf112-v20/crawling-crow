@@ -35,14 +35,20 @@ public class Layers implements ILayers {
     }
 
     @Override
-    public TiledMapTileLayer.Cell getRobotCell(int x, int y) {
+    public TiledMapTileLayer.Cell getRobotCell(GridPoint2 pos) {
+        //TODO Continue refactor... Down the rabbithole we go
+        int x = pos.x;
+        int y = pos.y;
         if (!contains("Robot"))
             return null;
         return layers.get("Robot").getCell(x, y);
     }
 
     @Override
-    public void setRobotCell(int x, int y, TiledMapTileLayer.Cell cell) {
+    public void setRobotCell(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
+        //TODO Continue refactor... Down the rabbithole we go
+        int x = pos.x;
+        int y = pos.y;
         if (contains("Robot"))
             layers.get("Robot").setCell(x, y, cell);
         else

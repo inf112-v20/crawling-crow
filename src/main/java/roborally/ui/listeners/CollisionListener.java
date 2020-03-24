@@ -26,6 +26,10 @@ public class CollisionListener {
      * @return True if there is a wall blocking the path.
      */
     public boolean robotNextToRobot(int x, int y, int dx, int dy) {
+        //TODO Continue refactor positions... Down the rabbithole we go
+        GridPoint2 step = new GridPoint2(dx, dy);
+        GridPoint2 pos = new GridPoint2(x, y);
+
         int width = layers.getWidth();
         int height = layers.getHeight();
         boolean recursiveRobot = false;
@@ -39,7 +43,7 @@ public class CollisionListener {
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
-                    robot.moveRobot(dx, dy);
+                    robot.tryToMove(step);
                     robot.checkForLaser();
                     System.out.println("Pushing robot complete");
                 }
@@ -48,7 +52,7 @@ public class CollisionListener {
         else
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().equals(new GridPoint2(x, y))) {
-                    layers.setRobotCell(x, y, null);
+                    layers.setRobotCell(pos, null);
                     robot.setPosition(new GridPoint2(-1, -1));
                     robot.clearRegister();
                 }
@@ -65,6 +69,10 @@ public class CollisionListener {
      * @param dy steps taken in y-direction
      */
     public void findCollidingRobot(int x, int y, int dx, int dy) {
+        //TODO Continue refactor positions... Down the rabbithole we go
+        GridPoint2 step = new GridPoint2(dx, dy);
+        GridPoint2 pos = new GridPoint2(x, y);
+
         int width = layers.getRobots().getWidth();
         int height = layers.getRobots().getHeight();
         for (Robot robot : AssetManagerUtil.getRobots()) {
@@ -75,10 +83,10 @@ public class CollisionListener {
                     // RobotPresenter "deletion".
                     robot.setPosition(new GridPoint2(-1, -1));
                     robot.clearRegister();
-                    layers.setRobotCell(x, y, null);
+                    layers.setRobotCell(pos, null);
                 } else if (bumpedPos.equals(bumpingPos)) {
                     System.out.println("\nPushing... ");
-                    robot.moveRobot(dx, dy);
+                    robot.tryToMove(step);
                     robot.checkForLaser();
                     System.out.println("Pushing complete... ");
                     if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.

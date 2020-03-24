@@ -64,26 +64,36 @@ public class Robot implements Programmable {
 
     //region Movement
     @Override
-    public int[] move(int steps) {
-        int x = getPosition().x;
-        int y = getPosition().y;
-        int[] moveValues = robotLogic.move(steps);
+    public void move(int steps) {
+        GridPoint2 oldPos = getPosition().cpy();
+        GridPoint2 step = getLogic().getDirection().getStep();
+
+        // Perform all movement
         for (int i = 0; i < Math.abs(steps); i++)
-            moveRobot(moveValues[0], moveValues[1]);
+            tryToMove(step);
+
+        // Play movement sound
+        playSoundWalking(oldPos);
+
+        // Taking damage
+        // TODO: This should be called from Game during the correct phase, not here.
+        if (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister))
+            robotLogic.takeDamage(1);
+    }
+
+    private void playSoundWalking(GridPoint2 oldPos) {
         Sound sound;
-        if (getPosition().dst(x, y) == 1) {
+        System.out.println(getPosition().dst(oldPos));
+        if (getPosition().dst(oldPos) == 1) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
             sound.play(0.25f * AssetManagerUtil.volume);
-        } else if (getPosition().dst(x, y) == 2) {
+        } else if (getPosition().dst(oldPos) == 2) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
             sound.play(0.25f * AssetManagerUtil.volume);
-        } else if (getPosition().dst(x, y) == 3) {
+        } else if (getPosition().dst(oldPos) == 3) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
             sound.play(0.25f * AssetManagerUtil.volume);
         }
-        if (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister))
-            robotLogic.takeDamage(1);
-        return this.robotLogic.move(steps);
     }
 
     @Override
@@ -93,23 +103,37 @@ public class Robot implements Programmable {
         return direction;
     }
 
-    public void moveRobot(int dx, int dy) {
-        GridPoint2 pos = this.getPosition();
-        GridPoint2 newPos = new GridPoint2(pos.x + dx, pos.y + dy);
-        System.out.println("Old position: " + pos);
-        // Checks for robots in its path before moving.
-        if (!listener.listenCollision(pos.x, pos.y, dx, dy)) {
-            if (this.robotView.moveRobot(pos.x, pos.y, dx, dy)) {
+    public void tryToMove(GridPoint2 step) {
+        int dx = step.x;
+        int dy = step.y;
+        GridPoint2 oldPos = getPosition();
+        GridPoint2 newPos = oldPos.cpy().add(step);
+
+        System.out.println("Old position: " + oldPos);
+
+        // Check if the robot is not colliding with something
+        if(!listener.listenCollision(oldPos, step)){
+
+            // Checks that robot does not tries to move out of the map
+            if (this.robotView.moveRobot(oldPos, step)) {
+
+                // Update pos
                 this.setPosition(newPos);
                 System.out.println("New position: " + newPos);
+
+                // Check if you are standing in a hole
                 if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
                     robotLogic.takeDamage(10);
                     this.setLostTexture();
                 }
+
+                // Updates texture to reflect the robots direction
+                // TODO: Move this to setLostTexture?? Not sure
                 this.robotView.setDirection(getPosition(), robotLogic.getDirection());
             }
         } else
-            System.out.println("New position: " + pos);
+            // Robot does not move
+            System.out.println("New position: " + oldPos);
     }
     //endregion
 
@@ -150,7 +174,7 @@ public class Robot implements Programmable {
     }
 
     public void deleteRobot() {
-        this.layers.setRobotCell(getPosition().x, getPosition().y, null);
+        this.layers.setRobotCell(getPosition(), null);
         this.setPosition(SettingsUtil.GRAVEYARD);
         clearRegister();
     }
@@ -162,6 +186,7 @@ public class Robot implements Programmable {
     }
 
     public void playNextCard() {
+        //TODO: Add hashmap and move the hashmap to ProgramCards
         IProgramCards.Card card = getLogic().getNextCard();
         if (card == null)
             return;

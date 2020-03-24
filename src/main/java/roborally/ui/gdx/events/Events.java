@@ -70,7 +70,6 @@ public class Events {
             this.pauseCount++;
         }
         if (pauseCount / registerPhase == game.getRobots().size()) {
-            game.fireLasers();
             registerPhase++;
         }
         if (pauseCount == 5 * game.getRobots().size()) {

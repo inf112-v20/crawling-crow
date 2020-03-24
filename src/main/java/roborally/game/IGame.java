@@ -78,7 +78,7 @@ public interface IGame {
 
     void fireLasers();
 
-    void allowMovingBackupPoints();
+    void movingBackupPoints();
 
     void registerFlagPositions();
 
