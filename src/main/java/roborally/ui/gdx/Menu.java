@@ -532,11 +532,13 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                changeMapMenu = true;
-                stage.clear();
-                stage.addActor(left);
-                stage.addActor(right);
-                stage.addActor(mapButton);
+                if(!events.hasWaitEvent()) {
+                    changeMapMenu = true;
+                    stage.clear();
+                    stage.addActor(left);
+                    stage.addActor(right);
+                    stage.addActor(mapButton);
+                }
             }
         });
         clickableButtons.get(2).addListener(new ClickListener() {
