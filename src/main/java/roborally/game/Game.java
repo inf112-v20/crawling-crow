@@ -194,6 +194,7 @@ public class Game implements IGame {
 
     @Override
     public void fireLaser() {
+        // This method is only for bugtesting...
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.08 * AssetManagerUtil.volume);
         robots.get(0).fireLaser();
@@ -289,6 +290,10 @@ public class Game implements IGame {
             moveExpressConveyorBelts();
             moveAllConveyorBelts();
             moveCogs();
+            fireLasers();
+            movingBackupPoints();
+            registerFlagPositions();
+            checkIfSomeoneWon();
             currentRobotID = 0;
         }
     }
@@ -411,8 +416,9 @@ public class Game implements IGame {
     }
 
     @Override
-    public void allowMovingBackupPoints() {
-        // TODO: Implement the corresponding phase.
+    public void movingBackupPoints() {
+        // TODO: Let robots create new backup points if legal
+
     }
 
     @Override
