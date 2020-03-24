@@ -38,7 +38,7 @@ public class AssetManagerUtil {
 
     //Other
     private static final AssetDescriptor<Texture> MENU
-            = new AssetDescriptor<>("menu/menu.png", Texture.class);
+            = new AssetDescriptor<>("menu/new-menu.png", Texture.class);
     private static final AssetDescriptor<Texture> BUTTONS
             = new AssetDescriptor<>("menu/buttons.png", Texture.class);
     private static final AssetDescriptor<Texture> MAP_BUTTON
