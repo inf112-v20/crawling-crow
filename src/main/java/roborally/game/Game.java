@@ -362,6 +362,7 @@ public class Game implements IGame {
                 TileName tileName = layers.getConveyorSlowTileName(pos);
                 // Move in a special way so that no collision happens.
                 System.out.println(robot.getName() + " is on " + tileName.toString());
+                // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
@@ -385,8 +386,8 @@ public class Game implements IGame {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorFastNotNull(pos.x, pos.y)) {
                 TileName tileName = layers.getConveyorFastTileName(pos);
-
                 // Move in a special way so that no collision happens.
+                // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
