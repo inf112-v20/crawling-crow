@@ -6,13 +6,33 @@
 
 
 ### Retrospektiv
-- Forbedringspunkter:
-    1. 
-    2.
-    3.
+#### Klart til nå 
+- Vi har vært flinke til å oppdatere prosjekttavle. 
+- Lage nye arbeidsoppgaver og brukerhistorier. 
+- Implementert meny med diverse innstillinger, både for vår del og for gøy (funmode).
+- Laget egne tiles.
+- Blitt enige om en UI. #116
+- Fått til effektiv parprogrammering i forhold til situasjonen(COVID-19).
+- Laget flow diagram. #100
 
-- Prioriteringer:
+#### Forbedringspunkter
+1. Test-driven development (TDD). 
+2. Jevne ut commits (flinkere å parprogrammere).
+3. Kommunisere.
 
+#### Prioriteringer
+1. Fullføre en oppgave når det begynt på.
+2. Ta kontakt hvis man lurer på ting.
+
+##### Oppgaver vi har lyst å bli ferdig med til neste gang
+- Cleanup #103 // TODO : bli ferdig til fredag
+- User interface #116
+- Conveyorbelt #109
+- Rotating cogs #110
+- Death #112
+- Repair #111
+- Rounds, phases, steps #108
+- Nettverk (hvis vi har tid)
 
 ### Gruppedynamikk (+ kommunikasjon)
 Vi trenger å bli bedre på å formidle hva vi tenker å jobbe og hva som egentlig har blitt gjort.
@@ -20,9 +40,9 @@ Vi trenger å bli bedre på å formidle hva vi tenker å jobbe og hva som egentl
 
 ## Deloppgave 2: Krav
 ### Tidligere priorterte krav
-1. 
-2. 
-3. 
+- Vi fullførte alle issuene vi hadde lyst å bli ferdig med. 
+- Som skrevet over må vi fortsatt jobbe med parprogrammering og jobbing individuelt.
+- Nye insekt har oppstått.
 
 ### Diverse (FIXME)
 - Se [Issues](https://github.com/inf112-v20/crawling-crow/issues) og [User stories](https://github.com/inf112-v20/crawling-crow/projects/2)
