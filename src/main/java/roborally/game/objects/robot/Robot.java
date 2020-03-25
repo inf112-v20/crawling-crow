@@ -109,12 +109,6 @@ public class Robot implements Programmable {
         this.robotView.setDirection(getPosition(), direction);
     }
 
-    public void rotate(Direction direction, int times) {
-        for (int i = 0; i < times; i++) {
-            rotate(direction);
-        }
-    }
-
     public void tryToMove(GridPoint2 step) {
         int dx = step.x;
         int dy = step.y;
@@ -218,7 +212,10 @@ public class Robot implements Programmable {
         this.cardTypeMethod.put(IProgramCards.CardType.MOVE_3, () -> move(3));
         this.cardTypeMethod.put(IProgramCards.CardType.ROTATE_LEFT, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection())));
         this.cardTypeMethod.put(IProgramCards.CardType.ROTATE_RIGHT, () -> rotate(Direction.turnRightFrom(getLogic().getDirection())));
-        this.cardTypeMethod.put(IProgramCards.CardType.U_TURN, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection()), 2));
+        this.cardTypeMethod.put(IProgramCards.CardType.U_TURN, () -> {
+            rotate(Direction.turnLeftFrom(getLogic().getDirection()));
+            rotate(Direction.turnLeftFrom(getLogic().getDirection()));
+        });
         this.cardTypeMethod.put(IProgramCards.CardType.BACKUP, () -> move(-1));
     }
 
