@@ -90,7 +90,6 @@ public class Robot implements Programmable {
 
     private void playSoundWalking(GridPoint2 oldPos) {
         Sound sound;
-        System.out.println(getPosition().dst(oldPos));
         if (getPosition().dst(oldPos) == 1) {
             sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
             sound.play(0.25f * AssetManagerUtil.volume);

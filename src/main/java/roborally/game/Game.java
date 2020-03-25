@@ -88,7 +88,7 @@ public class Game implements IGame {
     public void checkForDestroyedRobots() {
         for (Robot robot : robots) {
             if (("Destroyed").equals(robot.getLogic().getStatus())) {
-                System.out.println("yeah1");
+                System.out.println(robot.getName() + " was destroyed");
                 removeFromUI(robot, true);
             }
         }
@@ -97,7 +97,7 @@ public class Game implements IGame {
     private void removeFromUI(Robot robot, boolean fade) {
         events.fadeRobot(robot.getPosition(), robot.getTexture());
         robot.deleteRobot();
-        System.out.println("yeah2");
+        System.out.println("Removed " + robot.getName() + " from UI");
         this.events.setFadeRobot(fade);
     }
 
@@ -361,7 +361,7 @@ public class Game implements IGame {
             if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
                 TileName tileName = layers.getConveyorSlowTileName(pos);
                 // Move in a special way so that no collision happens.
-                System.out.println(tileName.toString());
+                System.out.println(robot.getName() + " is on " + tileName.toString());
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
