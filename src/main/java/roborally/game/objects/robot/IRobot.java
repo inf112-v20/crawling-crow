@@ -12,7 +12,7 @@ public interface IRobot {
 
     /**
      *
-     * @return the position for this robotCores robot.
+     * @return the position for this robot.
      */
     GridPoint2 getPosition();
 
