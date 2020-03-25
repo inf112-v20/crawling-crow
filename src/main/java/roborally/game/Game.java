@@ -335,43 +335,27 @@ public class Game implements IGame {
 
 
     @Override
-    public void rotateConveyorBelts() {
-        for (Robot robot : robots) {
-            GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
-                TileName tileName = layers.getConveyorSlowTileName(pos);
+    public void rotateConveyorBelts(ArrayList<Robot> rotateRobots) {
+        TileName tileName;
+        if (rotateRobots.isEmpty())
+            return;
+        for (Robot robot : rotateRobots) {
+            if (layers.assertConveyorSlowNotNull(robot.getPosition().x, robot.getPosition().y))
+                tileName = layers.getConveyorSlowTileName(robot.getPosition());
+            else if (layers.assertConveyorFastNotNull(robot.getPosition().x, robot.getPosition().y))
+                tileName = layers.getConveyorFastTileName(robot.getPosition());
+            else
+                return;
                 if (tileName.toString().contains("COUNTER_CLOCKWISE"))
                     robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
                 else if (tileName.toString().contains("CLOCKWISE"))
                     robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
             }
         }
-    }
-
-
-                /*if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_SOUTH_TO_WEST)
-                    if (robot.getLogic().getDirection() != Direction.West) {
-                        robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
-                    } else
-                        robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_ROTATE_COUNTER_CLOCKWISE_WEST_TO_SOUTH)
-                    if (robot.getLogic().getDirection() != Direction.South)
-                        robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-                    else
-                        robot.tryToMove(Direction.South.getStep());
-                else if (tileName == TileName.CONVEYOR_ROTATE_COUNTER_CLOCKWISE_NORTH_TO_WEST)
-                    if (robot.getLogic().getDirection() != Direction.West)
-                        robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-                    else
-                        robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_ROTATE_CLOCKWISE_WEST_TO_NORTH)
-                    if (robot.getLogic().getDirection() != Direction.North)
-                        robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
-                    else
-                        robot.tryToMove(Direction.North.getStep());*/
 
     @Override
     public void moveNormalConveyorBelts() {
+        ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
@@ -380,41 +364,41 @@ public class Game implements IGame {
                 System.out.println(tileName.toString());
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
-                else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH"))
+                else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
                     robot.tryToMove(Direction.North.getStep());
-                else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST"))
+                else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
                     robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH"))
+                else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
                     robot.tryToMove(Direction.South.getStep());
-                rotateConveyorBelts();
-
-                robot.checkForLaser();
+                rotateRobots.add(robot);
             }
         }
+        rotateConveyorBelts(rotateRobots);
     }
 
 
 
     @Override
     public void moveExpressConveyorBelts() {
+        ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorFastNotNull(pos.x, pos.y)) {
                 TileName tileName = layers.getConveyorFastTileName(pos);
 
                 // Move in a special way so that no collision happens.
-                if (tileName == TileName.CONVEYOR_EXPRESS_EAST)
+                if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
-                else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH)
+                else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
                     robot.tryToMove(Direction.North.getStep());
-                else if (tileName == TileName.CONVEYOR_EXPRESS_WEST)
+                else if (tileName == TileName.CONVEYOR_EXPRESS_WEST || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
                     robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH)
+                else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
                     robot.tryToMove(Direction.South.getStep());
-                // TODO: Add rotation
-                robot.checkForLaser();
+                rotateRobots.add(robot);
             }
         }
+        rotateConveyorBelts(rotateRobots);
     }
     //endregion
 

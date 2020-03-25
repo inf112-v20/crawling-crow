@@ -13,7 +13,7 @@ public interface IGame {
 
     void testEndPhase();
 
-    void rotateConveyorBelts();
+    void rotateConveyorBelts(ArrayList<Robot> rotateRobots);
 
     /**
      * Serves ONLY feed the keyUp method..
