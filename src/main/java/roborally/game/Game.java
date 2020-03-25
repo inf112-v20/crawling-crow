@@ -23,6 +23,7 @@ import roborally.utilities.enums.RoundStep;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -47,6 +48,8 @@ public class Game implements IGame {
     private GameOptions gameOptions;
 
     private boolean fun;
+
+    private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
     public Game(Events events) {
         currentRobotID = 0;
@@ -234,6 +237,7 @@ public class Game implements IGame {
         CardsInHand cardsInHand;
 
         int numberOfCardsDrawnFromDeck = 0;
+        deckOfProgramCards.shuffleCards();
         int sizeOfDeck = deckOfProgramCards.getDeck().size();
         for (int robotID = 0; robotID < robots.size(); robotID++) {
             cardsDrawn = new ArrayList<>();
@@ -274,9 +278,10 @@ public class Game implements IGame {
     }
 
     @Override
-    public void playNextCard() {
-        Robot robot = getRobots().get(currentRobotID);
-        if (isNotInGraveyard(robot)) {
+    public void robotPlayNextCard() {
+        Robot currentRobot = getRobots().get(currentRobotID);
+
+        if (isNotInGraveyard(currentRobot)) {
             getRobots().get(currentRobotID).playNextCard();
         }
         incrementCurrentRobotID();

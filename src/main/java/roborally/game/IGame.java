@@ -94,7 +94,7 @@ public interface IGame {
 
     void shuffleTheRobotsCards(int[] order);
 
-    void playNextCard();
+    void robotPlayNextCard();
 
     void endGame();
 
