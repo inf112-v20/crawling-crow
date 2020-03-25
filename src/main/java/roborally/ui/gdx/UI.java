@@ -100,7 +100,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         camera.update();
         mapRenderer.render();
         if (cardPhase) {
-            cardPhaseRun();
+            roundRun();
             stage.act();
         }
         if (paused) {
@@ -143,7 +143,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
-            runCardPhase(game.getCards());
+            startRound(game.getCards());
             return true;
         }
         if (!game.isRunning()) {
@@ -181,7 +181,9 @@ public class UI extends InputAdapter implements ApplicationListener {
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
     }
 
-    public void cardPhaseRun() {
+    // TODO: Change method name
+    // TODO: Move these last methods to Game
+    public void roundRun() {
         batch.begin();
         programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
@@ -190,17 +192,18 @@ public class UI extends InputAdapter implements ApplicationListener {
         batch.end();
         if (programCardsView.done()) {
             Gdx.input.setInputProcessor(this);
-            cardPhase = false;
+            cardPhase = false; // TODO: Move to Game
             stage.clear();
-            game.shuffleTheRobotsCards(programCardsView.getOrder());
+            game.shuffleTheRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
             programCardsView.clearStuff();
-            game.playNextCard();
+            game.robotPlayNextCard(); // TODO: Move to Game
             menu.reloadStage(stage);
             events.setPauseEvent(true);
         }
     }
 
-    public void runCardPhase(ProgramCardsView programCardsView) {
+    // TODO: Change method name
+    public void startRound(ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
         programCardsView.makeDoneLabel();
         stage.addActor(programCardsView.getDoneLabel());

@@ -15,10 +15,10 @@ public class ProgramCardsTest {
     @Before
     public void setUp() throws Exception {
         programCards = new ProgramCards();
-        card = new ProgramCards.Card(IProgramCards.CardTypes.MOVE_1);
+        card = new ProgramCards.Card(IProgramCards.CardType.MOVE_1);
 
         // Adds all the number of card types together
-        for (IProgramCards.CardTypes cardType : IProgramCards.CardTypes.values()) {
+        for (IProgramCards.CardType cardType : IProgramCards.CardType.values()) {
             numberOfCards += cardType.getNumberOfCards();
         }
     }
@@ -30,7 +30,7 @@ public class ProgramCardsTest {
 
     @Test
     public void verifyThatANewCardIsGenerated() {
-        ProgramCards.Card newCard = new ProgramCards.Card(IProgramCards.CardTypes.MOVE_1);
+        ProgramCards.Card newCard = new ProgramCards.Card(IProgramCards.CardType.MOVE_1);
         assertNotNull(newCard);
     }
 

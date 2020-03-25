@@ -55,8 +55,8 @@ public class RobotLogic implements Programmable {
     }
 
     @Override
-    public Direction rotate(Direction direction) {
-        return this.direction = direction;
+    public void rotate(Direction direction) {
+        this.direction = direction;
     }
 
     @Deprecated //TODO: Delete when safe.

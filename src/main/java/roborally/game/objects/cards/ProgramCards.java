@@ -13,7 +13,7 @@ public class ProgramCards implements IProgramCards {
     }
 
     private void putAllCardsIntoDeck() {
-        for (CardTypes type : CardTypes.values()) {
+        for (CardType type : CardType.values()) {
             for (int i = 0; i < type.getNumberOfCards(); i++) {
                 this.deckOfCards.add(new Card(type));
             }

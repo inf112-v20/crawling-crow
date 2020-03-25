@@ -65,7 +65,7 @@ public class Events {
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
         if (this.dt >= gameSpeed) {
-            game.playNextCard();
+            game.robotPlayNextCard();
             this.dt = 0;
             this.pauseCount++;
         }

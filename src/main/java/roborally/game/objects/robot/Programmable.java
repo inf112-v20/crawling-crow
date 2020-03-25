@@ -34,9 +34,8 @@ public interface Programmable {
      * Rotates the programmable in the new direction
      *
      * @param direction
-     * @return
      */
-    Direction rotate(Direction direction);
+    void rotate(Direction direction);
 
     /**
      *
