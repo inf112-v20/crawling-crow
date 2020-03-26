@@ -19,7 +19,6 @@ public class ControlsDebug implements IControls {
         menuControlMap.put(Input.Keys.R, game::restartGame);
         menuControlMap.put(Input.Keys.ESCAPE, game::exitGame);
         menuControlMap.put(Input.Keys.M, game.getGameOptions()::enterMenu);
-        //menuControlMap.put(Input.Keys.T, game::testEndPhase);
     }
 
     @Override
@@ -41,5 +40,6 @@ public class ControlsDebug implements IControls {
         menuControlMap.put(Input.Keys.W, game::endGame);
         menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
         menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterForAllRobots);
+        menuControlMap.put(Input.Keys.T, () -> game.getRound().run(game.getLayers()));
     }
 }

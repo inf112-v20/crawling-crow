@@ -17,11 +17,8 @@ import roborally.ui.gdx.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.PhaseStep;
 import roborally.utilities.enums.RoundStep;
-import roborally.utilities.enums.TileName;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -239,8 +236,6 @@ public class Game implements IGame {
     @Override
     public ProgramCardsView getCards() {
         //TODO Refactor for readability
-        //restoreRebootedRobots();
-        round.checkForDestroyedRobots();
         if (fun)
             removeDeadRobots();
 

@@ -40,13 +40,6 @@ public class Phase implements IPhase {
         for(Robot robot : robots){
             robot.playNextCard();
         }
-
-        //Robot currentRobot = robots.get(currentRobotID);
-
-        //if (isNotInGraveyard(currentRobot)) {
-        //    robots.get(currentRobotID).playNextCard();
-        //}
-        //incrementCurrentRobotID();
     }
 
     @Override
@@ -137,10 +130,6 @@ public class Phase implements IPhase {
         updateCheckPoints();
         registerFlagPositions();
         checkForWinner();
-    }
-
-    private boolean isNotInGraveyard(Robot robot) {
-        return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
     }
 
     private void moveNormalConveyorBelts(ILayers layers) {
