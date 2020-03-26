@@ -74,6 +74,7 @@ public class Game implements IGame {
         flags = gameBoard.findAllFlags();
         robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
+        this.round = new Round(events, robots, flags);
         fun = true;
     }
 
@@ -107,7 +108,7 @@ public class Game implements IGame {
         if (this.currentRobotID == robots.size()) {
             this.currentRobotID = 0;
         }
-        round.checkForDestroyedRobots();
+        checkForDestroyedRobots();
         return robots.get(0);
     }
 
@@ -118,6 +119,7 @@ public class Game implements IGame {
 
     private void setRobots(ArrayList<Robot> newRobots) {
         this.robots = newRobots;
+        this.round = new Round(events, robots, flags);
     }
     //endregion
 
@@ -250,10 +252,10 @@ public class Game implements IGame {
     public void endGame() {
         Robot winner = round.getPhase().getWinner();
         System.out.println(winner);
-        if (winner == null){
+/*        if (winner == null){
             System.out.println("Did not find a winner...");
             return;
-        }
+        }*/
 
         assert (gameRunning);
         if(DEBUG){

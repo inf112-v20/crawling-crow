@@ -34,9 +34,7 @@ public class RobotView implements IRobotView {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        int rotateId = this.robotDefaultCellTexture.getRotation();
         layers.setRobotTexture(pos, this.robotWonCellTexture);
-        layers.getRobotTexture(pos).setRotation(rotateId);
 
     }
 
@@ -47,9 +45,7 @@ public class RobotView implements IRobotView {
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
         if(layers.assertRobotNotNull(pos.x, pos.y)) {
-            int rotateId = layers.getRobotTexture(pos).getRotation();
             layers.setRobotTexture(pos, this.robotLostCellTexture);
-            layers.getRobotTexture(pos).setRotation(rotateId);
         }
     }
 
@@ -77,9 +73,7 @@ public class RobotView implements IRobotView {
     public boolean moveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
         if (isPositionOnMap(newPos)) {
-            int rotateId = layers.getRobotTexture(oldPos).getRotation();
             layers.setRobotTexture(newPos, getTexture());
-            layers.getRobotTexture(newPos).setRotation(rotateId);
             layers.setRobotTexture(oldPos, null);
             return true;
         }

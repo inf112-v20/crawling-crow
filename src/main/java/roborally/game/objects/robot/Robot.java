@@ -139,6 +139,7 @@ public class Robot implements Programmable {
                 // Check if you are standing in a hole
                 if (layers.assertHoleNotNull(newPos.x, newPos.y))
                     takeDamage(10);
+                robotView.setDirection(newPos, robotLogic.getDirection());
 
             }
         } else
