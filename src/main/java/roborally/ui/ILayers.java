@@ -31,17 +31,18 @@ public interface ILayers {
     /**
      * Set a cell in the robotLayer to a new cell value.
      *
-     * @param pos position to change the cell
+     * @param pos  position to change the cell
      * @param cell type
      */
     void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is a robot at the position x, y in the robotLayer
      */
-    boolean assertRobotNotNull(int x, int y);
+    boolean assertRobotNotNull(GridPoint2 pos);
 
     /**
      * @return the wallLayer
@@ -49,25 +50,28 @@ public interface ILayers {
     TiledMapTileLayer getWall();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return a Wall Cell at position x, y.
      */
-    TiledMapTileLayer.Cell getWallCell(int x, int y);
+    TiledMapTileLayer.Cell getWallCell(GridPoint2 pos);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is a wall at the position x, y.
      */
-    boolean assertWallNotNull(int x, int y);
+    boolean assertWallNotNull(GridPoint2 pos);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return the ID for the wall at the position x, y in the wallLayer.
      */
-    int getWallID(int x, int y);
+    int getWallID(GridPoint2 pos);
 
     /**
      * @return the floorLayer
@@ -75,11 +79,12 @@ public interface ILayers {
     TiledMapTileLayer getFloor();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is floor at the position x, y.
      */
-    boolean assertFloorNotNull(int x, int y);
+    boolean assertFloorNotNull(GridPoint2 pos);
 
     /**
      * @return the width of the map.
@@ -97,11 +102,12 @@ public interface ILayers {
     TiledMapTileLayer getHole();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return if there is a hole at the position x, y.
      */
-    boolean assertHoleNotNull(int x, int y);
+    boolean assertHoleNotNull(GridPoint2 pos);
 
     /**
      * @return the flagLayer.
@@ -109,18 +115,20 @@ public interface ILayers {
     TiledMapTileLayer getFlag();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return if there is a flag at position x, y.
      */
-    boolean assertFlagNotNull(int x, int y);
+    boolean assertFlagNotNull(GridPoint2 pos);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return the ID for the wall at the location x, y in the flagLayer.
      */
-    int getFlagID(int x, int y);
+    int getFlagID(GridPoint2 pos);
 
     /**
      * @return the startPosLayer
@@ -128,11 +136,12 @@ public interface ILayers {
     TiledMapTileLayer getStartPos();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return if there is a start position at the position x, y.
      */
-    boolean assertStartPosNotNull(int x, int y);
+    boolean assertStartPosNotNull(GridPoint2 pos);
 
     /**
      * @return the slow conveyor belt layer.
@@ -140,11 +149,12 @@ public interface ILayers {
     TiledMapTileLayer getConveyorSlow();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return if there is a Slow conveyor belt at the position x, y.
      */
-    boolean assertConveyorSlowNotNull(int x, int y);
+    boolean assertConveyorSlowNotNull(GridPoint2 pos);
 
     TileName getConveyorSlowTileName(GridPoint2 pos);
 
@@ -154,11 +164,12 @@ public interface ILayers {
     TiledMapTileLayer getConveyorFast();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return if there is a fast conveyor belt at the position x, y.
      */
-    boolean assertConveyorFastNotNull(int x, int y);
+    boolean assertConveyorFastNotNull(GridPoint2 pos);
 
     TileName getConveyorFastTileName(GridPoint2 pos);
 
@@ -168,11 +179,12 @@ public interface ILayers {
     TiledMapTileLayer getWrench();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return if there is a wrench at position x, y.
      */
-    boolean assertWrenchNotNull(int x, int y);
+    boolean assertWrenchNotNull(GridPoint2 pos);
 
     /**
      * @return the wrench hammer layer.
@@ -180,11 +192,12 @@ public interface ILayers {
     TiledMapTileLayer getWrenchHammer();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is a wrench hammer at the position x, y.
      */
-    boolean assertWrenchHammerNotNull(int x, int y);
+    boolean assertWrenchHammerNotNull(GridPoint2 pos);
 
     /**
      * @return the laser layers
@@ -192,46 +205,52 @@ public interface ILayers {
     TiledMapTileLayer getLaser();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is a laser at the position x, y.
      */
-    boolean assertLaserNotNull(int x, int y);
+    boolean assertLaserNotNull(GridPoint2 pos);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return a Laser Cell at position x, y.
      */
-    TiledMapTileLayer.Cell getLaserCell(int x, int y);
+    TiledMapTileLayer.Cell getLaserCell(GridPoint2 pos);
 
     /**
-     * @param x    position
-     * @param y    position
+     * position
+     *
+     * @param pos  position
      * @param cell type
      */
-    void setLaserCell(int x, int y, TiledMapTileLayer.Cell cell);
+    void setLaserCell(GridPoint2 pos, TiledMapTileLayer.Cell cell);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return the ID for the laser at the position x, y in the laser Layer.
      */
-    int getLaserID(int x, int y);
+    int getLaserID(GridPoint2 pos);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return the ID for the laser cannon at the position x, y in the cannon Layer.
      */
-    int getLaserCannonID(int x, int y);
+    int getLaserCannonID(GridPoint2 pos);
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is a laser cannon at the position x, y.
      */
-    boolean assertLaserCannonNotNull(int x, int y);
+    boolean assertLaserCannonNotNull(GridPoint2 pos);
 
     /**
      * @return the bug layer
@@ -239,11 +258,12 @@ public interface ILayers {
     TiledMapTileLayer getBug();
 
     /**
-     * @param x position
-     * @param y position
+     * position
+     *
+     * @param pos position
      * @return true if there is a bug at the position x, y.
      */
-    boolean assertBugNotNull(int x, int y);
+    boolean assertBugNotNull(GridPoint2 pos);
 
     boolean assertGearNotNull(GridPoint2 pos);
 

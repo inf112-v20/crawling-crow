@@ -34,19 +34,18 @@ public class Robot implements Programmable {
         this.robotLogic = robotLogic;
     }
 
-    public Robot(int x, int y, int robotID, LaserRegister laserRegister) {
-        this.visitedFlags = new boolean[3];
-        RobotLogic robotModel = new RobotLogic(AssetManagerUtil.getRobotName());
-        IRobotView robotView = new RobotView(x, y);
-        this.robotLogic = robotModel;
+    public Robot(GridPoint2 pos, int robotID, LaserRegister laserRegister) {
+        RobotLogic robotLogic = new RobotLogic(AssetManagerUtil.getRobotName());
+        IRobotView robotView = new RobotView(pos);
+        this.robotLogic = robotLogic;
         this.robotView = robotView;
-        setPosition(new GridPoint2(x, y));
         this.setTextureRegion(robotID);
-        laser = new Laser(0);
-        this.robotLogic.setCheckPoint(x, y);
+        this.robotLogic.setCheckPoint(pos);
         this.layers = new Layers();
+        this.laser = new Laser(0, layers);
         this.listener = new Listener(layers);
         this.laserRegister = laserRegister;
+        setPosition(pos);
         checkForLaser(); // for spawning in the current lasers in fun mode.
 
         this.cardTypeMethod = new HashMap<>();
@@ -137,7 +136,7 @@ public class Robot implements Programmable {
                 System.out.println("New position: " + newPos);
 
                 // Check if you are standing in a hole
-                if (layers.assertHoleNotNull(newPos.x, newPos.y))
+                if (layers.assertHoleNotNull(newPos))
                     takeDamage(10);
                 robotView.setDirection(newPos, robotLogic.getDirection());
 
@@ -197,7 +196,7 @@ public class Robot implements Programmable {
     //endregion
 
     public boolean checkForLaser() {
-        return (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister));
+        return (listener.listenLaser(getPosition(), getName(), laserRegister));
     }
 
     public void playNextCard() {
@@ -261,6 +260,10 @@ public class Robot implements Programmable {
             System.out.println("Congratulations you have collected all the flags, press 'W' to win the game.");
         else
             System.out.println("Next flag to visit: " + (nextFlag + 1));
+    }
+
+    public void setNumberOfFlags(int flags) {
+        this.visitedFlags = new boolean[flags];
     }
 
     public void clearRegister() {

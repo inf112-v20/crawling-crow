@@ -45,6 +45,8 @@ public interface IGame {
 
     void shuffleTheRobotsCards(int[] order);
 
+    boolean hasAllPlayersChosenCards();
+
     void endGame();
 
     void exitGame();

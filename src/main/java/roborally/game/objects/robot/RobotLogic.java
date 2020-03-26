@@ -11,6 +11,7 @@ import roborally.utilities.enums.Direction;
 import java.util.ArrayList;
 
 public class RobotLogic implements Programmable {
+    public boolean hasChosenCards;
     private String name;
     private GridPoint2 robotPosition;
     private GridPoint2 checkPoint;
@@ -60,10 +61,6 @@ public class RobotLogic implements Programmable {
         this.direction = direction;
     }
 
-    @Deprecated //TODO: Delete when safe.
-    public int[] getMoveValues() {
-        return null;
-    }
     //endregion
 
     //region Checkpoint
@@ -79,8 +76,8 @@ public class RobotLogic implements Programmable {
         return this.checkPoint;
     }
 
-    public void setCheckPoint(int x, int y) {
-        this.checkPoint = new GridPoint2(x, y);
+    public void setCheckPoint(GridPoint2 pos) {
+        this.checkPoint = pos;
     }
     //endregion
 
@@ -149,6 +146,13 @@ public class RobotLogic implements Programmable {
         if(nextCard.isEmpty() || nextCard == null)
             return null;
         return nextCard.last();
+    }
+
+    public void setHasChosenCards(boolean value) {
+        this.hasChosenCards = value;
+    }
+    public boolean hasChosenCards() {
+        return this.hasChosenCards;
     }
 
     public ArrayList<IProgramCards.Card> getCards() {

@@ -99,7 +99,7 @@ public class Phase implements IPhase {
                     int nextFlag = robot.getNextFlag();
                     if (flag.getID() == nextFlag) {
                         robot.visitNextFlag();
-                        robot.getLogic().setCheckPoint(flagX, flagY);
+                        robot.getLogic().setCheckPoint(new GridPoint2(flagX, flagY));
                         System.out.println("A flag has been visited");
                     }
                 }
@@ -123,6 +123,12 @@ public class Phase implements IPhase {
         return someoneWon;
     }
 
+    private void checkForLasers() {
+        for(Robot robot : robots)
+            if (robot.checkForLaser())
+                robot.takeDamage(1);
+    }
+
     @Override
     public void run(ILayers layers) {
         revealProgramCards();
@@ -130,6 +136,7 @@ public class Phase implements IPhase {
         moveAllConveyorBelts(layers);
         moveCogs(layers);
         fireLasers();
+        checkForLasers();
         updateCheckPoints();
         registerFlagPositions();
         checkForWinner();
@@ -140,7 +147,7 @@ public class Phase implements IPhase {
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorSlowNotNull(pos.x, pos.y)) {
+            if (layers.assertConveyorSlowNotNull(pos)) {
                 TileName tileName = layers.getConveyorSlowTileName(pos);
                 // Move in a special way so that no collision happens.
                 System.out.println(robot.getName() + " is on " + tileName.toString());
@@ -164,7 +171,7 @@ public class Phase implements IPhase {
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorFastNotNull(pos.x, pos.y)) {
+            if (layers.assertConveyorFastNotNull(pos)) {
                 TileName tileName = layers.getConveyorFastTileName(pos);
                 // Move in a special way so that no collision happens.
                 // TODO: HashMap
@@ -188,9 +195,9 @@ public class Phase implements IPhase {
         if (rotateRobots.isEmpty())
             return;
         for (Robot robot : rotateRobots) {
-            if (layers.assertConveyorSlowNotNull(robot.getPosition().x, robot.getPosition().y))
+            if (layers.assertConveyorSlowNotNull(robot.getPosition()))
                 tileName = layers.getConveyorSlowTileName(robot.getPosition());
-            else if (layers.assertConveyorFastNotNull(robot.getPosition().x, robot.getPosition().y))
+            else if (layers.assertConveyorFastNotNull(robot.getPosition()))
                 tileName = layers.getConveyorFastTileName(robot.getPosition());
             else
                 return;

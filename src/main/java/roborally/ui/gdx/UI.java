@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import roborally.game.Game;
 import roborally.game.IGame;
+import roborally.ui.gdx.events.AnimateEvent;
 import roborally.ui.gdx.events.Events;
 import roborally.ui.gdx.events.LaserEvent;
 import roborally.ui.menu.Menu;
@@ -37,17 +38,17 @@ public class UI extends InputAdapter implements ApplicationListener {
     private ControlsDebug debugControls;
     private boolean paused;
     private Stage stage;
-    private boolean cardPhase;
     private ProgramCardsView programCardsView;
     private Events events;
+    private AnimateEvent animateEvent;
 
 
     public UI() {
         this.paused = true;
         this.mapID = 1;
-        this.cardPhase = false;
         this.events = new Events();
         this.programCardsView = new ProgramCardsView();
+        this.animateEvent = new AnimateEvent(events);
     }
 
     @Override
@@ -100,22 +101,12 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        if (cardPhase) { // Enter has been clicked, and the cards have been initialized.
-            roundRun();
-            stage.act();
-        }
         if (paused) { // Menu
             pause();
         }
-        batch.begin();
-        // Fades robots if the game is not currently paused and if there is robots to be faded.
-        if (events.getFadeRobot() && !paused)
-            events.fadeRobots(batch);
-        // Draws laaser if the game is not currently paused and there has been fired lasers.
-        if (events.hasLaserEvent() && !paused)
-            for (LaserEvent laserEvent : events.getLaserEvents())
-                laserEvent.drawLaserEvent(batch, game.getRobots());
-        batch.end();
+        animateEvent.drawEvents(batch, game, stage);
+        if(game.hasAllPlayersChosenCards())
+            Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -127,6 +118,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void pause() {
+        menu.reloadStage(stage);
         Gdx.input.setInputProcessor(stage);
         batch.begin();
         menu.drawMenu(batch, stage);
@@ -151,32 +143,14 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
 
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
-            startRound(game.getCards());
+            programCardsView = game.getCards();
+            animateEvent.initiateCards(programCardsView);
             return true;
         }
         if (!game.isRunning()) {
             debugControls.getAction(keycode).run();
         }
 
-        /*if (game.isRunning()) {
-            // Start new round if no round is currently activ1e
-            if (game.currentRoundStep() == RoundStep.NULL_STEP) {
-                game.startNewRound();
-            }
-            if (game.currentRoundStep() == RoundStep.PROGRAM_ROBOT) {
-                programRobotControls.getAction(keycode).run();
-            }
-            // Decides what happens when we are running through phases
-            if (game.currentRoundStep() == RoundStep.PHASES) {
-                if (game.currentPhaseStep() == PhaseStep.REVEAL_CARDS) {
-                    game.revealProgramCards();
-                }
-                // Handles logic when in "Check for winner step
-                if (game.currentPhaseStep() == PhaseStep.CHECK_FOR_WINNER) {
-                    game.checkIfSomeoneWon();
-                }
-            }
-        }*/
         if (game.getGameOptions().getMenu())
             paused = true;
         return true;
@@ -188,43 +162,4 @@ public class UI extends InputAdapter implements ApplicationListener {
             game.endGame();
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
     }
-
-    // TODO: Change method name
-    // TODO: Move these last methods to Game
-    public void roundRun() {
-        // Draws cards while cardPhase is true.
-        batch.begin();
-        programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
-        for (Group group : programCardsView.getGroups()) {
-            group.draw(batch, 1);
-        }
-        batch.end();
-        if (programCardsView.done()) { // The user(s) has chosen the cards he or she wants to play, the event starts.
-            Gdx.input.setInputProcessor(this);
-            cardPhase = false; // TODO: Move to Game
-            stage.clear();
-            game.shuffleTheRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
-            programCardsView.clearStuff();
-            menu.reloadStage(stage);
-            events.setPauseEvent(true); //Starts the event
-        }
-    }
-
-    // Called by user with key input, initializes the cards into fixed positions relative to the number of cards.
-    // TODO: Change method name
-    public void startRound(ProgramCardsView programCardsView) {
-        this.programCardsView = programCardsView;
-        programCardsView.makeDoneLabel();
-        stage.addActor(programCardsView.getDoneLabel());
-        float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
-        programCardsView.getDoneLabel().setX(stage.getWidth() / 2);
-        i = i / 2 - programCardsView.getCardWidth();
-        for (Group group : this.programCardsView.getGroups()) {
-            group.setX(i += programCardsView.getCardWidth());
-            stage.addActor(group);
-        }
-        cardPhase = true;
-        Gdx.input.setInputProcessor(stage);
-    }
-
 }

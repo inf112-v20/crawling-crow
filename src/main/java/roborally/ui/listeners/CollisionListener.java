@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
 
 public class CollisionListener {
     private ILayers layers;
@@ -20,40 +19,35 @@ public class CollisionListener {
      * Iterates through all the robots to see if the foremost robot in the direction is blocked, moves robots
      * accordingly.
      *
-     * @param x  the x position
-     * @param y  the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
      * @return True if there is a wall blocking the path.
      */
-    public boolean robotNextToRobot(int x, int y, int dx, int dy) {
-        //TODO Continue refactor positions... Down the rabbithole we go
-        GridPoint2 step = new GridPoint2(dx, dy);
-        GridPoint2 pos = new GridPoint2(x, y);
-
+    public boolean robotNextToRobot(GridPoint2 pos, GridPoint2 move) {
         int width = layers.getWidth();
         int height = layers.getHeight();
+        GridPoint2 nextPos = pos.cpy().add(move);
         boolean recursiveRobot = false;
-        if (wallListener.checkForWall(x, y, dx, dy))
+        if (wallListener.checkForWall(pos, move))
             return true;
-        if (x + dx >= 0 && x + dx < width && y + dy >= 0 && y + dy < height) {
-            if (wallListener.checkForWall(x, y, dx, dy))
+        if (nextPos.x >= 0 && nextPos.x < width && nextPos.y >= 0 && nextPos.y < height) {
+            if (wallListener.checkForWall(pos, move))
                 return true;
-            if (layers.assertRobotNotNull(x + dx, y + dy))
-                recursiveRobot = robotNextToRobot(x + dx, y + dy, dx, dy);
+            if (layers.assertRobotNotNull(nextPos))
+                recursiveRobot = robotNextToRobot(nextPos, move);
             for (Robot robot : AssetManagerUtil.getRobots())
-                if (robot.getPosition().x == x && robot.getPosition().y == y && !recursiveRobot) {
+                if (robot.getPosition().x == pos.x && robot.getPosition().y == pos.y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
-                    robot.tryToMove(step);
+                    robot.tryToMove(move);
                     robot.checkForLaser();
                     System.out.println("Pushing robot complete");
                 }
         }
+        // RobotPresenter "deletion"
         else
             for (Robot robot : AssetManagerUtil.getRobots())
-                if (robot.getPosition().equals(new GridPoint2(x, y))) {
-                    robot.setPosition(SettingsUtil.GRAVEYARD);
-                    robot.takeDamage(10);
+                if (robot.getPosition().equals(pos)) {
+                    layers.setRobotTexture(pos, null);
+                    robot.setPosition(new GridPoint2(-1, -1));
+                    robot.clearRegister();
                 }
         return recursiveRobot;
     }
@@ -61,34 +55,27 @@ public class CollisionListener {
     /**
      * Called from {@link #checkIfBlocked} if the robot collides with another robot.
      * Moves the robots accordingly.
-     *
-     * @param x  the x position
-     * @param y  the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
      */
-    public void findCollidingRobot(int x, int y, int dx, int dy) {
-        //TODO Continue refactor positions... Down the rabbithole we go
-        GridPoint2 step = new GridPoint2(dx, dy);
-
+    public void findCollidingRobot(GridPoint2 pos, GridPoint2 move) {
         int width = layers.getRobots().getWidth();
         int height = layers.getRobots().getHeight();
+        GridPoint2 nextPos = pos.cpy().add(move);
         for (Robot robot : AssetManagerUtil.getRobots()) {
-            GridPoint2 bumpingPos = new GridPoint2(x, y);
             if (robot != null) {
                 GridPoint2 bumpedPos = robot.getPosition();
-                if (bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
+                if (bumpedPos.equals(pos) && (nextPos.x >= width || nextPos.x < 0 || nextPos.y >= height || nextPos.y < 0)) {
                     // RobotPresenter "deletion".
-                    robot.setPosition(SettingsUtil.GRAVEYARD);
-                    robot.takeDamage(10);
-                } else if (bumpedPos.equals(bumpingPos)) {
+                    robot.setPosition(new GridPoint2(-1, -1));
+                    robot.clearRegister();
+                    layers.setRobotTexture(pos, null);
+                } else if (bumpedPos.equals(pos)) {
                     System.out.println("\nPushing... ");
-                    robot.tryToMove(step);
+                    robot.tryToMove(move);
                     robot.checkForLaser();
                     System.out.println("Pushing complete... ");
-                    if (layers.assertFlagNotNull(x + dx, y + dy))  //Checks if the robot got bumped into a flag.
+                    if (layers.assertFlagNotNull(nextPos))  //Checks if the robot got bumped into a flag.
                         robot.setWinTexture();
-                    else if (layers.assertHoleNotNull(x + dx, y + dy)) //Checks if the robot got bumped into a hole.
+                    else if (layers.assertHoleNotNull(nextPos)) //Checks if the robot got bumped into a hole.
                         robot.setLostTexture();
                 }
             }
@@ -99,27 +86,22 @@ public class CollisionListener {
      * Checks if the robot is blocked by another robot, true if that robot is blocked by a wall. If not,
      * inspects further with {@link #robotNextToRobot} and collides with {@link #findCollidingRobot}
      *
-     * @param x  the x position
-     * @param y  the y position
-     * @param dx steps taken in x-direction
-     * @param dy steps taken in y-direction
      * @return True if the robot or any of the robots in front of it is found in {@link #robotNextToRobot} is blocked.
      */
-    public boolean checkIfBlocked(int x, int y, int dx, int dy) {
-        if (wallListener.checkForWall(x, y, dx, dy))
+    public boolean checkIfBlocked(GridPoint2 pos, GridPoint2 move) {
+        if (wallListener.checkForWall(pos, move))
             return true;
-        int newX = x + dx;
-        int newY = y + dy;
+        GridPoint2 newPos = pos.cpy().add(move);
         // There is no RobotPresenter on the next position.
-        if (!layers.assertRobotNotNull(newX, newY))
+        if (!layers.assertRobotNotNull(newPos))
             return false;
         else {
-            if (wallListener.checkForWall(newX, newY, dx, dy))
+            if (wallListener.checkForWall(newPos, move))
                 return true;
-            if (layers.assertRobotNotNull(newX + dx, newY + dy) && robotNextToRobot(newX, newY, dx, dy))
+            if (layers.assertRobotNotNull(newPos) && robotNextToRobot(newPos, move))
                 return true;
         }
-        findCollidingRobot(newX, newY, dx, dy);
+        findCollidingRobot(newPos, move);
         return false;
     }
 }

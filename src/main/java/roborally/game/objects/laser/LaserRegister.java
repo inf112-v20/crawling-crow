@@ -2,6 +2,7 @@ package roborally.game.objects.laser;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
@@ -10,8 +11,10 @@ import java.util.HashSet;
 
 public class LaserRegister {
     private HashMap<String, HashSet<Laser>> activeLasers;
+    private ILayers layers;
 
-    public LaserRegister() {
+    public LaserRegister(ILayers layers) {
+        this.layers = layers;
         activeLasers = new HashMap<>();
     }
 
@@ -26,7 +29,7 @@ public class LaserRegister {
     public void createLaser(int id, GridPoint2 pos, String name) {
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
         sound.play((float) 0.1*AssetManagerUtil.volume);
-        Laser laser = new Laser(id);
+        Laser laser = new Laser(id, this.layers);
         if (id != TileName.LASER_CROSS.getTileID()) {
             laser.findLaser(pos);
             checkForLaser(name, laser);
@@ -84,10 +87,10 @@ public class LaserRegister {
      * @param pos  the position of the robot
      */
     public void makeTwoLasers(String name, GridPoint2 pos) {
-        Laser horizontalLaser = new Laser(TileName.LASER_HORIZONTAL.getTileID());
+        Laser horizontalLaser = new Laser(TileName.LASER_HORIZONTAL.getTileID(), this.layers);
         horizontalLaser.findLaser(pos);
         checkForLaser(name, horizontalLaser);
-        Laser verticalLaser = new Laser(TileName.LASER_VERTICAL.getTileID());
+        Laser verticalLaser = new Laser(TileName.LASER_VERTICAL.getTileID(), this.layers);
         verticalLaser.findLaser(pos);
         checkForLaser(name, verticalLaser);
     }

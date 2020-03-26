@@ -21,8 +21,8 @@ public class RobotView implements IRobotView {
     private int height;
     private int width;
 
-    public RobotView(int x, int y) {
-        this.pos = new GridPoint2(x, y);
+    public RobotView(GridPoint2 pos) {
+        this.pos = pos;
         this.layers = new Layers();
         this.height = layers.getHeight();
         this.width = layers.getWidth();
@@ -44,7 +44,7 @@ public class RobotView implements IRobotView {
             this.robotLostCellTexture = new TiledMapTileLayer.Cell();
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        if(layers.assertRobotNotNull(pos.x, pos.y)) {
+        if(layers.assertRobotNotNull(pos)) {
             layers.setRobotTexture(pos, this.robotLostCellTexture);
         }
     }
@@ -66,7 +66,7 @@ public class RobotView implements IRobotView {
     @Override
     public void setTextureRegion(int robotID) {
         this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), UI.TILE_SIZE, UI.TILE_SIZE);
-        layers.setRobotTexture(pos, getTexture());
+        layers.setRobotTexture(this.pos, getTexture());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class RobotView implements IRobotView {
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
         if (!pos.equals(checkPoint)) {
             layers.setRobotTexture(pos, null);
-            if(!layers.assertRobotNotNull(pos.x, pos.y)) { // Else starts the round virtual.
+            if(!layers.assertRobotNotNull(pos)) { // Else starts the round virtual.
                 layers.setRobotTexture(checkPoint, getTexture());
                 layers.getRobotTexture(checkPoint).setRotation(0);
             }
@@ -97,7 +97,7 @@ public class RobotView implements IRobotView {
 
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
-        if (layers.assertRobotNotNull(pos.x, pos.y))
+        if (layers.assertRobotNotNull(pos))
             layers.getRobotTexture(pos).setRotation(direction.getDirectionID());
     }
 }
