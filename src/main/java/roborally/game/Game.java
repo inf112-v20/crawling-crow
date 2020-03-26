@@ -231,6 +231,7 @@ public class Game implements IGame {
     @Override
     public ProgramCardsView getCards() {
         //TODO Refactor for readability
+        restoreRebootedRobots();
         checkForDestroyedRobots();
         if (fun)
             removeDeadRobots();
@@ -298,7 +299,6 @@ public class Game implements IGame {
             moveAllConveyorBelts();
             moveCogs();
             fireLasers();
-            restoreRebootedRobots();
             registerFlagPositions();
             checkIfSomeoneWon();
             checkForLasers();
