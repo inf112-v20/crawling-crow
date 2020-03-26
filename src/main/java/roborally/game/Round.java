@@ -14,8 +14,8 @@ public class Round implements IRound {
 
     public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags){
         this.robots = robots;
-        restoreRebootedRobots();
         this.phase = new Phase(this.robots, flags, events);
+        restoreRebootedRobots();
     }
 
     @Override
@@ -25,7 +25,6 @@ public class Round implements IRound {
         programRobots();
         startPhases(layers);
         checkForDestroyedRobots();
-        restoreRebootedRobots();
     }
 
     @Override

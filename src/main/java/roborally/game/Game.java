@@ -30,10 +30,10 @@ public class Game implements IGame {
     private ArrayList<IFlag> flags;
     private IProgramCards deckOfProgramCards;
     private LaserRegister laserRegister;
+    private Robot userRobot;
     //endregion
 
     private Robot winner;
-
     private boolean gameRunning = false;
     private int currentRobotID;
     private Events events;
@@ -65,6 +65,7 @@ public class Game implements IGame {
         flags = gameBoard.findAllFlags();
         this.robots = gameOptions.makeRobots(layers, laserRegister);
         this.round = new Round(events, robots, flags);
+        userRobot = robots.get(0);
     }
 
     @Override
@@ -76,24 +77,7 @@ public class Game implements IGame {
         this.events.setGameSpeed("fastest");
         this.round = new Round(events, robots, flags);
         fun = true;
-    }
-
-    // TODO: Figure out what todo. Remove? move? change?
-    public void checkForDestroyedRobots() {
-        for (Robot robot : robots) {
-            if (("Destroyed").equals(robot.getLogic().getStatus())) {
-                System.out.println(robot.getName() + " was destroyed");
-                removeFromUI(robot, true);
-            }
-        }
-    }
-
-    // TODO: Figure out what todo. Remove? move? change?
-    private void removeFromUI(Robot robot, boolean fade) {
-        events.fadeRobot(robot.getPosition(), robot.getTexture());
-        robot.deleteRobot();
-        System.out.println("Removed " + robot.getName() + " from UI");
-        this.events.setFadeRobot(fade);
+        userRobot = robots.get(0);
     }
 
     @Override
@@ -108,8 +92,9 @@ public class Game implements IGame {
         if (this.currentRobotID == robots.size()) {
             this.currentRobotID = 0;
         }
-        checkForDestroyedRobots();
-        return robots.get(0);
+        userRobot.backToCheckPoint();
+        events.checkForDestroyedRobots(this.robots);
+        return userRobot;
     }
 
     @Override
@@ -129,7 +114,7 @@ public class Game implements IGame {
             return;
         System.out.println("Restarting game...");
         for (Robot robot : robots) {
-            removeFromUI(robot, false);
+            events.removeFromUI(robot);
         }
         setRobots(gameOptions.makeRobots(layers, laserRegister));
     }
@@ -151,10 +136,10 @@ public class Game implements IGame {
         // This method is only for bugtesting...
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
         sound.play((float) 0.08 * AssetManagerUtil.volume);
-        robots.get(0).fireLaser();
-        ArrayList<GridPoint2> coords = robots.get(0).getLaser().getCoords();
+        userRobot.fireLaser();
+        ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();
         if (!coords.isEmpty())
-            events.createNewLaserEvent(robots.get(0).getPosition(), coords.get(coords.size() - 1));
+            events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
     }
 
     private void removeDeadRobots() {
@@ -179,6 +164,7 @@ public class Game implements IGame {
 
     @Override
     public ProgramCardsView getCards() {
+        round = new Round(events, robots, flags);
         //TODO Refactor for readability
         if (fun)
             removeDeadRobots();
@@ -220,7 +206,7 @@ public class Game implements IGame {
         }
 
         ProgramCardsView programCardsView = new ProgramCardsView();
-        for (IProgramCards.Card card : robots.get(0).getLogic().getCards()) {
+        for (IProgramCards.Card card : userRobot.getLogic().getCards()) {
             programCardsView.makeCard(card);
         }
         return programCardsView;
@@ -237,7 +223,7 @@ public class Game implements IGame {
 
     @Override
     public void shuffleTheRobotsCards(int[] order) {
-        robots.get(0).getLogic().arrangeCards(order);
+        userRobot.getLogic().arrangeCards(order);
     }
 
     //region Conveyor belts
@@ -264,7 +250,7 @@ public class Game implements IGame {
         events.setPauseEvent(false);
         for (Robot robot : robots) {
             layers.setRobotTexture(robot.getPosition(), null);
-            removeFromUI(robot, true);
+            events.removeFromUI(robot);
         }
         robots.clear();
         gameRunning = false;

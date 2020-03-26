@@ -42,6 +42,7 @@ public class Phase implements IPhase {
             robotQueue.addAll(robots);
         }
         Objects.requireNonNull(robotQueue.poll()).playNextCard();
+        events.checkForDestroyedRobots(this.robots);
     }
 
     @Override

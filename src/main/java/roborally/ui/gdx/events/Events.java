@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
+import roborally.game.objects.robot.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,6 +200,22 @@ public class Events {
             this.dt -= (0.5f * dt);
             return this.dt;
         }
+    }
+
+    public void checkForDestroyedRobots(ArrayList<Robot> robots) {
+        for (Robot robot : robots) {
+            if (("Destroyed").equals(robot.getLogic().getStatus())) {
+                System.out.println(robot.getName() + " was destroyed");
+                removeFromUI(robot);
+            }
+        }
+    }
+
+    public void removeFromUI(Robot robot) {
+        fadeRobot(robot.getPosition(), robot.getTexture());
+        robot.deleteRobot();
+        System.out.println("Removed " + robot.getName() + " from UI");
+        setFadeRobot(true);
     }
 
 }
