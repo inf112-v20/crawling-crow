@@ -1,4 +1,4 @@
-package roborally.ui.gdx;
+package roborally.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

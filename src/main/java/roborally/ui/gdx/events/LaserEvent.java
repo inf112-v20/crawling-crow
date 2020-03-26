@@ -14,8 +14,8 @@ import roborally.utilities.enums.TileName;
 import java.util.ArrayList;
 
 public class LaserEvent {
-    public static final float unitScale = 300 * 3f / 16f;
-    private static float tileEdge = 10;
+    public static final float unitScale = 300 * 3f / 16f; // Tile size
+    private static float tileEdge = 10; // To make the graphic not go too far out on the edges.
     private GridPoint2 laserPoint;
     private boolean laserEvent;
     private Image laserImage;
@@ -34,6 +34,11 @@ public class LaserEvent {
         this.laserImage = laserImage;
     }
 
+    /** Creates a new event that constructs an image of the laser cell relative to the direction the robots is facing.
+     *
+     * @param origin The position the robot is standing on.
+     * @param laserPoint The position the laser is heading to.
+     */
     public void laserEvent(GridPoint2 origin, GridPoint2 laserPoint) {
         this.laserPoint = laserPoint;
         if (laserPoint.y != origin.y) {
@@ -123,14 +128,12 @@ public class LaserEvent {
         this.laserEvent = false;
     }
 
+    /** Returns true if this laser is currently active (it has not reached it's laserPoint). */
     public boolean hasLaserEvent() {
         return this.laserEvent;
     }
 
-    public void setLaserSpeed(int factor) {
-        this.factor = factor;
-    }
-
+    /** Returns the robot (if there is one) standing on the laserPoint. */
     public Robot getRobot() {
         return this.robot;
     }

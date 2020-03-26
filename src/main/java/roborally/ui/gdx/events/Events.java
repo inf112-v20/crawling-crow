@@ -27,7 +27,7 @@ public class Events {
     public Events() {
         this.waitEvent = false;
         this.dt = 0f;
-        this.pauseCount = 1;
+        this.pauseCount = 0;
         this.robotFadeOrder = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
@@ -38,6 +38,12 @@ public class Events {
 
     }
 
+    /**
+     * Updates the time limit to play the next card in the current phase of the round.
+     * (Calculated by time between frames).
+     *
+     * @param gameSpeed the limit.
+     */
     public void setGameSpeed(String gameSpeed) {
         if ("fastest".equals(gameSpeed))
             this.gameSpeed = 0.01;
@@ -47,6 +53,7 @@ public class Events {
             this.gameSpeed = 0.5;
     }
 
+    /** Sets the factor used in {@link LaserEvent} to increment the image of the laser relative to its direction */
     public void setLaserSpeed(String laserSpeed) {
         if ("slow".equals(laserSpeed))
             this.factor = 400;
@@ -74,7 +81,7 @@ public class Events {
         }
         if (pauseCount == 5 * game.getRobots().size()) {
             this.dt = 0f;
-            this.pauseCount = 1;
+            this.pauseCount = 0;
             this.registerPhase = 1;
             setPauseEvent(false);
         }
@@ -112,7 +119,7 @@ public class Events {
         this.robotFadeOrder = value;
     }
 
-    // Fades the robots.
+    // Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
     public void fadeRobots(SpriteBatch batch) {
 
         for (Alpha alpha : this.fadeableRobots) {
@@ -134,14 +141,16 @@ public class Events {
         return !this.laserEvents.isEmpty();
     }
 
-    // Removes lasers that have served their purpose. Returns and sets the list excluding these lasers.
+    /**
+     * Removes lasers that have served their purpose. Returns and sets the list excluding these lasers.
+     */
     public ArrayList<LaserEvent> getLaserEvents() {
         List<LaserEvent> temp = this.laserEvents.stream()
                 .filter(LaserEvent::hasLaserEvent)
                 .collect(Collectors.toList());
         this.laserEvents.removeAll(temp);
         for (LaserEvent laserEvent : this.laserEvents) {
-            if (laserEvent.getRobot() != null) {
+            if (laserEvent.getRobot() != null) { // Fades and removes robots shot by lasers interactively.
                 if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
                     GridPoint2 pos = laserEvent.getRobot().getPosition();
                     fadeRobot(pos, laserEvent.getRobot().getTexture());
@@ -167,6 +176,14 @@ public class Events {
         this.laserEvents.get(this.laserEvents.size() - 1).laserEvent(origin, pos);
     }
 
+    public void dispose() {
+        this.laserEvents.clear();
+        this.fadeableRobots.clear();
+    }
+
+    /**
+     * Class to take individual images of robots and fade them separately, (subtracts alpha until invisible).
+     */
     private static class Alpha {
         private float dt;
         private Image image;
@@ -176,19 +193,10 @@ public class Events {
             this.image = image;
         }
 
-        private Image getImage() {
-            return this.image;
-        }
-
         private float update(float dt) {
             this.dt -= (0.5f * dt);
             return this.dt;
         }
-    }
-
-    public void dispose() {
-        this.laserEvents.clear();
-        this.fadeableRobots.clear();
     }
 
 }
