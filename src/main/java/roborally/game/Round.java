@@ -14,6 +14,7 @@ public class Round implements IRound {
     public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags){
         this.robots = robots;
         restoreRebootedRobots();
+        //noinspection rawtypes
         this.phase = new Phase(this.robots, flags, events);
     }
 
