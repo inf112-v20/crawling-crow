@@ -146,6 +146,8 @@ public class RobotLogic implements Programmable {
     }
 
     public ProgramCards.Card peekNextCard() {
+        if(nextCard.isEmpty())
+            return null;
         return nextCard.last();
     }
 

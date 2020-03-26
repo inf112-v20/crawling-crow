@@ -115,6 +115,8 @@ public class Robot implements Programmable {
     }
 
     public int peekNextCard() {
+        if(getLogic().peekNextCard() == null)
+            return 0;
         return getLogic().peekNextCard().getPriority();
     }
 

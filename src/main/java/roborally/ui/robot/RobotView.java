@@ -77,7 +77,9 @@ public class RobotView implements IRobotView {
     public boolean moveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
         if (isPositionOnMap(newPos)) {
+            int rotateId = layers.getRobotTexture(oldPos).getRotation();
             layers.setRobotTexture(newPos, getTexture());
+            layers.getRobotTexture(newPos).setRotation(rotateId);
             layers.setRobotTexture(oldPos, null);
             return true;
         }

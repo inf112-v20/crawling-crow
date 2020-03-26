@@ -207,7 +207,7 @@ public class Game implements IGame {
 
             // This codesnippet lets all robots except the first one play their cards in default order.
 
-            if (robotID > 0) { // > 1 for testing ArtificialPlr.
+            if (robotID > 0) {
                 int[] newOrder = new int[cardsToDraw];
 
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
@@ -216,8 +216,7 @@ public class Game implements IGame {
                 robots.get(robotID).getLogic().arrangeCards(newOrder);
             }
         }
-        //artificialPlr.printAllCardsAndFlags();
-        //robots.get(1).getModel().arrangeCards(artificialPlr.getOrder());
+
         ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : robots.get(0).getLogic().getCards()) {
             programCardsView.makeCard(card);
