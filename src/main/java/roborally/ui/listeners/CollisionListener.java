@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
 public class CollisionListener {
     private ILayers layers;
@@ -48,11 +49,12 @@ public class CollisionListener {
                     System.out.println("Pushing robot complete");
                 }
         }
-        // RobotPresenter "deletion"
         else
             for (Robot robot : AssetManagerUtil.getRobots())
-                if (robot.getPosition().equals(new GridPoint2(x, y)))
-                    robot.backToCheckPoint();
+                if (robot.getPosition().equals(new GridPoint2(x, y))) {
+                    robot.setPosition(SettingsUtil.GRAVEYARD);
+                    robot.takeDamage(10);
+                }
         return recursiveRobot;
     }
 
@@ -78,6 +80,7 @@ public class CollisionListener {
                 GridPoint2 bumpedPos = robot.getPosition();
                 if (bumpedPos.equals(bumpingPos) && (x + dx >= width || x + dx < 0 || y + dy >= height || y + dy < 0)) {
                     // RobotPresenter "deletion".
+                    robot.setPosition(SettingsUtil.GRAVEYARD);
                     robot.takeDamage(10);
                 } else if (bumpedPos.equals(bumpingPos)) {
                     System.out.println("\nPushing... ");
