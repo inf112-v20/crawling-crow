@@ -4,8 +4,6 @@ import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;
-import roborally.utilities.enums.PhaseStep;
-import roborally.utilities.enums.RoundStep;
 
 import java.util.ArrayList;
 
@@ -18,14 +16,6 @@ public interface IGame {
      * @return the layers of the gameboard
      */
     ILayers getLayers();
-
-    /**
-     * Serves ONLY feed the keyUp method..
-     *
-     * @deprecated serves no purpose at the moment
-     */
-    @Deprecated
-    AIPlayer[] getAIRobots();
 
     /**
      * Exists only for debugging.
@@ -47,17 +37,9 @@ public interface IGame {
 
     ArrayList<Robot> getRobots();
 
-    void startGame();
-
-    void startNewRound();
-
     boolean isRunning();
 
     GameOptions getGameOptions();
-
-    RoundStep currentRoundStep();
-
-    PhaseStep currentPhaseStep();
 
     ProgramCardsView getCards();
 

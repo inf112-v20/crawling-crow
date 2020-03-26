@@ -10,15 +10,13 @@ import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
 import roborally.game.objects.laser.LaserRegister;
-import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.enums.PhaseStep;
-import roborally.utilities.enums.RoundStep;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +26,6 @@ public class Game implements IGame {
     //region Game Objects
     private IGameBoard gameBoard;
     private ILayers layers;
-    private AIPlayer[] aiRobots;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
     private IProgramCards deckOfProgramCards;
@@ -38,8 +35,6 @@ public class Game implements IGame {
     private Robot winner;
 
     private boolean gameRunning = false;
-    private RoundStep roundStep = RoundStep.NULL_STEP;
-    private PhaseStep phaseStep = PhaseStep.NULL_PHASE;
     private int currentRobotID;
     private Events events;
     private GameOptions gameOptions;
@@ -70,8 +65,6 @@ public class Game implements IGame {
         flags = gameBoard.findAllFlags();
         this.robots = gameOptions.makeRobots(layers, laserRegister);
         this.round = new Round(events, robots, flags);
-
-        //this.AIPlayer = new AIPlayer(robots.get(1), this.gameBoard);
     }
 
     @Override
@@ -102,16 +95,9 @@ public class Game implements IGame {
         this.events.setFadeRobot(fade);
     }
 
-
-
     @Override
     public ILayers getLayers() {
         return this.layers;
-    }
-
-    @Override
-    public AIPlayer[] getAIRobots() {
-        return aiRobots;
     }
 
     //region Robots
@@ -136,16 +122,6 @@ public class Game implements IGame {
     //endregion
 
     @Override
-    public void startGame() {
-        assert (!gameRunning);
-        if (DEBUG) {
-            System.out.println("\nGame started...");
-        }
-        gameRunning = true;
-        startNewRound();
-    }
-
-    @Override
     public void restartGame() {
         if(events.hasWaitEvent())
             return;
@@ -155,27 +131,7 @@ public class Game implements IGame {
         }
         setRobots(gameOptions.makeRobots(layers, laserRegister));
     }
-
     //region Rounds
-    @Override
-    public void startNewRound() {
-        assert (gameRunning);
-        assert (roundStep == RoundStep.NULL_STEP);
-        assert (phaseStep == PhaseStep.NULL_PHASE);
-
-        roundStep = RoundStep.ANNOUNCE_POWERDOWN;
-
-        if (DEBUG) {
-            System.out.println("\nRound started...");
-            System.out.println("Entering " + roundStep + "...");
-            System.out.println("Waiting for input..");
-        }
-    }
-
-    @Override
-    public RoundStep currentRoundStep() {
-        return roundStep;
-    }
     //endregion
 
     @Override
@@ -189,18 +145,6 @@ public class Game implements IGame {
     }
 
     @Override
-    public PhaseStep currentPhaseStep() {
-        return phaseStep;
-    }
-
-    // It reset game states at the end of a round
-    private void cleanUp() {
-        assert (gameRunning);
-        roundStep = RoundStep.NULL_STEP;
-        phaseStep = PhaseStep.NULL_PHASE;
-    }
-
-    @Override
     public void manuallyFireOneLaser() {
         // This method is only for bugtesting...
         Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
@@ -210,7 +154,6 @@ public class Game implements IGame {
         if (!coords.isEmpty())
             events.createNewLaserEvent(robots.get(0).getPosition(), coords.get(coords.size() - 1));
     }
-
 
     private void removeDeadRobots() {
         ArrayList<Robot> aliveRobots = new ArrayList<>();
@@ -229,7 +172,6 @@ public class Game implements IGame {
             gameOptions.enterMenu();
         }
     }
-
     //region Cards
 
 
@@ -285,7 +227,6 @@ public class Game implements IGame {
 
     //endregion
 
-
     private void checkForLasers() {
         for(Robot robot : robots)
             if (robot.checkForLaser())
@@ -316,16 +257,15 @@ public class Game implements IGame {
         }
 
         assert (gameRunning);
-        //if(DEBUG){
-        //System.out.println("Stopping game...");
-        //}
+        if(DEBUG){
+            System.out.println("Stopping game...");
+        }
         events.setPauseEvent(false);
         for (Robot robot : robots) {
             layers.setRobotTexture(robot.getPosition(), null);
             removeFromUI(robot, true);
         }
         robots.clear();
-        cleanUp();
         gameRunning = false;
         gameOptions.enterMenu(true);
         System.out.println("Press W to win");
