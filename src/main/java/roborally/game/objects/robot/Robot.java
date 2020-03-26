@@ -45,8 +45,8 @@ public class Robot implements Programmable {
         this.robotLogic.setCheckPoint(x, y);
         this.layers = new Layers();
         this.listener = new Listener(layers);
-        listener.listenLaser(x, y, getName(), laserRegister);
         this.laserRegister = laserRegister;
+        checkForLaser(); // for spawning in the current lasers in fun mode.
 
         this.cardTypeMethod = new HashMap<>();
         setCardTypeMethod();
@@ -74,18 +74,16 @@ public class Robot implements Programmable {
     public void move(int steps) {
         GridPoint2 oldPos = getPosition().cpy();
         GridPoint2 step = getLogic().getDirection().getStep();
-
+        GridPoint2 move = new GridPoint2(step.x * (Math.abs(steps) / steps), step.y * (Math.abs(steps) / steps));
         // Perform all movement
         for (int i = 0; i < Math.abs(steps); i++)
-            tryToMove(step);
+            tryToMove(move);
 
         // Play movement sound
         playSoundWalking(oldPos);
 
-        // Taking damage
-        // TODO: This should be called from Game during the correct phase, not here.
-        if (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister))
-            robotLogic.takeDamage(1);
+        // Updates the graphic when moving through lasers.
+        checkForLaser();
     }
 
     private void playSoundWalking(GridPoint2 oldPos) {
@@ -108,6 +106,11 @@ public class Robot implements Programmable {
         this.robotView.setDirection(getPosition(), direction);
     }
 
+    public void takeDamage(int dmg) {
+        if (getLogic().takeDamage(dmg))
+            backToCheckPoint();
+    }
+
     public void tryToMove(GridPoint2 step) {
         int dx = step.x;
         int dy = step.y;
@@ -127,14 +130,9 @@ public class Robot implements Programmable {
                 System.out.println("New position: " + newPos);
 
                 // Check if you are standing in a hole
-                if (layers.assertHoleNotNull(newPos.x, newPos.y)) {
-                    robotLogic.takeDamage(10);
-                    this.setLostTexture();
-                }
+                if (layers.assertHoleNotNull(newPos.x, newPos.y))
+                    takeDamage(10);
 
-                // Updates texture to reflect the robots direction
-                // TODO: Move this to setLostTexture?? Not sure
-                this.robotView.setDirection(getPosition(), robotLogic.getDirection());
             }
         } else
             // Robot does not move
@@ -145,6 +143,7 @@ public class Robot implements Programmable {
     public void backToCheckPoint() {
         robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
         this.robotLogic.backToCheckPoint();
+        clearRegister();
     }
 
     public RobotLogic getLogic() {
@@ -185,9 +184,8 @@ public class Robot implements Programmable {
     }
     //endregion
 
-    public void checkForLaser() {
-        if (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister))
-            robotLogic.takeDamage(1);
+    public boolean checkForLaser() {
+        return (listener.listenLaser(getPosition().x, getPosition().y, getName(), laserRegister));
     }
 
     public void playNextCard() {

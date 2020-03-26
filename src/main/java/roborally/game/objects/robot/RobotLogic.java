@@ -68,6 +68,8 @@ public class RobotLogic implements Programmable {
     //region Checkpoint
     @Override
     public void backToCheckPoint() {
+        this.health = SettingsUtil.ROBOT_MAX_HEALTH;
+        this.reboots -= 1;
         setPosition(this.checkPoint);
         this.direction = Direction.North;
     }
@@ -89,10 +91,13 @@ public class RobotLogic implements Programmable {
         return reboots;
     }
 
-    public void takeDamage(int damage) {
+    public boolean takeDamage(int damage) {
         this.health -= damage;
-        if (this.health < 0)
+        if (this.health <= 0 && this.reboots > 1 )
+            return true;
+        else if (this.health <= 0)
             this.health = 0;
+        return false;
     }
 
     //region Direction

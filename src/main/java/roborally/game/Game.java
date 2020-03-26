@@ -144,6 +144,8 @@ public class Game implements IGame {
 
     @Override
     public void restartGame() {
+        if(events.hasWaitEvent())
+            return;
         System.out.println("Restarting game...");
         for (Robot robot : robots) {
             removeFromUI(robot, false);
@@ -299,8 +301,15 @@ public class Game implements IGame {
             movingBackupPoints();
             registerFlagPositions();
             checkIfSomeoneWon();
+            checkForLasers();
             currentRobotID = 0;
         }
+    }
+
+    private void checkForLasers() {
+        for(Robot robot : robots)
+            if (robot.checkForLaser())
+                robot.takeDamage(1);
     }
 
     private boolean isNotInGraveyard(Robot robot) {
@@ -451,6 +460,7 @@ public class Game implements IGame {
                     int nextFlag = robot.getNextFlag();
                     if (flag.getID() == nextFlag) {
                         robot.visitNextFlag();
+                        robot.getLogic().setCheckPoint(flagX, flagY);
                         System.out.println("A flag has been visited");
                     }
                 }

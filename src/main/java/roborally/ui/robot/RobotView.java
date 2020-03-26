@@ -34,7 +34,10 @@ public class RobotView implements IRobotView {
             this.robotWonCellTexture = new TiledMapTileLayer.Cell();
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
+        int rotateId = this.robotDefaultCellTexture.getRotation();
         layers.setRobotCell(pos, this.robotWonCellTexture);
+        layers.getRobotCell(pos).setRotation(rotateId);
+
     }
 
     @Override
@@ -87,10 +90,13 @@ public class RobotView implements IRobotView {
 
     @Override
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
-        layers.setRobotCell(checkPoint, getTexture());
-        layers.getRobotCell(checkPoint).setRotation(0);
-        if (!pos.equals(checkPoint))
+        if (!pos.equals(checkPoint)) {
             layers.setRobotCell(pos, null);
+            if(!layers.assertRobotNotNull(pos.x, pos.y)) { // Else starts the round virtual.
+                layers.setRobotCell(checkPoint, getTexture());
+                layers.getRobotCell(checkPoint).setRotation(0);
+            }
+        }
     }
 
     @Override
