@@ -184,7 +184,7 @@ public class Robot implements Programmable {
     }
 
     public void deleteRobot() {
-        this.layers.setRobotCell(getPosition(), null);
+        this.layers.setRobotTexture(getPosition(), null);
         this.setPosition(SettingsUtil.GRAVEYARD);
         clearRegister();
     }

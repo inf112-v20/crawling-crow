@@ -35,7 +35,7 @@ public class Layers implements ILayers {
     }
 
     @Override
-    public TiledMapTileLayer.Cell getRobotCell(GridPoint2 pos) {
+    public TiledMapTileLayer.Cell getRobotTexture(GridPoint2 pos) {
         //TODO Continue refactor... Down the rabbithole we go
         int x = pos.x;
         int y = pos.y;
@@ -45,7 +45,7 @@ public class Layers implements ILayers {
     }
 
     @Override
-    public void setRobotCell(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
+    public void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
         //TODO Continue refactor... Down the rabbithole we go
         int x = pos.x;
         int y = pos.y;

@@ -23,11 +23,10 @@ public interface ILayers {
     TiledMapTileLayer getRobots();
 
     /**
-     *
      * @param pos position
-     * @return a robotCell at position pos
+     * @return The robotTexture at position pos
      */
-    TiledMapTileLayer.Cell getRobotCell(GridPoint2 pos);
+    TiledMapTileLayer.Cell getRobotTexture(GridPoint2 pos);
 
     /**
      * Set a cell in the robotLayer to a new cell value.
@@ -35,7 +34,7 @@ public interface ILayers {
      * @param pos position to change the cell
      * @param cell type
      */
-    void setRobotCell(GridPoint2 pos, TiledMapTileLayer.Cell cell);
+    void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell);
 
     /**
      * @param x position
