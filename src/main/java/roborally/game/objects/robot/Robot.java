@@ -185,6 +185,7 @@ public class Robot implements Programmable {
 
     public void setLostTexture() {
         this.robotView.setLostTexture(getPosition());
+        this.robotView.setDirection(getPosition(), getLogic().getDirection());
 
     }
 
