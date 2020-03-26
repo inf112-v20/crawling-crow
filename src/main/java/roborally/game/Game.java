@@ -518,6 +518,7 @@ public class Game implements IGame {
         //if(DEBUG){
         //System.out.println("Stopping game...");
         //}
+        events.setPauseEvent(false);
         for (Robot robot : robots) {
             layers.setRobotCell(robot.getPosition(), null);
             removeFromUI(robot, true);
@@ -525,6 +526,8 @@ public class Game implements IGame {
         robots.clear();
         cleanUp();
         gameRunning = false;
+        gameOptions.enterMenu(true);
+        System.out.println("Press W to win");
     }
 
     @Override
