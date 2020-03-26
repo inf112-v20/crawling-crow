@@ -70,7 +70,6 @@ public class CollisionListener {
     public void findCollidingRobot(int x, int y, int dx, int dy) {
         //TODO Continue refactor positions... Down the rabbithole we go
         GridPoint2 step = new GridPoint2(dx, dy);
-        GridPoint2 pos = new GridPoint2(x, y);
 
         int width = layers.getRobots().getWidth();
         int height = layers.getRobots().getHeight();

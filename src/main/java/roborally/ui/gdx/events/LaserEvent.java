@@ -2,12 +2,10 @@ package roborally.ui.gdx.events;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.objects.robot.Robot;
-import roborally.game.objects.robot.RobotLogic;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 

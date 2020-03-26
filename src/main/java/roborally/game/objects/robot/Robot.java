@@ -115,8 +115,6 @@ public class Robot implements Programmable {
     }
 
     public void tryToMove(GridPoint2 step) {
-        int dx = step.x;
-        int dy = step.y;
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(step);
 
