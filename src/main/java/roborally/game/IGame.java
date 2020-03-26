@@ -1,6 +1,5 @@
 package roborally.game;
 
-import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;

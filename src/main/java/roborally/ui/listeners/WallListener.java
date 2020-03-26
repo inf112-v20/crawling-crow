@@ -2,7 +2,6 @@ package roborally.ui.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
-import roborally.ui.Layers;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 

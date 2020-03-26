@@ -32,7 +32,7 @@ public class Phase implements IPhase {
 
     @Override
     public void revealProgramCards() {
-
+        //123
     }
 
     @Override
@@ -83,7 +83,7 @@ public class Phase implements IPhase {
 
     @Override
     public void updateCheckPoints() {
-
+        //123
     }
 
     @Override

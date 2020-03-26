@@ -29,17 +29,17 @@ public class Round implements IRound {
 
     @Override
     public void announcePowerDown() {
-
+        // Not implemented.
     }
 
     @Override
     public void dealCards() {
-
+        //Dealt in game currently.
     }
 
     @Override
     public void programRobots() {
-
+        //Done in game currently.
     }
 
     @Override
@@ -49,12 +49,12 @@ public class Round implements IRound {
 
     @Override
     public void cleanUp() {
-
+        //Done in robot and in rebootRobots
     }
 
     @Override
     public void checkForDestroyedRobots() {
-
+        //Done through events.
     }
 
     @Override

@@ -3,8 +3,6 @@ package roborally.ui.listeners;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
-import roborally.ui.Layers;
-
 public class LaserListener {
     private ILayers layers;
 

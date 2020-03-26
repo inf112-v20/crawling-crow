@@ -33,7 +33,7 @@ public class Game implements IGame {
     private Robot userRobot;
     //endregion
 
-    private Robot winner;
+    //private Robot winner;
     private boolean gameRunning = false;
     private int currentRobotID;
     private Events events;
@@ -42,7 +42,7 @@ public class Game implements IGame {
 
     private boolean fun;
 
-    private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
+    //private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
     public Game(Events events) {
         currentRobotID = 0;
@@ -225,8 +225,7 @@ public class Game implements IGame {
 
     @Override
     public boolean hasAllPlayersChosenCards() {
-        if(userRobot != null)
-            if(userRobot.getLogic().hasChosenCards) {
+        if(userRobot != null && userRobot.getLogic().hasChosenCards) {
                 userRobot.getLogic().setHasChosenCards(false);
                 return true;
             }
