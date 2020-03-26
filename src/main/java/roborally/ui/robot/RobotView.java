@@ -35,8 +35,8 @@ public class RobotView implements IRobotView {
             this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
         int rotateId = this.robotDefaultCellTexture.getRotation();
-        layers.setRobotCell(pos, this.robotWonCellTexture);
-        layers.getRobotCell(pos).setRotation(rotateId);
+        layers.setRobotTexture(pos, this.robotWonCellTexture);
+        layers.getRobotTexture(pos).setRotation(rotateId);
 
     }
 
@@ -47,9 +47,9 @@ public class RobotView implements IRobotView {
             this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
         if(layers.assertRobotNotNull(pos.x, pos.y)) {
-            int rotateId = layers.getRobotCell(pos).getRotation();
-            layers.setRobotCell(pos, this.robotLostCellTexture);
-            layers.getRobotCell(pos).setRotation(rotateId);
+            int rotateId = layers.getRobotTexture(pos).getRotation();
+            layers.setRobotTexture(pos, this.robotLostCellTexture);
+            layers.getRobotTexture(pos).setRotation(rotateId);
         }
     }
 
@@ -70,15 +70,15 @@ public class RobotView implements IRobotView {
     @Override
     public void setTextureRegion(int robotID) {
         this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), UI.TILE_SIZE, UI.TILE_SIZE);
-        layers.setRobotCell(pos, getTexture());
+        layers.setRobotTexture(pos, getTexture());
     }
 
     @Override
     public boolean moveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
         if (isPositionOnMap(newPos)) {
-            layers.setRobotCell(newPos, getTexture());
-            layers.setRobotCell(oldPos, null);
+            layers.setRobotTexture(newPos, getTexture());
+            layers.setRobotTexture(oldPos, null);
             return true;
         }
         return false;
@@ -91,10 +91,10 @@ public class RobotView implements IRobotView {
     @Override
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
         if (!pos.equals(checkPoint)) {
-            layers.setRobotCell(pos, null);
+            layers.setRobotTexture(pos, null);
             if(!layers.assertRobotNotNull(pos.x, pos.y)) { // Else starts the round virtual.
-                layers.setRobotCell(checkPoint, getTexture());
-                layers.getRobotCell(checkPoint).setRotation(0);
+                layers.setRobotTexture(checkPoint, getTexture());
+                layers.getRobotTexture(checkPoint).setRotation(0);
             }
         }
     }
@@ -102,6 +102,6 @@ public class RobotView implements IRobotView {
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
         if (layers.assertRobotNotNull(pos.x, pos.y))
-            layers.getRobotCell(pos).setRotation(direction.getDirectionID());
+            layers.getRobotTexture(pos).setRotation(direction.getDirectionID());
     }
 }

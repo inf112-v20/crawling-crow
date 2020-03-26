@@ -530,7 +530,7 @@ public class Game implements IGame {
         //}
         events.setPauseEvent(false);
         for (Robot robot : robots) {
-            layers.setRobotCell(robot.getPosition(), null);
+            layers.setRobotTexture(robot.getPosition(), null);
             removeFromUI(robot, true);
         }
         robots.clear();
