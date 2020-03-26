@@ -114,6 +114,10 @@ public class Robot implements Programmable {
         }
     }
 
+    public int peekNextCard() {
+        return getLogic().peekNextCard().getPriority();
+    }
+
     public void tryToMove(GridPoint2 step) {
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(step);

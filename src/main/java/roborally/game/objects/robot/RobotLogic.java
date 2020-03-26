@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.IProgramCards;
+import roborally.game.objects.cards.ProgramCards;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
@@ -142,6 +143,10 @@ public class RobotLogic implements Programmable {
             return nextCard.removeLast();
         }
         return null;
+    }
+
+    public ProgramCards.Card peekNextCard() {
+        return nextCard.last();
     }
 
     public ArrayList<IProgramCards.Card> getCards() {

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Events {
     public static final float unitScale = 300 * 3f / 16f;
     private boolean waitEvent;
-    private int pauseCount;
+    private int cardNumber;
     private float dt;
     private boolean robotFadeOrder;
     private ArrayList<Alpha> fadeableRobots;
@@ -23,16 +23,17 @@ public class Events {
     private int registerPhase;
     private double gameSpeed;
     private int factor;
+    private final static int REGISTER_END = 5;
 
     public Events() {
         this.waitEvent = false;
         this.dt = 0f;
-        this.pauseCount = 0;
+        this.cardNumber = 0;
         this.robotFadeOrder = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
         this.laserEvents = new ArrayList<>();
-        registerPhase = 1;
+        this.registerPhase = 1;
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
 
@@ -72,17 +73,17 @@ public class Events {
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
         if (this.dt >= gameSpeed) {
-            game.getRound().getPhase().playNextRegisterForAllRobots();
+            game.getRound().getPhase().playNextRegisterCard();
             this.dt = 0;
-            this.pauseCount+=8;
+            this.cardNumber++;
         }
-        if (pauseCount / registerPhase == game.getRobots().size()) {
+        if (cardNumber / registerPhase == game.getRobots().size()) {
             game.getRound().run(game.getLayers());
             registerPhase++;
         }
-        if (pauseCount == 5 * game.getRobots().size()) {
+        if (cardNumber == REGISTER_END * game.getRobots().size()) {
             this.dt = 0f;
-            this.pauseCount = 0;
+            this.cardNumber = 0;
             this.registerPhase = 1;
             setPauseEvent(false);
         }

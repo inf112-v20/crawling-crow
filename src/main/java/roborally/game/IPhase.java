@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface IPhase {
     void revealProgramCards();
-    void playNextRegisterForAllRobots();
+    void playNextRegisterCard();
     void moveAllConveyorBelts(ILayers layers);
     void moveCogs(ILayers layers);
     void fireLasers();
