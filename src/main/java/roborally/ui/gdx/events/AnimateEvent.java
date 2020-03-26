@@ -8,21 +8,18 @@ import roborally.game.IGame;
 import roborally.ui.gdx.ProgramCardsView;
 
 public class AnimateEvent {
-    private Stage stage;
-    private SpriteBatch batch;
     private Events events;
     private ProgramCardsView programCardsView;
     private boolean cardPhase;
+
     public AnimateEvent(Events events) {
         this.events = events;
     }
 
-    public void drawEvents(SpriteBatch batch,IGame game, Stage stage) {
-        this.batch = batch;
-        this.stage = stage;
+    public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
         if (cardPhase) { // Enter has been clicked, and the cards have been initialized.
-            drawCards(game);
+            drawCards(game, batch, stage);
             stage.act();
         }
         // Fades robots if the game is not currently paused and if there is robots to be faded.
@@ -34,7 +31,8 @@ public class AnimateEvent {
                 laserEvent.drawLaserEvent(batch, game.getRobots());
         batch.end();
     }
-    public void drawCards(IGame game) {
+
+    public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
         // Draws cards while cardPhase is true.
 
         programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
@@ -51,7 +49,7 @@ public class AnimateEvent {
     }
 
     // Called by user with key input, initializes the cards into fixed positions relative to the number of cards.
-    public void initiateCards(ProgramCardsView programCardsView) {
+    public void initiateCards(ProgramCardsView programCardsView, Stage stage) {
         this.programCardsView = programCardsView;
         programCardsView.makeDoneLabel();
         stage.addActor(programCardsView.getDoneLabel());

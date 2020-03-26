@@ -11,14 +11,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.AnimateEvent;
 import roborally.ui.gdx.events.Events;
-import roborally.ui.gdx.events.LaserEvent;
 import roborally.ui.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -105,7 +103,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             pause();
         }
         animateEvent.drawEvents(batch, game, stage);
-        if(game.hasAllPlayersChosenCards())
+        if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
     }
 
@@ -138,13 +136,13 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     // Temporary checks for input from user to play cards instead of moving manually (Enter).
     public boolean keyUp(int keycode) {
-        if(game.getRound() != null){
+        if (game.getRound() != null) {
             debugControls.addInGameControls(game);
         }
 
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
             programCardsView = game.getCards();
-            animateEvent.initiateCards(programCardsView);
+            animateEvent.initiateCards(programCardsView, stage);
             return true;
         }
         if (!game.isRunning()) {
@@ -158,7 +156,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     public void changeMap() {
         this.mapID = menu.getMapId();
-        if(game.getRobots()!=null)
+        if (game.getRobots() != null)
             game.endGame();
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
     }

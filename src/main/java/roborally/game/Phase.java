@@ -23,7 +23,7 @@ public class Phase implements IPhase {
     private Queue<Robot> robotQueue;
 
 
-    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, Events events){
+    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, Events events) {
         this.robots = robots;
         this.events = events;
         this.flags = flags;
@@ -37,7 +37,7 @@ public class Phase implements IPhase {
 
     @Override
     public void playNextRegisterCard() {
-        if(robotQueue.isEmpty()) {
+        if (robotQueue.isEmpty()) {
             this.robots.sort(Comparator.comparing(Robot::peekNextCard));
             robotQueue.addAll(robots);
         }
@@ -124,7 +124,7 @@ public class Phase implements IPhase {
     }
 
     private void checkForLasers() {
-        for(Robot robot : robots)
+        for (Robot robot : robots)
             if (robot.checkForLaser())
                 robot.takeDamage(1);
     }
@@ -242,7 +242,7 @@ public class Phase implements IPhase {
     }
 
     @Override
-    public Robot getWinner(){
+    public Robot getWinner() {
         return this.winner;
     }
 

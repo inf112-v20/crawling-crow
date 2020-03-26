@@ -12,14 +12,14 @@ public class Round implements IRound {
     private ArrayList<Robot> robots;
     private IPhase phase;
 
-    public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags){
+    public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags) {
         this.robots = robots;
         this.phase = new Phase(this.robots, flags, events);
         restoreRebootedRobots();
     }
 
     @Override
-    public void run(ILayers layers){
+    public void run(ILayers layers) {
         announcePowerDown();
         dealCards();
         programRobots();

@@ -114,7 +114,7 @@ public class Robot implements Programmable {
     }
 
     public int peekNextCard() {
-        if(getLogic().peekNextCard() == null)
+        if (getLogic().peekNextCard() == null)
             return 0;
         return getLogic().peekNextCard().getPriority();
     }
@@ -126,7 +126,7 @@ public class Robot implements Programmable {
         System.out.println("Old position: " + oldPos);
 
         // Check if the robot is not colliding with something
-        if(!listener.listenCollision(oldPos, step)){
+        if (!listener.listenCollision(oldPos, step)) {
 
             // Checks that robot does not tries to move out of the map
             if (this.robotView.moveRobot(oldPos, step)) {

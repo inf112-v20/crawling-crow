@@ -37,13 +37,13 @@ public class Layers implements ILayers {
     public TiledMapTileLayer getRobots() {
         return layers.get("Robot");
     }
-    
+
     public TiledMapTileLayer.Cell getRobotTexture(GridPoint2 pos) {
         return layers.get("Robot").getCell(pos.x, pos.y);
     }
 
     public void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
-       layers.get("Robot").setCell(pos.x, pos.y, cell);
+        layers.get("Robot").setCell(pos.x, pos.y, cell);
     }
 
     public boolean assertRobotNotNull(GridPoint2 pos) {

@@ -91,7 +91,7 @@ public class RobotLogic implements Programmable {
 
     public boolean takeDamage(int damage) {
         this.health -= damage;
-        if (this.health <= 0 && this.reboots > 1 )
+        if (this.health <= 0 && this.reboots > 1)
             return true;
         else if (this.health <= 0)
             this.health = 0;
@@ -143,7 +143,7 @@ public class RobotLogic implements Programmable {
     }
 
     public ProgramCards.Card peekNextCard() {
-        if(nextCard.isEmpty() || nextCard == null)
+        if (nextCard.isEmpty() || nextCard == null)
             return null;
         return nextCard.last();
     }
@@ -151,6 +151,7 @@ public class RobotLogic implements Programmable {
     public void setHasChosenCards(boolean value) {
         this.hasChosenCards = value;
     }
+
     public boolean hasChosenCards() {
         return this.hasChosenCards;
     }

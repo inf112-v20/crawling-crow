@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.enums.TileName;
 
+// Brief overview of the methods used to access the tiled map.
 public interface ILayers {
 
     /**
@@ -37,8 +38,6 @@ public interface ILayers {
     void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell);
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is a robot at the position x, y in the robotLayer
      */
@@ -50,24 +49,18 @@ public interface ILayers {
     TiledMapTileLayer getWall();
 
     /**
-     * position
-     *
      * @param pos position
      * @return a Wall Cell at position x, y.
      */
     TiledMapTileLayer.Cell getWallCell(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is a wall at the position x, y.
      */
     boolean assertWallNotNull(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos position
      * @return the ID for the wall at the position x, y in the wallLayer.
      */
@@ -79,8 +72,6 @@ public interface ILayers {
     TiledMapTileLayer getFloor();
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is floor at the position x, y.
      */
@@ -102,8 +93,6 @@ public interface ILayers {
     TiledMapTileLayer getHole();
 
     /**
-     * position
-     *
      * @param pos position
      * @return if there is a hole at the position x, y.
      */
@@ -115,16 +104,12 @@ public interface ILayers {
     TiledMapTileLayer getFlag();
 
     /**
-     * position
-     *
      * @param pos position
      * @return if there is a flag at position x, y.
      */
     boolean assertFlagNotNull(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos position
      * @return the ID for the wall at the location x, y in the flagLayer.
      */
@@ -136,8 +121,6 @@ public interface ILayers {
     TiledMapTileLayer getStartPos();
 
     /**
-     * position
-     *
      * @param pos position
      * @return if there is a start position at the position x, y.
      */
@@ -149,8 +132,6 @@ public interface ILayers {
     TiledMapTileLayer getConveyorSlow();
 
     /**
-     * position
-     *
      * @param pos position
      * @return if there is a Slow conveyor belt at the position x, y.
      */
@@ -164,8 +145,6 @@ public interface ILayers {
     TiledMapTileLayer getConveyorFast();
 
     /**
-     * position
-     *
      * @param pos position
      * @return if there is a fast conveyor belt at the position x, y.
      */
@@ -179,8 +158,6 @@ public interface ILayers {
     TiledMapTileLayer getWrench();
 
     /**
-     * position
-     *
      * @param pos position
      * @return if there is a wrench at position x, y.
      */
@@ -192,8 +169,6 @@ public interface ILayers {
     TiledMapTileLayer getWrenchHammer();
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is a wrench hammer at the position x, y.
      */
@@ -205,48 +180,36 @@ public interface ILayers {
     TiledMapTileLayer getLaser();
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is a laser at the position x, y.
      */
     boolean assertLaserNotNull(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos position
      * @return a Laser Cell at position x, y.
      */
     TiledMapTileLayer.Cell getLaserCell(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos  position
      * @param cell type
      */
     void setLaserCell(GridPoint2 pos, TiledMapTileLayer.Cell cell);
 
     /**
-     * position
-     *
      * @param pos position
      * @return the ID for the laser at the position x, y in the laser Layer.
      */
     int getLaserID(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos position
      * @return the ID for the laser cannon at the position x, y in the cannon Layer.
      */
     int getLaserCannonID(GridPoint2 pos);
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is a laser cannon at the position x, y.
      */
@@ -258,8 +221,6 @@ public interface ILayers {
     TiledMapTileLayer getBug();
 
     /**
-     * position
-     *
      * @param pos position
      * @return true if there is a bug at the position x, y.
      */
