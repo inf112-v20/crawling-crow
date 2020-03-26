@@ -2,6 +2,7 @@ package roborally.game;
 
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.robot.Robot;
+import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 
 import java.util.ArrayList;
@@ -14,8 +15,17 @@ public class Round implements IRound {
     public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags){
         this.robots = robots;
         restoreRebootedRobots();
-        //noinspection rawtypes
         this.phase = new Phase(this.robots, flags, events);
+    }
+
+    @Override
+    public void run(ILayers layers){
+        announcePowerDown();
+        dealCards();
+        programRobots();
+        startPhases(layers);
+        checkForDestroyedRobots();
+        restoreRebootedRobots();
     }
 
     @Override
@@ -34,8 +44,8 @@ public class Round implements IRound {
     }
 
     @Override
-    public void startPhases() {
-
+    public void startPhases(ILayers layers) {
+        getPhase().run(layers);
     }
 
     @Override

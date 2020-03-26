@@ -13,7 +13,7 @@ import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
 
-public class Phase<IFlags> implements IPhase {
+public class Phase implements IPhase {
 
     private final boolean DEBUG = true;
 
@@ -35,7 +35,7 @@ public class Phase<IFlags> implements IPhase {
     }
 
     @Override
-    public void robotPlayNextCard() {
+    public void playNextRegisterForAllRobots() {
         //TODO: Create a priority queue based on priority from cards
         for(Robot robot : robots){
             robot.playNextCard();
@@ -52,6 +52,7 @@ public class Phase<IFlags> implements IPhase {
     @Override
     public void moveAllConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
+        moveExpressConveyorBelts(layers);
         moveExpressConveyorBelts(layers);
         moveNormalConveyorBelts(layers);
     }
@@ -124,6 +125,18 @@ public class Phase<IFlags> implements IPhase {
 
         if (DEBUG) System.out.println("Found winner: " + someoneWon);
         return someoneWon;
+    }
+
+    @Override
+    public void run(ILayers layers) {
+        revealProgramCards();
+        //playNextRegisterForAllRobots();
+        moveAllConveyorBelts(layers);
+        moveCogs(layers);
+        fireLasers();
+        updateCheckPoints();
+        registerFlagPositions();
+        checkForWinner();
     }
 
     private boolean isNotInGraveyard(Robot robot) {
@@ -227,6 +240,11 @@ public class Phase<IFlags> implements IPhase {
             throw new IllegalStateException("Robots are not created");
         }
         return true;
+    }
+
+    @Override
+    public Robot getWinner(){
+        return this.winner;
     }
 
 }

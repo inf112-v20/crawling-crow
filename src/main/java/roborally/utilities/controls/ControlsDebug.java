@@ -38,8 +38,8 @@ public class ControlsDebug implements IControls {
     @Override
     public void addInGameControls(IGame game){
         menuControlMap.put(Input.Keys.SPACE, game.getRound().getPhase()::registerFlagPositions);
-        menuControlMap.put(Input.Keys.W, game.getRound().getPhase()::checkForWinner);
+        menuControlMap.put(Input.Keys.W, game::endGame);
         menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
-        menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::robotPlayNextCard);
+        menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterForAllRobots);
     }
 }

@@ -59,8 +59,6 @@ public interface IGame {
 
     PhaseStep currentPhaseStep();
 
-    Robot getWinner();
-
     ProgramCardsView getCards();
 
     void shuffleTheRobotsCards(int[] order);

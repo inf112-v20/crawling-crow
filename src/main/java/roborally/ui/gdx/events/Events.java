@@ -72,11 +72,12 @@ public class Events {
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
         if (this.dt >= gameSpeed) {
-            game.getRound().getPhase().robotPlayNextCard();
+            game.getRound().getPhase().playNextRegisterForAllRobots();
             this.dt = 0;
-            this.pauseCount++;
+            this.pauseCount+=8;
         }
         if (pauseCount / registerPhase == game.getRobots().size()) {
+            game.getRound().run(game.getLayers());
             registerPhase++;
         }
         if (pauseCount == 5 * game.getRobots().size()) {

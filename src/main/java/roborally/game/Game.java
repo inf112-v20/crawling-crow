@@ -312,12 +312,14 @@ public class Game implements IGame {
     //endregion
 
     @Override
-    public Robot getWinner() {
-        return winner;
-    }
-
-    @Override
     public void endGame() {
+        Robot winner = round.getPhase().getWinner();
+        System.out.println(winner);
+        if (winner == null){
+            System.out.println("Did not find a winner...");
+            return;
+        }
+
         assert (gameRunning);
         //if(DEBUG){
         //System.out.println("Stopping game...");

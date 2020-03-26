@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface IPhase {
     void revealProgramCards();
-    void robotPlayNextCard();
+    void playNextRegisterForAllRobots();
 
     void moveAllConveyorBelts(ILayers layers);
 
@@ -20,4 +20,8 @@ public interface IPhase {
     void registerFlagPositions();
 
     boolean checkForWinner();
+
+    void run(ILayers layers);
+
+    Robot getWinner();
 }
