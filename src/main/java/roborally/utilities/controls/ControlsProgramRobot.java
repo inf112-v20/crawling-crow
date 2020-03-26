@@ -22,6 +22,11 @@ public class ControlsProgramRobot implements IControls {
         return controlMap.get(keycode);
     }
 
+    @Override
+    public void addInGameControls(IGame game) {
+        // Nothing to add here
+    }
+
     private void doNothing() {
         // Ok!
     }

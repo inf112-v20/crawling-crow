@@ -146,6 +146,10 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     // Temporary checks for input from user to play cards instead of moving manually (Enter).
     public boolean keyUp(int keycode) {
+        if(game.getRound() != null){
+            debugControls.addInGameControls(game);
+        }
+
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
             startRound(game.getCards());
             return true;

@@ -11,9 +11,6 @@ import java.util.ArrayList;
 
 public interface IGame {
 
-    void testEndPhase();
-
-    void rotateConveyorBelts(ArrayList<Robot> rotateRobots);
 
     /**
      * Serves ONLY feed the keyUp method..
@@ -44,15 +41,13 @@ public interface IGame {
     /**
      * Fire the laser of the first robot. Only used for debugging.
      */
-    void fireLaser();
+    void manuallyFireOneLaser();
 
     void restartGame();
 
     ArrayList<Robot> getRobots();
 
     void startGame();
-
-    void checkForDestroyedRobots();
 
     void startNewRound();
 
@@ -64,39 +59,15 @@ public interface IGame {
 
     PhaseStep currentPhaseStep();
 
-    void announcePowerDown();
-
-    void dealCards();
-
-    void programRobots();
-
-    void revealProgramCards();
-
-    void moveAllConveyorBelts();
-
-    void moveNormalConveyorBelts();
-
-    void moveExpressConveyorBelts();
-
-    void moveCogs();
-
-    void fireLasers();
-
-    void restoreRebootedRobots();
-
-    void registerFlagPositions();
-
-    boolean checkIfSomeoneWon();
-
     Robot getWinner();
 
     ProgramCardsView getCards();
 
     void shuffleTheRobotsCards(int[] order);
 
-    void robotPlayNextCard();
-
     void endGame();
 
     void exitGame();
+
+    IRound getRound();
 }
