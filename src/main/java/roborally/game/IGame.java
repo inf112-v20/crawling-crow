@@ -82,7 +82,7 @@ public interface IGame {
 
     void fireLasers();
 
-    void movingBackupPoints();
+    void restoreRebootedRobots();
 
     void registerFlagPositions();
 

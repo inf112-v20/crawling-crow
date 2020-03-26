@@ -298,7 +298,7 @@ public class Game implements IGame {
             moveAllConveyorBelts();
             moveCogs();
             fireLasers();
-            movingBackupPoints();
+            restoreRebootedRobots();
             registerFlagPositions();
             checkIfSomeoneWon();
             checkForLasers();
@@ -337,7 +337,7 @@ public class Game implements IGame {
         moveAllConveyorBelts();
         moveCogs();
         //fireLasers();
-        movingBackupPoints();
+        restoreRebootedRobots();
         registerFlagPositions();
         checkIfSomeoneWon();
     }
@@ -442,9 +442,9 @@ public class Game implements IGame {
     }
 
     @Override
-    public void movingBackupPoints() {
-        // TODO: Let robots create new backup points if legal
-
+    public void restoreRebootedRobots() {
+        for (Robot robot : robots)
+            robot.backToCheckPoint();
     }
 
     @Override

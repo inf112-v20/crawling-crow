@@ -25,6 +25,7 @@ public class Robot implements Programmable {
     private ILayers layers;
     private Listener listener;
     private LaserRegister laserRegister;
+    private boolean reboot;
 
     private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
@@ -107,8 +108,10 @@ public class Robot implements Programmable {
     }
 
     public void takeDamage(int dmg) {
-        if (getLogic().takeDamage(dmg))
+        if (getLogic().takeDamage(dmg)) {
             backToCheckPoint();
+            reboot = true;
+        }
     }
 
     public void tryToMove(GridPoint2 step) {
@@ -141,9 +144,12 @@ public class Robot implements Programmable {
     //endregion
 
     public void backToCheckPoint() {
-        robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
-        this.robotLogic.backToCheckPoint();
-        clearRegister();
+        if (reboot) {
+            robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
+            this.robotLogic.backToCheckPoint();
+            clearRegister();
+            reboot = false;
+        }
     }
 
     public RobotLogic getLogic() {
