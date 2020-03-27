@@ -43,7 +43,7 @@ Vi trenger å bli bedre på å formidle hva vi tenker å jobbe og hva som egentl
 ![Skjermbilde 2020-03-27 kl  15 23 27](https://user-images.githubusercontent.com/5453010/77765692-ea55db80-703e-11ea-9ad3-a9c602615159.png)
 
 #### Arbeidsoppgaver
-
+![Skjermbilde 2020-03-27 kl  15 51 18](https://user-images.githubusercontent.com/5453010/77768468-ceeccf80-7042-11ea-9658-c740dc1dfb8a.png)
 
 
 ## Deloppgave 2: Krav
