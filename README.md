@@ -129,7 +129,7 @@ Please see the [controls for combat](#combat) above
 
 #### Rebooting and checkpoint test
 -   When a `Robot` is destroyed, it should reboot to `checkpoint`.
--   When a `Robot` have rebooted 3 times, it should be able to reboot again. i.e. The robot must be destroyed four 
+-   When a `Robot` have rebooted 3 times, it should not be able to reboot again. i.e. The robot must be destroyed four 
 times for it to be out of the game.
 
 #### Flags and winner tests
