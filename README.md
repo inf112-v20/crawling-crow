@@ -109,7 +109,6 @@ Please see the [controls for movement](#movement) above.
 -   Push `Robot`s into walls to see if collision works.
 -   Push `Robot`s outside of game bord, to see if they go outside
 
-
 #### Robot's State changes
 -   Check that you can push another `Robot` out of the map, `Robot` should be destroyed.
 -   Check that you can push another `Robot` into holes, `Robot` should be destroyed.
@@ -179,7 +178,6 @@ times for it to be out of the game.
         -   Move backwards 1 
     -   Verify that your robot moves and rotates according to the cards you selected, in order.
 
-
 ## Known bugs
 See [Isses with Bug label](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
 
@@ -188,4 +186,4 @@ Currently throws "WARNING: An illegal reflective access operation has occurred",
 when the java version used is >8. This has no effect on function or performance, and is just a warning.
 
 ## Class diagram
-![Oblig2UML](https://user-images.githubusercontent.com/45336748/75541155-b1b1ea80-5a1d-11ea-8a34-e57d7586e76a.png)
+![Oblig3UML](https://user-images.githubusercontent.com/59846048/77762946-98ab5200-703a-11ea-8993-dce653775105.jpg)
