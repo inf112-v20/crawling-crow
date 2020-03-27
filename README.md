@@ -80,8 +80,23 @@ All of our automatic tests can be found in `src/test/java/roborally`.
 -   When looking at the menu, during a game, verify that clicking "continue" will return to the game
 -   Use cursor to click "Change Map" in the Menu, verify that "change map"-section is visible
 -   Use cursor to click on arrows to look at different maps. Verify that visible map changes
--   Use cursor to click a map, and start the game. Verify that the selected map is used for the new game
--   
+-   In "Change map", decide a map, use cursor to click "Pick this map", and start the game. Verify that the selected map is used for the new game
+
+#### Sound tests
+-   In menu, press "Play a song", verify that a song plays
+-   In menu, change volume, verify that game volume changes depending on your choice
+-   Fire laser, verify laser sound
+-   Move robots, verify movement sound
+
+#### Optional settings tests
+-   Change "Game Speed", verify that a round is played faster or slower, depending on your choice.
+-   Change "Laser Speed", verify that lasers move faster or slower, depending on your choice.
+
+#### FunMode tests
+-   In the menu, Start New Game with "FunMode" set it to "On". Verify that board is filled with robots.
+-   Start New Game with "FunMode" set it to "On", when already in a normal Game. Verify that board is filled with robots.
+-   Start New Game with "FunMode" set it to "Off", when already in a FunMode Game. Verify that board has 8 robots.
+-   A FunMode game should run as normal, only difference being many more robots. 
 
 #### Movement test
 Please see the [controls for movement](#movement) above. 
@@ -107,7 +122,7 @@ should now have updated its number of visited flags.
 -   Push other `Robot`s ontop of _hole_ to see if their texture changes.
 -   When your `Robot` is ontop of _hole_, check  if their texture changes.
 
-#### Combat test
+#### Laser tests
 Please see the [controls for combat](#combat) above
 -   Check if lasers fire when looking in all four directions by pressing <kbd>F</kbd>. 
 -   Check if laser stops on `Robot`s and walls.
@@ -121,7 +136,7 @@ times for it to be out of the game.
 #### Flags and winner tests
 -   Move `Robot` to **flag 1**, press <kbd>SPACE</kbd>, check console print `A flag has been visited` appears.
     -   Continue for the other flags in ascending order, pressing <kbd>SPACE</kbd> on each visist. 
-    -   When all flags has been visited, the console should write a sentence telling you have visisted all flags.
+    -   When all flags has been visited as explained above, the console should write a sentence telling you have visisted all flags.
 
 #### Conveyor belt tests
 -   For each direction
@@ -167,9 +182,6 @@ times for it to be out of the game.
 
 ## Known bugs
 See [Isses with Bug label](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
--   If no `Robot`s have been generated, you will get a `NullPointerException`. See [#38](/../../issues/38).
--   There are two bugs in `AssetsManager.java`. You have to call specific methods. See [#37](/../../issues/37).
--   Lasers only shoot when the robot is either looking left or right, so only horizontal works now. See [#88](/../../issues/88)
 
 ### From Maven template
 Currently throws "WARNING: An illegal reflective access operation has occurred", 
