@@ -25,7 +25,7 @@
 2. Ta kontakt hvis man lurer på ting.
 
 ##### Oppgaver vi har lyst å bli ferdig med til neste gang
-- Cleanup #103 // TODO : bli ferdig til fredag
+- Power down #114
 - User interface #116
 - Conveyorbelt #109
 - Rotating cogs #110
@@ -42,11 +42,11 @@ Vi trenger å bli bedre på å formidle hva vi tenker å jobbe og hva som egentl
 ### Tidligere priorterte krav
 - Vi fullførte alle issuene vi hadde lyst å bli ferdig med. 
 - Som skrevet over må vi fortsatt jobbe med parprogrammering og jobbing individuelt.
-- Nye insekt har oppstått.
+- Nye bugs har oppstått.
 
-### Diverse (FIXME)
-- Se [Issues](https://github.com/inf112-v20/crawling-crow/issues) og [User stories](https://github.com/inf112-v20/crawling-crow/projects/2)
-- Se [TODO](https://github.com/inf112-v20/crawling-crow/projects/2#column-7901313) (og ev. backlog) i user stories.
+### Diverse
+- Se [Issues](/../../issues) og [User stories](/../../crawling-crow/projects/2)
+- Se [TODO](/../../projects/2#column-7901313) (og ev. backlog) i user stories.
 - Dette er hva vi anser som [MVP](/../../wiki/Spillkrav) siden dette er nødvendig spillmekanikk fra selve brettspillet.
 - Kjente [bugs](../README.md#known-bugs)
 

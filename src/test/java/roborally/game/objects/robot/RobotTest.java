@@ -17,6 +17,9 @@ public class RobotTest {
     private Programmable testRobot2;
     private IProgramCards.Card card;
     private IProgramCards programCards;
+    private CardsInHand cardsInHand;
+
+    private GridPoint2 initialStartPosition;
 
 
     @Before
@@ -24,18 +27,37 @@ public class RobotTest {
         testRobot1 = new Robot(new RobotLogic("T1"));
         testRobot2 = new Robot(new RobotLogic("T2"));
         programCards = new ProgramCards();
-    }
 
-    @Test
-    public void verifyThatNextCardToPlayIsTheFirstInTheRegister() {
-        // TODO: Cleanup
-        CardsInHand cardsInHand = new CardsInHand(programCards.getDeck());
+        cardsInHand = new CardsInHand(programCards.getDeck());
         testRobot1.getLogic().newCards(cardsInHand);
         card = cardsInHand.getCards().get(2);
         int[] order = {2, 0, 1, 3, 4};
         testRobot1.getLogic().arrangeCards(order);
+
+        initialStartPosition = new GridPoint2(0,0);
+    }
+
+    @Test
+    public void verifyThatRobotHasInitialPosition() {
+        assertEquals(initialStartPosition, testRobot1.getPosition());
+    }
+
+    @Test
+    public void verifyThatNextCardToPlayIsTheFirstInTheRegister() {
         assertEquals(card, testRobot1.getLogic().getNextCard());
     }
+
+    @Test
+    public void verifyThatPeekingNextCardIsFirstInTheRegister() {
+        assertEquals(card, testRobot1.getLogic().peekNextCard());
+    }
+
+    @Test
+    public void verifyThatRobotHas5CardsInHand() {
+        assertEquals(5, testRobot1.getLogic().getCards().size());
+    }
+
+    // verifyThatRobotHas3CardsInHandAfterTaking7Damage
 
     @Test
     public void verifyThatRobot1NameNotEqualToRobot2Name() {
@@ -55,7 +77,11 @@ public class RobotTest {
         assertEquals(testRobot1.getLogic().getDirection(), Direction.West);
     }
 
-
+    @Test
+    public void verifyThatRobotRotatesRight() {
+        testRobot1.getLogic().rotate(Direction.turnRightFrom(testRobot1.getLogic().getDirection()));
+        assertEquals(testRobot1.getLogic().getDirection(), Direction.East);
+    }
 
     @Test
     public void verifyThatRobotHasFullHealth() {
@@ -79,5 +105,14 @@ public class RobotTest {
         assertEquals(testRobot1.getLogic().getStatus(), "Destroyed");
     }
 
+    @Test
+    public void verifyThatRobotUsesARebootWhenReenteringTheBoard() {
+        testRobot1.getLogic().setCheckPoint(new GridPoint2(1, 1));
+        testRobot1.getLogic().backToCheckPoint();
+        assertEquals(testRobot1.getLogic().getReboots(), 3);
+    }
 
+    @Test
+    public void name() {
+    }
 }

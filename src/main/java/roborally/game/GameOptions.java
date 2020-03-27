@@ -1,5 +1,6 @@
 package roborally.game;
 
+import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.game.objects.robot.Robot;
@@ -31,20 +32,24 @@ public class GameOptions {
         ArrayList<Robot> robots = new ArrayList<>();
         for (int x = 0; x < layers.getWidth(); x++) {
             for (int y = 0; y < layers.getHeight(); y++) {
-                robots.add(new Robot(x, y, y % 8, laserRegister));
+                Robot robot = new Robot(new GridPoint2(x, y), y % 8, laserRegister);
+                robot.setNumberOfFlags(flags.size());
+                robots.add(robot);
             }
         }
         AssetManagerUtil.setRobots(robots);
         return robots;
     }
 
-    public ArrayList<Robot> makeRobots(ILayers layers, LaserRegister laserRegister) {
+    public ArrayList<Robot> makeRobots(ILayers layers, LaserRegister laserRegister, ArrayList<IFlag> flags) {
         ArrayList<Robot> robots = new ArrayList<>();
         int cell = 0;
         for (int i = 0; i < layers.getWidth(); i++) {
             for (int j = 0; j < layers.getHeight(); j++) {
-                if (layers.assertStartPosNotNull(i, j)) {
-                    robots.add(new Robot(i, j, cell % 8, laserRegister));
+                if (layers.assertStartPosNotNull(new GridPoint2(i, j))) {
+                    Robot robot = new Robot(new GridPoint2(i, j), cell % 8, laserRegister);
+                    robot.setNumberOfFlags(flags.size());
+                    robots.add(robot);
                     cell++;
                 }
             }

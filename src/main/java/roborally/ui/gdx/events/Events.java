@@ -86,7 +86,7 @@ public class Events {
             this.dt = 0f;
             this.cardNumber = 0;
             this.registerPhase = 1;
-            setPauseEvent(false);
+            setWaitMoveEvent(false);
         }
     }
 
@@ -95,7 +95,7 @@ public class Events {
     }
 
     // Lets the UI know wether or not there are robots ready to move.
-    public void setPauseEvent(boolean value) {
+    public void setWaitMoveEvent(boolean value) {
         this.waitEvent = value;
     }
 
@@ -106,7 +106,7 @@ public class Events {
      * @param texture The robots texture.
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
-        Image image = new Image(texture[0][0]);
+        Image image = new Image(texture[0][1]);
         image.setX(pos.x * unitScale);
         image.setY(pos.y * unitScale);
         image.setSize(unitScale, unitScale);
@@ -159,8 +159,6 @@ public class Events {
                     fadeRobot(pos, laserEvent.getRobot().getTexture());
                     laserEvent.getRobot().deleteRobot();
                     setFadeRobot(true);
-                } else {
-                    laserEvent.getRobot().setLostTexture();
                 }
             }
         }

@@ -12,14 +12,14 @@ public class Round implements IRound {
     private ArrayList<Robot> robots;
     private IPhase phase;
 
-    public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags){
+    public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags) {
         this.robots = robots;
         this.phase = new Phase(this.robots, flags, events);
         restoreRebootedRobots();
     }
 
     @Override
-    public void run(ILayers layers){
+    public void run(ILayers layers) {
         announcePowerDown();
         dealCards();
         programRobots();
@@ -29,32 +29,36 @@ public class Round implements IRound {
 
     @Override
     public void announcePowerDown() {
-
+        // Not implemented.
     }
 
     @Override
     public void dealCards() {
-
+        //Dealt in game currently.
     }
 
     @Override
     public void programRobots() {
-
+        //Done in game currently.
     }
 
     @Override
     public void startPhases(ILayers layers) {
+        // FIXME: Should run like this instead
+        /*for (int i = 0; i < 5; i++) {
+            getPhase().run(layers);
+        }*/
         getPhase().run(layers);
     }
 
     @Override
     public void cleanUp() {
-
+        //Done in robot and in rebootRobots
     }
 
     @Override
     public void checkForDestroyedRobots() {
-
+        //Done through events.
     }
 
     @Override

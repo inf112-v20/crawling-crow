@@ -18,7 +18,6 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -33,7 +32,7 @@ public class Game implements IGame {
     private Robot userRobot;
     //endregion
 
-    private Robot winner;
+    //private Robot winner;
     private boolean gameRunning = false;
     private int currentRobotID;
     private Events events;
@@ -42,14 +41,13 @@ public class Game implements IGame {
 
     private boolean fun;
 
-    private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
+    //private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
     public Game(Events events) {
         currentRobotID = 0;
         deckOfProgramCards = new ProgramCards();
         this.events = events;
         this.gameOptions = new GameOptions();
-        this.laserRegister = new LaserRegister();
     }
 
     public Game(boolean runAIGame) {
@@ -62,8 +60,9 @@ public class Game implements IGame {
     public void startUp() {
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
+        this.laserRegister = new LaserRegister(layers);
         flags = gameBoard.findAllFlags();
-        this.robots = gameOptions.makeRobots(layers, laserRegister);
+        this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
         this.round = new Round(events, robots, flags);
         userRobot = robots.get(0);
     }
@@ -72,6 +71,7 @@ public class Game implements IGame {
     public void funMode() {
         gameBoard = new GameBoard();
         layers = gameBoard.getLayers();
+        this.laserRegister = new LaserRegister(layers);
         flags = gameBoard.findAllFlags();
         robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
@@ -92,8 +92,9 @@ public class Game implements IGame {
         if (this.currentRobotID == robots.size()) {
             this.currentRobotID = 0;
         }
-        userRobot.backToCheckPoint();
+
         events.checkForDestroyedRobots(this.robots);
+        userRobot.backToCheckPoint();
         return userRobot;
     }
 
@@ -116,7 +117,8 @@ public class Game implements IGame {
         for (Robot robot : robots) {
             events.removeFromUI(robot);
         }
-        setRobots(gameOptions.makeRobots(layers, laserRegister));
+        setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
+        userRobot = robots.get(0);
     }
     //region Rounds
     //endregion
@@ -214,16 +216,19 @@ public class Game implements IGame {
 
     //endregion
 
-    private void checkForLasers() {
-        for(Robot robot : robots)
-            if (robot.checkForLaser())
-                robot.takeDamage(1);
-    }
-
-
     @Override
     public void shuffleTheRobotsCards(int[] order) {
         userRobot.getLogic().arrangeCards(order);
+        userRobot.getLogic().hasChosenCards = true;
+    }
+
+    @Override
+    public boolean hasAllPlayersChosenCards() {
+        if(userRobot != null && userRobot.getLogic().hasChosenCards) {
+                userRobot.getLogic().setHasChosenCards(false);
+                return true;
+            }
+        return false;
     }
 
     //region Conveyor belts
@@ -238,16 +243,16 @@ public class Game implements IGame {
     public void endGame() {
         Robot winner = round.getPhase().getWinner();
         System.out.println(winner);
-/*        if (winner == null){
+        /*if (winner == null){
             System.out.println("Did not find a winner...");
             return;
         }*/
 
         assert (gameRunning);
-        if(DEBUG){
+        if (DEBUG) {
             System.out.println("Stopping game...");
         }
-        events.setPauseEvent(false);
+        events.setWaitMoveEvent(false);
         for (Robot robot : robots) {
             layers.setRobotTexture(robot.getPosition(), null);
             events.removeFromUI(robot);
@@ -255,7 +260,6 @@ public class Game implements IGame {
         robots.clear();
         gameRunning = false;
         gameOptions.enterMenu(true);
-        System.out.println("Press W to win");
     }
 
     @Override

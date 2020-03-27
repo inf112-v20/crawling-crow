@@ -1,10 +1,7 @@
 package roborally.game;
 
-import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
-
-import java.util.ArrayList;
 
 public interface IPhase {
     void revealProgramCards();

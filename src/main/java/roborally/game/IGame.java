@@ -1,6 +1,5 @@
 package roborally.game;
 
-import roborally.game.objects.robot.AIPlayer;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.ProgramCardsView;
@@ -44,6 +43,8 @@ public interface IGame {
     ProgramCardsView getCards();
 
     void shuffleTheRobotsCards(int[] order);
+
+    boolean hasAllPlayersChosenCards();
 
     void endGame();
 
