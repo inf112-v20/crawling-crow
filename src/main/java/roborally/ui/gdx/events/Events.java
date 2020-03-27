@@ -159,8 +159,6 @@ public class Events {
                     fadeRobot(pos, laserEvent.getRobot().getTexture());
                     laserEvent.getRobot().deleteRobot();
                     setFadeRobot(true);
-                } else {
-                    laserEvent.getRobot().setLostTexture();
                 }
             }
         }
