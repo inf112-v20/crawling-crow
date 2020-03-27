@@ -177,6 +177,8 @@ times for it to be out of the game.
         -   U-Turn
         -   Move backwards 1 
     -   Verify that your robot moves and rotates according to the cards you selected, in order.
+-   Verify that the number of cards on your hand is dependant on your robots health.
+-   Verify that can only play a number of cards equal to the minimum of (5, 9-number of damage tokens)
 
 ## Known bugs
 See [Isses with Bug label](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
