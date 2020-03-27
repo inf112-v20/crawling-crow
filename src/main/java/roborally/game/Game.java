@@ -18,7 +18,6 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Game implements IGame {
     private final boolean DEBUG = true;
@@ -244,13 +243,13 @@ public class Game implements IGame {
     public void endGame() {
         Robot winner = round.getPhase().getWinner();
         System.out.println(winner);
-/*        if (winner == null){
+        /*if (winner == null){
             System.out.println("Did not find a winner...");
             return;
         }*/
 
         assert (gameRunning);
-        if(DEBUG){
+        if (DEBUG) {
             System.out.println("Stopping game...");
         }
         events.setWaitMoveEvent(false);
@@ -261,7 +260,6 @@ public class Game implements IGame {
         robots.clear();
         gameRunning = false;
         gameOptions.enterMenu(true);
-        System.out.println("Press W to win");
     }
 
     @Override

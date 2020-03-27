@@ -106,6 +106,7 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
+        System.out.println("here " + robotsOrigin);
 
         TileName laserTileName = tiledTranslator.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_HORIZONTAL) {

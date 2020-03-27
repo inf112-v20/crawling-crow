@@ -136,8 +136,10 @@ public class Robot implements Programmable {
                 System.out.println("New position: " + newPos);
 
                 // Check if you are standing in a hole
-                if (layers.assertHoleNotNull(newPos))
+                if (layers.assertHoleNotNull(newPos)) {
                     takeDamage(10);
+                    this.setLostTexture();
+                }
                 robotView.setDirection(newPos, robotLogic.getDirection());
 
             }
@@ -257,7 +259,7 @@ public class Robot implements Programmable {
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
         if (nextFlag == visitedFlags.length)
-            System.out.println("Congratulations you have collected all the flags, press 'W' to win the game.");
+            System.out.println("Congratulations you have collected all the flags, press 'W' to end the game.");
         else
             System.out.println("Next flag to visit: " + (nextFlag + 1));
     }
