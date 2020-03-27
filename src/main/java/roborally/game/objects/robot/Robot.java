@@ -111,6 +111,7 @@ public class Robot implements Programmable {
             backToCheckPoint();
             reboot = true;
         }
+        setLostTexture();
     }
 
     public int peekNextCard() {
