@@ -107,7 +107,6 @@ public enum TileName {
 
     TileName(int tileID) {
         this.tileID = tileID;
-        //TODO: Throw exception if two matching IDs
     }
 
     public int getTileID() {

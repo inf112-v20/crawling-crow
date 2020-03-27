@@ -202,7 +202,6 @@ public class Robot implements Programmable {
     }
 
     public void playNextCard() {
-        //TODO: Add hashmap and move the hashmap to ProgramCards #117
         IProgramCards.Card card = getLogic().getNextCard();
         if (card == null)
             return;
@@ -215,7 +214,6 @@ public class Robot implements Programmable {
 
     }
 
-    // FIXME: Temp helper-method for playNextCard()
     private void setCardTypeMethod() {
         this.cardTypeMethod.put(IProgramCards.CardType.MOVE_1, () -> move(1));
         this.cardTypeMethod.put(IProgramCards.CardType.MOVE_2, () -> move(2));
@@ -229,8 +227,6 @@ public class Robot implements Programmable {
         this.cardTypeMethod.put(IProgramCards.CardType.BACKUP, () -> move(-1));
     }
 
-    // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
-
     public boolean hasVisitedAllFlags() {
         boolean visitedAll = true;
         for (boolean visitedFlag : visitedFlags) {
@@ -238,8 +234,6 @@ public class Robot implements Programmable {
         }
         return visitedAll;
     }
-
-    // TODO: Refactor to RobotModel.
 
     public int getNextFlag() {
         for (int i = 0; i < visitedFlags.length; i++) {
@@ -249,8 +243,6 @@ public class Robot implements Programmable {
         }
         return -1;
     }
-
-    // TODO: Refactor to RobotModel
 
     public void visitNextFlag() {
         this.setWinTexture();

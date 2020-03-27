@@ -51,7 +51,7 @@ public class RobotLogic implements Programmable {
 
     //region Movement
     @Override
-    @Deprecated // TODO: Remove when safe
+    @Deprecated
     public void move(int steps) {
         // ...
     }
@@ -150,10 +150,6 @@ public class RobotLogic implements Programmable {
 
     public void setHasChosenCards(boolean value) {
         this.hasChosenCards = value;
-    }
-
-    public boolean hasChosenCards() {
-        return this.hasChosenCards;
     }
 
     public ArrayList<IProgramCards.Card> getCards() {

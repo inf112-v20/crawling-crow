@@ -47,7 +47,6 @@ public class Phase implements IPhase {
 
     @Override
     public void moveAllConveyorBelts(ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         moveExpressConveyorBelts(layers);
         moveExpressConveyorBelts(layers);
         moveNormalConveyorBelts(layers);
@@ -55,7 +54,6 @@ public class Phase implements IPhase {
 
     @Override
     public void moveCogs(ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertGearNotNull(pos)) {
@@ -78,7 +76,6 @@ public class Phase implements IPhase {
             if (!coords.isEmpty())
                 events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
         }
-        // TODO: Implement the corresponding phase.
     }
 
     @Override
@@ -143,7 +140,6 @@ public class Phase implements IPhase {
     }
 
     private void moveNormalConveyorBelts(ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
@@ -151,7 +147,6 @@ public class Phase implements IPhase {
                 TileName tileName = layers.getConveyorSlowTileName(pos);
                 // Move in a special way so that no collision happens.
                 System.out.println(robot.getName() + " is on " + tileName.toString());
-                // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
@@ -167,14 +162,12 @@ public class Phase implements IPhase {
     }
 
     private void moveExpressConveyorBelts(ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorFastNotNull(pos)) {
                 TileName tileName = layers.getConveyorFastTileName(pos);
                 // Move in a special way so that no collision happens.
-                // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
@@ -190,7 +183,6 @@ public class Phase implements IPhase {
     }
 
     private void rotateConveyorBelts(ArrayList<Robot> rotateRobots, ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         TileName tileName;
         if (rotateRobots.isEmpty())
             return;
@@ -209,9 +201,6 @@ public class Phase implements IPhase {
     }
 
     private boolean checkAllRobotsForWinner() {
-        //assert (gameRunning);
-        //assert (roundStep == RoundStep.PHASES);
-        //assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
         checkAllRobotsAreCreated();
 
         for (Robot robot : robots) {

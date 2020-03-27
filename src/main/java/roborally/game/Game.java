@@ -41,8 +41,6 @@ public class Game implements IGame {
 
     private boolean fun;
 
-    //private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
-
     public Game(Events events) {
         currentRobotID = 0;
         deckOfProgramCards = new ProgramCards();
@@ -167,7 +165,6 @@ public class Game implements IGame {
     @Override
     public ProgramCardsView getCards() {
         round = new Round(events, robots, flags);
-        //TODO Refactor for readability
         if (fun)
             removeDeadRobots();
 
@@ -180,7 +177,6 @@ public class Game implements IGame {
         for (int robotID = 0; robotID < robots.size(); robotID++) {
             cardsDrawn = new ArrayList<>();
 
-            //TODO FIX. Bugs with drawing cards...
             int robotHealth = robots.get(robotID).getLogic().getHealth() - 1;
             int cardsToDraw = Math.max(0, robotHealth);
 
@@ -231,22 +227,10 @@ public class Game implements IGame {
         return false;
     }
 
-    //region Conveyor belts
-    // Might consider adding this to a wait event once we get it to function properly.
-    // Have to have its own move method, moving the robot first in the line first and so on.
-    // Additionally, I think the check for lasers are supposed to happen after all of this.
-
-
-    //endregion
-
     @Override
     public void endGame() {
         Robot winner = round.getPhase().getWinner();
         System.out.println(winner);
-        /*if (winner == null){
-            System.out.println("Did not find a winner...");
-            return;
-        }*/
 
         assert (gameRunning);
         if (DEBUG) {

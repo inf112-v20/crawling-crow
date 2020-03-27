@@ -264,10 +264,6 @@ public class Laser {
         return true;
     }
 
-    public int getID() {
-        return this.cannonTileID;
-    }
-
     public GridPoint2 getPosition() {
         return this.cannonPos;
     }

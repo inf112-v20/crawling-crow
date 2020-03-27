@@ -40,9 +40,9 @@ public class AnimateEvent {
             group.draw(batch, 1);
         }
         if (programCardsView.done()) { // The user(s) has chosen the cards he or she wants to play, the event starts.
-            cardPhase = false; // TODO: Move to Game
+            cardPhase = false;
             stage.clear();
-            game.shuffleTheRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
+            game.shuffleTheRobotsCards(programCardsView.getOrder());
             programCardsView.clearStuff();
             events.setWaitMoveEvent(true); //Starts the event
         }

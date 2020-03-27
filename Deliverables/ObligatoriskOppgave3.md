@@ -38,6 +38,14 @@
 Vi trenger å bli bedre på å formidle hva vi tenker å jobbe og hva som egentlig har blitt gjort.
 
 
+### Project boards
+#### User stories
+![Skjermbilde 2020-03-27 kl  15 23 27](https://user-images.githubusercontent.com/5453010/77765692-ea55db80-703e-11ea-9ad3-a9c602615159.png)
+
+#### Arbeidsoppgaver
+
+
+
 ## Deloppgave 2: Krav
 ### Tidligere priorterte krav
 - Vi fullførte alle issuene vi hadde lyst å bli ferdig med. 

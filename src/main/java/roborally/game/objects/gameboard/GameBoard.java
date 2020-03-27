@@ -53,6 +53,4 @@ public class GameBoard implements IGameBoard {
     public ILayers getLayers() {
         return this.layers;
     }
-
-    // TODO : find conveyorbelts, cogs, checkpoints etc.
 }

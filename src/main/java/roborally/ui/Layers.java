@@ -28,10 +28,6 @@ public class Layers implements ILayers {
         return layers.containsKey(key);
     }
 
-    public boolean assertPusherNotNull(GridPoint2 pos) {
-        return layers.get("Pusher").getCell(pos.x, pos.y) != null;
-    }
-
     // Robots
 
     public TiledMapTileLayer getRobots() {
@@ -214,7 +210,6 @@ public class Layers implements ILayers {
         return layers.get("wrenchHammer");
     }
 
-
     public boolean assertWrenchHammerNotNull(GridPoint2 pos) {
         if (contains("wrenchHammer"))
             return layers.get("wrenchHammer").getCell(pos.x, pos.y) != null;
@@ -228,7 +223,6 @@ public class Layers implements ILayers {
         return layers.get("Laser");
     }
 
-
     public boolean assertLaserNotNull(GridPoint2 pos) {
         if (contains("Laser"))
             return layers.get("Laser").getCell(pos.x, pos.y) != null;
@@ -236,13 +230,11 @@ public class Layers implements ILayers {
         return false;
     }
 
-
     public TiledMapTileLayer.Cell getLaserCell(GridPoint2 pos) {
         if (!contains("Laser"))
             return null;
         return layers.get("Laser").getCell(pos.x, pos.y);
     }
-
 
     public void setLaserCell(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
         if (contains("Laser"))
@@ -250,7 +242,6 @@ public class Layers implements ILayers {
         else
             System.out.println("Laser layer does not exist");
     }
-
 
     public int getLaserID(GridPoint2 pos) {
         if (contains("Laser"))
@@ -260,7 +251,6 @@ public class Layers implements ILayers {
         return -1;
     }
 
-
     public int getLaserCannonID(GridPoint2 pos) {
         if (contains("laserCannon"))
             return layers.get("laserCannon").getCell(pos.x, pos.y).getTile().getId();
@@ -268,7 +258,6 @@ public class Layers implements ILayers {
             System.out.println("laserCannon layer does not exist");
         return -1;
     }
-
 
     public boolean assertLaserCannonNotNull(GridPoint2 pos) {
         if (contains("laserCannon"))
@@ -283,18 +272,13 @@ public class Layers implements ILayers {
         return layers.get("Gear").getCell(pos.x, pos.y) != null;
     }
 
-
     public TileName getGearTileName(GridPoint2 pos) {
         return tiledTranslator.getTileName(layers.get("Gear").getCell(pos.x, pos.y).getTile().getId());
     }
 
-    // Bug
-    // Returns the bug layer.
-
     public TiledMapTileLayer getBug() {
         return layers.get("bug");
     }
-
 
     public boolean assertBugNotNull(GridPoint2 pos) {
         return layers.get("bug").getCell(pos.x, pos.y) != null;

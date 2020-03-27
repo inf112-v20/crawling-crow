@@ -34,31 +34,28 @@ public class Round implements IRound {
 
     @Override
     public void dealCards() {
-        //Dealt in game currently.
+        // Dealt in game currently.
     }
 
     @Override
     public void programRobots() {
-        //Done in game currently.
+        // Done in game currently.
     }
 
     @Override
     public void startPhases(ILayers layers) {
-        // FIXME: Should run like this instead
-        /*for (int i = 0; i < 5; i++) {
-            getPhase().run(layers);
-        }*/
+
         getPhase().run(layers);
     }
 
     @Override
     public void cleanUp() {
-        //Done in robot and in rebootRobots
+        // Done in robot and in rebootRobots
     }
 
     @Override
     public void checkForDestroyedRobots() {
-        //Done through events.
+        // Done through events.
     }
 
     @Override

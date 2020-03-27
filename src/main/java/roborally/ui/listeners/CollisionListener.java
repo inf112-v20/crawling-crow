@@ -42,7 +42,6 @@ public class CollisionListener {
                     System.out.println("Pushing robot complete");
                 }
         }
-        // RobotPresenter "deletion"
         else
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().equals(pos)) {
@@ -66,7 +65,6 @@ public class CollisionListener {
             if (robot != null) {
                 GridPoint2 bumpedPos = robot.getPosition();
                 if (bumpedPos.equals(pos) && (nextPos.x >= width || nextPos.x < 0 || nextPos.y >= height || nextPos.y < 0)) {
-                    // RobotPresenter "deletion".
                     robot.setPosition(new GridPoint2(SettingsUtil.GRAVEYARD));
                     robot.takeDamage(10);
                     robot.clearRegister();
@@ -95,7 +93,6 @@ public class CollisionListener {
         if (wallListener.checkForWall(pos, move))
             return true;
         GridPoint2 newPos = pos.cpy().add(move);
-        // There is no RobotPresenter on the next position.
         if (!layers.assertRobotNotNull(newPos))
             return false;
         else {

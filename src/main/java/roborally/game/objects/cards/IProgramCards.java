@@ -47,7 +47,6 @@ public interface IProgramCards {
             this.priority = priorityRangeMin + (int) (Math.random() * priorityRangeMax);
         }
 
-        // TODO: @adipid. Er det en plan å bruke dette eller er dette deprecate? @thomas
         public String getCard() {
             return this.cardType + " " + this.priority;
         }
