@@ -15,7 +15,6 @@ public class Laser {
     private int laserTileID;
     private int cannonTileID;
     private boolean removeLaser;
-
     private TiledTranslator tiledTranslator;
     private ILayers layers;
     private WallListener wallListener;
@@ -106,7 +105,6 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
-
         TileName laserTileName = tiledTranslator.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_HORIZONTAL) {
             storedLaserCell = getLaser(1);

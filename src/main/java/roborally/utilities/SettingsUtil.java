@@ -9,7 +9,7 @@ public class SettingsUtil {
     public static int NUMBER_OF_FLAGS = 3;
 
     public static int ROBOT_MAX_HEALTH = 10;
-    public static int ROBOT_MAX_REBOOTS = 3;
+    public static int ROBOT_MAX_REBOOTS = 4;
     //endregion
 
     public static GridPoint2 GRAVEYARD = new GridPoint2(-1,-1);

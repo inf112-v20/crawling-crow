@@ -44,6 +44,10 @@ public class Round implements IRound {
 
     @Override
     public void startPhases(ILayers layers) {
+        // FIXME: Should run like this instead
+        /*for (int i = 0; i < 5; i++) {
+            getPhase().run(layers);
+        }*/
         getPhase().run(layers);
     }
 

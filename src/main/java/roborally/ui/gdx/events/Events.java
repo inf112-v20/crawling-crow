@@ -106,7 +106,7 @@ public class Events {
      * @param texture The robots texture.
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
-        Image image = new Image(texture[0][0]);
+        Image image = new Image(texture[0][1]);
         image.setX(pos.x * unitScale);
         image.setY(pos.y * unitScale);
         image.setSize(unitScale, unitScale);
