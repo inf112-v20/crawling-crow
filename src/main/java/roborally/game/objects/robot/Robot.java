@@ -114,6 +114,12 @@ public class Robot implements Programmable {
         }
     }
 
+    public int peekNextCard() {
+        if(getLogic().peekNextCard() == null)
+            return 0;
+        return getLogic().peekNextCard().getPriority();
+    }
+
     public void tryToMove(GridPoint2 step) {
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(step);
@@ -133,6 +139,7 @@ public class Robot implements Programmable {
                 // Check if you are standing in a hole
                 if (layers.assertHoleNotNull(newPos.x, newPos.y))
                     takeDamage(10);
+                robotView.setDirection(newPos, robotLogic.getDirection());
 
             }
         } else
@@ -178,6 +185,7 @@ public class Robot implements Programmable {
 
     public void setLostTexture() {
         this.robotView.setLostTexture(getPosition());
+        this.robotView.setDirection(getPosition(), getLogic().getDirection());
 
     }
 

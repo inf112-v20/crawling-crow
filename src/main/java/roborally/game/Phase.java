@@ -7,11 +7,10 @@ import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.TileName;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Phase implements IPhase {
 
@@ -21,12 +20,14 @@ public class Phase implements IPhase {
     private Events events;
     private Robot winner;
     private ArrayList<IFlag> flags;
+    private Queue<Robot> robotQueue;
 
 
     public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, Events events){
         this.robots = robots;
         this.events = events;
         this.flags = flags;
+        this.robotQueue = new LinkedList<>();
     }
 
     @Override
@@ -35,11 +36,13 @@ public class Phase implements IPhase {
     }
 
     @Override
-    public void playNextRegisterForAllRobots() {
-        //TODO: Create a priority queue based on priority from cards
-        for(Robot robot : robots){
-            robot.playNextCard();
+    public void playNextRegisterCard() {
+        if(robotQueue.isEmpty()) {
+            this.robots.sort(Comparator.comparing(Robot::peekNextCard));
+            robotQueue.addAll(robots);
         }
+        Objects.requireNonNull(robotQueue.poll()).playNextCard();
+        events.checkForDestroyedRobots(this.robots);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class ControlsDebug implements IControls {
         menuControlMap.put(Input.Keys.SPACE, game.getRound().getPhase()::registerFlagPositions);
         menuControlMap.put(Input.Keys.W, game::endGame);
         menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
-        menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterForAllRobots);
+        menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterCard);
         menuControlMap.put(Input.Keys.T, () -> game.getRound().run(game.getLayers()));
     }
 }
