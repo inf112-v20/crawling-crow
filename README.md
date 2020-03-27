@@ -25,59 +25,145 @@ For now, you have to run the game manually.
 3.  When you want to exit, press <kbd>ESC</kbd> or exit the game manually by clicking on the **X**-button.
 
 ### How to play
-#### Controls
-##### Movement
-Since you can't program the robot yet, you can move the robot with the following keys:
+#### Menu Controls
+Use mouse to navigate the menus. Here you can
+-   Start a new game
+-   Change map
+-   Exit the game
 
+Certain settings can be changed in the menu: 
+-   Game volume
+-   Play a song
+-   Activate "Fun Mode"
+-   Set game speed
+-   Set laser travel speed
+
+#### In-game Controls
+-   Open game menu: <kbd>M</kbd>
+-   Quick exit game (rage quit): <kbd>ESC</kbd>
+-   Bring up your programming cards: <kbd>ENTER</kbd>
+
+##### Program robot
+Use your cursor to select the programming cards you wish to place in your register. If you wish to deselect a card, 
+simply click on it again. Press "Done" when you are happy with your selection of cards.
+
+#### Debug Controls
+##### Movement
 -   Forward: <kbd>&#8593;</kbd>
 -   Backward: <kbd>&#8595;</kbd>
 -   Turn left: <kbd>&#8592;</kbd>
 -   Turn right: <kbd>&#8594;</kbd>
 
 ##### Combat
--   Fire laser: <kbd>F</kbd>
+-   Fire your laser: <kbd>F</kbd>
+-   Fire everyone's lasers: <kbd>A</kbd>
 
 ##### Other
--   Exit game: <kbd>ESC</kbd>
--   Start game: <kbd>ENTER</kbd>
--   Check if someone won: <kbd>W</kbd>
--   Register flag: <kbd>SPACE</kbd>
--   Activate FunMode: <kbd>X</kbd>
-    -   FunMode: Move all robots randomly: <kbd>M</kbd>
-    -   Funmode: Fire lasers for all robots: <kbd>A</kbd>
+-   Force one round, and one phase to run, expect programming your robot: <kbd>T</kbd>
+-   End game and return to menu: <kbd>W</kbd>
+-   Force Register flag: <kbd>SPACE</kbd>
+
+## Fun mode
+Fills the map with robots, otherwise plays like a normal game.
 
 ## Tests
 ### Automatic tests
 All of our automatic tests can be found in `src/test/java/roborally`.
 
 ### Manual tests (while running the game)
+#### General tests
+-   When the game has started, verify that pressing <kbd>ESC</kbd> quits the game.
+
+#### Menu tests
+-   Verify that "Start New Game" starts a new game
+-   When in a game, press <kbd>M</kbd> and verify that menu is visible again
+-   When looking at the menu, during a game, verify that clicking "continue" will return to the game
+-   Use cursor to click "Change Map" in the Menu, verify that "change map"-section is visible
+-   Use cursor to click on arrows to look at different maps. Verify that visible map changes
+-   Use cursor to click a map, and start the game. Verify that the selected map is used for the new game
+-   
+
 #### Movement test
-Please see the [controls for movement](#movement) above.
--   We use these to see if the `Robot` moves as expected with arrow keys
+Please see the [controls for movement](#movement) above. 
+-   Check that `Robot` moves as expected with arrow keys
 -   Push other `Robot`s around.
--   Check if `Robot` cannot go outside game board (This will be changed later, because of the game rules).
+-   Check that your `Robot` cannot go outside game board (This will be changed later, because of the game rules).
 -   Move `Robot` into wall to see if collision works.
+-   Move into a stationary laser and verify that laser stop on the `Robot`.
+-   Move out of a stationary laser and verify that laser reappears if the `Robot` was blocking it.
 -   Push `Robot`s into walls to see if collision works.
 -   Push `Robot`s outside of game bord, to see if they go outside
 
+
 #### Robot's State changes
--   Push other `Robot`s ontop of _holes_ or _flags_ to see if their state (texture) changes.
--   When your `Robot` is ontop of _holes_ or _flags_, check  if their texture changes.
+-   Check that you can push another `Robot` out of the map, `Robot` should be destroyed.
+-   Check that you can push another `Robot` into holes, `Robot` should be destroyed.
+-   Check that you can push another `Robot` onto flags and force check flag positions, <kbd>SPACE</kbd>. The `Robot` 
+should now have updated its number of visited flags.
+
+#### Robot's Texture changes
+-   Push other `Robot`s ontop of _flags_ to see if their texture changes.
+-   When your `Robot` is ontop of _flags_, check  if their texture changes.
+-   Push other `Robot`s ontop of _hole_ to see if their texture changes.
+-   When your `Robot` is ontop of _hole_, check  if their texture changes.
 
 #### Combat test
 Please see the [controls for combat](#combat) above
--   Check if lasers fire when looking left or right and if sounds executes by pressing <kbd>F</kbd>. (Works only horizontal atm)
-    -   Check if laser stops on `Robot`s and walls.
-    
-#### Other test
--   Move `Robot` to **flag 1**, press <kbd>SPACE</kbd>, check console print `A flag has been visited` appears.
-    -   Continue for the other flags in ascending order.
-    -   When all flags has been visited, check if someone has _won_ by pressing <kbd>W</kbd>.
+-   Check if lasers fire when looking in all four directions by pressing <kbd>F</kbd>. 
+-   Check if laser stops on `Robot`s and walls.
+-   Check that lasers cross each other fine.
 
--   Check if someone has _won_ prematurely (without visiting any flags) by pressing <kbd>W</kbd>.
--   Start round by pressing <kbd>ENTER</kbd> (this will wait for program card input, which haven't been implemented yet).
--   Check if game exits/quits by pressing <kbd>ESC</kbd>.
--   Move into laser to see if the laser stops on the cell the `Robot` is currently on, and reappears when it steps out.
+#### Rebooting and checkpoint test
+-   When a `Robot` is destroyed, it should reboot to `checkpoint`.
+-   When a `Robot` have rebooted 3 times, it should be able to reboot again. i.e. The robot must be destroyed four 
+times for it to be out of the game.
+
+#### Flags and winner tests
+-   Move `Robot` to **flag 1**, press <kbd>SPACE</kbd>, check console print `A flag has been visited` appears.
+    -   Continue for the other flags in ascending order, pressing <kbd>SPACE</kbd> on each visist. 
+    -   When all flags has been visited, the console should write a sentence telling you have visisted all flags.
+
+#### Conveyor belt tests
+-   For each direction
+    -   For both `Normal conveyor belt` and `Express conveoyer bolt` 
+        -   Move a `Robot` onto on a `conveyor belt`, facing that direction
+        -   Press <kbd>T</kbd> to force one round (with one single phase)
+        -   Verify that the `conveyor belt` moves the `robot` in its direction
+-   For each possible turn
+    -   For both `Normal conveyor belt` and `Express conveoyer bolt` 
+        -   Move a `Robot` onto on a `conveyor belt`, _next-to and before_ the turn we want to test.
+        -   Press <kbd>T</kbd> to force one round (with one single phase)
+        -   Verify that the `conveyor belt` moves the `Robot` onto the turn, and rotates the `Robot` 90 degrees in the 
+        direction of the turn
+-   For each possible turn
+    -   For both `Normal conveyor belt` and `Express conveoyer bolt` 
+        -   Move a `Robot` onto on a `conveyor belt`, _onto_ the turn we want to test
+        -   Press <kbd>T</kbd> to force one round (with one single phase)
+        -   Verify that the `conveyor belt` moves the `Robot` to next conveyor belt, but does _not_ rotates the `Robot`.
+
+#### Cog tests
+-   Move a `Robot` onto on a `Clockwise turning cog`
+    -   Press <kbd>T</kbd> to force one round (with one single phase)
+    -   Verify that the cog rotates the robot clockwise
+-   Move a `Robot` onto on a `Counter-clockwise turning cog`
+    -   Press <kbd>T</kbd> to force one round (with one single phase)
+    -   Verify that the cog rotates the robot counter-clockwise
+
+#### Programming cards tests
+-   Press <kbd>ENTER</kbd> to verify that the `programming cards` becomes visible on the screen
+-   Using the cursor, press a `programming card` and verify a visual indication for the cards position in the register
+-   Try to select six `programming cards` and verify that this is not possible
+-   Press "Done" to trigger the next round to play
+    -   Do this test for several rounds, such that all cards are tested.
+        -   Move 1
+        -   Move 2
+        -   Move 3
+        -   Rotate Left
+        -   Rotate Right
+        -   U-Turn
+        -   Move backwards 1 
+    -   Verify that your robot moves and rotates according to the cards you selected, in order.
+
 
 ## Known bugs
 See [Isses with Bug label](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
