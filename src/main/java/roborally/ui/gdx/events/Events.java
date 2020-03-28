@@ -205,6 +205,7 @@ public class Events {
             if (("Destroyed").equals(robot.getLogic().getStatus())) {
                 System.out.println(robot.getName() + " was destroyed");
                 removeFromUI(robot);
+                robot.backToArchiveMarker();
             }
         }
     }
