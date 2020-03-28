@@ -1,9 +1,6 @@
 package roborally.ui.gdx;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import roborally.Server;
 import roborally.game.Game;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.AnimateEvent;
@@ -77,7 +75,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
-        menu = new Menu(stage, events);
+        menu = new Menu(stage, events, camera, batch, game);
+
 
         game.getGameOptions().enterMenu(true);
     }
@@ -131,6 +130,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void resume() {
         game.getGameOptions().enterMenu(false);
         paused = false;
+        menu.setGame(game);
         Gdx.input.setInputProcessor(this);
     }
 

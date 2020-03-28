@@ -88,10 +88,10 @@ public class RobotView implements IRobotView {
     public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
         if (!pos.equals(checkPoint)) {
             layers.setRobotTexture(pos, null);
-            if(!layers.assertRobotNotNull(pos)) { // Else starts the round virtual.
-                layers.setRobotTexture(checkPoint, getTexture());
-                layers.getRobotTexture(checkPoint).setRotation(0);
             }
+        if(!layers.assertRobotNotNull(checkPoint)) { // Else starts the round virtual.
+            layers.setRobotTexture(checkPoint, getTexture());
+            layers.getRobotTexture(checkPoint).setRotation(0);
         }
     }
 

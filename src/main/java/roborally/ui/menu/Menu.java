@@ -3,6 +3,7 @@ package roborally.ui.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import roborally.Server;
 import roborally.game.IGame;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
@@ -64,8 +66,9 @@ public class Menu {
     private int fun;
     private boolean isFunMode;
     private boolean Continue;
+    private Server server;
 
-    public Menu(Stage stage, Events events) {
+    public Menu(Stage stage, Events events, OrthographicCamera camera, SpriteBatch batch, IGame game) {
         labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         this.decoIterate = new float[3];
@@ -102,6 +105,8 @@ public class Menu {
         stage.addActor(volumeSlider);
         stage.addActor(playSong);
         makeClickableButtons(stage);
+        server = new Server(stage, camera, batch, game);
+        server.create();
     }
 
     private void addEvenMoreListeners() {
@@ -128,9 +133,9 @@ public class Menu {
         decor1.setPosition(420, 350);
         sliders.add(decor1);
         decoWidth[0] = 140;
-        Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
-        birdImage.setSize(4, 4);
-        sliderStyle1.knob = birdImage.getDrawable();
+        //Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
+        //birdImage.setSize(4, 4);
+        //sliderStyle1.knob = birdImage.getDrawable();
         Slider decor2 = new Slider(0, 10, 0.01f, false, sliderStyle1);
         decor2.setSize(225, 0.2f);
         decor2.setPosition(405, 485);
@@ -294,14 +299,16 @@ public class Menu {
             }
         });
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
-        Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
-        birdImage.setSize(15, 20);
-        birdImage.scaleBy(100);
+        //Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
+        //birdImage.setSize(15, 20);
+        //birdImage.scaleBy(100);
         Pixmap pixmap = new Pixmap(10, 8, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         sliderStyle.background = new Image(new Texture(pixmap)).getDrawable();
-        sliderStyle.knob = birdImage.getDrawable();
+
+        //sliderStyle.knob = birdImage.getDrawable();
+        sliderStyle.knob = new Image(new Texture(pixmap)).getDrawable();
         volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
         volumeSlider.setValue(0.6f);
         volumeSlider.addListener(new ChangeListener() {
@@ -314,6 +321,10 @@ public class Menu {
         });
 
         volumeSlider.setPosition(750, 600);
+    }
+
+    public void setGame(IGame game) {
+        server.setGame(game);
     }
 
     public boolean isResume(IGame game) {
@@ -383,6 +394,9 @@ public class Menu {
             volume.draw(batch, 1);
             playSong.draw(batch, 1);
             drawSliders(batch);
+            server.render();
+            if(server.getStart())
+                resume = true;
             if (startGame == 1)
                 continueButton.draw(batch, 1);
         } else {
