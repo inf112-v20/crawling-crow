@@ -32,9 +32,9 @@ public interface IRobot {
 
 
     /**
-     * Sends the robot back to its checkpoint.
+     * Sends the robot back to its archive marker.
      */
-    void backToCheckPoint();
+    void backToArchiveMarker();
 
     /**
      *

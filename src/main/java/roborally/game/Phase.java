@@ -82,7 +82,7 @@ public class Phase implements IPhase {
     }
 
     @Override
-    public void updateCheckPoints() {
+    public void updateArchiveMarker() {
         //123
     }
 
@@ -99,7 +99,7 @@ public class Phase implements IPhase {
                     int nextFlag = robot.getNextFlag();
                     if (flag.getID() == nextFlag) {
                         robot.visitNextFlag();
-                        robot.getLogic().setCheckPoint(new GridPoint2(flagX, flagY));
+                        robot.getLogic().setArchiveMarker(new GridPoint2(flagX, flagY));
                         System.out.println("A flag has been visited");
                     }
                 }
@@ -137,7 +137,7 @@ public class Phase implements IPhase {
         moveCogs(layers);
         fireLasers();
         checkForLasers();
-        updateCheckPoints();
+        updateArchiveMarker();
         registerFlagPositions();
         checkForWinner();
     }

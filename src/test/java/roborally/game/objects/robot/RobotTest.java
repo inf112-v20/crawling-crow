@@ -107,8 +107,8 @@ public class RobotTest {
 
     @Test
     public void verifyThatRobotUsesARebootWhenReenteringTheBoard() {
-        testRobot1.getLogic().setCheckPoint(new GridPoint2(1, 1));
-        testRobot1.getLogic().backToCheckPoint();
+        testRobot1.getLogic().setArchiveMarker(new GridPoint2(1, 1));
+        testRobot1.getLogic().backToArchiveMarker();
         assertEquals(testRobot1.getLogic().getReboots(), 3);
     }
 

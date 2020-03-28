@@ -64,7 +64,7 @@ public class Round implements IRound {
     @Override
     public void restoreRebootedRobots() {
         for (Robot robot : robots)
-            robot.backToCheckPoint();
+            robot.backToArchiveMarker();
     }
 
     @Override

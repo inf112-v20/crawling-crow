@@ -14,7 +14,7 @@ public class RobotLogic implements Programmable {
     public boolean hasChosenCards;
     private String name;
     private GridPoint2 robotPosition;
-    private GridPoint2 checkPoint;
+    private GridPoint2 archiveMarker;
     private int health = SettingsUtil.ROBOT_MAX_HEALTH;
     private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
     private Direction direction;
@@ -63,21 +63,21 @@ public class RobotLogic implements Programmable {
 
     //endregion
 
-    //region Checkpoint
+    //region Archive marker
     @Override
-    public void backToCheckPoint() {
+    public void backToArchiveMarker() {
         this.health = SettingsUtil.ROBOT_MAX_HEALTH;
         this.reboots -= 1;
-        setPosition(this.checkPoint);
+        setPosition(this.archiveMarker);
         this.direction = Direction.North;
     }
 
-    public GridPoint2 getCheckPoint() {
-        return this.checkPoint;
+    public GridPoint2 getArchiveMarker() {
+        return this.archiveMarker;
     }
 
-    public void setCheckPoint(GridPoint2 pos) {
-        this.checkPoint = pos;
+    public void setArchiveMarker(GridPoint2 pos) {
+        this.archiveMarker = pos;
     }
     //endregion
 

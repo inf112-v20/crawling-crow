@@ -127,8 +127,8 @@ Please see the [controls for combat](#combat) above
 -   Check if laser stops on `Robot`s and walls.
 -   Check that lasers cross each other fine.
 
-#### Rebooting and checkpoint test
--   When a `Robot` is destroyed, it should reboot to `checkpoint`.
+#### Rebooting and archive marker test
+-   When a `Robot` is destroyed, it should reboot to `archiveMarker`.
 -   When a `Robot` have rebooted 3 times, it should be not able to reboot again. i.e. The robot must be destroyed four 
 times for it to be out of the game.
 

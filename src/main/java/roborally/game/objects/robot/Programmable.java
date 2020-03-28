@@ -40,7 +40,7 @@ public interface Programmable {
     /**
      *
      */
-    void backToCheckPoint();
+    void backToArchiveMarker();
 
     /**
      *

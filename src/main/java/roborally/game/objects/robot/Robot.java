@@ -26,12 +26,14 @@ public class Robot implements Programmable {
     private Listener listener;
     private LaserRegister laserRegister;
     private boolean reboot;
+    private boolean robotWentInHole;
 
     private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
         this.robotLogic = robotLogic;
+        this.robotWentInHole = false;
     }
 
     public Robot(GridPoint2 pos, int robotID, LaserRegister laserRegister) {
@@ -40,13 +42,15 @@ public class Robot implements Programmable {
         this.robotLogic = robotLogic;
         this.robotView = robotView;
         this.setTextureRegion(robotID);
-        this.robotLogic.setCheckPoint(pos);
+        this.robotLogic.setArchiveMarker(pos);
         this.layers = new Layers();
         this.laser = new Laser(0, layers);
         this.listener = new Listener(layers);
         this.laserRegister = laserRegister;
         setPosition(pos);
         checkForLaser(); // for spawning in the current lasers in fun mode.
+
+        this.robotWentInHole = false;
 
         this.cardTypeMethod = new HashMap<>();
         setCardTypeMethod();
@@ -108,7 +112,7 @@ public class Robot implements Programmable {
 
     public void takeDamage(int dmg) {
         if (getLogic().takeDamage(dmg)) {
-            backToCheckPoint();
+            backToArchiveMarker();
             reboot = true;
         }
         setLostTexture();
@@ -130,15 +134,18 @@ public class Robot implements Programmable {
         if (!listener.listenCollision(oldPos, step)) {
 
             // Checks that robot does not tries to move out of the map
-            if (this.robotView.moveRobot(oldPos, step)) {
+            if (this.robotView.canMoveRobot(oldPos, step)) {
 
                 // Update pos
                 this.setPosition(newPos);
                 System.out.println("New position: " + newPos);
+                System.out.println("Health: " + getLogic().getHealth());
 
-                // Check if you are standing in a hole
+                // Check if Robot is standing on a hole
                 if (layers.assertHoleNotNull(newPos)) {
+                    //robotWentInHole = true;
                     takeDamage(10);
+                    System.out.println("Robot standing on hole");
                 }
                 robotView.setDirection(newPos, robotLogic.getDirection());
 
@@ -149,10 +156,10 @@ public class Robot implements Programmable {
     }
     //endregion
 
-    public void backToCheckPoint() {
+    public void backToArchiveMarker() {
         if (reboot) {
-            robotView.goToCheckPoint(this.getPosition(), robotLogic.getCheckPoint());
-            this.robotLogic.backToCheckPoint();
+            robotView.goToArchiveMarker(this.getPosition(), robotLogic.getArchiveMarker());
+            this.robotLogic.backToArchiveMarker();
             clearRegister();
             reboot = false;
         }

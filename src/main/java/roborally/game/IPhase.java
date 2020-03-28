@@ -9,7 +9,7 @@ public interface IPhase {
     void moveAllConveyorBelts(ILayers layers);
     void moveCogs(ILayers layers);
     void fireLasers();
-    void updateCheckPoints();
+    void updateArchiveMarker();
     void registerFlagPositions();
     boolean checkForWinner();
     void run(ILayers layers);

@@ -70,7 +70,7 @@ public class RobotView implements IRobotView {
     }
 
     @Override
-    public boolean moveRobot(GridPoint2 oldPos, GridPoint2 step) {
+    public boolean canMoveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
         if (isPositionOnMap(newPos)) {
             layers.setRobotTexture(newPos, getTexture());
@@ -85,12 +85,12 @@ public class RobotView implements IRobotView {
     }
 
     @Override
-    public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
-        if (!pos.equals(checkPoint)) {
+    public void goToArchiveMarker(GridPoint2 pos, GridPoint2 archiveMarker) {
+        if (!pos.equals(archiveMarker)) {
             layers.setRobotTexture(pos, null);
             if(!layers.assertRobotNotNull(pos)) { // Else starts the round virtual.
-                layers.setRobotTexture(checkPoint, getTexture());
-                layers.getRobotTexture(checkPoint).setRotation(0);
+                layers.setRobotTexture(archiveMarker, getTexture());
+                layers.getRobotTexture(archiveMarker).setRotation(0);
             }
         }
     }

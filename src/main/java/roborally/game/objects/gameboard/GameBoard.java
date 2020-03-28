@@ -54,5 +54,5 @@ public class GameBoard implements IGameBoard {
         return this.layers;
     }
 
-    // TODO : find conveyorbelts, cogs, checkpoints etc.
+    // TODO : find conveyorbelts, cogs, archive markers etc.
 }

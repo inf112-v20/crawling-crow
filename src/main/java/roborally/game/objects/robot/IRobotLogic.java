@@ -17,14 +17,14 @@ public interface IRobotLogic {
     /** Returns the name of the robot. */
     String getName();
 
-    /** Sets the x,y position of the checkpoint/reboot place.
+    /** Sets the x,y position of the archive marker.
      * @param x position
      * @param y position
      */
-    void setCheckPoint(int x, int y);
+    void setArchiveMarker(int x, int y);
 
     /** Returns the robots last known checkout place/reboot place. */
-    GridPoint2 getCheckPoint();
+    GridPoint2 getArchiveMarker();
 
     /** Returns how much health the robot has left. */
     int getHealth();

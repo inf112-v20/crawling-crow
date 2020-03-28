@@ -94,7 +94,7 @@ public class Game implements IGame {
         }
 
         events.checkForDestroyedRobots(this.robots);
-        userRobot.backToCheckPoint();
+        userRobot.backToArchiveMarker();
         return userRobot;
     }
 
