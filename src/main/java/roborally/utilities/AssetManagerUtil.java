@@ -13,7 +13,7 @@ import java.util.*;
 
 public class AssetManagerUtil {
     public static float volume = 1;
-    public static int manyRobots = 0;
+    public static int numberOfRobots = 0;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
@@ -207,21 +207,21 @@ public class AssetManagerUtil {
     // Default names for the robots
     public static void makeRobotNames() {
         robotNames = new Stack<>();
-        robotNames.add("Yellow" + manyRobots);
-        robotNames.add("Red" + manyRobots);
-        robotNames.add("Purple" + manyRobots);
-        robotNames.add("Pink" + manyRobots);
-        robotNames.add("Orange" + manyRobots);
-        robotNames.add("Green" + manyRobots);
-        robotNames.add("Blue" + manyRobots);
-        robotNames.add("Angry" + manyRobots);
+        robotNames.add("Yellow no. " + numberOfRobots);
+        robotNames.add("Red no. " + numberOfRobots);
+        robotNames.add("Purple no. " + numberOfRobots);
+        robotNames.add("Pink no. " + numberOfRobots);
+        robotNames.add("Orange no. " + numberOfRobots);
+        robotNames.add("Green no. " + numberOfRobots);
+        robotNames.add("Blue no. " + numberOfRobots);
+        robotNames.add("Angry no. " + numberOfRobots);
     }
 
     public static String getRobotName() {
         if (robotNames == null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
-            manyRobots++;
+            numberOfRobots++;
         }
         return robotNames.pop();
     }
