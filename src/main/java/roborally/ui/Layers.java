@@ -211,7 +211,7 @@ public class Layers implements ILayers {
 
 
     public TiledMapTileLayer getWrenchHammer() {
-        return layers.get("wrenchHammer");
+        return layers.get("Hammer");
     }
 
 

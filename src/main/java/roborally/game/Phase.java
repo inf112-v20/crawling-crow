@@ -3,6 +3,7 @@ package roborally.game;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.gameboard.IFlag;
+import roborally.game.objects.gameboard.RepairSite;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
@@ -20,13 +21,15 @@ public class Phase implements IPhase {
     private Events events;
     private Robot winner;
     private ArrayList<IFlag> flags;
+    private ArrayList<RepairSite> repairSites;
     private Queue<Robot> robotQueue;
 
 
-    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, Events events) {
+    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, ArrayList<RepairSite> repairSites, Events events) {
         this.robots = robots;
         this.events = events;
         this.flags = flags;
+        this.repairSites = repairSites;
         this.robotQueue = new LinkedList<>();
     }
 
@@ -83,12 +86,24 @@ public class Phase implements IPhase {
 
     @Override
     public void updateArchiveMarker() {
-        //123
+        registerRepairSitePositions();
+    }
+
+    public void registerRepairSitePositions() {
+        System.out.println("\nChecking if any robots have arrived at a repair site...");
+        for (RepairSite repairSite : repairSites) {
+            for (Robot robot : robots) {
+                if (robot.getPosition().equals(repairSite.getPosition())) {
+                    robot.getLogic().setArchiveMarker(repairSite.getPosition());
+                    System.out.println(robot.getName() + " has its Archive marker at " + repairSite.getPosition());
+                }
+            }
+        }
     }
 
     @Override
     public void registerFlagPositions() {
-        System.out.println("\nChecking if any robots have currently arrived at their next flag position...");
+        System.out.println("\nChecking if any robots have arrived at their next flag position...");
         for (IFlag flag : flags) {
             int flagX = flag.getPosition().x;
             int flagY = flag.getPosition().y;

@@ -50,6 +50,33 @@ public class GameBoard implements IGameBoard {
     }
 
     @Override
+    public ArrayList<RepairSite> findAllRepairSites() {
+        ArrayList<RepairSite> repairSites = new ArrayList<>();
+        TiledMapTileLayer wrench = layers.getWrench();
+        TiledMapTileLayer wrenchHammer = layers.getWrenchHammer();
+
+        for (int x = 0; x < wrench.getWidth(); x++) {
+            for (int y = 0; y < wrench.getHeight(); y++) {
+                TiledMapTileLayer.Cell wrenchCell = wrench.getCell(x, y);
+                if (wrenchCell != null) {
+                    repairSites.add(new RepairSite (new GridPoint2(x, y)));
+                }
+            }
+        }
+
+        for (int x = 0; x < wrenchHammer.getWidth(); x++) {
+            for (int y = 0; y < wrenchHammer.getHeight(); y++) {
+                TiledMapTileLayer.Cell wrenchHammerCell = wrenchHammer.getCell(x, y);
+                if (wrenchHammerCell != null) {
+                    repairSites.add(new RepairSite (new GridPoint2(x, y)));
+                }
+            }
+        }
+
+        return repairSites;
+    }
+
+    @Override
     public ILayers getLayers() {
         return this.layers;
     }

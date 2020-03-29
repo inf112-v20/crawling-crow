@@ -9,6 +9,8 @@ public interface IGameBoard {
      */
     ArrayList<IFlag> findAllFlags();
 
+    ArrayList<RepairSite> findAllRepairSites();
+
     /**
      * @return All the layers on the game board
      */

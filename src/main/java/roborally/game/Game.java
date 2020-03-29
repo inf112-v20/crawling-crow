@@ -9,6 +9,7 @@ import roborally.game.objects.cards.ProgramCards;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
+import roborally.game.objects.gameboard.RepairSite;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
@@ -27,6 +28,7 @@ public class Game implements IGame {
     private ILayers layers;
     private ArrayList<Robot> robots;
     private ArrayList<IFlag> flags;
+    private ArrayList<RepairSite> repairSites;
     private IProgramCards deckOfProgramCards;
     private LaserRegister laserRegister;
     private Robot userRobot;
@@ -62,8 +64,9 @@ public class Game implements IGame {
         layers = gameBoard.getLayers();
         this.laserRegister = new LaserRegister(layers);
         flags = gameBoard.findAllFlags();
+        this.repairSites = gameBoard.findAllRepairSites();
         this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
-        this.round = new Round(events, robots, flags);
+        this.round = new Round(events, robots, flags, repairSites);
         userRobot = robots.get(0);
     }
 
@@ -75,7 +78,7 @@ public class Game implements IGame {
         flags = gameBoard.findAllFlags();
         robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
-        this.round = new Round(events, robots, flags);
+        this.round = new Round(events, robots, flags, repairSites);
         funMode = true;
         userRobot = robots.get(0);
     }
@@ -105,7 +108,7 @@ public class Game implements IGame {
 
     private void setRobots(ArrayList<Robot> newRobots) {
         this.robots = newRobots;
-        this.round = new Round(events, robots, flags);
+        this.round = new Round(events, robots, flags, repairSites);
     }
     //endregion
 
@@ -166,7 +169,7 @@ public class Game implements IGame {
 
     @Override
     public ProgramCardsView getCards() {
-        round = new Round(events, robots, flags);
+        round = new Round(events, robots, flags, repairSites);
         //TODO Refactor for readability
         if (funMode)
             removeDeadRobots();
