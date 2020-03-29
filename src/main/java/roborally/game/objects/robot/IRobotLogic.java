@@ -18,6 +18,8 @@ public interface IRobotLogic {
      */
     int getHealth();
 
+    void addHealth(int amount);
+
     /**
      * @return The Robot's number of Reboots remaining
      */

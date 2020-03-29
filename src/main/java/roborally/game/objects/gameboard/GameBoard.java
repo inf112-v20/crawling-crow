@@ -59,7 +59,8 @@ public class GameBoard implements IGameBoard {
             for (int y = 0; y < wrench.getHeight(); y++) {
                 TiledMapTileLayer.Cell wrenchCell = wrench.getCell(x, y);
                 if (wrenchCell != null) {
-                    repairSites.add(new RepairSite (new GridPoint2(x, y)));
+                    TileName type = tiledTranslator.getTileName(wrenchCell.getTile().getId());
+                    repairSites.add(new RepairSite (type, new GridPoint2(x, y)));
                 }
             }
         }
@@ -68,7 +69,8 @@ public class GameBoard implements IGameBoard {
             for (int y = 0; y < wrenchHammer.getHeight(); y++) {
                 TiledMapTileLayer.Cell wrenchHammerCell = wrenchHammer.getCell(x, y);
                 if (wrenchHammerCell != null) {
-                    repairSites.add(new RepairSite (new GridPoint2(x, y)));
+                    TileName type = tiledTranslator.getTileName(wrenchHammerCell.getTile().getId());
+                    repairSites.add(new RepairSite (type, new GridPoint2(x, y)));
                 }
             }
         }

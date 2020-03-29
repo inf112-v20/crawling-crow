@@ -95,7 +95,16 @@ public class Phase implements IPhase {
             for (Robot robot : robots) {
                 if (robot.getPosition().equals(repairSite.getPosition())) {
                     robot.getLogic().setArchiveMarker(repairSite.getPosition());
-                    System.out.println("- " + robot.getName() + " has its Archive marker at " + repairSite.getPosition());
+                    System.out.println("- Type of repair site: " + repairSite.getType().name());
+
+                    robot.getLogic().addHealth(1);
+
+                    // TODO: Add this
+                    /*if (repairSite.getType() == TileName.WRENCH_HAMMER) {
+                        // Add 1 health and option card
+                    } else {
+                        // Add 1 health
+                    }*/
                 }
             }
         }

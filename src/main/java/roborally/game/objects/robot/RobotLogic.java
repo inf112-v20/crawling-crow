@@ -34,7 +34,17 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public int getHealth() {
-        return health;
+        return this.health;
+    }
+
+    @Override
+    public void addHealth(int amount) {
+        if (getHealth() < SettingsUtil.ROBOT_MAX_HEALTH) {
+            this.health += amount;
+            if (getHealth() > SettingsUtil.ROBOT_MAX_HEALTH) {
+                this.health = SettingsUtil.ROBOT_MAX_HEALTH;
+            }
+        }
     }
 
     @Override
@@ -81,6 +91,7 @@ public class RobotLogic implements IRobotLogic {
     }
 
     public void setArchiveMarker(GridPoint2 pos) {
+        System.out.println("- " + getName() + " has its Archive marker at " + getPosition());
         this.archiveMarker = pos;
     }
     //endregion
