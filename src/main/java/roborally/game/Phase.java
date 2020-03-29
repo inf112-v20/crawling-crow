@@ -3,7 +3,7 @@ package roborally.game;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.objects.gameboard.IFlag;
-import roborally.game.objects.gameboard.RepairSite;
+import roborally.game.objects.gameboard.BoardObject;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
@@ -21,11 +21,11 @@ public class Phase implements IPhase {
     private Events events;
     private Robot winner;
     private ArrayList<IFlag> flags;
-    private ArrayList<RepairSite> repairSites;
+    private ArrayList<BoardObject> repairSites;
     private Queue<Robot> robotQueue;
 
 
-    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, ArrayList<RepairSite> repairSites, Events events) {
+    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, ArrayList<BoardObject> repairSites, Events events) {
         this.robots = robots;
         this.events = events;
         this.flags = flags;
@@ -91,7 +91,7 @@ public class Phase implements IPhase {
 
     public void registerRepairSitePositions() {
         System.out.println("\nChecking if any robots have arrived at a repair site...");
-        for (RepairSite repairSite : repairSites) {
+        for (BoardObject repairSite : repairSites) {
             for (Robot robot : robots) {
                 if (robot.getPosition().equals(repairSite.getPosition())) {
                     robot.getLogic().setArchiveMarker(repairSite.getPosition());

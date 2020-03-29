@@ -16,6 +16,11 @@ public class GameBoard implements IGameBoard {
     private ILayers layers;
     private HashMap<TileName, Integer> flagIdMap;
 
+    // TODO: Ref the TODO on bottom
+    private ArrayList<BoardObject> conveyorBelts;
+    private ArrayList<BoardObject> conveyorExpressBelts;
+    private ArrayList<BoardObject> cogs;
+
     private ITiledTranslator tiledTranslator;
 
     public GameBoard() {
@@ -54,8 +59,8 @@ public class GameBoard implements IGameBoard {
     }
 
     @Override
-    public ArrayList<RepairSite> findAllRepairSites() {
-        ArrayList<RepairSite> repairSites = new ArrayList<>();
+    public ArrayList<BoardObject> findAllRepairSites() {
+        ArrayList<BoardObject> repairSites = new ArrayList<>();
         TiledMapTileLayer wrench = layers.getWrench();
         TiledMapTileLayer wrenchHammer = layers.getWrenchHammer();
 
@@ -65,14 +70,14 @@ public class GameBoard implements IGameBoard {
         return repairSites;
     }
 
-    private void addRepairSites(ArrayList<RepairSite> repairSites, TiledMapTileLayer layer) {
+    private void addRepairSites(ArrayList<BoardObject> repairSites, TiledMapTileLayer layer) {
         for (int x = 0; x < layer.getWidth(); x++) {
             for (int y = 0; y < layer.getHeight(); y++) {
                 TiledMapTileLayer.Cell layerCell = layer.getCell(x, y);
                 if (layerCell != null) {
                     int tileID = layerCell.getTile().getId();
                     TileName type = tiledTranslator.getTileName(tileID);
-                    repairSites.add(new RepairSite (type, new GridPoint2(x, y)));
+                    repairSites.add(new BoardObject(type, new GridPoint2(x, y)));
                 }
             }
         }
