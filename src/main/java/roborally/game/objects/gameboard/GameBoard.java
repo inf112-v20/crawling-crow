@@ -34,6 +34,11 @@ public class GameBoard implements IGameBoard {
         ArrayList<IFlag> flags = new ArrayList<>();
         TiledMapTileLayer flagLayer = layers.getFlag();
 
+        addFlags(flags, flagLayer);
+        return flags;
+    }
+
+    private void addFlags(ArrayList<IFlag> flags, TiledMapTileLayer flagLayer) {
         for (int x = 0; x < flagLayer.getWidth(); x++) {
             for (int y = 0; y < flagLayer.getHeight(); y++) {
                 TiledMapTileLayer.Cell cell = flagLayer.getCell(x, y);
@@ -42,11 +47,10 @@ public class GameBoard implements IGameBoard {
                     TileName tileName = tiledTranslator.getTileName(tileID);
                     int flagId = flagIdMap.get(tileName);
 
-                    flags.add(new Flag (flagId, new GridPoint2(x, y)));
+                    flags.add(new Flag(flagId, new GridPoint2(x, y)));
                 }
             }
         }
-        return flags;
     }
 
     @Override
@@ -55,27 +59,23 @@ public class GameBoard implements IGameBoard {
         TiledMapTileLayer wrench = layers.getWrench();
         TiledMapTileLayer wrenchHammer = layers.getWrenchHammer();
 
-        for (int x = 0; x < wrench.getWidth(); x++) {
-            for (int y = 0; y < wrench.getHeight(); y++) {
-                TiledMapTileLayer.Cell wrenchCell = wrench.getCell(x, y);
-                if (wrenchCell != null) {
-                    TileName type = tiledTranslator.getTileName(wrenchCell.getTile().getId());
-                    repairSites.add(new RepairSite (type, new GridPoint2(x, y)));
-                }
-            }
-        }
-
-        for (int x = 0; x < wrenchHammer.getWidth(); x++) {
-            for (int y = 0; y < wrenchHammer.getHeight(); y++) {
-                TiledMapTileLayer.Cell wrenchHammerCell = wrenchHammer.getCell(x, y);
-                if (wrenchHammerCell != null) {
-                    TileName type = tiledTranslator.getTileName(wrenchHammerCell.getTile().getId());
-                    repairSites.add(new RepairSite (type, new GridPoint2(x, y)));
-                }
-            }
-        }
+        addRepairSites(repairSites, wrench);
+        addRepairSites(repairSites, wrenchHammer);
 
         return repairSites;
+    }
+
+    private void addRepairSites(ArrayList<RepairSite> repairSites, TiledMapTileLayer layer) {
+        for (int x = 0; x < layer.getWidth(); x++) {
+            for (int y = 0; y < layer.getHeight(); y++) {
+                TiledMapTileLayer.Cell layerCell = layer.getCell(x, y);
+                if (layerCell != null) {
+                    int tileID = layerCell.getTile().getId();
+                    TileName type = tiledTranslator.getTileName(tileID);
+                    repairSites.add(new RepairSite (type, new GridPoint2(x, y)));
+                }
+            }
+        }
     }
 
     @Override
