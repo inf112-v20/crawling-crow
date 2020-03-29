@@ -4,20 +4,20 @@ import com.badlogic.gdx.math.GridPoint2;
 
 public class Flag implements IFlag {
     private int id;
-    private GridPoint2 pos;
+    private GridPoint2 position;
 
-    public Flag(int id, GridPoint2 pos) {
+    public Flag(int id, GridPoint2 position) {
         this.id = id;
-        this.pos = pos;
+        this.position = position;
     }
 
     @Override
     public GridPoint2 getPosition() {
-        return pos;
+        return this.position;
     }
 
     @Override
     public int getID() {
-        return id;
+        return this.id;
     }
 }

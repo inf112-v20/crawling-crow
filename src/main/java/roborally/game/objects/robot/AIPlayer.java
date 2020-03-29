@@ -67,9 +67,9 @@ public class AIPlayer {
     }
 
     private void printAllFlags() {
-        ArrayList<IFlag> temp = gameBoard.findAllFlags();
-        temp.sort(Comparator.comparing(IFlag::getID));
-        for (IFlag flag : temp)
+        ArrayList<IFlag> tempFlags = gameBoard.findAllFlags();
+        tempFlags.sort(Comparator.comparing(IFlag::getID));
+        for (IFlag flag : tempFlags)
             flags.addLast(flag);
     }
 
