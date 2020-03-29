@@ -1,7 +1,7 @@
 package roborally.game;
 
 import roborally.game.objects.gameboard.IFlag;
-import roborally.game.objects.gameboard.RepairSite;
+import roborally.game.objects.gameboard.BoardObject;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
@@ -13,7 +13,7 @@ public class Round implements IRound {
     private ArrayList<Robot> robots;
     private IPhase phase;
 
-    public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags, ArrayList<RepairSite> repairSites) {
+    public Round(Events events, ArrayList<Robot> robots, ArrayList<IFlag> flags, ArrayList<BoardObject> repairSites) {
         this.robots = robots;
         this.phase = new Phase(this.robots, flags, repairSites, events);
         restoreRebootedRobots();
