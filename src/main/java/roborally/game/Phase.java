@@ -38,7 +38,7 @@ public class Phase implements IPhase {
     @Override
     public void playNextRegisterCard() {
         if (robotQueue.isEmpty()) {
-            this.robots.sort(Comparator.comparing(Robot::peekNextCard));
+            this.robots.sort(Comparator.comparing(Robot::peekNextCardInHand));
             robotQueue.addAll(robots);
         }
         Objects.requireNonNull(robotQueue.poll()).playNextCard();
@@ -125,8 +125,10 @@ public class Phase implements IPhase {
 
     private void checkForLasers() {
         for (Robot robot : robots)
-            if (robot.checkForLaser())
+            if (robot.checkForStationaryLaser()) {
                 robot.takeDamage(1);
+                System.out.println("Hit by stationary laser");
+            }
     }
 
     @Override

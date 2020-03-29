@@ -13,8 +13,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class RobotTest {
-    private Programmable testRobot1;
-    private Programmable testRobot2;
+    private IRobot testRobot1;
+    private IRobot testRobot2;
     private IProgramCards.Card card;
     private IProgramCards programCards;
     private CardsInHand cardsInHand;
@@ -29,10 +29,10 @@ public class RobotTest {
         programCards = new ProgramCards();
 
         cardsInHand = new CardsInHand(programCards.getDeck());
-        testRobot1.getLogic().newCards(cardsInHand);
+        testRobot1.getLogic().setCardsInHand(cardsInHand);
         card = cardsInHand.getCards().get(2);
         int[] order = {2, 0, 1, 3, 4};
-        testRobot1.getLogic().arrangeCards(order);
+        testRobot1.getLogic().arrangeCardsInHand(order);
 
         initialStartPosition = new GridPoint2(0,0);
     }
@@ -44,17 +44,17 @@ public class RobotTest {
 
     @Test
     public void verifyThatNextCardToPlayIsTheFirstInTheRegister() {
-        assertEquals(card, testRobot1.getLogic().getNextCard());
+        assertEquals(card, testRobot1.getLogic().getNextCardInHand());
     }
 
     @Test
     public void verifyThatPeekingNextCardIsFirstInTheRegister() {
-        assertEquals(card, testRobot1.getLogic().peekNextCard());
+        assertEquals(card, testRobot1.getLogic().peekNextCardInHand());
     }
 
     @Test
     public void verifyThatRobotHas5CardsInHand() {
-        assertEquals(5, testRobot1.getLogic().getCards().size());
+        assertEquals(5, testRobot1.getLogic().getCardsInHand().size());
     }
 
     // verifyThatRobotHas3CardsInHandAfterTaking7Damage
@@ -90,7 +90,7 @@ public class RobotTest {
 
     @Test
     public void verifyThatEverythingIsOk() {
-        assertEquals(testRobot1.getLogic().getStatus(), "Everything ok!");
+        assertEquals(testRobot1.getLogic().getStatus(), "Everything is OK!");
     }
 
     @Test

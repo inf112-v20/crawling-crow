@@ -38,7 +38,7 @@ public class CollisionListener {
                 if (robot.getPosition().x == pos.x && robot.getPosition().y == pos.y && !recursiveRobot) {
                     System.out.println("\nPushing robot...");
                     robot.tryToMove(move);
-                    robot.checkForLaser();
+                    robot.checkForStationaryLaser();
                     System.out.println("Pushing robot complete");
                 }
         }
@@ -49,7 +49,7 @@ public class CollisionListener {
                     layers.setRobotTexture(pos, null);
                     robot.setPosition(new GridPoint2(SettingsUtil.GRAVEYARD));
                     robot.takeDamage(10);
-                    robot.clearRegister();
+                    robot.clearLaserRegister();
                 }
         return recursiveRobot;
     }
@@ -69,17 +69,17 @@ public class CollisionListener {
                     // RobotPresenter "deletion".
                     robot.setPosition(new GridPoint2(SettingsUtil.GRAVEYARD));
                     robot.takeDamage(10);
-                    robot.clearRegister();
+                    robot.clearLaserRegister();
                     layers.setRobotTexture(pos, null);
                 } else if (bumpedPos.equals(pos)) {
                     System.out.println("\nPushing... ");
                     robot.tryToMove(move);
-                    robot.checkForLaser();
+                    robot.checkForStationaryLaser();
                     System.out.println("Pushing complete... ");
                     if (layers.assertFlagNotNull(nextPos))  //Checks if the robot got bumped into a flag.
-                        robot.setWinTexture();
+                        robot.setVictoryTexture();
                     else if (layers.assertHoleNotNull(nextPos)) //Checks if the robot got bumped into a hole.
-                        robot.setLostTexture();
+                        robot.setDamageTakenTexture();
                 }
             }
         }

@@ -196,7 +196,7 @@ public class Game implements IGame {
                 cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
             CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
-            currentRobot.getLogic().newCards(cardsInHand);
+            currentRobot.getLogic().setCardsInHand(cardsInHand);
 
             // All Robots, except userRobot, play their cards in a new assigned order
             if (!currentRobot.equals(userRobot)) {
@@ -205,14 +205,14 @@ public class Game implements IGame {
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
                     newOrder[i] = i;
                 }
-                currentRobot.getLogic().arrangeCards(newOrder);
+                currentRobot.getLogic().arrangeCardsInHand(newOrder);
             }
         }
     }
 
     private ProgramCardsView makeProgramCardsView(Robot robot) {
         ProgramCardsView programCardsView = new ProgramCardsView();
-        for (IProgramCards.Card card : robot.getLogic().getCards()) {
+        for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
             programCardsView.makeCard(card);
         }
         return programCardsView;
@@ -222,26 +222,18 @@ public class Game implements IGame {
 
     @Override
     public void shuffleTheRobotsCards(int[] order) {
-        userRobot.getLogic().arrangeCards(order);
-        userRobot.getLogic().hasChosenCards = true;
+        userRobot.getLogic().arrangeCardsInHand(order);
+        userRobot.getLogic().setHasSelectedCards(true);
     }
 
     @Override
     public boolean hasAllPlayersChosenCards() {
-        if(userRobot != null && userRobot.getLogic().hasChosenCards) {
-                userRobot.getLogic().setHasChosenCards(false);
+        if(userRobot != null && userRobot.getLogic().isCardsSelected()) {
+                userRobot.getLogic().setHasSelectedCards(false);
                 return true;
             }
         return false;
     }
-
-    //region Conveyor belts
-    // Might consider adding this to a wait event once we get it to function properly.
-    // Have to have its own move method, moving the robot first in the line first and so on.
-    // Additionally, I think the check for lasers are supposed to happen after all of this.
-
-
-    //endregion
 
     @Override
     public void endGame() {

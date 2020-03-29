@@ -45,7 +45,7 @@ public class AIPlayer {
         int totalLeft = 0;
         this.cardValues = new HashMap<>();
         this.moveCardValues = new ArrayList<>();
-        ArrayList<ProgramCards.Card> temp = robot.getLogic().getCards();
+        ArrayList<ProgramCards.Card> temp = robot.getLogic().getCardsInHand();
         temp.sort(Comparator.comparing(IProgramCards.Card::getCardType));
         for (ProgramCards.Card card : temp) {
             System.out.print(card.getCard() + " ");
@@ -144,12 +144,12 @@ public class AIPlayer {
         if (movableValue.equals(pos) && (moveCardValues.contains(Math.max(pos.x, pos.y)))) {
             hypoPos.add(movableValue);
             ProgramCards.Card card;
-            for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
-                card = robot.getLogic().getCards().get(i);
+            for (int i = 0; i < robot.getLogic().getCardsInHand().size(); i++) {
+                card = robot.getLogic().getCardsInHand().get(i);
                 if (!card.getCardType().toString().contains("MOVE"))
                     continue;
                 boolean nope = false;
-                if (Integer.parseInt(robot.getLogic().getCards().get(i).getCard().substring(5, 6)) == 1) {
+                if (Integer.parseInt(robot.getLogic().getCardsInHand().get(i).getCard().substring(5, 6)) == 1) {
                     for (int k = 0; k <= cardPick; k++)
                         if (order[k] == i) {
                             nope = true;
@@ -173,8 +173,8 @@ public class AIPlayer {
         takeAlltheRotateRightCards();
         ProgramCards.Card card;
         boolean nope = false;
-        for (int i = 0; i < robot.getLogic().getCards().size(); i++) {
-            card = robot.getLogic().getCards().get(i);
+        for (int i = 0; i < robot.getLogic().getCardsInHand().size(); i++) {
+            card = robot.getLogic().getCardsInHand().get(i);
             if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT || card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT) {
                 for (int k = 0; k <= cardPick; k++) {
                     if (order[k] == i) {

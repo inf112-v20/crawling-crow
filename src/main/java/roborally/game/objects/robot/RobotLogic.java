@@ -4,14 +4,13 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.ProgramCards;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
 import java.util.ArrayList;
 
-public class RobotLogic implements Programmable {
-    public boolean hasChosenCards;
+public class RobotLogic implements IRobotLogic {
+    public boolean hasSelectedCards;
     private String name;
     private GridPoint2 robotPosition;
     private GridPoint2 archiveMarker;
@@ -27,15 +26,35 @@ public class RobotLogic implements Programmable {
         this.direction = Direction.North;
     }
 
+    //region Robot stats
     @Override
     public String getName() {
         return this.name;
     }
 
     @Override
-    public RobotLogic getLogic() {
-        return this;
+    public int getHealth() {
+        return health;
     }
+
+    @Override
+    public int getReboots() {
+        return reboots;
+    }
+
+    @Override
+    public String getStatus() {
+        if (this.health < 5 && this.health > 0)
+            return "Badly damaged";
+        else if (this.health == 0) {
+            this.health = -1;
+            return "Destroyed";
+        } else if (this.health > 5)
+            return "Everything is OK!";
+        else
+            return getName() + " is gone";
+    }
+    //endregion
 
     //region Position
     @Override
@@ -47,21 +66,6 @@ public class RobotLogic implements Programmable {
     public void setPosition(GridPoint2 newPosition) {
         this.robotPosition.set(newPosition);
     }
-    //endregion
-
-    //region Movement
-    @Override
-    @Deprecated // TODO: Remove when safe
-    public void move(int steps) {
-        // ...
-    }
-
-    @Override
-    public void rotate(Direction direction) {
-        this.direction = direction;
-    }
-
-    //endregion
 
     //region Archive marker
     @Override
@@ -80,15 +84,21 @@ public class RobotLogic implements Programmable {
         this.archiveMarker = pos;
     }
     //endregion
+    //endregion
 
-    public int getHealth() {
-        return health;
+    //region Rotating and direction
+    @Override
+    public void rotate(Direction direction) {
+        this.direction = direction;
     }
 
-    public int getReboots() {
-        return reboots;
+    @Override
+    public Direction getDirection() {
+        return this.direction;
     }
+    //endregion
 
+    @Override
     public boolean takeDamage(int damage) {
         this.health -= damage;
         if (this.health <= 0 && this.reboots > 1)
@@ -98,43 +108,23 @@ public class RobotLogic implements Programmable {
         return false;
     }
 
-    //region Direction
-    public Direction getDirection() {
-        return this.direction;
+    //region Program cards in hand
+    @Override
+    public void setCardsInHand(CardsInHand newCardsInHand) {
+        this.cardsInHand = newCardsInHand;
     }
 
-    public int getDirectionID() {
-        return this.direction.getDirectionID();
-    }
-    //endregion
-
-
-    public String getStatus() {
-        if (this.health < 5 && this.health > 0)
-            return "Badly damaged";
-        else if (this.health == 0) {
-            this.health = -1;
-            return "Destroyed";
-        } else if (this.health > 5)
-            return "Everything ok!";
-        else
-            return "Robot is gone";
-    }
-
-    //region Cards
-    public void newCards(CardsInHand cardsInHand) {
-        this.cardsInHand = cardsInHand;
-    }
-
-    public void arrangeCards(int[] order) {
-        this.cardsInHand.arrangeCards(order);
+    @Override
+    public void arrangeCardsInHand(int[] newOrder) {
+        this.cardsInHand.arrangeCards(newOrder);
         Queue<IProgramCards.Card> nextCard = new Queue<>();
         for (IProgramCards.Card card : cardsInHand.getCards())
             nextCard.addFirst(card);
         this.nextCard = nextCard;
     }
 
-    public IProgramCards.Card getNextCard() {
+    @Override
+    public IProgramCards.Card getNextCardInHand() {
         assert nextCard != null;
         if (!nextCard.isEmpty()) {
             return nextCard.removeLast();
@@ -142,21 +132,25 @@ public class RobotLogic implements Programmable {
         return null;
     }
 
-    public ProgramCards.Card peekNextCard() {
+    @Override
+    public IProgramCards.Card peekNextCardInHand() {
         if (nextCard == null || nextCard.isEmpty())
             return null;
         return nextCard.last();
     }
 
-    public void setHasChosenCards(boolean value) {
-        this.hasChosenCards = value;
+    @Override
+    public void setHasSelectedCards(boolean value) {
+        this.hasSelectedCards = value;
     }
 
-    public boolean hasChosenCards() {
-        return this.hasChosenCards;
+    @Override
+    public boolean isCardsSelected() {
+        return this.hasSelectedCards;
     }
 
-    public ArrayList<IProgramCards.Card> getCards() {
+    @Override
+    public ArrayList<IProgramCards.Card> getCardsInHand() {
         return this.cardsInHand.getCards();
     }
     //endregion

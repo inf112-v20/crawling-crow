@@ -17,9 +17,9 @@ import roborally.utilities.enums.Direction;
 
 import java.util.HashMap;
 
-public class Robot implements Programmable {
+public class Robot implements IRobot {
     private IRobotView robotView;
-    private RobotLogic robotLogic;
+    private IRobotLogic robotLogic;
     private boolean[] visitedFlags;
     private Laser laser;
     private ILayers layers;
@@ -46,7 +46,7 @@ public class Robot implements Programmable {
         this.listener = new Listener(layers);
         this.laserRegister = laserRegister;
         setPosition(pos);
-        checkForLaser(); // for spawning in the current lasers in fun mode.
+        checkForStationaryLaser(); // for spawning in the current lasers in fun mode.
 
         this.cardTypeMethod = new HashMap<>();
         setCardTypeMethod();
@@ -55,6 +55,16 @@ public class Robot implements Programmable {
     @Override
     public String getName() {
         return this.getLogic().getName();
+    }
+
+    @Override
+    public IRobotLogic getLogic() {
+        return this.robotLogic;
+    }
+
+    @Override
+    public IRobotView getView() {
+        return this.robotView;
     }
 
     //region Position
@@ -66,6 +76,16 @@ public class Robot implements Programmable {
     @Override
     public void setPosition(GridPoint2 newPosition) {
         this.getLogic().setPosition(newPosition);
+    }
+
+    @Override
+    public void backToArchiveMarker() {
+        if (reboot) {
+            getView().goToArchiveMarker(this.getPosition(), getLogic().getArchiveMarker());
+            this.getLogic().backToArchiveMarker();
+            clearLaserRegister();
+            reboot = false;
+        }
     }
     //endregion
 
@@ -83,7 +103,39 @@ public class Robot implements Programmable {
         playSoundWalking(oldPos);
 
         // Updates the graphic when moving through lasers.
-        checkForLaser();
+        checkForStationaryLaser();
+    }
+
+    @Override
+    public void tryToMove(GridPoint2 possiblePosition) {
+        GridPoint2 oldPos = getPosition();
+        GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
+
+        System.out.println("Old position: " + oldPos);
+
+        // Check if the robot is not colliding with something
+        if (!listener.listenCollision(oldPos, possiblePosition)) {
+
+            // Checks that robot does not tries to move out of the map
+            if (this.getView().canMoveRobot(oldPos, possiblePosition)) {
+
+                // Update pos
+                this.setPosition(newPos);
+                System.out.println("New position: " + newPos);
+                System.out.println("Health: " + getLogic().getHealth());
+
+                // Check if Robot is standing on a hole
+                if (layers.assertHoleNotNull(newPos)) {
+                    //robotWentInHole = true;
+                    takeDamage(10);
+                    System.out.println("Robot went into a hole");
+                }
+                getView().setDirection(newPos, getLogic().getDirection());
+
+            }
+        } else
+            // Robot does not move
+            System.out.println("Robot cannot move this way: " + oldPos);
     }
 
     private void playSoundWalking(GridPoint2 oldPos) {
@@ -101,116 +153,79 @@ public class Robot implements Programmable {
     }
 
     @Override
-    public void rotate(Direction direction) {
-        this.getLogic().rotate(direction);
-        this.getView().setDirection(getPosition(), direction);
+    public void rotate(Direction newDirection) {
+        this.getLogic().rotate(newDirection);
+        this.getView().setDirection(getPosition(), newDirection);
     }
+    //endregion
 
+    @Override
     public void takeDamage(int dmg) {
         if (getLogic().takeDamage(dmg)) {
             backToArchiveMarker();
             reboot = true;
         }
-        setLostTexture();
+        setDamageTakenTexture();
     }
 
-    public int peekNextCard() {
-        if (getLogic().peekNextCard() == null)
-            return 0;
-        return getLogic().peekNextCard().getPriority();
-    }
-
-    public void tryToMove(GridPoint2 step) {
-        GridPoint2 oldPos = getPosition();
-        GridPoint2 newPos = oldPos.cpy().add(step);
-
-        System.out.println("Old position: " + oldPos);
-
-        // Check if the robot is not colliding with something
-        if (!listener.listenCollision(oldPos, step)) {
-
-            // Checks that robot does not tries to move out of the map
-            if (this.getView().canMoveRobot(oldPos, step)) {
-
-                // Update pos
-                this.setPosition(newPos);
-                System.out.println("New position: " + newPos);
-                System.out.println("Health: " + getLogic().getHealth());
-
-                // Check if Robot is standing on a hole
-                if (layers.assertHoleNotNull(newPos)) {
-                    //robotWentInHole = true;
-                    takeDamage(10);
-                    System.out.println("Robot standing on hole");
-                }
-                getView().setDirection(newPos, getLogic().getDirection());
-
-            }
-        } else
-            // Robot does not move
-            System.out.println("New position: " + oldPos);
-    }
-    //endregion
-
-    public void backToArchiveMarker() {
-        if (reboot) {
-            getView().goToArchiveMarker(this.getPosition(), getLogic().getArchiveMarker());
-            this.getLogic().backToArchiveMarker();
-            clearRegister();
-            reboot = false;
-        }
-    }
-
-    public RobotLogic getLogic() {
-        return this.robotLogic.getLogic();
-    }
-
-    public IRobotView getView() {
-        return this.robotView;
-    }
-
-
+    //region Lasers
+    @Override
     public void fireLaser() {
-        laser.fireLaser(getPosition(), this.getLogic().getDirectionID());
+        laser.fireLaser(getPosition(), this.getLogic().getDirection().getDirectionID());
     }
 
+    @Override
     public Laser getLaser() {
         return this.laser;
     }
 
-    //region Texture
-    public void setTextureRegion(int i) {
-        this.getView().setTextureRegion(i);
+    @Override
+    public boolean checkForStationaryLaser() {
+        return (listener.listenLaser(getPosition(), getName(), laserRegister));
     }
 
+    @Override
+    public void clearLaserRegister() {
+        laserRegister.updateLaser(getName(), getPosition());
+    }
+    //endregion
+
+    //region Textures
+    @Override
+    public void setTextureRegion(int index) {
+        this.getView().setTextureRegion(index);
+    }
+
+    @Override
     public TextureRegion[][] getTexture() {
         return this.getView().getTextureRegion();
     }
 
-    public void setWinTexture() {
+    @Override
+    public void setVictoryTexture() {
         this.getView().setVictoryTexture(getPosition());
     }
 
-    public void setLostTexture() {
+    @Override
+    public void setDamageTakenTexture() {
         this.getView().setDamageTakenTexture(getPosition());
         this.getView().setDirection(getPosition(), getLogic().getDirection());
 
     }
+    //endregion
 
+    @Override
     public void deleteRobot() {
         this.layers.setRobotTexture(getPosition(), null);
         this.setPosition(SettingsUtil.GRAVEYARD);
-        clearRegister();
-    }
-    //endregion
-
-    public boolean checkForLaser() {
-        return (listener.listenLaser(getPosition(), getName(), laserRegister));
+        clearLaserRegister();
     }
 
+    //region Program cards
+    @Override
     public void playNextCard() {
         //TODO: Add hashmap and move the hashmap to ProgramCards #117
-        IProgramCards.Card card = getLogic().getNextCard();
+        IProgramCards.Card card = getLogic().getNextCardInHand();
         if (card == null)
             return;
 
@@ -236,6 +251,14 @@ public class Robot implements Programmable {
         this.cardTypeMethod.put(IProgramCards.CardType.BACKUP, () -> move(-1));
     }
 
+    @Override
+    public int peekNextCardInHand() {
+        if (getLogic().peekNextCardInHand() == null)
+            return 0;
+        return getLogic().peekNextCardInHand().getPriority();
+    }
+    //endregion
+
     // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
 
     public boolean hasVisitedAllFlags() {
@@ -260,7 +283,7 @@ public class Robot implements Programmable {
     // TODO: Refactor to RobotModel
 
     public void visitNextFlag() {
-        this.setWinTexture();
+        this.setVictoryTexture();
         this.getView().setDirection(getPosition(), getLogic().getDirection());
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
@@ -273,9 +296,5 @@ public class Robot implements Programmable {
 
     public void setNumberOfFlags(int flags) {
         this.visitedFlags = new boolean[flags];
-    }
-
-    public void clearRegister() {
-        laserRegister.updateLaser(getName(), getPosition());
     }
 }

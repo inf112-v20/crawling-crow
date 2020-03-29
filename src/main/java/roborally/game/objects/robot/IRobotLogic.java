@@ -1,42 +1,133 @@
 package roborally.game.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.game.objects.cards.CardsInHand;
+import roborally.game.objects.cards.IProgramCards;
+import roborally.utilities.enums.Direction;
+
+import java.util.ArrayList;
 
 public interface IRobotLogic {
-
-    /** Returns the nonGraphical position of the robot. */
-    GridPoint2 getPosition();
-
     /**
-     * Sets the nonGraphical position of the robot.
-     *
-     * @param pos x and y tuppel
+     * @return Robot's name
      */
-    void setPosition(GridPoint2 pos);
-
-    /** Returns the name of the robot. */
     String getName();
 
-    /** Sets the x,y position of the archive marker.
-     * @param x position
-     * @param y position
+    /**
+     * @return The Robot's remaining health
      */
-    void setArchiveMarker(int x, int y);
-
-    /** Returns the robots last known checkout place/reboot place. */
-    GridPoint2 getArchiveMarker();
-
-    /** Returns how much health the robot has left. */
     int getHealth();
 
-    /** Returns the number of reboots the robot has left. */
+    /**
+     * @return The Robot's number of Reboots remaining
+     */
     int getReboots();
 
     /**
-     * Health is reduced by the amount of damage taken, if below or equal to zero then the robot is dead.
+     * This returns different message according to the remaining health
+     * for the Robot.
+     * The different messages are the following:
+     * - Badly damaged
+     * - Destroyed
+     * - Everything is OK!
+     * - RobotName is gone
+     *
+     * @return A status message based on the Robot's state
      */
-    void takeDamage(int damage);
-
-    /** Returns output of the shape relative to the health the robot is currently in. */
     String getStatus();
+
+    /**
+     * @return The Robot's position
+     */
+    GridPoint2 getPosition();
+
+    /**
+     * Sets a new position for the Robot
+     *
+     * @param newPosition A new position
+     */
+    void setPosition(GridPoint2 newPosition);
+
+    /**
+     * @return The Robot's Archive Marker position
+     */
+    GridPoint2 getArchiveMarker();
+
+    /**
+     * Sets a new position for the Robot's Archive Marker
+     *
+     * @param newArchiveMarkerPosition The new position of the Archive Marker
+     */
+    void setArchiveMarker(GridPoint2 newArchiveMarkerPosition);
+
+    /**
+     * Returns the Robot to its Archive Marker.
+     */
+    void backToArchiveMarker();
+
+    /**
+     * Rotates the Robot in the correct direction according to
+     * the new direction.
+     *
+     * @param newDirection The new direction the Robot is facing
+     */
+    void rotate(Direction newDirection);
+
+    /**
+     * @return The direction the Robot is facing
+     */
+    Direction getDirection();
+
+    /**
+     * Adds the inflicted damage to the Robot's health and checks
+     * if the Robot's health is <= 0 and that it has more reboots
+     * remaining.
+     *
+     * @param damageInflicted The damage inflicted
+     * @return True if the Robot can reboot, false otherwise
+     */
+    boolean takeDamage(int damageInflicted);
+
+
+    /**
+     * Defines which cards are on Robot's hand
+     *
+     * @param newCardsInHand The new cards that are going in the Robot's hand
+     */
+    void setCardsInHand(CardsInHand newCardsInHand);
+
+    /**
+     * @return The Cards in the hand of the Robot
+     */
+    ArrayList<IProgramCards.Card> getCardsInHand();
+
+    /**
+     * Arranges the cards in the hand of the Robot in a new order.
+     *
+     * @param newOrder The new order that the cards are to be arranged in.
+     */
+    void arrangeCardsInHand(int[] newOrder);
+
+    /**
+     * @return The next card in the Robot's hand and removes it
+     */
+    IProgramCards.Card getNextCardInHand();
+
+    /**
+     * @return The next card in the Robot's hand
+     */
+    IProgramCards.Card peekNextCardInHand();
+
+    /**
+     * Initiate that the Robot has selected its cards.
+     *
+     * @param value True if selected, false otherwise
+     */
+    void setHasSelectedCards(boolean value);
+
+    /**
+     * @return True if cards has been selected, false otherwise
+     */
+    boolean isCardsSelected();
+
 }
