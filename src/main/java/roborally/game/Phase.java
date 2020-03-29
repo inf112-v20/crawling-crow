@@ -95,7 +95,7 @@ public class Phase implements IPhase {
             for (Robot robot : robots) {
                 if (robot.getPosition().equals(repairSite.getPosition())) {
                     robot.getLogic().setArchiveMarker(repairSite.getPosition());
-                    System.out.println(robot.getName() + " has its Archive marker at " + repairSite.getPosition());
+                    System.out.println("- " + robot.getName() + " has its Archive marker at " + repairSite.getPosition());
                 }
             }
         }
@@ -105,17 +105,13 @@ public class Phase implements IPhase {
     public void registerFlagPositions() {
         System.out.println("\nChecking if any robots have arrived at their next flag position...");
         for (IFlag flag : flags) {
-            int flagX = flag.getPosition().x;
-            int flagY = flag.getPosition().y;
             for (Robot robot : robots) {
-                int robotX = robot.getPosition().x;
-                int robotY = robot.getPosition().y;
-                if (flagX == robotX && flagY == robotY) {
+                if (robot.getLogic().getPosition().equals(flag.getPosition())) {
                     int nextFlag = robot.getNextFlag();
                     if (flag.getID() == nextFlag) {
                         robot.visitNextFlag();
-                        robot.getLogic().setArchiveMarker(new GridPoint2(flagX, flagY));
-                        System.out.println("A flag has been visited");
+                        robot.getLogic().setArchiveMarker(flag.getPosition());
+                        System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
                     }
                 }
             }
