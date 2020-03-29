@@ -26,14 +26,12 @@ public class Robot implements Programmable {
     private Listener listener;
     private LaserRegister laserRegister;
     private boolean reboot;
-    private boolean robotWentInHole;
 
     private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
         this.robotLogic = robotLogic;
-        this.robotWentInHole = false;
     }
 
     public Robot(GridPoint2 pos, int robotID, LaserRegister laserRegister) {
@@ -49,8 +47,6 @@ public class Robot implements Programmable {
         this.laserRegister = laserRegister;
         setPosition(pos);
         checkForLaser(); // for spawning in the current lasers in fun mode.
-
-        this.robotWentInHole = false;
 
         this.cardTypeMethod = new HashMap<>();
         setCardTypeMethod();
