@@ -171,17 +171,21 @@ public class Game implements IGame {
         if (funMode)
             removeDeadRobots();
 
-        ArrayList<IProgramCards.Card> cardsDrawn;
-        CardsInHand cardsInHand;
-
-        int numberOfCardsDrawnFromDeck = 0;
         deckOfProgramCards.shuffleCards();
+        makeCards();
+
+        // FIXME: Should this actually be done for all robots in the end?
+        return makeProgramCardsView(userRobot);
+    }
+
+    private void makeCards() {
         int sizeOfDeck = deckOfProgramCards.getDeck().size();
 
+        int numberOfCardsDrawnFromDeck = 0;
         for (Robot currentRobot : getRobots()) {
-            cardsDrawn = new ArrayList<>();
+            ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
 
-            int currentRobotHealth = currentRobot.getLogic().getHealth() - 1;
+            int currentRobotHealth = currentRobot.getLogic().getHealth() - 1; // For damage tokens, see rulebook page 9
             int cardsToDraw = Math.max(0, currentRobotHealth);
 
             for (int i = 0; i < cardsToDraw; i++) {
@@ -191,11 +195,11 @@ public class Game implements IGame {
                 }
                 cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
-            cardsInHand = new CardsInHand(cardsDrawn);
+            CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
             currentRobot.getLogic().newCards(cardsInHand);
 
-            // This codesnippet lets all robots except the first one play their cards in default order.
-            if (!currentRobot.getName().equals(userRobot.getName())) {
+            // All Robots, except userRobot, play their cards in a new assigned order
+            if (!currentRobot.equals(userRobot)) {
                 int[] newOrder = new int[cardsToDraw];
 
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
@@ -204,10 +208,11 @@ public class Game implements IGame {
                 currentRobot.getLogic().arrangeCards(newOrder);
             }
         }
+    }
 
-
+    private ProgramCardsView makeProgramCardsView(Robot robot) {
         ProgramCardsView programCardsView = new ProgramCardsView();
-        for (IProgramCards.Card card : userRobot.getLogic().getCards()) {
+        for (IProgramCards.Card card : robot.getLogic().getCards()) {
             programCardsView.makeCard(card);
         }
         return programCardsView;
