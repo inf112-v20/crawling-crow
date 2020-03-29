@@ -126,11 +126,13 @@ public class Phase implements IPhase {
         if (DEBUG) System.out.println("\nChecking if someone won...");
 
         boolean someoneWon = checkAllRobotsForWinner();
-        //if (someoneWon) {
-        //    endGame();
-        //}
+        if (DEBUG) System.out.println("- Did someone win? " + someoneWon);
 
-        if (DEBUG) System.out.println("Found winner: " + someoneWon);
+        if (someoneWon) {
+        //    endGame();
+            if (DEBUG) System.out.println("- Found winner: " + winner.getName());
+        }
+
         return someoneWon;
     }
 
@@ -138,7 +140,7 @@ public class Phase implements IPhase {
         for (Robot robot : robots)
             if (robot.checkForStationaryLaser()) {
                 robot.takeDamage(1);
-                System.out.println("Hit by stationary laser");
+                System.out.println("- Hit by stationary laser");
             }
     }
 
