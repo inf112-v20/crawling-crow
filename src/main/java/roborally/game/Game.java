@@ -39,7 +39,7 @@ public class Game implements IGame {
     private GameOptions gameOptions;
     private IRound round;
 
-    private boolean fun;
+    private boolean funMode;
 
     //private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
@@ -76,7 +76,7 @@ public class Game implements IGame {
         robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
         this.round = new Round(events, robots, flags);
-        fun = true;
+        funMode = true;
         userRobot = robots.get(0);
     }
 
@@ -168,7 +168,7 @@ public class Game implements IGame {
     public ProgramCardsView getCards() {
         round = new Round(events, robots, flags);
         //TODO Refactor for readability
-        if (fun)
+        if (funMode)
             removeDeadRobots();
 
         ArrayList<IProgramCards.Card> cardsDrawn;
@@ -177,14 +177,14 @@ public class Game implements IGame {
         int numberOfCardsDrawnFromDeck = 0;
         deckOfProgramCards.shuffleCards();
         int sizeOfDeck = deckOfProgramCards.getDeck().size();
-        for (int robotID = 0; robotID < robots.size(); robotID++) {
+
+        for (Robot currentRobot : getRobots()) {
             cardsDrawn = new ArrayList<>();
 
-            //TODO FIX. Bugs with drawing cards...
-            int robotHealth = robots.get(robotID).getLogic().getHealth() - 1;
-            int cardsToDraw = Math.max(0, robotHealth);
+            int currentRobotHealth = currentRobot.getLogic().getHealth() - 1;
+            int cardsToDraw = Math.max(0, currentRobotHealth);
 
-            for (int j = 0; j < cardsToDraw; j++) {
+            for (int i = 0; i < cardsToDraw; i++) {
                 if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
                     deckOfProgramCards.shuffleCards();
                     numberOfCardsDrawnFromDeck = 0;
@@ -192,20 +192,19 @@ public class Game implements IGame {
                 cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
             cardsInHand = new CardsInHand(cardsDrawn);
-            robots.get(robotID).getLogic().newCards(cardsInHand);
-
+            currentRobot.getLogic().newCards(cardsInHand);
 
             // This codesnippet lets all robots except the first one play their cards in default order.
-
-            if (robotID > 0) {
+            if (!currentRobot.getName().equals(userRobot.getName())) {
                 int[] newOrder = new int[cardsToDraw];
 
                 for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
                     newOrder[i] = i;
                 }
-                robots.get(robotID).getLogic().arrangeCards(newOrder);
+                currentRobot.getLogic().arrangeCards(newOrder);
             }
         }
+
 
         ProgramCardsView programCardsView = new ProgramCardsView();
         for (IProgramCards.Card card : userRobot.getLogic().getCards()) {
