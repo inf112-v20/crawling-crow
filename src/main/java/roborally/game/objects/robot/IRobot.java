@@ -124,6 +124,7 @@ public interface IRobot {
     void playNextCard();
 
     /**
+     * Peeks
      * @return the Robot's next card in hand.
      */
     int peekNextCardInHand();
