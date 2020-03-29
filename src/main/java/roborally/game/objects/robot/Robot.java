@@ -58,18 +58,18 @@ public class Robot implements Programmable {
 
     @Override
     public String getName() {
-        return this.robotLogic.getName();
+        return this.getLogic().getName();
     }
 
     //region Position
     @Override
     public GridPoint2 getPosition() {
-        return this.robotLogic.getPosition();
+        return this.getLogic().getPosition();
     }
 
     @Override
     public void setPosition(GridPoint2 newPosition) {
-        this.robotLogic.setPosition(newPosition);
+        this.getLogic().setPosition(newPosition);
     }
     //endregion
 
@@ -106,8 +106,8 @@ public class Robot implements Programmable {
 
     @Override
     public void rotate(Direction direction) {
-        this.robotLogic.rotate(direction);
-        this.robotView.setDirection(getPosition(), direction);
+        this.getLogic().rotate(direction);
+        this.getView().setDirection(getPosition(), direction);
     }
 
     public void takeDamage(int dmg) {
@@ -134,7 +134,7 @@ public class Robot implements Programmable {
         if (!listener.listenCollision(oldPos, step)) {
 
             // Checks that robot does not tries to move out of the map
-            if (this.robotView.canMoveRobot(oldPos, step)) {
+            if (this.getView().canMoveRobot(oldPos, step)) {
 
                 // Update pos
                 this.setPosition(newPos);
@@ -147,7 +147,7 @@ public class Robot implements Programmable {
                     takeDamage(10);
                     System.out.println("Robot standing on hole");
                 }
-                robotView.setDirection(newPos, robotLogic.getDirection());
+                getView().setDirection(newPos, getLogic().getDirection());
 
             }
         } else
@@ -158,8 +158,8 @@ public class Robot implements Programmable {
 
     public void backToArchiveMarker() {
         if (reboot) {
-            robotView.goToArchiveMarker(this.getPosition(), robotLogic.getArchiveMarker());
-            this.robotLogic.backToArchiveMarker();
+            getView().goToArchiveMarker(this.getPosition(), getLogic().getArchiveMarker());
+            this.getLogic().backToArchiveMarker();
             clearRegister();
             reboot = false;
         }
@@ -169,9 +169,13 @@ public class Robot implements Programmable {
         return this.robotLogic.getLogic();
     }
 
+    public IRobotView getView() {
+        return this.robotView;
+    }
+
 
     public void fireLaser() {
-        laser.fireLaser(getPosition(), this.robotLogic.getDirectionID());
+        laser.fireLaser(getPosition(), this.getLogic().getDirectionID());
     }
 
     public Laser getLaser() {
@@ -180,20 +184,20 @@ public class Robot implements Programmable {
 
     //region Texture
     public void setTextureRegion(int i) {
-        this.robotView.setTextureRegion(i);
+        this.getView().setTextureRegion(i);
     }
 
     public TextureRegion[][] getTexture() {
-        return this.robotView.getTextureRegion();
+        return this.getView().getTextureRegion();
     }
 
     public void setWinTexture() {
-        this.robotView.setWinTexture(getPosition());
+        this.getView().setWinTexture(getPosition());
     }
 
     public void setLostTexture() {
-        this.robotView.setLostTexture(getPosition());
-        this.robotView.setDirection(getPosition(), getLogic().getDirection());
+        this.getView().setLostTexture(getPosition());
+        this.getView().setDirection(getPosition(), getLogic().getDirection());
 
     }
 
@@ -261,7 +265,7 @@ public class Robot implements Programmable {
 
     public void visitNextFlag() {
         this.setWinTexture();
-        this.robotView.setDirection(getPosition(), robotLogic.getDirection());
+        this.getView().setDirection(getPosition(), getLogic().getDirection());
         System.out.println("updated flag visited");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
