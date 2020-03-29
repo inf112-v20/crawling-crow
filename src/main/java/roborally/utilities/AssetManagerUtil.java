@@ -207,14 +207,25 @@ public class AssetManagerUtil {
     // Default names for the robots
     public static void makeRobotNames() {
         robotNames = new Stack<>();
-        robotNames.add("Yellow no. " + numberOfRobots);
-        robotNames.add("Red no. " + numberOfRobots);
-        robotNames.add("Purple no. " + numberOfRobots);
-        robotNames.add("Pink no. " + numberOfRobots);
-        robotNames.add("Orange no. " + numberOfRobots);
-        robotNames.add("Green no. " + numberOfRobots);
-        robotNames.add("Blue no. " + numberOfRobots);
-        robotNames.add("Angry no. " + numberOfRobots);
+        if (numberOfRobots != 0) {
+            robotNames.add("Yellow no. " + numberOfRobots);
+            robotNames.add("Red no. " + numberOfRobots);
+            robotNames.add("Purple no. " + numberOfRobots);
+            robotNames.add("Pink no. " + numberOfRobots);
+            robotNames.add("Orange no. " + numberOfRobots);
+            robotNames.add("Green no. " + numberOfRobots);
+            robotNames.add("Blue no. " + numberOfRobots);
+            robotNames.add("Angry no. " + numberOfRobots);
+        } else {
+            robotNames.add("Yellow");
+            robotNames.add("Red");
+            robotNames.add("Purple");
+            robotNames.add("Pink");
+            robotNames.add("Orange");
+            robotNames.add("Green");
+            robotNames.add("Blue");
+            robotNames.add("Angry");
+        }
     }
 
     public static String getRobotName() {
