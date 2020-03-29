@@ -12,8 +12,8 @@ import roborally.utilities.enums.Direction;
 
 public class RobotView implements IRobotView {
 
-    private TiledMapTileLayer.Cell robotWonCellTexture;
-    private TiledMapTileLayer.Cell robotLostCellTexture;
+    private TiledMapTileLayer.Cell robotVictoryCellTexture;
+    private TiledMapTileLayer.Cell robotDamageTakenCellTexture;
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotDefaultCellTexture;
     private ILayers layers;
@@ -29,23 +29,23 @@ public class RobotView implements IRobotView {
     }
 
     @Override
-    public void setWinTexture(GridPoint2 pos) {
-        if (this.robotWonCellTexture == null) {
-            this.robotWonCellTexture = new TiledMapTileLayer.Cell();
-            this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
+    public void setVictoryTexture(GridPoint2 pos) {
+        if (this.robotVictoryCellTexture == null) {
+            this.robotVictoryCellTexture = new TiledMapTileLayer.Cell();
+            this.robotVictoryCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        layers.setRobotTexture(pos, this.robotWonCellTexture);
+        layers.setRobotTexture(pos, this.robotVictoryCellTexture);
 
     }
 
     @Override
-    public void setLostTexture(GridPoint2 pos) {
-        if (this.robotLostCellTexture == null) {
-            this.robotLostCellTexture = new TiledMapTileLayer.Cell();
-            this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
+    public void setDamageTakenTexture(GridPoint2 pos) {
+        if (this.robotDamageTakenCellTexture == null) {
+            this.robotDamageTakenCellTexture = new TiledMapTileLayer.Cell();
+            this.robotDamageTakenCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
         if(layers.assertRobotNotNull(pos)) {
-            layers.setRobotTexture(pos, this.robotLostCellTexture);
+            layers.setRobotTexture(pos, this.robotDamageTakenCellTexture);
         }
     }
 

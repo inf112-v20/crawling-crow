@@ -192,11 +192,11 @@ public class Robot implements Programmable {
     }
 
     public void setWinTexture() {
-        this.getView().setWinTexture(getPosition());
+        this.getView().setVictoryTexture(getPosition());
     }
 
     public void setLostTexture() {
-        this.getView().setLostTexture(getPosition());
+        this.getView().setDamageTakenTexture(getPosition());
         this.getView().setDirection(getPosition(), getLogic().getDirection());
 
     }

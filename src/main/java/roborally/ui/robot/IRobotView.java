@@ -11,14 +11,14 @@ public interface IRobotView {
      *
      * @param pos the position
      */
-    void setWinTexture(GridPoint2 pos);
+    void setVictoryTexture(GridPoint2 pos);
 
     /**
      * Creates new damageTaken/robotDestroyed texture at position.
      *
      * @param pos the position
      */
-    void setLostTexture(GridPoint2 pos);
+    void setDamageTakenTexture(GridPoint2 pos);
 
     /**
      * @return The normal robot texture.
