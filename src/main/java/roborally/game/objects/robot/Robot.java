@@ -285,13 +285,13 @@ public class Robot implements IRobot {
     public void visitNextFlag() {
         this.setVictoryTexture();
         this.getView().setDirection(getPosition(), getLogic().getDirection());
-        System.out.println("updated flag visited");
+        System.out.println("- Updated next flag to visit");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
         if (nextFlag == visitedFlags.length)
             System.out.println("Congratulations you have collected all the flags, press 'W' to end the game.");
         else
-            System.out.println("Next flag to visit: " + (nextFlag + 1));
+            System.out.println("- Next flag to visit: " + (nextFlag + 1));
     }
 
     public void setNumberOfFlags(int flags) {
