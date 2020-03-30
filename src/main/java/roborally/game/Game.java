@@ -276,20 +276,20 @@ public class Game implements IGame {
         if (dt >= gameSpeed) {
             getRound().getPhase().playNextRegisterCard();
             dt = 0f;
-            robotPlayedCounter++;
+            this.robotPlayedCounter++;
         }
 
-        if (robotPlayedCounter == getRobots().size()) {
+        if (this.robotPlayedCounter == getRobots().size()) {
             getRound().getPhase().run(getLayers());
-            currentPhaseIndex++;
-            robotPlayedCounter = 0;
+            this.currentPhaseIndex++;
+            this.robotPlayedCounter = 0;
         }
 
         // If last phase
-        if (currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
+        if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
             dt = 0f;
             this.currentPhaseIndex = 0;
-            events.setWaitMoveEvent(false);
+            this.events.setWaitMoveEvent(false);
             getRound().run(getLayers());
         }
         return dt;
