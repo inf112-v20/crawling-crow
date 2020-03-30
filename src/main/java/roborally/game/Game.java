@@ -108,7 +108,6 @@ public class Game implements IGame {
 
     private void setRobots(ArrayList<Robot> newRobots) {
         this.robots = newRobots;
-        this.round = new Round(events, robots, flags, repairSites);
     }
     //endregion
 
@@ -164,12 +163,10 @@ public class Game implements IGame {
             gameOptions.enterMenu();
         }
     }
+
     //region Cards
-
-
     @Override
     public ProgramCardsView getCards() {
-        round = new Round(events, robots, flags, repairSites);
         //TODO Refactor for readability
         if (funMode)
             removeDeadRobots();
