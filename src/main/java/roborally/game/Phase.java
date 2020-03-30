@@ -34,6 +34,19 @@ public class Phase implements IPhase {
     }
 
     @Override
+    public void run(ILayers layers) {
+        revealProgramCards();
+        //playNextRegisterForAllRobots();
+        moveAllConveyorBelts(layers);
+        moveCogs(layers);
+        fireLasers();
+        checkForLasers();
+        registerRepairSitePositionsAndUpdateArchiveMarker();
+        registerFlagPositionsAndUpdateArchiveMarker();
+        checkForWinner();
+    }
+
+    @Override
     public void revealProgramCards() {
         //123
     }
@@ -85,11 +98,7 @@ public class Phase implements IPhase {
     }
 
     @Override
-    public void updateArchiveMarker() {
-        registerRepairSitePositions();
-    }
-
-    public void registerRepairSitePositions() {
+    public void registerRepairSitePositionsAndUpdateArchiveMarker() {
         System.out.println("\nChecking if any robots have arrived at a repair site...");
         for (BoardObject repairSite : repairSites) {
             for (Robot robot : robots) {
@@ -111,7 +120,7 @@ public class Phase implements IPhase {
     }
 
     @Override
-    public void registerFlagPositions() {
+    public void registerFlagPositionsAndUpdateArchiveMarker() {
         System.out.println("\nChecking if any robots have arrived at their next flag position...");
         for (IFlag flag : flags) {
             for (Robot robot : robots) {
@@ -151,19 +160,6 @@ public class Phase implements IPhase {
                 robot.takeDamage(1);
                 System.out.println("- Hit by stationary laser");
             }
-    }
-
-    @Override
-    public void run(ILayers layers) {
-        revealProgramCards();
-        //playNextRegisterForAllRobots();
-        moveAllConveyorBelts(layers);
-        moveCogs(layers);
-        fireLasers();
-        checkForLasers();
-        updateArchiveMarker();
-        registerFlagPositions();
-        checkForWinner();
     }
 
     private void moveNormalConveyorBelts(ILayers layers) {

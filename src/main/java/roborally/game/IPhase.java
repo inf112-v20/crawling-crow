@@ -9,8 +9,8 @@ public interface IPhase {
     void moveAllConveyorBelts(ILayers layers);
     void moveCogs(ILayers layers);
     void fireLasers();
-    void updateArchiveMarker();
-    void registerFlagPositions();
+    void registerRepairSitePositionsAndUpdateArchiveMarker();
+    void registerFlagPositionsAndUpdateArchiveMarker();
     boolean checkForWinner();
     void run(ILayers layers);
     Robot getWinner();
