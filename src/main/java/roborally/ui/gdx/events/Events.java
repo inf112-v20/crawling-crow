@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.objects.robot.Robot;
-import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +20,8 @@ public class Events {
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvents;
-    private int currentPhaseIndex;
     private double gameSpeed;
     private int factor;
-    private int robotPlayedCounter;
 
     public Events() {
         this.waitEvent = false;
@@ -33,7 +30,6 @@ public class Events {
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
         this.laserEvents = new ArrayList<>();
-        this.currentPhaseIndex = 0;
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
 
@@ -72,25 +68,7 @@ public class Events {
      */
     public void waitMoveEvent(float dt, IGame game) {
         this.dt += dt;
-        if (this.dt >= gameSpeed) {
-            game.getRound().getPhase().playNextRegisterCard();
-            this.dt = 0;
-            this.robotPlayedCounter++;
-        }
-
-        if (robotPlayedCounter == game.getRobots().size()) {
-            game.getRound().getPhase().run(game.getLayers());
-            currentPhaseIndex++;
-            robotPlayedCounter = 0;
-        }
-
-        // If last phase
-        if (currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
-            this.dt = 0f;
-            this.currentPhaseIndex = 0;
-            setWaitMoveEvent(false);
-            game.getRound().run(game.getLayers());
-        }
+        this.dt = game.continueGameLoop(this.dt, this.gameSpeed);
     }
 
     public boolean hasWaitEvent() {

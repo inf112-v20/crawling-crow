@@ -51,4 +51,6 @@ public interface IGame {
     void exitGame();
 
     IRound getRound();
+
+    float continueGameLoop(float dt, double gameSpeed);
 }

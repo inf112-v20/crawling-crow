@@ -42,6 +42,8 @@ public class Game implements IGame {
     private IRound round;
 
     private boolean funMode;
+    private int robotPlayedCounter;
+    private int currentPhaseIndex;
 
     //private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
@@ -60,27 +62,27 @@ public class Game implements IGame {
 
     @Override
     public void startUp() {
-        gameBoard = new GameBoard();
-        layers = gameBoard.getLayers();
+        this.gameBoard = new GameBoard();
+        this.layers = gameBoard.getLayers();
         this.laserRegister = new LaserRegister(layers);
-        flags = gameBoard.findAllFlags();
+        this.flags = gameBoard.findAllFlags();
         this.repairSites = gameBoard.findAllRepairSites();
         this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
         this.round = new Round(events, robots, flags, repairSites);
-        userRobot = robots.get(0);
+        this.userRobot = robots.get(0);
     }
 
     @Override
     public void funMode() {
-        gameBoard = new GameBoard();
-        layers = gameBoard.getLayers();
+        this.gameBoard = new GameBoard();
+        this.layers = gameBoard.getLayers();
         this.laserRegister = new LaserRegister(layers);
-        flags = gameBoard.findAllFlags();
-        robots = gameOptions.funMode(layers, flags, laserRegister);
+        this.flags = gameBoard.findAllFlags();
+        this.robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
         this.round = new Round(events, robots, flags, repairSites);
-        funMode = true;
-        userRobot = robots.get(0);
+        this.funMode = true;
+        this.userRobot = robots.get(0);
     }
 
     @Override
@@ -267,6 +269,30 @@ public class Game implements IGame {
     @Override
     public IRound getRound() {
         return this.round;
+    }
+
+    @Override
+    public float continueGameLoop(float dt, double gameSpeed) {
+        if (dt >= gameSpeed) {
+            getRound().getPhase().playNextRegisterCard();
+            dt = 0f;
+            robotPlayedCounter++;
+        }
+
+        if (robotPlayedCounter == getRobots().size()) {
+            getRound().getPhase().run(getLayers());
+            currentPhaseIndex++;
+            robotPlayedCounter = 0;
+        }
+
+        // If last phase
+        if (currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
+            dt = 0f;
+            this.currentPhaseIndex = 0;
+            events.setWaitMoveEvent(false);
+            getRound().run(getLayers());
+        }
+        return dt;
     }
 
     private boolean isNotInGraveyard(Robot robot) {
