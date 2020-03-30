@@ -6,6 +6,7 @@ import org.junit.Test;
 import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.ProgramCards;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
 import static org.hamcrest.core.IsNot.not;
@@ -101,7 +102,7 @@ public class RobotTest {
 
     @Test
     public void verifyThatRobotIsDestroyed() {
-        testRobot1.getLogic().takeDamage(10);
+        testRobot1.getLogic().takeDamage(SettingsUtil.MAX_DAMAGE);
         assertEquals(testRobot1.getLogic().getStatus(), "Destroyed");
     }
 

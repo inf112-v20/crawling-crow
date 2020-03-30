@@ -20,6 +20,7 @@ public class RobotView implements IRobotView {
     private GridPoint2 pos;
     private int height;
     private int width;
+    private  boolean graveyard;
 
     public RobotView(GridPoint2 pos) {
         this.pos = pos;
@@ -72,26 +73,26 @@ public class RobotView implements IRobotView {
     @Override
     public boolean canMoveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
-        if (isPositionOnMap(newPos)) {
+        if(isRobotInGraveyard(oldPos))
+            return false;
+        else if(!isRobotInGraveyard(newPos))
             layers.setRobotTexture(newPos, getTexture());
-            layers.setRobotTexture(oldPos, null);
-            return true;
-        }
-        return false;
+        layers.setRobotTexture(oldPos, null);
+        return true;
     }
 
-    private boolean isPositionOnMap(GridPoint2 pos){
-        return pos.x >= 0 && pos.y >= 0 && pos.y < height && pos.x < width;
+    public boolean isRobotInGraveyard(GridPoint2 pos){
+        graveyard = pos.x < 0 || pos.y < 0 || pos.y >= height || pos.x >= width;
+        return graveyard;
     }
 
     @Override
     public void goToArchiveMarker(GridPoint2 pos, GridPoint2 archiveMarker) {
-        if (!pos.equals(archiveMarker)) {
+        if (!pos.equals(archiveMarker))
             layers.setRobotTexture(pos, null);
-            if(!layers.assertRobotNotNull(pos)) { // Else starts the round virtual.
-                layers.setRobotTexture(archiveMarker, getTexture());
-                layers.getRobotTexture(archiveMarker).setRotation(0);
-            }
+        if(!layers.assertRobotNotNull(archiveMarker)) { // Else starts the round virtual.
+            layers.setRobotTexture(archiveMarker, getTexture());
+            layers.getRobotTexture(archiveMarker).setRotation(0);
         }
     }
 

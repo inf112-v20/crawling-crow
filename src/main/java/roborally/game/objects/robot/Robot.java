@@ -108,6 +108,7 @@ public class Robot implements IRobot {
 
     @Override
     public void tryToMove(GridPoint2 possiblePosition) {
+        System.out.println(getName() + " trying to move::");
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
 
@@ -118,7 +119,12 @@ public class Robot implements IRobot {
 
             // Checks that robot does not tries to move out of the map
             if (this.getView().canMoveRobot(oldPos, possiblePosition)) {
-
+                // Robot moving outside map
+                if(robotView.isRobotInGraveyard(newPos)) {
+                    setPosition(SettingsUtil.GRAVEYARD);
+                    this.takeDamage(SettingsUtil.MAX_DAMAGE);
+                    return;
+                }
                 // Update pos
                 this.setPosition(newPos);
                 System.out.println("New position: " + newPos);
@@ -127,7 +133,7 @@ public class Robot implements IRobot {
                 // Check if Robot is standing on a hole
                 if (layers.assertHoleNotNull(newPos)) {
                     //robotWentInHole = true;
-                    takeDamage(10);
+                    takeDamage(SettingsUtil.MAX_DAMAGE);
                     System.out.println("Robot went into a hole");
                 }
                 getView().setDirection(newPos, getLogic().getDirection());
@@ -165,7 +171,8 @@ public class Robot implements IRobot {
             backToArchiveMarker();
             reboot = true;
         }
-        setDamageTakenTexture();
+        else
+            setDamageTakenTexture();
     }
 
     //region Lasers

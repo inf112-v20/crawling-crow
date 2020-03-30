@@ -10,6 +10,7 @@ public class SettingsUtil {
 
     public static int ROBOT_MAX_HEALTH = 10;
     public static int ROBOT_MAX_REBOOTS = 4;
+    public static int MAX_DAMAGE = 10;
     //endregion
 
     public static GridPoint2 GRAVEYARD = new GridPoint2(-1,-1);
