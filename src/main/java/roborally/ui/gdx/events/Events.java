@@ -78,15 +78,18 @@ public class Events {
             this.dt = 0;
             this.cardNumber++;
         }
+
         if (cardNumber / registerPhase == game.getRobots().size()) {
-            game.getRound().run(game.getLayers());
+            game.getRound().getPhase().run(game.getLayers());
             registerPhase++;
         }
+
         if (cardNumber == REGISTER_END * game.getRobots().size()) {
             this.dt = 0f;
             this.cardNumber = 0;
             this.registerPhase = 1;
             setWaitMoveEvent(false);
+            game.getRound().run(game.getLayers());
         }
     }
 

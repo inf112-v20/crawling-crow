@@ -21,11 +21,13 @@ public class Round implements IRound {
 
     @Override
     public void run(ILayers layers) {
-        announcePowerDown();
-        dealCards();
-        programRobots();
-        startPhases(layers);
+        //announcePowerDown();
+        //dealCards();
+        //programRobots();
+        //startPhases(layers);
         checkForDestroyedRobots();
+        cleanUp();
+        System.out.println("\t- RAN A ROUND");
     }
 
     @Override
@@ -46,15 +48,18 @@ public class Round implements IRound {
     @Override
     public void startPhases(ILayers layers) {
         // FIXME: Should run like this instead
-        /*for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
             getPhase().run(layers);
-        }*/
-        getPhase().run(layers);
+        }
+        //getPhase().run(layers);
     }
 
     @Override
     public void cleanUp() {
         //Done in robot and in rebootRobots
+        for (Robot currentRobot : robots) {
+            currentRobot.backToArchiveMarker();
+        }
     }
 
     @Override

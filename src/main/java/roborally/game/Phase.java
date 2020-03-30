@@ -36,7 +36,7 @@ public class Phase implements IPhase {
     @Override
     public void run(ILayers layers) {
         revealProgramCards();
-        //playNextRegisterForAllRobots();
+        //playNextRegisterCard();
         moveAllConveyorBelts(layers);
         moveCogs(layers);
         fireLasers();
@@ -44,6 +44,7 @@ public class Phase implements IPhase {
         registerRepairSitePositionsAndUpdateArchiveMarker();
         registerFlagPositionsAndUpdateArchiveMarker();
         checkForWinner();
+        System.out.println("\t- COMPLETED ONE PHASE");
     }
 
     @Override
@@ -106,7 +107,7 @@ public class Phase implements IPhase {
                     robot.getLogic().setArchiveMarker(repairSite.getPosition());
                     System.out.println("- Type of repair site: " + repairSite.getType().name());
 
-                    robot.getLogic().addHealth(1);
+                    robot.getLogic().addHealth(1); // FIXME: should only happen in Round not phase
 
                     // TODO: Add this
                     /*if (repairSite.getType() == TileName.WRENCH_HAMMER) {

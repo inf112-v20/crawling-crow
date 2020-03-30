@@ -189,10 +189,11 @@ public class Game implements IGame {
             int cardsToDraw = Math.max(0, currentRobotHealth);
 
             for (int i = 0; i < cardsToDraw; i++) {
-                if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
+                // Resets counter to 0 and shuffles cards
+                /*if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
                     deckOfProgramCards.shuffleCards();
-                    numberOfCardsDrawnFromDeck = 0;
-                }
+                    numberOfCardsDrawnFromDeck = 0; //TODO: Refactor
+                }*/
                 cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
             }
             CardsInHand cardsInHand = new CardsInHand(cardsDrawn);

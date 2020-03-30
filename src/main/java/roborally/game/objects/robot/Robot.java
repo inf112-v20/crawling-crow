@@ -108,7 +108,7 @@ public class Robot implements IRobot {
 
     @Override
     public void tryToMove(GridPoint2 possiblePosition) {
-        System.out.println(getName() + " trying to move::");
+        System.out.println("\n" + getName() + " trying to move:");
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
 
