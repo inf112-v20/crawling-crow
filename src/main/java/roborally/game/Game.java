@@ -273,6 +273,7 @@ public class Game implements IGame {
 
     @Override
     public float continueGameLoop(float dt, double gameSpeed) {
+        // TODO: Move to Round and Phase
         if (dt >= gameSpeed) {
             getRound().getPhase().playNextRegisterCard();
             dt = 0f;
