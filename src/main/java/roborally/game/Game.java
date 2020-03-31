@@ -181,9 +181,6 @@ public class Game implements IGame {
     }
 
     private void makeCards() {
-        int sizeOfDeck = deckOfProgramCards.getDeck().size();
-
-        int numberOfCardsDrawnFromDeck = 0;
         for (Robot currentRobot : getRobots()) {
             ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
 
@@ -191,12 +188,7 @@ public class Game implements IGame {
             int cardsToDraw = Math.max(0, currentRobotHealth);
 
             for (int i = 0; i < cardsToDraw; i++) {
-                // Resets counter to 0 and shuffles cards
-                /*if (numberOfCardsDrawnFromDeck == sizeOfDeck) {
-                    deckOfProgramCards.shuffleCards();
-                    numberOfCardsDrawnFromDeck = 0; //TODO: Refactor
-                }*/
-                cardsDrawn.add(deckOfProgramCards.getDeck().get(numberOfCardsDrawnFromDeck++));
+                cardsDrawn.add(deckOfProgramCards.getNextCard());
             }
             CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
             currentRobot.getLogic().setCardsInHand(cardsInHand);

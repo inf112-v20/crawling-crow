@@ -1,15 +1,17 @@
 package roborally.game.objects.cards;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class ProgramCards implements IProgramCards {
     private ArrayList<Card> deckOfCards;
+    private Queue<Card> nextCard;
 
     public ProgramCards() {
         deckOfCards = new ArrayList<>();
         putAllCardsIntoDeck();
         shuffleCards();
+        this.nextCard = new LinkedList<>();
+        this.nextCard.addAll(deckOfCards);
     }
 
     private void putAllCardsIntoDeck() {
@@ -28,5 +30,14 @@ public class ProgramCards implements IProgramCards {
     @Override
     public ArrayList<Card> getDeck() {
         return this.deckOfCards;
+    }
+
+    @Override
+    public Card getNextCard() {
+        if(nextCard.isEmpty()) {
+            shuffleCards();
+            nextCard.addAll(this.deckOfCards);
+        }
+        return nextCard.remove();
     }
 }

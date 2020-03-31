@@ -8,6 +8,9 @@ public interface IProgramCards {
      */
     void shuffleCards();
 
+    /** Returns a new card from the deck */
+    Card getNextCard();
+
     /**
      * @return Deck of program cards
      */
