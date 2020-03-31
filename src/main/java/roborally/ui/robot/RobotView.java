@@ -20,13 +20,15 @@ public class RobotView implements IRobotView {
     private GridPoint2 pos;
     private int height;
     private int width;
-    private  boolean graveyard;
+    private  boolean virtualMode;
+    private Direction virtualDirection;
 
     public RobotView(GridPoint2 pos) {
         this.pos = pos;
         this.layers = new Layers();
         this.height = layers.getHeight();
         this.width = layers.getWidth();
+        this.virtualDirection = Direction.North;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class RobotView implements IRobotView {
             this.robotDamageTakenCellTexture = new TiledMapTileLayer.Cell();
             this.robotDamageTakenCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        if(layers.assertRobotNotNull(pos)) {
+        if(layers.assertRobotNotNull(pos) && !virtualMode) {
             layers.setRobotTexture(pos, this.robotDamageTakenCellTexture);
         }
     }
@@ -77,28 +79,37 @@ public class RobotView implements IRobotView {
             return false;
         else if(!isRobotInGraveyard(newPos))
             layers.setRobotTexture(newPos, getTexture());
-        layers.setRobotTexture(oldPos, null);
+        if(!virtualMode)
+            layers.setRobotTexture(oldPos, null);
+        else { // Moves out of virtual mode
+            virtualMode = false;
+            this.setDirection(newPos, virtualDirection);
+            this.virtualDirection = Direction.North;
+        }
         return true;
     }
 
     public boolean isRobotInGraveyard(GridPoint2 pos){
-        graveyard = pos.x < 0 || pos.y < 0 || pos.y >= height || pos.x >= width;
-        return graveyard;
+        return pos.x < 0 || pos.y < 0 || pos.y >= height || pos.x >= width;
     }
 
     @Override
     public void goToArchiveMarker(GridPoint2 pos, GridPoint2 archiveMarker) {
         if (!pos.equals(archiveMarker))
             layers.setRobotTexture(pos, null);
-        if(!layers.assertRobotNotNull(archiveMarker)) { // Else starts the round virtual.
+        if(!layers.assertRobotNotNull(archiveMarker)) {
             layers.setRobotTexture(archiveMarker, getTexture());
             layers.getRobotTexture(archiveMarker).setRotation(0);
         }
+        else // There's a robot on the archiveMarker already, this robot enters virtual mode.
+            virtualMode = true;
     }
 
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
-        if (layers.assertRobotNotNull(pos))
+        if (layers.assertRobotNotNull(pos) && !virtualMode)
             layers.getRobotTexture(pos).setRotation(direction.getDirectionID());
+        else if(virtualMode) // Stores the new direction instead of updating it.
+            virtualDirection = direction;
     }
 }
