@@ -10,8 +10,7 @@ import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class RobotTest {
     private IRobot testRobot1;
@@ -151,12 +150,23 @@ public class RobotTest {
     @Test
     public void verifyThatRobotIsDestroyedAfterTaking10Damage() {
         testRobot1.getLogic().takeDamage(10);
-        assertEquals(testRobot1.getLogic().getStatus(), "Destroyed");
+        assertEquals("Destroyed", testRobot1.getLogic().getStatus());
+    }
+
+    @Test
+    public void verifyThatRobotHas8CardsAfterTaking2DamageAndGoingToRepairSite() {
+        testRobot1.getLogic().takeDamage(2);
+        testRobot1.getLogic().addHealth(1);
+
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(8, testRobot1.getLogic().getCardsInHand().size());
     }
 
     @Test
     public void verifyThatRobot1NameNotEqualToRobot2Name() {
-        assertThat(testRobot1.getName(), not(testRobot2.getName()));
+        assertNotEquals(testRobot1.getName(), testRobot2.getName());
     }
 
     @Test
@@ -169,35 +179,35 @@ public class RobotTest {
     @Test
     public void verifyThatRobotRotatesLeft() {
         testRobot1.getLogic().rotate(Direction.turnLeftFrom(testRobot1.getLogic().getDirection()));
-        assertEquals(testRobot1.getLogic().getDirection(), Direction.West);
+        assertEquals(Direction.West, testRobot1.getLogic().getDirection());
     }
 
     @Test
     public void verifyThatRobotRotatesRight() {
         testRobot1.getLogic().rotate(Direction.turnRightFrom(testRobot1.getLogic().getDirection()));
-        assertEquals(testRobot1.getLogic().getDirection(), Direction.East);
+        assertEquals(Direction.East, testRobot1.getLogic().getDirection());
     }
 
     @Test
     public void verifyThatRobotHasFullHealth() {
-        assertEquals(testRobot1.getLogic().getHealth(), 10);
+        assertEquals(10, testRobot1.getLogic().getHealth());
     }
 
     @Test
     public void verifyThatEverythingIsOk() {
-        assertEquals(testRobot1.getLogic().getStatus(), "Everything is OK!");
+        assertEquals("Everything is OK!", testRobot1.getLogic().getStatus());
     }
 
     @Test
     public void verifyThatRobotIsBadlyDamaged() {
         testRobot1.getLogic().takeDamage(6);
-        assertEquals(testRobot1.getLogic().getStatus(), "Badly damaged");
+        assertEquals("Badly damaged", testRobot1.getLogic().getStatus());
     }
 
     @Test
     public void verifyThatRobotIsDestroyed() {
         testRobot1.getLogic().takeDamage(SettingsUtil.MAX_DAMAGE);
-        assertEquals(testRobot1.getLogic().getStatus(), "Destroyed");
+        assertEquals("Destroyed", testRobot1.getLogic().getStatus());
     }
 
     @Test
@@ -208,6 +218,18 @@ public class RobotTest {
     }
 
     @Test
-    public void name() {
+    public void verifyThatRobotSetsNewArchiveMarker() {
+        testRobot1.getLogic().setArchiveMarker(new GridPoint2(2, 5));
+
+        assertEquals(new GridPoint2(2, 5), testRobot1.getLogic().getArchiveMarker());
+    }
+
+    @Test
+    public void verifyThatRobotGoesBackToArchiveMarkerWhenReenteringTheBoard() {
+        testRobot1.getLogic().setArchiveMarker(new GridPoint2(3, 6));
+        testRobot1.getLogic().takeDamage(10);
+        testRobot1.getLogic().backToArchiveMarker();
+
+        assertEquals(new GridPoint2(3, 6), testRobot1.getLogic().getPosition());
     }
 }
