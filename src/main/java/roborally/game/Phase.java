@@ -35,7 +35,7 @@ public class Phase implements IPhase {
 
     @Override
     public void run(ILayers layers) {
-        revealProgramCards();
+        //revealProgramCards();
         //playNextRegisterCard();
         moveAllConveyorBelts(layers);
         moveCogs(layers);
