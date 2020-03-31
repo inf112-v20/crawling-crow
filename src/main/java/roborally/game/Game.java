@@ -3,13 +3,12 @@ package roborally.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.cards.CardsInHand;
 import roborally.game.objects.cards.IProgramCards;
 import roborally.game.objects.cards.ProgramCards;
+import roborally.game.objects.gameboard.BoardObject;
 import roborally.game.objects.gameboard.GameBoard;
 import roborally.game.objects.gameboard.IFlag;
 import roborally.game.objects.gameboard.IGameBoard;
-import roborally.game.objects.gameboard.BoardObject;
 import roborally.game.objects.laser.LaserRegister;
 import roborally.game.objects.robot.Robot;
 import roborally.ui.ILayers;
@@ -168,41 +167,24 @@ public class Game implements IGame {
 
     //region Cards
     @Override
-    public ProgramCardsView getCards() {
+    public ProgramCardsView dealCards() {
         //TODO Refactor for readability
         if (funMode)
             removeDeadRobots();
 
         deckOfProgramCards.shuffleCards();
-        makeCards();
+
+        for (Robot currentRobot : getRobots()) {
+            deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
+
+
+            if (!currentRobot.equals(userRobot)) {
+                currentRobot.getLogic().autoArrangeCardsInHand();
+            }
+        }
 
         // FIXME: Should this actually be done for all robots in the end?
         return makeProgramCardsView(userRobot);
-    }
-
-    private void makeCards() {
-        for (Robot currentRobot : getRobots()) {
-            ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
-
-            int currentRobotHealth = currentRobot.getLogic().getHealth() - 1; // For damage tokens, see rulebook page 9
-            int cardsToDraw = Math.max(0, currentRobotHealth);
-
-            for (int i = 0; i < cardsToDraw; i++) {
-                cardsDrawn.add(deckOfProgramCards.getNextCard());
-            }
-            CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
-            currentRobot.getLogic().setCardsInHand(cardsInHand);
-
-            // All Robots, except userRobot, play their cards in a new assigned order
-            if (!currentRobot.equals(userRobot)) {
-                int[] newOrder = new int[cardsToDraw];
-
-                for (int i = 0; i < Math.min(cardsToDraw, 5); i++) {
-                    newOrder[i] = i;
-                }
-                currentRobot.getLogic().arrangeCardsInHand(newOrder);
-            }
-        }
     }
 
     private ProgramCardsView makeProgramCardsView(Robot robot) {

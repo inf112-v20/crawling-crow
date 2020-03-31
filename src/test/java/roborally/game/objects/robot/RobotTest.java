@@ -58,7 +58,101 @@ public class RobotTest {
         assertEquals(5, testRobot1.getLogic().getCardsInHand().size());
     }
 
-    // verifyThatRobotHas3CardsInHandAfterTaking7Damage
+    @Test
+    public void verifyThatRobotHas9CardsInHandAfterTaking0Damage() {
+        testRobot1.getLogic().takeDamage(0);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(9, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas8CardsInHandAfterTaking1Damage() {
+        testRobot1.getLogic().takeDamage(1);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(8, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas7CardsInHandAfterTaking2Damage() {
+        testRobot1.getLogic().takeDamage(2);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(7, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas6CardsInHandAfterTaking3Damage() {
+        testRobot1.getLogic().takeDamage(3);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(6, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas5CardsInHandAfterTaking4Damage() {
+        testRobot1.getLogic().takeDamage(4);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(5, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas4CardsInHandAfterTaking5Damage() {
+        testRobot1.getLogic().takeDamage(5);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(4, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas3CardsInHandAfterTaking6Damage() {
+        testRobot1.getLogic().takeDamage(6);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(3, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas2CardsInHandAfterTaking7Damage() {
+        testRobot1.getLogic().takeDamage(7);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(2, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas1CardInHandAfterTaking8Damage() {
+        testRobot1.getLogic().takeDamage(8);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(1, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotHas0CardsInHandAfterTaking9Damage() {
+        testRobot1.getLogic().takeDamage(9);
+        // Draws new cards as if it were a new Round
+        testRobot1.getLogic().drawCards(programCards);
+
+        assertEquals(0, testRobot1.getLogic().getCardsInHand().size());
+    }
+
+    @Test
+    public void verifyThatRobotIsDestroyedAfterTaking10Damage() {
+        testRobot1.getLogic().takeDamage(10);
+        assertEquals(testRobot1.getLogic().getStatus(), "Destroyed");
+    }
 
     @Test
     public void verifyThatRobot1NameNotEqualToRobot2Name() {

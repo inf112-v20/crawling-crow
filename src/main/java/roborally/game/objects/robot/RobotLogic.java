@@ -161,6 +161,35 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
+    public IProgramCards drawCards(IProgramCards deckOfProgramCards) {
+        ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
+
+        for (int i = 0; i < getNumberOfCardsToDraw(); i++) {
+            cardsDrawn.add(deckOfProgramCards.getNextCard());
+        }
+        CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
+        this.setCardsInHand(cardsInHand);
+
+        return deckOfProgramCards;
+    }
+
+
+    @Override
+    public void autoArrangeCardsInHand() {
+        int[] newOrder = new int[getNumberOfCardsToDraw()];
+
+        for (int i = 0; i < Math.min(getNumberOfCardsToDraw(), 5); i++) {
+            newOrder[i] = i;
+        }
+        this.arrangeCardsInHand(newOrder);
+    }
+
+    private int getNumberOfCardsToDraw() {
+        int numberOfCardsToDraw = this.getHealth() - 1; // For damage tokens, see rulebook page 9
+        return Math.max(0, numberOfCardsToDraw);
+    }
+
+    @Override
     public ArrayList<IProgramCards.Card> getCardsInHand() {
         return this.cardsInHand.getCards();
     }

@@ -40,7 +40,7 @@ public interface IGame {
 
     GameOptions getGameOptions();
 
-    ProgramCardsView getCards();
+    ProgramCardsView dealCards();
 
     void shuffleTheRobotsCards(int[] order);
 

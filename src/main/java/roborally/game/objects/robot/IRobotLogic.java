@@ -132,4 +132,7 @@ public interface IRobotLogic {
      */
     boolean isCardsSelected();
 
+    IProgramCards drawCards(IProgramCards deckOfProgramCards);
+
+    void autoArrangeCardsInHand();
 }
