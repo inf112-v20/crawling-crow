@@ -167,10 +167,8 @@ public class Robot implements IRobot {
 
     @Override
     public void takeDamage(int dmg) {
-        if (getLogic().takeDamage(dmg)) {
-            backToArchiveMarker();
+        if (getLogic().takeDamage(dmg))
             reboot = true;
-        }
         else
             setDamageTakenTexture();
     }

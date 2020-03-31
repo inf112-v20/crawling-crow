@@ -55,7 +55,7 @@ public class Phase implements IPhase {
     @Override
     public void playNextRegisterCard() {
         if (robotQueue.isEmpty()) {
-            this.robots.sort(Comparator.comparing(Robot::peekNextCardInHand));
+            this.robots.sort(Comparator.comparing(Robot::peekNextCardInHand, Comparator.reverseOrder()));
             robotQueue.addAll(robots);
         }
         Objects.requireNonNull(robotQueue.poll()).playNextCard();
