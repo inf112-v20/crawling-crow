@@ -3,6 +3,8 @@ package roborally.ui.gdx.listeners;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
+import roborally.utilities.enums.LayerName;
+
 public class LaserListener {
     private ILayers layers;
 
@@ -18,8 +20,8 @@ public class LaserListener {
      */
     public boolean checkForLasers(GridPoint2 pos, String name, LaserRegister laserRegister) {
         int id;
-        if (layers.assertLaserNotNull(pos)) {
-            id = layers.getLaserID(pos);
+        if (layers.layerNotNull(LayerName.LASER, pos)) {
+            id = layers.getLayerID(LayerName.LASER, pos);
             laserRegister.createLaser(id, pos, name);
             return true;
         } else

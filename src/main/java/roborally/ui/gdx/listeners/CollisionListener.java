@@ -33,7 +33,7 @@ public class CollisionListener {
         if (nextPos.x >= 0 && nextPos.x < width && nextPos.y >= 0 && nextPos.y < height) {
             if (wallListener.checkForWall(pos, move))
                 return true;
-            if (layers.assertRobotNotNull(nextPos))
+            if (layers.layerNotNull(LayerName.ROBOT, nextPos))
                 recursiveRobot = robotNextToRobot(nextPos, move);
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().x == pos.x && robot.getPosition().y == pos.y && !recursiveRobot) {
@@ -77,9 +77,9 @@ public class CollisionListener {
                     robot.tryToMove(move);
                     robot.checkForStationaryLaser();
                     System.out.println("Pushing complete... ");
-                    if (layers.assertFlagNotNull(nextPos))  //Checks if the robot got bumped into a flag.
+                    if (layers.layerNotNull(LayerName.FLAG, nextPos))  //Checks if the robot got bumped into a flag.
                         robot.setVictoryTexture();
-                    else if (layers.assertHoleNotNull(nextPos)) //Checks if the robot got bumped into a hole.
+                    else if (layers.layerNotNull(LayerName.HOLE, nextPos)) //Checks if the robot got bumped into a hole.
                         robot.setDamageTakenTexture();
                 }
             }
@@ -97,12 +97,12 @@ public class CollisionListener {
             return true;
         GridPoint2 newPos = pos.cpy().add(move);
         // There is no RobotPresenter on the next position.
-        if (!layers.assertRobotNotNull(newPos))
+        if (!layers.layerNotNull(LayerName.ROBOT, newPos))
             return false;
         else {
             if (wallListener.checkForWall(newPos, move))
                 return true;
-            if (layers.assertRobotNotNull(newPos) && robotNextToRobot(newPos, move))
+            if (layers.layerNotNull(LayerName.ROBOT, newPos) && robotNextToRobot(newPos, move))
                 return true;
         }
         findCollidingRobot(newPos, move);

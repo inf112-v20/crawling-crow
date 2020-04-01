@@ -14,6 +14,7 @@ import roborally.ui.robot.RobotView;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
 
 import java.util.HashMap;
 
@@ -131,7 +132,7 @@ public class Robot implements IRobot {
                 System.out.println("\t- Health: " + getLogic().getHealth());
 
                 // Check if Robot is standing on a hole
-                if (layers.assertHoleNotNull(newPos)) {
+                if (layers.layerNotNull(LayerName.HOLE, newPos)) {
                     //robotWentInHole = true;
                     takeDamage(SettingsUtil.MAX_DAMAGE);
                     System.out.println("\t\t- Robot went into a hole");

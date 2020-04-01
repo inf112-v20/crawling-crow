@@ -9,6 +9,7 @@ import roborally.ui.Layers;
 import roborally.ui.UI;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
 
 public class RobotView implements IRobotView {
 
@@ -47,7 +48,7 @@ public class RobotView implements IRobotView {
             this.robotDamageTakenCellTexture = new TiledMapTileLayer.Cell();
             this.robotDamageTakenCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        if(layers.assertRobotNotNull(pos) && !virtualMode) {
+        if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode) {
             layers.setRobotTexture(pos, this.robotDamageTakenCellTexture);
         }
     }
@@ -97,7 +98,7 @@ public class RobotView implements IRobotView {
     public void goToArchiveMarker(GridPoint2 pos, GridPoint2 archiveMarker) {
         if (!pos.equals(archiveMarker))
             layers.setRobotTexture(pos, null);
-        if(!layers.assertRobotNotNull(archiveMarker)) {
+        if (!layers.layerNotNull(LayerName.ROBOT, archiveMarker)) {
             layers.setRobotTexture(archiveMarker, getTexture());
             layers.getRobotTexture(archiveMarker).setRotation(0);
         }
@@ -107,7 +108,7 @@ public class RobotView implements IRobotView {
 
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
-        if (layers.assertRobotNotNull(pos) && !virtualMode)
+        if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode)
             layers.getRobotTexture(pos).setRotation(direction.getDirectionID());
         else if(virtualMode) // Stores the new direction instead of updating it.
             virtualDirection = direction;

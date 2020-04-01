@@ -2,6 +2,7 @@ package roborally.ui.gdx.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
@@ -29,8 +30,8 @@ public class WallListener {
     public boolean checkForWall(GridPoint2 pos, GridPoint2 move) {
         boolean wall = false;
         TileName wallName;
-        if (layers.wallNonNull(pos)) {
-            wallName = tiledTranslator.getTileName(layers.getWallID(pos));
+        if (layers.layerNotNull(LayerName.WALL, pos)) {
+            wallName = tiledTranslator.getTileName(layers.getLayerID(LayerName.WALL, pos));
             if (move.y > 0)
                 wall = mapOfWallNames.get("North").contains(wallName);
             else if (move.y < 0)
@@ -41,8 +42,8 @@ public class WallListener {
                 wall = mapOfWallNames.get("West").contains(wallName);
         }
         GridPoint2 nextPos = pos.cpy().add(move);
-        if (layers.wallNonNull(nextPos) && !wall) {
-            wallName = tiledTranslator.getTileName(layers.getWallID(nextPos));
+        if (layers.layerNotNull(LayerName.WALL, nextPos) && !wall) {
+            wallName = tiledTranslator.getTileName(layers.getLayerID(LayerName.WALL, nextPos));
             if (move.y > 0)
                 return mapOfWallNames.get("South").contains(wallName);
             else if (move.y < 0)

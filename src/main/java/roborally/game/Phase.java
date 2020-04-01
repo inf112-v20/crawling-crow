@@ -9,6 +9,7 @@ import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
 import java.util.*;
@@ -76,8 +77,8 @@ public class Phase implements IPhase {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
-            if (layers.assertGearNotNull(pos)) {
-                TileName tileName = layers.getGearTileName(pos);
+            if (layers.layerNotNull(LayerName.COG, pos)) {
+                TileName tileName = layers.getTileName(LayerName.COG, pos);
                 if (tileName == TileName.COG_CLOCKWISE)
                     robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
                 else if (tileName == TileName.COG_COUNTER_CLOCKWISE)
@@ -170,8 +171,8 @@ public class Phase implements IPhase {
         List<List<Robot>> robotsOnBelts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorSlowNotNull(pos)) {
-                TileName tileName = layers.getConveyorSlowTileName(pos);
+            if (layers.layerNotNull(LayerName.CONVEYOR, pos)) {
+                TileName tileName = layers.getTileName(LayerName.CONVEYOR, pos);
                 // Move in a special way so that no collision happens.
                 System.out.println(robot.getName() + " is on " + tileName.toString());
                 // TODO: HashMap??
@@ -224,9 +225,9 @@ public class Phase implements IPhase {
                 if (validPositions.isEmpty())
                     break;
                 if (!validPositions.contains((validPos = validPositions.poll()))
-                        && !layers.assertRobotNotNull(robot.getPosition().cpy().add(step)))
+                        && !layers.layerNotNull(LayerName.ROBOT, robot.getPosition().cpy().add(step)))
                     robot.tryToMove(step);
-                else if (layers.assertRobotNotNull(robot.getPosition().cpy().add(step)))
+                else if (layers.layerNotNull(LayerName.ROBOT, robot.getPosition().cpy().add(step)))
                     remainingRobots.put(robot, step);
                 else {
                     GridPoint2 finalPos = validPos;
@@ -238,7 +239,7 @@ public class Phase implements IPhase {
             }
         }
         for (Robot robot : remainingRobots.keySet())
-            if (!layers.assertRobotNotNull(robot.getPosition().cpy().add(remainingRobots.get(robot))))
+            if (!layers.layerNotNull(LayerName.ROBOT, robot.getPosition().cpy().add(remainingRobots.get(robot))))
                 robot.tryToMove(remainingRobots.get(robot));
     }
 
@@ -248,8 +249,8 @@ public class Phase implements IPhase {
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorFastNotNull(pos)) {
-                TileName tileName = layers.getConveyorFastTileName(pos);
+            if (layers.layerNotNull(LayerName.CONVEYOR_EXPRESS, pos)) {
+                TileName tileName = layers.getTileName(LayerName.CONVEYOR_EXPRESS, pos);
                 // Move in a special way so that no collision happens.
                 // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
@@ -273,10 +274,10 @@ public class Phase implements IPhase {
         if (rotateRobots.isEmpty())
             return;
         for (Robot robot : rotateRobots) {
-            if (layers.assertConveyorSlowNotNull(robot.getPosition()))
-                tileName = layers.getConveyorSlowTileName(robot.getPosition());
-            else if (layers.assertConveyorFastNotNull(robot.getPosition()))
-                tileName = layers.getConveyorFastTileName(robot.getPosition());
+            if (layers.layerNotNull(LayerName.CONVEYOR, robot.getPosition()))
+                tileName = layers.getTileName(LayerName.CONVEYOR, robot.getPosition());
+            else if (layers.layerNotNull(LayerName.CONVEYOR_EXPRESS, robot.getPosition()))
+                tileName = layers.getTileName(LayerName.CONVEYOR_EXPRESS, robot.getPosition());
             else
                 return;
             if (tileName.toString().contains("COUNTER_CLOCKWISE"))

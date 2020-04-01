@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.Flag;
 import roborally.game.gameboard.objects.IFlag;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.tiledtranslator.ITiledTranslator;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
@@ -40,7 +41,7 @@ public class GameBoard implements IGameBoard {
     @Override
     public ArrayList<IFlag> findAllFlags() {
         ArrayList<IFlag> flags = new ArrayList<>();
-        TiledMapTileLayer flagLayer = layers.getFlag();
+        TiledMapTileLayer flagLayer = layers.getLayer(LayerName.FLAG);
 
         addFlags(flags, flagLayer);
         return flags;
@@ -64,8 +65,8 @@ public class GameBoard implements IGameBoard {
     @Override
     public ArrayList<BoardObject> findAllRepairSites() {
         ArrayList<BoardObject> repairSites = new ArrayList<>();
-        TiledMapTileLayer wrench = layers.getWrench();
-        TiledMapTileLayer wrenchHammer = layers.getWrenchHammer();
+        TiledMapTileLayer wrench = layers.getLayer(LayerName.WRENCH);
+        TiledMapTileLayer wrenchHammer = layers.getLayer(LayerName.WRENCH_HAMMER);
 
         addRepairSites(repairSites, wrench);
         addRepairSites(repairSites, wrenchHammer);
