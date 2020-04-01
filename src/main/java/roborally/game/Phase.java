@@ -2,9 +2,9 @@ package roborally.game;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.gameboard.IFlag;
-import roborally.game.objects.gameboard.BoardObject;
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.IFlag;
+import roborally.game.gameboard.objects.BoardObject;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
@@ -166,7 +166,7 @@ public class Phase implements IPhase {
     private void moveNormalConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         ArrayList<Robot> rotateRobots = new ArrayList<>();
-        List<List<Robot>> belts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        List<List<Robot>> robotsOnBelts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorSlowNotNull(pos)) {
@@ -175,59 +175,64 @@ public class Phase implements IPhase {
                 System.out.println(robot.getName() + " is on " + tileName.toString());
                 // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    belts.get(0).add(robot);
+                    robotsOnBelts.get(0).add(robot);
                     //robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    belts.get(1).add(robot);
+                    robotsOnBelts.get(1).add(robot);
                     //robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    belts.get(2).add(robot);
+                    robotsOnBelts.get(2).add(robot);
                     //robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    belts.get(3).add(robot);
+                    robotsOnBelts.get(3).add(robot);
                     //robot.tryToMove(Direction.South.getStep());
                 rotateRobots.add(robot);
             }
         }
-        moveConveyorBelts(belts, layers);
+        moveConveyorBelts(robotsOnBelts, layers);
         rotateConveyorBelts(rotateRobots, layers);
     }
 
-    private void moveConveyorBelts(List<List<Robot>> belts, ILayers layers) {
-        belts.get(0).sort(Comparator.comparing(Robot::getPositionX, Comparator.reverseOrder()));
-        belts.get(1).sort(Comparator.comparing(Robot::getPositionY, Comparator.reverseOrder()));
-        belts.get(2).sort(Comparator.comparing(Robot::getPositionX));
-        belts.get(3).sort(Comparator.comparing(Robot::getPositionY));
-        List<GridPoint2> conflicts = new ArrayList<>();
+    private void moveConveyorBelts(List<List<Robot>> listOfRobotsOnBelts, ILayers layers) {
+        listOfRobotsOnBelts.get(0).sort(Comparator.comparing(Robot::getPositionX, Comparator.reverseOrder()));
+        listOfRobotsOnBelts.get(1).sort(Comparator.comparing(Robot::getPositionY, Comparator.reverseOrder()));
+        listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
+        listOfRobotsOnBelts.get(3).sort(Comparator.comparing(Robot::getPositionY));
+
+        Queue<GridPoint2> possibleConflicts = new LinkedList<>();
+
         List<Direction> enums = Arrays.asList(Direction.East, Direction.North, Direction.West, Direction.South);
+
         int index = 0;
-        for (List<Robot> belt : belts) {
-            for (Robot robot : belt) {
-                conflicts.add(robot.getPosition().cpy().add(enums.get(index).getStep()));
+        for (List<Robot> listOfRobotsOnOneBelt : listOfRobotsOnBelts) {
+            for (Robot currentRobot : listOfRobotsOnOneBelt) {
+                possibleConflicts.add(currentRobot.getPosition().cpy().add(enums.get(index).getStep()));
             }
             index++;
         }
-        Queue<GridPoint2> queue = new LinkedList<>(conflicts);
+
+
         Map<Robot, GridPoint2> remainingRobots = new HashMap<>();
         GridPoint2 pos;
-        for(int i = 0; i < belts.size(); i++) {
-            for(int j = 0; j < belts.get(i).size(); j++) {
-                if(queue.isEmpty())
+
+        for (int beltIndex = 0; beltIndex < listOfRobotsOnBelts.size(); beltIndex++) {
+            for (int robotIndex = 0; robotIndex < listOfRobotsOnBelts.get(beltIndex).size(); robotIndex++) {
+                if (possibleConflicts.isEmpty())
                     break;
-                if(!queue.contains((pos=queue.poll())) && !layers.assertRobotNotNull(belts.get(i).get(j).getPosition()
-                        .cpy().add(enums.get(i).getStep())))
-                    belts.get(i).get(j).tryToMove(enums.get(i).getStep());
-                else if(layers.assertRobotNotNull(belts.get(i).get(j).getPosition().cpy().add(enums.get(i).getStep())))
-                    remainingRobots.put(belts.get(i).get(j), enums.get(i).getStep());
+                if (!possibleConflicts.contains((pos = possibleConflicts.poll())) && !layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition()
+                        .cpy().add(enums.get(beltIndex).getStep())))
+                    listOfRobotsOnBelts.get(beltIndex).get(robotIndex).tryToMove(enums.get(beltIndex).getStep());
+                else if (layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition().cpy().add(enums.get(beltIndex).getStep())))
+                    remainingRobots.put(listOfRobotsOnBelts.get(beltIndex).get(robotIndex), enums.get(beltIndex).getStep());
                 else {
-                    for(GridPoint2 otherPos : queue)
-                        if(otherPos.equals(pos))
-                            queue.remove(otherPos);
+                    for (GridPoint2 otherPos : possibleConflicts)
+                        if (otherPos.equals(pos))
+                            possibleConflicts.remove(otherPos);
                 }
             }
         }
-        for(Robot robot : remainingRobots.keySet())
-            if(!layers.assertRobotNotNull(robot.getPosition().cpy().add(remainingRobots.get(robot))))
+        for (Robot robot : remainingRobots.keySet())
+            if (!layers.assertRobotNotNull(robot.getPosition().cpy().add(remainingRobots.get(robot))))
                 robot.tryToMove(remainingRobots.get(robot));
     }
 

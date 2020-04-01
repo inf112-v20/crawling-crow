@@ -1,8 +1,8 @@
 package roborally.game;
 
-import roborally.game.objects.gameboard.IFlag;
-import roborally.game.objects.gameboard.BoardObject;
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.IFlag;
+import roborally.game.gameboard.objects.BoardObject;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 

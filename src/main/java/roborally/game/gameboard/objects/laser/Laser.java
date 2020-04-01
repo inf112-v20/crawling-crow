@@ -1,4 +1,4 @@
-package roborally.game.objects.laser;
+package roborally.game.gameboard.objects.laser;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;

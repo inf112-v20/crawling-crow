@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.robot.Robot;
 
 import java.util.ArrayList;
 import java.util.List;

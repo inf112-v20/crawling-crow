@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import roborally.game.objects.cards.IProgramCards;
+import roborally.game.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
 
 import java.util.ArrayList;

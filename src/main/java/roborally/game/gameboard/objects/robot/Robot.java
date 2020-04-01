@@ -1,11 +1,11 @@
-package roborally.game.objects.robot;
+package roborally.game.gameboard.objects.robot;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.laser.Laser;
-import roborally.game.objects.laser.LaserRegister;
+import roborally.game.cards.IProgramCards;
+import roborally.game.gameboard.objects.laser.Laser;
+import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.listeners.Listener;

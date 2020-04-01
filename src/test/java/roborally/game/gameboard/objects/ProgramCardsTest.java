@@ -1,9 +1,9 @@
-package roborally.game.objects;
+package roborally.game.gameboard.objects;
 
 import org.junit.Before;
 import org.junit.Test;
-import roborally.game.objects.cards.IProgramCards;
-import roborally.game.objects.cards.ProgramCards;
+import roborally.game.cards.IProgramCards;
+import roborally.game.cards.ProgramCards;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,7 @@ public class ProgramCardsTest {
     private int numberOfCards;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         programCards = new ProgramCards();
         card = new ProgramCards.Card(IProgramCards.CardType.MOVE_1);
 

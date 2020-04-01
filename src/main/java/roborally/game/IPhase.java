@@ -1,6 +1,6 @@
 package roborally.game;
 
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 
 public interface IPhase {

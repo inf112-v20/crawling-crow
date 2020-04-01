@@ -1,7 +1,7 @@
 package roborally.ui.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.laser.LaserRegister;
+import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 
 public class Listener {

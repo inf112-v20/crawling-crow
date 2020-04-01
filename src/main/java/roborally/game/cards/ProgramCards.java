@@ -1,4 +1,4 @@
-package roborally.game.objects.cards;
+package roborally.game.cards;
 
 import java.util.*;
 

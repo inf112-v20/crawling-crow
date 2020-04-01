@@ -1,7 +1,10 @@
-package roborally.game.objects.gameboard;
+package roborally.game.gameboard;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.game.gameboard.objects.BoardObject;
+import roborally.game.gameboard.objects.Flag;
+import roborally.game.gameboard.objects.IFlag;
 import roborally.utilities.tiledtranslator.ITiledTranslator;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;

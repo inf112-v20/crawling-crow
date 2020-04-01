@@ -1,8 +1,8 @@
-package roborally.game.objects.robot;
+package roborally.game.gameboard.objects.robot;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.laser.Laser;
+import roborally.game.gameboard.objects.laser.Laser;
 import roborally.ui.robot.IRobotView;
 import roborally.utilities.enums.Direction;
 
