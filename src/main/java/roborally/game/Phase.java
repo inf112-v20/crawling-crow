@@ -2,8 +2,8 @@ package roborally.game;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.BoardObject;
+import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
@@ -173,7 +173,7 @@ public class Phase implements IPhase {
                 TileName tileName = layers.getConveyorSlowTileName(pos);
                 // Move in a special way so that no collision happens.
                 System.out.println(robot.getName() + " is on " + tileName.toString());
-                // TODO: HashMap
+                // TODO: HashMap??
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robotsOnBelts.get(0).add(robot);
                     //robot.tryToMove(Direction.East.getStep());
@@ -191,6 +191,14 @@ public class Phase implements IPhase {
         }
         moveConveyorBelts(robotsOnBelts, layers);
         rotateConveyorBelts(rotateRobots, layers);
+
+        /* TODO: Implement abstract classes for normal and express conveyor belts
+        for (Robot currentRobot : robots) {
+            robotPositionsList.add(currentRobot.getPosition());
+        }
+
+        AbstractConveyorNormal.moveBelts(robotsOnBelts, layers);
+        AbstractConveyorNormal.rotateBelts(robotsOnBelts, layers);*/
     }
 
     private void moveConveyorBelts(List<List<Robot>> listOfRobotsOnBelts, ILayers layers) {
