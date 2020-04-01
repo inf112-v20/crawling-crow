@@ -1,4 +1,4 @@
-package roborally.ui.gdx;
+package roborally.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

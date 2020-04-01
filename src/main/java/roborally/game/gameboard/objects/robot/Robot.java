@@ -8,7 +8,7 @@ import roborally.game.gameboard.objects.laser.Laser;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
-import roborally.ui.listeners.Listener;
+import roborally.ui.gdx.listeners.Listener;
 import roborally.ui.robot.IRobotView;
 import roborally.ui.robot.RobotView;
 import roborally.utilities.AssetManagerUtil;

@@ -12,7 +12,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.ProgramCardsView;
+import roborally.ui.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -77,6 +77,7 @@ public class Game implements IGame {
         this.layers = gameBoard.getLayers();
         this.laserRegister = new LaserRegister(layers);
         this.flags = gameBoard.findAllFlags();
+        this.repairSites = gameBoard.findAllRepairSites();
         this.robots = gameOptions.funMode(layers, flags, laserRegister);
         this.events.setGameSpeed("fastest");
         this.round = new Round(events, robots, flags, repairSites);
@@ -109,6 +110,7 @@ public class Game implements IGame {
 
     private void setRobots(ArrayList<Robot> newRobots) {
         this.robots = newRobots;
+        round = new Round(events, robots, flags, repairSites);
     }
     //endregion
 

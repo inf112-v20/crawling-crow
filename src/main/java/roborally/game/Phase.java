@@ -233,9 +233,13 @@ public class Phase implements IPhase {
                 else if (layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition().cpy().add(enums.get(beltIndex).getStep())))
                     remainingRobots.put(listOfRobotsOnBelts.get(beltIndex).get(robotIndex), enums.get(beltIndex).getStep());
                 else {
-                    for (GridPoint2 otherPos : possibleConflicts)
-                        if (otherPos.equals(pos))
-                            possibleConflicts.remove(otherPos);
+                    Queue<GridPoint2> list = new LinkedList<>();
+                    for (GridPoint2 otherPos : possibleConflicts) {
+                        if (otherPos.equals(pos)) {
+                            list.add(otherPos);
+                        }
+                    }
+                    possibleConflicts = list;
                 }
             }
         }

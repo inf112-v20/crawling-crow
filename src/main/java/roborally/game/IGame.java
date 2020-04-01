@@ -2,7 +2,7 @@ package roborally.game;
 
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.ProgramCardsView;
+import roborally.ui.ProgramCardsView;
 
 import java.util.ArrayList;
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import roborally.game.IGame;
-import roborally.ui.gdx.ProgramCardsView;
+import roborally.ui.ProgramCardsView;
 
 public class AnimateEvent {
     private Events events;

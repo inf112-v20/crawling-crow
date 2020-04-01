@@ -3,7 +3,7 @@ package roborally.game.gameboard.objects.laser;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
-import roborally.ui.listeners.WallListener;
+import roborally.ui.gdx.listeners.WallListener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;

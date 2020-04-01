@@ -1,4 +1,4 @@
-package roborally.ui.gdx;
+package roborally.ui;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import roborally.game.Game;
 import roborally.game.IGame;
+import roborally.ui.ProgramCardsView;
 import roborally.ui.gdx.events.AnimateEvent;
 import roborally.ui.gdx.events.Events;
 import roborally.ui.menu.Menu;
