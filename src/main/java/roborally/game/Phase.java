@@ -12,6 +12,7 @@ import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.TileName;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Phase implements IPhase {
 
@@ -176,16 +177,12 @@ public class Phase implements IPhase {
                 // TODO: HashMap??
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robotsOnBelts.get(0).add(robot);
-                    //robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
                     robotsOnBelts.get(1).add(robot);
-                    //robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
                     robotsOnBelts.get(2).add(robot);
-                    //robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
                     robotsOnBelts.get(3).add(robot);
-                    //robot.tryToMove(Direction.South.getStep());
                 rotateRobots.add(robot);
             }
         }
@@ -207,14 +204,14 @@ public class Phase implements IPhase {
         listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
         listOfRobotsOnBelts.get(3).sort(Comparator.comparing(Robot::getPositionY));
 
-        Queue<GridPoint2> possibleConflicts = new LinkedList<>();
+        Queue<GridPoint2> validPositions = new LinkedList<>();
 
         List<Direction> enums = Arrays.asList(Direction.East, Direction.North, Direction.West, Direction.South);
 
         int index = 0;
         for (List<Robot> listOfRobotsOnOneBelt : listOfRobotsOnBelts) {
             for (Robot currentRobot : listOfRobotsOnOneBelt) {
-                possibleConflicts.add(currentRobot.getPosition().cpy().add(enums.get(index).getStep()));
+                validPositions.add(currentRobot.getPosition().cpy().add(enums.get(index).getStep()));
             }
             index++;
         }
@@ -225,21 +222,19 @@ public class Phase implements IPhase {
 
         for (int beltIndex = 0; beltIndex < listOfRobotsOnBelts.size(); beltIndex++) {
             for (int robotIndex = 0; robotIndex < listOfRobotsOnBelts.get(beltIndex).size(); robotIndex++) {
-                if (possibleConflicts.isEmpty())
+                if (validPositions.isEmpty())
                     break;
-                if (!possibleConflicts.contains((pos = possibleConflicts.poll())) && !layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition()
+                if (!validPositions.contains((pos = validPositions.poll())) && !layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition()
                         .cpy().add(enums.get(beltIndex).getStep())))
                     listOfRobotsOnBelts.get(beltIndex).get(robotIndex).tryToMove(enums.get(beltIndex).getStep());
                 else if (layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition().cpy().add(enums.get(beltIndex).getStep())))
                     remainingRobots.put(listOfRobotsOnBelts.get(beltIndex).get(robotIndex), enums.get(beltIndex).getStep());
                 else {
-                    Queue<GridPoint2> list = new LinkedList<>();
-                    for (GridPoint2 otherPos : possibleConflicts) {
-                        if (!otherPos.equals(pos)) {
-                            list.add(otherPos);
-                        }
-                    }
-                    possibleConflicts = list;
+                    GridPoint2 finalPos = pos;
+                    List<GridPoint2> list = validPositions.stream()
+                            .filter(o -> o.equals(finalPos))
+                            .collect(Collectors.toList());
+                    validPositions.removeAll(list);
                 }
             }
         }
@@ -260,16 +255,12 @@ public class Phase implements IPhase {
                 // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     belts.get(0).add(robot);
-                    //robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
                     belts.get(1).add(robot);
-                    //robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_WEST || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
                     belts.get(2).add(robot);
-                    //robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
                     belts.get(3).add(robot);
-                    //robot.tryToMove(Direction.South.getStep());
                 rotateRobots.add(robot);
             }
         }
