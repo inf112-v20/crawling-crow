@@ -2,6 +2,7 @@ package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
 // Brief overview of the methods used to access the tiled map.
@@ -11,6 +12,8 @@ public interface ILayers {
      * @return true if the layers has been loaded.
      */
     boolean isLoaded();
+
+    TiledMapTileLayer getLayer(LayerName layerName);
 
     /**
      * @param key String
@@ -58,7 +61,7 @@ public interface ILayers {
      * @param pos position
      * @return true if there is a wall at the position x, y.
      */
-    boolean assertWallNotNull(GridPoint2 pos);
+    boolean wallNonNull(GridPoint2 pos);
 
     /**
      * @param pos position

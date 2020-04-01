@@ -29,7 +29,7 @@ public class WallListener {
     public boolean checkForWall(GridPoint2 pos, GridPoint2 move) {
         boolean wall = false;
         TileName wallName;
-        if (layers.assertWallNotNull(pos)) {
+        if (layers.wallNonNull(pos)) {
             wallName = tiledTranslator.getTileName(layers.getWallID(pos));
             if (move.y > 0)
                 wall = mapOfWallNames.get("North").contains(wallName);
@@ -41,7 +41,7 @@ public class WallListener {
                 wall = mapOfWallNames.get("West").contains(wallName);
         }
         GridPoint2 nextPos = pos.cpy().add(move);
-        if (layers.assertWallNotNull(nextPos) && !wall) {
+        if (layers.wallNonNull(nextPos) && !wall) {
             wallName = tiledTranslator.getTileName(layers.getWallID(nextPos));
             if (move.y > 0)
                 return mapOfWallNames.get("South").contains(wallName);

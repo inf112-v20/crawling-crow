@@ -1,18 +1,19 @@
 package roborally.utilities.enums;
 
 public enum LayerName {
+    ROBOT("Robot"),
     HOLE("Hole"),
     WALL("Walls"),
     FLOOR("Floor"),
     FLAG("Flag"),
-    START_POSITIONS("startPositions"),
-    CONVEYOR("slowConveyorBelt"),
-    CONVEYOR_EXPRESS("fastConveyorBelt"),
+    START_POSITIONS("StartPositions"),
+    CONVEYOR("SlowConveyorBelt"),
+    CONVEYOR_EXPRESS("FastConveyorBelt"),
     WRENCH("Wrench"),
-    WRENCH_HAMMER("wrenchHammer"),
+    WRENCH_HAMMER("Hammer"),
     LASER("Laser"),
-    CANNON("laserCannon"),
-    COG("Gear"),
+    CANNON("Cannon"),
+    COG("RotatingGear"),
     BUG("bug");
 
     private final String layerString;
@@ -22,6 +23,6 @@ public enum LayerName {
     }
 
     public String getLayerString() {
-        return this.layerString;
+        return this.layerString.toLowerCase();
     }
 }

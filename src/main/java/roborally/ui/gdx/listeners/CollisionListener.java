@@ -5,6 +5,7 @@ import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
+import roborally.utilities.enums.LayerName;
 
 public class CollisionListener {
     private ILayers layers;
@@ -59,8 +60,8 @@ public class CollisionListener {
      * Moves the robots accordingly.
      */
     public void findCollidingRobot(GridPoint2 pos, GridPoint2 move) {
-        int width = layers.getRobots().getWidth();
-        int height = layers.getRobots().getHeight();
+        int width = layers.getLayer(LayerName.ROBOT).getWidth();
+        int height = layers.getLayer(LayerName.ROBOT).getHeight();
         GridPoint2 nextPos = pos.cpy().add(move);
         for (Robot robot : AssetManagerUtil.getRobots()) {
             if (robot != null) {

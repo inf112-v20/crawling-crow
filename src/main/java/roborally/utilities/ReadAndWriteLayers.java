@@ -70,12 +70,14 @@ public class ReadAndWriteLayers {
 
         for (MapLayer mapLayer : tiledMap.getLayers()) {
             for (LayerName layerName : LayerName.values()) {
-                if (mapLayer.getName().equals(layerName.getLayerString())) {
+                boolean layerImplemented = false;
+                if (mapLayer.getName().toLowerCase().equals(layerName.getLayerString())) {
                     layers.put(layerName, (TiledMapTileLayer) mapLayer);
-                } else {
-                    System.out.println("The layer: '" + layerName.getLayerString() + "' has not yet been implemented in the game. \n" +
-                            "check the layer in Tiled Map Editor and the list of names in map/layernames.txt\n" +
-                            "this layer will act as a hole.");
+                    layerImplemented = true;
+                } else /*(!layerImplemented)*/ {
+                    System.out.println("Layer: '" + layerName.getLayerString() + "' has not yet been implemented in the game.");
+                    System.out.println("\t- Check the layer in Tiled Map Editor and the layer names in the map's .tmx-file.");
+                    System.out.println("\t- This layer will act as a hole.");
                 }
             }
         }
