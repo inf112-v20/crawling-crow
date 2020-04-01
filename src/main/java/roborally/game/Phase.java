@@ -166,6 +166,7 @@ public class Phase implements IPhase {
     private void moveNormalConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         ArrayList<Robot> rotateRobots = new ArrayList<>();
+        List<List<Robot>> belts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
             if (layers.assertConveyorSlowNotNull(pos)) {
@@ -174,21 +175,62 @@ public class Phase implements IPhase {
                 System.out.println(robot.getName() + " is on " + tileName.toString());
                 // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    robot.tryToMove(Direction.East.getStep());
+                    belts.get(0).add(robot);
+                    //robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    robot.tryToMove(Direction.North.getStep());
+                    belts.get(1).add(robot);
+                    //robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    robot.tryToMove(Direction.West.getStep());
+                    belts.get(2).add(robot);
+                    //robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    robot.tryToMove(Direction.South.getStep());
+                    belts.get(3).add(robot);
+                    //robot.tryToMove(Direction.South.getStep());
                 rotateRobots.add(robot);
             }
         }
+        moveConveyorBelts(belts, layers);
         rotateConveyorBelts(rotateRobots, layers);
+    }
+
+    private void moveConveyorBelts(List<List<Robot>> belts, ILayers layers) {
+        belts.get(0).sort(Comparator.comparing(Robot::getPositionX, Comparator.reverseOrder()));
+        belts.get(1).sort(Comparator.comparing(Robot::getPositionY, Comparator.reverseOrder()));
+        belts.get(2).sort(Comparator.comparing(Robot::getPositionX));
+        belts.get(3).sort(Comparator.comparing(Robot::getPositionY));
+        List<GridPoint2> conflicts = new ArrayList<>();
+        List<Direction> enums = Arrays.asList(Direction.East, Direction.North, Direction.West, Direction.South);
+        int index = 0;
+        for (List<Robot> belt : belts) {
+            for (Robot robot : belt) {
+                conflicts.add(robot.getPosition().cpy().add(enums.get(index).getStep()));
+            }
+            index++;
+        }
+        Queue<GridPoint2> queue = new LinkedList<>(conflicts);
+        Map<Robot, GridPoint2> remainingRobots = new HashMap<>();
+        GridPoint2 pos;
+        for(int i = 0; i < belts.size(); i++) {
+            for(int j = 0; j < belts.get(i).size(); j++) {
+                if(!queue.contains((pos=queue.poll())) && !layers.assertRobotNotNull(belts.get(i).get(j).getPosition()
+                        .cpy().add(enums.get(i).getStep())))
+                    belts.get(i).get(j).tryToMove(enums.get(i).getStep());
+                else if(layers.assertRobotNotNull(belts.get(i).get(j).getPosition().cpy().add(enums.get(i).getStep())))
+                    remainingRobots.put(belts.get(i).get(j), enums.get(i).getStep());
+                else {
+                    for(GridPoint2 otherPos : queue)
+                        if(otherPos.equals(pos))
+                            queue.remove(otherPos);
+                }
+            }
+        }
+        for(Robot robot : remainingRobots.keySet())
+            robot.tryToMove(remainingRobots.get(robot));
     }
 
     private void moveExpressConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
+        List<List<Robot>> belts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
@@ -197,16 +239,21 @@ public class Phase implements IPhase {
                 // Move in a special way so that no collision happens.
                 // TODO: HashMap
                 if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    robot.tryToMove(Direction.East.getStep());
+                    belts.get(0).add(robot);
+                    //robot.tryToMove(Direction.East.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    robot.tryToMove(Direction.North.getStep());
+                    belts.get(1).add(robot);
+                    //robot.tryToMove(Direction.North.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_WEST || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    robot.tryToMove(Direction.West.getStep());
+                    belts.get(2).add(robot);
+                    //robot.tryToMove(Direction.West.getStep());
                 else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    robot.tryToMove(Direction.South.getStep());
+                    belts.get(3).add(robot);
+                    //robot.tryToMove(Direction.South.getStep());
                 rotateRobots.add(robot);
             }
         }
+        moveConveyorBelts(belts, layers);
         rotateConveyorBelts(rotateRobots, layers);
     }
 

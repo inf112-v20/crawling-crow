@@ -264,6 +264,13 @@ public class Robot implements IRobot {
     }
     //endregion
 
+    public int getPositionX() {
+        return getPosition().x;
+    }
+    public int getPositionY() {
+        return getPosition().y;
+    }
+
     // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
 
     public boolean hasVisitedAllFlags() {
