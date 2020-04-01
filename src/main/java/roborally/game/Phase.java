@@ -66,9 +66,9 @@ public class Phase implements IPhase {
     @Override
     public void moveAllConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
-        moveExpressConveyorBelts(layers);
-        moveExpressConveyorBelts(layers);
-        moveNormalConveyorBelts(layers);
+        initializeExpressConveyorBelts(layers);
+        initializeExpressConveyorBelts(layers);
+        initializeNormalConveyorBelts(layers);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class Phase implements IPhase {
             }
     }
 
-    private void moveNormalConveyorBelts(ILayers layers) {
+    private void initializeNormalConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         List<List<Robot>> robotsOnBelts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
@@ -186,7 +186,7 @@ public class Phase implements IPhase {
                 rotateRobots.add(robot);
             }
         }
-        moveConveyorBelts(robotsOnBelts, layers);
+        moveConveyorBelt(robotsOnBelts, layers);
         rotateConveyorBelts(rotateRobots, layers);
 
         /* TODO: Implement abstract classes for normal and express conveyor belts
@@ -198,7 +198,7 @@ public class Phase implements IPhase {
         AbstractConveyorNormal.rotateBelts(robotsOnBelts, layers);*/
     }
 
-    private void moveConveyorBelts(List<List<Robot>> listOfRobotsOnBelts, ILayers layers) {
+    private void moveConveyorBelt(List<List<Robot>> listOfRobotsOnBelts, ILayers layers) {
         listOfRobotsOnBelts.get(0).sort(Comparator.comparing(Robot::getPositionX, Comparator.reverseOrder()));
         listOfRobotsOnBelts.get(1).sort(Comparator.comparing(Robot::getPositionY, Comparator.reverseOrder()));
         listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
@@ -215,22 +215,21 @@ public class Phase implements IPhase {
             }
             index++;
         }
-
-
         Map<Robot, GridPoint2> remainingRobots = new HashMap<>();
-        GridPoint2 pos;
-
+        GridPoint2 validPos;
+        GridPoint2 step;
         for (int beltIndex = 0; beltIndex < listOfRobotsOnBelts.size(); beltIndex++) {
-            for (int robotIndex = 0; robotIndex < listOfRobotsOnBelts.get(beltIndex).size(); robotIndex++) {
+            step = enums.get(beltIndex).getStep();
+            for (Robot robot : listOfRobotsOnBelts.get(beltIndex)) {
                 if (validPositions.isEmpty())
                     break;
-                if (!validPositions.contains((pos = validPositions.poll())) && !layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition()
-                        .cpy().add(enums.get(beltIndex).getStep())))
-                    listOfRobotsOnBelts.get(beltIndex).get(robotIndex).tryToMove(enums.get(beltIndex).getStep());
-                else if (layers.assertRobotNotNull(listOfRobotsOnBelts.get(beltIndex).get(robotIndex).getPosition().cpy().add(enums.get(beltIndex).getStep())))
-                    remainingRobots.put(listOfRobotsOnBelts.get(beltIndex).get(robotIndex), enums.get(beltIndex).getStep());
+                if (!validPositions.contains((validPos = validPositions.poll()))
+                        && !layers.assertRobotNotNull(robot.getPosition().cpy().add(step)))
+                    robot.tryToMove(step);
+                else if (layers.assertRobotNotNull(robot.getPosition().cpy().add(step)))
+                    remainingRobots.put(robot, step);
                 else {
-                    GridPoint2 finalPos = pos;
+                    GridPoint2 finalPos = validPos;
                     List<GridPoint2> list = validPositions.stream()
                             .filter(o -> o.equals(finalPos))
                             .collect(Collectors.toList());
@@ -243,7 +242,7 @@ public class Phase implements IPhase {
                 robot.tryToMove(remainingRobots.get(robot));
     }
 
-    private void moveExpressConveyorBelts(ILayers layers) {
+    private void initializeExpressConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         List<List<Robot>> belts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         ArrayList<Robot> rotateRobots = new ArrayList<>();
@@ -264,7 +263,7 @@ public class Phase implements IPhase {
                 rotateRobots.add(robot);
             }
         }
-        moveConveyorBelts(belts, layers);
+        moveConveyorBelt(belts, layers);
         rotateConveyorBelts(rotateRobots, layers);
     }
 
