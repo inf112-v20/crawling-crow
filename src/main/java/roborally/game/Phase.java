@@ -235,7 +235,7 @@ public class Phase implements IPhase {
                 else {
                     Queue<GridPoint2> list = new LinkedList<>();
                     for (GridPoint2 otherPos : possibleConflicts) {
-                        if (otherPos.equals(pos)) {
+                        if (!otherPos.equals(pos)) {
                             list.add(otherPos);
                         }
                     }
