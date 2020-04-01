@@ -3,6 +3,7 @@ package roborally.utilities;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import roborally.utilities.enums.LayerName;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class ReadAndWriteLayers {
     }
 
     // Puts all the layers for the current map into a Map, accessible by standard names defined by us.
-    public HashMap<String, TiledMapTileLayer> createLayers(TiledMap tiledMap) {
+    public HashMap<String, TiledMapTileLayer> oldCreateLayers(TiledMap tiledMap) {
         HashMap<String, TiledMapTileLayer> map = new HashMap<>();
         String[][] layerNames = readLayerNames();
         for (MapLayer layer : tiledMap.getLayers()) {
@@ -62,5 +63,23 @@ public class ReadAndWriteLayers {
             }
         }
         return map;
+    }
+
+    public HashMap<LayerName, TiledMapTileLayer> createLayers(TiledMap tiledMap) {
+        HashMap<LayerName, TiledMapTileLayer> layers = new HashMap<>();
+
+        for (MapLayer mapLayer : tiledMap.getLayers()) {
+            for (LayerName layerName : LayerName.values()) {
+                if (mapLayer.getName().equals(layerName.getLayerString())) {
+                    layers.put(layerName, (TiledMapTileLayer) mapLayer);
+                } else {
+                    System.out.println("The layer: '" + layerName.getLayerString() + "' has not yet been implemented in the game. \n" +
+                            "check the layer in Tiled Map Editor and the list of names in map/layernames.txt\n" +
+                            "this layer will act as a hole.");
+                }
+            }
+        }
+
+        return layers;
     }
 }

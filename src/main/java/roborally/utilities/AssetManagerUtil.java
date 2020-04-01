@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.gameboard.objects.robot.Robot;
+import roborally.utilities.enums.LayerName;
 
 import java.util.*;
 
@@ -77,7 +78,10 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
-    private static HashMap<String, TiledMapTileLayer> layers;
+    private static HashMap<String, TiledMapTileLayer> oldLayers;
+
+    private static HashMap<LayerName, TiledMapTileLayer> layers;
+
     private static Stack<String> robotNames;
 
     public static void load() {
@@ -181,8 +185,15 @@ public class AssetManagerUtil {
     /**
      * Returns a HashMap with the layers of the current TiledMap.
      */
-    public static HashMap<String, TiledMapTileLayer> getLoadedLayers() {
+    public static HashMap<String, TiledMapTileLayer> oldGetLoadedLayers() {
 
+        ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
+        oldLayers = readAndWriteLayers.oldCreateLayers(getLoadedMap());
+
+        return oldLayers;
+    }
+
+    public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
         ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
         layers = readAndWriteLayers.createLayers(getLoadedMap());
 

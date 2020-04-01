@@ -184,7 +184,7 @@ public class Events {
     public void checkForDestroyedRobots(ArrayList<Robot> robots) {
         for (Robot robot : robots) {
             if (("Destroyed").equals(robot.getLogic().getStatus())) {
-                System.out.println(robot.getName() + " was destroyed");
+                System.out.println("\t- " + robot.getName() + " was destroyed");
                 removeFromUI(robot);
             }
         }
@@ -193,7 +193,7 @@ public class Events {
     public void removeFromUI(Robot robot) {
         fadeRobot(robot.getPosition(), robot.getTexture());
         robot.deleteRobot();
-        System.out.println("Removed " + robot.getName() + " from UI");
+        System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);
     }
 
