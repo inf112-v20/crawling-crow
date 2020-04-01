@@ -212,6 +212,8 @@ public class Phase implements IPhase {
         GridPoint2 pos;
         for(int i = 0; i < belts.size(); i++) {
             for(int j = 0; j < belts.get(i).size(); j++) {
+                if(queue.isEmpty())
+                    break;
                 if(!queue.contains((pos=queue.poll())) && !layers.assertRobotNotNull(belts.get(i).get(j).getPosition()
                         .cpy().add(enums.get(i).getStep())))
                     belts.get(i).get(j).tryToMove(enums.get(i).getStep());
