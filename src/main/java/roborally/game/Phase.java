@@ -225,7 +225,8 @@ public class Phase implements IPhase {
             }
         }
         for(Robot robot : remainingRobots.keySet())
-            robot.tryToMove(remainingRobots.get(robot));
+            if(!layers.assertRobotNotNull(robot.getPosition().cpy().add(remainingRobots.get(robot))))
+                robot.tryToMove(remainingRobots.get(robot));
     }
 
     private void moveExpressConveyorBelts(ILayers layers) {
