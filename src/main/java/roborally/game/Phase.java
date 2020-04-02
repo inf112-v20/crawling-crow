@@ -67,9 +67,12 @@ public class Phase implements IPhase {
     @Override
     public void moveAllConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
-        initializeExpressConveyorBelts(layers);
-        initializeExpressConveyorBelts(layers);
-        initializeNormalConveyorBelts(layers);
+        //initializeExpressConveyorBelts(layers);
+        //initializeExpressConveyorBelts(layers);
+        //initializeNormalConveyorBelts(layers);
+        initializeConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS);
+        initializeConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS);
+        initializeConveyorBelt(layers, LayerName.CONVEYOR);
     }
 
     @Override
@@ -165,24 +168,22 @@ public class Phase implements IPhase {
             }
     }
 
-    private void initializeNormalConveyorBelts(ILayers layers) {
+    private void initializeConveyorBelt(ILayers layers, LayerName layerName) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         ArrayList<Robot> rotateRobots = new ArrayList<>();
         List<List<Robot>> robotsOnBelts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         for (Robot robot : robots) {
             GridPoint2 pos = robot.getPosition();
-            if (layers.layerNotNull(LayerName.CONVEYOR, pos)) {
-                TileName tileName = layers.getTileName(LayerName.CONVEYOR, pos);
-                // Move in a special way so that no collision happens.
+            if (layers.layerNotNull(layerName, pos)) {
+                TileName tileName = layers.getTileName(layerName, pos);
                 System.out.println(robot.getName() + " is on " + tileName.toString());
-                // TODO: HashMap??
-                if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
+                if (tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
                     robotsOnBelts.get(0).add(robot);
-                else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
+                else if (tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
                     robotsOnBelts.get(1).add(robot);
-                else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
+                else if (tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
                     robotsOnBelts.get(2).add(robot);
-                else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
+                else if (tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
                     robotsOnBelts.get(3).add(robot);
                 rotateRobots.add(robot);
             }
@@ -204,11 +205,8 @@ public class Phase implements IPhase {
         listOfRobotsOnBelts.get(1).sort(Comparator.comparing(Robot::getPositionY, Comparator.reverseOrder()));
         listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
         listOfRobotsOnBelts.get(3).sort(Comparator.comparing(Robot::getPositionY));
-
         Queue<GridPoint2> validPositions = new LinkedList<>();
-
         List<Direction> enums = Arrays.asList(Direction.East, Direction.North, Direction.West, Direction.South);
-
         int index = 0;
         for (List<Robot> listOfRobotsOnOneBelt : listOfRobotsOnBelts) {
             for (Robot currentRobot : listOfRobotsOnOneBelt) {
@@ -243,7 +241,7 @@ public class Phase implements IPhase {
                 robot.tryToMove(remainingRobots.get(robot));
     }
 
-    private void initializeExpressConveyorBelts(ILayers layers) {
+    /*private void initializeExpressConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
         List<List<Robot>> belts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         ArrayList<Robot> rotateRobots = new ArrayList<>();
@@ -266,7 +264,7 @@ public class Phase implements IPhase {
         }
         moveConveyorBelt(belts, layers);
         rotateConveyorBelts(rotateRobots, layers);
-    }
+    }*/
 
     private void rotateConveyorBelts(ArrayList<Robot> rotateRobots, ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
