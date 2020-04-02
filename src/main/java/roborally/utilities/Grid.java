@@ -25,6 +25,7 @@ public class Grid {
         gridLayers = new HashMap<>();
         tiledTranslator = new TiledTranslator();
         String line;
+        System.out.println(mapTMX);
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
             int i = 0;
