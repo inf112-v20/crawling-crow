@@ -13,8 +13,6 @@ import roborally.utilities.enums.LayerName;
 import java.util.*;
 
 public class AssetManagerUtil {
-    public static float volume = 1;
-    public static int numberOfRobotCopies = 0;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
@@ -36,7 +34,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("maps/newmap.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> LISES_MAP
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
-
     //Other
     private static final AssetDescriptor<Texture> MENU
             = new AssetDescriptor<>("menu/new-menu.png", Texture.class);
@@ -58,7 +55,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("cards/new/move3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
             = new AssetDescriptor<>("cards/new/u-turn.png", Texture.class);
-
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
@@ -76,6 +72,8 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
+    public static float volume = 1;
+    public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
     private static HashMap<String, TiledMapTileLayer> oldLayers;
@@ -127,10 +125,14 @@ public class AssetManagerUtil {
     public static Texture getMenu() {
         return manager.get(MENU);
     }
+
     public static Texture getButtons() {
         return manager.get(BUTTONS);
     }
-    public static Texture getMapButton() {return manager.get(MAP_BUTTON);}
+
+    public static Texture getMapButton() {
+        return manager.get(MAP_BUTTON);
+    }
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {
@@ -139,7 +141,7 @@ public class AssetManagerUtil {
         loadedMap = maps.get(map);
         return loadedMap;
     }
-
+    
     public static Texture getCardTexture(String card) {
         HashMap<String, Texture> map = new HashMap<>();
         map.put("RotateRight", manager.get(ROTATERIGHT));
@@ -180,17 +182,6 @@ public class AssetManagerUtil {
             loadedMap = manager.get(LISES_MAP);
         }
         return loadedMap;
-    }
-
-    /**
-     * Returns a HashMap with the layers of the current TiledMap.
-     */
-    public static HashMap<String, TiledMapTileLayer> oldGetLoadedLayers() {
-
-        ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
-        oldLayers = readAndWriteLayers.oldCreateLayers(getLoadedMap());
-
-        return oldLayers;
     }
 
     public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
