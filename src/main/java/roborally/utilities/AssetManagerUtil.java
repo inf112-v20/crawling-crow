@@ -76,10 +76,6 @@ public class AssetManagerUtil {
     public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
-    private static HashMap<String, TiledMapTileLayer> oldLayers;
-
-    private static HashMap<LayerName, TiledMapTileLayer> layers;
-
     private static Stack<String> robotNames;
 
     public static void load() {
@@ -141,7 +137,7 @@ public class AssetManagerUtil {
         loadedMap = maps.get(map);
         return loadedMap;
     }
-    
+
     public static Texture getCardTexture(String card) {
         HashMap<String, Texture> map = new HashMap<>();
         map.put("RotateRight", manager.get(ROTATERIGHT));
@@ -186,9 +182,8 @@ public class AssetManagerUtil {
 
     public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
         ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
-        layers = readAndWriteLayers.createLayers(getLoadedMap());
 
-        return layers;
+        return readAndWriteLayers.createLayers(getLoadedMap());
     }
 
     public static TiledMapTileSets getTileSets() {
