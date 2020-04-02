@@ -13,7 +13,7 @@ public class GridTest {
     @Before
     public void setUp() throws Exception {
 //        String mapTMX = IOUtils.toString(this.getClass().getResourceAsStream("/maps/newMap.tmx"), StandardCharsets.UTF_8);
-        grid = new Grid("/maps/newMap.tmx");
+        grid = new Grid("/maps/newmap.tmx");
 
     }
     /*@Test
