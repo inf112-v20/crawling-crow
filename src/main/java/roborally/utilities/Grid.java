@@ -2,7 +2,6 @@ package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
-import org.jetbrains.annotations.NotNull;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
@@ -45,7 +44,7 @@ public class Grid {
         }
     }
 
-    private static byte[] decompress(@NotNull byte[] data) throws IOException, DataFormatException {
+    private static byte[] decompress(byte[] data) throws IOException, DataFormatException {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
@@ -65,8 +64,8 @@ public class Grid {
     public void printGrid() {
         for (String key : gridLayers.keySet()) {
             System.out.println("Grid Layer: " + key);
-            for (GridPoint2 gp2 : gridLayers.get(key).keySet())
-                System.out.print(gridLayers.get(key).get(gp2) + " -> " + gp2 + " ");
+            for (GridPoint2 tilePos : gridLayers.get(key).keySet())
+                System.out.print(gridLayers.get(key).get(tilePos) + " -> " + tilePos + " ");
             System.out.println();
             System.out.println();
         }
@@ -83,22 +82,19 @@ public class Grid {
                 gridLayers.get(name).put(new GridPoint2(x, height - y - 1), tT.getTileName(bytes[j] & 0xFF));
             }
             x++;
-            x = x % 16;
+            x = x % width;
             if (x == 0) {
                 y++;
             }
         }
     }
 
-    private void setWidthHeight(@NotNull String string) {
-        int index2 = string.indexOf("width");
-        int width = index2 + 6;
-        String string4;
-        string4 = string.substring(width + 1, width + 3);
-        this.width = Integer.parseInt(string4);
-        int index3 = string.indexOf("height");
-        int height = index3 + 7;
-        String string5 = string.substring(height + 1, height + 3);
-        this.height = Integer.parseInt(string5);
+    private void setWidthHeight(String string) {
+        int widthEndIdx = string.indexOf("width") + "width".length() + 1;
+        String width = string.substring(widthEndIdx + 1, widthEndIdx + 3);
+        this.width = Integer.parseInt(width);
+        int heightEndIdx = string.indexOf("height") + "height".length() + 1;
+        String height = string.substring(heightEndIdx + 1, heightEndIdx + 3);
+        this.height = Integer.parseInt(height);
     }
 }
