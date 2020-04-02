@@ -2,6 +2,7 @@ package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
@@ -15,17 +16,17 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 public class Grid {
-    private Map<String, Map<GridPoint2, TileName>> gridLayers;
-    private TiledTranslator tT;
+    private Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
+    private TiledTranslator tiledTranslator;
     private int width;
     private int height;
 
-    public Grid(String string) {
+    public Grid(String mapTMX) {
         gridLayers = new HashMap<>();
-        tT = new TiledTranslator();
+        tiledTranslator = new TiledTranslator();
         String line;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(string)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
             int i = 0;
             while (!(line = br.readLine().strip()).equals("</map>"))
                 if (line.contains("layer id")) {
@@ -34,10 +35,18 @@ public class Grid {
 
                     int nameStartIndex = ("name".length() + 2) + line.indexOf("name");
                     int nameEndIndex = line.indexOf("width") - 2;
-                    String layerName = (line.substring(nameStartIndex, nameEndIndex));
+                    String layerNameString = (line.substring(nameStartIndex, nameEndIndex));
                     br.readLine();
                     String gridLayerEncoded = br.readLine().strip();
-                    makeNewGridLayer(layerName, gridLayerEncoded);
+
+                    //System.out.println("Added layer '" + layerNameString + "' to the grid");
+
+                    for (LayerName layerName : LayerName.values()) {
+                        if (layerName.getLayerString().toLowerCase().equals(layerNameString.toLowerCase()))
+                            makeNewGridLayer(layerName, gridLayerEncoded);
+                    }
+
+
                 }
         } catch (IOException | DataFormatException e) {
             e.printStackTrace();
@@ -57,29 +66,29 @@ public class Grid {
         return outputStream.toByteArray();
     }
 
-    public Map<GridPoint2, TileName> getGridLayer(String gridLayer) {
-        return gridLayers.get(gridLayer);
+    public Map<GridPoint2, TileName> getGridLayer(LayerName layerName) {
+        return gridLayers.get(layerName);
     }
 
     public void printGrid() {
-        for (String key : gridLayers.keySet()) {
-            System.out.println("Grid Layer: " + key);
-            for (GridPoint2 tilePos : gridLayers.get(key).keySet())
-                System.out.print(gridLayers.get(key).get(tilePos) + " -> " + tilePos + " ");
+        for (LayerName layerName : gridLayers.keySet()) {
+            System.out.println("Grid Layer: " + layerName);
+            for (GridPoint2 tilePos : gridLayers.get(layerName).keySet())
+                System.out.print(gridLayers.get(layerName).get(tilePos) + " -> " + tilePos + " ");
             System.out.println();
             System.out.println();
         }
     }
 
-    private void makeNewGridLayer(String name, String gridLayer) throws IOException, DataFormatException {
-        gridLayers.put(name, new HashMap<>());
+    private void makeNewGridLayer(LayerName layerName, String gridLayer) throws IOException, DataFormatException {
+        gridLayers.put(layerName, new HashMap<>());
         byte[] bytes = Base64Coder.decode(gridLayer);
         bytes = decompress(bytes);
         int x = 0;
         int y = 0;
         for (int j = 0; j < bytes.length; j += 4) {
             if (bytes[j] != 0) {
-                gridLayers.get(name).put(new GridPoint2(x, height - y - 1), tT.getTileName(bytes[j] & 0xFF));
+                gridLayers.get(layerName).put(new GridPoint2(x, height - y - 1), tiledTranslator.getTileName(bytes[j] & 0xFF));
             }
             x++;
             x = x % width;
