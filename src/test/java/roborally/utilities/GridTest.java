@@ -8,18 +8,12 @@ import roborally.utilities.enums.TileName;
 import static org.junit.Assert.assertTrue;
 
 public class GridTest {
-    private Grid grid /*= new Grid("/maps/newMap.tmx")*/;
+    private Grid grid;
 
     @Before
-    public void setUp() throws Exception {
-//        String mapTMX = IOUtils.toString(this.getClass().getResourceAsStream("/maps/newMap.tmx"), StandardCharsets.UTF_8);
+    public void setUp() {
         grid = new Grid("/maps/newmap.tmx");
-
     }
-    /*@Test
-    public void printTest() {
-        grid.printGrid();
-    }*/
 
     @Test
     public void flag1FoundInGrid() {

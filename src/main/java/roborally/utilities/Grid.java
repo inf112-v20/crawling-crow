@@ -27,7 +27,6 @@ public class Grid {
         String line;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
-            int i = 0;
             while (!(line = br.readLine().strip()).equals("</map>"))
                 if (line.contains("layer id")) {
                     if (height == 0 || width == 0)
