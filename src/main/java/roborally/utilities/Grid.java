@@ -48,6 +48,7 @@ public class Grid {
 
 
                 }
+            br.close();
         } catch (IOException | DataFormatException e) {
             e.printStackTrace();
         }
