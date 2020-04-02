@@ -7,12 +7,7 @@ import roborally.utilities.enums.TileName;
 import static org.junit.Assert.*;
 
 public class GridTest {
-    private Grid grid;
-
-    @Before
-    public void setUp() {
-        grid = new Grid("/maps/newMap.tmx");
-    }
+    private Grid grid = new Grid("/maps/newMap.tmx");
 
     @Test
     public void printTest() {
