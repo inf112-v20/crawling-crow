@@ -21,12 +21,12 @@ public class Grid {
     private int width;
     private int height;
 
-    public Grid(InputStreamReader mapTMX) {
+    public Grid(String mapTMX) {
         gridLayers = new HashMap<>();
         tiledTranslator = new TiledTranslator();
         String line;
         try {
-            BufferedReader br = new BufferedReader(mapTMX);
+            BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
             int i = 0;
             while (!(line = br.readLine().strip()).equals("</map>"))
                 if (line.contains("layer id")) {
