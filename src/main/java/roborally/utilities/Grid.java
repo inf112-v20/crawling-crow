@@ -2,10 +2,14 @@ package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
+import org.jetbrains.annotations.NotNull;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.DataFormatException;
@@ -24,13 +28,13 @@ public class Grid {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(string)));
             int i = 0;
-            while(!(line = br.readLine().strip()).equals("</map>"))
-                if(line.contains("layer id")) {
-                    if(height == 0 || width == 0)
+            while (!(line = br.readLine().strip()).equals("</map>"))
+                if (line.contains("layer id")) {
+                    if (height == 0 || width == 0)
                         setWidthHeight(line);
 
                     int nameStartIndex = ("name".length() + 2) + line.indexOf("name");
-                    int nameEndIndex = line.indexOf("width")-2;
+                    int nameEndIndex = line.indexOf("width") - 2;
                     String layerName = (line.substring(nameStartIndex, nameEndIndex));
                     br.readLine();
                     String gridLayerEncoded = br.readLine().strip();
@@ -41,39 +45,7 @@ public class Grid {
         }
     }
 
-    public Map<GridPoint2, TileName> getGridLayer(String gridLayer) {
-        return gridLayers.get(gridLayer);
-    }
-
-    public void printGrid() {
-        for (String key : gridLayers.keySet()) {
-            System.out.println("Grid Layer: " + key);
-            for(GridPoint2 gp2 : gridLayers.get(key).keySet())
-                System.out.print(gridLayers.get(key).get(gp2) + " -> " + gp2 + " ");
-            System.out.println();
-            System.out.println();
-        }
-    }
-
-    private void makeNewGridLayer(String name, String gridLayer) throws IOException, DataFormatException {
-        gridLayers.put(name, new HashMap<>());
-        byte[] bytes = Base64Coder.decode(gridLayer);
-        bytes = decompress(bytes);
-        int x = 0;
-        int y = 0;
-        for(int j = 0; j < bytes.length; j += 4) {
-            if(bytes[j]!=0) {
-                gridLayers.get(name).put(new GridPoint2(x, height-y-1), tT.getTileName(bytes[j]));
-            }
-            x++;
-            x = x % 16;
-            if(x == 0) {
-                y++;
-            }
-        }
-    }
-
-    private static byte[] decompress(byte[] data) throws IOException, DataFormatException {
+    private static byte[] decompress(@NotNull byte[] data) throws IOException, DataFormatException {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
@@ -86,15 +58,47 @@ public class Grid {
         return outputStream.toByteArray();
     }
 
-    private void setWidthHeight(String string) {
+    public Map<GridPoint2, TileName> getGridLayer(String gridLayer) {
+        return gridLayers.get(gridLayer);
+    }
+
+    public void printGrid() {
+        for (String key : gridLayers.keySet()) {
+            System.out.println("Grid Layer: " + key);
+            for (GridPoint2 gp2 : gridLayers.get(key).keySet())
+                System.out.print(gridLayers.get(key).get(gp2) + " -> " + gp2 + " ");
+            System.out.println();
+            System.out.println();
+        }
+    }
+
+    private void makeNewGridLayer(String name, String gridLayer) throws IOException, DataFormatException {
+        gridLayers.put(name, new HashMap<>());
+        byte[] bytes = Base64Coder.decode(gridLayer);
+        bytes = decompress(bytes);
+        int x = 0;
+        int y = 0;
+        for (int j = 0; j < bytes.length; j += 4) {
+            if (bytes[j] != 0) {
+                gridLayers.get(name).put(new GridPoint2(x, height - y - 1), tT.getTileName(bytes[j] & 0xFF));
+            }
+            x++;
+            x = x % 16;
+            if (x == 0) {
+                y++;
+            }
+        }
+    }
+
+    private void setWidthHeight(@NotNull String string) {
         int index2 = string.indexOf("width");
         int width = index2 + 6;
         String string4;
-        string4 = string.substring(width+1, width+3);
+        string4 = string.substring(width + 1, width + 3);
         this.width = Integer.parseInt(string4);
         int index3 = string.indexOf("height");
         int height = index3 + 7;
-        String string5  = string.substring(height+1, height+3);
+        String string5 = string.substring(height + 1, height + 3);
         this.height = Integer.parseInt(string5);
     }
 }

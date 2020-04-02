@@ -11,7 +11,7 @@ public class GridTest {
 
     @Before
     public void setUp() {
-        grid = new Grid("/maps/newmap.tmx");
+        grid = new Grid("/maps/newMap.tmx");
     }
 
     @Test

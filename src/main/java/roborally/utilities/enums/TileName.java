@@ -79,7 +79,8 @@ public enum TileName {
     LASER_DOUBLE_VERTICAL(102),
     LASER_DOUBLE_HORIZONTAL(103),
     // Standard floor tiles
-    FLOOR(5),
+    FLOOR1(4),
+    FLOOR2(5),
     HOLE(91),
     HOLE_ALTERNATIVE(6),
     // Repair and stuff
