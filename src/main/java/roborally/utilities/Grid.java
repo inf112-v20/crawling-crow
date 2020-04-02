@@ -69,6 +69,14 @@ public class Grid {
         return gridLayers.get(layerName);
     }
 
+    public TileName getTileNameFromLayerPos(LayerName layerName, GridPoint2 pos) {
+        return getGridLayer(layerName).get(pos);
+    }
+
+    public void putTileInLayer(LayerName layerName, TileName tileName, GridPoint2 pos) {
+        getGridLayer(layerName).put(pos, tileName);
+    }
+
     public void printGrid() {
         for (LayerName layerName : gridLayers.keySet()) {
             System.out.println("Grid Layer: " + layerName);

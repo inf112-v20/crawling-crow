@@ -1,12 +1,12 @@
 package roborally.utilities;
 
+import com.badlogic.gdx.math.GridPoint2;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class RiskyExchangeMapTest {
     private static Grid riskyExchange;
@@ -14,6 +14,14 @@ public class RiskyExchangeMapTest {
     @BeforeClass
     public static void setUp() {
         riskyExchange = new Grid("/maps/riskyExchangeBeginnerWithStartAreaVertical.tmx");
+    }
+
+    @Test
+    public void testThatFlagIsPutInCorrectPosition() {
+        TileName flag = TileName.FLAG_1;
+        LayerName flagLayer = LayerName.FLAG;
+        riskyExchange.putTileInLayer(flagLayer, flag, new GridPoint2(0,0));
+        assertEquals(riskyExchange.getTileNameFromLayerPos(flagLayer, new GridPoint2(0, 0)), flag);
     }
 
     @Test
