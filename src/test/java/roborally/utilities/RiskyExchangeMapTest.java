@@ -183,102 +183,102 @@ public class RiskyExchangeMapTest {
 
     @Test
     public void verifyThatConveyorExpressRotateCounterClockwiseWestToSouthIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_WEST_TO_SOUTH));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_WEST_TO_SOUTH));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateCounterClockwiseNorthToWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_NORTH_TO_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_NORTH_TO_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateClockwiseNorthToEastIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_NORTH_TO_EAST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_NORTH_TO_EAST));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateClockwiseEastToSouthIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_EAST_TO_SOUTH));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_EAST_TO_SOUTH));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateCounterClockwiseSouthToEastIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_SOUTH_TO_EAST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_SOUTH_TO_EAST));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateCounterClockwiseEastToNorthIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_EAST_TO_NORTH));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_COUNTER_CLOCKWISE_EAST_TO_NORTH));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateClockwiseWestToNorthIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_WEST_TO_NORTH));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_WEST_TO_NORTH));
     }
 
     @Test
     public void verifyThatConveyorExpressRotateClockwiseSouthToWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_SOUTH_TO_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_ROTATE_CLOCKWISE_SOUTH_TO_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinNorthFromSouthAndWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_NORTH_FROM_SOUTH_AND_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_NORTH_FROM_SOUTH_AND_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinEastFromNorthAndWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_EAST_FROM_NORTH_AND_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_EAST_FROM_NORTH_AND_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinSouthFromNorthAndEastIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_NORTH_AND_EAST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_NORTH_AND_EAST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinWestFromSouthAndEastIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_SOUTH_AND_EAST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_SOUTH_AND_EAST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinEastFromNorthAndSouthIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_EAST_FROM_NORTH_AND_SOUTH));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_EAST_FROM_NORTH_AND_SOUTH));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinSouthFromEastAndWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_EAST_AND_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_EAST_AND_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinNorthFromSouthAndEastIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_NORTH_FROM_SOUTH_AND_EAST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_NORTH_FROM_SOUTH_AND_EAST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinEastFromSouthAndWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_EAST_FROM_SOUTH_AND_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_EAST_FROM_SOUTH_AND_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinSouthFromNorthAndWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_NORTH_AND_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_SOUTH_FROM_NORTH_AND_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinWestFromNorthAndEastIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_NORTH_AND_EAST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_NORTH_AND_EAST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinNorthFromEastAndWestIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_NORTH_FROM_EAST_AND_WEST));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_NORTH_FROM_EAST_AND_WEST));
     }
 
     @Test
     public void verifyThatConveyorExpressJoinWestFromNorthAndSouthIsNotOnMap() {
-        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_NORTH_AND_SOUTH));
+        assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_NORTH_AND_SOUTH));
     }
     //endregion
 
