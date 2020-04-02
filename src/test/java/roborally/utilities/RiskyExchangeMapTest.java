@@ -8,7 +8,7 @@ import roborally.utilities.enums.TileName;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class GridTest {
+public class RiskyExchangeMapTest {
     private static Grid riskyExchange;
 
     @BeforeClass
