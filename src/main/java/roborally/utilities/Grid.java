@@ -2,6 +2,7 @@ package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
+import org.jetbrains.annotations.NotNull;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
@@ -52,7 +53,7 @@ public class Grid {
         }
     }
 
-    private static byte[] decompress(byte[] data) throws IOException, DataFormatException {
+    private static byte[] decompress(@NotNull byte[] data) throws IOException, DataFormatException {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
@@ -105,7 +106,7 @@ public class Grid {
         }
     }
 
-    private void setWidthHeight(String string) {
+    private void setWidthHeight(@NotNull String string) {
         int widthEndIdx = string.indexOf("width") + "width".length() + 1;
         String width = string.substring(widthEndIdx + 1, widthEndIdx + 3);
         this.width = Integer.parseInt(width);
