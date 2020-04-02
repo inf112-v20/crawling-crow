@@ -3,6 +3,7 @@ package roborally.utilities.enums;
 public enum LayerName {
     ROBOT("Robot"),
     HOLE("Hole"),
+    BLACK_VOID("BlackVoid"),
     WALL("Walls"),
     FLOOR("Floor"),
     FLAG("Flag"),
