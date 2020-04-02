@@ -39,6 +39,7 @@ public class Grid {
                     String gridLayerEncoded = br.readLine().strip();
                     makeNewGridLayer(layerName, gridLayerEncoded);
                 }
+            br.close();
         } catch (IOException | DataFormatException e) {
             e.printStackTrace();
         }
