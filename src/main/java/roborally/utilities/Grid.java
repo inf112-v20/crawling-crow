@@ -41,11 +41,10 @@ public class Grid {
                     //System.out.println("Added layer '" + layerNameString + "' to the grid");
 
                     for (LayerName layerName : LayerName.values()) {
-                        if (layerName.getLayerString().toLowerCase().equals(layerNameString.toLowerCase()))
+                        if (layerName.getLayerString().toLowerCase().equals(layerNameString.toLowerCase())) {
                             makeNewGridLayer(layerName, gridLayerEncoded);
+                        }
                     }
-
-
                 }
             br.close();
         } catch (IOException | DataFormatException e) {
