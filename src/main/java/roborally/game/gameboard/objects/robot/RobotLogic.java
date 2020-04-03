@@ -23,7 +23,7 @@ public class RobotLogic implements IRobotLogic {
     public RobotLogic(String name) {
         this.name = name;
         this.robotPosition = new GridPoint2();
-        this.direction = Direction.North;
+        this.direction = Direction.NORTH;
     }
 
     //region Robot stats
@@ -83,7 +83,7 @@ public class RobotLogic implements IRobotLogic {
         this.health = SettingsUtil.ROBOT_MAX_HEALTH;
         this.reboots -= 1;
         setPosition(this.archiveMarker);
-        this.direction = Direction.North;
+        this.direction = Direction.NORTH;
     }
 
     public GridPoint2 getArchiveMarker() {

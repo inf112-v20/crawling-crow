@@ -29,7 +29,7 @@ public class RobotView implements IRobotView {
         this.layers = new Layers();
         this.height = layers.getHeight();
         this.width = layers.getWidth();
-        this.virtualDirection = Direction.North;
+        this.virtualDirection = Direction.NORTH;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class RobotView implements IRobotView {
         else { // Moves out of virtual mode
             virtualMode = false;
             this.setDirection(newPos, virtualDirection);
-            this.virtualDirection = Direction.North;
+            this.virtualDirection = Direction.NORTH;
         }
         return true;
     }
@@ -109,7 +109,7 @@ public class RobotView implements IRobotView {
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
         if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode)
-            layers.getRobotTexture(pos).setRotation(direction.getDirectionID());
+            layers.getRobotTexture(pos).setRotation(direction.getID());
         else if(virtualMode) // Stores the new direction instead of updating it.
             virtualDirection = direction;
     }

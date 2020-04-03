@@ -215,7 +215,7 @@ public class Phase implements IPhase {
         listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
         listOfRobotsOnBelts.get(3).sort(Comparator.comparing(Robot::getPositionY));
         Queue<GridPoint2> validPositions = new LinkedList<>();
-        List<Direction> enums = Arrays.asList(Direction.East, Direction.North, Direction.West, Direction.South);
+        List<Direction> enums = Arrays.asList(Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH);
         int index = 0;
         for (List<Robot> listOfRobotsOnOneBelt : listOfRobotsOnBelts) {
             for (Robot currentRobot : listOfRobotsOnOneBelt) {

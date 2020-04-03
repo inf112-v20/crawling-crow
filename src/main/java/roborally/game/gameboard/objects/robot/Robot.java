@@ -175,7 +175,7 @@ public class Robot implements IRobot {
     //region Lasers
     @Override
     public void fireLaser() {
-        laser.fireLaser(getPosition(), this.getLogic().getDirection().getDirectionID());
+        laser.fireLaser(getPosition(), this.getLogic().getDirection().getID());
     }
 
     @Override

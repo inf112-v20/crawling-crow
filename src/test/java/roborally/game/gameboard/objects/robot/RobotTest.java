@@ -179,13 +179,13 @@ public class RobotTest {
     @Test
     public void verifyThatRobotRotatesLeft() {
         testRobot1.getLogic().rotate(Direction.turnLeftFrom(testRobot1.getLogic().getDirection()));
-        assertEquals(Direction.West, testRobot1.getLogic().getDirection());
+        assertEquals(Direction.WEST, testRobot1.getLogic().getDirection());
     }
 
     @Test
     public void verifyThatRobotRotatesRight() {
         testRobot1.getLogic().rotate(Direction.turnRightFrom(testRobot1.getLogic().getDirection()));
-        assertEquals(Direction.East, testRobot1.getLogic().getDirection());
+        assertEquals(Direction.EAST, testRobot1.getLogic().getDirection());
     }
 
     @Test
