@@ -28,11 +28,13 @@ public class Robot implements IRobot {
     private LaserRegister laserRegister;
     private boolean reboot;
 
-    private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
+    private HashMap<IProgramCards.CardType, Runnable> cardToAction;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
+
         this.robotLogic = robotLogic;
+        bindCardsToAction();
     }
 
     public Robot(GridPoint2 pos, int robotID, LaserRegister laserRegister) {
@@ -49,8 +51,13 @@ public class Robot implements IRobot {
         setPosition(pos);
         checkForStationaryLaser(); // for spawning in the current lasers in fun mode.
 
-        this.cardTypeMethod = new HashMap<>();
-        setCardTypeMethod();
+        this.cardToAction = new HashMap<>();
+        bindCardsToAction();
+    }
+
+    @Override
+    public HashMap<IProgramCards.CardType, Runnable> getCardToAction() {
+        return cardToAction;
     }
 
     @Override
@@ -237,24 +244,24 @@ public class Robot implements IRobot {
 
         for (IProgramCards.CardType cardType : IProgramCards.CardType.values()) {
             if (cardType.equals(card.getCardType())) {
-                cardTypeMethod.get(cardType).run();
+                cardToAction.get(cardType).run();
             }
         }
 
     }
 
     // FIXME: Temp helper-method for playNextCard()
-    private void setCardTypeMethod() {
-        this.cardTypeMethod.put(IProgramCards.CardType.MOVE_1, () -> move(1));
-        this.cardTypeMethod.put(IProgramCards.CardType.MOVE_2, () -> move(2));
-        this.cardTypeMethod.put(IProgramCards.CardType.MOVE_3, () -> move(3));
-        this.cardTypeMethod.put(IProgramCards.CardType.ROTATE_LEFT, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection())));
-        this.cardTypeMethod.put(IProgramCards.CardType.ROTATE_RIGHT, () -> rotate(Direction.turnRightFrom(getLogic().getDirection())));
-        this.cardTypeMethod.put(IProgramCards.CardType.U_TURN, () -> {
+    private void bindCardsToAction() {
+        this.cardToAction.put(IProgramCards.CardType.MOVE_1, () -> move(1));
+        this.cardToAction.put(IProgramCards.CardType.MOVE_2, () -> move(2));
+        this.cardToAction.put(IProgramCards.CardType.MOVE_3, () -> move(3));
+        this.cardToAction.put(IProgramCards.CardType.ROTATE_LEFT, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection())));
+        this.cardToAction.put(IProgramCards.CardType.ROTATE_RIGHT, () -> rotate(Direction.turnRightFrom(getLogic().getDirection())));
+        this.cardToAction.put(IProgramCards.CardType.U_TURN, () -> {
             rotate(Direction.turnLeftFrom(getLogic().getDirection()));
             rotate(Direction.turnLeftFrom(getLogic().getDirection()));
         });
-        this.cardTypeMethod.put(IProgramCards.CardType.BACKUP, () -> move(-1));
+        this.cardToAction.put(IProgramCards.CardType.BACKUP, () -> move(-1));
     }
 
     @Override
