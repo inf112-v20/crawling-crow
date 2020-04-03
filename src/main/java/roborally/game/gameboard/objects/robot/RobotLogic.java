@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class RobotLogic implements IRobotLogic {
     public boolean hasSelectedCards;
     private String name;
-    private GridPoint2 robotPosition;
+    private GridPoint2 position;
     private GridPoint2 archiveMarker;
     private int health = SettingsUtil.ROBOT_MAX_HEALTH;
     private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
@@ -22,27 +22,27 @@ public class RobotLogic implements IRobotLogic {
 
     public RobotLogic(String name) {
         this.name = name;
-        this.robotPosition = new GridPoint2();
+        this.position = new GridPoint2();
         this.direction = Direction.NORTH;
     }
 
     //region Robot stats
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
     public int getHealth() {
-        return this.health;
+        return health;
     }
 
     @Override
     public void addHealth(int amount) {
         if (getHealth() < SettingsUtil.ROBOT_MAX_HEALTH) {
-            this.health += amount;
+            health += amount;
             if (getHealth() > SettingsUtil.ROBOT_MAX_HEALTH) {
-                this.health = SettingsUtil.ROBOT_MAX_HEALTH;
+                health = SettingsUtil.ROBOT_MAX_HEALTH;
             }
         }
     }
@@ -54,12 +54,12 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public String getStatus() {
-        if (this.health < 5 && this.health > 0)
+        if (health < 5 && health > 0)
             return "Badly damaged";
-        else if (this.health == 0) {
-            this.health = -1;
+        else if (health == 0) {
+            health = -1;
             return "Destroyed";
-        } else if (this.health > 5)
+        } else if (health > 5)
             return "Everything is OK!";
         else
             return getName() + " is gone";
@@ -69,30 +69,30 @@ public class RobotLogic implements IRobotLogic {
     //region Position
     @Override
     public GridPoint2 getPosition() {
-        return this.robotPosition;
+        return position;
     }
 
     @Override
-    public void setPosition(GridPoint2 newPosition) {
-        this.robotPosition.set(newPosition);
+    public void setPosition(GridPoint2 position) {
+        this.position.set(position);
     }
 
     //region Archive marker
     @Override
     public void backToArchiveMarker() {
-        this.health = SettingsUtil.ROBOT_MAX_HEALTH;
-        this.reboots -= 1;
-        setPosition(this.archiveMarker);
-        this.direction = Direction.NORTH;
+        health = SettingsUtil.ROBOT_MAX_HEALTH;
+        reboots -= 1;
+        setPosition(archiveMarker);
+        direction = Direction.NORTH;
     }
 
     public GridPoint2 getArchiveMarker() {
-        return this.archiveMarker;
+        return archiveMarker;
     }
 
     public void setArchiveMarker(GridPoint2 pos) {
-        System.out.println("- " + getName() + " has its Archive marker at " + getPosition());
         this.archiveMarker = pos;
+        System.out.println("- " + getName() + " has its Archive marker at " + getArchiveMarker());
     }
     //endregion
     //endregion
@@ -105,29 +105,29 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public Direction getDirection() {
-        return this.direction;
+        return direction;
     }
     //endregion
 
     @Override
     public boolean takeDamage(int damage) {
-        this.health -= damage;
-        if (this.health <= 0 && this.reboots > 1)
+        health -= damage;
+        if (health <= 0 && reboots > 1)
             return true;
-        else if (this.health <= 0)
-            this.health = 0;
+        else if (health <= 0)
+            health = 0;
         return false;
     }
 
     //region Program cards in hand
     @Override
-    public void setCardsInHand(CardsInHand newCardsInHand) {
-        this.cardsInHand = newCardsInHand;
+    public void setCardsInHand(CardsInHand cardsInHand) {
+        this.cardsInHand = cardsInHand;
     }
 
     @Override
     public void arrangeCardsInHand(int[] newOrder) {
-        this.cardsInHand.arrangeCards(newOrder);
+        cardsInHand.arrangeCards(newOrder);
         Queue<IProgramCards.Card> nextCard = new Queue<>();
         for (IProgramCards.Card card : cardsInHand.getCards())
             nextCard.addFirst(card);
@@ -151,13 +151,13 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
-    public void setHasSelectedCards(boolean value) {
-        this.hasSelectedCards = value;
+    public void setHasSelectedCards(boolean bool) {
+        this.hasSelectedCards = bool;
     }
 
     @Override
     public boolean isCardsSelected() {
-        return this.hasSelectedCards;
+        return hasSelectedCards;
     }
 
     @Override
@@ -168,7 +168,7 @@ public class RobotLogic implements IRobotLogic {
             cardsDrawn.add(deckOfProgramCards.getNextCard());
         }
         CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
-        this.setCardsInHand(cardsInHand);
+        setCardsInHand(cardsInHand);
 
         return deckOfProgramCards;
     }
@@ -181,17 +181,17 @@ public class RobotLogic implements IRobotLogic {
         for (int i = 0; i < Math.min(getNumberOfCardsToDraw(), 5); i++) {
             newOrder[i] = i;
         }
-        this.arrangeCardsInHand(newOrder);
+        arrangeCardsInHand(newOrder);
     }
 
     private int getNumberOfCardsToDraw() {
-        int numberOfCardsToDraw = this.getHealth() - 1; // For damage tokens, see rulebook page 9
+        int numberOfCardsToDraw = getHealth() - 1; // For damage tokens, see rulebook page 9
         return Math.max(0, numberOfCardsToDraw);
     }
 
     @Override
     public ArrayList<IProgramCards.Card> getCardsInHand() {
-        return this.cardsInHand.getCards();
+        return cardsInHand.getCards();
     }
     //endregion
 }

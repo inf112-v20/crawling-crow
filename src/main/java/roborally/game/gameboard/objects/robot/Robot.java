@@ -53,35 +53,35 @@ public class Robot implements IRobot {
 
     @Override
     public String getName() {
-        return this.getLogic().getName();
+        return getLogic().getName();
     }
 
     @Override
     public IRobotLogic getLogic() {
-        return this.robotLogic;
+        return robotLogic;
     }
 
     @Override
     public IRobotView getView() {
-        return this.robotView;
+        return robotView;
     }
 
     //region Position
     @Override
     public GridPoint2 getPosition() {
-        return this.getLogic().getPosition();
+        return getLogic().getPosition();
     }
 
     @Override
     public void setPosition(GridPoint2 newPosition) {
-        this.getLogic().setPosition(newPosition);
+        getLogic().setPosition(newPosition);
     }
 
     @Override
     public void backToArchiveMarker() {
         if (reboot) {
-            getView().goToArchiveMarker(this.getPosition(), getLogic().getArchiveMarker());
-            this.getLogic().backToArchiveMarker();
+            getView().goToArchiveMarker(getPosition(), getLogic().getArchiveMarker());
+            getLogic().backToArchiveMarker();
             clearLaserRegister();
             reboot = false;
         }
@@ -117,15 +117,15 @@ public class Robot implements IRobot {
         if (!listener.listenCollision(oldPos, possiblePosition)) {
 
             // Checks that robot does not tries to move out of the map
-            if (this.getView().canMoveRobot(oldPos, possiblePosition)) {
+            if (getView().canMoveRobot(oldPos, possiblePosition)) {
                 // Robot moving outside map
                 if(robotView.isRobotInGraveyard(newPos)) {
                     setPosition(SettingsUtil.GRAVEYARD);
-                    this.takeDamage(SettingsUtil.MAX_DAMAGE);
+                    takeDamage(SettingsUtil.MAX_DAMAGE);
                     return;
                 }
                 // Update pos
-                this.setPosition(newPos);
+                setPosition(newPos);
                 System.out.println("\t- New position: " + newPos);
                 System.out.println("\t- Health: " + getLogic().getHealth());
 
@@ -159,8 +159,8 @@ public class Robot implements IRobot {
 
     @Override
     public void rotate(Direction newDirection) {
-        this.getLogic().rotate(newDirection);
-        this.getView().setDirection(getPosition(), newDirection);
+        getLogic().rotate(newDirection);
+        getView().setDirection(getPosition(), newDirection);
     }
     //endregion
 
@@ -175,12 +175,12 @@ public class Robot implements IRobot {
     //region Lasers
     @Override
     public void fireLaser() {
-        laser.fireLaser(getPosition(), this.getLogic().getDirection().getID());
+        laser.fireLaser(getPosition(), getLogic().getDirection().getID());
     }
 
     @Override
     public Laser getLaser() {
-        return this.laser;
+        return laser;
     }
 
     @Override
@@ -197,38 +197,36 @@ public class Robot implements IRobot {
     //region Textures
     @Override
     public void setTextureRegion(int index) {
-        this.getView().setTextureRegion(index);
+        getView().setTextureRegion(index);
     }
 
     @Override
     public TextureRegion[][] getTexture() {
-        return this.getView().getTextureRegion();
+        return getView().getTextureRegion();
     }
 
     @Override
     public void setVictoryTexture() {
-        this.getView().setVictoryTexture(getPosition());
+        getView().setVictoryTexture(getPosition());
     }
 
     @Override
     public void setDamageTakenTexture() {
-        this.getView().setDamageTakenTexture(getPosition());
-        this.getView().setDirection(getPosition(), getLogic().getDirection());
-
+        getView().setDamageTakenTexture(getPosition());
+        getView().setDirection(getPosition(), getLogic().getDirection());
     }
     //endregion
 
     @Override
     public void deleteRobot() {
-        this.layers.setRobotTexture(getPosition(), null);
-        this.setPosition(SettingsUtil.GRAVEYARD);
+        layers.setRobotTexture(getPosition(), null);
+        setPosition(SettingsUtil.GRAVEYARD);
         clearLaserRegister();
     }
 
     //region Program cards
     @Override
     public void playNextCard() {
-        //TODO: Add hashmap and move the hashmap to ProgramCards #117
         IProgramCards.Card card = getLogic().getNextCardInHand();
         if (card == null)
             return;
@@ -241,19 +239,18 @@ public class Robot implements IRobot {
 
     }
 
-    // FIXME: Temp helper-method for playNextCard()
     private void bindCardsToAction() {
         cardToAction = new HashMap<>();
-        this.cardToAction.put(IProgramCards.CardType.MOVE_1, () -> move(1));
-        this.cardToAction.put(IProgramCards.CardType.MOVE_2, () -> move(2));
-        this.cardToAction.put(IProgramCards.CardType.MOVE_3, () -> move(3));
-        this.cardToAction.put(IProgramCards.CardType.ROTATE_LEFT, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection())));
-        this.cardToAction.put(IProgramCards.CardType.ROTATE_RIGHT, () -> rotate(Direction.turnRightFrom(getLogic().getDirection())));
-        this.cardToAction.put(IProgramCards.CardType.U_TURN, () -> {
+        cardToAction.put(IProgramCards.CardType.MOVE_1, () -> move(1));
+        cardToAction.put(IProgramCards.CardType.MOVE_2, () -> move(2));
+        cardToAction.put(IProgramCards.CardType.MOVE_3, () -> move(3));
+        cardToAction.put(IProgramCards.CardType.ROTATE_LEFT, () -> rotate(Direction.turnLeftFrom(getLogic().getDirection())));
+        cardToAction.put(IProgramCards.CardType.ROTATE_RIGHT, () -> rotate(Direction.turnRightFrom(getLogic().getDirection())));
+        cardToAction.put(IProgramCards.CardType.U_TURN, () -> {
             rotate(Direction.turnLeftFrom(getLogic().getDirection()));
             rotate(Direction.turnLeftFrom(getLogic().getDirection()));
         });
-        this.cardToAction.put(IProgramCards.CardType.BACKUP, () -> move(-1));
+        cardToAction.put(IProgramCards.CardType.BACKUP, () -> move(-1));
     }
 
     @Override
@@ -267,6 +264,7 @@ public class Robot implements IRobot {
     public int getPositionX() {
         return getPosition().x;
     }
+
     public int getPositionY() {
         return getPosition().y;
     }
@@ -295,8 +293,8 @@ public class Robot implements IRobot {
     // TODO: Refactor to RobotModel
 
     public void visitNextFlag() {
-        this.setVictoryTexture();
-        this.getView().setDirection(getPosition(), getLogic().getDirection());
+        setVictoryTexture();
+        getView().setDirection(getPosition(), getLogic().getDirection());
         System.out.println("- Updated next flag to visit");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
