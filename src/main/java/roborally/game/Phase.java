@@ -15,6 +15,15 @@ import roborally.utilities.enums.TileName;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/** This class handles all the details of the game.
+ * Each phase consists of a number of events handled
+ * in {@link #run}, and robots play their card through
+ * the method {@link #playNextRegisterCard}, which is
+ * iterated through an actual timed event handled in
+ * {@link Events}.
+ *
+ */
+
 public class Phase implements IPhase {
 
     private final boolean DEBUG = true;

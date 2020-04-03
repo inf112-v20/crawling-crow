@@ -8,6 +8,13 @@ import roborally.ui.gdx.events.Events;
 
 import java.util.ArrayList;
 
+/** This class initializes the round system in the game.
+ * Practically it is created once, and then called on to run
+ * multiple times to keep the game going. Creates a new
+ * {@link Phase} to handle the phase system of the game.
+ * A round consists of five phases handled in {@link #startPhases}
+ */
+
 public class Round implements IRound {
 
     private ArrayList<Robot> robots;
