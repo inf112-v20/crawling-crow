@@ -21,7 +21,6 @@ import java.util.HashMap;
 public class Robot implements IRobot {
     private IRobotView robotView;
     private IRobotLogic robotLogic;
-    //private boolean[] visitedFlags;
     private Laser laser;
     private ILayers layers;
     private Listener listener;
