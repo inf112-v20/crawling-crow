@@ -70,6 +70,8 @@ public class Grid {
 		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(14, 4)));
 		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
 		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(11, 10)));
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(0, 0)));
 		}
 
 
@@ -160,10 +162,10 @@ public class Grid {
 		TileName tileName;
 		while (iterator.hasNext()) {
 			tileName = iterator.next();
-			iterator.remove();
 			if(gridLayers.get(layerToCheck).containsValue(tileName))
 				return tileName;
 		}
+		// return TileName.FLOOR
 		return null;
 	}
 
@@ -174,7 +176,6 @@ public class Grid {
 	 */
 	public Iterator<TileName> getTilesAtPosition(GridPoint2 pos) {
 		if(grid.containsKey(pos)) {
-			System.out.println("Tiles at position" + pos);
 			return grid.get(pos).iterator();
 		}
 		return null;
