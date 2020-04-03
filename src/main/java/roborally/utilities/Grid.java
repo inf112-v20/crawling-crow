@@ -12,6 +12,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -28,12 +30,14 @@ import java.util.zip.Inflater;
  */
 public class Grid {
 	private Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
+	private Map<GridPoint2, LinkedList<TileName>> grid;
 	private TiledTranslator tiledTranslator;
 	private int width;
 	private int height;
 
 	public Grid(String mapTMX) {
 		gridLayers = new HashMap<>();
+		grid = new HashMap<>();
 		tiledTranslator = new TiledTranslator();
 		String line;
 		try {
@@ -61,7 +65,13 @@ public class Grid {
 		} catch (IOException | DataFormatException e) {
 			e.printStackTrace();
 		}
-	}
+		Iterator<TileName> iterator = getTilesAtPosition(new GridPoint2(0, 4));
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+			iterator.remove();
+		}
+		}
+
 
 	/**
 	 * Decompresses zlib compressed data.
@@ -122,8 +132,12 @@ public class Grid {
 		int y = 0;
 		for (int j = 0; j < bytes.length; j += 4) {
 			if (bytes[j] != 0) {
-				gridLayers.get(layerName).put(new GridPoint2(x, height - y - 1),
+				GridPoint2 pos = new GridPoint2(x, height - y - 1);
+				gridLayers.get(layerName).put(pos,
 						tiledTranslator.getTileName(bytes[j] & 0xFF));
+				if(!grid.containsKey(pos))
+					grid.put(pos, new LinkedList<>());
+				grid.get(pos).add(tiledTranslator.getTileName(bytes[j] & 0xFF));
 			}
 			x++;
 			x = x % width;
@@ -131,6 +145,19 @@ public class Grid {
 				y++;
 			}
 		}
+	}
+
+	/**
+	 * Takes a position on the map and makes an iterator with all the tileNames at that position.
+	 * @param pos GridPoint2 with position on the map.
+	 * @return Iterator with tileNames.
+	 */
+	public Iterator<TileName> getTilesAtPosition(GridPoint2 pos) {
+		if(grid.containsKey(pos)) {
+			System.out.println("Tiles at position" + pos);
+			return grid.get(pos).iterator();
+		}
+		return null;
 	}
 
 	/**
