@@ -116,22 +116,24 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void pause() {
-        menu.reloadStage(stage);
         Gdx.input.setInputProcessor(stage);
         batch.begin();
         menu.drawMenu(batch, stage);
         batch.end();
         if (menu.isChangeMap())
             changeMap();
-        if (menu.isResume(game))
+        if (menu.isResume(game)) {
+            paused = false;
+            Gdx.input.setInputProcessor(this);
+            game.getGameOptions().enterMenu(false);
             resume();
+        }
     }
 
     @Override
     public void resume() {
-        game.getGameOptions().enterMenu(false);
-        paused = false;
-        Gdx.input.setInputProcessor(this);
+        if(paused)
+            return;
     }
 
     // Temporary checks for input from user to play cards instead of moving manually (Enter).
@@ -149,8 +151,10 @@ public class UI extends InputAdapter implements ApplicationListener {
             debugControls.getAction(keycode).run();
         }
 
-        if (game.getGameOptions().getMenu())
+        if (game.getGameOptions().getMenu()) {
+            menu.reloadStage(stage);
             paused = true;
+        }
         return true;
     }
 
