@@ -54,19 +54,14 @@ public class Round implements IRound {
 
     @Override
     public void startPhases(ILayers layers) {
-        // FIXME: Should run like this instead
         for (int i = 0; i < 5; i++) {
             getPhase().run(layers);
         }
-        //getPhase().run(layers);
     }
 
     @Override
     public void cleanUp() {
-        //Done in robot and in rebootRobots
-        for (Robot currentRobot : robots) {
-            currentRobot.backToArchiveMarker();
-        }
+        restoreRebootedRobots();
     }
 
     @Override
@@ -76,8 +71,8 @@ public class Round implements IRound {
 
     @Override
     public void restoreRebootedRobots() {
-        for (Robot robot : robots)
-            robot.backToArchiveMarker();
+        for (Robot currentRobot : robots)
+            currentRobot.backToArchiveMarker();
     }
 
     @Override
