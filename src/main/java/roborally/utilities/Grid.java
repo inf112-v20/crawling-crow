@@ -20,9 +20,9 @@ import java.util.zip.Inflater;
  * This class reads through a tmx map encoded with Base64 and compressed with zlib.
  * For each layer in the tmx map found by hitting a line that includes the field
  * "layer id" it decodes and decompresses the input to make a map of the name
- * of the layer, with another map of the positions and TileNames of the tiles
- * included in the specific layer.
- *
+ * of the layer with another map as value. The value is a map that consists
+ * of GridPoint2 positions and TileNames of the tiles included in the specific layer.
+ * 
  * To get a perspective of what the class makes, use the method
  * {@link #printGrid} to display all the layers with all the tiles and positions.
  */
@@ -106,13 +106,12 @@ public class Grid {
 		}
 	}
 
-    /**
-     *
-     * @param layerName layerName of the layer that is being made.
-     * @param gridLayer compressed and encoded String of the layer.
-     * @throws IOException if an I/O error occurs.
-     * @throws DataFormatException if the format is not a byte format.
-     */
+	/**
+	 * @param layerName layerName of the layer that is being made.
+	 * @param gridLayer compressed and encoded String of the layer.
+	 * @throws IOException         if an I/O error occurs.
+	 * @throws DataFormatException if the format is not a byte format.
+	 */
 	private void makeNewGridLayer(LayerName layerName, String gridLayer) throws IOException, DataFormatException {
 		gridLayers.put(layerName, new HashMap<>());
 		byte[] bytes = Base64Coder.decode(gridLayer);
@@ -121,7 +120,8 @@ public class Grid {
 		int y = 0;
 		for (int j = 0; j < bytes.length; j += 4) {
 			if (bytes[j] != 0) {
-				gridLayers.get(layerName).put(new GridPoint2(x, height - y - 1), tiledTranslator.getTileName(bytes[j] & 0xFF));
+				gridLayers.get(layerName).put(new GridPoint2(x, height - y - 1),
+						tiledTranslator.getTileName(bytes[j] & 0xFF));
 			}
 			x++;
 			x = x % width;
@@ -131,7 +131,9 @@ public class Grid {
 		}
 	}
 
-	/** Sets the width and the height of the map (all layers share the same size). */
+	/**
+	 * Sets the width and the height of the map (all layers share the same size).
+	 */
 	private void setWidthHeight(@NotNull String string) {
 		int widthEndIdx = string.indexOf("width") + "width".length() + 1;
 		String width = string.substring(widthEndIdx + 1, widthEndIdx + 3);

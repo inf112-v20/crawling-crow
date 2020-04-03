@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/** This class handles events in the game.
+ * An event is computation stretched over time,
+ * to make the visualization of the game possible
+ * to follow as a human player. Takes use of time
+ * spent between frames in render to scale the events.
+ * */
 public class Events {
     public static final float unitScale = 300 * 3f / 16f;
     private boolean waitEvent;

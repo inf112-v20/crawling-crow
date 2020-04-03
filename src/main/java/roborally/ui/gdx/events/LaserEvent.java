@@ -10,6 +10,12 @@ import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
+/** This class creates an event that moves
+ * the texture of a laser in a given direction.
+ * The speed of the animation of the texture
+ * is determined by {@link #factor}, which is
+ * set to 800 in normal mode.
+ */
 
 public class LaserEvent {
     public static final float unitScale = 300 * 3f / 16f; // Tile size
@@ -126,7 +132,7 @@ public class LaserEvent {
         this.laserEvent = false;
     }
 
-    /** Returns true if this laser is currently active (it has not reached it's laserPoint). */
+    /** Returns true if this laser is currently active (it has not reached its laserPoint). */
     public boolean hasLaserEvent() {
         return this.laserEvent;
     }
