@@ -32,9 +32,7 @@ public class Robot implements IRobot {
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
-
         this.robotLogic = robotLogic;
-        bindCardsToAction();
     }
 
     public Robot(GridPoint2 pos, int robotID, LaserRegister laserRegister) {
@@ -50,14 +48,7 @@ public class Robot implements IRobot {
         this.laserRegister = laserRegister;
         setPosition(pos);
         checkForStationaryLaser(); // for spawning in the current lasers in fun mode.
-
-        this.cardToAction = new HashMap<>();
         bindCardsToAction();
-    }
-
-    @Override
-    public HashMap<IProgramCards.CardType, Runnable> getCardToAction() {
-        return cardToAction;
     }
 
     @Override
@@ -252,6 +243,7 @@ public class Robot implements IRobot {
 
     // FIXME: Temp helper-method for playNextCard()
     private void bindCardsToAction() {
+        cardToAction = new HashMap<>();
         this.cardToAction.put(IProgramCards.CardType.MOVE_1, () -> move(1));
         this.cardToAction.put(IProgramCards.CardType.MOVE_2, () -> move(2));
         this.cardToAction.put(IProgramCards.CardType.MOVE_3, () -> move(3));

@@ -232,14 +232,4 @@ public class RobotTest {
 
         assertEquals(new GridPoint2(3, 6), testRobot1.getLogic().getPosition());
     }
-
-    @Test
-    public void verifyCardReturnsCorrectAction() {
-        IProgramCards.CardType card = ProgramCards.CardType.MOVE_1;
-        int hashcode1 = testRobot1.getCardToAction().get(card).hashCode();
-        Runnable a = () -> testRobot1.move(1);
-        int hashcode2 = a.hashCode();
-
-        assertEquals(hashcode1, hashcode2);
-    }
 }
