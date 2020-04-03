@@ -2,6 +2,7 @@ package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import org.jetbrains.annotations.NotNull;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
@@ -35,7 +36,7 @@ public class Layers implements ILayers {
     }
 
     @Override
-    public TileName getTileName(LayerName layerName, GridPoint2 position) {
+    public TileName getTileName(LayerName layerName, @NotNull GridPoint2 position) {
         return tiledTranslator.getTileName(getLayer(layerName).getCell(position.x, position.y).getTile().getId());
     }
 
@@ -64,12 +65,12 @@ public class Layers implements ILayers {
     }
 
     @Override
-    public TiledMapTileLayer.Cell getRobotTexture(GridPoint2 pos) {
+    public TiledMapTileLayer.Cell getRobotTexture(@NotNull GridPoint2 pos) {
         return layers.get(LayerName.ROBOT).getCell(pos.x, pos.y);
     }
 
     @Override
-    public void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
+    public void setRobotTexture(@NotNull GridPoint2 pos, TiledMapTileLayer.Cell cell) {
         layers.get(LayerName.ROBOT).setCell(pos.x, pos.y, cell);
     }
 }
