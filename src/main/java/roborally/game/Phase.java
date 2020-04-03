@@ -140,7 +140,7 @@ public class Phase implements IPhase {
         for (IFlag flag : flags) {
             for (Robot robot : robots) {
                 if (robot.getLogic().getPosition().equals(flag.getPosition())) {
-                    int nextFlag = robot.getNextFlag();
+                    int nextFlag = robot.getLogic().getNextFlag();
                     if (flag.getID() == nextFlag) {
                         robot.visitNextFlag();
                         robot.getLogic().setArchiveMarker(flag.getPosition());
@@ -301,7 +301,7 @@ public class Phase implements IPhase {
         checkAllRobotsAreCreated();
 
         for (Robot robot : robots) {
-            if (robot.hasVisitedAllFlags()) {
+            if (robot.getLogic().hasVisitedAllFlags()) {
                 winner = robot;
             }
         }

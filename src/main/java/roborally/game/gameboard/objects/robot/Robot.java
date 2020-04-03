@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class Robot implements IRobot {
     private IRobotView robotView;
     private IRobotLogic robotLogic;
-    private boolean[] visitedFlags;
+    //private boolean[] visitedFlags;
     private Laser laser;
     private ILayers layers;
     private Listener listener;
@@ -269,42 +269,9 @@ public class Robot implements IRobot {
         return getPosition().y;
     }
 
-    // TODO: Refactor to RobotModel, make it correlate with GameBoard(GameModel).
-
-    public boolean hasVisitedAllFlags() {
-        boolean visitedAll = true;
-        for (boolean visitedFlag : visitedFlags) {
-            visitedAll = visitedAll && visitedFlag;
-        }
-        return visitedAll;
-    }
-
-    // TODO: Refactor to RobotModel.
-
-    public int getNextFlag() {
-        for (int i = 0; i < visitedFlags.length; i++) {
-            if (!visitedFlags[i]) {
-                return i + 1;
-            }
-        }
-        return -1;
-    }
-
-    // TODO: Refactor to RobotModel
-
     public void visitNextFlag() {
         setVictoryTexture();
         getView().setDirection(getPosition(), getLogic().getDirection());
-        System.out.println("- Updated next flag to visit");
-        int nextFlag = getNextFlag();
-        visitedFlags[nextFlag - 1] = true;
-        if (nextFlag == visitedFlags.length)
-            System.out.println("- Congratulations you have collected all the flags, press 'W' to end the game.");
-        else
-            System.out.println("- Next flag to visit: " + (nextFlag + 1));
-    }
-
-    public void setNumberOfFlags(int flags) {
-        this.visitedFlags = new boolean[flags];
+        getLogic().visitNextFlag();
     }
 }

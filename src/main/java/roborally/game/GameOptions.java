@@ -34,7 +34,7 @@ public class GameOptions {
         for (int x = 0; x < layers.getWidth(); x++) {
             for (int y = 0; y < layers.getHeight(); y++) {
                 Robot robot = new Robot(new GridPoint2(x, y), y % 8, laserRegister);
-                robot.setNumberOfFlags(flags.size());
+                robot.getLogic().setNumberOfFlags(flags.size());
                 robots.add(robot);
             }
         }
@@ -49,7 +49,7 @@ public class GameOptions {
             for (int j = 0; j < layers.getHeight(); j++) {
                 if (layers.layerNotNull(LayerName.START_POSITIONS, new GridPoint2(i, j))) {
                     Robot robot = new Robot(new GridPoint2(i, j), cell % 8, laserRegister);
-                    robot.setNumberOfFlags(flags.size());
+                    robot.getLogic().setNumberOfFlags(flags.size());
                     robots.add(robot);
                     cell++;
                 }

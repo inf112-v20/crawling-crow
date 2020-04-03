@@ -135,4 +135,13 @@ public interface IRobotLogic {
     IProgramCards drawCards(IProgramCards deckOfProgramCards);
 
     void autoArrangeCardsInHand();
+
+    //region Flag
+    void setNumberOfFlags(int flags);
+
+    int getNextFlag();
+
+    boolean hasVisitedAllFlags();
+
+    void visitNextFlag();
 }
