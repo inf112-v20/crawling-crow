@@ -3,6 +3,7 @@ package roborally.utilities;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
 import org.jetbrains.annotations.NotNull;
+import roborally.game.gameboard.objects.robot.RobotLogic;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
@@ -31,6 +32,7 @@ import java.util.zip.Inflater;
 public class Grid {
 	private Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
 	private Map<GridPoint2, LinkedList<TileName>> grid;
+	private Map<RobotLogic, GridPoint2> robotPositions;
 	private TiledTranslator tiledTranslator;
 	private int width;
 	private int height;
@@ -38,6 +40,7 @@ public class Grid {
 	public Grid(String mapTMX) {
 		gridLayers = new HashMap<>();
 		grid = new HashMap<>();
+		robotPositions = new HashMap<>();
 		tiledTranslator = new TiledTranslator();
 		String line;
 		try {
@@ -70,6 +73,8 @@ public class Grid {
 		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(14, 4)));
 		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
 		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(11, 10)));
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(0, 0)));
 		}
 
 
@@ -91,6 +96,14 @@ public class Grid {
 		}
 		outputStream.close();
 		return outputStream.toByteArray();
+	}
+
+	public boolean isThereRobotAtPosition(GridPoint2 pos) {
+		return robotPositions.containsValue(pos);
+	}
+
+	public void moveRobot(RobotLogic robotLogic, GridPoint2 newPos) {
+		robotPositions.get(robotLogic).set(newPos);
 	}
 
 	public Map<GridPoint2, TileName> getGridLayer(LayerName layerName) {
@@ -160,10 +173,10 @@ public class Grid {
 		TileName tileName;
 		while (iterator.hasNext()) {
 			tileName = iterator.next();
-			iterator.remove();
 			if(gridLayers.get(layerToCheck).containsValue(tileName))
 				return tileName;
 		}
+		// return TileName.FLOOR
 		return null;
 	}
 
@@ -174,7 +187,6 @@ public class Grid {
 	 */
 	public Iterator<TileName> getTilesAtPosition(GridPoint2 pos) {
 		if(grid.containsKey(pos)) {
-			System.out.println("Tiles at position" + pos);
 			return grid.get(pos).iterator();
 		}
 		return null;
