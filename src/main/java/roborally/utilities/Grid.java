@@ -65,11 +65,11 @@ public class Grid {
 		} catch (IOException | DataFormatException e) {
 			e.printStackTrace();
 		}
-		Iterator<TileName> iterator = getTilesAtPosition(new GridPoint2(0, 4));
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
-			iterator.remove();
-		}
+		//printGrid();
+		LayerName layerName = LayerName.FLAG;
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(14, 4)));
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
+		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(11, 10)));
 		}
 
 
@@ -145,6 +145,26 @@ public class Grid {
 				y++;
 			}
 		}
+	}
+
+	/**
+	 * Method to check a specific layer, i.e the conveyorFastLayer, and finds a TileName if any on that position
+	 * that is contained in that very layer.
+	 * @param layerToCheck The layer to search for the TileName in.
+	 * @param pos The position the player is standing on.
+	 * @return null if the position the player is standing on does not contain a TileName in the given layer,
+	 * else it returns the TileName.
+	 */
+	public TileName findTileNameOnSpecificLayerThePlayerIsStandingOn(LayerName layerToCheck, GridPoint2 pos) {
+		Iterator<TileName> iterator = getTilesAtPosition(pos);
+		TileName tileName;
+		while (iterator.hasNext()) {
+			tileName = iterator.next();
+			iterator.remove();
+			if(gridLayers.get(layerToCheck).containsValue(tileName))
+				return tileName;
+		}
+		return null;
 	}
 
 	/**
