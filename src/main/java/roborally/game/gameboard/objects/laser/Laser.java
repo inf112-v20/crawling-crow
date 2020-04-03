@@ -11,6 +11,14 @@ import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.ArrayList;
 
+/** This class handles the logic involved in robots
+ * shooting lasers {@link #fireLaser}.
+ * Mainly it handles the static lasers projected
+ * by cannons on the map, each time a robot goes
+ * into a laser it is updated here through
+ * {@link LaserRegister}.
+ * */
+
 public class Laser {
     //region Field variables
     private int laserTileID;
@@ -39,6 +47,7 @@ public class Laser {
      * Constructs a new laser.
      *
      * @param laserTileID Horizontal or Vertical laser.
+     * @param layers      The layers class.
      */
     public Laser(int laserTileID, ILayers layers) {
         this.tiledTranslator = new TiledTranslator();
