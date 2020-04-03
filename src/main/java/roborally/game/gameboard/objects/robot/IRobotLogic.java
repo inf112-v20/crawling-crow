@@ -82,8 +82,8 @@ public interface IRobotLogic {
 
     /**
      * Adds the inflicted damage to the Robot's health and checks
-     * if the Robot's health is <= 0 and that it has more reboots
-     * remaining.
+     * if the Robot's health is less than or equal to 0 and that
+     * it has more reboots remaining.
      *
      * @param damageInflicted The damage inflicted
      * @return True if the Robot can reboot, false otherwise

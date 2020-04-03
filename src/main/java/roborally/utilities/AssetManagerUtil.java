@@ -151,7 +151,9 @@ public class AssetManagerUtil {
     }
 
     /**
-     * Returns the robotTexture in position i, in chronological order
+     * Getter for robot texture-
+     * @param i Integer defining which robot texture to get.
+     * @return the robot texture at position i.
      */
     public static Texture getRobotTexture(int i) {
         Texture[] robotTexture = new Texture[8];
@@ -195,7 +197,9 @@ public class AssetManagerUtil {
     }
 
     /**
-     * Sets the robots array to be something different for other game modes
+     * Sets the robots array to be something different for other game modes.
+     *
+     * @param robots ArrayList of the robots that the current state of the game consists of.
      */
     public static void setRobots(ArrayList<Robot> robots) {
         AssetManagerUtil.robots = robots;

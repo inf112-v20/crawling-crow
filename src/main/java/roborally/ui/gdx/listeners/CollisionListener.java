@@ -21,6 +21,8 @@ public class CollisionListener {
      * Iterates through all the robots to see if the foremost robot in the direction is blocked, moves robots
      * accordingly.
      *
+     * @param pos GridPoint2 position of the robot.
+     * @param move GridPoint2 with steps in x and y direction.
      * @return True if there is a wall blocking the path.
      */
     public boolean robotNextToRobot(GridPoint2 pos, GridPoint2 move) {
@@ -58,6 +60,9 @@ public class CollisionListener {
     /**
      * Called from {@link #checkIfBlocked} if the robot collides with another robot.
      * Moves the robots accordingly.
+     *
+     * @param pos GridPoint2 position of the robot.
+     * @param move GridPoint2 with steps in x and y direction.
      */
     public void findCollidingRobot(GridPoint2 pos, GridPoint2 move) {
         int width = layers.getLayer(LayerName.ROBOT).getWidth();
@@ -90,6 +95,8 @@ public class CollisionListener {
      * Checks if the robot is blocked by another robot, true if that robot is blocked by a wall. If not,
      * inspects further with {@link #robotNextToRobot} and collides with {@link #findCollidingRobot}
      *
+     * @param pos GridPoint2 position of the robot.
+     * @param move GridPoint2 with steps in x and y direction.
      * @return True if the robot or any of the robots in front of it is found in {@link #robotNextToRobot} is blocked.
      */
     public boolean checkIfBlocked(GridPoint2 pos, GridPoint2 move) {

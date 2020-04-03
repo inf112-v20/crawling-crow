@@ -22,7 +22,7 @@ import java.util.zip.Inflater;
  * "layer id" it decodes and decompresses the input to make a map of the name
  * of the layer with another map as value. The value is a map that consists
  * of GridPoint2 positions and TileNames of the tiles included in the specific layer.
- * 
+ * <p>
  * To get a perspective of what the class makes, use the method
  * {@link #printGrid} to display all the layers with all the tiles and positions.
  */
@@ -107,6 +107,8 @@ public class Grid {
 	}
 
 	/**
+	 * Makes a new Layer with a map of GridPoint positions and TileNames.
+	 *
 	 * @param layerName layerName of the layer that is being made.
 	 * @param gridLayer compressed and encoded String of the layer.
 	 * @throws IOException         if an I/O error occurs.

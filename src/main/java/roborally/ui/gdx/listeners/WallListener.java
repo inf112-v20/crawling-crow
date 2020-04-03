@@ -24,7 +24,8 @@ public class WallListener {
     /**
      * A method that looks through the respective ID's from the tileset, for relevant walls for the robot as it
      * tries to move.
-     *
+     * @param move GridPoint2 with steps in x and y direction.
+     * @param pos GridPoint2 position of the robot.
      * @return True if it finds a wall that corresponds to a wall in x or y direction that blocks the robot.
      */
     public boolean checkForWall(GridPoint2 pos, GridPoint2 move) {

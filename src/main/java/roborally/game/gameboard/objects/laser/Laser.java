@@ -67,6 +67,7 @@ public class Laser {
      * Shoots a laser until it hits a wall or a robot. Stores the cells for clearing them after.
      * {@link #setDirection(int robotDirection)} to figure out the iterative values to shoot with.
      *
+     * @param pos GridPoint2 position of the robot.
      * @param robotDirection The robotDirection the robot is looking.
      */
     public void fireLaser(GridPoint2 pos, int robotDirection) {
@@ -236,7 +237,9 @@ public class Laser {
     }
 
     /**
-     * Returns true if the robot is currently in a laser instance
+     * Checks if the given laser contains the position queried.
+     * @param pos GridPoint2 of the position queried.
+     * @return true if the position is in the list of positions the laser consists of.
      */
     public boolean gotPos(GridPoint2 pos) {
         return laserEndPositions.contains(pos);
@@ -255,6 +258,7 @@ public class Laser {
      *
      * @param i the x-position of the cell
      * @param j the y-position of the cell
+     * @param create true if it is putting lasers back, false if it is removing laser cells.
      * @return false if there is a cross-laser present, or if logic determines there to be one.
      */
     public boolean identifyLaser(int i, int j, boolean create) {
