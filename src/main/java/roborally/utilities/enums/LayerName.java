@@ -15,7 +15,7 @@ public enum LayerName {
     LASER("Laser"),
     CANNON("Cannon"),
     COG("RotatingGear"),
-    BUG("bug");
+    BUG("Bug");
 
     private final String layerString;
 
