@@ -126,14 +126,13 @@ public class UI extends InputAdapter implements ApplicationListener {
             paused = false;
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
-            resume();
         }
     }
 
     @Override
     public void resume() {
-        if(paused)
-            return;
+        if(!animateEvent.getCardPhase())
+            Gdx.input.setInputProcessor(this);
     }
 
     // Temporary checks for input from user to play cards instead of moving manually (Enter).

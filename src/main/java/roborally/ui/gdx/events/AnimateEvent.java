@@ -63,4 +63,8 @@ public class AnimateEvent {
         cardPhase = true;
         Gdx.input.setInputProcessor(stage);
     }
+
+    public boolean getCardPhase() {
+        return this.cardPhase;
+    }
 }
