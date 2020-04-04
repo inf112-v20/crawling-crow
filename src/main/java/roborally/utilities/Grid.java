@@ -68,14 +68,7 @@ public class Grid {
 		} catch (IOException | DataFormatException e) {
 			e.printStackTrace();
 		}
-		//printGrid();
-		LayerName layerName = LayerName.FLAG;
-		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(14, 4)));
-		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
-		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(11, 10)));
-		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(8, 2)));
-		System.out.println(findTileNameOnSpecificLayerThePlayerIsStandingOn(layerName, new GridPoint2(0, 0)));
-		}
+	}
 
 
 	/**
@@ -168,7 +161,7 @@ public class Grid {
 	 * @return null if the position the player is standing on does not contain a TileName in the given layer,
 	 * else it returns the TileName.
 	 */
-	public TileName findTileNameOnSpecificLayerThePlayerIsStandingOn(LayerName layerToCheck, GridPoint2 pos) {
+	public TileName findTileName(LayerName layerToCheck, GridPoint2 pos) {
 		Iterator<TileName> iterator = getTilesAtPosition(pos);
 		TileName tileName;
 		while (iterator.hasNext()) {

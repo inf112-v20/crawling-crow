@@ -12,6 +12,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
+import roborally.ui.Layers;
 import roborally.ui.ProgramCardsView;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
@@ -56,13 +57,13 @@ public class Game implements IGame {
     public Game(boolean runAIGame) {
         assert (runAIGame);
         gameBoard = new GameBoard();
-        layers = gameBoard.getLayers();
+        layers = new Layers();
     }
 
     @Override
     public void startUp() {
         this.gameBoard = new GameBoard();
-        this.layers = gameBoard.getLayers();
+        this.layers = new Layers();
         this.laserRegister = new LaserRegister(layers);
         this.flags = gameBoard.findAllFlags();
         this.repairSites = gameBoard.findAllRepairSites();
@@ -74,7 +75,7 @@ public class Game implements IGame {
     @Override
     public void funMode() {
         this.gameBoard = new GameBoard();
-        this.layers = gameBoard.getLayers();
+        this.layers = new Layers();
         this.laserRegister = new LaserRegister(layers);
         this.flags = gameBoard.findAllFlags();
         this.repairSites = gameBoard.findAllRepairSites();
