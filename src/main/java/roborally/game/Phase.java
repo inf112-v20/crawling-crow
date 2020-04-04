@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.IFlag;
+import roborally.game.gameboard.objects.conveyorbelts.ConveyorBelt;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
@@ -34,6 +35,7 @@ public class Phase implements IPhase {
     private ArrayList<IFlag> flags;
     private ArrayList<BoardObject> repairSites;
     private Queue<Robot> robotQueue;
+    private ConveyorBelt conveyorBelt;
 
 
     public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, ArrayList<BoardObject> repairSites, Events events) {
@@ -42,6 +44,7 @@ public class Phase implements IPhase {
         this.flags = flags;
         this.repairSites = repairSites;
         this.robotQueue = new LinkedList<>();
+        this.conveyorBelt = new ConveyorBelt();
     }
 
     @Override
@@ -76,12 +79,9 @@ public class Phase implements IPhase {
     @Override
     public void moveAllConveyorBelts(ILayers layers) {
         //TODO: Rather send in a list of relevant coordinates to separate UI from backend
-        //initializeExpressConveyorBelts(layers);
-        //initializeExpressConveyorBelts(layers);
-        //initializeNormalConveyorBelts(layers);
-        initializeConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS);
-        initializeConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS);
-        initializeConveyorBelt(layers, LayerName.CONVEYOR);
+        conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
+        conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
+        conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR, robots);
     }
 
     @Override
@@ -175,123 +175,6 @@ public class Phase implements IPhase {
                 robot.takeDamage(1);
                 System.out.println("- Hit by stationary laser");
             }
-    }
-
-    private void initializeConveyorBelt(ILayers layers, LayerName layerName) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
-        ArrayList<Robot> rotateRobots = new ArrayList<>();
-        List<List<Robot>> robotsOnBelts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        for (Robot robot : robots) {
-            GridPoint2 pos = robot.getPosition();
-            if (layers.layerNotNull(layerName, pos)) {
-                TileName tileName = layers.getTileName(layerName, pos);
-                System.out.println(robot.getName() + " is on " + tileName.toString());
-                if (tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    robotsOnBelts.get(0).add(robot);
-                else if (tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    robotsOnBelts.get(1).add(robot);
-                else if (tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    robotsOnBelts.get(2).add(robot);
-                else if (tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    robotsOnBelts.get(3).add(robot);
-                rotateRobots.add(robot);
-            }
-        }
-        moveConveyorBelt(robotsOnBelts, layers);
-        rotateConveyorBelts(rotateRobots, layers);
-
-        /* TODO: Implement abstract classes for normal and express conveyor belts
-        for (Robot currentRobot : robots) {
-            robotPositionsList.add(currentRobot.getPosition());
-        }
-
-        AbstractConveyorNormal.moveBelts(robotsOnBelts, layers);
-        AbstractConveyorNormal.rotateBelts(robotsOnBelts, layers);*/
-    }
-
-    private void moveConveyorBelt(List<List<Robot>> listOfRobotsOnBelts, ILayers layers) {
-        listOfRobotsOnBelts.get(0).sort(Comparator.comparing(Robot::getPositionX, Comparator.reverseOrder()));
-        listOfRobotsOnBelts.get(1).sort(Comparator.comparing(Robot::getPositionY, Comparator.reverseOrder()));
-        listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
-        listOfRobotsOnBelts.get(3).sort(Comparator.comparing(Robot::getPositionY));
-        Queue<GridPoint2> validPositions = new LinkedList<>();
-        List<Direction> enums = Arrays.asList(Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH);
-        int index = 0;
-        for (List<Robot> listOfRobotsOnOneBelt : listOfRobotsOnBelts) {
-            for (Robot currentRobot : listOfRobotsOnOneBelt) {
-                validPositions.add(currentRobot.getPosition().cpy().add(enums.get(index).getStep()));
-            }
-            index++;
-        }
-        Map<Robot, GridPoint2> remainingRobots = new HashMap<>();
-        GridPoint2 validPos;
-        GridPoint2 step;
-        for (int beltIndex = 0; beltIndex < listOfRobotsOnBelts.size(); beltIndex++) {
-            step = enums.get(beltIndex).getStep();
-            for (Robot robot : listOfRobotsOnBelts.get(beltIndex)) {
-                if (validPositions.isEmpty())
-                    break;
-                if (!validPositions.contains((validPos = validPositions.poll()))
-                        && !layers.layerNotNull(LayerName.ROBOT, robot.getPosition().cpy().add(step)))
-                    robot.tryToMove(step);
-                else if (layers.layerNotNull(LayerName.ROBOT, robot.getPosition().cpy().add(step)))
-                    remainingRobots.put(robot, step);
-                else {
-                    GridPoint2 finalPos = validPos;
-                    List<GridPoint2> list = validPositions.stream()
-                            .filter(o -> o.equals(finalPos))
-                            .collect(Collectors.toList());
-                    validPositions.removeAll(list);
-                }
-            }
-        }
-        for (Robot robot : remainingRobots.keySet())
-            if (!layers.layerNotNull(LayerName.ROBOT, robot.getPosition().cpy().add(remainingRobots.get(robot))))
-                robot.tryToMove(remainingRobots.get(robot));
-    }
-
-    /*private void initializeExpressConveyorBelts(ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
-        List<List<Robot>> belts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-        ArrayList<Robot> rotateRobots = new ArrayList<>();
-        for (Robot robot : robots) {
-            GridPoint2 pos = robot.getPosition();
-            if (layers.layerNotNull(LayerName.CONVEYOR_EXPRESS, pos)) {
-                TileName tileName = layers.getTileName(LayerName.CONVEYOR_EXPRESS, pos);
-                // Move in a special way so that no collision happens.
-                // TODO: HashMap
-                if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    belts.get(0).add(robot);
-                else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    belts.get(1).add(robot);
-                else if (tileName == TileName.CONVEYOR_EXPRESS_WEST || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    belts.get(2).add(robot);
-                else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    belts.get(3).add(robot);
-                rotateRobots.add(robot);
-            }
-        }
-        moveConveyorBelt(belts, layers);
-        rotateConveyorBelts(rotateRobots, layers);
-    }*/
-
-    private void rotateConveyorBelts(ArrayList<Robot> rotateRobots, ILayers layers) {
-        //TODO: Rather send in a list of relevant coordinates to separate UI from backend
-        TileName tileName;
-        if (rotateRobots.isEmpty())
-            return;
-        for (Robot robot : rotateRobots) {
-            if (layers.layerNotNull(LayerName.CONVEYOR, robot.getPosition()))
-                tileName = layers.getTileName(LayerName.CONVEYOR, robot.getPosition());
-            else if (layers.layerNotNull(LayerName.CONVEYOR_EXPRESS, robot.getPosition()))
-                tileName = layers.getTileName(LayerName.CONVEYOR_EXPRESS, robot.getPosition());
-            else
-                return;
-            if (tileName.toString().contains("COUNTER_CLOCKWISE"))
-                robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-            else if (tileName.toString().contains("CLOCKWISE"))
-                robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
-        }
     }
 
     private boolean checkAllRobotsForWinner() {
