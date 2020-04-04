@@ -54,15 +54,9 @@ public class Game implements IGame {
         this.gameOptions = new GameOptions();
     }
 
-    public Game(boolean runAIGame) {
-        assert (runAIGame);
-        gameBoard = new GameBoard();
-        layers = new Layers();
-    }
-
     @Override
     public void startUp() {
-        this.gameBoard = new GameBoard();
+        this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
         this.layers = new Layers();
         this.laserRegister = new LaserRegister(layers);
         this.flags = gameBoard.findAllFlags();
@@ -74,7 +68,7 @@ public class Game implements IGame {
 
     @Override
     public void funMode() {
-        this.gameBoard = new GameBoard();
+        this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
         this.layers = new Layers();
         this.laserRegister = new LaserRegister(layers);
         this.flags = gameBoard.findAllFlags();

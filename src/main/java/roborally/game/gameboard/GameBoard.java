@@ -19,13 +19,13 @@ public class GameBoard implements IGameBoard {
     // TODO: Ref the TODO on bottom
     private Grid grid;
 
-    public GameBoard() {
+    public GameBoard(String mapPath) {
         this.flagIdMap = new HashMap<>();
         this.flagIdMap.put(TileName.FLAG_1, 1);
         this.flagIdMap.put(TileName.FLAG_2, 2);
         this.flagIdMap.put(TileName.FLAG_3, 3);
         this.flagIdMap.put(TileName.FLAG_4, 4);
-        this.grid = new Grid("/" + AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
+        this.grid = new Grid("/" + mapPath);
     }
 
     @Override
