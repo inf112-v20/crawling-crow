@@ -89,6 +89,10 @@ public enum TileName {
     // Cogs
     COG_COUNTER_CLOCKWISE(53),
     COG_CLOCKWISE(54),
+    // Pushers
+    PUSHER_2_4_WEST(2),
+    PUSHER_1_3_5_EAST(12),
+    PUSHER_1_3_5_SOUTH(9),
     // Flags
     FLAG_1(55),
     FLAG_2(63),
