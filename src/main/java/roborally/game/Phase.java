@@ -26,9 +26,6 @@ import java.util.*;
  */
 
 public class Phase implements IPhase {
-
-	private final boolean DEBUG = true;
-
 	private ArrayList<Robot> robots;
 	private Events events;
 	private Robot winner;
@@ -39,7 +36,6 @@ public class Phase implements IPhase {
 	private ConveyorBelt conveyorBelt;
 	private boolean pusher;
 	private int phaseNumber;
-
 
 	public Phase(ArrayList<Robot> robots, IGameBoard gameBoard, Events events) {
 		this.robots = robots;
@@ -57,8 +53,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void run(ILayers layers) {
-		//revealProgramCards();
-		//playNextRegisterCard();
 		moveAllConveyorBelts(layers);
 		if (pusher)
 			pushActivePushers(phaseNumber, layers);
@@ -84,9 +78,7 @@ public class Phase implements IPhase {
 					Direction dir = Direction.valueOf(splitted[splitted.length - 1]);
 					robot.tryToMove(dir.getStep());
 				}
-
 			}
-
 		}
 	}
 
@@ -138,7 +130,6 @@ public class Phase implements IPhase {
 			if (!coords.isEmpty())
 				events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
 		}
-		// TODO: Implement the corresponding phase.
 	}
 
 	@Override
@@ -149,15 +140,6 @@ public class Phase implements IPhase {
 				if (robot.getPosition().equals(repairSite.getPosition())) {
 					robot.getLogic().setArchiveMarker(repairSite.getPosition());
 					System.out.println("- Type of repair site: " + repairSite.getType().name());
-
-					robot.getLogic().addHealth(1); // FIXME: should only happen in Round not phase
-
-					// TODO: Add this
-                    /*if (repairSite.getType() == TileName.WRENCH_HAMMER) {
-                        // Add 1 health and option card
-                    } else {
-                        // Add 1 health
-                    }*/
 				}
 			}
 		}
@@ -182,19 +164,11 @@ public class Phase implements IPhase {
 
 	@Override
 	public boolean checkForWinner() {
-		//assert (gameRunning);
-		//assert (roundStep == RoundStep.PHASES);
-		//assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
-		if (DEBUG) System.out.println("\nChecking if someone won...");
-
+		System.out.println("\nChecking if someone won...");
 		boolean someoneWon = checkAllRobotsForWinner();
-		if (DEBUG) System.out.println("- Did someone win? " + someoneWon);
-
-		if (someoneWon) {
-			//    endGame();
-			if (DEBUG) System.out.println("- Found winner: " + winner.getName());
-		}
-
+		System.out.println("- Did someone win? " + someoneWon);
+		if (someoneWon)
+			System.out.println("- Found winner: " + winner.getName());
 		return someoneWon;
 	}
 
@@ -207,41 +181,16 @@ public class Phase implements IPhase {
 	}
 
 	private boolean checkAllRobotsForWinner() {
-		//assert (gameRunning);
-		//assert (roundStep == RoundStep.PHASES);
-		//assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
-		checkAllRobotsAreCreated();
-
 		for (Robot robot : robots) {
 			if (robot.getLogic().hasVisitedAllFlags()) {
 				winner = robot;
 			}
 		}
-
 		return (winner != null);
-	}
-
-	private boolean checkAllRobotsAreCreated() {
-		boolean robotsAreCreated = true;
-		if (robots == null) {
-			robotsAreCreated = false;
-		} else {
-			for (Robot robot : robots) {
-				if (robot == null) {
-					robotsAreCreated = false;
-					break;
-				}
-			}
-		}
-		if (!robotsAreCreated) {
-			throw new IllegalStateException("Robots are not created");
-		}
-		return true;
 	}
 
 	@Override
 	public Robot getWinner() {
 		return this.winner;
 	}
-
 }

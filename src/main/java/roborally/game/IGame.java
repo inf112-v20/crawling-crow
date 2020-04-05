@@ -36,8 +36,6 @@ public interface IGame {
 
     ArrayList<Robot> getRobots();
 
-    boolean isRunning();
-
     GameOptions getGameOptions();
 
     ProgramCardsView dealCards();

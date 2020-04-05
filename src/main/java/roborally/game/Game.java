@@ -21,8 +21,6 @@ import roborally.utilities.SettingsUtil;
 import java.util.ArrayList;
 
 public class Game implements IGame {
-	private final boolean DEBUG = true;
-
 	//region Game Objects
 	private IGameBoard gameBoard;
 	private ILayers layers;
@@ -35,7 +33,6 @@ public class Game implements IGame {
 	//endregion
 
 	//private Robot winner;
-	private boolean gameRunning = false;
 	private int currentRobotID;
 	private Events events;
 	private GameOptions gameOptions;
@@ -86,11 +83,9 @@ public class Game implements IGame {
 	//region Robots
 	@Override
 	public Robot getFirstRobot() {
-
 		if (this.currentRobotID == robots.size()) {
 			this.currentRobotID = 0;
 		}
-
 		events.checkForDestroyedRobots(this.robots);
 		userRobot.backToArchiveMarker();
 		return userRobot;
@@ -118,13 +113,6 @@ public class Game implements IGame {
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
 		userRobot = robots.get(0);
 	}
-	//region Rounds
-	//endregion
-
-	@Override
-	public boolean isRunning() {
-		return gameRunning;
-	}
 
 	@Override
 	public GameOptions getGameOptions() {
@@ -149,7 +137,6 @@ public class Game implements IGame {
 				aliveRobots.add(robot);
 		}
 		setRobots(aliveRobots);
-
 		returnToMenuIfOnlyOneRobotLeft();
 	}
 
@@ -163,22 +150,15 @@ public class Game implements IGame {
 	//region Cards
 	@Override
 	public ProgramCardsView dealCards() {
-		//TODO Refactor for readability
 		if (funMode)
 			removeDeadRobots();
-
 		deckOfProgramCards.shuffleCards();
-
 		for (Robot currentRobot : getRobots()) {
 			deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
-
-
 			if (!currentRobot.equals(userRobot)) {
 				currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
-
-		// FIXME: Should this actually be done for all robots in the end?
 		return makeProgramCardsView(userRobot);
 	}
 
@@ -189,7 +169,6 @@ public class Game implements IGame {
 		}
 		return programCardsView;
 	}
-
 	//endregion
 
 	@Override
@@ -211,22 +190,13 @@ public class Game implements IGame {
 	public void endGame() {
 		Robot winner = round.getPhase().getWinner();
 		System.out.println(winner);
-        /*if (winner == null){
-            System.out.println("Did not find a winner...");
-            return;
-        }*/
-
-		assert (gameRunning);
-		if (DEBUG) {
-			System.out.println("Stopping game...");
-		}
+		System.out.println("Stopping game...");
 		events.setWaitMoveEvent(false);
 		for (Robot robot : robots) {
 			layers.setRobotTexture(robot.getPosition(), null);
 			events.removeFromUI(robot);
 		}
 		robots.clear();
-		gameRunning = false;
 		gameOptions.enterMenu(true);
 	}
 
@@ -242,27 +212,23 @@ public class Game implements IGame {
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
-		// TODO: Move to Round and Phase
-		if (dt >= gameSpeed) {
+		float deltaTime = dt;
+		if (deltaTime >= gameSpeed) {
 			getRound().getPhase().playNextRegisterCard();
-			dt = 0f;
+			deltaTime = 0f;
 			this.robotPlayedCounter++;
 		}
-
 		if (this.robotPlayedCounter == getRobots().size()) {
 			getRound().getPhase().run(getLayers());
 			this.currentPhaseIndex++;
 			this.robotPlayedCounter = 0;
 		}
-
-		// If last phase
 		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
-			dt = 0f;
 			this.currentPhaseIndex = 0;
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
 		}
-		return dt;
+		return deltaTime;
 	}
 
 	private boolean isNotInGraveyard(Robot robot) {
