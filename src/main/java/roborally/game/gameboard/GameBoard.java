@@ -4,49 +4,75 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.Flag;
 import roborally.game.gameboard.objects.IFlag;
-import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.Grid;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class GameBoard implements IGameBoard {
+	// TODO: Ref the TODO on bottom
+	private Grid grid;
+	private boolean pushers;
 
-    private HashMap<TileName, Integer> flagIdMap;
+	public GameBoard(String mapPath) {
+		this.grid = new Grid("/" + mapPath);
+		if (grid.getGridLayer(LayerName.PUSHERS) != null)
+			pushers = true;
+	}
 
-    // TODO: Ref the TODO on bottom
-    private Grid grid;
+	@Override
+	public ArrayList<IFlag> findAllFlags() {
+		ArrayList<IFlag> flags = new ArrayList<>();
+		ArrayList<TileName> flagNames = new ArrayList<>();
+		HashMap<TileName, GridPoint2> map = new HashMap<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.FLAG).keySet()) {
+			TileName tileName = grid.findTileName(LayerName.FLAG, tilePos);
+			map.put(tileName, tilePos);
+			flagNames.add(tileName);
+		}
+		flagNames.sort(Comparator.comparing(TileName::toString));
+		for (int i = 1; i < flagNames.size() + 1; i++)
+			flags.add(new Flag(i, map.get(flagNames.get(i - 1))));
+		return flags;
+	}
 
-    public GameBoard(String mapPath) {
-        this.flagIdMap = new HashMap<>();
-        this.flagIdMap.put(TileName.FLAG_1, 1);
-        this.flagIdMap.put(TileName.FLAG_2, 2);
-        this.flagIdMap.put(TileName.FLAG_3, 3);
-        this.flagIdMap.put(TileName.FLAG_4, 4);
-        this.grid = new Grid("/" + mapPath);
-    }
+	@Override
+	public ArrayList<BoardObject> findAllRepairSites() {
+		ArrayList<BoardObject> repairSites = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.WRENCH).keySet())
+			repairSites.add(new BoardObject(grid.findTileName(LayerName.WRENCH, tilePos), tilePos));
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.WRENCH_HAMMER).keySet())
+			repairSites.add(new BoardObject(grid.findTileName(LayerName.WRENCH_HAMMER, tilePos), tilePos));
+		return repairSites;
+	}
 
-    @Override
-    public ArrayList<IFlag> findAllFlags() {
-        ArrayList<IFlag> flags = new ArrayList<>();
-        for(GridPoint2 tilePos : grid.getGridLayer(LayerName.FLAG).keySet()) {
-            int id = flagIdMap.get(grid.getGridLayer(LayerName.FLAG).get(tilePos));
-            flags.add(new Flag(id, tilePos));
-        }
-        return flags;
-    }
+	@Override
+	public List<List<TileName>> addPushers() {
+		List<List<TileName>> pusherList = new ArrayList<>();
+		for (int i = 0; i < 6; i++)
+			pusherList.add(new ArrayList<>());
+		for (GridPoint2 pos : grid.getGridLayer(LayerName.PUSHERS).keySet()) {
+			TileName pusher = grid.findTileName(LayerName.PUSHERS, pos);
+			fillPusherList(pusher, pusherList);
+		}
+		return pusherList;
+	}
 
-    @Override
-    public ArrayList<BoardObject> findAllRepairSites() {
-        ArrayList<BoardObject> repairSites = new ArrayList<>();
-        for(GridPoint2 tilePos : grid.getGridLayer(LayerName.WRENCH).keySet())
-            repairSites.add(new BoardObject(grid.findTileName(LayerName.WRENCH, tilePos), tilePos));
-        for(GridPoint2 tilePos : grid.getGridLayer(LayerName.WRENCH_HAMMER).keySet())
-            repairSites.add(new BoardObject(grid.findTileName(LayerName.WRENCH_HAMMER, tilePos), tilePos));
-        return repairSites;
-    }
+	private void fillPusherList(TileName tileName, List<List<TileName>> pusherList) {
+		String[] strings = tileName.toString().split("_");
+		for (String string : strings) {
+			if (string.length() == 1)
+				pusherList.get(Integer.parseInt(string)).add(tileName);
+		}
+	}
 
-    // TODO : find conveyorbelts, cogs, archive markers etc.
+	public boolean hasPushers() {
+		return this.pushers;
+	}
+
+	// TODO : find conveyorbelts, cogs, archive markers etc.
 }

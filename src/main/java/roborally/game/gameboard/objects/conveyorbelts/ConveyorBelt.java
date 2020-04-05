@@ -48,11 +48,11 @@ public class ConveyorBelt {
 		listOfRobotsOnBelts.get(2).sort(Comparator.comparing(Robot::getPositionX));
 		listOfRobotsOnBelts.get(3).sort(Comparator.comparing(Robot::getPositionY));
 		Queue<GridPoint2> validPositions = new LinkedList<>();
-		List<Direction> enums = Arrays.asList(Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH);
+		List<Direction> dir = Arrays.asList(Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH);
 		int index = 0;
 		for (List<Robot> listOfRobotsOnOneBelt : listOfRobotsOnBelts) {
 			for (Robot currentRobot : listOfRobotsOnOneBelt) {
-				validPositions.add(currentRobot.getPosition().cpy().add(enums.get(index).getStep()));
+				validPositions.add(currentRobot.getPosition().cpy().add(dir.get(index).getStep()));
 			}
 			index++;
 		}
@@ -60,7 +60,7 @@ public class ConveyorBelt {
 		GridPoint2 validPos;
 		GridPoint2 step;
 		for (int beltIndex = 0; beltIndex < listOfRobotsOnBelts.size(); beltIndex++) {
-			step = enums.get(beltIndex).getStep();
+			step = dir.get(beltIndex).getStep();
 			for (Robot robot : listOfRobotsOnBelts.get(beltIndex)) {
 				if (validPositions.isEmpty())
 					break;
