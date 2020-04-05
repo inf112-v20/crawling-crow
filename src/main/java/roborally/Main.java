@@ -2,7 +2,7 @@ package roborally;
 
 import com.badlogic.gdx.Files;
 import roborally.utilities.SettingsUtil;
-import roborally.ui.gdx.UI;
+import roborally.ui.UI;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 

@@ -6,46 +6,50 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
-import roborally.ui.gdx.UI;
+import roborally.ui.UI;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
 
 public class RobotView implements IRobotView {
 
-    private TiledMapTileLayer.Cell robotWonCellTexture;
-    private TiledMapTileLayer.Cell robotLostCellTexture;
+    private TiledMapTileLayer.Cell robotVictoryCellTexture;
+    private TiledMapTileLayer.Cell robotDamageTakenCellTexture;
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotDefaultCellTexture;
     private ILayers layers;
     private GridPoint2 pos;
     private int height;
     private int width;
+    private  boolean virtualMode;
+    private Direction virtualDirection;
 
     public RobotView(GridPoint2 pos) {
         this.pos = pos;
         this.layers = new Layers();
         this.height = layers.getHeight();
         this.width = layers.getWidth();
+        this.virtualDirection = Direction.NORTH;
     }
 
     @Override
-    public void setWinTexture(GridPoint2 pos) {
-        if (this.robotWonCellTexture == null) {
-            this.robotWonCellTexture = new TiledMapTileLayer.Cell();
-            this.robotWonCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
+    public void setVictoryTexture(GridPoint2 pos) {
+        if (this.robotVictoryCellTexture == null) {
+            this.robotVictoryCellTexture = new TiledMapTileLayer.Cell();
+            this.robotVictoryCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
-        layers.setRobotTexture(pos, this.robotWonCellTexture);
+        layers.setRobotTexture(pos, this.robotVictoryCellTexture);
 
     }
 
     @Override
-    public void setLostTexture(GridPoint2 pos) {
-        if (this.robotLostCellTexture == null) {
-            this.robotLostCellTexture = new TiledMapTileLayer.Cell();
-            this.robotLostCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
+    public void setDamageTakenTexture(GridPoint2 pos) {
+        if (this.robotDamageTakenCellTexture == null) {
+            this.robotDamageTakenCellTexture = new TiledMapTileLayer.Cell();
+            this.robotDamageTakenCellTexture.setTile(new StaticTiledMapTile(this.robotTextureRegion[0][1]));
         }
-        if(layers.assertRobotNotNull(pos)) {
-            layers.setRobotTexture(pos, this.robotLostCellTexture);
+        if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode) {
+            layers.setRobotTexture(pos, this.robotDamageTakenCellTexture);
         }
     }
 
@@ -70,34 +74,43 @@ public class RobotView implements IRobotView {
     }
 
     @Override
-    public boolean moveRobot(GridPoint2 oldPos, GridPoint2 step) {
+    public boolean canMoveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
-        if (isPositionOnMap(newPos)) {
+        if(isRobotInGraveyard(oldPos))
+            return false;
+        else if(!isRobotInGraveyard(newPos))
             layers.setRobotTexture(newPos, getTexture());
+        if(!virtualMode)
             layers.setRobotTexture(oldPos, null);
-            return true;
+        else { // Moves out of virtual mode
+            virtualMode = false;
+            this.setDirection(newPos, virtualDirection);
+            this.virtualDirection = Direction.NORTH;
         }
-        return false;
+        return true;
     }
 
-    private boolean isPositionOnMap(GridPoint2 pos){
-        return pos.x >= 0 && pos.y >= 0 && pos.y < height && pos.x < width;
+    public boolean isRobotInGraveyard(GridPoint2 pos){
+        return pos.x < 0 || pos.y < 0 || pos.y >= height || pos.x >= width;
     }
 
     @Override
-    public void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint) {
-        if (!pos.equals(checkPoint)) {
+    public void goToArchiveMarker(GridPoint2 pos, GridPoint2 archiveMarker) {
+        if (!pos.equals(archiveMarker))
             layers.setRobotTexture(pos, null);
-            if(!layers.assertRobotNotNull(pos)) { // Else starts the round virtual.
-                layers.setRobotTexture(checkPoint, getTexture());
-                layers.getRobotTexture(checkPoint).setRotation(0);
-            }
+        if (!layers.layerNotNull(LayerName.ROBOT, archiveMarker)) {
+            layers.setRobotTexture(archiveMarker, getTexture());
+            layers.getRobotTexture(archiveMarker).setRotation(0);
         }
+        else // There's a robot on the archiveMarker already, this robot enters virtual mode.
+            virtualMode = true;
     }
 
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
-        if (layers.assertRobotNotNull(pos))
-            layers.getRobotTexture(pos).setRotation(direction.getDirectionID());
+        if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode)
+            layers.getRobotTexture(pos).setRotation(direction.getID());
+        else if(virtualMode) // Stores the new direction instead of updating it.
+            virtualDirection = direction;
     }
 }

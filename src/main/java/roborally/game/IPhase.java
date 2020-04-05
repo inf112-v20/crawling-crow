@@ -1,6 +1,6 @@
 package roborally.game;
 
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 
 public interface IPhase {
@@ -9,8 +9,8 @@ public interface IPhase {
     void moveAllConveyorBelts(ILayers layers);
     void moveCogs(ILayers layers);
     void fireLasers();
-    void updateCheckPoints();
-    void registerFlagPositions();
+    void registerRepairSitePositionsAndUpdateArchiveMarker();
+    void registerFlagPositionsAndUpdateArchiveMarker();
     boolean checkForWinner();
     void run(ILayers layers);
     Robot getWinner();

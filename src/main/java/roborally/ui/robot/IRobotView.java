@@ -11,14 +11,14 @@ public interface IRobotView {
      *
      * @param pos the position
      */
-    void setWinTexture(GridPoint2 pos);
+    void setVictoryTexture(GridPoint2 pos);
 
     /**
      * Creates new damageTaken/robotDestroyed texture at position.
      *
      * @param pos the position
      */
-    void setLostTexture(GridPoint2 pos);
+    void setDamageTakenTexture(GridPoint2 pos);
 
     /**
      * @return The normal robot texture.
@@ -32,7 +32,7 @@ public interface IRobotView {
      * @param step how the robots wants to move relative to itself
      * @return True if its made its move else false if its on the edge of the map.
      */
-    boolean moveRobot(GridPoint2 oldPos, GridPoint2 step);
+    boolean canMoveRobot(GridPoint2 oldPos, GridPoint2 step);
 
     /**
      * @param pos       the Position
@@ -40,7 +40,7 @@ public interface IRobotView {
      */
     void setDirection(GridPoint2 pos, Direction direction);
 
-    void goToCheckPoint(GridPoint2 pos, GridPoint2 checkPoint);
+    void goToArchiveMarker(GridPoint2 pos, GridPoint2 archiveMarker);
 
     TextureRegion[][] getTextureRegion();
 
@@ -50,4 +50,6 @@ public interface IRobotView {
      * @param robotID The id of the position of the cell texture
      */
     void setTextureRegion(int robotID);
+
+    boolean isRobotInGraveyard(GridPoint2 pos);
 }

@@ -1,8 +1,8 @@
 package roborally.game;
 
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
-import roborally.ui.gdx.ProgramCardsView;
+import roborally.ui.ProgramCardsView;
 
 import java.util.ArrayList;
 
@@ -36,11 +36,9 @@ public interface IGame {
 
     ArrayList<Robot> getRobots();
 
-    boolean isRunning();
-
     GameOptions getGameOptions();
 
-    ProgramCardsView getCards();
+    ProgramCardsView dealCards();
 
     void shuffleTheRobotsCards(int[] order);
 
@@ -51,4 +49,6 @@ public interface IGame {
     void exitGame();
 
     IRound getRound();
+
+    float continueGameLoop(float dt, double gameSpeed);
 }

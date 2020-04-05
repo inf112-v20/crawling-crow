@@ -7,13 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.objects.robot.Robot;
+import roborally.utilities.enums.LayerName;
 
 import java.util.*;
 
 public class AssetManagerUtil {
-    public static float volume = 1;
-    public static int manyRobots = 0;
     public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
@@ -35,7 +34,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("maps/newmap.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> LISES_MAP
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
-
     //Other
     private static final AssetDescriptor<Texture> MENU
             = new AssetDescriptor<>("menu/new-menu.png", Texture.class);
@@ -57,7 +55,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("cards/new/move3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
             = new AssetDescriptor<>("cards/new/u-turn.png", Texture.class);
-
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
@@ -75,9 +72,10 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
+    public static float volume = 1;
+    public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
-    private static HashMap<String, TiledMapTileLayer> layers;
     private static Stack<String> robotNames;
 
     public static void load() {
@@ -123,10 +121,14 @@ public class AssetManagerUtil {
     public static Texture getMenu() {
         return manager.get(MENU);
     }
+
     public static Texture getButtons() {
         return manager.get(BUTTONS);
     }
-    public static Texture getMapButton() {return manager.get(MAP_BUTTON);}
+
+    public static Texture getMapButton() {
+        return manager.get(MAP_BUTTON);
+    }
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {
@@ -149,7 +151,9 @@ public class AssetManagerUtil {
     }
 
     /**
-     * Returns the robotTexture in position i, in chronological order
+     * Getter for robot texture-
+     * @param i Integer defining which robot texture to get.
+     * @return the robot texture at position i.
      */
     public static Texture getRobotTexture(int i) {
         Texture[] robotTexture = new Texture[8];
@@ -178,15 +182,10 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
-    /**
-     * Returns a HashMap with the layers of the current TiledMap.
-     */
-    public static HashMap<String, TiledMapTileLayer> getLoadedLayers() {
-
+    public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
         ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
-        layers = readAndWriteLayers.createLayers(getLoadedMap());
 
-        return layers;
+        return readAndWriteLayers.createLayers(getLoadedMap());
     }
 
     public static TiledMapTileSets getTileSets() {
@@ -198,7 +197,9 @@ public class AssetManagerUtil {
     }
 
     /**
-     * Sets the robots array to be something different for other game modes
+     * Sets the robots array to be something different for other game modes.
+     *
+     * @param robots ArrayList of the robots that the current state of the game consists of.
      */
     public static void setRobots(ArrayList<Robot> robots) {
         AssetManagerUtil.robots = robots;
@@ -207,21 +208,32 @@ public class AssetManagerUtil {
     // Default names for the robots
     public static void makeRobotNames() {
         robotNames = new Stack<>();
-        robotNames.add("Yellow" + manyRobots);
-        robotNames.add("Red" + manyRobots);
-        robotNames.add("Purple" + manyRobots);
-        robotNames.add("Pink" + manyRobots);
-        robotNames.add("Orange" + manyRobots);
-        robotNames.add("Green" + manyRobots);
-        robotNames.add("Blue" + manyRobots);
-        robotNames.add("Angry" + manyRobots);
+        if (numberOfRobotCopies != 0) {
+            robotNames.add("Yellow no. " + numberOfRobotCopies);
+            robotNames.add("Red no. " + numberOfRobotCopies);
+            robotNames.add("Purple no. " + numberOfRobotCopies);
+            robotNames.add("Pink no. " + numberOfRobotCopies);
+            robotNames.add("Orange no. " + numberOfRobotCopies);
+            robotNames.add("Green no. " + numberOfRobotCopies);
+            robotNames.add("Blue no. " + numberOfRobotCopies);
+            robotNames.add("Angry no. " + numberOfRobotCopies);
+        } else {
+            robotNames.add("Yellow");
+            robotNames.add("Red");
+            robotNames.add("Purple");
+            robotNames.add("Pink");
+            robotNames.add("Orange");
+            robotNames.add("Green");
+            robotNames.add("Blue");
+            robotNames.add("Angry");
+        }
     }
 
     public static String getRobotName() {
         if (robotNames == null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
-            manyRobots++;
+            numberOfRobotCopies++;
         }
         return robotNames.pop();
     }

@@ -2,7 +2,9 @@ package roborally.ui;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
+import org.jetbrains.annotations.NotNull;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
 
@@ -11,276 +13,64 @@ import java.util.HashMap;
 // Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
     private TiledTranslator tiledTranslator;
-    private HashMap<String, TiledMapTileLayer> layers;
+    private HashMap<LayerName, TiledMapTileLayer> layers;
 
     public Layers() {
         tiledTranslator = new TiledTranslator();
         layers = new HashMap<>(AssetManagerUtil.getLoadedLayers());
     }
 
-
-    public boolean isLoaded() {
-        return !layers.isEmpty();
-    }
-
-
-    public boolean contains(String key) {
-        return layers.containsKey(key);
-    }
-
-    // Robots
-
-    public TiledMapTileLayer getRobots() {
-        return layers.get("Robot");
-    }
-
-    public TiledMapTileLayer.Cell getRobotTexture(GridPoint2 pos) {
-        return layers.get("Robot").getCell(pos.x, pos.y);
-    }
-
-    public void setRobotTexture(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
-        layers.get("Robot").setCell(pos.x, pos.y, cell);
-    }
-
-    public boolean assertRobotNotNull(GridPoint2 pos) {
-        if (contains("Robot"))
-            return layers.get("Robot").getCell(pos.x, pos.y) != null;
-        System.out.println("Robot layer does not exist");
-        return false;
-    }
-
-    // Walls
-
-    public TiledMapTileLayer getWall() {
-        return layers.get("Wall");
-    }
-
-
-    public TiledMapTileLayer.Cell getWallCell(GridPoint2 pos) {
-        if (!contains("Wall"))
-            return null;
-        return layers.get("Wall").getCell(pos.x, pos.y);
-    }
-
-
-    public boolean assertWallNotNull(GridPoint2 pos) {
-        if (contains("Wall"))
-            return layers.get("Wall").getCell(pos.x, pos.y) != null;
-        System.out.println("Wall layer does not exist");
-        return false;
-    }
-
-
-    public int getWallID(GridPoint2 pos) {
-        if (contains("Wall"))
-            return layers.get("Wall").getCell(pos.x, pos.y).getTile().getId();
-        else
-            System.out.println("Wall layer does not exist");
-        return -1;
-    }
-
-    // Floor
-
-    public TiledMapTileLayer getFloor() {
-        return layers.get("Floor");
-    }
-
-
-    public boolean assertFloorNotNull(GridPoint2 pos) {
-        if (contains("Floor"))
-            return layers.get("Floor").getCell(pos.x, pos.y) != null;
-        System.out.println("Floor layer does not exist");
-        return false;
-    }
-
-
+    @Override
     public int getWidth() {
-        return layers.get("Floor").getWidth();
+        return layers.get(LayerName.FLOOR).getWidth();
     }
 
-
+    @Override
     public int getHeight() {
-        return layers.get("Floor").getHeight();
+        return layers.get(LayerName.FLOOR).getHeight();
     }
 
-    // Holes
-
-    public TiledMapTileLayer getHole() {
-        return layers.get("Hole");
+    @Override
+    public TiledMapTileLayer getLayer(LayerName layerName) {
+        return layers.get(layerName);
     }
 
-
-    public boolean assertHoleNotNull(GridPoint2 pos) {
-        if (contains("Hole"))
-            return layers.get("Hole").getCell(pos.x, pos.y) != null;
-        System.out.println("Hole layer does not exist");
-        return false;
+    @Override
+    public TileName getTileName(LayerName layerName, @NotNull GridPoint2 position) {
+        return tiledTranslator.getTileName(getLayer(layerName).getCell(position.x, position.y).getTile().getId());
     }
 
-    // Flags
-
-    public TiledMapTileLayer getFlag() {
-        return layers.get("Flag");
-    }
-
-
-    public boolean assertFlagNotNull(GridPoint2 pos) {
-        if (contains("Flag"))
-            return layers.get("Flag").getCell(pos.x, pos.y) != null;
-        System.out.println("Flag layer does not exist");
-        return false;
-    }
-
-
-    public int getFlagID(GridPoint2 pos) {
-        if (contains("Flag"))
-            return layers.get("Flag").getCell(pos.x, pos.y).getTile().getId();
-        else
-            System.out.println("Flag layer does not exist");
+    @Override
+    public int getLayerID(LayerName layerName, GridPoint2 position) {
+        if (layerNotNull(layerName, position))
+            return layers.get(layerName).getCell(position.x, position.y).getTile().getId();
         return -1;
     }
 
-    // Start positions
-
-    public TiledMapTileLayer getStartPos() {
-        return layers.get("startPositions");
-    }
-
-
-    public boolean assertStartPosNotNull(GridPoint2 pos) {
-        if (contains("startPositions"))
-            return layers.get("startPositions").getCell(pos.x, pos.y) != null;
-        System.out.println("startPositions does not exist");
+    @Override
+    public boolean layerNotNull(LayerName layerName, GridPoint2 position) {
+        if (layers.containsKey(layerName))
+            return layers.get(layerName).getCell(position.x, position.y) != null;
+        System.out.println("'" + layerName + "'-layer does not exist");
         return false;
     }
 
-    // Conveyor belts
-
-    public TiledMapTileLayer getConveyorSlow() {
-        return layers.get("slowConveyorBelt");
+    @Override
+    public void setLayerCell(LayerName layerName, GridPoint2 position, TiledMapTileLayer.Cell cell) {
+        if (layers.containsKey(layerName)) {
+            layers.get(layerName).setCell(position.x, position.y, cell);
+        } else {
+            System.out.println("'" + layerName + "'-layer does not exist");
+        }
     }
 
-
-    public boolean assertConveyorSlowNotNull(GridPoint2 pos) {
-        if (contains("slowConveyorBelt"))
-            return layers.get("slowConveyorBelt").getCell(pos.x, pos.y) != null;
-        System.out.println("slowConveyorBelt does not exist");
-        return false;
+    @Override
+    public TiledMapTileLayer.Cell getRobotTexture(@NotNull GridPoint2 pos) {
+        return layers.get(LayerName.ROBOT).getCell(pos.x, pos.y);
     }
 
-
-    public TileName getConveyorSlowTileName(GridPoint2 pos) {
-        return tiledTranslator.getTileName(layers.get("slowConveyorBelt").getCell(pos.x, pos.y).getTile().getId());
-    }
-
-
-    public TiledMapTileLayer getConveyorFast() {
-        return layers.get("fastConveyorBelt");
-    }
-
-
-    public boolean assertConveyorFastNotNull(GridPoint2 pos) {
-        if (contains("fastConveyorBelt"))
-            return layers.get("fastConveyorBelt").getCell(pos.x, pos.y) != null;
-        System.out.println("fastConveyorBelt does not exist");
-        return false;
-    }
-
-
-    public TileName getConveyorFastTileName(GridPoint2 pos) {
-        return tiledTranslator.getTileName(layers.get("fastConveyorBelt").getCell(pos.x, pos.y).getTile().getId());
-    }
-
-    // Wrenches
-
-    public TiledMapTileLayer getWrench() {
-        return layers.get("Wrench");
-    }
-
-
-    public boolean assertWrenchNotNull(GridPoint2 pos) {
-        if (contains("Wrench"))
-            return layers.get("Wrench").getCell(pos.x, pos.y) != null;
-        System.out.println("Wrench layer does not exist");
-        return false;
-    }
-
-
-    public TiledMapTileLayer getWrenchHammer() {
-        return layers.get("wrenchHammer");
-    }
-
-    public boolean assertWrenchHammerNotNull(GridPoint2 pos) {
-        if (contains("wrenchHammer"))
-            return layers.get("wrenchHammer").getCell(pos.x, pos.y) != null;
-        System.out.println("wrenchHammer layer does not exist");
-        return false;
-    }
-
-    // Lasers
-
-    public TiledMapTileLayer getLaser() {
-        return layers.get("Laser");
-    }
-
-    public boolean assertLaserNotNull(GridPoint2 pos) {
-        if (contains("Laser"))
-            return layers.get("Laser").getCell(pos.x, pos.y) != null;
-        System.out.println("Laser layer does not exist");
-        return false;
-    }
-
-    public TiledMapTileLayer.Cell getLaserCell(GridPoint2 pos) {
-        if (!contains("Laser"))
-            return null;
-        return layers.get("Laser").getCell(pos.x, pos.y);
-    }
-
-    public void setLaserCell(GridPoint2 pos, TiledMapTileLayer.Cell cell) {
-        if (contains("Laser"))
-            layers.get("Laser").setCell(pos.x, pos.y, cell);
-        else
-            System.out.println("Laser layer does not exist");
-    }
-
-    public int getLaserID(GridPoint2 pos) {
-        if (contains("Laser"))
-            return layers.get("Laser").getCell(pos.x, pos.y).getTile().getId();
-        else
-            System.out.println("Laser layer does not exist");
-        return -1;
-    }
-
-    public int getLaserCannonID(GridPoint2 pos) {
-        if (contains("laserCannon"))
-            return layers.get("laserCannon").getCell(pos.x, pos.y).getTile().getId();
-        else
-            System.out.println("laserCannon layer does not exist");
-        return -1;
-    }
-
-    public boolean assertLaserCannonNotNull(GridPoint2 pos) {
-        if (contains("laserCannon"))
-            return layers.get("laserCannon").getCell(pos.x, pos.y) != null;
-        System.out.println("laserCannon layer does not exist");
-        return false;
-    }
-
-    // Gear
-
-    public boolean assertGearNotNull(GridPoint2 pos) {
-        return layers.get("Gear").getCell(pos.x, pos.y) != null;
-    }
-
-    public TileName getGearTileName(GridPoint2 pos) {
-        return tiledTranslator.getTileName(layers.get("Gear").getCell(pos.x, pos.y).getTile().getId());
-    }
-
-    public TiledMapTileLayer getBug() {
-        return layers.get("bug");
-    }
-
-    public boolean assertBugNotNull(GridPoint2 pos) {
-        return layers.get("bug").getCell(pos.x, pos.y) != null;
+    @Override
+    public void setRobotTexture(@NotNull GridPoint2 pos, TiledMapTileLayer.Cell cell) {
+        layers.get(LayerName.ROBOT).setCell(pos.x, pos.y, cell);
     }
 }

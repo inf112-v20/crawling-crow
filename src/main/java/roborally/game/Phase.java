@@ -2,237 +2,195 @@ package roborally.game;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.objects.gameboard.IFlag;
-import roborally.game.objects.robot.Robot;
+import roborally.game.gameboard.IGameBoard;
+import roborally.game.gameboard.objects.BoardObject;
+import roborally.game.gameboard.objects.IFlag;
+import roborally.game.gameboard.objects.conveyorbelts.ConveyorBelt;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
 import java.util.*;
 
+/**
+ * This class handles all the details of the game.
+ * Each phase consists of a number of events handled
+ * in {@link #run}, and robots play their card through
+ * the method {@link #playNextRegisterCard}, which is
+ * iterated through an actual timed event handled in
+ * {@link Events}.
+ */
+
 public class Phase implements IPhase {
+	private ArrayList<Robot> robots;
+	private Events events;
+	private Robot winner;
+	private ArrayList<IFlag> flags;
+	private ArrayList<BoardObject> repairSites;
+	private List<List<TileName>> pushers;
+	private Queue<Robot> robotQueue;
+	private ConveyorBelt conveyorBelt;
+	private boolean pusher;
+	private int phaseNumber;
 
-    private final boolean DEBUG = true;
+	public Phase(ArrayList<Robot> robots, IGameBoard gameBoard, Events events) {
+		this.robots = robots;
+		this.events = events;
+		this.flags = gameBoard.findAllFlags();
+		this.repairSites = gameBoard.findAllRepairSites();
+		if (gameBoard.hasPushers()) {
+			this.pushers = gameBoard.addPushers();
+			pusher = true;
+		}
+		this.robotQueue = new LinkedList<>();
+		this.conveyorBelt = new ConveyorBelt();
+		this.phaseNumber = 1;
+	}
 
-    private ArrayList<Robot> robots;
-    private Events events;
-    private Robot winner;
-    private ArrayList<IFlag> flags;
-    private Queue<Robot> robotQueue;
+	@Override
+	public void run(ILayers layers) {
+		moveAllConveyorBelts(layers);
+		if (pusher)
+			pushActivePushers(phaseNumber, layers);
+		moveCogs(layers);
+		fireLasers();
+		checkForLasers();
+		registerRepairSitePositionsAndUpdateArchiveMarker();
+		registerFlagPositionsAndUpdateArchiveMarker();
+		checkForWinner();
+		phaseNumber++;
+		if (phaseNumber == 6)
+			phaseNumber = 1;
+		System.out.println("\t- COMPLETED ONE PHASE");
+	}
 
+	private void pushActivePushers(int phaseNumber, ILayers layers) {
+		TileName tileName;
+		for (Robot robot : robots) {
+			if (layers.layerNotNull(LayerName.PUSHERS, robot.getPosition())) {
+				tileName = layers.getTileName(LayerName.PUSHERS, robot.getPosition());
+				if (pushers.get(phaseNumber).contains(tileName)) {
+					String[] splitted = tileName.toString().split("_");
+					Direction dir = Direction.valueOf(splitted[splitted.length - 1]);
+					robot.tryToMove(dir.getStep());
+				}
+			}
+		}
+	}
 
-    public Phase(ArrayList<Robot> robots, ArrayList<IFlag> flags, Events events) {
-        this.robots = robots;
-        this.events = events;
-        this.flags = flags;
-        this.robotQueue = new LinkedList<>();
-    }
+	@Override
+	public void revealProgramCards() {
+		//123
+	}
 
-    @Override
-    public void revealProgramCards() {
-        //123
-    }
+	@Override
+	public void playNextRegisterCard() {
+		if (robotQueue.isEmpty()) {
+			this.robots.sort(Comparator.comparing(Robot::peekNextCardInHand, Comparator.reverseOrder()));
+			robotQueue.addAll(robots);
+		}
+		Objects.requireNonNull(robotQueue.poll()).playNextCard();
+		events.checkForDestroyedRobots(this.robots);
+	}
 
-    @Override
-    public void playNextRegisterCard() {
-        if (robotQueue.isEmpty()) {
-            this.robots.sort(Comparator.comparing(Robot::peekNextCard));
-            robotQueue.addAll(robots);
-        }
-        Objects.requireNonNull(robotQueue.poll()).playNextCard();
-        events.checkForDestroyedRobots(this.robots);
-    }
+	@Override
+	public void moveAllConveyorBelts(ILayers layers) {
+		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
+		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
+		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
+		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR, robots);
+	}
 
-    @Override
-    public void moveAllConveyorBelts(ILayers layers) {
-        moveExpressConveyorBelts(layers);
-        moveExpressConveyorBelts(layers);
-        moveNormalConveyorBelts(layers);
-    }
+	@Override
+	public void moveCogs(ILayers layers) {
+		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
+		for (Robot robot : robots) {
+			GridPoint2 pos = robot.getPosition();
+			if (layers.layerNotNull(LayerName.COG, pos)) {
+				TileName tileName = layers.getTileName(LayerName.COG, pos);
+				if (tileName == TileName.COG_CLOCKWISE)
+					robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
+				else if (tileName == TileName.COG_COUNTER_CLOCKWISE)
+					robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
+			}
+		}
+	}
 
-    @Override
-    public void moveCogs(ILayers layers) {
-        for (Robot robot : robots) {
-            GridPoint2 pos = robot.getPosition();
-            if (layers.assertGearNotNull(pos)) {
-                TileName tileName = layers.getGearTileName(pos);
-                if (tileName == TileName.COG_CLOCKWISE)
-                    robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-                else if (tileName == TileName.COG_COUNTER_CLOCKWISE)
-                    robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
-            }
-        }
-    }
+	@Override
+	public void fireLasers() {
+		Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+		sound.play((float) 0.08 * AssetManagerUtil.volume);
+		for (Robot robot : robots) {
+			robot.fireLaser();
+			ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
+			if (!coords.isEmpty())
+				events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
+		}
+	}
 
-    @Override
-    public void fireLasers() {
-        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.08 * AssetManagerUtil.volume);
-        for (Robot robot : robots) {
-            robot.fireLaser();
-            ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
-            if (!coords.isEmpty())
-                events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
-        }
-    }
+	@Override
+	public void registerRepairSitePositionsAndUpdateArchiveMarker() {
+		System.out.println("\nChecking if any robots have arrived at a repair site...");
+		for (BoardObject repairSite : repairSites) {
+			for (Robot robot : robots) {
+				if (robot.getPosition().equals(repairSite.getPosition())) {
+					robot.getLogic().setArchiveMarker(repairSite.getPosition());
+					System.out.println("- Type of repair site: " + repairSite.getType().name());
+				}
+			}
+		}
+	}
 
-    @Override
-    public void updateCheckPoints() {
-        //123
-    }
+	@Override
+	public void registerFlagPositionsAndUpdateArchiveMarker() {
+		System.out.println("\nChecking if any robots have arrived at their next flag position...");
+		for (IFlag flag : flags) {
+			for (Robot robot : robots) {
+				if (robot.getLogic().getPosition().equals(flag.getPosition())) {
+					int nextFlag = robot.getLogic().getNextFlag();
+					if (flag.getID() == nextFlag) {
+						robot.visitNextFlag();
+						robot.getLogic().setArchiveMarker(flag.getPosition());
+						System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
+					}
+				}
+			}
+		}
+	}
 
-    @Override
-    public void registerFlagPositions() {
-        System.out.println("\nChecking if any robots have currently arrived at their next flag position...");
-        for (IFlag flag : flags) {
-            int flagX = flag.getPosition().x;
-            int flagY = flag.getPosition().y;
-            for (Robot robot : robots) {
-                int robotX = robot.getPosition().x;
-                int robotY = robot.getPosition().y;
-                if (flagX == robotX && flagY == robotY) {
-                    int nextFlag = robot.getNextFlag();
-                    if (flag.getID() == nextFlag) {
-                        robot.visitNextFlag();
-                        robot.getLogic().setCheckPoint(new GridPoint2(flagX, flagY));
-                        System.out.println("A flag has been visited");
-                    }
-                }
-            }
-        }
-    }
+	@Override
+	public boolean checkForWinner() {
+		System.out.println("\nChecking if someone won...");
+		boolean someoneWon = checkAllRobotsForWinner();
+		System.out.println("- Did someone win? " + someoneWon);
+		if (someoneWon)
+			System.out.println("- Found winner: " + winner.getName());
+		return someoneWon;
+	}
 
-    @Override
-    public boolean checkForWinner() {
-        //assert (gameRunning);
-        //assert (roundStep == RoundStep.PHASES);
-        //assert (phaseStep == PhaseStep.CHECK_FOR_WINNER);
-        if (DEBUG) System.out.println("\nChecking if someone won...");
+	private void checkForLasers() {
+		for (Robot robot : robots)
+			if (robot.checkForStationaryLaser()) {
+				robot.takeDamage(1);
+				System.out.println("- Hit by stationary laser");
+			}
+	}
 
-        boolean someoneWon = checkAllRobotsForWinner();
-        //if (someoneWon) {
-        //    endGame();
-        //}
+	private boolean checkAllRobotsForWinner() {
+		for (Robot robot : robots) {
+			if (robot.getLogic().hasVisitedAllFlags()) {
+				winner = robot;
+			}
+		}
+		return (winner != null);
+	}
 
-        if (DEBUG) System.out.println("Found winner: " + someoneWon);
-        return someoneWon;
-    }
-
-    private void checkForLasers() {
-        for (Robot robot : robots)
-            if (robot.checkForLaser())
-                robot.takeDamage(1);
-    }
-
-    @Override
-    public void run(ILayers layers) {
-        revealProgramCards();
-        //playNextRegisterForAllRobots();
-        moveAllConveyorBelts(layers);
-        moveCogs(layers);
-        fireLasers();
-        checkForLasers();
-        updateCheckPoints();
-        registerFlagPositions();
-        checkForWinner();
-    }
-
-    private void moveNormalConveyorBelts(ILayers layers) {
-        ArrayList<Robot> rotateRobots = new ArrayList<>();
-        for (Robot robot : robots) {
-            GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorSlowNotNull(pos)) {
-                TileName tileName = layers.getConveyorSlowTileName(pos);
-                // Move in a special way so that no collision happens.
-                System.out.println(robot.getName() + " is on " + tileName.toString());
-                if (tileName == TileName.CONVEYOR_RIGHT || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    robot.tryToMove(Direction.East.getStep());
-                else if (tileName == TileName.CONVEYOR_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    robot.tryToMove(Direction.North.getStep());
-                else if (tileName == TileName.CONVEYOR_LEFT || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    robot.tryToMove(Direction.South.getStep());
-                rotateRobots.add(robot);
-            }
-        }
-        rotateConveyorBelts(rotateRobots, layers);
-    }
-
-    private void moveExpressConveyorBelts(ILayers layers) {
-        ArrayList<Robot> rotateRobots = new ArrayList<>();
-        for (Robot robot : robots) {
-            GridPoint2 pos = robot.getPosition();
-            if (layers.assertConveyorFastNotNull(pos)) {
-                TileName tileName = layers.getConveyorFastTileName(pos);
-                // Move in a special way so that no collision happens.
-                if (tileName == TileName.CONVEYOR_EXPRESS_EAST || tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
-                    robot.tryToMove(Direction.East.getStep());
-                else if (tileName == TileName.CONVEYOR_EXPRESS_NORTH || tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))
-                    robot.tryToMove(Direction.North.getStep());
-                else if (tileName == TileName.CONVEYOR_EXPRESS_WEST || tileName.toString().contains("TO_WEST") || tileName.toString().contains("JOIN_WEST"))
-                    robot.tryToMove(Direction.West.getStep());
-                else if (tileName == TileName.CONVEYOR_EXPRESS_SOUTH || tileName.toString().contains("TO_SOUTH") || tileName.toString().contains("JOIN_SOUTH"))
-                    robot.tryToMove(Direction.South.getStep());
-                rotateRobots.add(robot);
-            }
-        }
-        rotateConveyorBelts(rotateRobots, layers);
-    }
-
-    private void rotateConveyorBelts(ArrayList<Robot> rotateRobots, ILayers layers) {
-        TileName tileName;
-        if (rotateRobots.isEmpty())
-            return;
-        for (Robot robot : rotateRobots) {
-            if (layers.assertConveyorSlowNotNull(robot.getPosition()))
-                tileName = layers.getConveyorSlowTileName(robot.getPosition());
-            else if (layers.assertConveyorFastNotNull(robot.getPosition()))
-                tileName = layers.getConveyorFastTileName(robot.getPosition());
-            else
-                return;
-            if (tileName.toString().contains("COUNTER_CLOCKWISE"))
-                robot.rotate(Direction.turnLeftFrom(robot.getLogic().getDirection()));
-            else if (tileName.toString().contains("CLOCKWISE"))
-                robot.rotate(Direction.turnRightFrom(robot.getLogic().getDirection()));
-        }
-    }
-
-    private boolean checkAllRobotsForWinner() {
-        checkAllRobotsAreCreated();
-
-        for (Robot robot : robots) {
-            if (robot.hasVisitedAllFlags()) {
-                winner = robot;
-            }
-        }
-
-        return (winner != null);
-    }
-
-    private boolean checkAllRobotsAreCreated() {
-        boolean robotsAreCreated = true;
-        if (robots == null) {
-            robotsAreCreated = false;
-        } else {
-            for (Robot robot : robots) {
-                if (robot == null) {
-                    robotsAreCreated = false;
-                    break;
-                }
-            }
-        }
-        if (!robotsAreCreated) {
-            throw new IllegalStateException("Robots are not created");
-        }
-        return true;
-    }
-
-    @Override
-    public Robot getWinner() {
-        return this.winner;
-    }
-
+	@Override
+	public Robot getWinner() {
+		return this.winner;
+	}
 }
