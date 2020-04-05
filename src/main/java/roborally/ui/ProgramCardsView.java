@@ -14,6 +14,13 @@ import roborally.utilities.AssetManagerUtil;
 
 import java.util.ArrayList;
 
+/**
+ * This class creates images of the program cards.
+ * When initialized it adds listeners to the cards,
+ * updates the order the user chooses to arrange
+ * the cards and finally returns the chosen order
+ * once the played clicks the done button.
+ */
 public class ProgramCardsView {
     private int cardPick;
     private ArrayList<Group> groups;
