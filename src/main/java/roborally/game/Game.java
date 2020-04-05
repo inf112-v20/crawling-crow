@@ -5,10 +5,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
-import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.GameBoard;
-import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.IGameBoard;
+import roborally.game.gameboard.objects.BoardObject;
+import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
@@ -21,253 +21,251 @@ import roborally.utilities.SettingsUtil;
 import java.util.ArrayList;
 
 public class Game implements IGame {
-    private final boolean DEBUG = true;
+	private final boolean DEBUG = true;
 
-    //region Game Objects
-    private IGameBoard gameBoard;
-    private ILayers layers;
-    private ArrayList<Robot> robots;
-    private ArrayList<IFlag> flags;
-    private ArrayList<BoardObject> repairSites;
-    private IProgramCards deckOfProgramCards;
-    private LaserRegister laserRegister;
-    private Robot userRobot;
-    //endregion
+	//region Game Objects
+	private IGameBoard gameBoard;
+	private ILayers layers;
+	private ArrayList<Robot> robots;
+	private ArrayList<IFlag> flags;
+	private ArrayList<BoardObject> repairSites;
+	private IProgramCards deckOfProgramCards;
+	private LaserRegister laserRegister;
+	private Robot userRobot;
+	//endregion
 
-    //private Robot winner;
-    private boolean gameRunning = false;
-    private int currentRobotID;
-    private Events events;
-    private GameOptions gameOptions;
-    private IRound round;
+	//private Robot winner;
+	private boolean gameRunning = false;
+	private int currentRobotID;
+	private Events events;
+	private GameOptions gameOptions;
+	private IRound round;
 
-    private boolean funMode;
-    private int robotPlayedCounter;
-    private int currentPhaseIndex;
+	private boolean funMode;
+	private int robotPlayedCounter;
+	private int currentPhaseIndex;
 
-    //private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
+	//private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
 
-    public Game(Events events) {
-        currentRobotID = 0;
-        deckOfProgramCards = new ProgramCards();
-        this.events = events;
-        this.gameOptions = new GameOptions();
-    }
+	public Game(Events events) {
+		currentRobotID = 0;
+		deckOfProgramCards = new ProgramCards();
+		this.events = events;
+		this.gameOptions = new GameOptions();
+	}
 
-    @Override
-    public void startUp() {
-        this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
-        this.layers = new Layers();
-        this.laserRegister = new LaserRegister(layers);
-        this.flags = gameBoard.findAllFlags();
-        this.repairSites = gameBoard.findAllRepairSites();
-        this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
-        this.round = new Round(events, robots, flags, repairSites);
-        this.userRobot = robots.get(0);
-    }
+	@Override
+	public void startUp() {
+		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
+		this.layers = new Layers();
+		this.flags = gameBoard.findAllFlags();
+		this.laserRegister = new LaserRegister(layers);
+		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
+		this.round = new Round(events, robots, gameBoard);
+		this.userRobot = robots.get(0);
+	}
 
-    @Override
-    public void funMode() {
-        this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
-        this.layers = new Layers();
-        this.laserRegister = new LaserRegister(layers);
-        this.flags = gameBoard.findAllFlags();
-        this.repairSites = gameBoard.findAllRepairSites();
-        this.robots = gameOptions.funMode(layers, flags, laserRegister);
-        this.events.setGameSpeed("fastest");
-        this.round = new Round(events, robots, flags, repairSites);
-        this.funMode = true;
-        this.userRobot = robots.get(0);
-    }
+	@Override
+	public void funMode() {
+		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
+		this.layers = new Layers();
+		this.laserRegister = new LaserRegister(layers);
+		this.flags = gameBoard.findAllFlags();
+		this.robots = gameOptions.funMode(layers, flags, laserRegister);
+		this.events.setGameSpeed("fastest");
+		this.round = new Round(events, robots, gameBoard);
+		this.funMode = true;
+		this.userRobot = robots.get(0);
+	}
 
-    @Override
-    public ILayers getLayers() {
-        return this.layers;
-    }
+	@Override
+	public ILayers getLayers() {
+		return this.layers;
+	}
 
-    //region Robots
-    @Override
-    public Robot getFirstRobot() {
+	//region Robots
+	@Override
+	public Robot getFirstRobot() {
 
-        if (this.currentRobotID == robots.size()) {
-            this.currentRobotID = 0;
-        }
+		if (this.currentRobotID == robots.size()) {
+			this.currentRobotID = 0;
+		}
 
-        events.checkForDestroyedRobots(this.robots);
-        userRobot.backToArchiveMarker();
-        return userRobot;
-    }
+		events.checkForDestroyedRobots(this.robots);
+		userRobot.backToArchiveMarker();
+		return userRobot;
+	}
 
-    @Override
-    public ArrayList<Robot> getRobots() {
-        return this.robots;
-    }
+	@Override
+	public ArrayList<Robot> getRobots() {
+		return this.robots;
+	}
 
-    private void setRobots(ArrayList<Robot> newRobots) {
-        this.robots = newRobots;
-        round = new Round(events, robots, flags, repairSites);
-    }
-    //endregion
+	private void setRobots(ArrayList<Robot> newRobots) {
+		this.robots = newRobots;
+		round = new Round(events, robots, gameBoard);
+	}
+	//endregion
 
-    @Override
-    public void restartGame() {
-        if(events.hasWaitEvent())
-            return;
-        System.out.println("Restarting game...");
-        for (Robot robot : robots) {
-            events.removeFromUI(robot);
-        }
-        setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
-        userRobot = robots.get(0);
-    }
-    //region Rounds
-    //endregion
+	@Override
+	public void restartGame() {
+		if (events.hasWaitEvent())
+			return;
+		System.out.println("Restarting game...");
+		for (Robot robot : robots) {
+			events.removeFromUI(robot);
+		}
+		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
+		userRobot = robots.get(0);
+	}
+	//region Rounds
+	//endregion
 
-    @Override
-    public boolean isRunning() {
-        return gameRunning;
-    }
+	@Override
+	public boolean isRunning() {
+		return gameRunning;
+	}
 
-    @Override
-    public GameOptions getGameOptions() {
-        return this.gameOptions;
-    }
+	@Override
+	public GameOptions getGameOptions() {
+		return this.gameOptions;
+	}
 
-    @Override
-    public void manuallyFireOneLaser() {
-        // This method is only for bugtesting...
-        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
-        sound.play((float) 0.08 * AssetManagerUtil.volume);
-        userRobot.fireLaser();
-        ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();
-        if (!coords.isEmpty())
-            events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
-    }
+	@Override
+	public void manuallyFireOneLaser() {
+		// This method is only for bugtesting...
+		Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+		sound.play((float) 0.08 * AssetManagerUtil.volume);
+		userRobot.fireLaser();
+		ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();
+		if (!coords.isEmpty())
+			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
+	}
 
-    private void removeDeadRobots() {
-        ArrayList<Robot> aliveRobots = new ArrayList<>();
-        for (Robot robot : getRobots()) {
-            if (isNotInGraveyard(robot))
-                aliveRobots.add(robot);
-        }
-        setRobots(aliveRobots);
+	private void removeDeadRobots() {
+		ArrayList<Robot> aliveRobots = new ArrayList<>();
+		for (Robot robot : getRobots()) {
+			if (isNotInGraveyard(robot))
+				aliveRobots.add(robot);
+		}
+		setRobots(aliveRobots);
 
-        returnToMenuIfOnlyOneRobotLeft();
-    }
+		returnToMenuIfOnlyOneRobotLeft();
+	}
 
-    private void returnToMenuIfOnlyOneRobotLeft() {
-        if (getRobots().size() < 2) {
-            System.out.println("Entering menu");
-            gameOptions.enterMenu();
-        }
-    }
+	private void returnToMenuIfOnlyOneRobotLeft() {
+		if (getRobots().size() < 2) {
+			System.out.println("Entering menu");
+			gameOptions.enterMenu();
+		}
+	}
 
-    //region Cards
-    @Override
-    public ProgramCardsView dealCards() {
-        //TODO Refactor for readability
-        if (funMode)
-            removeDeadRobots();
+	//region Cards
+	@Override
+	public ProgramCardsView dealCards() {
+		//TODO Refactor for readability
+		if (funMode)
+			removeDeadRobots();
 
-        deckOfProgramCards.shuffleCards();
+		deckOfProgramCards.shuffleCards();
 
-        for (Robot currentRobot : getRobots()) {
-            deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
+		for (Robot currentRobot : getRobots()) {
+			deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
 
 
-            if (!currentRobot.equals(userRobot)) {
-                currentRobot.getLogic().autoArrangeCardsInHand();
-            }
-        }
+			if (!currentRobot.equals(userRobot)) {
+				currentRobot.getLogic().autoArrangeCardsInHand();
+			}
+		}
 
-        // FIXME: Should this actually be done for all robots in the end?
-        return makeProgramCardsView(userRobot);
-    }
+		// FIXME: Should this actually be done for all robots in the end?
+		return makeProgramCardsView(userRobot);
+	}
 
-    private ProgramCardsView makeProgramCardsView(Robot robot) {
-        ProgramCardsView programCardsView = new ProgramCardsView();
-        for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
-            programCardsView.makeCard(card);
-        }
-        return programCardsView;
-    }
+	private ProgramCardsView makeProgramCardsView(Robot robot) {
+		ProgramCardsView programCardsView = new ProgramCardsView();
+		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
+			programCardsView.makeCard(card);
+		}
+		return programCardsView;
+	}
 
-    //endregion
+	//endregion
 
-    @Override
-    public void shuffleTheRobotsCards(int[] order) {
-        userRobot.getLogic().arrangeCardsInHand(order);
-        userRobot.getLogic().setHasSelectedCards(true);
-    }
+	@Override
+	public void shuffleTheRobotsCards(int[] order) {
+		userRobot.getLogic().arrangeCardsInHand(order);
+		userRobot.getLogic().setHasSelectedCards(true);
+	}
 
-    @Override
-    public boolean hasAllPlayersChosenCards() {
-        if(userRobot != null && userRobot.getLogic().isCardsSelected()) {
-                userRobot.getLogic().setHasSelectedCards(false);
-                return true;
-            }
-        return false;
-    }
+	@Override
+	public boolean hasAllPlayersChosenCards() {
+		if (userRobot != null && userRobot.getLogic().isCardsSelected()) {
+			userRobot.getLogic().setHasSelectedCards(false);
+			return true;
+		}
+		return false;
+	}
 
-    @Override
-    public void endGame() {
-        Robot winner = round.getPhase().getWinner();
-        System.out.println(winner);
+	@Override
+	public void endGame() {
+		Robot winner = round.getPhase().getWinner();
+		System.out.println(winner);
         /*if (winner == null){
             System.out.println("Did not find a winner...");
             return;
         }*/
 
-        assert (gameRunning);
-        if (DEBUG) {
-            System.out.println("Stopping game...");
-        }
-        events.setWaitMoveEvent(false);
-        for (Robot robot : robots) {
-            layers.setRobotTexture(robot.getPosition(), null);
-            events.removeFromUI(robot);
-        }
-        robots.clear();
-        gameRunning = false;
-        gameOptions.enterMenu(true);
-    }
+		assert (gameRunning);
+		if (DEBUG) {
+			System.out.println("Stopping game...");
+		}
+		events.setWaitMoveEvent(false);
+		for (Robot robot : robots) {
+			layers.setRobotTexture(robot.getPosition(), null);
+			events.removeFromUI(robot);
+		}
+		robots.clear();
+		gameRunning = false;
+		gameOptions.enterMenu(true);
+	}
 
-    @Override
-    public void exitGame() {
-        Gdx.app.exit();
-    }
+	@Override
+	public void exitGame() {
+		Gdx.app.exit();
+	}
 
-    @Override
-    public IRound getRound() {
-        return this.round;
-    }
+	@Override
+	public IRound getRound() {
+		return this.round;
+	}
 
-    @Override
-    public float continueGameLoop(float dt, double gameSpeed) {
-        // TODO: Move to Round and Phase
-        if (dt >= gameSpeed) {
-            getRound().getPhase().playNextRegisterCard();
-            dt = 0f;
-            this.robotPlayedCounter++;
-        }
+	@Override
+	public float continueGameLoop(float dt, double gameSpeed) {
+		// TODO: Move to Round and Phase
+		if (dt >= gameSpeed) {
+			getRound().getPhase().playNextRegisterCard();
+			dt = 0f;
+			this.robotPlayedCounter++;
+		}
 
-        if (this.robotPlayedCounter == getRobots().size()) {
-            getRound().getPhase().run(getLayers());
-            this.currentPhaseIndex++;
-            this.robotPlayedCounter = 0;
-        }
+		if (this.robotPlayedCounter == getRobots().size()) {
+			getRound().getPhase().run(getLayers());
+			this.currentPhaseIndex++;
+			this.robotPlayedCounter = 0;
+		}
 
-        // If last phase
-        if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
-            dt = 0f;
-            this.currentPhaseIndex = 0;
-            this.events.setWaitMoveEvent(false);
-            getRound().run(getLayers());
-        }
-        return dt;
-    }
+		// If last phase
+		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
+			dt = 0f;
+			this.currentPhaseIndex = 0;
+			this.events.setWaitMoveEvent(false);
+			getRound().run(getLayers());
+		}
+		return dt;
+	}
 
-    private boolean isNotInGraveyard(Robot robot) {
-        return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
-    }
+	private boolean isNotInGraveyard(Robot robot) {
+		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
+	}
 }
