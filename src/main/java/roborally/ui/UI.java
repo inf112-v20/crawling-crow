@@ -51,34 +51,21 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        // Prepare assets manager
         AssetManagerUtil.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
         AssetManagerUtil.manager.finishLoading();
-
-        // Initialize the uimap
         tiledMap = AssetManagerUtil.getMap(mapID);
-
-        // Start a new game
-        //boolean runAIGame = true;
-        //game = new Game(runAIGame);
         game = new Game(this.events);
-
-        // Setup controls for the game
         debugControls = new ControlsDebug(game);
-
-        // Initialize the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
-        // Initialize the map renderer
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
         menu = new Menu(stage, events);
-
         game.getGameOptions().enterMenu(true);
     }
 
@@ -109,8 +96,6 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        // FitViewport, to keep aspect ratio when scaling game window
-        // see @link{https://github.com/libgdx/libgdx/wiki/Viewports}
         stage.getViewport().update(width, height, true);
     }
 
@@ -146,9 +131,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             animateEvent.initiateCards(programCardsView, stage);
             return true;
         }
-        if (!game.isRunning()) {
-            debugControls.getAction(keycode).run();
-        }
+        debugControls.getAction(keycode).run();
 
         if (game.getGameOptions().getMenu()) {
             menu.reloadStage(stage);
