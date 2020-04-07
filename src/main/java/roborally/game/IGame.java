@@ -40,7 +40,6 @@ public interface IGame {
     Robot getFirstRobot();
 
     /**
-     *
      * @return a list of all robots
      */
     ArrayList<Robot> getRobots();
@@ -51,7 +50,6 @@ public interface IGame {
     void restartGame();
 
     /**
-     *
      * @return the gameoptions
      */
     GameOptions getGameOptions();
@@ -62,20 +60,16 @@ public interface IGame {
     void manuallyFireOneLaser();
 
     /**
-     *
      * @return the cards drawn from the deck.
-     * This is done for all the robots.
      */
     ProgramCardsView dealCards();
 
     /**
-     *
      * @param order shuffles the cards drawn for the userrobot.
      */
     void shuffleTheRobotsCards(int[] order);
 
     /**
-     *
      * @return checks if all players have registered cards.
      */
     boolean hasAllPlayersChosenCards();
@@ -93,7 +87,6 @@ public interface IGame {
     void exitGame();
 
     /**
-     *
      * @return the round.
      */
     IRound getRound();
@@ -101,6 +94,7 @@ public interface IGame {
     /**
      * Plays next registered card for each robot,
      * then continues to next phase until all phases are played.
+     *
      * @param dt difference in time
      * @param gameSpeed of the game
      * @return a difference in time
