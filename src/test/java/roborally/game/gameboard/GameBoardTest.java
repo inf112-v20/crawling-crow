@@ -18,6 +18,11 @@ public class GameBoardTest {
 	}
 
 	@Test
+	public void hasCogs() {
+		assertTrue(gameBoard.findAllCogs().size() > 0);
+	}
+
+	@Test
 	public void hasPushers() {
 		assertTrue(gameBoard.hasPushers());
 	}
