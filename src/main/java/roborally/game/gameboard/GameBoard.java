@@ -51,6 +51,15 @@ public class GameBoard implements IGameBoard {
 	}
 
 	@Override
+	public ArrayList<BoardObject> findAllCogs() {
+		ArrayList<BoardObject> cogs = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.COG).keySet()) {
+			cogs.add(new BoardObject(grid.findTileName(LayerName.COG, tilePos), tilePos));
+		}
+		return cogs;
+	}
+
+	@Override
 	public List<List<TileName>> addPushers() {
 		List<List<TileName>> pusherList = new ArrayList<>();
 		for (int i = 0; i < 6; i++)

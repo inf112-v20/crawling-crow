@@ -15,6 +15,8 @@ public interface IGameBoard {
 
 	ArrayList<BoardObject> findAllRepairSites();
 
+	ArrayList<BoardObject> findAllCogs();
+
 	/**
 	 * Makes a list of pushers, one for each phase.
 	 * Stores each pusher in all positions it's included in, in the list of the pushers.
