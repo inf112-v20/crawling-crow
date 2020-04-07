@@ -17,6 +17,10 @@ public interface IGameBoard {
 
 	ArrayList<BoardObject> findAllCogs();
 
+	ArrayList<BoardObject> findAllNormalConveyorBelts();
+
+	ArrayList<BoardObject> findAllExpressConveyorBelts();
+
 	/**
 	 * Makes a list of pushers, one for each phase.
 	 * Stores each pusher in all positions it's included in, in the list of the pushers.

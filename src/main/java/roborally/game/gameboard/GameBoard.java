@@ -60,6 +60,25 @@ public class GameBoard implements IGameBoard {
 	}
 
 	@Override
+	public ArrayList<BoardObject> findAllNormalConveyorBelts() {
+		ArrayList<BoardObject> normalConveyorBelts = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.CONVEYOR).keySet()) {
+			normalConveyorBelts.add(new BoardObject(grid.findTileName(LayerName.CONVEYOR, tilePos), tilePos));
+		}
+		return normalConveyorBelts;
+	}
+
+	@Override
+	public ArrayList<BoardObject> findAllExpressConveyorBelts() {
+		ArrayList<BoardObject> expressConveyorBelts = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).keySet()) {
+			expressConveyorBelts.add(new BoardObject(grid.findTileName(LayerName.CONVEYOR_EXPRESS, tilePos), tilePos));
+		}
+		return expressConveyorBelts;
+	}
+
+
+	@Override
 	public List<List<TileName>> addPushers() {
 		List<List<TileName>> pusherList = new ArrayList<>();
 		for (int i = 0; i < 6; i++)
