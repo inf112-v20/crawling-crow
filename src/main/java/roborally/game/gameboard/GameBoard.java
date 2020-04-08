@@ -14,14 +14,28 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameBoard implements IGameBoard {
-	// TODO: Ref the TODO on bottom
 	private Grid grid;
 	private boolean pushers;
+	private ArrayList<IFlag> flags;
+	private ArrayList<BoardObject> repairSites;
+	private ArrayList<BoardObject> cogs;
+	private ArrayList<BoardObject> conveyorBelts;
+	private ArrayList<BoardObject> expressConveyorBelts;
+	private List<List<TileName>> pusherList;
+
 
 	public GameBoard(String mapPath) {
 		this.grid = new Grid("/" + mapPath);
-		if (grid.getGridLayer(LayerName.PUSHERS) != null)
+		this.flags = findAllFlags();
+		this.repairSites = findAllRepairSites();
+		this.cogs = findAllCogs();
+		this.conveyorBelts = findAllNormalConveyorBelts();
+		this.expressConveyorBelts = findAllExpressConveyorBelts();
+		if (grid.getGridLayer(LayerName.PUSHERS) != null) {
 			pushers = true;
+			this.pusherList = addPushers();
+
+		}
 	}
 
 	@Override
@@ -102,5 +116,27 @@ public class GameBoard implements IGameBoard {
 		return this.pushers;
 	}
 
-	// TODO : find conveyorbelts, cogs, archive markers etc.
+	public ArrayList<BoardObject> getRepairSites() {
+		return this.repairSites;
+	}
+
+	public ArrayList<BoardObject> getCogs() {
+		return this.cogs;
+	}
+
+	public ArrayList<BoardObject> getConveyorBelts() {
+		return this.conveyorBelts;
+	}
+
+	public ArrayList<BoardObject> getExpressConveyorBelts() {
+		return this.expressConveyorBelts;
+	}
+
+	public ArrayList<IFlag> getFlags() {
+		return this.flags;
+	}
+
+	public List<List<TileName>> getPusherList() {
+		return this.pusherList;
+	}
 }

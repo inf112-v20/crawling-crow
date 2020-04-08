@@ -47,4 +47,17 @@ public interface IGameBoard {
 	 * @return true if the map has pushers.
 	 */
 	boolean hasPushers();
+
+	ArrayList<BoardObject> getRepairSites();
+
+	ArrayList<BoardObject> getCogs();
+
+	ArrayList<BoardObject> getConveyorBelts();
+
+	ArrayList<BoardObject> getExpressConveyorBelts();
+
+	ArrayList<IFlag> getFlags();
+
+	List<List<TileName>> getPusherList();
+
 }
