@@ -51,25 +51,25 @@ public class Game implements IGame {
 		deckOfProgramCards = new ProgramCards();
 		this.events = events;
 		this.gameOptions = new GameOptions();
+		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 	}
 
 	@Override
 	public void startUp() {
-		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
-		this.layers = new Layers();
+		endGame();
 		this.flags = gameBoard.findAllFlags();
+		this.layers = new Layers();
 		this.laserRegister = new LaserRegister(layers);
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard);
 		this.userRobot = robots.get(0);
+
 	}
 
 	@Override
 	public void funMode() {
-		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
-		this.layers = new Layers();
-		this.laserRegister = new LaserRegister(layers);
-		this.flags = gameBoard.findAllFlags();
+		endGame();
+		startUp();
 		this.robots = gameOptions.funMode(layers, flags, laserRegister);
 		this.events.setGameSpeed("fastest");
 		this.round = new Round(events, robots, gameBoard);
@@ -194,10 +194,9 @@ public class Game implements IGame {
 
 	@Override
 	public void endGame() {
-		Robot winner = round.getPhase().getWinner();
-		System.out.println(winner);
-		System.out.println("Stopping game...");
 		events.setWaitMoveEvent(false);
+		if(robots == null)
+			return;
 		for (Robot robot : robots) {
 			layers.setRobotTexture(robot.getPosition(), null);
 			events.removeFromUI(robot);
