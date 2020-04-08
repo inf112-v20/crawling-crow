@@ -88,8 +88,8 @@ public class LaserEvent {
             this.laserImage.setWidth(oldWidth - (this.laserImage.getX() - oldX));
         }
         if (negative && factor < 0) {
-            this.laserImage.setX(this.laserImage.getX() - dt / 3);
-            this.laserImage.setWidth(oldWidth + (oldX - this.laserImage.getX()));
+            float x = (this.laserImage.getX() - dt / 3);
+            this.laserImage.setWidth(oldWidth + this.laserImage.getX() - x);
         } else if (!(positive && factor > 0))
             this.laserImage.setX(this.laserImage.getX() + dt);
         this.laserImage.draw(batch, 1);
@@ -108,8 +108,8 @@ public class LaserEvent {
             this.laserImage.setHeight(oldHeight - (this.laserImage.getY() - oldY));
         }
         if (negative && factor < 0) {
-            this.laserImage.setY(this.laserImage.getY() - dt / 3);
-            this.laserImage.setHeight(oldHeight + (oldY - this.laserImage.getY()));
+            float y = this.laserImage.getY() - dt / 3;
+            this.laserImage.setHeight(oldHeight + this.laserImage.getY() - y);
         } else if (!(positive && factor > 0))
             this.laserImage.setY(this.laserImage.getY() + dt);
         this.laserImage.draw(batch, 1);
