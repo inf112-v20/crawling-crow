@@ -10,6 +10,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
+import roborally.game.gameboard.objects.robot.AIControl;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
@@ -153,10 +154,13 @@ public class Game implements IGame {
 		if (funMode)
 			removeDeadRobots();
 		deckOfProgramCards.shuffleCards();
+		AIControl aiControl = new AIControl(gameBoard);
 		for (Robot currentRobot : getRobots()) {
 			deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
 			if (!currentRobot.equals(userRobot)) {
-				currentRobot.getLogic().autoArrangeCardsInHand();
+				aiControl.controlRobot(currentRobot);
+				currentRobot.getLogic().arrangeCardsInHand(aiControl.getOrder());
+				//currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
 		return makeProgramCardsView(userRobot);
