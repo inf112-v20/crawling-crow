@@ -30,7 +30,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     public static final float TILE_UNIT_SCALE = 3 / 16f;
     private IGame game;
     private TiledMap tiledMap;
-    private MapProperties mapProperties;
     private int mapID;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Menu menu;
@@ -40,7 +39,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean paused;
     private Stage stage;
     private ProgramCardsView programCardsView;
-    private RebootView rebootView;
     private Events events;
     private AnimateEvent animateEvent;
 
@@ -50,7 +48,6 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.mapID = 1;
         this.events = new Events();
         this.programCardsView = new ProgramCardsView();
-        //this.rebootView = new RebootView();
         this.animateEvent = new AnimateEvent(events);
     }
 
@@ -60,7 +57,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.load();
         AssetManagerUtil.ASSET_MANAGER.finishLoading();
         tiledMap = AssetManagerUtil.getMap(mapID);
-        mapProperties = tiledMap.getProperties();
+        MapProperties mapProperties = tiledMap.getProperties();
 
         int mapWidth = mapProperties.get("width", Integer.class);
         int mapHeight = mapProperties.get("height", Integer.class);
