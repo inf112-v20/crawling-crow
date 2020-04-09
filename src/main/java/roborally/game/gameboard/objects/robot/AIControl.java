@@ -5,28 +5,32 @@ import com.badlogic.gdx.utils.Queue;
 import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.IFlag;
+import roborally.utilities.Grid;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
+import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class AIControl {
-	private IRobot robot;
+	private IRobotLogic robotLogic;
 	private Direction logicDirection;
+	private Grid grid;
 	private int[] order;
 	private int pickNr;
 	private HashMap<String, Queue<ProgramCards.Card>> cardTypes;
 	private ArrayList<IFlag> flags;
 	private IFlag flag;
+	private double newDistanceToFlag;
 
 	public AIControl(IGameBoard gameBoard) {
 		this.flags = gameBoard.getFlags();
+		this.grid = gameBoard.getGrid();
 	}
 
-	public void controlRobot(IRobot robot) {
-		this.robot = robot;
-		IRobotLogic robotLogic = robot.getLogic();
+	public void controlRobot(IRobotLogic robotLogic) {
+		this.robotLogic = robotLogic;
 		this.logicDirection = robotLogic.getDirection();
 		this.pickNr = 0;
 		for (IFlag flag : flags) {
@@ -39,7 +43,6 @@ public class AIControl {
 		cardTypes.put("right", new Queue<>());
 		cardTypes.put("uTurn", new Queue<>());
 		organizeCards();
-		System.out.println();
 	}
 
 	public int[] getOrder() {
@@ -47,10 +50,9 @@ public class AIControl {
 	}
 
 	private ArrayList<ProgramCards.Card> organizeCards() {
-		ArrayList<ProgramCards.Card> temp = robot.getLogic().getCardsInHand();
+		ArrayList<ProgramCards.Card> temp = robotLogic.getCardsInHand();
 		this.order = new int[Math.min(temp.size(), 5)];
 		for (ProgramCards.Card card : temp) {
-			System.out.print(card.getCard() + " ");
 			if (card.getValue() > -2 && card.getValue() < 4)
 				cardTypes.get("move").addLast(card);
 			else if (card.getValue() == 90)
@@ -60,17 +62,12 @@ public class AIControl {
 			else if (card.getValue() < -1)
 				cardTypes.get("left").addLast(card);
 		}
-		System.out.println();
-		for (String cardType : cardTypes.keySet())
-			for (ProgramCards.Card card : cardTypes.get(cardType))
-				System.out.print(card + " ");
-		System.out.println();
 		chooseCards();
 		return temp;
 	}
 
 	private void chooseCards() {
-		GridPoint2 hypoPos = robot.getLogic().getPosition().cpy();
+		GridPoint2 hypoPos = robotLogic.getPosition().cpy();
 		double distToFlag = hypoPos.cpy().dst(flag.getPosition());
 		double hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
 		boolean rotated = false;
@@ -90,7 +87,7 @@ public class AIControl {
 				for (int i = 0; i < move.getValue(); i++)
 					distToFlag = hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
 				hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
-				order[pickNr++] = robot.getLogic().getCardsInHand().indexOf(move);
+				order[pickNr++] = robotLogic.getCardsInHand().indexOf(move);
 			}
 			if ((rotated && hypoPos.equals(newHypoPos) && pickNr < order.length) ||
 					((cardTypes.get("move").isEmpty() || rotateEmpty) && pickNr < order.length)) {
@@ -98,17 +95,17 @@ public class AIControl {
 					ProgramCards.Card move = cardTypes.get("move").removeFirst();
 					for (int i = 0; i < move.getValue(); i++)
 						distToFlag = hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
-					order[pickNr++] = robot.getLogic().getCardsInHand().indexOf(move);
+					order[pickNr++] = robotLogic.getCardsInHand().indexOf(move);
 					hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
 				}
 			} else
 				rotated = false;
 		}
-		System.out.println(Arrays.toString(order));
+		newDistanceToFlag = distToFlag;
 	}
 
 	private boolean rotate() {
-		ArrayList<ProgramCards.Card> cardsInHand = robot.getLogic().getCardsInHand();
+		ArrayList<ProgramCards.Card> cardsInHand = robotLogic.getCardsInHand();
 		if (!cardTypes.get("left").isEmpty()) {
 			logicDirection = Direction.turnLeftFrom(logicDirection);
 			order[pickNr++] = cardsInHand.indexOf(cardTypes.get("left").removeFirst());
@@ -123,4 +120,13 @@ public class AIControl {
 			return true;
 		return false;
 	}
+
+	public double getNewDistanceToFlag() {
+		return this.newDistanceToFlag;
+	}
+
+	public GridPoint2 getConveyorStep(GridPoint2 pos) {
+		return null;
+	}
+
 }

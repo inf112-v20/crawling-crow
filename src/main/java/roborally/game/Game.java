@@ -51,12 +51,12 @@ public class Game implements IGame {
 		deckOfProgramCards = new ProgramCards();
 		this.events = events;
 		this.gameOptions = new GameOptions();
-		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 	}
 
 	@Override
 	public void startUp() {
 		endGame();
+		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 		this.flags = gameBoard.findAllFlags();
 		this.layers = new Layers();
 		this.laserRegister = new LaserRegister(layers);
@@ -159,9 +159,8 @@ public class Game implements IGame {
 		for (Robot currentRobot : getRobots()) {
 			deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
 			if (!currentRobot.equals(userRobot)) {
-				aiControl.controlRobot(currentRobot);
+				aiControl.controlRobot(currentRobot.getLogic());
 				currentRobot.getLogic().arrangeCardsInHand(aiControl.getOrder());
-				//currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
 		return makeProgramCardsView(userRobot);

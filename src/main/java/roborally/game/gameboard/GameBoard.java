@@ -112,30 +112,42 @@ public class GameBoard implements IGameBoard {
 		}
 	}
 
+	@Override
 	public boolean hasPushers() {
 		return this.pushers;
 	}
 
+	@Override
+	public Grid getGrid() {
+		return this.grid;
+	}
+
+	@Override
 	public ArrayList<BoardObject> getRepairSites() {
 		return this.repairSites;
 	}
 
+	@Override
 	public ArrayList<BoardObject> getCogs() {
 		return this.cogs;
 	}
 
+	@Override
 	public ArrayList<BoardObject> getConveyorBelts() {
 		return this.conveyorBelts;
 	}
 
+	@Override
 	public ArrayList<BoardObject> getExpressConveyorBelts() {
 		return this.expressConveyorBelts;
 	}
 
+	@Override
 	public ArrayList<IFlag> getFlags() {
 		return this.flags;
 	}
 
+	@Override
 	public List<List<TileName>> getPusherList() {
 		return this.pusherList;
 	}
