@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.ui.ProgramCardsView;
 
@@ -47,6 +48,10 @@ public class AnimateEvent {
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
+
+        for (Image reboot : programCardsView.getReboots()) {
+            reboot.draw(batch, 1);
+        }
         if (programCardsView.done()) {
             cardPhase = false;
             stage.clear();
@@ -64,6 +69,21 @@ public class AnimateEvent {
     public void initiateCards(ProgramCardsView programCardsView, Stage stage) {
         this.programCardsView = programCardsView;
         programCardsView.setDoneButton();
+
+        // FIXME: Temp, need to calculate to this number
+        float rebootListPositionX = 510;
+        programCardsView.setReboots(3);
+
+        int index = 0;
+        for (Image reboot : programCardsView.getReboots()) {
+            if (index > 0) {
+                reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
+            } else {
+                reboot.setX(rebootListPositionX);
+            }
+            index++;
+        }
+
         stage.addActor(programCardsView.getDoneButton());
 
         float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();

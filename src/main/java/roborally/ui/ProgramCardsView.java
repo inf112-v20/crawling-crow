@@ -24,6 +24,7 @@ import java.util.ArrayList;
  */
 public class ProgramCardsView {
     private final static float CARD_IMAGE_UNIT_SCALE = 3.4f;
+    private final static float REBOOT_IMAGE_UNIT_SCALE = 2.5f;
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
@@ -32,11 +33,16 @@ public class ProgramCardsView {
     private float cardHeight;
     private ImageButton doneButton;
 
+    private Image rebootActive;
+    private ArrayList<Image> reboots;
+    private Image rebootInActive;
+
     public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
+        this.reboots = new ArrayList<>();
     }
 
     public void setCard(IProgramCards.Card card) {
@@ -171,7 +177,52 @@ public class ProgramCardsView {
     }
 
     public ImageButton getDoneButton() {
-        return this.doneButton;
+        return doneButton;
     }
 
+    // TODO: Refactor
+    public void setReboots(int availableReboots) {
+        for (int i = 0; i < availableReboots; i++) {
+            setRebootActive();
+            this.reboots.add(getRebootActive());
+        }
+
+        if (availableReboots == 2) {
+            setRebootInActive();
+            this.reboots.add(getRebootInActive());
+        } else if (availableReboots == 1) {
+            setRebootInActive();
+            this.reboots.add(getRebootInActive());
+            setRebootInActive();
+            this.reboots.add(getRebootInActive());
+        } else if (availableReboots == 0) {
+            for (int i = 0; i < 3; i++) {
+                setRebootInActive();
+                this.reboots.add(getRebootInActive());
+            }
+        }
+    }
+
+    public void setRebootActive() {
+        this.rebootActive = new Image(AssetManagerUtil.getRebootActive());
+        this.rebootActive.setPosition(0, 150);
+        this.rebootActive.setSize(rebootActive.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, rebootActive.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
+    }
+
+    public Image getRebootActive() {
+        return rebootActive;
+    }
+
+    public void setRebootInActive() {
+        this.rebootInActive = new Image(AssetManagerUtil.getRebootInactive());
+        this.rebootInActive.setPosition(10, 100);
+    }
+
+    public Image getRebootInActive() {
+        return rebootInActive;
+    }
+
+    public ArrayList<Image> getReboots() {
+        return reboots;
+    }
 }

@@ -21,7 +21,7 @@ public interface IGame {
      *
      * @return The first of the robots
      */
-    Robot getFirstRobot();
+    Robot getUserRobot();
 
     void funMode();
 

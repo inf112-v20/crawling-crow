@@ -82,7 +82,7 @@ public class Game implements IGame {
 
 	//region Robots
 	@Override
-	public Robot getFirstRobot() {
+	public Robot getUserRobot() {
 		if (this.currentRobotID == robots.size()) {
 			this.currentRobotID = 0;
 		}

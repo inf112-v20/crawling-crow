@@ -40,6 +40,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean paused;
     private Stage stage;
     private ProgramCardsView programCardsView;
+    private RebootView rebootView;
     private Events events;
     private AnimateEvent animateEvent;
 
@@ -49,6 +50,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.mapID = 1;
         this.events = new Events();
         this.programCardsView = new ProgramCardsView();
+        //this.rebootView = new RebootView();
         this.animateEvent = new AnimateEvent(events);
     }
 
@@ -108,6 +110,7 @@ public class UI extends InputAdapter implements ApplicationListener {
             pause();
         }
         animateEvent.drawEvents(batch, game, stage);
+        //rebootView.drawUI(batch, game, stage);
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
     }

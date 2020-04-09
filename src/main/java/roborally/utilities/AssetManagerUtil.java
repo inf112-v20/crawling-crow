@@ -76,6 +76,8 @@ public class AssetManagerUtil {
 
     private static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/done-button.png", Texture.class);
     private static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/done-button-pressed.png", Texture.class);
+    private static final AssetDescriptor<Texture> REBOOT_ACTIVE = new AssetDescriptor<>("ui-elements/reboot-active.png", Texture.class);
+    private static final AssetDescriptor<Texture> REBOOT_INACTIVE = new AssetDescriptor<>("ui-elements/reboot-inactive.png", Texture.class);
 
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
@@ -94,6 +96,8 @@ public class AssetManagerUtil {
 
         ASSET_MANAGER.load(DONE_BUTTON);
         ASSET_MANAGER.load(DONE_BUTTON_PRESSED);
+        ASSET_MANAGER.load(REBOOT_ACTIVE);
+        ASSET_MANAGER.load(REBOOT_INACTIVE);
 
         // Robots TODO: HashMap
         ASSET_MANAGER.load(ANGRY);
@@ -270,5 +274,13 @@ public class AssetManagerUtil {
 
     public static Texture getDoneButtonPressed() {
         return ASSET_MANAGER.get(DONE_BUTTON_PRESSED);
+    }
+
+    public static Texture getRebootActive() {
+        return ASSET_MANAGER.get(REBOOT_ACTIVE);
+    }
+
+    public static Texture getRebootInactive() {
+        return ASSET_MANAGER.get(REBOOT_INACTIVE);
     }
 }
