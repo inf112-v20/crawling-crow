@@ -145,13 +145,13 @@ public class Robot implements IRobot {
     private void playSoundWalking(GridPoint2 oldPos) {
         Sound sound;
         if (getPosition().dst(oldPos) == 1) {
-            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEP1);
             sound.play(0.25f * AssetManagerUtil.volume);
         } else if (getPosition().dst(oldPos) == 2) {
-            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEP2);
             sound.play(0.25f * AssetManagerUtil.volume);
         } else if (getPosition().dst(oldPos) == 3) {
-            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEP3);
             sound.play(0.25f * AssetManagerUtil.volume);
         }
     }

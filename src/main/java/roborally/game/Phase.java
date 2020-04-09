@@ -122,7 +122,7 @@ public class Phase implements IPhase {
 
 	@Override
 	public void fireLasers() {
-		Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.SHOOT_LASER);
 		sound.play((float) 0.08 * AssetManagerUtil.volume);
 		for (Robot robot : robots) {
 			robot.fireLaser();

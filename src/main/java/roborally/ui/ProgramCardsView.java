@@ -28,8 +28,8 @@ public class ProgramCardsView {
     private ArrayList<Group> groups;
     private int[] order;
     private ArrayList<Label> topLabelList;
-    private int cardWidth; // TODO: Should not be hard coded
-    private int cardHeight;
+    private float cardWidth;
+    private float cardHeight;
     private ImageButton doneButton;
 
     public ProgramCardsView() {
@@ -37,11 +37,12 @@ public class ProgramCardsView {
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[]{-1, -1, -1, -1, -1};
-        this.cardWidth = 75;
-        this.cardHeight = 116;
     }
 
     public void setCard(IProgramCards.Card card) {
+        this.cardWidth = AssetManagerUtil.getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
+        this.cardHeight = AssetManagerUtil.getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
+
         Image cardImage = new Image(AssetManagerUtil.getCardTexture(card.getCardType()));
         setCard(card.getPriority(), cardImage);
     }
@@ -90,25 +91,25 @@ public class ProgramCardsView {
     }
 
     public Label setSelectedOrderLabel() {
-        Label.LabelStyle topLabelStyle = new Label.LabelStyle();
-        topLabelStyle.font = new BitmapFont();
-        Label topLabel = new Label("", topLabelStyle);
-        topLabel.setY(100);
-        topLabel.setX(28);
-        topLabel.setColor(Color.GREEN);
-        topLabel.setFontScale(2f);
-        return topLabel;
+        Label.LabelStyle selectedOrderLabelStyle = new Label.LabelStyle();
+        selectedOrderLabelStyle.font = new BitmapFont();
+        Label selectedOrderLabel = new Label("", selectedOrderLabelStyle);
+        selectedOrderLabel.setY(100);
+        selectedOrderLabel.setX(28);
+        selectedOrderLabel.setColor(Color.GREEN);
+        selectedOrderLabel.setFontScale(2f);
+        return selectedOrderLabel;
     }
 
     public Label setPriorityLabel(int priority) {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        Label label = new Label(Integer.toString(priority), labelStyle);
-        label.setX(28);
-        label.setY(10);
-        label.setFontScale(0.78f);
-        label.setColor(Color.ORANGE);
-        return label;
+        Label.LabelStyle PriorityLabelStyle = new Label.LabelStyle();
+        PriorityLabelStyle.font = new BitmapFont();
+        Label priorityLabel = new Label(Integer.toString(priority), PriorityLabelStyle);
+        priorityLabel.setX(28);
+        priorityLabel.setY(10);
+        priorityLabel.setFontScale(0.78f);
+        priorityLabel.setColor(Color.ORANGE);
+        return priorityLabel;
     }
 
     // Used to sort cards when deselecting a card.

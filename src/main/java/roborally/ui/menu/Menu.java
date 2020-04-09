@@ -282,7 +282,7 @@ public class Menu {
             public void clicked(InputEvent event, float x, float y) {
                 String text = playSong.getText().toString();
                 if ("Play a song: ".equals(text)) {
-                    Song = AssetManagerUtil.manager.get(AssetManagerUtil.SOUNDTRACK);
+                    Song = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.SOUNDTRACK);
                     Song.setVolume(0.1f * AssetManagerUtil.volume);
                     Song.play();
                     Song.setLooping(true);

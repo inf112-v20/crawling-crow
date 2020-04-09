@@ -34,7 +34,7 @@ public class LaserRegister {
      * @param pos  GridPoint2 with the position of the robot
      */
     public void createLaser(int id, GridPoint2 pos, String name) {
-        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
+        Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEPIN_LASER);
         sound.play((float) 0.1*AssetManagerUtil.volume);
         Laser laser = new Laser(id, this.layers);
         if (id != TileName.LASER_CROSS.getTileID()) {

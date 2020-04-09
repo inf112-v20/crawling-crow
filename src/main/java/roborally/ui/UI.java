@@ -54,9 +54,9 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        AssetManagerUtil.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
-        AssetManagerUtil.manager.finishLoading();
+        AssetManagerUtil.ASSET_MANAGER.finishLoading();
         tiledMap = AssetManagerUtil.getMap(mapID);
         mapProperties = tiledMap.getProperties();
 

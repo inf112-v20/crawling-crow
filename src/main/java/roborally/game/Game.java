@@ -53,7 +53,7 @@ public class Game implements IGame {
 
 	@Override
 	public void startUp() {
-		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
+		this.gameBoard = new GameBoard(AssetManagerUtil.ASSET_MANAGER.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 		this.layers = new Layers();
 		this.flags = gameBoard.findAllFlags();
 		this.laserRegister = new LaserRegister(layers);
@@ -64,7 +64,7 @@ public class Game implements IGame {
 
 	@Override
 	public void funMode() {
-		this.gameBoard = new GameBoard(AssetManagerUtil.manager.getAssetFileName(AssetManagerUtil.getLoadedMap()));
+		this.gameBoard = new GameBoard(AssetManagerUtil.ASSET_MANAGER.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 		this.layers = new Layers();
 		this.laserRegister = new LaserRegister(layers);
 		this.flags = gameBoard.findAllFlags();
@@ -122,7 +122,7 @@ public class Game implements IGame {
 	@Override
 	public void manuallyFireOneLaser() {
 		// This method is only for bugtesting...
-		Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.SHOOT_LASER);
+		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.SHOOT_LASER);
 		sound.play((float) 0.08 * AssetManagerUtil.volume);
 		userRobot.fireLaser();
 		ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();

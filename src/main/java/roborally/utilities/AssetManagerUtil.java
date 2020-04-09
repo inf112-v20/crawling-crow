@@ -14,7 +14,7 @@ import roborally.utilities.enums.LayerName;
 import java.util.*;
 
 public class AssetManagerUtil {
-    public static final com.badlogic.gdx.assets.AssetManager manager = new com.badlogic.gdx.assets.AssetManager();
+    public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER = new com.badlogic.gdx.assets.AssetManager();
     // Sounds
     public static final AssetDescriptor<Sound> SHOOT_LASER
             = new AssetDescriptor<>("sounds/fireLaser.mp3", Sound.class);
@@ -83,83 +83,97 @@ public class AssetManagerUtil {
     private static TiledMap loadedMap;
     private static Stack<String> robotNames;
 
+    private static HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap = new HashMap<>();
+
     public static void load() {
-        //Maps
-        manager.load(SIGMUNDS_MAP);
-        manager.load(LISES_MAP);
-
-        manager.load(DONE_BUTTON);
-        manager.load(DONE_BUTTON_PRESSED);
-
-        //Robots
-        manager.load(ANGRY);
-        manager.load(BACKUP);
-        manager.load(BLUE);
-        manager.load(GREEN);
-        manager.load(ORANGE);
-        manager.load(PINK);
-        manager.load(PURPLE);
-        manager.load(RED);
-        manager.load(YELLOW);
-
-        //Sounds
-        manager.load(SHOOT_LASER);
-        manager.load(STEPIN_LASER);
-        manager.load(STEP1);
-        manager.load(STEP2);
-        manager.load(STEP3);
-        manager.load(ROBOT_HIT);
-        manager.load(SOUNDTRACK);
-
-        //Cards
-        manager.load(ROTATERIGHT);
-        manager.load(ROTATELEFT);
-        manager.load(MOVE_1);
-        manager.load(MOVE_2);
-        manager.load(MOVE_3);
-        manager.load(U_TURN);
-        //Menu
-        manager.load(MENU);
-        manager.load(BUTTONS);
-        manager.load(MAP_BUTTON);
 
 
+        // Maps TODO: HashMap
+        ASSET_MANAGER.load(SIGMUNDS_MAP);
+        ASSET_MANAGER.load(LISES_MAP);
+
+        ASSET_MANAGER.load(DONE_BUTTON);
+        ASSET_MANAGER.load(DONE_BUTTON_PRESSED);
+
+        // Robots TODO: HashMap
+        ASSET_MANAGER.load(ANGRY);
+        ASSET_MANAGER.load(BACKUP);
+        ASSET_MANAGER.load(BLUE);
+        ASSET_MANAGER.load(GREEN);
+        ASSET_MANAGER.load(ORANGE);
+        ASSET_MANAGER.load(PINK);
+        ASSET_MANAGER.load(PURPLE);
+        ASSET_MANAGER.load(RED);
+        ASSET_MANAGER.load(YELLOW);
+
+        // Sounds TODO: HashMap
+        ASSET_MANAGER.load(SHOOT_LASER);
+        ASSET_MANAGER.load(STEPIN_LASER);
+        ASSET_MANAGER.load(STEP1);
+        ASSET_MANAGER.load(STEP2);
+        ASSET_MANAGER.load(STEP3);
+        ASSET_MANAGER.load(ROBOT_HIT);
+        ASSET_MANAGER.load(SOUNDTRACK);
+
+        // Cards TODO: HashMap
+        ASSET_MANAGER.load(ROTATERIGHT);
+        ASSET_MANAGER.load(ROTATELEFT);
+        ASSET_MANAGER.load(MOVE_1);
+        ASSET_MANAGER.load(MOVE_2);
+        ASSET_MANAGER.load(MOVE_3);
+        ASSET_MANAGER.load(U_TURN);
+
+        // Menu TODO: HashMap
+        ASSET_MANAGER.load(MENU);
+        ASSET_MANAGER.load(BUTTONS);
+        ASSET_MANAGER.load(MAP_BUTTON);
+
+
+        ASSET_MANAGER.finishLoading();
+
+        bindCardToTexture();
+    }
+
+    private static void bindCardToTexture() {
+        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATERIGHT));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATELEFT));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_1, ASSET_MANAGER.get(MOVE_1));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_2, ASSET_MANAGER.get(MOVE_2));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_3, ASSET_MANAGER.get(MOVE_3));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.U_TURN, ASSET_MANAGER.get(U_TURN));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP));
     }
 
     public static Texture getMenu() {
-        return manager.get(MENU);
+        return ASSET_MANAGER.get(MENU);
     }
 
     public static Texture getButtons() {
-        return manager.get(BUTTONS);
+        return ASSET_MANAGER.get(BUTTONS);
     }
 
     public static Texture getMapButton() {
-        return manager.get(MAP_BUTTON);
+        return ASSET_MANAGER.get(MAP_BUTTON);
     }
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {
-        TiledMap[] tiledMaps = {manager.get(SIGMUNDS_MAP), manager.get(LISES_MAP)};
+        TiledMap[] tiledMaps = {ASSET_MANAGER.get(SIGMUNDS_MAP), ASSET_MANAGER.get(LISES_MAP)};
         List<TiledMap> maps = Arrays.asList(tiledMaps);
         loadedMap = maps.get(map);
         return loadedMap;
     }
 
     public static Texture getCardTexture(IProgramCards.CardType card) {
-        HashMap<IProgramCards.CardType, Texture> map = new HashMap<>();
-        map.put(IProgramCards.CardType.ROTATE_RIGHT, manager.get(ROTATERIGHT));
-        map.put(IProgramCards.CardType.ROTATE_LEFT, manager.get(ROTATELEFT));
-        map.put(IProgramCards.CardType.MOVE_1, manager.get(MOVE_1));
-        map.put(IProgramCards.CardType.MOVE_2, manager.get(MOVE_2));
-        map.put(IProgramCards.CardType.MOVE_3, manager.get(MOVE_3));
-        map.put(IProgramCards.CardType.U_TURN, manager.get(U_TURN));
-        map.put(IProgramCards.CardType.BACKUP, manager.get(BACKUP));
-        return map.get(card);
+        return cardTypeTextureHashMap.get(card);
     }
 
-    public static int getCardWidth() {
-        return manager.get(ROTATERIGHT).getWidth();
+    public static int getProgramCardWidth() {
+        return ASSET_MANAGER.get(MOVE_1).getWidth();
+    }
+
+    public static int getProgramCardHeight() {
+        return ASSET_MANAGER.get(MOVE_1).getHeight();
     }
 
     /**
@@ -169,19 +183,19 @@ public class AssetManagerUtil {
      */
     public static Texture getRobotTexture(int i) {
         Texture[] robotTexture = new Texture[8];
-        robotTexture[0] = manager.get(ANGRY);
-        robotTexture[1] = manager.get(BLUE);
-        robotTexture[2] = manager.get(GREEN);
-        robotTexture[3] = manager.get(ORANGE);
-        robotTexture[4] = manager.get(PINK);
-        robotTexture[5] = manager.get(PURPLE);
-        robotTexture[6] = manager.get(RED);
-        robotTexture[7] = manager.get(YELLOW);
+        robotTexture[0] = ASSET_MANAGER.get(ANGRY);
+        robotTexture[1] = ASSET_MANAGER.get(BLUE);
+        robotTexture[2] = ASSET_MANAGER.get(GREEN);
+        robotTexture[3] = ASSET_MANAGER.get(ORANGE);
+        robotTexture[4] = ASSET_MANAGER.get(PINK);
+        robotTexture[5] = ASSET_MANAGER.get(PURPLE);
+        robotTexture[6] = ASSET_MANAGER.get(RED);
+        robotTexture[7] = ASSET_MANAGER.get(YELLOW);
         return robotTexture[i];
     }
 
     public static void dispose() {
-        manager.clear();
+        ASSET_MANAGER.clear();
     }
 
     /**
@@ -189,7 +203,7 @@ public class AssetManagerUtil {
      */
     public static TiledMap getLoadedMap() {
         if (loadedMap == null) {
-            loadedMap = manager.get(LISES_MAP);
+            loadedMap = ASSET_MANAGER.get(LISES_MAP);
         }
         return loadedMap;
     }
@@ -251,10 +265,10 @@ public class AssetManagerUtil {
     }
 
     public static Texture getDoneButton() {
-        return manager.get(DONE_BUTTON);
+        return ASSET_MANAGER.get(DONE_BUTTON);
     }
 
     public static Texture getDoneButtonPressed() {
-        return manager.get(DONE_BUTTON_PRESSED);
+        return ASSET_MANAGER.get(DONE_BUTTON_PRESSED);
     }
 }
