@@ -64,35 +64,27 @@ public class UI extends InputAdapter implements ApplicationListener {
         int mapHeight = mapProperties.get("height", Integer.class);
         int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
         int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+        float renderedTileWidth = tilePixelWidth * TILE_UNIT_SCALE;
+        float renderedTileHeight = tilePixelHeight * TILE_UNIT_SCALE;
 
 
         game = new Game(this.events);
         debugControls = new ControlsDebug(game);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(((tilePixelWidth * TILE_UNIT_SCALE) * mapWidth) / 2f, ((tilePixelHeight * TILE_UNIT_SCALE) * mapHeight) / 2f, 0); // Center map in game window
-        //camera.position.set(450, 675/2f,0);
-
-        // TODO: clean up debugging mess
-        System.out.println((TILE_SIZE * TILE_UNIT_SCALE) * mapWidth);
-        System.out.println((TILE_SIZE * TILE_UNIT_SCALE) * mapHeight);
-
+        camera.position.set((renderedTileWidth * mapWidth) / 2f, (renderedTileHeight * mapHeight) / 2f, 0); // Center map in game window
         camera.update();
+
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, TILE_UNIT_SCALE);
         mapRenderer.setView(camera);
+
         Gdx.input.setInputProcessor(this);
+
         batch = new SpriteBatch();
         stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
         menu = new Menu(stage, events);
         game.getGameOptions().enterMenu(true);
-
-        float renderedTileWidth = tilePixelWidth * mapRenderer.getUnitScale();
-        float renderedTileHeight = tilePixelHeight * mapRenderer.getUnitScale();
-
-        System.out.println(mapRenderer.getUnitScale());
-        System.out.println("Camera viewport width: " + renderedTileWidth);
-        System.out.println("Camera viewport height: " + renderedTileHeight);
-        System.out.println("Camera position: " + camera.position.x + ", " + camera.position.y);
     }
 
     @Override
