@@ -15,7 +15,7 @@ public class SettingsUtil {
 
     public static GridPoint2 GRAVEYARD = new GridPoint2(-1,-1);
 
-    public static int WINDOW_WIDTH = 900;
-    public static int WINDOW_HEIGHT = 675;
+    public static int WINDOW_WIDTH = 1920;
+    public static int WINDOW_HEIGHT = 1080;
 
 }

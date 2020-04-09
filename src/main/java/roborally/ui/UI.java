@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -26,8 +27,10 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
+    public static final float TILE_UNIT_SCALE = 3 / 16f;
     private IGame game;
     private TiledMap tiledMap;
+    private MapProperties mapProperties;
     private int mapID;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Menu menu;
@@ -55,18 +58,41 @@ public class UI extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.load();
         AssetManagerUtil.manager.finishLoading();
         tiledMap = AssetManagerUtil.getMap(mapID);
+        mapProperties = tiledMap.getProperties();
+
+        int mapWidth = mapProperties.get("width", Integer.class);
+        int mapHeight = mapProperties.get("height", Integer.class);
+        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
+        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+
+
         game = new Game(this.events);
         debugControls = new ControlsDebug(game);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.position.set(((tilePixelWidth * TILE_UNIT_SCALE) * mapWidth) / 2f, ((tilePixelHeight * TILE_UNIT_SCALE) * mapHeight) / 2f, 0); // Center map in game window
+        //camera.position.set(450, 675/2f,0);
+
+        // TODO: clean up debugging mess
+        System.out.println((TILE_SIZE * TILE_UNIT_SCALE) * mapWidth);
+        System.out.println((TILE_SIZE * TILE_UNIT_SCALE) * mapHeight);
+
         camera.update();
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, TILE_UNIT_SCALE);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
         menu = new Menu(stage, events);
         game.getGameOptions().enterMenu(true);
+
+        float renderedTileWidth = tilePixelWidth * mapRenderer.getUnitScale();
+        float renderedTileHeight = tilePixelHeight * mapRenderer.getUnitScale();
+
+        System.out.println(mapRenderer.getUnitScale());
+        System.out.println("Camera viewport width: " + renderedTileWidth);
+        System.out.println("Camera viewport height: " + renderedTileHeight);
+        System.out.println("Camera position: " + camera.position.x + ", " + camera.position.y);
     }
 
     @Override
@@ -82,7 +108,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void render() {
         if (events.hasWaitEvent() && !events.hasLaserEvent())
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
@@ -97,6 +123,8 @@ public class UI extends InputAdapter implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        System.out.println("Real window size: " + width + ", " + height);
+        System.out.println("Stage viewport: " + stage.getViewport().getScreenWidth() + ", " + stage.getViewport().getScreenHeight());
     }
 
     @Override
