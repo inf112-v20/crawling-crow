@@ -42,55 +42,8 @@ public class ProgramCardsView {
     }
 
     public void setCard(IProgramCards.Card card) {
-        if (card.getCardType() == IProgramCards.CardType.MOVE_1)
-            this.makeMove1(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
-            this.makeMove2(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_3)
-            this.makeMove3(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
-            this.makeRotateLeft(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
-            this.makeRotateRight(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.U_TURN)
-            this.makeUTurn(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.BACKUP)
-            this.makeBackup(card.getPriority());
-    }
-
-    private void makeUTurn(int priority) {
-        Image uTurn = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.U_TURN));
-        setCard(priority, uTurn);
-    }
-
-    public void makeBackup(int priority) {
-        Image backup = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.BACKUP));
-        setCard(priority, backup);
-    }
-
-    public void makeMove1(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.MOVE_1));
-        setCard(priority, move);
-    }
-
-    public void makeMove2(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.MOVE_2));
-        setCard(priority, move);
-    }
-
-    public void makeMove3(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.MOVE_3));
-        setCard(priority, move);
-    }
-
-    public void makeRotateRight(int priority) {
-        Image RotateR = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.ROTATE_RIGHT));
-        setCard(priority, RotateR);
-    }
-
-    public void makeRotateLeft(int priority) {
-        Image RotateL = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.ROTATE_LEFT));
-        setCard(priority, RotateL);
+        Image cardImage = new Image(AssetManagerUtil.getCardTexture(card.getCardType()));
+        setCard(card.getPriority(), cardImage);
     }
 
     /**
