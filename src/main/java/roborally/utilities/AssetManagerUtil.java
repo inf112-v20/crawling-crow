@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
+import roborally.game.cards.IProgramCards;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.enums.LayerName;
 
@@ -145,15 +146,15 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
-    public static Texture getCardTexture(String card) {
-        HashMap<String, Texture> map = new HashMap<>();
-        map.put("RotateRight", manager.get(ROTATERIGHT));
-        map.put("RotateLeft", manager.get(ROTATELEFT));
-        map.put("Move1", manager.get(MOVE_1));
-        map.put("Move2", manager.get(MOVE_2));
-        map.put("Move3", manager.get(MOVE_3));
-        map.put("Uturn", manager.get(U_TURN));
-        map.put("Backup", manager.get(BACKUP));
+    public static Texture getCardTexture(IProgramCards.CardType card) {
+        HashMap<IProgramCards.CardType, Texture> map = new HashMap<>();
+        map.put(IProgramCards.CardType.ROTATE_RIGHT, manager.get(ROTATERIGHT));
+        map.put(IProgramCards.CardType.ROTATE_LEFT, manager.get(ROTATELEFT));
+        map.put(IProgramCards.CardType.MOVE_1, manager.get(MOVE_1));
+        map.put(IProgramCards.CardType.MOVE_2, manager.get(MOVE_2));
+        map.put(IProgramCards.CardType.MOVE_3, manager.get(MOVE_3));
+        map.put(IProgramCards.CardType.U_TURN, manager.get(U_TURN));
+        map.put(IProgramCards.CardType.BACKUP, manager.get(BACKUP));
         return map.get(card);
     }
 

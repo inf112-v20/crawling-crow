@@ -51,7 +51,7 @@ public class AnimateEvent {
             cardPhase = false;
             stage.clear();
             game.shuffleTheRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
-            programCardsView.clearStuff();
+            programCardsView.clear();
             events.setWaitMoveEvent(true);
         }
     }

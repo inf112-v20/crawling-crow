@@ -28,7 +28,7 @@ public class ProgramCardsView {
     private ArrayList<Group> groups;
     private int[] order;
     private ArrayList<Label> topLabelList;
-    private int cardWidth;
+    private int cardWidth; // TODO: Should not be hard coded
     private int cardHeight;
     private ImageButton doneButton;
 
@@ -58,39 +58,38 @@ public class ProgramCardsView {
             this.makeBackup(card.getPriority());
     }
 
-    // TODO: Should use Enum instead of String
-    public void makeUTurn(int priority) {
-        Image uTurn = new Image(AssetManagerUtil.getCardTexture("Uturn"));
+    private void makeUTurn(int priority) {
+        Image uTurn = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.U_TURN));
         setCard(priority, uTurn);
     }
 
     public void makeBackup(int priority) {
-        Image backup = new Image(AssetManagerUtil.getCardTexture("Backup"));
+        Image backup = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.BACKUP));
         setCard(priority, backup);
     }
 
     public void makeMove1(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move1"));
+        Image move = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.MOVE_1));
         setCard(priority, move);
     }
 
     public void makeMove2(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move2"));
+        Image move = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.MOVE_2));
         setCard(priority, move);
     }
 
     public void makeMove3(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move3"));
+        Image move = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.MOVE_3));
         setCard(priority, move);
     }
 
     public void makeRotateRight(int priority) {
-        Image RotateR = new Image(AssetManagerUtil.getCardTexture("RotateRight"));
+        Image RotateR = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.ROTATE_RIGHT));
         setCard(priority, RotateR);
     }
 
     public void makeRotateLeft(int priority) {
-        Image RotateL = new Image(AssetManagerUtil.getCardTexture("RotateLeft"));
+        Image RotateL = new Image(AssetManagerUtil.getCardTexture(IProgramCards.CardType.ROTATE_LEFT));
         setCard(priority, RotateL);
     }
 
@@ -187,7 +186,7 @@ public class ProgramCardsView {
 
 
     // Maybe deprecated.
-    public void clearStuff() {
+    public void clear() {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;
         this.groups.clear();
