@@ -66,7 +66,7 @@ public class AnimateEvent {
         programCardsView.setDoneButton();
         stage.addActor(programCardsView.getDoneButton());
 
-        float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
+        float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
 
         float cardRowWidth = programCardsView.getGroups().size() * programCardsView.getCardWidth();
 
@@ -77,9 +77,9 @@ public class AnimateEvent {
         System.out.println("Card row width: " + cardRowWidth);
         System.out.println("Done button position: " + programCardsView.getDoneButton().getX() + "," + programCardsView.getDoneButton().getY());
 
-        i = i / 2 - programCardsView.getCardWidth();
+        cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
         for (Group group : programCardsView.getGroups()) {
-            group.setX(i += programCardsView.getCardWidth());
+            group.setX(cardsGroupPositionX += programCardsView.getCardWidth());
             stage.addActor(group);
         }
         cardPhase = true;

@@ -2,7 +2,6 @@ package roborally.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -31,8 +30,6 @@ public class ProgramCardsView {
     private ArrayList<Label> topLabelList;
     private int cardWidth;
     private int cardHeight;
-    private Label doneLabel;
-
     private ImageButton doneButton;
 
     public ProgramCardsView() {
@@ -106,11 +103,10 @@ public class ProgramCardsView {
      */
     private void setCard(int priority, Image image) {
         image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
-        System.out.println(image.getWidth() + "," + image.getHeight()); // TODO: Remove
         Group group = new Group();
         group.addActor(image);
-        Label selectedOrderLabel = makeSelectedOrderLabel();
-        Label priorityLabel = makePriorityLabel(priority);
+        Label selectedOrderLabel = setSelectedOrderLabel();
+        Label priorityLabel = setPriorityLabel(priority);
         group.addActor(priorityLabel);
         group.addListener(new InputListener() {
             @Override
@@ -125,8 +121,8 @@ public class ProgramCardsView {
                             cardPick--;
                         return true;
                     }
-                if(cardPick == 5) {
-                    doneLabel.setColor(Color.RED);
+                if (cardPick == 5) {
+                    System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
                 topLabelList.add(cardPick, selectedOrderLabel);
@@ -141,7 +137,7 @@ public class ProgramCardsView {
         this.groups.add(group);
     }
 
-    public Label makeSelectedOrderLabel() {
+    public Label setSelectedOrderLabel() {
         Label.LabelStyle topLabelStyle = new Label.LabelStyle();
         topLabelStyle.font = new BitmapFont();
         Label topLabel = new Label("", topLabelStyle);
@@ -152,7 +148,7 @@ public class ProgramCardsView {
         return topLabel;
     }
 
-    public Label makePriorityLabel(int priority) {
+    public Label setPriorityLabel(int priority) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         Label label = new Label(Integer.toString(priority), labelStyle);
@@ -204,42 +200,6 @@ public class ProgramCardsView {
 
     public float getCardHeight() {
         return this.cardHeight;
-    }
-
-    @Deprecated
-    public Label getDoneLabel() {
-        return this.doneLabel;
-    }
-
-    @Deprecated
-    public void setDoneLabel() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        doneLabel = new Label("Done", labelStyle);
-        doneLabel.setFontScale(2);
-        //doneLabel.setScale(2);
-        doneLabel.setHeight(this.cardHeight);
-        doneLabel.setWidth(doneLabel.getPrefWidth());
-        doneLabel.setPosition(0, 100); // X-axis i set in AnimateEvent
-        doneLabel.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                doneLabel.setColor(Color.GREEN);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                doneLabel.setColor(Color.WHITE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                int[] newOrder = new int[cardPick];
-                System.arraycopy(order, 0, newOrder, 0, cardPick);
-                order = newOrder;
-                cardPick = -1;
-            }
-        });
     }
 
     public void setDoneButton() {
