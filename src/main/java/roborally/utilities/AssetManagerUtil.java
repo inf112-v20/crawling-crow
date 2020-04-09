@@ -72,6 +72,10 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
+
+    private static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/done-button.png", Texture.class);
+    private static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/done-button-pressed.png", Texture.class);
+
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
@@ -82,6 +86,9 @@ public class AssetManagerUtil {
         //Maps
         manager.load(SIGMUNDS_MAP);
         manager.load(LISES_MAP);
+
+        manager.load(DONE_BUTTON);
+        manager.load(DONE_BUTTON_PRESSED);
 
         //Robots
         manager.load(ANGRY);
@@ -103,11 +110,6 @@ public class AssetManagerUtil {
         manager.load(ROBOT_HIT);
         manager.load(SOUNDTRACK);
 
-        //Menu
-        manager.load(MENU);
-        manager.load(BUTTONS);
-        manager.load(MAP_BUTTON);
-
         //Cards
         manager.load(ROTATERIGHT);
         manager.load(ROTATELEFT);
@@ -115,6 +117,11 @@ public class AssetManagerUtil {
         manager.load(MOVE_2);
         manager.load(MOVE_3);
         manager.load(U_TURN);
+        //Menu
+        manager.load(MENU);
+        manager.load(BUTTONS);
+        manager.load(MAP_BUTTON);
+
 
     }
 
@@ -148,6 +155,10 @@ public class AssetManagerUtil {
         map.put("Uturn", manager.get(U_TURN));
         map.put("Backup", manager.get(BACKUP));
         return map.get(card);
+    }
+
+    public static int getCardWidth() {
+        return manager.get(ROTATERIGHT).getWidth();
     }
 
     /**
@@ -236,5 +247,13 @@ public class AssetManagerUtil {
             numberOfRobotCopies++;
         }
         return robotNames.pop();
+    }
+
+    public static Texture getDoneButton() {
+        return manager.get(DONE_BUTTON);
+    }
+
+    public static Texture getDoneButtonPressed() {
+        return manager.get(DONE_BUTTON_PRESSED);
     }
 }

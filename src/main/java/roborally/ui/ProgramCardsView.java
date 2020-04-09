@@ -7,8 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.game.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
  * once the played clicks the done button.
  */
 public class ProgramCardsView {
+    private final static float CARD_IMAGE_UNIT_SCALE = 3.4f;
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
@@ -29,6 +32,8 @@ public class ProgramCardsView {
     private int cardWidth;
     private int cardHeight;
     private Label doneLabel;
+
+    private ImageButton doneButton;
 
     public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
@@ -39,7 +44,7 @@ public class ProgramCardsView {
         this.cardHeight = 116;
     }
 
-    public void makeCard(IProgramCards.Card card) {
+    public void setCard(IProgramCards.Card card) {
         if (card.getCardType() == IProgramCards.CardType.MOVE_1)
             this.makeMove1(card.getPriority());
         else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
@@ -56,39 +61,40 @@ public class ProgramCardsView {
             this.makeBackup(card.getPriority());
     }
 
+    // TODO: Should use Enum instead of String
     public void makeUTurn(int priority) {
         Image uTurn = new Image(AssetManagerUtil.getCardTexture("Uturn"));
-        makeSomething(priority, uTurn);
+        setCard(priority, uTurn);
     }
 
     public void makeBackup(int priority) {
         Image backup = new Image(AssetManagerUtil.getCardTexture("Backup"));
-        makeSomething(priority, backup);
+        setCard(priority, backup);
     }
 
     public void makeMove1(int priority) {
         Image move = new Image(AssetManagerUtil.getCardTexture("Move1"));
-        makeSomething(priority, move);
+        setCard(priority, move);
     }
 
     public void makeMove2(int priority) {
         Image move = new Image(AssetManagerUtil.getCardTexture("Move2"));
-        makeSomething(priority, move);
+        setCard(priority, move);
     }
 
     public void makeMove3(int priority) {
         Image move = new Image(AssetManagerUtil.getCardTexture("Move3"));
-        makeSomething(priority, move);
+        setCard(priority, move);
     }
 
     public void makeRotateRight(int priority) {
         Image RotateR = new Image(AssetManagerUtil.getCardTexture("RotateRight"));
-        makeSomething(priority, RotateR);
+        setCard(priority, RotateR);
     }
 
     public void makeRotateLeft(int priority) {
         Image RotateL = new Image(AssetManagerUtil.getCardTexture("RotateLeft"));
-        makeSomething(priority, RotateL);
+        setCard(priority, RotateL);
     }
 
     /**
@@ -98,8 +104,9 @@ public class ProgramCardsView {
      * @param priority The priority of this card.
      * @param image    The image created for the card, with the related texture.
      */
-    private void makeSomething(int priority, Image image) {
-        image.setSize(getCardWidth(), getCardHeight());
+    private void setCard(int priority, Image image) {
+        image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
+        System.out.println(image.getWidth() + "," + image.getHeight()); // TODO: Remove
         Group group = new Group();
         group.addActor(image);
         Label selectedOrderLabel = makeSelectedOrderLabel();
@@ -191,26 +198,29 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
     }
 
-    public int getCardWidth() {
+    public float getCardWidth() {
         return this.cardWidth;
     }
 
-    public int getCardHeight() {
+    public float getCardHeight() {
         return this.cardHeight;
     }
 
+    @Deprecated
     public Label getDoneLabel() {
         return this.doneLabel;
     }
 
-    public void makeDoneLabel() {
+    @Deprecated
+    public void setDoneLabel() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         doneLabel = new Label("Done", labelStyle);
-        doneLabel.setPosition(getCardWidth(), getCardHeight());
         doneLabel.setFontScale(2);
-        doneLabel.setScale(2);
+        //doneLabel.setScale(2);
         doneLabel.setHeight(this.cardHeight);
+        doneLabel.setWidth(doneLabel.getPrefWidth());
+        doneLabel.setPosition(0, 100); // X-axis i set in AnimateEvent
         doneLabel.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -230,6 +240,25 @@ public class ProgramCardsView {
                 cardPick = -1;
             }
         });
+    }
+
+    public void setDoneButton() {
+        doneButton = new ImageButton(new TextureRegionDrawable(AssetManagerUtil.getDoneButton()), new TextureRegionDrawable(AssetManagerUtil.getDoneButtonPressed()));
+        doneButton.setPosition(0, (getCardHeight() / 2f) - (doneButton.getPrefHeight() / 2f));
+
+        doneButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                int[] newOrder = new int[cardPick];
+                System.arraycopy(order, 0, newOrder, 0, cardPick);
+                order = newOrder;
+                cardPick = -1;
+            }
+        });
+    }
+
+    public ImageButton getDoneButton() {
+        return this.doneButton;
     }
 
 }

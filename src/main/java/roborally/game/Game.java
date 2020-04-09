@@ -165,7 +165,7 @@ public class Game implements IGame {
 	private ProgramCardsView makeProgramCardsView(Robot robot) {
 		ProgramCardsView programCardsView = new ProgramCardsView();
 		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
-			programCardsView.makeCard(card);
+			programCardsView.setCard(card);
 		}
 		return programCardsView;
 	}

@@ -43,7 +43,7 @@ public class AnimateEvent {
      * @param stage The stage from UI.
      */
     public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
-        programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
+        programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
@@ -63,10 +63,20 @@ public class AnimateEvent {
      */
     public void initiateCards(ProgramCardsView programCardsView, Stage stage) {
         this.programCardsView = programCardsView;
-        programCardsView.makeDoneLabel();
-        stage.addActor(programCardsView.getDoneLabel());
+        programCardsView.setDoneButton();
+        stage.addActor(programCardsView.getDoneButton());
+
         float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
-        programCardsView.getDoneLabel().setX(stage.getWidth() / 2);
+
+        float cardRowWidth = programCardsView.getGroups().size() * programCardsView.getCardWidth();
+
+        float donePositionX = (stage.getWidth() - cardRowWidth) + programCardsView.getDoneButton().getWidth();
+
+        programCardsView.getDoneButton().setX(donePositionX);
+
+        System.out.println("Card row width: " + cardRowWidth);
+        System.out.println("Done button position: " + programCardsView.getDoneButton().getX() + "," + programCardsView.getDoneButton().getY());
+
         i = i / 2 - programCardsView.getCardWidth();
         for (Group group : programCardsView.getGroups()) {
             group.setX(i += programCardsView.getCardWidth());
