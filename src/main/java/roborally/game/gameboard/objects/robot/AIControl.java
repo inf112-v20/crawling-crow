@@ -2,16 +2,15 @@ package roborally.game.gameboard.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
-import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.IFlag;
 import roborally.utilities.Grid;
 import roborally.utilities.enums.Direction;
-import roborally.utilities.enums.LayerName;
-import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static roborally.game.cards.IProgramCards.Card;
 
 public class AIControl {
 	private IRobotLogic robotLogic;
@@ -19,7 +18,7 @@ public class AIControl {
 	private Grid grid;
 	private int[] order;
 	private int pickNr;
-	private HashMap<String, Queue<ProgramCards.Card>> cardTypes;
+	private HashMap<String, Queue<Card>> cardTypes;
 	private ArrayList<IFlag> flags;
 	private IFlag flag;
 	private double newDistanceToFlag;
@@ -49,10 +48,10 @@ public class AIControl {
 		return this.order;
 	}
 
-	private ArrayList<ProgramCards.Card> organizeCards() {
-		ArrayList<ProgramCards.Card> temp = robotLogic.getCardsInHand();
+	private void organizeCards() {
+		ArrayList<Card> temp = robotLogic.getCardsInHand();
 		this.order = new int[Math.min(temp.size(), 5)];
-		for (ProgramCards.Card card : temp) {
+		for (Card card : temp) {
 			if (card.getValue() > -2 && card.getValue() < 4)
 				cardTypes.get("move").addLast(card);
 			else if (card.getValue() == 90)
@@ -63,7 +62,6 @@ public class AIControl {
 				cardTypes.get("left").addLast(card);
 		}
 		chooseCards();
-		return temp;
 	}
 
 	private void chooseCards() {
@@ -72,31 +70,31 @@ public class AIControl {
 		double hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
 		boolean rotated = false;
 		boolean rotateEmpty = false;
-		while (pickNr < order.length) {
+		while (!fullOrder()) {
 			while (hypoDistToFlag > distToFlag && !rotateEmpty) {
 				rotated = true;
-				if (rotate())
+				if (!rotate())
 					rotateEmpty = true;
-				if (pickNr == order.length)
+				if (fullOrder())
 					break;
-				hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
+				hypoDistToFlag = nextHypoStep(hypoPos);
 			}
 			GridPoint2 newHypoPos = hypoPos.cpy();
-			while (hypoDistToFlag < distToFlag && !cardTypes.get("move").isEmpty() && pickNr < order.length) {
-				ProgramCards.Card move = cardTypes.get("move").removeFirst();
+			while (hypoDistToFlag < distToFlag && !cardTypes.get("move").isEmpty() && !fullOrder()) {
+				Card move = cardTypes.get("move").removeFirst();
 				for (int i = 0; i < move.getValue(); i++)
-					distToFlag = hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
-				hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
-				order[pickNr++] = robotLogic.getCardsInHand().indexOf(move);
+					distToFlag = nextStep(hypoPos);
+				hypoDistToFlag = nextHypoStep(hypoPos);
+				updateOrder(move);
 			}
-			if ((rotated && hypoPos.equals(newHypoPos) && pickNr < order.length) ||
-					((cardTypes.get("move").isEmpty() || rotateEmpty) && pickNr < order.length)) {
-				if (rotate() && pickNr < order.length) {
-					ProgramCards.Card move = cardTypes.get("move").removeFirst();
+			if ((rotated && hypoPos.equals(newHypoPos) && !fullOrder()) ||
+					((cardTypes.get("move").isEmpty() || rotateEmpty) && !fullOrder())) {
+				if (!rotate() && !fullOrder()) {
+					Card move = cardTypes.get("move").removeFirst();
 					for (int i = 0; i < move.getValue(); i++)
-						distToFlag = hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
-					order[pickNr++] = robotLogic.getCardsInHand().indexOf(move);
-					hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
+						distToFlag = nextStep(hypoPos);
+					hypoDistToFlag = nextHypoStep(hypoPos);
+					updateOrder(move);
 				}
 			} else
 				rotated = false;
@@ -104,21 +102,36 @@ public class AIControl {
 		newDistanceToFlag = distToFlag;
 	}
 
+	private void updateOrder(Card card) {
+		order[pickNr++] = robotLogic.getCardsInHand().indexOf(card);
+	}
+
+	private double nextStep(GridPoint2 hypoPos){
+		return hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
+	}
+
+	private double nextHypoStep(GridPoint2 hypoPos) {
+		return hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
+	}
+
+	private boolean fullOrder() {
+		return this.order.length == pickNr;
+	}
+
 	private boolean rotate() {
-		ArrayList<ProgramCards.Card> cardsInHand = robotLogic.getCardsInHand();
 		if (!cardTypes.get("left").isEmpty()) {
 			logicDirection = Direction.turnLeftFrom(logicDirection);
-			order[pickNr++] = cardsInHand.indexOf(cardTypes.get("left").removeFirst());
+			updateOrder(cardTypes.get("left").removeFirst());
 		} else if (!cardTypes.get("right").isEmpty()) {
 			logicDirection = Direction.turnRightFrom(logicDirection);
-			order[pickNr++] = cardsInHand.indexOf(cardTypes.get("right").removeFirst());
+			updateOrder(cardTypes.get("right").removeFirst());
 		} else if (!cardTypes.get("uTurn").isEmpty()) {
 			logicDirection = Direction.turnLeftFrom(logicDirection);
 			logicDirection = Direction.turnLeftFrom(logicDirection);
-			order[pickNr++] = cardsInHand.indexOf(cardTypes.get("uTurn").removeFirst());
+			updateOrder(cardTypes.get("uTurn").removeFirst());
 		} else
-			return true;
-		return false;
+			return false;
+		return true;
 	}
 
 	public double getNewDistanceToFlag() {
