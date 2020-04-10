@@ -4,10 +4,7 @@ import org.junit.Test;
 import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.objects.robot.AIControl;
-import roborally.game.gameboard.objects.robot.Robot;
 import roborally.game.gameboard.objects.robot.RobotLogic;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 

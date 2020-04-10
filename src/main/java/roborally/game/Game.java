@@ -8,7 +8,6 @@ import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
-import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.gameboard.objects.robot.AIControl;
@@ -28,7 +27,6 @@ public class Game implements IGame {
 	private ILayers layers;
 	private ArrayList<Robot> robots;
 	private ArrayList<IFlag> flags;
-	private ArrayList<BoardObject> repairSites;
 	private IProgramCards deckOfProgramCards;
 	private LaserRegister laserRegister;
 	private Robot userRobot;
