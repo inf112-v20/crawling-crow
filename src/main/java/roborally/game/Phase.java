@@ -65,7 +65,7 @@ public class Phase implements IPhase {
 		phaseNumber++;
 		if (phaseNumber == 6)
 			phaseNumber = 1;
-		System.out.println("\t- COMPLETED ONE PHASE");
+		//System.out.println("\t- COMPLETED ONE PHASE");
 	}
 
 	private void pushActivePushers(int phaseNumber, ILayers layers) {
@@ -134,12 +134,12 @@ public class Phase implements IPhase {
 
 	@Override
 	public void registerRepairSitePositionsAndUpdateArchiveMarker() {
-		System.out.println("\nChecking if any robots have arrived at a repair site...");
+		//System.out.println("\nChecking if any robots have arrived at a repair site...");
 		for (BoardObject repairSite : repairSites) {
 			for (Robot robot : robots) {
 				if (robot.getPosition().equals(repairSite.getPosition())) {
 					robot.getLogic().setArchiveMarker(repairSite.getPosition());
-					System.out.println("- Type of repair site: " + repairSite.getType().name());
+					//System.out.println("- Type of repair site: " + repairSite.getType().name());
 				}
 			}
 		}
@@ -147,7 +147,7 @@ public class Phase implements IPhase {
 
 	@Override
 	public void registerFlagPositionsAndUpdateArchiveMarker() {
-		System.out.println("\nChecking if any robots have arrived at their next flag position...");
+		//System.out.println("\nChecking if any robots have arrived at their next flag position...");
 		for (IFlag flag : flags) {
 			for (Robot robot : robots) {
 				if (robot.getLogic().getPosition().equals(flag.getPosition())) {
@@ -155,7 +155,7 @@ public class Phase implements IPhase {
 					if (flag.getID() == nextFlag) {
 						robot.visitNextFlag();
 						robot.getLogic().setArchiveMarker(flag.getPosition());
-						System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
+						//System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
 					}
 				}
 			}
@@ -164,9 +164,9 @@ public class Phase implements IPhase {
 
 	@Override
 	public boolean checkForWinner() {
-		System.out.println("\nChecking if someone won...");
+		//System.out.println("\nChecking if someone won...");
 		boolean someoneWon = checkAllRobotsForWinner();
-		System.out.println("- Did someone win? " + someoneWon);
+		//System.out.println("- Did someone win? " + someoneWon);
 		if (someoneWon)
 			System.out.println("- Found winner: " + winner.getName());
 		return someoneWon;
@@ -176,7 +176,7 @@ public class Phase implements IPhase {
 		for (Robot robot : robots)
 			if (robot.checkForStationaryLaser()) {
 				robot.takeDamage(1);
-				System.out.println("- Hit by stationary laser");
+				//System.out.println("- Hit by stationary laser");
 			}
 	}
 

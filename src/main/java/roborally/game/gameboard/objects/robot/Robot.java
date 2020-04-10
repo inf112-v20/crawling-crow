@@ -106,11 +106,11 @@ public class Robot implements IRobot {
 
     @Override
     public void tryToMove(GridPoint2 possiblePosition) {
-        System.out.println("\n" + getName() + " trying to move:");
+        //System.out.println("\n" + getName() + " trying to move:");
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
 
-        System.out.println("\t- Old position: " + oldPos);
+        //System.out.println("\t- Old position: " + oldPos);
 
         // Check if the robot is not colliding with something
         if (!listener.listenCollision(oldPos, possiblePosition)) {
@@ -125,21 +125,21 @@ public class Robot implements IRobot {
                 }
                 // Update pos
                 setPosition(newPos);
-                System.out.println("\t- New position: " + newPos);
-                System.out.println("\t- Health: " + getLogic().getHealth());
+                //System.out.println("\t- New position: " + newPos);
+                //System.out.println("\t- Health: " + getLogic().getHealth());
 
                 // Check if Robot is standing on a hole
                 if (layers.layerNotNull(LayerName.HOLE, newPos)) {
                     //robotWentInHole = true;
                     takeDamage(SettingsUtil.MAX_DAMAGE);
-                    System.out.println("\t\t- Robot went into a hole");
+                    //System.out.println("\t\t- Robot went into a hole");
                 }
                 getView().setDirection(newPos, getLogic().getDirection());
 
             }
-        } else
-            // Robot does not move
-            System.out.println("\t\t- Robot cannot move this way: " + oldPos);
+        }
+        // Robot does not move
+            //System.out.println("\t\t- Robot cannot move this way: " + oldPos);
     }
 
     private void playSoundWalking(GridPoint2 oldPos) {

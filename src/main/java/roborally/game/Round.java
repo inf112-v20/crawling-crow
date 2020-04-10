@@ -34,7 +34,7 @@ public class Round implements IRound {
 		//startPhases(layers);
 		checkForDestroyedRobots();
 		cleanUp();
-		System.out.println("\t- RAN A ROUND");
+		//System.out.println("\t- RAN A ROUND");
 	}
 
 	@Override
