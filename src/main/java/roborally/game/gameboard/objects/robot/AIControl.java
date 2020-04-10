@@ -6,9 +6,12 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.IFlag;
 import roborally.utilities.Grid;
 import roborally.utilities.enums.Direction;
+import roborally.utilities.enums.LayerName;
+import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static roborally.game.cards.IProgramCards.Card;
 
@@ -84,22 +87,25 @@ public class AIControl {
 			GridPoint2 newHypoPos = hypoPos.cpy();
 			while (closerToFlag() && !movesIsEmpty() && !fullOrder())
 				addMoveCard();
-			boolean rotatedNotMoved = rotated && hypoPos.equals(newHypoPos) && !fullOrder();
-			boolean moveOrRotateEmpty = (movesIsEmpty() || rotateEmpty) && !fullOrder();
-			rotated = addNextCard(rotatedNotMoved, moveOrRotateEmpty);
+			boolean rotatedNotMoved = rotated && hypoPos.equals(newHypoPos);
+			boolean moveOrRotateEmpty = (movesIsEmpty() || rotateEmpty);
+			rotated = forcedCard(rotatedNotMoved, moveOrRotateEmpty);
 		}
 	}
 
 	private void addMoveCard() {
 		Card move = getNextMove();
-		for (int i = 0; i < move.getValue(); i++)
+		for (int i = 0; i < Math.abs(move.getValue()); i++)
 			distToFlag = nextDist();
+		hypoPos.add(tilesAtPos(hypoPos));
+		distToFlag = hypoPos.dst(flag.getPosition());
 		hypoDistToFlag = nextHypoDist();
 		updateOrder(move);
 	}
 
-	private boolean addNextCard(boolean rotatedNotMoved, boolean moveOrRotateEmpty) {
-		if ((rotatedNotMoved || moveOrRotateEmpty) && (!rotate() && !fullOrder())) {
+	private boolean forcedCard(boolean rotatedNotMoved, boolean moveOrRotateEmpty) {
+		boolean forcedMove = (rotatedNotMoved || moveOrRotateEmpty) && !fullOrder();
+		if (forcedMove && !rotate()) {
 			addMoveCard();
 			return true;
 		}
@@ -122,12 +128,26 @@ public class AIControl {
 		order[pickNr++] = robotLogic.getCardsInHand().indexOf(card);
 	}
 
-	private double nextDist(){
+	private double nextDist() {
 		return hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
 	}
 
 	private double nextHypoDist() {
-		return hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
+		int val;
+		if (!cardTypes.get("move").isEmpty())
+			val = cardTypes.get("move").get(0).getValue();
+		else
+			val = 1;
+		GridPoint2 pos = hypoPos.cpy();
+		if (val == -1)
+			pos.sub(logicDirection.getStep());
+		else {
+			for (int i = 0; i < val; i++)
+				pos.add(logicDirection.getStep());
+		}
+		GridPoint2 gp2 = tilesAtPos(pos);
+		pos.add(gp2);
+		return pos.dst(flag.getPosition());
 	}
 
 	private boolean fullOrder() {
@@ -135,27 +155,87 @@ public class AIControl {
 	}
 
 	private boolean rotate() {
-		if (!cardTypes.get("left").isEmpty()) {
-			logicDirection = Direction.turnLeftFrom(logicDirection);
-			updateOrder(cardTypes.get("left").removeFirst());
-		} else if (!cardTypes.get("right").isEmpty()) {
-			logicDirection = Direction.turnRightFrom(logicDirection);
-			updateOrder(cardTypes.get("right").removeFirst());
-		} else if (!cardTypes.get("uTurn").isEmpty()) {
-			logicDirection = Direction.turnLeftFrom(logicDirection);
-			logicDirection = Direction.turnLeftFrom(logicDirection);
-			updateOrder(cardTypes.get("uTurn").removeFirst());
-		} else
-			return false;
+		if (!fullOrder()) {
+			if (!cardTypes.get("left").isEmpty() && hypoLeft())
+				updateOrder(cardTypes.get("left").removeFirst());
+			else if (!cardTypes.get("right").isEmpty() && hypoRight())
+				updateOrder(cardTypes.get("right").removeFirst());
+			else if (!cardTypes.get("uTurn").isEmpty()) {
+				logicDirection = Direction.turnLeftFrom(logicDirection);
+				logicDirection = Direction.turnLeftFrom(logicDirection);
+				updateOrder(cardTypes.get("uTurn").removeFirst());
+			} else if (!cardTypes.get("left").isEmpty() || !cardTypes.get("right").isEmpty()) {
+				if (cardTypes.get("left").size > cardTypes.get("right").size) {
+					logicDirection = Direction.turnLeftFrom(logicDirection);
+					updateOrder(cardTypes.get("left").removeFirst());
+				} else {
+					logicDirection = Direction.turnRightFrom(logicDirection);
+					updateOrder(cardTypes.get("right").removeFirst());
+				}
+			}
+			else
+				return false;
+		}
 		return true;
 	}
 
+	private boolean hypoLeft() {
+		Direction temp = logicDirection;
+		double tempDist = hypoDistToFlag;
+		logicDirection = Direction.turnLeftFrom(logicDirection);
+		hypoDistToFlag = nextHypoDist();
+		if(closerToFlag())
+			return true;
+		else {
+			logicDirection = temp;
+			hypoDistToFlag = tempDist;
+			return false;
+		}
+	}
+
+	private boolean hypoRight() {
+		Direction temp = logicDirection;
+		double tempDist = hypoDistToFlag;
+		logicDirection = Direction.turnRightFrom(logicDirection);
+		hypoDistToFlag = nextHypoDist();
+		if(closerToFlag())
+			return true;
+		else {
+			logicDirection = temp;
+			hypoDistToFlag = tempDist;
+			return false;
+		}
+	}
 	public double getNewDistanceToFlag() {
 		return distToFlag;
 	}
 
-	public GridPoint2 getConveyorStep(GridPoint2 pos) {
-		return null;
+	public GridPoint2 updatePos(TileName tileName) {
+		String[] splitted;
+		String tileString = tileName.toString();
+		if (tileString.contains("JOIN_"))
+			tileString = tileString.substring(tileString.indexOf("JOIN_"));
+		else if (tileString.contains("TO_"))
+			tileString = tileString.substring(tileString.indexOf("TO_"));
+		splitted = tileString.split("_");
+		Direction dir = Direction.valueOf(splitted[1]);
+		return dir.getStep();
 	}
 
+	public GridPoint2 tilesAtPos(GridPoint2 pos) {
+		GridPoint2 gp2 = new GridPoint2();
+		Iterator<TileName> tiles = grid.getTilesAtPosition(pos);
+		if (tiles == null)
+			return gp2;
+		while (tiles.hasNext()) {
+			TileName tileName = tiles.next();
+			if (grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(tileName)) {
+				gp2.add(updatePos(tileName));
+				gp2.add(updatePos(tileName));
+			}
+			if (grid.getGridLayer(LayerName.CONVEYOR).containsValue(tileName))
+				gp2.add(updatePos(tileName));
+		}
+		return gp2;
+	}
 }
