@@ -21,7 +21,9 @@ public class AIControl {
 	private HashMap<String, Queue<Card>> cardTypes;
 	private ArrayList<IFlag> flags;
 	private IFlag flag;
-	private double newDistanceToFlag;
+	private GridPoint2 hypoPos;
+	private double distToFlag;
+	private double hypoDistToFlag;
 
 	public AIControl(IGameBoard gameBoard) {
 		this.flags = gameBoard.getFlags();
@@ -65,52 +67,66 @@ public class AIControl {
 	}
 
 	private void chooseCards() {
-		GridPoint2 hypoPos = robotLogic.getPosition().cpy();
-		double distToFlag = hypoPos.cpy().dst(flag.getPosition());
-		double hypoDistToFlag = hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
+		hypoPos = robotLogic.getPosition().cpy();
+		distToFlag = hypoPos.cpy().dst(flag.getPosition());
+		hypoDistToFlag = nextHypoDist();
 		boolean rotated = false;
 		boolean rotateEmpty = false;
 		while (!fullOrder()) {
-			while (hypoDistToFlag > distToFlag && !rotateEmpty) {
+			while (!closerToFlag() && !rotateEmpty) {
 				rotated = true;
 				if (!rotate())
 					rotateEmpty = true;
 				if (fullOrder())
 					break;
-				hypoDistToFlag = nextHypoStep(hypoPos);
+				hypoDistToFlag = nextHypoDist();
 			}
 			GridPoint2 newHypoPos = hypoPos.cpy();
-			while (hypoDistToFlag < distToFlag && !cardTypes.get("move").isEmpty() && !fullOrder()) {
-				Card move = cardTypes.get("move").removeFirst();
-				for (int i = 0; i < move.getValue(); i++)
-					distToFlag = nextStep(hypoPos);
-				hypoDistToFlag = nextHypoStep(hypoPos);
-				updateOrder(move);
-			}
-			if ((rotated && hypoPos.equals(newHypoPos) && !fullOrder()) ||
-					((cardTypes.get("move").isEmpty() || rotateEmpty) && !fullOrder())) {
-				if (!rotate() && !fullOrder()) {
-					Card move = cardTypes.get("move").removeFirst();
-					for (int i = 0; i < move.getValue(); i++)
-						distToFlag = nextStep(hypoPos);
-					hypoDistToFlag = nextHypoStep(hypoPos);
-					updateOrder(move);
-				}
-			} else
-				rotated = false;
+			while (closerToFlag() && !movesIsEmpty() && !fullOrder())
+				addMoveCard();
+			boolean rotatedNotMoved = rotated && hypoPos.equals(newHypoPos) && !fullOrder();
+			boolean moveOrRotateEmpty = (movesIsEmpty() || rotateEmpty) && !fullOrder();
+			rotated = addNextCard(rotatedNotMoved, moveOrRotateEmpty);
 		}
-		newDistanceToFlag = distToFlag;
+	}
+
+	private void addMoveCard() {
+		Card move = getNextMove();
+		for (int i = 0; i < move.getValue(); i++)
+			distToFlag = nextDist();
+		hypoDistToFlag = nextHypoDist();
+		updateOrder(move);
+	}
+
+	private boolean addNextCard(boolean rotatedNotMoved, boolean moveOrRotateEmpty) {
+		if ((rotatedNotMoved || moveOrRotateEmpty) && (!rotate() && !fullOrder())) {
+			addMoveCard();
+			return true;
+		}
+		return false;
+	}
+
+	private boolean closerToFlag() {
+		return hypoDistToFlag < distToFlag;
+	}
+
+	private Card getNextMove() {
+		return cardTypes.get("move").removeFirst();
+	}
+
+	private boolean movesIsEmpty() {
+		return cardTypes.get("move").isEmpty();
 	}
 
 	private void updateOrder(Card card) {
 		order[pickNr++] = robotLogic.getCardsInHand().indexOf(card);
 	}
 
-	private double nextStep(GridPoint2 hypoPos){
+	private double nextDist(){
 		return hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
 	}
 
-	private double nextHypoStep(GridPoint2 hypoPos) {
+	private double nextHypoDist() {
 		return hypoPos.cpy().add(logicDirection.getStep()).dst(flag.getPosition());
 	}
 
@@ -135,7 +151,7 @@ public class AIControl {
 	}
 
 	public double getNewDistanceToFlag() {
-		return this.newDistanceToFlag;
+		return distToFlag;
 	}
 
 	public GridPoint2 getConveyorStep(GridPoint2 pos) {
