@@ -60,7 +60,8 @@ public class Game implements IGame {
 		this.laserRegister = new LaserRegister(layers);
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard);
-		this.userRobot = robots.get(0);
+		this.userRobot = robots.
+				get(0);
 
 	}
 
@@ -106,7 +107,7 @@ public class Game implements IGame {
 	public void restartGame() {
 		if (events.hasWaitEvent())
 			return;
-		System.out.println("Restarting game...");
+		//System.out.println("Restarting game...");
 		for (Robot robot : robots) {
 			events.removeFromUI(robot);
 		}
@@ -142,7 +143,7 @@ public class Game implements IGame {
 
 	private void returnToMenuIfOnlyOneRobotLeft() {
 		if (getRobots().size() < 2) {
-			System.out.println("Entering menu");
+			//System.out.println("Entering menu");
 			gameOptions.enterMenu();
 		}
 	}
@@ -161,7 +162,11 @@ public class Game implements IGame {
 				currentRobot.getLogic().arrangeCardsInHand(aiControl.getOrder());
 			}
 		}
-		return makeProgramCardsView(userRobot);
+		aiControl = new AIControl(gameBoard);
+		aiControl.controlRobot(userRobot.getLogic());
+		userRobot.getLogic().arrangeCardsInHand(aiControl.getOrder());
+		return null;
+		//return makeProgramCardsView(userRobot);
 	}
 
 	@NotNull
