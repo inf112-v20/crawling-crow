@@ -9,9 +9,7 @@ import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 import static roborally.game.cards.IProgramCards.Card;
 
@@ -57,6 +55,7 @@ public class AIControl {
 		ArrayList<Card> temp = robotLogic.getCardsInHand();
 		this.order = new int[Math.min(temp.size(), 5)];
 		for (Card card : temp) {
+			System.out.print(card.getCard() + " ");
 			if (card.getValue() > -2 && card.getValue() < 4)
 				cardTypes.get("move").addLast(card);
 			else if (card.getValue() == 90)
@@ -66,6 +65,7 @@ public class AIControl {
 			else if (card.getValue() < -1)
 				cardTypes.get("left").addLast(card);
 		}
+		System.out.println();
 		chooseCards();
 	}
 
@@ -113,7 +113,28 @@ public class AIControl {
 	}
 
 	private boolean closerToFlag() {
+		if(cardTypes.get("move").size > 1)
+			findBestMoveCard();
 		return hypoDistToFlag < distToFlag;
+	}
+
+	private void findBestMoveCard() {
+		ArrayList<Card> temp = new ArrayList<>();
+		Map<Card, Double> bestCard = new HashMap<>();
+		while(!cardTypes.get("move").isEmpty())
+			temp.add(getNextMove());
+		for(Card card : temp) {
+			cardTypes.get("move").addFirst(card);
+			bestCard.put(card, nextHypoDist());
+			cardTypes.get("move").removeFirst();
+		}
+		Map.Entry<Card, Double> min = Collections.min(bestCard.entrySet(),
+				Map.Entry.comparingByValue());
+		cardTypes.get("move").addFirst(min.getKey());
+		hypoDistToFlag = min.getValue();
+		temp.remove(min.getKey());
+		for(Card card : temp)
+			cardTypes.get("move").addLast(card);
 	}
 
 	private Card getNextMove() {
