@@ -30,8 +30,10 @@ public class AssetManagerUtil {
     public static final AssetDescriptor<Music> SOUNDTRACK
             = new AssetDescriptor<>("sounds/soundTrack.mp3", Music.class);
     //Maps
+    private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP_2
+            = new AssetDescriptor<>("maps/fruityLoops.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP
-            = new AssetDescriptor<>("maps/newmap.tmx", TiledMap.class);
+            = new AssetDescriptor<>("maps/Eight.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> LISES_MAP
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
     //Other
@@ -80,6 +82,7 @@ public class AssetManagerUtil {
 
     public static void load() {
         //Maps
+        manager.load(SIGMUNDS_MAP_2);
         manager.load(SIGMUNDS_MAP);
         manager.load(LISES_MAP);
 
@@ -132,7 +135,7 @@ public class AssetManagerUtil {
 
     // Only one map so far, but can add more and return a list.
     public static TiledMap getMap(int map) {
-        TiledMap[] tiledMaps = {manager.get(SIGMUNDS_MAP), manager.get(LISES_MAP)};
+        TiledMap[] tiledMaps = {manager.get(SIGMUNDS_MAP), manager.get(LISES_MAP), manager.get(SIGMUNDS_MAP_2)};
         List<TiledMap> maps = Arrays.asList(tiledMaps);
         loadedMap = maps.get(map);
         return loadedMap;

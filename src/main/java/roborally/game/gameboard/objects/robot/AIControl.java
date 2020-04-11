@@ -95,6 +95,11 @@ public class AIControl {
 	}
 
 	private boolean rotate() {
+		GridPoint2 pos = hypoPos.cpy();
+		Direction dir = logicDirection;
+		hypoPos.add(tilesAtPos(hypoPos));
+		distToFlag = hypoPos.dst(flag.getPosition());
+		hypoDistToFlag = nextHypoDist();
 		if (!fullOrder()) {
 			if (!cardTypes.get("left").isEmpty() && hypoRotate("left"))
 				updateOrder(cardTypes.get("left").removeFirst());
@@ -114,8 +119,11 @@ public class AIControl {
 					turn("right");
 					updateOrder(cardTypes.get("right").removeFirst());
 				}
-			} else
+			} else {
+				hypoPos = pos;
+				logicDirection = dir;
 				return false;
+			}
 		}
 		return true;
 	}
@@ -125,6 +133,7 @@ public class AIControl {
 		for (int i = 0; i < Math.abs(move.getValue()); i++)
 			distToFlag = nextDist();
 		hypoPos.add(tilesAtPos(hypoPos));
+		closerToFlag();
 		distToFlag = hypoPos.dst(flag.getPosition());
 		hypoDistToFlag = nextHypoDist();
 		updateOrder(move);

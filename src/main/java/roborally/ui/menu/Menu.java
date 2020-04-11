@@ -250,7 +250,7 @@ public class Menu {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (mapId == 0)
-                    mapId = 1;
+                    mapId = 2;
                 else
                     mapId -= 1;
                 return true;
@@ -259,7 +259,7 @@ public class Menu {
         right.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 1)
+                if (mapId == 2)
                     mapId = 0;
                 else
                     mapId += 1;
@@ -564,6 +564,7 @@ public class Menu {
         ArrayList<Image> maps = new ArrayList<>();
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map0.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.png"))));
         for (Image image : maps)
             image.setPosition(75, 115);
         imageLists.put("maps", maps);

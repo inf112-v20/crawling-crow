@@ -234,6 +234,8 @@ public class Game implements IGame {
 			this.currentPhaseIndex = 0;
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
+			dealCards();
+			this.events.setWaitMoveEvent(true);
 		}
 		return deltaTime;
 	}
