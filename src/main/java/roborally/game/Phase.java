@@ -40,8 +40,8 @@ public class Phase implements IPhase {
 	public Phase(ArrayList<Robot> robots, IGameBoard gameBoard, Events events) {
 		this.robots = robots;
 		this.events = events;
-		this.flags = gameBoard.findAllFlags();
-		this.repairSites = gameBoard.findAllRepairSites();
+		this.flags = gameBoard.getFlags();
+		this.repairSites = gameBoard.getRepairSites();
 		if (gameBoard.hasPushers()) {
 			this.pushers = gameBoard.addPushers();
 			pusher = true;
@@ -65,7 +65,6 @@ public class Phase implements IPhase {
 		phaseNumber++;
 		if (phaseNumber == 6)
 			phaseNumber = 1;
-		//System.out.println("\t- COMPLETED ONE PHASE");
 	}
 
 	private void pushActivePushers(int phaseNumber, ILayers layers) {
@@ -99,7 +98,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void moveAllConveyorBelts(ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR, robots);
@@ -107,7 +105,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void moveCogs(ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		for (Robot robot : robots) {
 			GridPoint2 pos = robot.getPosition();
 			if (layers.layerNotNull(LayerName.COG, pos)) {
