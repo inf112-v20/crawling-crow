@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
  */
 
 public class LaserEvent {
-    public static final float unitScale = 300 * 3f / 16f; // Tile size
     private static float tileEdge = 10; // To make the graphic not go too far out on the edges.
     private GridPoint2 laserPoint;
     private boolean laserEvent;
@@ -34,7 +34,7 @@ public class LaserEvent {
 
     public void laserImage(int id) {
         Image laserImage = new Image(AssetManagerUtil.getTileSets().getTile(id).getTextureRegion());
-        laserImage.setSize(unitScale, unitScale);
+        laserImage.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
         this.laserImage = laserImage;
     }
 
@@ -56,8 +56,8 @@ public class LaserEvent {
             if (origin.x > laserPoint.x)
                 this.factor = -this.factor;
         }
-        this.laserImage.setX(unitScale * origin.x);
-        this.laserImage.setY(unitScale * origin.y);
+        this.laserImage.setX(SettingsUtil.TILE_SCALE * origin.x);
+        this.laserImage.setY(SettingsUtil.TILE_SCALE * origin.y);
         this.laserEvent = true;
     }
 
@@ -79,8 +79,8 @@ public class LaserEvent {
         if (this.laserImage.getWidth() < tileEdge) {
             hitRobot(robots);
         }
-        boolean negative = this.laserImage.getX() <= (this.laserPoint.x) * unitScale + tileEdge;
-        boolean positive = this.laserImage.getX() >= (this.laserPoint.x) * unitScale - tileEdge;
+        boolean negative = this.laserImage.getX() <= (this.laserPoint.x) * SettingsUtil.TILE_SCALE + tileEdge;
+        boolean positive = this.laserImage.getX() >= (this.laserPoint.x) * SettingsUtil.TILE_SCALE - tileEdge;
         float oldWidth = this.laserImage.getWidth();
         float oldX = this.laserImage.getX();
         if (positive && factor > 0) {
@@ -99,8 +99,8 @@ public class LaserEvent {
         if (this.laserImage.getHeight() < tileEdge) {
             hitRobot(robots);
         }
-        boolean negative = this.laserImage.getY() <= (this.laserPoint.y) * unitScale + tileEdge;
-        boolean positive = this.laserImage.getY() >= (this.laserPoint.y) * unitScale - tileEdge;
+        boolean negative = this.laserImage.getY() <= (this.laserPoint.y) * SettingsUtil.TILE_SCALE + tileEdge;
+        boolean positive = this.laserImage.getY() >= (this.laserPoint.y) * SettingsUtil.TILE_SCALE - tileEdge;
         float oldHeight = this.laserImage.getHeight();
         float oldY = this.laserImage.getY();
         if (positive && factor > 0) {

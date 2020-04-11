@@ -60,7 +60,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 3 / 16f);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SettingsUtil.UNIT_SCALE);
         mapRenderer.setView(camera);
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
