@@ -53,9 +53,9 @@ public class AIControl {
 	}
 
 	private void organizeCards() {
-		ArrayList<Card> temp = robotLogic.getCardsInHand();
-		this.order = new int[Math.min(temp.size(), 5)];
-		for (Card card : temp) {
+		ArrayList<Card> robotsCards = robotLogic.getCardsInHand();
+		this.order = new int[Math.min(robotsCards.size(), 5)];
+		for (Card card : robotsCards) {
 			System.out.print(card.getCard() + " ");
 			if (card.getValue() > -2 && card.getValue() < 4)
 				cardTypes.get("move").addLast(card);
@@ -73,152 +73,69 @@ public class AIControl {
 	private void chooseCards() {
 		hypoPos = robotLogic.getPosition().cpy();
 		distToFlag = hypoPos.cpy().dst(flag.getPosition());
-		hypoDistToFlag = nextHypoDist();
-		boolean rotated = false;
+		hypoDistToFlag = nextHypoDistToFlag();
 		boolean rotateEmpty = false;
+
 		while (!fullOrder()) {
 			while (!closerToFlag() && !rotateEmpty) {
-				rotated = true;
 				if (!rotate())
 					rotateEmpty = true;
 				if (fullOrder())
 					break;
-				hypoDistToFlag = nextHypoDist();
+				hypoDistToFlag = nextHypoDistToFlag();
 			}
-			GridPoint2 newHypoPos = hypoPos.cpy();
-			while (closerToFlag() && !movesIsEmpty() && !fullOrder())
+			while (closerToFlag() && hasCard("move") && !fullOrder())
 				addMoveCard();
-			boolean rotatedNotMoved = rotated && hypoPos.equals(newHypoPos);
-			boolean moveOrRotateEmpty = (movesIsEmpty() || rotateEmpty);
-			rotated = forcedCard(rotatedNotMoved, moveOrRotateEmpty);
+			boolean moveOrRotateEmpty = (!hasCard("move") || rotateEmpty);
+			if(moveOrRotateEmpty && !fullOrder())
+				if(!rotate())
+					addMoveCard();
 		}
 	}
 
 	private boolean rotate() {
-		GridPoint2 pos = hypoPos.cpy();
-		Direction dir = logicDirection;
+		GridPoint2 oldHypoPos = hypoPos.cpy();
+		Direction oldDirection = logicDirection;
 		hypoPos.add(tilesAtPos(hypoPos));
 		distToFlag = hypoPos.dst(flag.getPosition());
-		hypoDistToFlag = nextHypoDist();
+		hypoDistToFlag = nextHypoDistToFlag();
+
 		if (!fullOrder()) {
-			if (!cardTypes.get("left").isEmpty() && hypoRotate("left"))
-				updateOrder(cardTypes.get("left").removeFirst());
-			else if (!cardTypes.get("right").isEmpty() && hypoRotate("right"))
-				updateOrder(cardTypes.get("right").removeFirst());
-			else if (!cardTypes.get("uTurn").isEmpty()) {
+			if (goodRotation("left"))
+				updateOrder(getNextCard("left"));
+			else if (goodRotation("right"))
+				updateOrder(getNextCard("right"));
+			else if (goodRotation("uTurn")) {
 				turn("left");
 				turn("left");
-				updateOrder(cardTypes.get("uTurn").removeFirst());
+				updateOrder(getNextCard("uTurn"));
 			}
-			else if (!cardTypes.get("left").isEmpty() || !cardTypes.get("right").isEmpty()) {
+			else if (hasCard("left") || hasCard("right")) {
 				if (cardTypes.get("left").size > cardTypes.get("right").size) {
 					turn("left");
-					updateOrder(cardTypes.get("left").removeFirst());
+					updateOrder(getNextCard("left"));
 				}
 				else {
 					turn("right");
-					updateOrder(cardTypes.get("right").removeFirst());
+					updateOrder(getNextCard("right"));
 				}
 			} else {
-				hypoPos = pos;
-				logicDirection = dir;
+				hypoPos = oldHypoPos;
+				logicDirection = oldDirection;
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private void addMoveCard() {
-		Card move = getNextMove();
-		for (int i = 0; i < Math.abs(move.getValue()); i++)
-			distToFlag = nextDist();
-		hypoPos.add(tilesAtPos(hypoPos));
-		closerToFlag();
-		distToFlag = hypoPos.dst(flag.getPosition());
-		hypoDistToFlag = nextHypoDist();
-		updateOrder(move);
+	private boolean goodRotation(String dir) {
+		boolean goodRotation = hasCard(dir);
+		if (goodRotation && (dir.equals("left") || dir.equals("right")))
+			goodRotation = rotationPointsToFlag(dir);
+		return goodRotation;
 	}
 
-	private void findBestMoveCard() {
-		ArrayList<Card> temp = new ArrayList<>();
-		Map<Card, Double> bestCard = new HashMap<>();
-		while (!cardTypes.get("move").isEmpty())
-			temp.add(getNextMove());
-		for (Card card : temp) {
-			cardTypes.get("move").addFirst(card);
-			bestCard.put(card, nextHypoDist());
-			cardTypes.get("move").removeFirst();
-		}
-		Map.Entry<Card, Double> min = Collections.min(bestCard.entrySet(),
-				Map.Entry.comparingByValue());
-		cardTypes.get("move").addFirst(min.getKey());
-		hypoDistToFlag = min.getValue();
-		temp.remove(min.getKey());
-		for (Card card : temp)
-			cardTypes.get("move").addLast(card);
-	}
-
-	private boolean forcedCard(boolean rotatedNotMoved, boolean moveOrRotateEmpty) {
-		boolean forcedMove = (rotatedNotMoved || moveOrRotateEmpty) && !fullOrder();
-		if (forcedMove && !rotate()) {
-			addMoveCard();
-			return true;
-		}
-		return false;
-	}
-
-	private boolean closerToFlag() {
-		if (cardTypes.get("move").size > 1)
-			findBestMoveCard();
-		return hypoDistToFlag < distToFlag;
-	}
-
-	private Card getNextMove() {
-		return cardTypes.get("move").removeFirst();
-	}
-
-	private boolean movesIsEmpty() {
-		return cardTypes.get("move").isEmpty();
-	}
-
-	private void updateOrder(Card card) {
-		order[pickNr++] = robotLogic.getCardsInHand().indexOf(card);
-	}
-
-	private double nextDist() {
-		return hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
-	}
-
-	private double nextHypoDist() {
-		int val;
-		GridPoint2 pos = hypoPos.cpy();
-		if (!cardTypes.get("move").isEmpty())
-			val = cardTypes.get("move").get(0).getValue();
-		else
-			val = 1;
-		if (val == -1)
-			pos.sub(logicDirection.getStep());
-		else {
-			for (int i = 0; i < val; i++)
-				pos.add(logicDirection.getStep());
-		}
-		GridPoint2 gp2 = tilesAtPos(pos);
-		pos.add(gp2);
-		return pos.dst(flag.getPosition());
-	}
-
-	private boolean fullOrder() {
-		return this.order.length == pickNr;
-	}
-
-	private void turn(String dir) {
-		if ("left".equals(dir))
-			logicDirection = Direction.turnLeftFrom(logicDirection);
-		else if ("right".equals(dir))
-			logicDirection = Direction.turnRightFrom(logicDirection);
-	}
-
-	private boolean hypoRotate(String dir) {
+	private boolean rotationPointsToFlag(String dir) {
 		Direction temp = logicDirection;
 		turn(dir);
 		if (closerToFlag())
@@ -227,8 +144,107 @@ public class AIControl {
 		return false;
 	}
 
+	private boolean hasCard (String cardType) {
+		return !cardTypes.get(cardType).isEmpty();
+	}
+
+	private void addMoveCard() {
+		Card move = getNextCard("move");
+		for (int i = 0; i < Math.abs(move.getValue()); i++)
+			distToFlag = nextDistToFlag();
+		hypoPos.add(tilesAtPos(hypoPos));
+		closerToFlag();
+		distToFlag = hypoPos.dst(flag.getPosition());
+		hypoDistToFlag = nextHypoDistToFlag();
+		updateOrder(move);
+	}
+
+	private boolean closerToFlag() {
+		if (cardTypes.get("move").size > 1)
+			findBestMoveCard();
+		return hypoDistToFlag < distToFlag;
+	}
+
+	private void findBestMoveCard() {
+		ArrayList<Card> tempCards = new ArrayList<>();
+		Map<Card, Double> bestCard = new HashMap<>();
+		while (!cardTypes.get("move").isEmpty())
+			tempCards.add(getNextCard("move"));
+		for (Card card : tempCards) {
+			cardTypes.get("move").addFirst(card);
+			bestCard.put(card, nextHypoDistToFlag());
+			cardTypes.get("move").removeFirst();
+		}
+		Map.Entry<Card, Double> min = Collections.min(bestCard.entrySet(),
+				Map.Entry.comparingByValue());
+		cardTypes.get("move").addFirst(min.getKey());
+		hypoDistToFlag = min.getValue();
+		tempCards.remove(min.getKey());
+		for (Card card : tempCards)
+			cardTypes.get("move").addLast(card);
+	}
+
+	private Card getNextCard(String type) {
+		return cardTypes.get(type).removeFirst();
+	}
+
+	private void updateOrder(Card card) {
+		order[pickNr++] = robotLogic.getCardsInHand().indexOf(card);
+	}
+
+	private double nextDistToFlag() {
+		return hypoPos.add(logicDirection.getStep()).dst(flag.getPosition());
+	}
+
+	private double nextHypoDistToFlag() {
+		int steps;
+		GridPoint2 hypotheticalPosition = hypoPos.cpy();
+		if (!cardTypes.get("move").isEmpty())
+			steps = cardTypes.get("move").get(0).getValue();
+		else
+			steps = 1;
+		if (steps == -1)
+			hypotheticalPosition.sub(logicDirection.getStep());
+		else {
+			for (int i = 0; i < steps; i++)
+				hypotheticalPosition.add(logicDirection.getStep());
+		}
+		GridPoint2 stepsFromTiles = tilesAtPos(hypotheticalPosition);
+		hypotheticalPosition.add(stepsFromTiles);
+		return hypotheticalPosition.dst(flag.getPosition());
+	}
+
+	private boolean fullOrder() {
+		return this.order.length == pickNr;
+	}
+
 	public double getNewDistanceToFlag() {
 		return distToFlag;
+	}
+
+	// Move to advanced class
+	public GridPoint2 tilesAtPos(GridPoint2 pos) {
+		GridPoint2 stepsFromTiles = new GridPoint2();
+		Iterator<TileName> tiles = grid.getTilesAtPosition(pos);
+		if (tiles == null)
+			return stepsFromTiles;
+		while (tiles.hasNext()) {
+			TileName tileName = tiles.next();
+			if (grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(tileName)) {
+				stepsFromTiles.add(updatePos(tileName));
+				stepsFromTiles.add(updatePos(tileName));
+			}
+			if (grid.getGridLayer(LayerName.CONVEYOR).containsValue(tileName)) {
+				stepsFromTiles.add(updatePos(tileName));
+			}
+			if(grid.getGridLayer(LayerName.COG).containsValue(tileName)) {
+				if (tileName.toString().contains("COUNTER"))
+					turn("right");
+				else if (tileName.toString().contains("CLOCKWISE"))
+					turn("left");
+			}
+		}
+		return stepsFromTiles;
 	}
 
 	// Move to advanced class
@@ -244,27 +260,10 @@ public class AIControl {
 		return dir.getStep();
 	}
 
-	// Move to advanced class
-	public GridPoint2 tilesAtPos(GridPoint2 pos) {
-		GridPoint2 gp2 = new GridPoint2();
-		Iterator<TileName> tiles = grid.getTilesAtPosition(pos);
-		if (tiles == null)
-			return gp2;
-		while (tiles.hasNext()) {
-			TileName tileName = tiles.next();
-			if (grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(tileName)) {
-				gp2.add(updatePos(tileName));
-				gp2.add(updatePos(tileName));
-			}
-			if (grid.getGridLayer(LayerName.CONVEYOR).containsValue(tileName))
-				gp2.add(updatePos(tileName));
-			if (grid.getGridLayer(LayerName.COG).containsValue(tileName)) {
-				if (tileName.toString().contains("COUNTER"))
-					turn("right");
-				else if (tileName.toString().contains("CLOCKWISE"))
-					turn("left");
-			}
-		}
-		return gp2;
+	private void turn(String dir) {
+		if ("left".equals(dir))
+			logicDirection = Direction.turnLeftFrom(logicDirection);
+		else if ("right".equals(dir))
+			logicDirection = Direction.turnRightFrom(logicDirection);
 	}
 }

@@ -53,7 +53,7 @@
  </layer>
  <layer id="2" name="Walls" width="16" height="12">
   <data encoding="base64" compression="zlib">
-   eAGtjr0OgDAIhDs6ujmp7/+W5YYvuRAkNUpCCvdHx6jrDti7Vn1Hr8WIo/iPMPyavcDBxKOBY0ejt8LAnSPDvd28WXbn9Rs5D07+LiP7tO/R7kezmiNv9mt/4z9DT+s+eZr/Lu7wPuVPQskEww==
+   eAGtjlEKwCAMQ73Fvrbd/5YzHw+CxKK4gljTvNTWcr1d9pNd5+qzGHGF/0iDV++FjqY5Hma88ehOGrrPyHC26sXCVyyelMVMfJUxY53Hs5ojduT13uHv7udoP3nq/y72cM/yP2JZBNk=
   </data>
  </layer>
  <layer id="5" name="Cannon" width="16" height="12">
