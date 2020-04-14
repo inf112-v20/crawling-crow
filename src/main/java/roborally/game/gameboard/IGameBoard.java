@@ -13,7 +13,25 @@ public interface IGameBoard {
 	 */
 	ArrayList<IFlag> findAllFlags();
 
+	/**
+	 * @return all the repair sites on the game board.
+	 */
 	ArrayList<BoardObject> findAllRepairSites();
+
+	/**
+	 * @return return all cogs on the game board
+	 */
+	ArrayList<BoardObject> findAllCogs();
+
+	/**
+	 * @return all normal conveyor belts on the board
+	 */
+	ArrayList<BoardObject> findAllNormalConveyorBelts();
+
+	/**
+	 * @return all express conveyor belts on the board
+	 */
+	ArrayList<BoardObject> findAllExpressConveyorBelts();
 
 	/**
 	 * Makes a list of pushers, one for each phase.
