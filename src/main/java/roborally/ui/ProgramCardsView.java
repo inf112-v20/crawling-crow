@@ -215,7 +215,8 @@ public class ProgramCardsView {
 
     public void setRebootInActive() {
         this.rebootInActive = new Image(AssetManagerUtil.getRebootInactive());
-        this.rebootInActive.setPosition(10, 100);
+        this.rebootInActive.setPosition(0, 150);
+        this.rebootInActive.setSize(rebootInActive.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, rebootInActive.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
     }
 
     public Image getRebootInActive() {
