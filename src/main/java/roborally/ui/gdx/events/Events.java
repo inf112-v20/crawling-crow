@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.gameboard.objects.robot.Robot;
+import roborally.ui.ProgramCardsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class Events {
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
+    private ProgramCardsView programCardsView;
+    private float timeCount;
 
     public Events() {
         this.waitEvent = false;
@@ -38,7 +41,7 @@ public class Events {
         this.laserEvents = new ArrayList<>();
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
-
+        timeCount = 0;
     }
 
     /**
@@ -203,4 +206,23 @@ public class Events {
         setFadeRobot(true);
     }
 
+    public void updateTimer(float dt) {
+        int cardTimer = programCardsView.getCardTimer();
+        timeCount += dt;
+        if (timeCount >= 1) {
+            cardTimer--;
+            programCardsView.getCountDownLabel().setText(String.format("%02d", cardTimer));
+            timeCount = 0;
+        }
+        /*
+        if (cardTimer <= 1) {
+
+        }
+
+         */
+    }
+
+    public float getDt() {
+        return this.dt;
+    }
 }
