@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import roborally.game.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class creates images of the program cards.
@@ -34,7 +36,8 @@ public class ProgramCardsView {
         this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
-        this.order = new int[]{-1, -1, -1, -1, -1};
+        this.order = new int[SettingsUtil.REGISTER_SIZE];
+        Arrays.fill(order, -1);
         this.cardWidth = 75;
         this.cardHeight = 116;
     }
@@ -118,7 +121,7 @@ public class ProgramCardsView {
                             cardPick--;
                         return true;
                     }
-                if(cardPick == 5) {
+                if(cardPick == SettingsUtil.REGISTER_SIZE) {
                     doneLabel.setColor(Color.RED);
                     return true;
                 }
@@ -224,7 +227,7 @@ public class ProgramCardsView {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (cardPick < 5){
+                if (cardPick < SettingsUtil.REGISTER_SIZE){
                     return;
                 }
                 int[] newOrder = new int[cardPick];
