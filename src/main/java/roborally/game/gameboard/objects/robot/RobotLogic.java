@@ -141,13 +141,13 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public IProgramCards.Card getNextCardInHand() {
-        //return register.getNextCard();
-
-        assert nextCard != null;
-        if (!nextCard.isEmpty()) {
-            return nextCard.removeLast();
-        }
-        return null;
+        return register.getNextCard();
+//
+//        assert nextCard != null;
+ //       if (!nextCard.isEmpty()) {
+   //         return nextCard.removeLast();
+     //   }
+       // return null;
     }
 
     @Override
@@ -189,6 +189,14 @@ public class RobotLogic implements IRobotLogic {
             newOrder[i] = i;
         }
         arrangeCardsInHand(newOrder);
+        putFiveBestCardsIntoRegister();
+    }
+
+    private void putFiveBestCardsIntoRegister() {
+        int firstAvailableLocation = register.size();
+        for(int i = 0; i < SettingsUtil.REGISTER_SIZE - firstAvailableLocation; i++){
+            register.add(cardsInHand.getCards().get(i));
+        }
     }
 
     private int getNumberOfCardsToDraw() {

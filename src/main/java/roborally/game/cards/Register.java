@@ -14,7 +14,7 @@ public class Register {
     }
 
     public void cleanRegister(int lockCards){
-        System.out.println("Number of cards: " + cards.size());
+        System.out.println("Number of cards before cleaning: " + cards.size());
         while(cards.size() > lockCards){
             removeLastCard();
         }
@@ -24,6 +24,10 @@ public class Register {
 
     private void removeLastCard() {
         cards.remove(cards.size()-1);
+    }
+
+    public void add(IProgramCards.Card card){
+        cards.add(card);
     }
 
     public void add(ArrayList<IProgramCards.Card> newCardsToRegister) {
