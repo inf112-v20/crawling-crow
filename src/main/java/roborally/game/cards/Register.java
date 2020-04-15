@@ -8,11 +8,20 @@ public class Register {
     private ArrayList<IProgramCards.Card> cards;
     private int nextCardID;
 
+    /**
+     * The registers holds up to five cards. New cards can be added one by one or in bulk.
+     */
     public Register(){
         this.cards = new ArrayList<>();
         this.nextCardID = 0;
     }
 
+    /**
+     * Removes all cards that should not be locked in the register. Will remove last card in the register until only
+     * the correct number of locked cards remain
+     *
+     * @param lockCards how many card to lock down.
+     */
     public void cleanRegister(int lockCards){
         System.out.println("Number of cards before cleaning: " + cards.size());
         while(cards.size() > lockCards){
@@ -22,21 +31,35 @@ public class Register {
         this.nextCardID = 0;
     }
 
-    private void removeLastCard() {
-        cards.remove(cards.size()-1);
-    }
-
+    /**
+     * Add a Cards to the end of the register. If any cards are locked into position, the new card
+     * will will up the next vacant positions.
+     * @param card the card to be added to the register
+     */
     public void add(IProgramCards.Card card){
         cards.add(card);
-    }
-
-    public void add(ArrayList<IProgramCards.Card> newCardsToRegister) {
-        cards.addAll(newCardsToRegister);
-        if (cards.size() != SettingsUtil.REGISTER_SIZE){
-            throw new IllegalStateException("The register should only hold 5 cards. Now holds " + cards.size());
+        if (cards.size() > SettingsUtil.REGISTER_SIZE){
+            throw new IllegalStateException("The register should max hold 5 cards. Now holds " + cards.size());
         }
     }
 
+    /**
+     * Adds an ArrayList of Cards to the end of the register. If any cards are locked into position, the new cards
+     * will will up the next vacant positions.
+     * @param newCardsToRegister the cards to be added to the register
+     */
+    public void add(ArrayList<IProgramCards.Card> newCardsToRegister) {
+        cards.addAll(newCardsToRegister);
+        if (cards.size() > SettingsUtil.REGISTER_SIZE){
+            throw new IllegalStateException("The register should max hold 5 cards. Now holds " + cards.size());
+        }
+    }
+
+    /**
+     * Starts by returning the first card in the register. Will return the second card in the register on second call.
+     * And so on and so fourth.
+     * @return the next card to be played from the register
+     */
     public IProgramCards.Card getNextCard() {
         if (cards.isEmpty()){
             throw new IllegalStateException("Cannot get next card, when register has no cards");
@@ -44,6 +67,10 @@ public class Register {
         return cards.get(nextCardID++);
     }
 
+    /**
+     *
+     * @return a string representation of the register
+     */
     public String toString(){
         if(cards.size() == 0){
             return "[]";
@@ -56,7 +83,15 @@ public class Register {
         return s;
     }
 
+    /**
+     *
+     * @return the number of cards currently in the register
+     */
     public int size(){
         return cards.size();
+    }
+
+    private void removeLastCard() {
+        cards.remove(cards.size()-1);
     }
 }
