@@ -224,6 +224,9 @@ public class ProgramCardsView {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (cardPick < 5){
+                    return;
+                }
                 int[] newOrder = new int[cardPick];
                 System.arraycopy(order, 0, newOrder, 0, cardPick);
                 order = newOrder;
