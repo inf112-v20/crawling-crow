@@ -141,6 +141,9 @@ public interface IRobotLogic {
     void autoArrangeCardsInHand();
 
     //region Flag
+
+    void cleanRegister();
+
     /**
      * sets the number of flags on the board
      * @param flags flags
@@ -163,5 +166,7 @@ public interface IRobotLogic {
      * If all flags have been collected press W
      */
     void visitNextFlag();
+
+    void putChosenCardsIntoRegister();
     //endregion
 }

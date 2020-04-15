@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.cards.CardsInHand;
 import roborally.game.cards.IProgramCards;
+import roborally.game.cards.Register;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
@@ -19,12 +20,14 @@ public class RobotLogic implements IRobotLogic {
     private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
     private Direction direction;
     private CardsInHand cardsInHand;
+    private Register register;
     private Queue<IProgramCards.Card> nextCard;
 
     public RobotLogic(String name) {
         this.name = name;
         this.position = new GridPoint2();
         this.direction = Direction.NORTH;
+        this.register = new Register();
     }
 
     //region Robot stats
@@ -129,6 +132,7 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void arrangeCardsInHand(int[] newOrder) {
         cardsInHand.arrangeCards(newOrder);
+        //register.add(cardsInHand.getCards());
         Queue<IProgramCards.Card> nextCard = new Queue<>();
         for (IProgramCards.Card card : cardsInHand.getCards())
             nextCard.addFirst(card);
@@ -137,6 +141,8 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public IProgramCards.Card getNextCardInHand() {
+        //return register.getNextCard();
+
         assert nextCard != null;
         if (!nextCard.isEmpty()) {
             return nextCard.removeLast();
@@ -200,6 +206,23 @@ public class RobotLogic implements IRobotLogic {
     public ArrayList<IProgramCards.Card> getCardsInHand() {
         return cardsInHand.getCards();
     }
+
+    @Override
+    public void putChosenCardsIntoRegister() {
+        register.add(cardsInHand.getCards());
+        System.out.println(register.toString());
+    }
+
+    @Override
+    public void cleanRegister(){
+        register.cleanRegister(getNumberOfCardsToLock());
+        if(register.size() != getNumberOfCardsToLock()){
+            throw new IllegalStateException("Unexpected number of cards in register after cleanup." +
+                    " Expected to lock: " + getNumberOfCardsToLock() +
+                    " Actually locked: " + register.size());
+        }
+    }
+
     //endregion
 
     //region Flag
