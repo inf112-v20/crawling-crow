@@ -204,7 +204,6 @@ public class RobotLogic implements IRobotLogic {
         return Math.max(0, numberOfCardsToDraw);
     }
 
-    // TODO Use
     private int getNumberOfCardsToLock(){
         int cardsToLock = getHealth() - 2*(getHealth()-3);
         return Math.max(0, cardsToLock);
