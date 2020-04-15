@@ -33,7 +33,7 @@ public class Register {
 
     /**
      * Add a Cards to the end of the register. If any cards are locked into position, the new card
-     * will will up the next vacant positions.
+     * will end up the next vacant positions.
      * @param card the card to be added to the register
      */
     public void add(IProgramCards.Card card){
@@ -45,7 +45,7 @@ public class Register {
 
     /**
      * Adds an ArrayList of Cards to the end of the register. If any cards are locked into position, the new cards
-     * will will up the next vacant positions.
+     * will end up the next vacant positions.
      * @param newCardsToRegister the cards to be added to the register
      */
     public void add(ArrayList<IProgramCards.Card> newCardsToRegister) {
