@@ -11,6 +11,7 @@ public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
     private boolean cardPhase;
+    //private float dt;
 
     public AnimateEvent(Events events) {
         this.events = events;
@@ -44,6 +45,8 @@ public class AnimateEvent {
      */
     public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
         programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
+        programCardsView.getCountDownLabel().draw(batch, stage.getHeight() / 2);
+        programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
@@ -64,7 +67,11 @@ public class AnimateEvent {
     public void initiateCards(ProgramCardsView programCardsView, Stage stage) {
         this.programCardsView = programCardsView;
         programCardsView.makeDoneLabel();
+        programCardsView.makeCountDownLabel();
+        programCardsView.makeTimerLabel();
         stage.addActor(programCardsView.getDoneLabel());
+        stage.addActor(programCardsView.getCountDownLabel());
+        stage.addActor(programCardsView.getTimerLabel());
         float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
         programCardsView.getDoneLabel().setX(stage.getWidth() / 2);
         i = i / 2 - programCardsView.getCardWidth();
@@ -74,6 +81,8 @@ public class AnimateEvent {
         }
         cardPhase = true;
         Gdx.input.setInputProcessor(stage);
+
+        //programCardsView.updateTimer(dt);
     }
 
     public boolean getCardPhase() {

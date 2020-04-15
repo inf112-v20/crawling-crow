@@ -29,6 +29,9 @@ public class ProgramCardsView {
     private int cardWidth;
     private int cardHeight;
     private Label doneLabel;
+    private Label countDownLabel;
+    private Label timerLabel;
+    private int cardTimer;
 
     public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
@@ -37,6 +40,8 @@ public class ProgramCardsView {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardWidth = 75;
         this.cardHeight = 116;
+        cardTimer = 30;
+        //countDownLabel = new Label(String.format("%02d", cardTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     }
 
     public void makeCard(IProgramCards.Card card) {
@@ -203,6 +208,18 @@ public class ProgramCardsView {
         return this.doneLabel;
     }
 
+    public Label getCountDownLabel() {
+        return this.countDownLabel;
+    }
+
+    public Label getTimerLabel() {
+        return this.timerLabel;
+    }
+
+    public int getCardTimer() {
+        return this.cardTimer;
+    }
+
     public void makeDoneLabel() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
@@ -230,6 +247,29 @@ public class ProgramCardsView {
                 cardPick = -1;
             }
         });
+    }
+
+    public void makeCountDownLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        countDownLabel = new Label("Time left:", labelStyle);
+        countDownLabel.setPosition(320, 300);
+        countDownLabel.setFontScale(5);
+        countDownLabel.setScale(5);
+        countDownLabel.setHeight(200);
+        countDownLabel.setColor(Color.YELLOW);
+    }
+
+    public void makeTimerLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        timerLabel = new Label(String.format("%02d", cardTimer), labelStyle);
+        timerLabel.setPosition(400, 230);
+        timerLabel.setFontScale(5);
+        timerLabel.setScale(5);
+        timerLabel.setHeight(200);
+        timerLabel.setColor(Color.YELLOW);
+
     }
 
 }
