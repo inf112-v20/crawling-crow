@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.gameboard.objects.robot.Robot;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
  * spent between frames in render to scale the events.
  * */
 public class Events {
-    public static final float unitScale = 300 * 3f / 16f;
     private boolean waitEvent;
     private float dt;
     private boolean robotFadeOrder;
@@ -94,9 +94,9 @@ public class Events {
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
         Image image = new Image(texture[0][1]);
-        image.setX(pos.x * unitScale);
-        image.setY(pos.y * unitScale);
-        image.setSize(unitScale, unitScale);
+        image.setX(pos.x * SettingsUtil.TILE_SCALE + SettingsUtil.X_SHIFT);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + SettingsUtil.Y_SHIFT - 9f);
+        image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
         this.fadeableRobots.add(new Alpha(1f, image));
     }
 
