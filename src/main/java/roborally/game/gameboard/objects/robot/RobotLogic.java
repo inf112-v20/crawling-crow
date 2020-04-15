@@ -140,7 +140,7 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
-    public IProgramCards.Card getNextCardInHand() {
+    public IProgramCards.Card getNextCardInRegister() {
         return register.getNextCard();
 //
 //        assert nextCard != null;

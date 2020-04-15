@@ -113,7 +113,7 @@ public interface IRobotLogic {
     /**
      * @return The next card in the Robot's hand and removes it
      */
-    IProgramCards.Card getNextCardInHand();
+    IProgramCards.Card getNextCardInRegister();
 
     /**
      * @return The next card in the Robot's hand
