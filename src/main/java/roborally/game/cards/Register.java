@@ -56,15 +56,25 @@ public class Register {
     }
 
     /**
-     * Starts by returning the first card in the register. Will return the second card in the register on second call.
-     * And so on and so fourth.
-     * @return the next card to be played from the register
+     * Returns the next in register and changes which card to return for next method call.
+     * @return the next card in the register
      */
     public IProgramCards.Card getNextCard() {
         if (cards.isEmpty()){
             throw new IllegalStateException("Cannot get next card, when register has no cards");
         }
         return cards.get(nextCardID++);
+    }
+
+    /**
+     * Returns the next card in register without changing which card is next in play.
+     * @return next card in the register.
+     */
+    public IProgramCards.Card peekNextCard(){
+        if (cards.isEmpty()){
+            return null;
+        }
+        return cards.get(nextCardID);
     }
 
     /**

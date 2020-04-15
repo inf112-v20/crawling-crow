@@ -50,7 +50,7 @@ public class RobotTest {
 
     @Test
     public void verifyThatPeekingNextCardIsFirstInTheRegister() {
-        assertEquals(card, testRobot1.getLogic().peekNextCardInHand());
+        assertEquals(card, testRobot1.getLogic().peekNextCardInRegister());
     }
 
     @Test

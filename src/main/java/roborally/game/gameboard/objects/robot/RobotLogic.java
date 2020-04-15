@@ -21,7 +21,6 @@ public class RobotLogic implements IRobotLogic {
     private Direction direction;
     private CardsInHand cardsInHand;
     private Register register;
-    private Queue<IProgramCards.Card> nextCard;
 
     public RobotLogic(String name) {
         this.name = name;
@@ -132,29 +131,16 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void arrangeCardsInHand(int[] newOrder) {
         cardsInHand.arrangeCards(newOrder);
-        //register.add(cardsInHand.getCards());
-        Queue<IProgramCards.Card> nextCard = new Queue<>();
-        for (IProgramCards.Card card : cardsInHand.getCards())
-            nextCard.addFirst(card);
-        this.nextCard = nextCard;
     }
 
     @Override
     public IProgramCards.Card getNextCardInRegister() {
         return register.getNextCard();
-//
-//        assert nextCard != null;
- //       if (!nextCard.isEmpty()) {
-   //         return nextCard.removeLast();
-     //   }
-       // return null;
     }
 
     @Override
-    public IProgramCards.Card peekNextCardInHand() {
-        if (nextCard == null || nextCard.isEmpty())
-            return null;
-        return nextCard.last();
+    public IProgramCards.Card peekNextCardInRegister() {
+        return register.peekNextCard();
     }
 
     @Override

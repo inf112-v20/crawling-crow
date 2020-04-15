@@ -118,7 +118,7 @@ public interface IRobotLogic {
     /**
      * @return The next card in the Robot's hand
      */
-    IProgramCards.Card peekNextCardInHand();
+    IProgramCards.Card peekNextCardInRegister();
 
     /**
      * Initiate that the Robot has selected its cards.
