@@ -207,11 +207,11 @@ public class Events {
     }
 
     public void updateTimer(float dt) {
-        int cardTimer = programCardsView.getCardTimer();
+        float cardTimer = programCardsView.getCardTimer();
         timeCount += dt;
         if (timeCount >= 1) {
             cardTimer--;
-            programCardsView.getCountDownLabel().setText(String.format("%02d", cardTimer));
+            programCardsView.getCountDownLabel().setText((int) cardTimer);
             timeCount = 0;
         }
         /*

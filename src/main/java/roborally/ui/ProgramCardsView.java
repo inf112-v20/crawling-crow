@@ -31,7 +31,7 @@ public class ProgramCardsView {
     private Label doneLabel;
     private Label countDownLabel;
     private Label timerLabel;
-    private int cardTimer;
+    private float cardTimer;
 
     public ProgramCardsView() {
         this.topLabelList = new ArrayList<>();
@@ -216,7 +216,12 @@ public class ProgramCardsView {
         return this.timerLabel;
     }
 
-    public int getCardTimer() {
+    public void updateTimer(float dt) {
+        this.cardTimer -= dt;
+        this.timerLabel.setText((int) this.cardTimer);
+    }
+
+    public float getCardTimer() {
         return this.cardTimer;
     }
 
@@ -263,7 +268,7 @@ public class ProgramCardsView {
     public void makeTimerLabel() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
-        timerLabel = new Label(String.format("%02d", cardTimer), labelStyle);
+        timerLabel = new Label(Float.toString(cardTimer), labelStyle);
         timerLabel.setPosition(400, 230);
         timerLabel.setFontScale(5);
         timerLabel.setScale(5);

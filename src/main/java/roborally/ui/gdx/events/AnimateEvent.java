@@ -44,6 +44,7 @@ public class AnimateEvent {
      * @param stage The stage from UI.
      */
     public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
+        programCardsView.updateTimer(Gdx.graphics.getDeltaTime());
         programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
         programCardsView.getCountDownLabel().draw(batch, stage.getHeight() / 2);
         programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
@@ -81,8 +82,6 @@ public class AnimateEvent {
         }
         cardPhase = true;
         Gdx.input.setInputProcessor(stage);
-
-        //programCardsView.updateTimer(dt);
     }
 
     public boolean getCardPhase() {
