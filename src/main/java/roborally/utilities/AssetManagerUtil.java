@@ -44,17 +44,17 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> BACKUP
             = new AssetDescriptor<>("cards/new/backup.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATELEFT
-            = new AssetDescriptor<>("cards/new/rotatel.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/rotate_left.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATERIGHT
-            = new AssetDescriptor<>("cards/new/rotater.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/rotate_right.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1
-            = new AssetDescriptor<>("cards/new/move1.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/move_1.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_2
-            = new AssetDescriptor<>("cards/new/move2.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/move_2.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_3
-            = new AssetDescriptor<>("cards/new/move3.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/move_3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
-            = new AssetDescriptor<>("cards/new/u-turn.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/u_turn.png", Texture.class);
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
@@ -140,13 +140,13 @@ public class AssetManagerUtil {
 
     public static Texture getCardTexture(String card) {
         HashMap<String, Texture> map = new HashMap<>();
-        map.put("RotateRight", manager.get(ROTATERIGHT));
-        map.put("RotateLeft", manager.get(ROTATELEFT));
-        map.put("Move1", manager.get(MOVE_1));
-        map.put("Move2", manager.get(MOVE_2));
-        map.put("Move3", manager.get(MOVE_3));
-        map.put("Uturn", manager.get(U_TURN));
-        map.put("Backup", manager.get(BACKUP));
+        map.put("rotate_right", manager.get(ROTATERIGHT));
+        map.put("rotate_left", manager.get(ROTATELEFT));
+        map.put("move_1", manager.get(MOVE_1));
+        map.put("move_2", manager.get(MOVE_2));
+        map.put("move_3", manager.get(MOVE_3));
+        map.put("u_turn", manager.get(U_TURN));
+        map.put("backup", manager.get(BACKUP));
         return map.get(card);
     }
 

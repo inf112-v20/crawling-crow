@@ -24,218 +24,173 @@ import java.util.Arrays;
  * once the played clicks the done button.
  */
 public class ProgramCardsView {
-    private int cardPick;
-    private ArrayList<Group> groups;
-    private int[] order;
-    private ArrayList<Label> topLabelList;
-    private int cardWidth;
-    private int cardHeight;
-    private Label doneLabel;
+	private final ArrayList<Label> topLabelList;
+	private final int cardWidth;
+	private final int cardHeight;
+	private int cardPick;
+	private ArrayList<Group> cardGroups;
+	private int[] order;
+	private Label doneLabel;
 
-    public ProgramCardsView() {
-        this.topLabelList = new ArrayList<>();
-        this.cardPick = 0;
-        this.groups = new ArrayList<>();
-        this.order = new int[SettingsUtil.REGISTER_SIZE];
-        Arrays.fill(order, -1);
-        this.cardWidth = 75;
-        this.cardHeight = 116;
-    }
+	public ProgramCardsView() {
+		this.topLabelList = new ArrayList<>();
+		this.cardPick = 0;
+		this.cardGroups = new ArrayList<>();
+		this.order = new int[SettingsUtil.REGISTER_SIZE];
+		Arrays.fill(order, -1);
+		this.cardWidth = 75;
+		this.cardHeight = 116;
+	}
 
-    public void makeCard(IProgramCards.Card card) {
-        if (card.getCardType() == IProgramCards.CardType.MOVE_1)
-            this.makeMove1(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
-            this.makeMove2(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_3)
-            this.makeMove3(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
-            this.makeRotateLeft(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
-            this.makeRotateRight(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.U_TURN)
-            this.makeUTurn(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.BACKUP)
-            this.makeBackup(card.getPriority());
-    }
+	public void makeCard(IProgramCards.Card card) {
+		int priority = card.getPriority();
+		String cardName = card.getCardType().toString();
+		Image image = new Image(AssetManagerUtil.getCardTexture(cardName.toLowerCase()));
+		makeCardGroup(priority, image);
+	}
 
-    public void makeUTurn(int priority) {
-        Image uTurn = new Image(AssetManagerUtil.getCardTexture("Uturn"));
-        makeSomething(priority, uTurn);
-    }
+	/**
+	 * Makes a new Image of the card that is being played. Adds top
+	 * label for the order the card is played, and a label for the priority.
+	 *
+	 * @param priority The priority of this card.
+	 * @param image    The image created for the card, with the related texture.
+	 */
+	private void makeCardGroup(int priority, Image image) {
+		image.setSize(getCardWidth(), getCardHeight());
+		Group group = new Group();
+		group.addActor(image);
+		Label selectedOrderLabel = makeSelectedOrderLabel();
+		Label priorityLabel = makePriorityLabel(priority);
+		group.addActor(priorityLabel);
+		group.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				for (int i = 0; i < order.length; i++)
+					if (cardGroups.indexOf(group) == order[i]) {
+						group.getChildren().get(1).setColor(Color.ORANGE);
+						group.getChildren().get(0).setColor(Color.WHITE);
+						selectedOrderLabel.setText("");
+						reArrange(i);
+						if (cardPick - 1 != -1)
+							cardPick--;
+						return true;
+					}
+				if (cardPick == SettingsUtil.REGISTER_SIZE) {
+					doneLabel.setColor(Color.RED);
+					return true;
+				}
+				topLabelList.add(cardPick, selectedOrderLabel);
+				topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
+				group.addActor(topLabelList.get(cardPick));
+				order[cardPick++] = cardGroups.indexOf(group);
+				group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
+				group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
+				return true;
+			}
+		});
+		this.cardGroups.add(group);
+	}
 
-    public void makeBackup(int priority) {
-        Image backup = new Image(AssetManagerUtil.getCardTexture("Backup"));
-        makeSomething(priority, backup);
-    }
+	public Label makeSelectedOrderLabel() {
+		Label.LabelStyle topLabelStyle = new Label.LabelStyle();
+		topLabelStyle.font = new BitmapFont();
+		Label topLabel = new Label("", topLabelStyle);
+		topLabel.setY(100);
+		topLabel.setX(28);
+		topLabel.setColor(Color.GREEN);
+		topLabel.setFontScale(2f);
+		return topLabel;
+	}
 
-    public void makeMove1(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move1"));
-        makeSomething(priority, move);
-    }
+	public Label makePriorityLabel(int priority) {
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = new BitmapFont();
+		Label label = new Label(Integer.toString(priority), labelStyle);
+		label.setX(28);
+		label.setY(10);
+		label.setFontScale(0.78f);
+		label.setColor(Color.ORANGE);
+		return label;
+	}
 
-    public void makeMove2(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move2"));
-        makeSomething(priority, move);
-    }
+	// Used to sort cards when deselecting a card.
+	public void reArrange(int oldI) {
+		int i = oldI;
+		order[i] = -1;
+		topLabelList.remove(i);
+		while (i < 4) {
+			order[i] = order[++i];
+			if (order[i] != -1) {
+				topLabelList.get(i - 1).setText(Integer.toString(i - 1));
+				order[i] = -1;
+			}
+		}
+	}
 
-    public void makeMove3(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move3"));
-        makeSomething(priority, move);
-    }
+	public ArrayList<Group> getGroups() {
+		return this.cardGroups;
+	}
 
-    public void makeRotateRight(int priority) {
-        Image RotateR = new Image(AssetManagerUtil.getCardTexture("RotateRight"));
-        makeSomething(priority, RotateR);
-    }
+	public int[] getOrder() {
+		return this.order;
+	}
 
-    public void makeRotateLeft(int priority) {
-        Image RotateL = new Image(AssetManagerUtil.getCardTexture("RotateLeft"));
-        makeSomething(priority, RotateL);
-    }
-
-    /**
-     * Makes a new Image of the card that is being played. Adds top
-     * label for the order the card is played, and a label for the priority.
-     *
-     * @param priority The priority of this card.
-     * @param image    The image created for the card, with the related texture.
-     */
-    private void makeSomething(int priority, Image image) {
-        image.setSize(getCardWidth(), getCardHeight());
-        Group group = new Group();
-        group.addActor(image);
-        Label selectedOrderLabel = makeSelectedOrderLabel();
-        Label priorityLabel = makePriorityLabel(priority);
-        group.addActor(priorityLabel);
-        group.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for (int i = 0; i < order.length; i++)
-                    if (groups.indexOf(group) == order[i]) {
-                        group.getChildren().get(1).setColor(Color.ORANGE);
-                        group.getChildren().get(0).setColor(Color.WHITE);
-                        selectedOrderLabel.setText("");
-                        reArrange(i);
-                        if(cardPick -1 != -1)
-                            cardPick--;
-                        return true;
-                    }
-                if(cardPick == SettingsUtil.REGISTER_SIZE) {
-                    doneLabel.setColor(Color.RED);
-                    return true;
-                }
-                topLabelList.add(cardPick, selectedOrderLabel);
-                topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
-                group.addActor(topLabelList.get(cardPick));
-                order[cardPick++] = groups.indexOf(group);
-                group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
-                group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
-                return true;
-            }
-        });
-        this.groups.add(group);
-    }
-
-    public Label makeSelectedOrderLabel() {
-        Label.LabelStyle topLabelStyle = new Label.LabelStyle();
-        topLabelStyle.font = new BitmapFont();
-        Label topLabel = new Label("", topLabelStyle);
-        topLabel.setY(100);
-        topLabel.setX(28);
-        topLabel.setColor(Color.GREEN);
-        topLabel.setFontScale(2f);
-        return topLabel;
-    }
-
-    public Label makePriorityLabel(int priority) {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        Label label = new Label(Integer.toString(priority), labelStyle);
-        label.setX(28);
-        label.setY(10);
-        label.setFontScale(0.78f);
-        label.setColor(Color.ORANGE);
-        return label;
-    }
-
-    // Used to sort cards when deselecting a card.
-    public void reArrange(int oldI) {
-        int i = oldI;
-        order[i] = -1;
-        topLabelList.remove(i);
-        while (i < 4) {
-            order[i] = order[++i];
-            if (order[i] != -1) {
-                topLabelList.get(i - 1).setText(Integer.toString(i - 1));
-                order[i] = -1;
-            }
-        }
-    }
-
-    public ArrayList<Group> getGroups() {
-        return this.groups;
-    }
-
-    public int[] getOrder() {
-        return this.order;
-    }
-
-    public boolean done() {
-        return this.cardPick == -1;
-    }
+	public boolean done() {
+		return this.cardPick == -1;
+	}
 
 
-    // Maybe deprecated.
-    public void clearStuff() {
-        this.order = new int[]{-1, -1, -1, -1, -1};
-        this.cardPick = 0;
-        this.groups.clear();
-        this.groups = new ArrayList<>();
-    }
+	// Maybe deprecated.
+	public void clearStuff() {
+		this.order = new int[]{-1, -1, -1, -1, -1};
+		this.cardPick = 0;
+		this.cardGroups.clear();
+		this.cardGroups = new ArrayList<>();
+	}
 
-    public int getCardWidth() {
-        return this.cardWidth;
-    }
+	public int getCardWidth() {
+		return this.cardWidth;
+	}
 
-    public int getCardHeight() {
-        return this.cardHeight;
-    }
+	public int getCardHeight() {
+		return this.cardHeight;
+	}
 
-    public Label getDoneLabel() {
-        return this.doneLabel;
-    }
+	public Label getDoneLabel() {
+		return this.doneLabel;
+	}
 
-    public void makeDoneLabel() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        doneLabel = new Label("Done", labelStyle);
-        doneLabel.setPosition(getCardWidth(), getCardHeight());
-        doneLabel.setFontScale(2);
-        doneLabel.setScale(2);
-        doneLabel.setHeight(this.cardHeight);
-        doneLabel.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                doneLabel.setColor(Color.GREEN);
-            }
+	public void makeDoneLabel() {
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = new BitmapFont();
+		doneLabel = new Label("Done", labelStyle);
+		doneLabel.setPosition(getCardWidth(), getCardHeight());
+		doneLabel.setFontScale(2);
+		doneLabel.setScale(2);
+		doneLabel.setHeight(this.cardHeight);
+		doneLabel.addListener(new ClickListener() {
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				doneLabel.setColor(Color.GREEN);
+			}
 
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                doneLabel.setColor(Color.WHITE);
-            }
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+				doneLabel.setColor(Color.WHITE);
+			}
 
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (cardPick < SettingsUtil.REGISTER_SIZE){
-                    return;
-                }
-                int[] newOrder = new int[cardPick];
-                System.arraycopy(order, 0, newOrder, 0, cardPick);
-                order = newOrder;
-                cardPick = -1;
-            }
-        });
-    }
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (cardPick < SettingsUtil.REGISTER_SIZE) { //Kan ta minimum av groups.size() og REGISTER_SIZE her.. men funker ikke med register klassen da peeknextcard prøver å hente en posisjon for høyt.
+					return;
+				}
+				int[] newOrder = new int[cardPick];
+				System.arraycopy(order, 0, newOrder, 0, cardPick);
+				order = newOrder;
+				cardPick = -1;
+			}
+		});
+	}
 
 }
