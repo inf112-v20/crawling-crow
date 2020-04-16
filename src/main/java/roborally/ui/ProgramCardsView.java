@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import org.jetbrains.annotations.NotNull;
 import roborally.game.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -42,7 +43,7 @@ public class ProgramCardsView {
 		this.cardHeight = 116;
 	}
 
-	public void makeCard(IProgramCards.Card card) {
+	public void makeCard(IProgramCards.@NotNull Card card) {
 		int priority = card.getPriority();
 		String cardName = card.getCardType().toString();
 		Image image = new Image(AssetManagerUtil.getCardTexture(cardName.toLowerCase()));
@@ -56,7 +57,7 @@ public class ProgramCardsView {
 	 * @param priority The priority of this card.
 	 * @param image    The image created for the card, with the related texture.
 	 */
-	private void makeCardGroup(int priority, Image image) {
+	private void makeCardGroup(int priority, @NotNull Image image) {
 		image.setSize(getCardWidth(), getCardHeight());
 		Group group = new Group();
 		group.addActor(image);
