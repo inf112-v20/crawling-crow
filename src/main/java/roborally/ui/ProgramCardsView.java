@@ -10,10 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import org.jetbrains.annotations.NotNull;
 import roborally.game.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class creates images of the program cards.
@@ -41,11 +44,12 @@ public class ProgramCardsView {
         this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
-        this.order = new int[]{-1, -1, -1, -1, -1};
+        this.order = new int[SettingsUtil.REGISTER_SIZE];
+        Arrays.fill(order, -1);
         this.reboots = new ArrayList<>();
     }
 
-    public void setCard(IProgramCards.Card card) {
+    public void setCard(IProgramCards.@NotNull Card card) {
         this.cardWidth = AssetManagerUtil.getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
         this.cardHeight = AssetManagerUtil.getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
 
@@ -60,7 +64,7 @@ public class ProgramCardsView {
      * @param priority The priority of this card.
      * @param image    The image created for the card, with the related texture.
      */
-    private void setCard(int priority, Image image) {
+    private void setCard(int priority, @NotNull Image image) {
         image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
         Group group = new Group();
         group.addActor(image);
@@ -80,7 +84,7 @@ public class ProgramCardsView {
                             cardPick--;
                         return true;
                     }
-                if (cardPick == 5) {
+                if (cardPick == SettingsUtil.REGISTER_SIZE) {
                     System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
@@ -118,31 +122,31 @@ public class ProgramCardsView {
         return priorityLabel;
     }
 
-    // Used to sort cards when deselecting a card.
-    public void reArrange(int oldI) {
-        int i = oldI;
-        order[i] = -1;
-        topLabelList.remove(i);
-        while (i < 4) {
-            order[i] = order[++i];
-            if (order[i] != -1) {
-                topLabelList.get(i - 1).setText(Integer.toString(i - 1));
-                order[i] = -1;
-            }
-        }
-    }
+	// Used to sort cards when deselecting a card.
+	public void reArrange(int oldI) {
+		int i = oldI;
+		order[i] = -1;
+		topLabelList.remove(i);
+		while (i < 4) {
+			order[i] = order[++i];
+			if (order[i] != -1) {
+				topLabelList.get(i - 1).setText(Integer.toString(i - 1));
+				order[i] = -1;
+			}
+		}
+	}
 
     public ArrayList<Group> getGroups() {
         return this.groups;
     }
 
-    public int[] getOrder() {
-        return this.order;
-    }
+	public int[] getOrder() {
+		return this.order;
+	}
 
-    public boolean done() {
-        return this.cardPick == -1;
-    }
+	public boolean done() {
+		return this.cardPick == -1;
+	}
 
 
     // Maybe deprecated.

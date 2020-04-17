@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Queue;
 import roborally.game.cards.CardsInHand;
 import roborally.game.cards.IProgramCards;
+import roborally.game.cards.Register;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 
@@ -19,12 +20,13 @@ public class RobotLogic implements IRobotLogic {
     private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
     private Direction direction;
     private CardsInHand cardsInHand;
-    private Queue<IProgramCards.Card> nextCard;
+    private Register register;
 
     public RobotLogic(String name) {
         this.name = name;
         this.position = new GridPoint2();
         this.direction = Direction.NORTH;
+        this.register = new Register();
     }
 
     //region Robot stats
@@ -129,26 +131,16 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void arrangeCardsInHand(int[] newOrder) {
         cardsInHand.arrangeCards(newOrder);
-        Queue<IProgramCards.Card> nextCard = new Queue<>();
-        for (IProgramCards.Card card : cardsInHand.getCards())
-            nextCard.addFirst(card);
-        this.nextCard = nextCard;
     }
 
     @Override
-    public IProgramCards.Card getNextCardInHand() {
-        assert nextCard != null;
-        if (!nextCard.isEmpty()) {
-            return nextCard.removeLast();
-        }
-        return null;
+    public IProgramCards.Card getNextCardInRegister() {
+        return register.getNextCard();
     }
 
     @Override
-    public IProgramCards.Card peekNextCardInHand() {
-        if (nextCard == null || nextCard.isEmpty())
-            return null;
-        return nextCard.last();
+    public IProgramCards.Card peekNextCardInRegister() {
+        return register.peekNextCard();
     }
 
     @Override
@@ -183,6 +175,14 @@ public class RobotLogic implements IRobotLogic {
             newOrder[i] = i;
         }
         arrangeCardsInHand(newOrder);
+        putFiveBestCardsIntoRegister();
+    }
+
+    private void putFiveBestCardsIntoRegister() {
+        int firstAvailableLocation = register.size();
+        for(int i = 0; i < SettingsUtil.REGISTER_SIZE - firstAvailableLocation; i++){
+            register.add(cardsInHand.getCards().get(i));
+        }
     }
 
     private int getNumberOfCardsToDraw() {
@@ -190,10 +190,32 @@ public class RobotLogic implements IRobotLogic {
         return Math.max(0, numberOfCardsToDraw);
     }
 
+    private int getNumberOfCardsToLock(){
+        int cardsToLock = getHealth() - 2*(getHealth()-3);
+        return Math.max(0, cardsToLock);
+    }
+
     @Override
     public ArrayList<IProgramCards.Card> getCardsInHand() {
         return cardsInHand.getCards();
     }
+
+    @Override
+    public void putChosenCardsIntoRegister() {
+        register.add(cardsInHand.getCards());
+        System.out.println(register.toString());
+    }
+
+    @Override
+    public void cleanRegister(){
+        register.cleanRegister(getNumberOfCardsToLock());
+        if(register.size() != getNumberOfCardsToLock()){
+            throw new IllegalStateException("Unexpected number of cards in register after cleanup." +
+                    " Expected to lock: " + getNumberOfCardsToLock() +
+                    " Actually locked: " + register.size());
+        }
+    }
+
     //endregion
 
     //region Flag

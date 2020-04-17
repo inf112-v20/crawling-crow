@@ -45,17 +45,17 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> BACKUP
             = new AssetDescriptor<>("cards/new/backup.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATELEFT
-            = new AssetDescriptor<>("cards/new/rotatel.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/rotate_left.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATERIGHT
-            = new AssetDescriptor<>("cards/new/rotater.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/rotate_right.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1
-            = new AssetDescriptor<>("cards/new/move1.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/move_1.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_2
-            = new AssetDescriptor<>("cards/new/move2.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/move_2.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_3
-            = new AssetDescriptor<>("cards/new/move3.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/move_3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
-            = new AssetDescriptor<>("cards/new/u-turn.png", Texture.class);
+            = new AssetDescriptor<>("cards/new/u_turn.png", Texture.class);
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);

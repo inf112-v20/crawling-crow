@@ -1,6 +1,8 @@
 package roborally.game;
 
+import com.badlogic.gdx.math.Interpolation;
 import roborally.game.gameboard.IGameBoard;
+import roborally.game.gameboard.objects.robot.IRobot;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
@@ -62,6 +64,14 @@ public class Round implements IRound {
 	@Override
 	public void cleanUp() {
 		restoreRebootedRobots();
+		clearRegisters();
+	}
+
+	private void clearRegisters() {
+		System.out.println("Cleaning Registers...");
+		for(IRobot robot : robots){
+			robot.getLogic().cleanRegister();
+		}
 	}
 
 	@Override
@@ -71,6 +81,7 @@ public class Round implements IRound {
 
 	@Override
 	public void restoreRebootedRobots() {
+		System.out.println("Restoring robots...");
 		for (Robot currentRobot : robots)
 			currentRobot.backToArchiveMarker();
 	}

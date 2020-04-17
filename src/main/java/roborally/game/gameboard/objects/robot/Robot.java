@@ -226,7 +226,7 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
-        IProgramCards.Card card = getLogic().getNextCardInHand();
+        IProgramCards.Card card = getLogic().getNextCardInRegister();
         if (card == null)
             return;
 
@@ -253,10 +253,10 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public int peekNextCardInHand() {
-        if (getLogic().peekNextCardInHand() == null)
+    public int peekNextCardInRegister() {
+        if (getLogic().peekNextCardInRegister() == null)
             return 0;
-        return getLogic().peekNextCardInHand().getPriority();
+        return getLogic().peekNextCardInRegister().getPriority();
     }
     //endregion
 
