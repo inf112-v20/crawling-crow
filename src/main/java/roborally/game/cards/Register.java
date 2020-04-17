@@ -23,11 +23,9 @@ public class Register {
      * @param lockCards how many card to lock down.
      */
     public void cleanRegister(int lockCards){
-        System.out.println("Number of cards before cleaning: " + cards.size());
         while(cards.size() > lockCards){
             removeLastCard();
         }
-        System.out.println(toString());
         this.nextCardID = 0;
     }
 
@@ -85,12 +83,12 @@ public class Register {
         if(cards.size() == 0){
             return "[]";
         }
-        String s = "[";
+        StringBuilder s = new StringBuilder("[");
         for(IProgramCards.Card card : cards){
-            s = s + card.getCardType() + ", ";
+            s.append(card.getCardType()).append(", ");
         }
-        s = s.substring(0, s.length()-2) + "]";
-        return s;
+        s = new StringBuilder(s.substring(0, s.length() - 2) + "]");
+        return s.toString();
     }
 
     /**

@@ -203,7 +203,6 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void putChosenCardsIntoRegister() {
         register.add(cardsInHand.getCards());
-        System.out.println(register.toString());
     }
 
     @Override

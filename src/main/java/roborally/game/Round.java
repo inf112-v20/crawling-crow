@@ -68,7 +68,7 @@ public class Round implements IRound {
 	}
 
 	private void clearRegisters() {
-		System.out.println("Cleaning Registers...");
+		System.out.println("\t- Cleaning Registers...");
 		for(IRobot robot : robots){
 			robot.getLogic().cleanRegister();
 		}
@@ -81,7 +81,7 @@ public class Round implements IRound {
 
 	@Override
 	public void restoreRebootedRobots() {
-		System.out.println("Restoring robots...");
+		System.out.println("\t- Restoring robots...");
 		for (Robot currentRobot : robots)
 			currentRobot.backToArchiveMarker();
 	}
