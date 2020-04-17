@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.jetbrains.annotations.NotNull;
+import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 public class ProgramCardsView {
     private final static float CARD_IMAGE_UNIT_SCALE = 3.4f;
     private final static float REBOOT_IMAGE_UNIT_SCALE = 2.5f;
+    private final IGame game;
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
@@ -40,7 +42,8 @@ public class ProgramCardsView {
     private ArrayList<Image> reboots;
     private Image rebootInActive;
 
-    public ProgramCardsView() {
+    public ProgramCardsView(IGame game) {
+        this.game = game;
         this.topLabelList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
@@ -172,6 +175,13 @@ public class ProgramCardsView {
         doneButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                int numberOfLockedCard = game.getUserRobot().getLogic().getNumberOfLockedCards();
+                int numberOfCardsToChoose = SettingsUtil.REGISTER_SIZE - numberOfLockedCard;
+                if (cardPick != numberOfCardsToChoose ){
+                    System.out.println("Must choose correct number of cards");
+                    return;
+                }
+
                 int[] newOrder = new int[cardPick];
                 System.arraycopy(order, 0, newOrder, 0, cardPick);
                 order = newOrder;

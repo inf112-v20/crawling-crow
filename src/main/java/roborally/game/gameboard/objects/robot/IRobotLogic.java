@@ -168,5 +168,7 @@ public interface IRobotLogic {
     void visitNextFlag();
 
     void putChosenCardsIntoRegister();
+
+    int getNumberOfLockedCards();
     //endregion
 }

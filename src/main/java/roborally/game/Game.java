@@ -21,6 +21,8 @@ import roborally.utilities.SettingsUtil;
 import java.util.ArrayList;
 
 public class Game implements IGame {
+	private ProgramCardsView programCardsView;
+
 	//region Game Objects
 	private IGameBoard gameBoard;
 	private ILayers layers;
@@ -49,6 +51,7 @@ public class Game implements IGame {
 		deckOfProgramCards = new ProgramCards();
 		this.events = events;
 		this.gameOptions = new GameOptions();
+		this.programCardsView = new ProgramCardsView(this);
 	}
 
 	@Override
@@ -149,7 +152,7 @@ public class Game implements IGame {
 
 	//region Cards
 	@Override
-	public ProgramCardsView dealCards() {
+	public void dealCards() {
 		if (funMode)
 			removeDeadRobots();
 		deckOfProgramCards.shuffleCards();
@@ -159,11 +162,12 @@ public class Game implements IGame {
 				currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
-		return makeProgramCardsView(userRobot);
+
+		programCardsView = makeProgramCardsView(userRobot);
 	}
 
 	private ProgramCardsView makeProgramCardsView(Robot robot) {
-		ProgramCardsView programCardsView = new ProgramCardsView();
+		ProgramCardsView programCardsView = new ProgramCardsView(this);
 		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
 			programCardsView.setCard(card);
 		}
@@ -230,6 +234,11 @@ public class Game implements IGame {
 			getRound().run(getLayers());
 		}
 		return deltaTime;
+	}
+
+	@Override
+	public ProgramCardsView getProgramCardsView() {
+		return programCardsView;
 	}
 
 	private boolean isNotInGraveyard(Robot robot) {

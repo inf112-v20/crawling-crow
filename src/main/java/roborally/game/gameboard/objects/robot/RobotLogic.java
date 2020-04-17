@@ -207,6 +207,11 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
+    public int getNumberOfLockedCards() {
+        return getNumberOfCardsToLock();
+    }
+
+    @Override
     public void cleanRegister(){
         register.cleanRegister(getNumberOfCardsToLock());
         if(register.size() != getNumberOfCardsToLock()){
