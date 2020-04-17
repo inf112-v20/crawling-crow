@@ -115,8 +115,6 @@ public class UI extends InputAdapter implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        System.out.println("Real window size: " + width + ", " + height);
-        System.out.println("Stage viewport: " + stage.getViewport().getScreenWidth() + ", " + stage.getViewport().getScreenHeight());
     }
 
     @Override
