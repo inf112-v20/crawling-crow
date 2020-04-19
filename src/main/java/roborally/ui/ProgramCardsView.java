@@ -31,7 +31,7 @@ public class ProgramCardsView {
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
-    private ArrayList<Label> topLabelList;
+    private ArrayList<Label> selectedOrderList;
     private float cardWidth;
     private float cardHeight;
     private ImageButton doneButton;
@@ -41,7 +41,7 @@ public class ProgramCardsView {
     private Image rebootInActive;
 
     public ProgramCardsView() {
-        this.topLabelList = new ArrayList<>();
+        this.selectedOrderList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
@@ -87,9 +87,9 @@ public class ProgramCardsView {
                     System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
-                topLabelList.add(cardPick, selectedOrderLabel);
-                topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
-                group.addActor(topLabelList.get(cardPick));
+                selectedOrderList.add(cardPick, selectedOrderLabel);
+                selectedOrderList.get(cardPick).setText(Integer.toString((cardPick)));
+                group.addActor(selectedOrderList.get(cardPick));
                 order[cardPick++] = groups.indexOf(group);
                 group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
                 group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
@@ -125,11 +125,11 @@ public class ProgramCardsView {
 	public void reArrange(int oldI) {
 		int i = oldI;
 		order[i] = -1;
-		topLabelList.remove(i);
+		selectedOrderList.remove(i);
 		while (i < 4) {
 			order[i] = order[++i];
 			if (order[i] != -1) {
-				topLabelList.get(i - 1).setText(Integer.toString(i - 1));
+				selectedOrderList.get(i - 1).setText(Integer.toString(i - 1));
 				order[i] = -1;
 			}
 		}
