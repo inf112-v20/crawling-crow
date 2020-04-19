@@ -76,11 +76,10 @@ public class ProgramCardsView {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 for (int i = 0; i < order.length; i++)
                     if (groups.indexOf(group) == order[i]) {
-                        group.getChildren().get(1).setColor(Color.ORANGE);
                         group.getChildren().get(0).setColor(Color.WHITE);
                         selectedOrderLabel.setText("");
                         reArrange(i);
-                        if(cardPick -1 != -1)
+                        if (cardPick -1 != -1)
                             cardPick--;
                         return true;
                     }
@@ -118,7 +117,7 @@ public class ProgramCardsView {
         priorityLabel.setX(28);
         priorityLabel.setY(10);
         priorityLabel.setFontScale(0.78f);
-        priorityLabel.setColor(Color.ORANGE);
+        priorityLabel.setColor(Color.YELLOW);
         return priorityLabel;
     }
 
