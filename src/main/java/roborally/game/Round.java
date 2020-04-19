@@ -21,7 +21,6 @@ public class Round implements IRound {
 
 	private ArrayList<Robot> robots;
 	private IPhase phase;
-
 	private int currentPhaseIndex;
 
 	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard) {
@@ -30,8 +29,6 @@ public class Round implements IRound {
 		restoreRebootedRobots();
 
 		this.currentPhaseIndex = SettingsUtil.NUMBER_OF_PHASES;
-
-		//funke detta?
 	}
 
 	@Override
@@ -48,8 +45,7 @@ public class Round implements IRound {
 
 	@Override
 	public void announcePowerDown() {
-		// Not implemented.
-
+		//TODO: the robot needs to stand still during powerDown and not fire laser.
 		if (currentPhaseIndex == 5){
 			for(Robot robot : robots){
 				if (robot.getPowerDownNextRound()){

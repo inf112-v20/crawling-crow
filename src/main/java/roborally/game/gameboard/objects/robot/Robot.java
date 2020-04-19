@@ -3,6 +3,7 @@ package roborally.game.gameboard.objects.robot;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
+import com.sun.xml.internal.bind.v2.TODO;
 import roborally.game.cards.IProgramCards;
 import roborally.game.gameboard.objects.laser.Laser;
 import roborally.game.gameboard.objects.laser.LaserRegister;
@@ -26,7 +27,6 @@ public class Robot implements IRobot {
     private Listener listener;
     private LaserRegister laserRegister;
     private boolean reboot;
-
     private boolean powerDown;
     private boolean powerDownNextRound;
 
@@ -48,11 +48,10 @@ public class Robot implements IRobot {
         this.laser = new Laser(0, layers);
         this.listener = new Listener(layers);
         this.laserRegister = laserRegister;
+        this.powerDown = false;
         setPosition(pos);
         checkForStationaryLaser(); // for spawning in the current lasers in fun mode.
         bindCardsToAction();
-
-        this.powerDown = false;
     }
 
     @Override
@@ -283,8 +282,8 @@ public class Robot implements IRobot {
 
     @Override
     public void setPowerDown(boolean powerDown) {
+        //TODO: få helsa til full pott
         this.powerDown = powerDown;
-        //health = 10
     }
 
     @Override
