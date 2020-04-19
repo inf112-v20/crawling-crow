@@ -129,4 +129,12 @@ public interface IRobot {
      * @return the Robot's next card in hand.
      */
     int peekNextCardInHand();
+
+    void setPowerDown(boolean powerDown);
+
+    void setPowerDownNextRound(boolean powerDownNextRound);
+
+    boolean getPowerDownNextRound();
+
+    boolean getPowerDown();
 }

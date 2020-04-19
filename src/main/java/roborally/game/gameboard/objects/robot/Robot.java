@@ -27,6 +27,9 @@ public class Robot implements IRobot {
     private LaserRegister laserRegister;
     private boolean reboot;
 
+    private boolean powerDown;
+    private boolean powerDownNextRound;
+
     private HashMap<IProgramCards.CardType, Runnable> cardToAction;
 
     // Constructor for testing the robot model.
@@ -48,6 +51,8 @@ public class Robot implements IRobot {
         setPosition(pos);
         checkForStationaryLaser(); // for spawning in the current lasers in fun mode.
         bindCardsToAction();
+
+        this.powerDown = false;
     }
 
     @Override
@@ -258,6 +263,8 @@ public class Robot implements IRobot {
             return 0;
         return getLogic().peekNextCardInHand().getPriority();
     }
+
+
     //endregion
 
     public int getPositionX() {
@@ -272,5 +279,26 @@ public class Robot implements IRobot {
         setVictoryTexture();
         getView().setDirection(getPosition(), getLogic().getDirection());
         getLogic().visitNextFlag();
+    }
+
+    @Override
+    public void setPowerDown(boolean powerDown) {
+        this.powerDown = powerDown;
+        //health = 10
+    }
+
+    @Override
+    public void setPowerDownNextRound(boolean powerDownNextRound) {
+        this.powerDownNextRound = powerDownNextRound;
+    }
+
+    @Override
+    public boolean getPowerDownNextRound() {
+        return powerDownNextRound;
+    }
+
+    @Override
+    public boolean getPowerDown() {
+        return powerDown;
     }
 }
