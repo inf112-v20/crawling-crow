@@ -282,8 +282,8 @@ public class Robot implements IRobot {
 
     @Override
     public void setPowerDown(boolean powerDown) {
-        //TODO: få helsa til full pott
         this.powerDown = powerDown;
+        getLogic().addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
     }
 
     @Override
