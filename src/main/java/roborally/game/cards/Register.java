@@ -96,6 +96,10 @@ public class Register {
         return SettingsUtil.REGISTER_SIZE - lockedCards;
     }
 
+    /**
+     *
+     * @return the number of cards in the register, locked and not locked
+     */
     public int getNumberOfCardsInRegister(){
         int counter = 0;
         for (Card card : cards){
@@ -106,6 +110,11 @@ public class Register {
         return counter;
     }
 
+    /**
+     *
+     * @param position between 1 and 5, representing the position in the register that you want to look at
+     * @return the card in requested position. 1 represents the first position.
+     */
     public Card peekAtPosition(int position){
         return cards[position-1];
     }
