@@ -26,7 +26,7 @@ public class Register {
      */
     public void cleanRegister(int lockCards){
         this.lockedCards = lockCards;
-        for (int i = 0; i < getNumberOfCardsNotLocked(); i++){
+        for (int i = 0; i < getNumberOfCardsToPutIntoRegister(); i++){
             cards[i] = null;
         }
         this.nextCardID = 0;
@@ -38,7 +38,7 @@ public class Register {
      * @param newCardsToRegister the cards to be added to the register
      */
     public void add(Card[] newCardsToRegister) {
-        if (newCardsToRegister.length != getNumberOfCardsNotLocked()){
+        if (newCardsToRegister.length != getNumberOfCardsToPutIntoRegister()){
             throw new IllegalStateException("Number of cards do not match number of available slots in registers");
         }
 
@@ -92,7 +92,7 @@ public class Register {
      *
      * @return the number of available slots in the register
      */
-    public int getNumberOfCardsNotLocked() {
+    public int getNumberOfCardsToPutIntoRegister() {
         return SettingsUtil.REGISTER_SIZE - lockedCards;
     }
 
@@ -117,7 +117,7 @@ public class Register {
      * @param card  the card to be added to the register
      */
     private void add(Card card, int position){
-        if (position >= getNumberOfCardsNotLocked()){
+        if (position >= getNumberOfCardsToPutIntoRegister()){
             throw new IllegalStateException("Position " + position + "is locked. There is a total of " + lockedCards +
                     "locked cards.");
         }
