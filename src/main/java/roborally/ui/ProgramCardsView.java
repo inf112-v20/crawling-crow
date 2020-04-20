@@ -41,7 +41,6 @@ public class ProgramCardsView {
         this.cardWidth = 75;
         this.cardHeight = 116;
         cardTimer = 30;
-        //countDownLabel = new Label(String.format("%02d", cardTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
     }
 
     public void makeCard(IProgramCards.Card card) {

@@ -216,9 +216,10 @@ public class Events {
         }
         /*
         if (cardTimer <= 1) {
-
+            autopick cards
+        } else {
+            pick cards as normal
         }
-
          */
     }
 
