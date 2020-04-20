@@ -1,6 +1,5 @@
 package roborally.game;
 
-import com.badlogic.gdx.math.Interpolation;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.robot.IRobot;
 import roborally.game.gameboard.objects.robot.Robot;
