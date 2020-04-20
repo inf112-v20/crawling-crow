@@ -1,19 +1,21 @@
 package roborally.game.cards;
 
 import roborally.utilities.SettingsUtil;
+import roborally.game.cards.IProgramCards.Card;
 
-import java.util.ArrayList;
 
 public class Register {
-    private ArrayList<IProgramCards.Card> cards;
+    private Card[] cards;
     private int nextCardID;
+    private int lockedCards;
 
     /**
      * The registers holds up to five cards. New cards can be added one by one or in bulk.
      */
     public Register(){
-        this.cards = new ArrayList<>();
+        this.cards = new Card[SettingsUtil.REGISTER_SIZE];
         this.nextCardID = 0;
+        this.lockedCards = 0;
     }
 
     /**
@@ -23,33 +25,25 @@ public class Register {
      * @param lockCards how many card to lock down.
      */
     public void cleanRegister(int lockCards){
-        while(cards.size() > lockCards){
-            removeFirstCard();
+        this.lockedCards = lockCards;
+        for (int i = 0; i < getNumberOfCardsNotLocked(); i++){
+            cards[i] = null;
         }
         this.nextCardID = 0;
     }
 
     /**
-     * Add a Cards to the end of the register. If any cards are locked into position, the new card
-     * will end up the next vacant positions.
-     * @param card the card to be added to the register
-     */
-    public void add(IProgramCards.Card card){
-        cards.add(card);
-        if (cards.size() > SettingsUtil.REGISTER_SIZE){
-            throw new IllegalStateException("The register should max hold 5 cards. Now holds " + cards.size());
-        }
-    }
-
-    /**
-     * Adds an ArrayList of Cards to the end of the register. If any cards are locked into position, the new cards
+     * Adds an ArrayList of Cards to the start of the register. If any cards are locked into position, the new cards
      * will end up the next vacant positions.
      * @param newCardsToRegister the cards to be added to the register
      */
-    public void add(ArrayList<IProgramCards.Card> newCardsToRegister) {
-        cards.addAll(newCardsToRegister);
-        if (cards.size() > SettingsUtil.REGISTER_SIZE){
-            throw new IllegalStateException("The register should max hold 5 cards. Now holds " + cards.size());
+    public void add(Card[] newCardsToRegister) {
+        if (newCardsToRegister.length != getNumberOfCardsNotLocked()){
+            throw new IllegalStateException("Number of cards do not match number of available slots in registers");
+        }
+
+        for (int i = 0; i < newCardsToRegister.length; i++){
+            add(newCardsToRegister[i], i);
         }
     }
 
@@ -58,10 +52,10 @@ public class Register {
      * @return the next card in the register
      */
     public IProgramCards.Card getNextCard() {
-        if (cards.isEmpty()){
-            throw new IllegalStateException("Cannot get next card, when register has no cards");
+        if (cards[nextCardID] == null){
+            throw new IllegalStateException("The next register slot is empty");
         }
-        return cards.get(nextCardID++);
+        return cards[nextCardID++];
     }
 
     /**
@@ -69,10 +63,7 @@ public class Register {
      * @return next card in the register.
      */
     public IProgramCards.Card peekNextCard(){
-        if (cards.isEmpty()){
-            return null;
-        }
-        return cards.get(nextCardID);
+        return cards[nextCardID];
     }
 
     /**
@@ -80,9 +71,6 @@ public class Register {
      * @return a string representation of the register
      */
     public String toString(){
-        if(cards.size() == 0){
-            return "[]";
-        }
         StringBuilder s = new StringBuilder("[");
         for(IProgramCards.Card card : cards){
             s.append(card.getCardType()).append(", ");
@@ -91,15 +79,48 @@ public class Register {
         return s.toString();
     }
 
+
     /**
      *
-     * @return the number of cards currently in the register
+     * @return the number of locked cards in the register
      */
-    public int size(){
-        return cards.size();
+    public int getNumberOfLockedCards(){
+        return lockedCards;
     }
 
-    private void removeFirstCard() {
-        cards.remove(0);
+    /**
+     *
+     * @return the number of available slots in the register
+     */
+    public int getNumberOfCardsNotLocked() {
+        return SettingsUtil.REGISTER_SIZE - lockedCards;
+    }
+
+    public int getNumberOfCardsInRegister(){
+        int counter = 0;
+        for (Card card : cards){
+            if (card != null){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    public Card peekAtPosition(int position){
+        return cards[position-1];
+    }
+
+
+    /**
+     * Add a Cards to a specific location in the of the register. If any cards are locked into position, the new card
+     * will end up the next vacant positions.
+     * @param card  the card to be added to the register
+     */
+    private void add(Card card, int position){
+        if (position >= getNumberOfCardsNotLocked()){
+            throw new IllegalStateException("Position " + position + "is locked. There is a total of " + lockedCards +
+                    "locked cards.");
+        }
+        cards[position] = card;
     }
 }
