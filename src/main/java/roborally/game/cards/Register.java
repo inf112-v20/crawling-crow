@@ -24,7 +24,7 @@ public class Register {
      */
     public void cleanRegister(int lockCards){
         while(cards.size() > lockCards){
-            removeLastCard();
+            removeFirstCard();
         }
         this.nextCardID = 0;
     }
@@ -99,7 +99,7 @@ public class Register {
         return cards.size();
     }
 
-    private void removeLastCard() {
-        cards.remove(cards.size()-1);
+    private void removeFirstCard() {
+        cards.remove(0);
     }
 }
