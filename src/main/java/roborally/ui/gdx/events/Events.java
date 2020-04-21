@@ -193,6 +193,9 @@ public class Events {
                 System.out.println("\t- " + robot.getName() + " was destroyed");
                 removeFromUI(robot);
             }
+            if (robot.getLogic().isUserRobot()) {
+                // TODO: Update reboots UI
+            }
         }
     }
 

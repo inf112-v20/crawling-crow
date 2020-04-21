@@ -27,8 +27,6 @@ public class Robot implements IRobot {
     private LaserRegister laserRegister;
     private boolean reboot;
 
-    private boolean isUserRobot;
-
     private HashMap<IProgramCards.CardType, Runnable> cardToAction;
 
     // Constructor for testing the robot model.
@@ -276,13 +274,5 @@ public class Robot implements IRobot {
         getLogic().visitNextFlag();
     }
 
-    @Override
-    public boolean isUserRobot() {
-        return isUserRobot;
-    }
 
-    @Override
-    public void setUserRobot() {
-        this.isUserRobot = true;
-    }
 }

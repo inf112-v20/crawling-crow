@@ -129,8 +129,4 @@ public interface IRobot {
      * @return the Robot's next card in hand.
      */
     int peekNextCardInRegister();
-
-    boolean isUserRobot();
-
-    void setUserRobot();
 }

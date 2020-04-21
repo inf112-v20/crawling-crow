@@ -168,5 +168,9 @@ public interface IRobotLogic {
     void visitNextFlag();
 
     void putChosenCardsIntoRegister();
+
+    boolean isUserRobot();
+
+    void setUserRobot();
     //endregion
 }

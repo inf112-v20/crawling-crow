@@ -59,7 +59,6 @@ public class Game implements IGame {
 		this.laserRegister = new LaserRegister(layers);
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard);
-		//this.userRobot = robots.get(0);
         setUserRobot();
 	}
 
@@ -73,7 +72,6 @@ public class Game implements IGame {
 		this.events.setGameSpeed("fastest");
 		this.round = new Round(events, robots, gameBoard);
 		this.funMode = true;
-		//this.userRobot = robots.get(0);
         setUserRobot();
 	}
 
@@ -86,11 +84,11 @@ public class Game implements IGame {
     @Override
     public void setUserRobot() {
 	    for (Robot robot : getRobots()) {
-	        if (robot.isUserRobot())
+	        if (robot.getLogic().isUserRobot())
 	            throw new IllegalStateException("Can only be one user controlled robot");
         }
 	    this.userRobot = robots.get(0);
-	    this.userRobot.setUserRobot();
+	    this.userRobot.getLogic().setUserRobot();
     }
 
 	@Override
@@ -123,7 +121,6 @@ public class Game implements IGame {
 			events.removeFromUI(robot);
 		}
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
-		//userRobot = robots.get(0);
         setUserRobot();
 	}
 

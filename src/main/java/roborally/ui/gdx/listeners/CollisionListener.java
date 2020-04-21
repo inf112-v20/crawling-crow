@@ -43,6 +43,9 @@ public class CollisionListener {
                     robot.tryToMove(move);
                     robot.checkForStationaryLaser();
                     System.out.println("Pushing robot complete");
+                    if (robot.getLogic().isUserRobot()) {
+                        // TODO: Update displayed health
+                    }
                 }
         }
         // RobotPresenter "deletion"

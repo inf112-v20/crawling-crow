@@ -129,6 +129,9 @@ public class Phase implements IPhase {
 			ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
 			if (!coords.isEmpty())
 				events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
+			if (robot.getLogic().isUserRobot()) {
+				// TODO: Update health UI
+			}
 		}
 	}
 

@@ -107,7 +107,6 @@ public class UI extends InputAdapter implements ApplicationListener {
             pause();
         }
         animateEvent.drawEvents(batch, game, stage);
-        //rebootView.drawUI(batch, game, stage);
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
     }

@@ -1,7 +1,6 @@
 package roborally.game.gameboard.objects.robot;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.utils.Queue;
 import roborally.game.cards.CardsInHand;
 import roborally.game.cards.IProgramCards;
 import roborally.game.cards.Register;
@@ -21,6 +20,8 @@ public class RobotLogic implements IRobotLogic {
     private Direction direction;
     private CardsInHand cardsInHand;
     private Register register;
+
+    private boolean isUserRobot;
 
     public RobotLogic(String name) {
         this.name = name;
@@ -254,4 +255,14 @@ public class RobotLogic implements IRobotLogic {
             System.out.println("- Next flag to visit: " + (nextFlag + 1));
     }
     //endregion
+
+    @Override
+    public boolean isUserRobot() {
+        return isUserRobot;
+    }
+
+    @Override
+    public void setUserRobot() {
+        this.isUserRobot = true;
+    }
 }
