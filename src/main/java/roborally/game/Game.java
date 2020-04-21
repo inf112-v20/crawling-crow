@@ -14,6 +14,7 @@ import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
 import roborally.ui.ProgramCardsView;
+import roborally.ui.UIElements;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -42,13 +43,14 @@ public class Game implements IGame {
 	private int robotPlayedCounter;
 	private int currentPhaseIndex;
 
-	//private HashMap<IProgramCards.CardType, Runnable> cardTypeMethod;
+	private UIElements uiElements;
 
-	public Game(Events events) {
+	public Game(Events events, UIElements uiElements) {
 		currentRobotID = 0;
 		deckOfProgramCards = new ProgramCards();
 		this.events = events;
 		this.gameOptions = new GameOptions();
+		this.uiElements = uiElements;
 	}
 
 	@Override
@@ -98,6 +100,9 @@ public class Game implements IGame {
 		}
 		events.checkForDestroyedRobots(this.robots);
 		userRobot.backToArchiveMarker();
+
+		updateUIElements();
+
 		return userRobot;
 	}
 
@@ -245,4 +250,8 @@ public class Game implements IGame {
 	private boolean isNotInGraveyard(Robot robot) {
 		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
 	}
+
+	public void updateUIElements() {
+        uiElements.updateReboots(userRobot);
+    }
 }

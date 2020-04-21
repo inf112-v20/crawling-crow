@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ProgramCardsView;
 import roborally.ui.UIElements;
 
@@ -50,13 +51,29 @@ public class AnimateEvent {
         }
     }
 
+    public void updateUIElements(Robot robot) {
+        // FIXME: Temp, need to calculate to this number
+        float rebootListPositionX = 510;
+        uiElements.setReboots(robot.getLogic().getReboots());
+
+        int index = 0;
+        for (Image reboot : uiElements.getReboots()) {
+            if (index > 0) {
+                reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
+            } else {
+                reboot.setX(rebootListPositionX);
+            }
+            index++;
+        }
+    }
+
     /**
      * Draws the cards until the user has chosen his or her cards.
      * @param game The game that is running.
      * @param batch The spriteBatch from UI.
      * @param stage The stage from UI.
      */
-    public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
+    private void drawCards(IGame game, SpriteBatch batch, Stage stage) {
         programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
@@ -79,20 +96,6 @@ public class AnimateEvent {
     public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
         programCardsView.setDoneButton();
-
-        // FIXME: Temp, need to calculate to this number
-        float rebootListPositionX = 510;
-        uiElements.setReboots(3);
-
-        int index = 0;
-        for (Image reboot : uiElements.getReboots()) {
-            if (index > 0) {
-                reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
-            } else {
-                reboot.setX(rebootListPositionX);
-            }
-            index++;
-        }
 
         stage.addActor(programCardsView.getDoneButton());
 

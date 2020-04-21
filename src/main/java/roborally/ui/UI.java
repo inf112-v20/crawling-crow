@@ -69,7 +69,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         float renderedTileHeight = tilePixelHeight * TILE_UNIT_SCALE;
 
 
-        game = new Game(this.events);
+        game = new Game(events, uiElements);
         debugControls = new ControlsDebug(game);
 
         camera = new OrthographicCamera();

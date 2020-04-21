@@ -38,7 +38,6 @@ public class Events {
         this.laserEvents = new ArrayList<>();
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
-
     }
 
     /**
@@ -192,9 +191,6 @@ public class Events {
             if (("Destroyed").equals(robot.getLogic().getStatus())) {
                 System.out.println("\t- " + robot.getName() + " was destroyed");
                 removeFromUI(robot);
-            }
-            if (robot.getLogic().isUserRobot()) {
-                // TODO: Update reboots UI
             }
         }
     }

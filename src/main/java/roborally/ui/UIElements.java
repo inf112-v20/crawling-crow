@@ -1,6 +1,7 @@
 package roborally.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class UIElements {
             this.reboots.add(getRebootActive());
         }
 
-        if (availableReboots == 2) {
+        /*if (availableReboots == 2) {
             setRebootInActive();
             this.reboots.add(getRebootInActive());
         } else if (availableReboots == 1) {
@@ -36,7 +37,7 @@ public class UIElements {
                 setRebootInActive();
                 this.reboots.add(getRebootInActive());
             }
-        }
+        }*/
     }
 
     public void setRebootActive() {
@@ -61,5 +62,28 @@ public class UIElements {
 
     public ArrayList<Image> getReboots() {
         return reboots;
+    }
+
+    public void clearReboots() {
+        this.reboots = new ArrayList<>();
+    }
+
+    public void updateReboots(Robot robot) {
+        // FIXME: Temp, need to calculate to this number
+        float rebootListPositionX = 510;
+
+        clearReboots();
+
+        setReboots(robot.getLogic().getReboots() - 1);
+
+        int index = 0;
+        for (Image reboot : getReboots()) {
+            if (index > 0) {
+                reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
+            } else {
+                reboot.setX(rebootListPositionX);
+            }
+            index++;
+        }
     }
 }
