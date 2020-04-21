@@ -48,7 +48,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.paused = true;
         this.mapID = 1;
         this.events = new Events();
-        this.programCardsView = new ProgramCardsView();
+        this.programCardsView = new ProgramCardsView(game);
         this.uiElements = new UIElements();
         this.animateEvent = new AnimateEvent(events, programCardsView, uiElements);
     }
