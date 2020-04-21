@@ -101,6 +101,8 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(REBOOT_ACTIVE);
         ASSET_MANAGER.load(REBOOT_INACTIVE);
 
+        ASSET_MANAGER.load(DAMAGE_TOKEN_GREEN);
+
         // Robots TODO: HashMap
         ASSET_MANAGER.load(ANGRY);
         ASSET_MANAGER.load(BACKUP);
