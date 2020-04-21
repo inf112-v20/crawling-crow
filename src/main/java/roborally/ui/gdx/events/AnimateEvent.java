@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
-import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ProgramCardsView;
 import roborally.ui.UIElements;
 
@@ -48,22 +47,6 @@ public class AnimateEvent {
     private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
         for (Image reboot : uiElements.getReboots()) {
             reboot.draw(batch, 1);
-        }
-    }
-
-    public void updateUIElements(Robot robot) {
-        // FIXME: Temp, need to calculate to this number
-        float rebootListPositionX = 510;
-        uiElements.setReboots(robot.getLogic().getReboots());
-
-        int index = 0;
-        for (Image reboot : uiElements.getReboots()) {
-            if (index > 0) {
-                reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
-            } else {
-                reboot.setX(rebootListPositionX);
-            }
-            index++;
         }
     }
 
