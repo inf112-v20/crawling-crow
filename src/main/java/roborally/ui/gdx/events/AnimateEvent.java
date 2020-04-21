@@ -48,6 +48,10 @@ public class AnimateEvent {
         for (Image reboot : uiElements.getReboots()) {
             reboot.draw(batch, 1);
         }
+
+        for (Image damageToken : uiElements.getDamageTokens()) {
+            damageToken.draw(batch, 1);
+        }
     }
 
     /**

@@ -26,7 +26,7 @@ public class Round implements IRound {
 
 	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard, UIElements uiElements) {
 		this.robots = robots;
-		this.phase = new Phase(this.robots, gameBoard, events);
+		this.phase = new Phase(this.robots, gameBoard, events, uiElements);
 		this.uiElements = uiElements;
 		restoreRebootedRobots();
 	}

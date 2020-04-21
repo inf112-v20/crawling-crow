@@ -9,11 +9,18 @@ import java.util.ArrayList;
 public class UIElements {
     private final static float REBOOT_IMAGE_UNIT_SCALE = 2.5f;
     private Image rebootActive;
-    private ArrayList<Image> reboots;
     private Image rebootInActive;
+    private ArrayList<Image> reboots;
+
+    private Image damageTokenGreen;
+    private Image damageTokenCardGreen;
+    private Image damageTokenRed;
+    private Image damageTokenCardRed;
+    private ArrayList<Image> damageTokens;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
+        this.damageTokens = new ArrayList<>();
     }
 
 
@@ -69,8 +76,7 @@ public class UIElements {
     }
 
     public void updateReboots(Robot robot) {
-        // FIXME: Temp, need to calculate to this number
-        float rebootListPositionX = 510;
+        float rebootListPositionX = 510; // FIXME: Temp, need to calculate to this number
 
         clearReboots();
 
@@ -85,5 +91,58 @@ public class UIElements {
             }
             index++;
         }
+    }
+
+    public void setDamageTokens(int availableHealth) {
+        for (int i = 0; i < availableHealth; i++) {
+            setDamageTokenGreen();
+            this.damageTokens.add(getDamageTokenGreen());
+        }
+    }
+
+    private Image getDamageTokenGreen() {
+        return damageTokenGreen;
+    }
+
+    private void setDamageTokenGreen() {
+        this.damageTokenGreen = new Image(AssetManagerUtil.getDamageTokenGreen());
+        this.damageTokenGreen.setPosition(0, 150);
+        this.damageTokenGreen.setSize(damageTokenGreen.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, damageTokenGreen.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
+    }
+
+    public ArrayList<Image> getDamageTokens() {
+        return damageTokens;
+    }
+
+    public void clearHealth() {
+        this.damageTokens = new ArrayList<>();
+    }
+
+    public void updateHealth(Robot robot) {
+        float damageTokenListFixedPosX = 750; // FIXME: Temp, need to calculate to this number
+
+        clearHealth();
+
+        setDamageTokens(robot.getLogic().getHealth());
+
+        int index = 0;
+        for (Image damageToken : getDamageTokens()) {
+            if (index > 0) {
+                damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth() * 1.5);
+            } else {
+                damageToken.setX(damageTokenListFixedPosX);
+            }
+            index++;
+        }
+    }
+
+    /**
+     * For debugging
+     *
+     * @param robot
+     */
+    public void update(Robot robot) {
+        updateReboots(robot);
+        updateHealth(robot);
     }
 }

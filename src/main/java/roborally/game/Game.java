@@ -104,7 +104,7 @@ public class Game implements IGame {
 		events.checkForDestroyedRobots(this.robots);
 		userRobot.backToArchiveMarker();
 
-		updateUIElements(); // Just for debugging UI
+		uiElements.update(userRobot); // Just for debugging UI
 
 		return userRobot;
 	}
@@ -259,8 +259,4 @@ public class Game implements IGame {
 	private boolean isNotInGraveyard(Robot robot) {
 		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
 	}
-
-	public void updateUIElements() {
-        uiElements.updateReboots(userRobot);
-    }
 }

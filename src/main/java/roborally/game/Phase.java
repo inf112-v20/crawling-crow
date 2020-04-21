@@ -8,6 +8,7 @@ import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.conveyorbelts.ConveyorBelt;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
+import roborally.ui.UIElements;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
@@ -37,7 +38,9 @@ public class Phase implements IPhase {
 	private boolean pusher;
 	private int phaseNumber;
 
-	public Phase(ArrayList<Robot> robots, IGameBoard gameBoard, Events events) {
+	private UIElements uiElements;
+
+	public Phase(ArrayList<Robot> robots, IGameBoard gameBoard, Events events, UIElements uiElements) {
 		this.robots = robots;
 		this.events = events;
 		this.flags = gameBoard.findAllFlags();
@@ -49,6 +52,7 @@ public class Phase implements IPhase {
 		this.robotQueue = new LinkedList<>();
 		this.conveyorBelt = new ConveyorBelt();
 		this.phaseNumber = 1;
+		this.uiElements = uiElements;
 	}
 
 	@Override
@@ -130,7 +134,7 @@ public class Phase implements IPhase {
 			if (!coords.isEmpty())
 				events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
 			if (robot.getLogic().isUserRobot()) {
-				// TODO: Update health UI
+				uiElements.updateHealth(robot);
 			}
 		}
 	}
@@ -176,11 +180,15 @@ public class Phase implements IPhase {
 	}
 
 	private void checkForLasers() {
-		for (Robot robot : robots)
+		for (Robot robot : robots) {
 			if (robot.checkForStationaryLaser()) {
 				robot.takeDamage(1);
 				System.out.println("- Hit by stationary laser");
 			}
+			if (robot.getLogic().isUserRobot()) {
+				uiElements.updateHealth(robot);
+			}
+		}
 	}
 
 	private boolean checkAllRobotsForWinner() {
