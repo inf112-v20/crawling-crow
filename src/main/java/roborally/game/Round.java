@@ -33,7 +33,7 @@ public class Round implements IRound {
 
 	@Override
 	public void run(ILayers layers) {
-		//announcePowerDown();
+		announcePowerDown();
 		//dealCards();
 		//programRobots();
 		//startPhases(layers);

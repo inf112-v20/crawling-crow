@@ -3,7 +3,6 @@ package roborally.game.gameboard.objects.robot;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.sun.xml.internal.bind.v2.TODO;
 import roborally.game.cards.IProgramCards;
 import roborally.game.gameboard.objects.laser.Laser;
 import roborally.game.gameboard.objects.laser.LaserRegister;
@@ -178,7 +177,9 @@ public class Robot implements IRobot {
     //region Lasers
     @Override
     public void fireLaser() {
-        laser.fireLaser(getPosition(), getLogic().getDirection().getID());
+        if(!powerDown) {
+            laser.fireLaser(getPosition(), getLogic().getDirection().getID());
+        }
     }
 
     @Override
@@ -231,7 +232,8 @@ public class Robot implements IRobot {
     @Override
     public void playNextCard() {
         IProgramCards.Card card = getLogic().getNextCardInHand();
-        if (card == null)
+
+        if (card == null && powerDown)
             return;
 
         for (IProgramCards.CardType cardType : IProgramCards.CardType.values()) {
