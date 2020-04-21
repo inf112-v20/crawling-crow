@@ -63,7 +63,7 @@ public class Game implements IGame {
 		this.flags = gameBoard.findAllFlags();
 		this.laserRegister = new LaserRegister(layers);
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
-		this.round = new Round(events, robots, gameBoard);
+		this.round = new Round(events, robots, gameBoard, uiElements);
         setUserRobot();
 	}
 
@@ -75,7 +75,7 @@ public class Game implements IGame {
 		this.flags = gameBoard.findAllFlags();
 		this.robots = gameOptions.funMode(layers, flags, laserRegister);
 		this.events.setGameSpeed("fastest");
-		this.round = new Round(events, robots, gameBoard);
+		this.round = new Round(events, robots, gameBoard, uiElements);
 		this.funMode = true;
         setUserRobot();
 	}
@@ -104,7 +104,7 @@ public class Game implements IGame {
 		events.checkForDestroyedRobots(this.robots);
 		userRobot.backToArchiveMarker();
 
-		updateUIElements();
+		updateUIElements(); // Just for debugging UI
 
 		return userRobot;
 	}
@@ -116,7 +116,7 @@ public class Game implements IGame {
 
 	private void setRobots(ArrayList<Robot> newRobots) {
 		this.robots = newRobots;
-		round = new Round(events, robots, gameBoard);
+		round = new Round(events, robots, gameBoard, uiElements);
 	}
 	//endregion
 

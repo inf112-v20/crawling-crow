@@ -4,6 +4,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.robot.IRobot;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
+import roborally.ui.UIElements;
 import roborally.ui.gdx.events.Events;
 
 import java.util.ArrayList;
@@ -21,9 +22,12 @@ public class Round implements IRound {
 	private ArrayList<Robot> robots;
 	private IPhase phase;
 
-	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard) {
+	private UIElements uiElements;
+
+	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard, UIElements uiElements) {
 		this.robots = robots;
 		this.phase = new Phase(this.robots, gameBoard, events);
+		this.uiElements = uiElements;
 		restoreRebootedRobots();
 	}
 
@@ -81,8 +85,12 @@ public class Round implements IRound {
 	@Override
 	public void restoreRebootedRobots() {
 		System.out.println("\t- Restoring robots...");
-		for (Robot currentRobot : robots)
+		for (Robot currentRobot : robots) {
 			currentRobot.backToArchiveMarker();
+			if (currentRobot.getLogic().isUserRobot()) {
+				uiElements.updateReboots(currentRobot);
+			}
+		}
 	}
 
 	@Override
