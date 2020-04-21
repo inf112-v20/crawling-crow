@@ -39,6 +39,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean paused;
     private Stage stage;
     private ProgramCardsView programCardsView;
+    private UIElements uiElements;
     private Events events;
     private AnimateEvent animateEvent;
 
@@ -48,7 +49,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.mapID = 1;
         this.events = new Events();
         this.programCardsView = new ProgramCardsView();
-        this.animateEvent = new AnimateEvent(events);
+        this.uiElements = new UIElements();
+        this.animateEvent = new AnimateEvent(events, programCardsView, uiElements);
     }
 
     @Override
@@ -145,7 +147,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
             programCardsView = game.dealCards();
-            animateEvent.initiateCards(programCardsView, stage);
+            animateEvent.initiateCards(stage, programCardsView);
             return true;
         }
         debugControls.getAction(keycode).run();

@@ -7,14 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.ui.ProgramCardsView;
+import roborally.ui.UIElements;
 
 public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
+    private UIElements uiElements;
     private boolean cardPhase;
 
-    public AnimateEvent(Events events) {
+    public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
+        this.programCardsView = programCardsView;
+        this.uiElements = uiElements;
     }
 
     /**
@@ -34,7 +38,16 @@ public class AnimateEvent {
         if (events.hasLaserEvent() && !game.getGameOptions().getMenu())
             for (LaserEvent laserEvent : events.getLaserEvents())
                 laserEvent.drawLaserEvent(batch, game.getRobots());
+
+        drawUIElements(game, batch, stage);
+
         batch.end();
+    }
+
+    private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
+        for (Image reboot : uiElements.getReboots()) {
+            reboot.draw(batch, 1);
+        }
     }
 
     /**
@@ -49,9 +62,6 @@ public class AnimateEvent {
             group.draw(batch, 1);
         }
 
-        for (Image reboot : programCardsView.getReboots()) {
-            reboot.draw(batch, 1);
-        }
         if (programCardsView.done()) {
             cardPhase = false;
             stage.clear();
@@ -63,19 +73,19 @@ public class AnimateEvent {
 
     /**
      * Initializes the cards into fixed positions. Makes a button to click to finish choosing cards.
-     * @param programCardsView Class with card images and groups with listeners to choose cards with.
+     *
      * @param stage The stage from UI.
      */
-    public void initiateCards(ProgramCardsView programCardsView, Stage stage) {
+    public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
         programCardsView.setDoneButton();
 
         // FIXME: Temp, need to calculate to this number
         float rebootListPositionX = 510;
-        programCardsView.setReboots(3);
+        uiElements.setReboots(3);
 
         int index = 0;
-        for (Image reboot : programCardsView.getReboots()) {
+        for (Image reboot : uiElements.getReboots()) {
             if (index > 0) {
                 reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
             } else {
