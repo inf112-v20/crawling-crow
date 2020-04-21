@@ -3,6 +3,7 @@ package roborally.game.gameboard.objects.robot;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.cards.CardsInHand;
 import roborally.game.cards.IProgramCards;
+import roborally.game.cards.IProgramCards.Card;
 import roborally.game.cards.Register;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
@@ -176,14 +177,24 @@ public class RobotLogic implements IRobotLogic {
             newOrder[i] = i;
         }
         arrangeCardsInHand(newOrder);
-        putFiveBestCardsIntoRegister();
+        fillFirstCardsFromHandIntoRegister();
     }
 
-    private void putFiveBestCardsIntoRegister() {
-        int firstAvailableLocation = register.size();
-        for(int i = 0; i < SettingsUtil.REGISTER_SIZE - firstAvailableLocation; i++){
-            register.add(cardsInHand.getCards().get(i));
+    private void fillFirstCardsFromHandIntoRegister() {
+        int cardsMissingInRegister = Math.min(getNumberOfCardsToDraw(), 5);
+        Card[] cardToRegister = new Card[cardsMissingInRegister];
+
+        // UNCOMMENT to debug if necessary
+        // System.out.println();
+        // System.out.println(name + " " + health);
+        // System.out.println("Locked cards: " + register.getNumberOfLockedCards());
+        // System.out.println("In hand: " + cardsInHand.getCards().size());
+        // System.out.println("To place: " + cardToRegister.length);
+
+        for(int i = 0; i < cardsMissingInRegister; i++){
+            cardToRegister[i] = cardsInHand.getCards().get(i);
         }
+        register.add(cardToRegister);
     }
 
     private int getNumberOfCardsToDraw() {
@@ -192,6 +203,9 @@ public class RobotLogic implements IRobotLogic {
     }
 
     private int getNumberOfCardsToLock(){
+        if (getHealth() < 1){
+            return 0; // Do not lock registers if robot is destroyed (health will be full again)
+        }
         int cardsToLock = getHealth() - 2*(getHealth()-3);
         return Math.max(0, cardsToLock);
     }
@@ -203,17 +217,22 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void putChosenCardsIntoRegister() {
-        register.add(cardsInHand.getCards());
-        System.out.println(register.toString());
+        fillFirstCardsFromHandIntoRegister();
+    }
+
+    @Override
+    public int getNumberOfLockedCards() {
+        return register.getNumberOfLockedCards();
     }
 
     @Override
     public void cleanRegister(){
+        System.out.println("\t\t- " + name + " locking " + getNumberOfCardsToLock() + " cards..");
         register.cleanRegister(getNumberOfCardsToLock());
-        if(register.size() != getNumberOfCardsToLock()){
+        if(register.getNumberOfLockedCards() != getNumberOfCardsToLock()){
             throw new IllegalStateException("Unexpected number of cards in register after cleanup." +
                     " Expected to lock: " + getNumberOfCardsToLock() +
-                    " Actually locked: " + register.size());
+                    " Actually locked: " + register.getNumberOfLockedCards());
         }
     }
 

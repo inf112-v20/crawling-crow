@@ -172,5 +172,7 @@ public interface IRobotLogic {
     boolean isUserRobot();
 
     void setUserRobot();
+
+    int getNumberOfLockedCards();
     //endregion
 }

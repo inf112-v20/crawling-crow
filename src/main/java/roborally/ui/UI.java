@@ -146,8 +146,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
 
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
-            programCardsView = game.dealCards();
-            animateEvent.initiateCards(stage, programCardsView);
+            game.dealCards();
+            animateEvent.initiateCards(stage, game.getProgramCardsView());
             return true;
         }
         debugControls.getAction(keycode).run();
