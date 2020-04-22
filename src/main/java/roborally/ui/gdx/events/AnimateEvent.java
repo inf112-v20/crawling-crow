@@ -11,7 +11,6 @@ public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
     private boolean cardPhase;
-    //private float dt;
 
     public AnimateEvent(Events events) {
         this.events = events;
@@ -44,7 +43,7 @@ public class AnimateEvent {
      * @param stage The stage from UI.
      */
     public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
-        programCardsView.updateTimer(Gdx.graphics.getDeltaTime());
+        programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getFirstRobot());
         programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
         programCardsView.getCountDownLabel().draw(batch, stage.getHeight() / 2);
         programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);

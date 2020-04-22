@@ -10,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import roborally.game.cards.IProgramCards;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 
@@ -215,9 +217,16 @@ public class ProgramCardsView {
         return this.timerLabel;
     }
 
-    public void updateTimer(float dt) {
+    public void updateTimer(float dt, Robot userRobot) {
         this.cardTimer -= dt;
         this.timerLabel.setText((int) this.cardTimer);
+
+        /*
+        if (cardTimer <= 26.0) {
+            userRobot.getLogic().autoArrangeCardsInHand();
+            //System.out.println("timer");
+        }
+         */
     }
 
     public float getCardTimer() {
@@ -257,9 +266,8 @@ public class ProgramCardsView {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         countDownLabel = new Label("Time left:", labelStyle);
-        countDownLabel.setPosition(320, 300);
+        countDownLabel.setPosition((float)SettingsUtil.WINDOW_WIDTH  / 3, (float)SettingsUtil.WINDOW_HEIGHT / 2);
         countDownLabel.setFontScale(5);
-        countDownLabel.setScale(5);
         countDownLabel.setHeight(200);
         countDownLabel.setColor(Color.YELLOW);
     }
@@ -268,7 +276,7 @@ public class ProgramCardsView {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         timerLabel = new Label(Float.toString(cardTimer), labelStyle);
-        timerLabel.setPosition(400, 230);
+        timerLabel.setPosition((float)SettingsUtil.WINDOW_WIDTH  / 2, (float)SettingsUtil.WINDOW_HEIGHT / 3);
         timerLabel.setFontScale(5);
         timerLabel.setScale(5);
         timerLabel.setHeight(200);
