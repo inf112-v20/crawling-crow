@@ -256,7 +256,6 @@ public class Game implements IGame {
 		return programCardsView;
 	}
 
-	private boolean isNotInGraveyard(Robot robot) {
 	@Override
 	public void announcePowerDown() {
 		for (Robot robot : getRobots()) {

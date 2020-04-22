@@ -32,7 +32,7 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("sounds/soundTrack.mp3", Music.class);
     //Maps
     private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP
-            = new AssetDescriptor<>("maps/newmap.tmx", TiledMap.class);
+            = new AssetDescriptor<>("maps/Eight.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> LISES_MAP
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
     //Other
