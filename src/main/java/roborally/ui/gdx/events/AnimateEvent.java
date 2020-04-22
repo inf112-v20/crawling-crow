@@ -63,7 +63,7 @@ public class AnimateEvent {
     private void drawCards(IGame game, SpriteBatch batch, Stage stage) {
         programCardsView.getCountDownLabel().draw(batch, stage.getHeight() / 2);
         programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
-        programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getFirstRobot());
+        programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getUserRobot());
         programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
