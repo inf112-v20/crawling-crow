@@ -43,6 +43,7 @@ public class CollisionListener {
                     robot.tryToMove(move);
                     robot.checkForStationaryLaser();
                     System.out.println("Pushing robot complete");
+                    // TODO: Should take damage #146
                     if (robot.getLogic().isUserRobot()) {
                         // TODO: Update displayed health
                     }
