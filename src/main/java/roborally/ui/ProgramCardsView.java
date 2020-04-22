@@ -14,6 +14,7 @@ import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -221,16 +222,18 @@ public class ProgramCardsView {
         this.cardTimer -= dt;
         this.timerLabel.setText((int) this.cardTimer);
 
-        /*
-        if (cardTimer <= 26.0) {
-            userRobot.getLogic().autoArrangeCardsInHand();
-            //System.out.println("timer");
-        }
-         */
-    }
+        if (cardTimer <= 1.0) {
+            ArrayList<IProgramCards.Card> cards = userRobot.getLogic().getCardsInHand();
+            int number = Math.min(5, cards.size());
+            for (IProgramCards.Card card : cards) {
+                if (cardPick < number) {
+                    order[cardPick++] = cards.indexOf(card);
+                }
+            }
+            cardPick = -1;
 
-    public float getCardTimer() {
-        return this.cardTimer;
+        }
+
     }
 
     public void makeDoneLabel() {
