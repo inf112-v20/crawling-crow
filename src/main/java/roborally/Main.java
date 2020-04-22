@@ -11,9 +11,7 @@ public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "RoboRally by CrawlingCrow";
-        /*GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();*/
+
         cfg.width = SettingsUtil.WINDOW_WIDTH;
         cfg.height = SettingsUtil.WINDOW_HEIGHT;
         cfg.addIcon("icons/icon@4x.png", Files.FileType.Internal);
