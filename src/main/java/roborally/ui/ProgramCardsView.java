@@ -13,9 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.jetbrains.annotations.NotNull;
 import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,6 +38,9 @@ public class ProgramCardsView {
     private float cardWidth;
     private float cardHeight;
     private ImageButton doneButton;
+    private Label countDownLabel;
+    private Label timerLabel;
+    private float cardTimer;
 
     public ProgramCardsView(IGame game) {
         this.game = game;
@@ -44,6 +49,7 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
+        cardTimer = 30;
     }
 
     public void setCard(IProgramCards.@NotNull Card card) {
@@ -186,4 +192,53 @@ public class ProgramCardsView {
     public ImageButton getDoneButton() {
         return doneButton;
     }
+
+    public Label getCountDownLabel() {
+        return this.countDownLabel;
+    }
+
+    public Label getTimerLabel() {
+        return this.timerLabel;
+    }
+
+    public void updateTimer(float dt, Robot userRobot) {
+        this.cardTimer -= dt;
+        this.timerLabel.setText((int) this.cardTimer);
+
+        if (cardTimer <= 1.0) {
+            ArrayList<IProgramCards.Card> cards = userRobot.getLogic().getCardsInHand();
+            int number = Math.min(5, cards.size());
+            for (IProgramCards.Card card : cards) {
+                if (cardPick < number) {
+                    order[cardPick++] = cards.indexOf(card);
+                }
+            }
+            cardPick = -1;
+
+        }
+
+    }
+
+    public void makeCountDownLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        countDownLabel = new Label("Time left:", labelStyle);
+        countDownLabel.setPosition((float)SettingsUtil.WINDOW_WIDTH  / 3, (float)SettingsUtil.WINDOW_HEIGHT / 2);
+        countDownLabel.setFontScale(5);
+        countDownLabel.setHeight(200);
+        countDownLabel.setColor(Color.YELLOW);
+    }
+
+    public void makeTimerLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        timerLabel = new Label(Float.toString(cardTimer), labelStyle);
+        timerLabel.setPosition((float)SettingsUtil.WINDOW_WIDTH  / 2, (float)SettingsUtil.WINDOW_HEIGHT / 3);
+        timerLabel.setFontScale(5);
+        timerLabel.setScale(5);
+        timerLabel.setHeight(200);
+        timerLabel.setColor(Color.YELLOW);
+
+    }
+
 }

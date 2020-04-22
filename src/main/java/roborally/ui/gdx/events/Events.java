@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.SettingsUtil;
+import roborally.ui.ProgramCardsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,5 +202,4 @@ public class Events {
         System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);
     }
-
 }
