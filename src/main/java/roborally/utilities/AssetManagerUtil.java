@@ -80,6 +80,9 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> REBOOT_INACTIVE = new AssetDescriptor<>("ui-elements/reboot-inactive.png", Texture.class);
 
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN = new AssetDescriptor<>("ui-elements/damage-token.png", Texture.class);
+    private static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED = new AssetDescriptor<>("ui-elements/damage-token-red.png", Texture.class);
+    private static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN = new AssetDescriptor<>("ui-elements/damage-token-card.png", Texture.class);
+    private static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED = new AssetDescriptor<>("ui-elements/damage-token-card-red.png", Texture.class);
 
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
@@ -102,6 +105,9 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(REBOOT_INACTIVE);
 
         ASSET_MANAGER.load(DAMAGE_TOKEN_GREEN);
+        ASSET_MANAGER.load(DAMAGE_TOKEN_RED);
+        ASSET_MANAGER.load(DAMAGE_TOKEN_CARD_GREEN);
+        ASSET_MANAGER.load(DAMAGE_TOKEN_CARD_RED);
 
         // Robots TODO: HashMap
         ASSET_MANAGER.load(ANGRY);
@@ -290,5 +296,17 @@ public class AssetManagerUtil {
 
     public static Texture getDamageTokenGreen() {
         return ASSET_MANAGER.get(DAMAGE_TOKEN_GREEN);
+    }
+
+    public static Texture getDamageTokenRed() {
+        return ASSET_MANAGER.get(DAMAGE_TOKEN_RED);
+    }
+
+    public static Texture getDamageTokenCardGreen() {
+        return ASSET_MANAGER.get(DAMAGE_TOKEN_CARD_GREEN);
+    }
+
+    public static Texture getDamageTokenCardRed() {
+        return ASSET_MANAGER.get(DAMAGE_TOKEN_CARD_RED);
     }
 }
