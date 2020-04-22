@@ -29,8 +29,6 @@ public class Events {
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
-    private ProgramCardsView programCardsView;
-    private float timeCount;
 
     public Events() {
         this.waitEvent = false;
@@ -41,7 +39,6 @@ public class Events {
         this.laserEvents = new ArrayList<>();
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
-        timeCount = 0;
     }
 
     /**
@@ -204,26 +201,5 @@ public class Events {
         robot.deleteRobot();
         System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);
-    }
-
-    public void updateTimer(float dt) {
-        float cardTimer = programCardsView.getCardTimer();
-        timeCount += dt;
-        if (timeCount >= 1) {
-            cardTimer--;
-            programCardsView.getCountDownLabel().setText((int) cardTimer);
-            timeCount = 0;
-        }
-        /*
-        if (cardTimer <= 1) {
-            autopick cards
-        } else {
-            pick cards as normal
-        }
-         */
-    }
-
-    public float getDt() {
-        return this.dt;
     }
 }
