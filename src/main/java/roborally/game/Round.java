@@ -6,7 +6,6 @@ import roborally.ui.ILayers;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.SettingsUtil;
 
-import java.lang.invoke.SerializedLambda;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +32,7 @@ public class Round implements IRound {
 
 	@Override
 	public void run(ILayers layers) {
-		announcePowerDown();
+		setRobotInPowerDown();
 		//dealCards();
 		//programRobots();
 		//startPhases(layers);
@@ -44,19 +43,18 @@ public class Round implements IRound {
 
 
 	@Override
-	public void announcePowerDown() {
-		//TODO: the robot needs to stand still during powerDown and not fire laser.
-		if (currentPhaseIndex == 5){
+	public void setRobotInPowerDown() {
+		//if (currentPhaseIndex == 5){
 			for(Robot robot : robots){
 				if (robot.getPowerDownNextRound()){
 					robot.setPowerDown(true);
-					robot.setPowerDownNextRound(false);
+					//robot.setPowerDownNextRound(false);
 				}
 				else {
 					robot.setPowerDown(false);
 				}
 			}
-		}
+		//}
 	}
 
 	@Override

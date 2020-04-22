@@ -233,7 +233,7 @@ public class Robot implements IRobot {
     public void playNextCard() {
         IProgramCards.Card card = getLogic().getNextCardInHand();
 
-        if (card == null && powerDown)
+        if (card == null || powerDown)
             return;
 
         for (IProgramCards.CardType cardType : IProgramCards.CardType.values()) {
@@ -285,7 +285,9 @@ public class Robot implements IRobot {
     @Override
     public void setPowerDown(boolean powerDown) {
         this.powerDown = powerDown;
-        getLogic().addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
+        if (powerDown){
+            getLogic().addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
+        }
     }
 
     @Override

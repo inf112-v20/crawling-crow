@@ -100,4 +100,9 @@ public interface IGame {
      * @return a difference in time
      */
     float continueGameLoop(float dt, double gameSpeed);
+
+    /**
+     *
+     */
+    void announcePowerDown();
 }

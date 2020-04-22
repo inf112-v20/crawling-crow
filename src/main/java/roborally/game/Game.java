@@ -233,11 +233,22 @@ public class Game implements IGame {
 		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
 			this.currentPhaseIndex = 0;
 			this.events.setWaitMoveEvent(false);
+			round.setRobotInPowerDown();
 			getRound().run(getLayers());
 			dealCards();
 			this.events.setWaitMoveEvent(true);
 		}
 		return deltaTime;
+	}
+
+	@Override
+	public void announcePowerDown() {
+		for (Robot robot : getRobots()) {
+			if (!robot.equals(userRobot)) {
+				//TODO:: make smarter.
+				robot.setPowerDownNextRound(true);
+			}
+		}
 	}
 
 	private boolean isNotInGraveyard(@NotNull Robot robot) {
