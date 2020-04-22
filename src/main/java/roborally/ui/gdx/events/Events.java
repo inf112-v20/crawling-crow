@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.SettingsUtil;
+import roborally.utilities.SettingsUtil;
+import roborally.ui.ProgramCardsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,6 @@ public class Events {
         this.laserEvents = new ArrayList<>();
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
-
     }
 
     /**
@@ -94,8 +95,8 @@ public class Events {
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
         Image image = new Image(texture[0][1]);
-        image.setX(pos.x * SettingsUtil.TILE_SCALE);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE);
+        image.setX(pos.x * SettingsUtil.TILE_SCALE + SettingsUtil.X_SHIFT);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + SettingsUtil.Y_SHIFT - 9f);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
         this.fadeableRobots.add(new Alpha(1f, image));
     }
@@ -202,5 +203,4 @@ public class Events {
         System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);
     }
-
 }

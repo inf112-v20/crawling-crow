@@ -109,11 +109,11 @@ public class Robot implements IRobot {
 
     @Override
     public void tryToMove(GridPoint2 possiblePosition) {
-        //System.out.println("\n" + getName() + " trying to move:");
+        System.out.println("\n" + getName() + " trying to move:");
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
 
-        //System.out.println("\t- Old position: " + oldPos);
+        System.out.println("\t- Old position: " + oldPos);
 
         // Check if the robot is not colliding with something
         if (!listener.listenCollision(oldPos, possiblePosition)) {
@@ -128,33 +128,33 @@ public class Robot implements IRobot {
                 }
                 // Update pos
                 setPosition(newPos);
-                //System.out.println("\t- New position: " + newPos);
-                //System.out.println("\t- Health: " + getLogic().getHealth());
+                System.out.println("\t- New position: " + newPos);
+                System.out.println("\t- Health: " + getLogic().getHealth());
 
                 // Check if Robot is standing on a hole
                 if (layers.layerNotNull(LayerName.HOLE, newPos)) {
                     //robotWentInHole = true;
                     takeDamage(SettingsUtil.MAX_DAMAGE);
-                    //System.out.println("\t\t- Robot went into a hole");
+                    System.out.println("\t\t- Robot went into a hole");
                 }
                 getView().setDirection(newPos, getLogic().getDirection());
 
             }
-        }
-        // Robot does not move
-            //System.out.println("\t\t- Robot cannot move this way: " + oldPos);
+        } else
+            // Robot does not move
+            System.out.println("\t\t- Robot cannot move this way: " + oldPos);
     }
 
     private void playSoundWalking(GridPoint2 oldPos) {
         Sound sound;
         if (getPosition().dst(oldPos) == 1) {
-            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP1);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEP1);
             sound.play(0.25f * AssetManagerUtil.volume);
         } else if (getPosition().dst(oldPos) == 2) {
-            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP2);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEP2);
             sound.play(0.25f * AssetManagerUtil.volume);
         } else if (getPosition().dst(oldPos) == 3) {
-            sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEP3);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEP3);
             sound.play(0.25f * AssetManagerUtil.volume);
         }
     }
@@ -231,8 +231,7 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
-        IProgramCards.Card card = getLogic().getNextCardInHand();
-
+        IProgramCards.Card card = getLogic().getNextCardInRegister();
         if (card == null || powerDown)
             return;
 
@@ -259,13 +258,11 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public int peekNextCardInHand() {
-        if (getLogic().peekNextCardInHand() == null)
+    public int peekNextCardInRegister() {
+        if (getLogic().peekNextCardInRegister() == null)
             return 0;
-        return getLogic().peekNextCardInHand().getPriority();
+        return getLogic().peekNextCardInRegister().getPriority();
     }
-
-
     //endregion
 
     public int getPositionX() {

@@ -32,12 +32,15 @@ public interface IGame {
      */
     ILayers getLayers();
 
+    //region Robots
+    void setUserRobot();
+
     /**
      * Exists only for debugging.
      *
      * @return The first of the robots
      */
-    Robot getFirstRobot();
+    Robot getUserRobot();
 
     /**
      * @return a list of all robots
@@ -60,9 +63,9 @@ public interface IGame {
     void manuallyFireOneLaser();
 
     /**
-     * @return the cards drawn from the deck.
+     * Deal cards
      */
-    ProgramCardsView dealCards();
+    void dealCards();
 
     /**
      * @param order shuffles the cards drawn for the userrobot.
@@ -100,6 +103,8 @@ public interface IGame {
      * @return a difference in time
      */
     float continueGameLoop(float dt, double gameSpeed);
+
+    ProgramCardsView getProgramCardsView();
 
     /**
      *

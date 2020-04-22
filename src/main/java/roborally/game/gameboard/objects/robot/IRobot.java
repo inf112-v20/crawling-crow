@@ -128,7 +128,7 @@ public interface IRobot {
      *
      * @return the Robot's next card in hand.
      */
-    int peekNextCardInHand();
+    int peekNextCardInRegister();
 
     /**
      * Sets the current Robot in powerDown.
@@ -149,6 +149,7 @@ public interface IRobot {
      * @return True if Robot is in powerDown the next round.
      */
     boolean getPowerDownNextRound();
+
 
     /**
      *

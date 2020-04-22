@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -26,6 +27,7 @@ public class UI extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
     public static final int TILE_SIZE = 300;
+    public static final float TILE_UNIT_SCALE = 3 / 16f;
     private IGame game;
     private TiledMap tiledMap;
     private int mapID;
@@ -37,6 +39,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     private boolean paused;
     private Stage stage;
     private ProgramCardsView programCardsView;
+    private UIElements uiElements;
     private Events events;
     private AnimateEvent animateEvent;
 
@@ -45,24 +48,40 @@ public class UI extends InputAdapter implements ApplicationListener {
         this.paused = true;
         this.mapID = 1;
         this.events = new Events();
-        this.programCardsView = new ProgramCardsView();
-        this.animateEvent = new AnimateEvent(events);
+        this.programCardsView = new ProgramCardsView(game);
+        this.uiElements = new UIElements();
+        this.animateEvent = new AnimateEvent(events, programCardsView, uiElements);
     }
 
     @Override
     public void create() {
-        AssetManagerUtil.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
-        AssetManagerUtil.manager.finishLoading();
+        AssetManagerUtil.ASSET_MANAGER.finishLoading();
         tiledMap = AssetManagerUtil.getMap(mapID);
-        game = new Game(this.events);
+        MapProperties mapProperties = tiledMap.getProperties();
+
+        int mapWidth = mapProperties.get("width", Integer.class);
+        int mapHeight = mapProperties.get("height", Integer.class);
+        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
+        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+        float renderedTileWidth = tilePixelWidth * TILE_UNIT_SCALE;
+        float renderedTileHeight = tilePixelHeight * TILE_UNIT_SCALE;
+
+
+        game = new Game(events, uiElements);
         debugControls = new ControlsDebug(game);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.position.set((renderedTileWidth * mapWidth) / 2f, (renderedTileHeight * mapHeight) / 2f, 0); // Center map in game window
         camera.update();
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SettingsUtil.UNIT_SCALE);
+
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, TILE_UNIT_SCALE);
         mapRenderer.setView(camera);
+
         Gdx.input.setInputProcessor(this);
+
         batch = new SpriteBatch();
         stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
         menu = new Menu(stage, events);
@@ -82,7 +101,7 @@ public class UI extends InputAdapter implements ApplicationListener {
     public void render() {
         if (events.hasWaitEvent() && !events.hasLaserEvent())
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
@@ -126,12 +145,9 @@ public class UI extends InputAdapter implements ApplicationListener {
             debugControls.addInGameControls(game);
         }
 
-        if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
-            programCardsView = game.dealCards();
-            if(programCardsView != null)
-                animateEvent.initiateCards(programCardsView, stage);
-            else
-                events.setWaitMoveEvent(true);
+        if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
+            game.dealCards();
+            animateEvent.initiateCards(stage, game.getProgramCardsView());
             return true;
         }
         debugControls.getAction(keycode).run();

@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 
 public class LaserEvent {
+    private float tempY_SHIFT = SettingsUtil.Y_SHIFT - 9f;
     private static float tileEdge = 10; // To make the graphic not go too far out on the edges.
     private GridPoint2 laserPoint;
     private boolean laserEvent;
@@ -44,6 +45,8 @@ public class LaserEvent {
      * @param laserPoint The position the laser is heading to.
      */
     public void laserEvent(GridPoint2 origin, GridPoint2 laserPoint) {
+        float laserX = SettingsUtil.TILE_SCALE*origin.x + SettingsUtil.X_SHIFT;
+        float laserY = SettingsUtil.TILE_SCALE*origin.y + SettingsUtil.Y_SHIFT;
         this.laserPoint = laserPoint;
         if (laserPoint.y != origin.y) {
             this.id = TileName.LASER_VERTICAL.getTileID();
@@ -56,8 +59,10 @@ public class LaserEvent {
             if (origin.x > laserPoint.x)
                 this.factor = -this.factor;
         }
-        this.laserImage.setX(SettingsUtil.TILE_SCALE * origin.x);
-        this.laserImage.setY(SettingsUtil.TILE_SCALE * origin.y);
+        if(this.id == TileName.LASER_HORIZONTAL.getTileID())
+            laserY = SettingsUtil.TILE_SCALE*origin.y + tempY_SHIFT;
+        this.laserImage.setX(laserX);
+        this.laserImage.setY(laserY);
         this.laserEvent = true;
     }
 
@@ -79,12 +84,13 @@ public class LaserEvent {
         if (this.laserImage.getWidth() < tileEdge) {
             hitRobot(robots);
         }
-        boolean negative = this.laserImage.getX() <= (this.laserPoint.x) * SettingsUtil.TILE_SCALE + tileEdge;
-        boolean positive = this.laserImage.getX() >= (this.laserPoint.x) * SettingsUtil.TILE_SCALE - tileEdge;
+        // Refactor points into list of endpoints.
+        boolean negative = this.laserImage.getX() < (this.laserPoint.x)*SettingsUtil.TILE_SCALE + tileEdge + SettingsUtil.X_SHIFT;
+        boolean positive = this.laserImage.getX() > (this.laserPoint.x)*SettingsUtil.TILE_SCALE - tileEdge + SettingsUtil.X_SHIFT;
         float oldWidth = this.laserImage.getWidth();
         float oldX = this.laserImage.getX();
         if (positive && factor > 0) {
-            this.laserImage.setX(this.laserImage.getX() + dt / 3);
+            this.laserImage.setX(this.laserImage.getX() + dt/3);
             this.laserImage.setWidth(oldWidth - (this.laserImage.getX() - oldX));
         }
         if (negative && factor < 0) {
@@ -99,8 +105,9 @@ public class LaserEvent {
         if (this.laserImage.getHeight() < tileEdge) {
             hitRobot(robots);
         }
-        boolean negative = this.laserImage.getY() <= (this.laserPoint.y) * SettingsUtil.TILE_SCALE + tileEdge;
-        boolean positive = this.laserImage.getY() >= (this.laserPoint.y) * SettingsUtil.TILE_SCALE - tileEdge;
+        // Refactor points into list of endpoints.
+        boolean negative = this.laserImage.getY() < (this.laserPoint.y)*SettingsUtil.TILE_SCALE + tileEdge + SettingsUtil.Y_SHIFT;
+        boolean positive = this.laserImage.getY() > (this.laserPoint.y)*SettingsUtil.TILE_SCALE - tileEdge + SettingsUtil.Y_SHIFT;
         float oldHeight = this.laserImage.getHeight();
         float oldY = this.laserImage.getY();
         if (positive && factor > 0) {
@@ -125,7 +132,7 @@ public class LaserEvent {
             }
         if (hitRobot) {
             this.robot.takeDamage(1);
-            Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.ROBOT_HIT);
+            Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.ROBOT_HIT);
             sound.play(0.035f * AssetManagerUtil.volume);
             hitRobot = false;
         }

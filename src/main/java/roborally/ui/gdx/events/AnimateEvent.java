@@ -4,16 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.ui.ProgramCardsView;
+import roborally.ui.UIElements;
 
 public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
+    private UIElements uiElements;
     private boolean cardPhase;
 
-    public AnimateEvent(Events events) {
+    public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
+        this.programCardsView = programCardsView;
+        this.uiElements = uiElements;
     }
 
     /**
@@ -33,7 +38,20 @@ public class AnimateEvent {
         if (events.hasLaserEvent() && !game.getGameOptions().getMenu())
             for (LaserEvent laserEvent : events.getLaserEvents())
                 laserEvent.drawLaserEvent(batch, game.getRobots());
+
+        drawUIElements(game, batch, stage);
+
         batch.end();
+    }
+
+    private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
+        for (Image reboot : uiElements.getReboots()) {
+            reboot.draw(batch, 1);
+        }
+
+        for (Image damageToken : uiElements.getDamageTokens()) {
+            damageToken.draw(batch, 1);
+        }
     }
 
     /**
@@ -42,34 +60,53 @@ public class AnimateEvent {
      * @param batch The spriteBatch from UI.
      * @param stage The stage from UI.
      */
-    public void drawCards(IGame game, SpriteBatch batch, Stage stage) {
-        programCardsView.getDoneLabel().draw(batch, stage.getWidth() / 2);
+    private void drawCards(IGame game, SpriteBatch batch, Stage stage) {
+        programCardsView.getCountDownLabel().draw(batch, stage.getHeight() / 2);
+        programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
+        programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getUserRobot());
+        programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
+
         if (programCardsView.done()) {
             cardPhase = false;
             stage.clear();
             game.shuffleTheRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
-            programCardsView.clearStuff();
+            programCardsView.clear();
             events.setWaitMoveEvent(true);
         }
     }
 
     /**
      * Initializes the cards into fixed positions. Makes a button to click to finish choosing cards.
-     * @param programCardsView Class with card images and groups with listeners to choose cards with.
+     *
      * @param stage The stage from UI.
      */
-    public void initiateCards(ProgramCardsView programCardsView, Stage stage) {
+    public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
-        programCardsView.makeDoneLabel();
-        stage.addActor(programCardsView.getDoneLabel());
-        float i = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
-        programCardsView.getDoneLabel().setX(stage.getWidth() / 2);
-        i = i / 2 - programCardsView.getCardWidth();
+        programCardsView.setDoneButton();
+        programCardsView.makeCountDownLabel();
+        programCardsView.makeTimerLabel();
+
+        stage.addActor(programCardsView.getCountDownLabel());
+        stage.addActor(programCardsView.getTimerLabel());
+        stage.addActor(programCardsView.getDoneButton());
+
+        float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
+
+        float cardRowWidth = programCardsView.getGroups().size() * programCardsView.getCardWidth();
+
+        float donePositionX = (stage.getWidth() - cardRowWidth) + programCardsView.getDoneButton().getWidth();
+
+        programCardsView.getDoneButton().setX(donePositionX);
+
+        System.out.println("Card row width: " + cardRowWidth);
+        System.out.println("Done button position: " + programCardsView.getDoneButton().getX() + "," + programCardsView.getDoneButton().getY());
+
+        cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
         for (Group group : programCardsView.getGroups()) {
-            group.setX(i += programCardsView.getCardWidth());
+            group.setX(cardsGroupPositionX += programCardsView.getCardWidth());
             stage.addActor(group);
         }
         cardPhase = true;

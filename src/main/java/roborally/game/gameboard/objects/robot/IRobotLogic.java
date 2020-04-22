@@ -113,12 +113,12 @@ public interface IRobotLogic {
     /**
      * @return The next card in the Robot's hand and removes it
      */
-    IProgramCards.Card getNextCardInHand();
+    IProgramCards.Card getNextCardInRegister();
 
     /**
      * @return The next card in the Robot's hand
      */
-    IProgramCards.Card peekNextCardInHand();
+    IProgramCards.Card peekNextCardInRegister();
 
     /**
      * Initiate that the Robot has selected its cards.
@@ -141,6 +141,9 @@ public interface IRobotLogic {
     void autoArrangeCardsInHand();
 
     //region Flag
+
+    void cleanRegister();
+
     /**
      * sets the number of flags on the board
      * @param flags flags
@@ -163,5 +166,13 @@ public interface IRobotLogic {
      * If all flags have been collected press W
      */
     void visitNextFlag();
+
+    void putChosenCardsIntoRegister();
+
+    boolean isUserRobot();
+
+    void setUserRobot();
+
+    int getNumberOfLockedCards();
     //endregion
 }

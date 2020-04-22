@@ -2,17 +2,24 @@ package roborally.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import org.jetbrains.annotations.NotNull;
+import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
+import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class creates images of the program cards.
@@ -22,73 +29,35 @@ import java.util.ArrayList;
  * once the played clicks the done button.
  */
 public class ProgramCardsView {
+    private final static float CARD_IMAGE_UNIT_SCALE = 3.4f;
+    private final IGame game;
     private int cardPick;
     private ArrayList<Group> groups;
     private int[] order;
-    private ArrayList<Label> topLabelList;
-    private int cardWidth;
-    private int cardHeight;
-    private Label doneLabel;
+    private ArrayList<Label> selectedOrderList;
+    private float cardWidth;
+    private float cardHeight;
+    private ImageButton doneButton;
+    private Label countDownLabel;
+    private Label timerLabel;
+    private float cardTimer;
 
-    public ProgramCardsView() {
-        this.topLabelList = new ArrayList<>();
+    public ProgramCardsView(IGame game) {
+        this.game = game;
+        this.selectedOrderList = new ArrayList<>();
         this.cardPick = 0;
         this.groups = new ArrayList<>();
-        this.order = new int[]{-1, -1, -1, -1, -1};
-        this.cardWidth = 75;
-        this.cardHeight = 116;
+        this.order = new int[SettingsUtil.REGISTER_SIZE];
+        Arrays.fill(order, -1);
+        cardTimer = 30;
     }
 
-    public void makeCard(IProgramCards.Card card) {
-        if (card.getCardType() == IProgramCards.CardType.MOVE_1)
-            this.makeMove1(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_2)
-            this.makeMove2(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.MOVE_3)
-            this.makeMove3(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_LEFT)
-            this.makeRotateLeft(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.ROTATE_RIGHT)
-            this.makeRotateRight(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.U_TURN)
-            this.makeUTurn(card.getPriority());
-        else if (card.getCardType() == IProgramCards.CardType.BACKUP)
-            this.makeBackup(card.getPriority());
-    }
+    public void setCard(IProgramCards.@NotNull Card card) {
+        this.cardWidth = AssetManagerUtil.getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
+        this.cardHeight = AssetManagerUtil.getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
 
-    public void makeUTurn(int priority) {
-        Image uTurn = new Image(AssetManagerUtil.getCardTexture("Uturn"));
-        makeSomething(priority, uTurn);
-    }
-
-    public void makeBackup(int priority) {
-        Image backup = new Image(AssetManagerUtil.getCardTexture("Backup"));
-        makeSomething(priority, backup);
-    }
-
-    public void makeMove1(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move1"));
-        makeSomething(priority, move);
-    }
-
-    public void makeMove2(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move2"));
-        makeSomething(priority, move);
-    }
-
-    public void makeMove3(int priority) {
-        Image move = new Image(AssetManagerUtil.getCardTexture("Move3"));
-        makeSomething(priority, move);
-    }
-
-    public void makeRotateRight(int priority) {
-        Image RotateR = new Image(AssetManagerUtil.getCardTexture("RotateRight"));
-        makeSomething(priority, RotateR);
-    }
-
-    public void makeRotateLeft(int priority) {
-        Image RotateL = new Image(AssetManagerUtil.getCardTexture("RotateLeft"));
-        makeSomething(priority, RotateL);
+        Image cardImage = new Image(AssetManagerUtil.getCardTexture(card.getCardType()));
+        setCard(card.getPriority(), cardImage);
     }
 
     /**
@@ -98,33 +67,32 @@ public class ProgramCardsView {
      * @param priority The priority of this card.
      * @param image    The image created for the card, with the related texture.
      */
-    private void makeSomething(int priority, Image image) {
-        image.setSize(getCardWidth(), getCardHeight());
+    private void setCard(int priority, @NotNull Image image) {
+        image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
         Group group = new Group();
         group.addActor(image);
-        Label selectedOrderLabel = makeSelectedOrderLabel();
-        Label priorityLabel = makePriorityLabel(priority);
+        Label selectedOrderLabel = setSelectedOrderLabel();
+        Label priorityLabel = setPriorityLabel(priority);
         group.addActor(priorityLabel);
         group.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 for (int i = 0; i < order.length; i++)
                     if (groups.indexOf(group) == order[i]) {
-                        group.getChildren().get(1).setColor(Color.ORANGE);
                         group.getChildren().get(0).setColor(Color.WHITE);
                         selectedOrderLabel.setText("");
                         reArrange(i);
-                        if(cardPick -1 != -1)
+                        if (cardPick -1 != -1)
                             cardPick--;
                         return true;
                     }
-                if(cardPick == 5) {
-                    doneLabel.setColor(Color.RED);
+                if (cardPick == SettingsUtil.REGISTER_SIZE) {
+                    System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
-                topLabelList.add(cardPick, selectedOrderLabel);
-                topLabelList.get(cardPick).setText(Integer.toString((cardPick)));
-                group.addActor(topLabelList.get(cardPick));
+                selectedOrderList.add(cardPick, selectedOrderLabel);
+                selectedOrderList.get(cardPick).setText(Integer.toString((cardPick)));
+                group.addActor(selectedOrderList.get(cardPick));
                 order[cardPick++] = groups.indexOf(group);
                 group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
                 group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
@@ -134,102 +102,143 @@ public class ProgramCardsView {
         this.groups.add(group);
     }
 
-    public Label makeSelectedOrderLabel() {
-        Label.LabelStyle topLabelStyle = new Label.LabelStyle();
-        topLabelStyle.font = new BitmapFont();
-        Label topLabel = new Label("", topLabelStyle);
-        topLabel.setY(100);
-        topLabel.setX(28);
-        topLabel.setColor(Color.GREEN);
-        topLabel.setFontScale(2f);
-        return topLabel;
+    public Label setSelectedOrderLabel() {
+        Label.LabelStyle selectedOrderLabelStyle = new Label.LabelStyle();
+        selectedOrderLabelStyle.font = new BitmapFont();
+        Label selectedOrderLabel = new Label("", selectedOrderLabelStyle);
+        selectedOrderLabel.setY(100);
+        selectedOrderLabel.setX(28);
+        selectedOrderLabel.setColor(Color.GREEN);
+        selectedOrderLabel.setFontScale(2f);
+        return selectedOrderLabel;
     }
 
-    public Label makePriorityLabel(int priority) {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        Label label = new Label(Integer.toString(priority), labelStyle);
-        label.setX(28);
-        label.setY(10);
-        label.setFontScale(0.78f);
-        label.setColor(Color.ORANGE);
-        return label;
+    public Label setPriorityLabel(int priority) {
+        Label.LabelStyle PriorityLabelStyle = new Label.LabelStyle();
+        PriorityLabelStyle.font = new BitmapFont();
+        Label priorityLabel = new Label(Integer.toString(priority), PriorityLabelStyle);
+        priorityLabel.setX(28);
+        priorityLabel.setY(10);
+        priorityLabel.setFontScale(0.78f);
+        priorityLabel.setColor(Color.YELLOW);
+        return priorityLabel;
     }
 
-    // Used to sort cards when deselecting a card.
-    public void reArrange(int oldI) {
-        int i = oldI;
-        order[i] = -1;
-        topLabelList.remove(i);
-        while (i < 4) {
-            order[i] = order[++i];
-            if (order[i] != -1) {
-                topLabelList.get(i - 1).setText(Integer.toString(i - 1));
-                order[i] = -1;
-            }
-        }
-    }
+	// Used to sort cards when deselecting a card.
+	public void reArrange(int oldI) {
+		int i = oldI;
+		order[i] = -1;
+		selectedOrderList.remove(i);
+		while (i < 4) {
+			order[i] = order[++i];
+			if (order[i] != -1) {
+				selectedOrderList.get(i - 1).setText(Integer.toString(i - 1));
+				order[i] = -1;
+			}
+		}
+	}
 
     public ArrayList<Group> getGroups() {
         return this.groups;
     }
 
-    public int[] getOrder() {
-        return this.order;
-    }
+	public int[] getOrder() {
+		return this.order;
+	}
 
-    public boolean done() {
-        return this.cardPick == -1;
-    }
+	public boolean done() {
+		return this.cardPick == -1;
+	}
 
 
     // Maybe deprecated.
-    public void clearStuff() {
+    public void clear() {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;
         this.groups.clear();
         this.groups = new ArrayList<>();
     }
 
-    public int getCardWidth() {
+    public float getCardWidth() {
         return this.cardWidth;
     }
 
-    public int getCardHeight() {
+    public float getCardHeight() {
         return this.cardHeight;
     }
 
-    public Label getDoneLabel() {
-        return this.doneLabel;
-    }
+    public void setDoneButton() {
+        doneButton = new ImageButton(new TextureRegionDrawable(AssetManagerUtil.getDoneButton()), new TextureRegionDrawable(AssetManagerUtil.getDoneButtonPressed()));
+        doneButton.setPosition(0, (getCardHeight() / 2f) - (doneButton.getPrefHeight() / 2f));
 
-    public void makeDoneLabel() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        doneLabel = new Label("Done", labelStyle);
-        doneLabel.setPosition(getCardWidth(), getCardHeight());
-        doneLabel.setFontScale(2);
-        doneLabel.setScale(2);
-        doneLabel.setHeight(this.cardHeight);
-        doneLabel.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                doneLabel.setColor(Color.GREEN);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                doneLabel.setColor(Color.WHITE);
-            }
-
+        doneButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                int numberOfLockedCard = game.getUserRobot().getLogic().getNumberOfLockedCards();
+                int numberOfCardsToChoose = SettingsUtil.REGISTER_SIZE - numberOfLockedCard;
+                if (cardPick != numberOfCardsToChoose ){
+                    System.out.println("Must choose correct number of cards");
+                    return;
+                }
+
                 int[] newOrder = new int[cardPick];
                 System.arraycopy(order, 0, newOrder, 0, cardPick);
                 order = newOrder;
                 cardPick = -1;
             }
         });
+    }
+
+    public ImageButton getDoneButton() {
+        return doneButton;
+    }
+
+    public Label getCountDownLabel() {
+        return this.countDownLabel;
+    }
+
+    public Label getTimerLabel() {
+        return this.timerLabel;
+    }
+
+    public void updateTimer(float dt, Robot userRobot) {
+        this.cardTimer -= dt;
+        this.timerLabel.setText((int) this.cardTimer);
+
+        if (cardTimer <= 1.0) {
+            ArrayList<IProgramCards.Card> cards = userRobot.getLogic().getCardsInHand();
+            int number = Math.min(5, cards.size());
+            for (IProgramCards.Card card : cards) {
+                if (cardPick < number) {
+                    order[cardPick++] = cards.indexOf(card);
+                }
+            }
+            cardPick = -1;
+
+        }
+
+    }
+
+    public void makeCountDownLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        countDownLabel = new Label("Time left:", labelStyle);
+        countDownLabel.setPosition((float)SettingsUtil.WINDOW_WIDTH  / 3, (float)SettingsUtil.WINDOW_HEIGHT / 2);
+        countDownLabel.setFontScale(5);
+        countDownLabel.setHeight(200);
+        countDownLabel.setColor(Color.YELLOW);
+    }
+
+    public void makeTimerLabel() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = new BitmapFont();
+        timerLabel = new Label(Float.toString(cardTimer), labelStyle);
+        timerLabel.setPosition((float)SettingsUtil.WINDOW_WIDTH  / 2, (float)SettingsUtil.WINDOW_HEIGHT / 3);
+        timerLabel.setFontScale(5);
+        timerLabel.setScale(5);
+        timerLabel.setHeight(200);
+        timerLabel.setColor(Color.YELLOW);
+
     }
 
 }

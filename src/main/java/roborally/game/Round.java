@@ -1,8 +1,10 @@
 package roborally.game;
 
 import roborally.game.gameboard.IGameBoard;
+import roborally.game.gameboard.objects.robot.IRobot;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
+import roborally.ui.UIElements;
 import roborally.ui.gdx.events.Events;
 import roborally.utilities.SettingsUtil;
 
@@ -22,9 +24,12 @@ public class Round implements IRound {
 	private IPhase phase;
 	private int currentPhaseIndex;
 
-	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard) {
+	private UIElements uiElements;
+
+	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard, UIElements uiElements) {
 		this.robots = robots;
-		this.phase = new Phase(this.robots, gameBoard, events);
+		this.phase = new Phase(this.robots, gameBoard, events, uiElements);
+		this.uiElements = uiElements;
 		restoreRebootedRobots();
 
 		this.currentPhaseIndex = SettingsUtil.NUMBER_OF_PHASES;
@@ -77,6 +82,14 @@ public class Round implements IRound {
 	@Override
 	public void cleanUp() {
 		restoreRebootedRobots();
+		clearRegisters();
+	}
+
+	private void clearRegisters() {
+		System.out.println("\t- Cleaning Registers...");
+		for(IRobot robot : robots){
+			robot.getLogic().cleanRegister();
+		}
 	}
 
 	@Override
@@ -86,8 +99,13 @@ public class Round implements IRound {
 
 	@Override
 	public void restoreRebootedRobots() {
-		for (Robot currentRobot : robots)
+		System.out.println("\t- Restoring robots...");
+		for (Robot currentRobot : robots) {
 			currentRobot.backToArchiveMarker();
+			if (currentRobot.getLogic().isUserRobot()) {
+				uiElements.updateReboots(currentRobot);
+			}
+		}
 	}
 
 	@Override
