@@ -33,20 +33,12 @@ public class UIElements {
             this.reboots.add(getRebootActive());
         }
 
-        /*if (availableReboots == 2) {
-            setRebootInActive();
-            this.reboots.add(getRebootInActive());
-        } else if (availableReboots == 1) {
-            setRebootInActive();
-            this.reboots.add(getRebootInActive());
-            setRebootInActive();
-            this.reboots.add(getRebootInActive());
-        } else if (availableReboots == 0) {
-            for (int i = 0; i < 3; i++) {
+        if (availableReboots < (SettingsUtil.ROBOT_MAX_REBOOTS - 1)) {
+            for (int i = 0; i < ((SettingsUtil.ROBOT_MAX_REBOOTS - 1) - availableReboots); i++) {
                 setRebootInActive();
                 this.reboots.add(getRebootInActive());
             }
-        }*/
+        }
     }
 
     public void setRebootActive() {
@@ -78,7 +70,6 @@ public class UIElements {
     }
 
     public void updateReboots(Robot robot) {
-
         clearReboots();
 
         setReboots(robot.getLogic().getReboots() - 1);
