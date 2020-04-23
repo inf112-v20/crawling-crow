@@ -236,7 +236,7 @@ public class ProgramCardsView {
         labelStyle.font = new BitmapFont();
         timerLabel = new Label(Float.toString(cardTimer), labelStyle);
         timerLabel.setFontScale(5);
-        timerLabel.setPosition(getCenterPositionHorizontal(getTimerLabel().getPrefWidth()), getCenterPositionVertical(getCountDownLabel().getPrefHeight()));
+        timerLabel.setPosition(getCenterPositionHorizontal(getTimerLabel().getPrefWidth()), getCenterPositionVertical(getCountDownLabel().getPrefHeight()) - 10);
         timerLabel.setColor(Color.YELLOW);
     }
 
