@@ -97,6 +97,13 @@ public class UIElements {
             setDamageTokenGreen();
             this.damageTokens.add(getDamageTokenGreen());
         }
+
+        if (availableHealth < SettingsUtil.ROBOT_MAX_HEALTH) {
+            for (int i = 0; i < (SettingsUtil.ROBOT_MAX_HEALTH - availableHealth); i++) {
+                setDamageTokenRed();
+                this.damageTokens.add(getDamageTokenRed());
+            }
+        }
     }
 
     private Image getDamageTokenGreen() {
@@ -107,6 +114,16 @@ public class UIElements {
         this.damageTokenGreen = new Image(AssetManagerUtil.getDamageTokenGreen());
         this.damageTokenGreen.setPosition(0, 150);
         this.damageTokenGreen.setSize(damageTokenGreen.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, damageTokenGreen.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
+    }
+
+    private Image getDamageTokenRed() {
+        return damageTokenRed;
+    }
+
+    private void setDamageTokenRed() {
+        this.damageTokenRed = new Image(AssetManagerUtil.getDamageTokenRed());
+        this.damageTokenRed.setPosition(0, 150);
+        this.damageTokenRed.setSize(damageTokenRed.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, damageTokenRed.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
     }
 
     public ArrayList<Image> getDamageTokens() {
