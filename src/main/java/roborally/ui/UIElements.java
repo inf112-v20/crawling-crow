@@ -3,21 +3,16 @@ package roborally.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.gameboard.objects.robot.Robot;
-import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
+import roborally.utilities.enums.UIElement;
 
 import java.util.ArrayList;
 
-public class UIElements {
-    private final static float REBOOT_IMAGE_UNIT_SCALE = 2.5f;
-    private Image rebootActive;
-    private Image rebootInActive;
-    private ArrayList<Image> reboots;
+import static roborally.utilities.enums.UIElement.*;
 
-    private Image damageTokenGreen;
-    private Image damageTokenCardGreen;
-    private Image damageTokenRed;
-    private Image damageTokenCardRed;
+public class UIElements {
+    private final static float UI_ELEMENT_SCALE = 2.5f;
+    private ArrayList<Image> reboots;
     private ArrayList<Image> damageTokens;
 
     public UIElements() {
@@ -25,47 +20,30 @@ public class UIElements {
         this.damageTokens = new ArrayList<>();
     }
 
+    private Image getAndSetUIElement(UIElement uiElement) {
+        Image rebootType = new Image(uiElement.getTexture());
+        rebootType.setPosition(0, 150);
+        rebootType.setSize(rebootType.getPrefWidth() / UI_ELEMENT_SCALE, rebootType.getPrefHeight() / UI_ELEMENT_SCALE);
+        return rebootType;
+    }
 
-    // TODO: Refactor
-    public void setReboots(int availableReboots) {
+    private void setReboots(int availableReboots) {
         for (int i = 0; i < availableReboots; i++) {
-            setRebootActive();
-            this.reboots.add(getRebootActive());
+            this.reboots.add(getAndSetUIElement(REBOOT_ACTIVE));
         }
 
         if (availableReboots < (SettingsUtil.ROBOT_MAX_REBOOTS - 1)) {
             for (int i = 0; i < ((SettingsUtil.ROBOT_MAX_REBOOTS - 1) - availableReboots); i++) {
-                setRebootInActive();
-                this.reboots.add(getRebootInActive());
+                this.reboots.add(getAndSetUIElement(REBOOT_INACTIVE));
             }
         }
-    }
-
-    public void setRebootActive() {
-        this.rebootActive = new Image(AssetManagerUtil.getRebootActive());
-        this.rebootActive.setPosition(0, 150);
-        this.rebootActive.setSize(rebootActive.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, rebootActive.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
-    }
-
-    public Image getRebootActive() {
-        return rebootActive;
-    }
-
-    public void setRebootInActive() {
-        this.rebootInActive = new Image(AssetManagerUtil.getRebootInactive());
-        this.rebootInActive.setPosition(0, 150);
-        this.rebootInActive.setSize(rebootInActive.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, rebootInActive.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
-    }
-
-    public Image getRebootInActive() {
-        return rebootInActive;
     }
 
     public ArrayList<Image> getReboots() {
         return reboots;
     }
 
-    public void clearReboots() {
+    private void clearReboots() {
         this.reboots = new ArrayList<>();
     }
 
@@ -75,7 +53,7 @@ public class UIElements {
         setReboots(robot.getLogic().getReboots() - 1);
 
         float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
-        float rebootsWidth = getReboots().size() * getRebootActive().getWidth();
+        float rebootsWidth = getReboots().size() * (REBOOT_ACTIVE.getTexture().getWidth() / UI_ELEMENT_SCALE);
         float rebootsListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (rebootsWidth / 2f) - mapWidth;
 
         for (Image reboot : getReboots()) {
@@ -83,45 +61,23 @@ public class UIElements {
         }
     }
 
-    public void setDamageTokens(int availableHealth) {
+    private void setDamageTokens(int availableHealth) {
         for (int i = 0; i < availableHealth; i++) {
-            setDamageTokenGreen();
-            this.damageTokens.add(getDamageTokenGreen());
+            this.damageTokens.add(getAndSetUIElement(DAMAGE_TOKEN_GREEN));
         }
 
         if (availableHealth < SettingsUtil.ROBOT_MAX_HEALTH) {
             for (int i = 0; i < (SettingsUtil.ROBOT_MAX_HEALTH - availableHealth); i++) {
-                setDamageTokenRed();
-                this.damageTokens.add(getDamageTokenRed());
+                this.damageTokens.add(getAndSetUIElement(DAMAGE_TOKEN_RED));
             }
         }
-    }
-
-    private Image getDamageTokenGreen() {
-        return damageTokenGreen;
-    }
-
-    private void setDamageTokenGreen() {
-        this.damageTokenGreen = new Image(AssetManagerUtil.getDamageTokenGreen());
-        this.damageTokenGreen.setPosition(0, 150);
-        this.damageTokenGreen.setSize(damageTokenGreen.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, damageTokenGreen.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
-    }
-
-    private Image getDamageTokenRed() {
-        return damageTokenRed;
-    }
-
-    private void setDamageTokenRed() {
-        this.damageTokenRed = new Image(AssetManagerUtil.getDamageTokenRed());
-        this.damageTokenRed.setPosition(0, 150);
-        this.damageTokenRed.setSize(damageTokenRed.getPrefWidth() / REBOOT_IMAGE_UNIT_SCALE, damageTokenRed.getPrefHeight() / REBOOT_IMAGE_UNIT_SCALE);
     }
 
     public ArrayList<Image> getDamageTokens() {
         return damageTokens;
     }
 
-    public void clearDamageTokens() {
+    private void clearDamageTokens() {
         this.damageTokens = new ArrayList<>();
     }
 
@@ -130,11 +86,11 @@ public class UIElements {
 
         setDamageTokens(robot.getLogic().getHealth());
 
-        float damageTokensWidth = getDamageTokens().size() * getDamageTokenGreen().getWidth();
+        float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / UI_ELEMENT_SCALE);
         float damageTokenListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (damageTokensWidth / 2f);
 
         for (Image damageToken : getDamageTokens()) {
-            damageToken.setX(damageTokenListFixedPosX += getDamageTokenGreen().getWidth());
+            damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth());
         }
     }
 
