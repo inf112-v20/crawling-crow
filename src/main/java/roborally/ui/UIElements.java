@@ -103,8 +103,13 @@ public class UIElements {
         float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / UI_ELEMENT_SCALE);
         float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
 
+        int index = 0;
         for (Image damageToken : getDamageTokens()) {
+            if (index == 0) {
+                damageToken.setX(damageTokenListFixedPosX -= damageToken.getWidth());
+            }
             damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth());
+            index++;
         }
     }
 
