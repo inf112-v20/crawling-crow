@@ -146,6 +146,7 @@ public class Phase implements IPhase {
 			for (Robot robot : robots) {
 				if (robot.getPosition().equals(repairSite.getPosition())) {
 					robot.getLogic().setArchiveMarker(repairSite.getPosition());
+					robot.getLogic().addHealth(1);
 					System.out.println("- Type of repair site: " + repairSite.getType().name());
 				}
 			}
