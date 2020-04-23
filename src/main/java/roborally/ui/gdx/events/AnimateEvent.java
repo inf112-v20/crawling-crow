@@ -52,6 +52,10 @@ public class AnimateEvent {
         for (Image damageToken : uiElements.getDamageTokens()) {
             damageToken.draw(batch, 1);
         }
+
+        // TODO: Not sure if this is the correct way to do it, but it's temp
+        if (uiElements.isPowerDownInitiated())
+            uiElements.getPowerDownButton().draw(batch, 1);
     }
 
     /**

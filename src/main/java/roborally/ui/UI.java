@@ -22,6 +22,7 @@ import roborally.ui.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
+import roborally.utilities.enums.UIElement;
 
 public class UI extends InputAdapter implements ApplicationListener {
 
@@ -146,6 +147,7 @@ public class UI extends InputAdapter implements ApplicationListener {
         }
 
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
+            uiElements.setPowerDownButton(UIElement.POWER_DOWN); // TODO: Should be somewhere else
             game.dealCards();
             animateEvent.initiateCards(stage, game.getProgramCardsView());
             return true;

@@ -2,6 +2,8 @@ package roborally.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
@@ -15,9 +17,13 @@ public class UIElements {
     private ArrayList<Image> reboots;
     private ArrayList<Image> damageTokens;
 
+    private ImageButton powerDownButton;
+    private boolean isPowerDownInitiated;
+
     public UIElements() {
         this.reboots = new ArrayList<>();
         this.damageTokens = new ArrayList<>();
+        this.isPowerDownInitiated = false;
     }
 
     private Image getAndSetUIElement(UIElement uiElement) {
@@ -102,5 +108,24 @@ public class UIElements {
     public void update(Robot robot) {
         updateReboots(robot);
         updateDamageTokens(robot);
+    }
+
+    public void setPowerDownButton(UIElement powerDownState) {
+        this.powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()));
+
+        float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
+        float powerDownButtonFixedPosX = (Gdx.graphics.getWidth()) - (POWER_DOWN.getTexture().getWidth() * 2f) - mapWidth;
+
+        powerDownButton.setPosition(powerDownButtonFixedPosX, 130);
+
+        isPowerDownInitiated = true;
+    }
+
+    public ImageButton getPowerDownButton() {
+        return powerDownButton;
+    }
+
+    public boolean isPowerDownInitiated() {
+        return isPowerDownInitiated;
     }
 }

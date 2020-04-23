@@ -84,6 +84,10 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN = new AssetDescriptor<>("ui-elements/damage-token-card.png", Texture.class);
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED = new AssetDescriptor<>("ui-elements/damage-token-card-red.png", Texture.class);
 
+    private static final AssetDescriptor<Texture> POWER_DOWN_BUTTON = new AssetDescriptor<>("ui-elements/power-down.png", Texture.class);
+    private static final AssetDescriptor<Texture> POWERED_DOWN = new AssetDescriptor<>("ui-elements/powered-down.png", Texture.class);
+    private static final AssetDescriptor<Texture> POWERING_DOWN = new AssetDescriptor<>("ui-elements/powering-down.png", Texture.class);
+
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
@@ -108,6 +112,10 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(DAMAGE_TOKEN_RED);
         ASSET_MANAGER.load(DAMAGE_TOKEN_CARD_GREEN);
         ASSET_MANAGER.load(DAMAGE_TOKEN_CARD_RED);
+
+        ASSET_MANAGER.load(POWER_DOWN_BUTTON);
+        ASSET_MANAGER.load(POWERED_DOWN);
+        ASSET_MANAGER.load(POWERING_DOWN);
 
         // Robots TODO: HashMap
         ASSET_MANAGER.load(ANGRY);
@@ -308,5 +316,17 @@ public class AssetManagerUtil {
 
     public static Texture getDamageTokenCardRed() {
         return ASSET_MANAGER.get(DAMAGE_TOKEN_CARD_RED);
+    }
+
+    public static Texture getPowerDownButton() {
+        return ASSET_MANAGER.get(POWER_DOWN_BUTTON);
+    }
+
+    public static Texture getPoweredDown() {
+        return ASSET_MANAGER.get(POWERED_DOWN);
+    }
+
+    public static Texture getPoweringDown() {
+        return ASSET_MANAGER.get(POWERING_DOWN);
     }
 }
