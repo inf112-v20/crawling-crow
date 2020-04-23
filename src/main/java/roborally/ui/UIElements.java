@@ -1,6 +1,6 @@
 package roborally.ui;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,6 +19,8 @@ public class UIElements {
 
     private ImageButton powerDownButton;
     private boolean isPowerDownInitiated;
+
+    private Stage stage;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
@@ -60,7 +62,7 @@ public class UIElements {
 
         float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
         float rebootsWidth = getReboots().size() * (REBOOT_ACTIVE.getTexture().getWidth() / UI_ELEMENT_SCALE);
-        float rebootsListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (rebootsWidth / 2f) - mapWidth;
+        float rebootsListFixedPosX = (stage.getWidth() / 2f) - (rebootsWidth / 2f) - mapWidth;
 
         for (Image reboot : getReboots()) {
             reboot.setX(rebootsListFixedPosX += reboot.getWidth());
@@ -93,7 +95,7 @@ public class UIElements {
         setDamageTokens(robot.getLogic().getHealth());
 
         float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / UI_ELEMENT_SCALE);
-        float damageTokenListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (damageTokensWidth / 2f);
+        float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
 
         for (Image damageToken : getDamageTokens()) {
             damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth());
@@ -114,7 +116,7 @@ public class UIElements {
         this.powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()));
 
         float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
-        float powerDownButtonFixedPosX = (Gdx.graphics.getWidth()) - (POWER_DOWN.getTexture().getWidth() * 2f) - mapWidth;
+        float powerDownButtonFixedPosX = (stage.getWidth()) - (POWER_DOWN.getTexture().getWidth() * 2f) - mapWidth;
 
         powerDownButton.setPosition(powerDownButtonFixedPosX, 130);
 
@@ -127,5 +129,9 @@ public class UIElements {
 
     public boolean isPowerDownInitiated() {
         return isPowerDownInitiated;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

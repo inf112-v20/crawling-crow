@@ -112,6 +112,8 @@ public class UI extends InputAdapter implements ApplicationListener {
         animateEvent.drawEvents(batch, game, stage);
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
+        //programCardsView.setStage(stage);
+        uiElements.setStage(stage);
     }
 
     @Override

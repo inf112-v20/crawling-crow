@@ -1,11 +1,11 @@
 package roborally.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -44,6 +44,8 @@ public class ProgramCardsView {
     private Label countDownLabel;
     private Label timerLabel;
     private float cardTimer;
+
+    private Stage stage;
 
     public ProgramCardsView(IGame game) {
         this.game = game;
@@ -231,7 +233,6 @@ public class ProgramCardsView {
         countDownLabel.setFontScale(5);
         countDownLabel.setPosition(getCenterPositionHorizontal(getCountDownLabel().getPrefWidth()), getCenterPositionVertical());
         countDownLabel.setColor(Color.YELLOW);
-        System.out.println("Pref width: " + getCountDownLabel().getPrefWidth());
     }
 
     public void setTimerLabel() {
@@ -244,18 +245,22 @@ public class ProgramCardsView {
     }
 
     private float getCenterPositionHorizontal() {
-        return Gdx.graphics.getWidth() / 2f;
+        return stage.getWidth() / 2f;
     }
 
     private float getCenterPositionHorizontal(float elementWidth) {
-        return (Gdx.graphics.getWidth() / 2f) - (elementWidth / 2f);
+        return (stage.getWidth() / 2f) - (elementWidth / 2f);
     }
 
     private float getCenterPositionVertical() {
-        return Gdx.graphics.getHeight() / 2f;
+        return stage.getHeight() / 2f;
     }
 
     private float getCenterPositionVertical(float elementHeight) {
-        return (Gdx.graphics.getHeight() / 2f) - (elementHeight / 2f);
+        return (stage.getHeight() / 2f) - (elementHeight / 2f);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

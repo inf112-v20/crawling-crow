@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.ui.ProgramCardsView;
 import roborally.ui.UIElements;
+import roborally.utilities.SettingsUtil;
 
 public class AnimateEvent {
     private Events events;
@@ -89,6 +90,7 @@ public class AnimateEvent {
      */
     public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
+        programCardsView.setStage(stage);
         programCardsView.setDoneButton();
         programCardsView.setCountDownLabel();
         programCardsView.setTimerLabel();
@@ -99,14 +101,9 @@ public class AnimateEvent {
 
         float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
 
-        float cardRowWidth = programCardsView.getGroups().size() * programCardsView.getCardWidth();
-
-        float donePositionX = (stage.getWidth() - cardRowWidth) + programCardsView.getDoneButton().getWidth();
+        float donePositionX = (stage.getWidth()) - (programCardsView.getDoneButton().getWidth() * 1.5f) - (SettingsUtil.MAP_WIDTH / 2f);
 
         programCardsView.getDoneButton().setX(donePositionX);
-
-        System.out.println("Card row width: " + cardRowWidth);
-        System.out.println("Done button position: " + programCardsView.getDoneButton().getX() + "," + programCardsView.getDoneButton().getY());
 
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
         for (Group group : programCardsView.getGroups()) {
