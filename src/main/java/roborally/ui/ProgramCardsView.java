@@ -15,11 +15,14 @@ import org.jetbrains.annotations.NotNull;
 import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
 import roborally.game.gameboard.objects.robot.Robot;
-import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static roborally.utilities.AssetManagerUtil.*;
+import static roborally.utilities.enums.UIElement.DONE_BUTTON;
+import static roborally.utilities.enums.UIElement.DONE_BUTTON_PRESSED;
 
 /**
  * This class creates images of the program cards.
@@ -53,10 +56,10 @@ public class ProgramCardsView {
     }
 
     public void setCard(IProgramCards.@NotNull Card card) {
-        this.cardWidth = AssetManagerUtil.getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
-        this.cardHeight = AssetManagerUtil.getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
+        this.cardWidth = getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
+        this.cardHeight = getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
 
-        Image cardImage = new Image(AssetManagerUtil.getCardTexture(card.getCardType()));
+        Image cardImage = new Image(getCardTexture(card.getCardType()));
         setCard(card.getPriority(), cardImage);
     }
 
@@ -168,7 +171,7 @@ public class ProgramCardsView {
     }
 
     public void setDoneButton() {
-        doneButton = new ImageButton(new TextureRegionDrawable(AssetManagerUtil.getDoneButton()), new TextureRegionDrawable(AssetManagerUtil.getDoneButtonPressed()));
+        doneButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable(DONE_BUTTON_PRESSED.getTexture()));
         doneButton.setPosition(0, (getCardHeight() / 2f) - (doneButton.getPrefHeight() / 2f));
 
         doneButton.addListener(new ClickListener() {
