@@ -41,11 +41,12 @@ public class ProgramCardsView {
     private float cardWidth;
     private float cardHeight;
     private ImageButton doneButton;
-    private Label countDownLabel;
+    private Label countdownLabel;
     private Label timerLabel;
     private float cardTimer;
 
     private Stage stage;
+    private Label.LabelStyle countdownLabelStyle;
 
     public ProgramCardsView(IGame game) {
         this.game = game;
@@ -54,7 +55,9 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
-        cardTimer = SettingsUtil.TIMER_DURATION;
+        this.cardTimer = SettingsUtil.TIMER_DURATION;
+
+        setCountdownLabelStyle();
     }
 
     public void setCard(IProgramCards.@NotNull Card card) {
@@ -198,8 +201,27 @@ public class ProgramCardsView {
         return doneButton;
     }
 
-    public Label getCountDownLabel() {
-        return countDownLabel;
+    private void setCountdownLabelStyle() {
+        this.countdownLabelStyle = new Label.LabelStyle();
+        this.countdownLabelStyle.fontColor = Color.YELLOW;
+    }
+
+    public void setCountdownLabel() {
+        this.countdownLabelStyle.font = new BitmapFont();
+        this.countdownLabel = new Label("Time left", countdownLabelStyle);
+        this.countdownLabel.setFontScale(5);
+        this.countdownLabel.setPosition(getCenterPositionHorizontal(getCountdownLabel().getPrefWidth()), getCenterPositionVertical());
+    }
+
+    public void setTimerLabel() {
+        this.countdownLabelStyle.font = new BitmapFont();
+        this.timerLabel = new Label(Float.toString(cardTimer), countdownLabelStyle);
+        this.timerLabel.setFontScale(5);
+        this.timerLabel.setPosition(getCenterPositionHorizontal(getTimerLabel().getPrefWidth()), getCenterPositionVertical(getCountdownLabel().getPrefHeight()) - 10);
+    }
+
+    public Label getCountdownLabel() {
+        return countdownLabel;
     }
 
     public Label getTimerLabel() {
@@ -224,24 +246,6 @@ public class ProgramCardsView {
             }
             cardPick = -1;
         }
-    }
-
-    public void setCountDownLabel() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        countDownLabel = new Label("Time left:", labelStyle);
-        countDownLabel.setFontScale(5);
-        countDownLabel.setPosition(getCenterPositionHorizontal(getCountDownLabel().getPrefWidth()), getCenterPositionVertical());
-        countDownLabel.setColor(Color.YELLOW);
-    }
-
-    public void setTimerLabel() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
-        timerLabel = new Label(Float.toString(cardTimer), labelStyle);
-        timerLabel.setFontScale(5);
-        timerLabel.setPosition(getCenterPositionHorizontal(getTimerLabel().getPrefWidth()), getCenterPositionVertical(getCountDownLabel().getPrefHeight()) - 10);
-        timerLabel.setColor(Color.YELLOW);
     }
 
     private float getCenterPositionHorizontal() {
