@@ -134,7 +134,7 @@ public class Phase implements IPhase {
 			if (!coords.isEmpty())
 				events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
 			if (robot.getLogic().isUserRobot()) {
-				uiElements.updateHealth(robot);
+				uiElements.updateDamageTokens(robot);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ public class Phase implements IPhase {
 				System.out.println("- Hit by stationary laser");
 			}
 			if (robot.getLogic().isUserRobot()) {
-				uiElements.updateHealth(robot);
+				uiElements.updateDamageTokens(robot);
 			}
 		}
 	}

@@ -117,7 +117,7 @@ public class UIElements {
         this.damageTokens = new ArrayList<>();
     }
 
-    public void updateHealth(Robot robot) {
+    public void updateDamageTokens(Robot robot) {
         clearHealth();
 
         setDamageTokens(robot.getLogic().getHealth());
@@ -137,6 +137,6 @@ public class UIElements {
      */
     public void update(Robot robot) {
         updateReboots(robot);
-        updateHealth(robot);
+        updateDamageTokens(robot);
     }
 }
