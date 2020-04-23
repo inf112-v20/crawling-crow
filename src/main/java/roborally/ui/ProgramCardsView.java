@@ -205,6 +205,10 @@ public class ProgramCardsView {
         this.cardTimer -= dt;
         this.timerLabel.setText((int) this.cardTimer);
 
+        if (cardTimer <= 10) {
+            timerLabel.setColor(Color.RED);
+        }
+
         if (cardTimer <= 1.0) {
             ArrayList<IProgramCards.Card> cards = userRobot.getLogic().getCardsInHand();
             int number = Math.min(5, cards.size());
@@ -214,9 +218,7 @@ public class ProgramCardsView {
                 }
             }
             cardPick = -1;
-
         }
-
     }
 
     public void setCountDownLabel() {
