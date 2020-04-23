@@ -1,5 +1,6 @@
 package roborally.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
@@ -119,27 +120,23 @@ public class UIElements {
     }
 
     public void updateHealth(Robot robot) {
-        float damageTokenListFixedPosX = 750; // FIXME: Temp, need to calculate to this number
-
         clearHealth();
 
         setDamageTokens(robot.getLogic().getHealth());
 
-        int index = 0;
+        float damageTokensWidth = getDamageTokens().size() * getDamageTokenGreen().getWidth();
+
+        float damageTokenListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (damageTokensWidth / 2f);
+
         for (Image damageToken : getDamageTokens()) {
-            if (index > 0) {
-                damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth() * 1.5);
-            } else {
-                damageToken.setX(damageTokenListFixedPosX);
-            }
-            index++;
+            damageToken.setX(damageTokenListFixedPosX += getDamageTokenGreen().getWidth());
         }
     }
 
     /**
      * For debugging
      *
-     * @param robot
+     * @param robot The user controlled robot
      */
     public void update(Robot robot) {
         updateReboots(robot);
