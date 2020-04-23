@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 
@@ -77,20 +78,17 @@ public class UIElements {
     }
 
     public void updateReboots(Robot robot) {
-        float rebootListPositionX = 510; // FIXME: Temp, need to calculate to this number
 
         clearReboots();
 
         setReboots(robot.getLogic().getReboots() - 1);
 
-        int index = 0;
+        float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
+        float rebootsWidth = getReboots().size() * getRebootActive().getWidth();
+        float rebootsListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (rebootsWidth / 2f) - mapWidth;
+
         for (Image reboot : getReboots()) {
-            if (index > 0) {
-                reboot.setX(rebootListPositionX += reboot.getWidth() * 1.5);
-            } else {
-                reboot.setX(rebootListPositionX);
-            }
-            index++;
+            reboot.setX(rebootsListFixedPosX += reboot.getWidth());
         }
     }
 
@@ -125,7 +123,6 @@ public class UIElements {
         setDamageTokens(robot.getLogic().getHealth());
 
         float damageTokensWidth = getDamageTokens().size() * getDamageTokenGreen().getWidth();
-
         float damageTokenListFixedPosX = (Gdx.graphics.getWidth() / 2f) - (damageTokensWidth / 2f);
 
         for (Image damageToken : getDamageTokens()) {
