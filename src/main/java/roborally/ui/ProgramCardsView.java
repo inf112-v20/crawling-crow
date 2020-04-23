@@ -52,7 +52,7 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
-        cardTimer = 30;
+        cardTimer = SettingsUtil.TIMER_DURATION;
     }
 
     public void setCard(IProgramCards.@NotNull Card card) {
