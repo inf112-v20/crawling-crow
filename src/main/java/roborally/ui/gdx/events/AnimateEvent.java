@@ -86,8 +86,8 @@ public class AnimateEvent {
     public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
         programCardsView.setDoneButton();
-        programCardsView.makeCountDownLabel();
-        programCardsView.makeTimerLabel();
+        programCardsView.setCountDownLabel();
+        programCardsView.setTimerLabel();
 
         stage.addActor(programCardsView.getCountDownLabel());
         stage.addActor(programCardsView.getTimerLabel());

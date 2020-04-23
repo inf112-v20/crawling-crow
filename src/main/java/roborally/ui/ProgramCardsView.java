@@ -194,11 +194,11 @@ public class ProgramCardsView {
     }
 
     public Label getCountDownLabel() {
-        return this.countDownLabel;
+        return countDownLabel;
     }
 
     public Label getTimerLabel() {
-        return this.timerLabel;
+        return timerLabel;
     }
 
     public void updateTimer(float dt, Robot userRobot) {
@@ -219,26 +219,38 @@ public class ProgramCardsView {
 
     }
 
-    public void makeCountDownLabel() {
+    public void setCountDownLabel() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         countDownLabel = new Label("Time left:", labelStyle);
-        countDownLabel.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         countDownLabel.setFontScale(5);
-        countDownLabel.setHeight(200);
+        countDownLabel.setPosition(getCenterPositionHorizontal(getCountDownLabel().getPrefWidth()), getCenterPositionVertical());
         countDownLabel.setColor(Color.YELLOW);
+        System.out.println("Pref width: " + getCountDownLabel().getPrefWidth());
     }
 
-    public void makeTimerLabel() {
+    public void setTimerLabel() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         timerLabel = new Label(Float.toString(cardTimer), labelStyle);
-        timerLabel.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         timerLabel.setFontScale(5);
-        timerLabel.setScale(5);
-        timerLabel.setHeight(200);
+        timerLabel.setPosition(getCenterPositionHorizontal(getTimerLabel().getPrefWidth()), getCenterPositionVertical(getCountDownLabel().getPrefHeight()));
         timerLabel.setColor(Color.YELLOW);
-
     }
 
+    private float getCenterPositionHorizontal() {
+        return Gdx.graphics.getWidth() / 2f;
+    }
+
+    private float getCenterPositionHorizontal(float elementWidth) {
+        return (Gdx.graphics.getWidth() / 2f) - (elementWidth / 2f);
+    }
+
+    private float getCenterPositionVertical() {
+        return Gdx.graphics.getHeight() / 2f;
+    }
+
+    private float getCenterPositionVertical(float elementHeight) {
+        return (Gdx.graphics.getHeight() / 2f) - (elementHeight / 2f);
+    }
 }
