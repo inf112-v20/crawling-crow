@@ -113,12 +113,12 @@ public class UIElements {
         return damageTokens;
     }
 
-    public void clearHealth() {
+    public void clearDamageTokens() {
         this.damageTokens = new ArrayList<>();
     }
 
     public void updateDamageTokens(Robot robot) {
-        clearHealth();
+        clearDamageTokens();
 
         setDamageTokens(robot.getLogic().getHealth());
 
