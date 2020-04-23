@@ -70,6 +70,12 @@ public class UIElements {
     }
 
     private void setDamageTokens(int availableHealth) {
+        /*
+            TODO: Should be displayed like this, not sure how yet.
+            0       : red
+            1 - 5   : card_green
+            6 - 9   : green
+         */
         for (int i = 0; i < availableHealth; i++) {
             this.damageTokens.add(getAndSetUIElement(DAMAGE_TOKEN_GREEN));
         }
