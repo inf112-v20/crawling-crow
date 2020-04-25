@@ -198,6 +198,9 @@ public class RobotLogic implements IRobotLogic {
     }
 
     private int getNumberOfCardsToDraw() {
+        if (getHealth() <= 0) {
+            addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
+        }
         int numberOfCardsToDraw = getHealth() - 1; // For damage tokens, see rulebook page 9
         return Math.max(0, numberOfCardsToDraw);
     }
