@@ -33,7 +33,6 @@ public class RobotTest {
         card = cardsInHand.getCards().get(2);
         int[] order = {2, 0, 1, 3, 4};
         testRobot1.getLogic().arrangeCardsInHand(order);
-        testRobot1.getLogic().putChosenCardsIntoRegister();
 
         initialStartPosition = new GridPoint2(0,0);
     }

@@ -1,7 +1,6 @@
 package roborally.game;
 
 import roborally.game.gameboard.IGameBoard;
-import roborally.game.gameboard.objects.robot.IRobot;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.UIElements;
@@ -71,10 +70,10 @@ public class Round implements IRound {
 	}
 
 	private void clearRegisters() {
-		System.out.println("\t- Cleaning Registers...");
+		/*System.out.println("\t- Cleaning Registers...");
 		for(IRobot robot : robots){
 			robot.getLogic().cleanRegister();
-		}
+		}*/
 	}
 
 	@Override

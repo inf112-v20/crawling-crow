@@ -193,7 +193,6 @@ public class Game implements IGame {
 	@Override
 	public void shuffleTheRobotsCards(int[] order) {
 		userRobot.getLogic().arrangeCardsInHand(order);
-		userRobot.getLogic().putChosenCardsIntoRegister();
 		userRobot.getLogic().setHasSelectedCards(true);
 	}
 

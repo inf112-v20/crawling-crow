@@ -182,13 +182,6 @@ public class ProgramCardsView {
         doneButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                int numberOfLockedCard = game.getUserRobot().getLogic().getNumberOfLockedCards();
-                int numberOfCardsToChoose = SettingsUtil.REGISTER_SIZE - numberOfLockedCard;
-                if (cardPick != numberOfCardsToChoose ){
-                    System.out.println("Must choose correct number of cards");
-                    return;
-                }
-
                 int[] newOrder = new int[cardPick];
                 System.arraycopy(order, 0, newOrder, 0, cardPick);
                 order = newOrder;
