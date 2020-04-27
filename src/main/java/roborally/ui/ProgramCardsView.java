@@ -55,7 +55,7 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
-        this.cardTimer = SettingsUtil.TIMER_DURATION;
+        this.cardTimer = 2;
 
         setCountdownLabelStyle();
     }
@@ -244,8 +244,19 @@ public class ProgramCardsView {
                     order[cardPick++] = cards.indexOf(card);
                 }
             }
+            temporaryTimerOrder();
             cardPick = -1;
         }
+    }
+
+    // For å sørge for at den returnerer en liste med korrekt størrelse (og at det ikke er -1 som indexer).
+    private void temporaryTimerOrder() {
+        int abc = 0;
+        while(abc < 5 && order[abc]!=-1)
+            abc+=1;
+        int[] newOrder = new int[abc];
+        System.arraycopy(order, 0, newOrder, 0, abc);
+        this.order = newOrder;
     }
 
     private float getCenterPositionHorizontal() {

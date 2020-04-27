@@ -238,6 +238,7 @@ public class Game implements IGame {
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
 			isRoundFinished = false;
+			return 0;
 		}
 		float deltaTime = dt;
 		if (deltaTime >= gameSpeed) {
