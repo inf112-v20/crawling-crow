@@ -18,10 +18,6 @@ public class SettingsUtil {
 
     public final static GridPoint2 GRAVEYARD = new GridPoint2(-1,-1);
 
-    /*private static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-
-    public final static int WINDOW_WIDTH = gd.getDisplayMode().getWidth();
-    public final static int WINDOW_HEIGHT = gd.getDisplayMode().getHeight();*/
     public final static int WINDOW_WIDTH = 1920;
     public final static int WINDOW_HEIGHT = 1080;
     public final static float UNIT_SCALE = 3 / 16f;
