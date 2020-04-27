@@ -99,7 +99,7 @@ public class ProgramCardsView {
                     return true;
                 }
                 selectedOrderList.add(cardPick, selectedOrderLabel);
-                selectedOrderList.get(cardPick).setText(Integer.toString((cardPick)));
+                selectedOrderList.get(cardPick).setText(Integer.toString((cardPick)+1));
                 group.addActor(selectedOrderList.get(cardPick));
                 order[cardPick++] = groups.indexOf(group);
                 group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
