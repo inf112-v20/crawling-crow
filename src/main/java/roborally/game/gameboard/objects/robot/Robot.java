@@ -231,6 +231,7 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
+        System.out.println(powerDown);
         IProgramCards.Card card = getLogic().getNextCardInRegister();
         if (card == null || powerDown)
             return;

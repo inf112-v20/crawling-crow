@@ -126,12 +126,14 @@ public class Phase implements IPhase {
 		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.SHOOT_LASER);
 		sound.play((float) 0.08 * AssetManagerUtil.volume);
 		for (Robot robot : robots) {
-			robot.fireLaser();
-			ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
-			if (!coords.isEmpty())
-				events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
-			if (robot.getLogic().isUserRobot()) {
-				uiElements.updateHealth(robot);
+			if(!robot.getPowerDown()){
+				robot.fireLaser();
+				ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
+				if (!coords.isEmpty())
+					events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
+				if (robot.getLogic().isUserRobot()) {
+					uiElements.updateHealth(robot);
+				}
 			}
 		}
 	}

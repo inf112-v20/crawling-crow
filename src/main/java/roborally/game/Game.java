@@ -177,8 +177,12 @@ public class Game implements IGame {
 				currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
-
-		programCardsView = makeProgramCardsView(userRobot);
+		if(userRobot.getPowerDown()){
+			userRobot.getLogic().autoArrangeCardsInHand();
+		}
+		else {
+			programCardsView = makeProgramCardsView(userRobot);
+		}
 	}
 
 	private ProgramCardsView makeProgramCardsView(Robot robot) {
@@ -261,7 +265,9 @@ public class Game implements IGame {
 		for (Robot robot : getRobots()) {
 			if (!robot.equals(userRobot)) {
 				//TODO:: make smarter.
-				robot.setPowerDownNextRound(true);
+				if (robot.getLogic().getHealth() < 3) {
+					robot.setPowerDownNextRound(true);
+				}
 			}
 		}
 	}

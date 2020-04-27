@@ -53,7 +53,7 @@ public class Round implements IRound {
 			for(Robot robot : robots){
 				if (robot.getPowerDownNextRound()){
 					robot.setPowerDown(true);
-					//robot.setPowerDownNextRound(false);
+					robot.setPowerDownNextRound(false);
 				}
 				else {
 					robot.setPowerDown(false);
