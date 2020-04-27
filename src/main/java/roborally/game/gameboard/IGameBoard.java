@@ -2,6 +2,7 @@ package roborally.game.gameboard;
 
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.IFlag;
+import roborally.utilities.Grid;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
@@ -47,4 +48,10 @@ public interface IGameBoard {
 	 * @return true if the map has pushers.
 	 */
 	boolean hasPushers();
+
+	/**
+	 *
+	 * @return the grid for the current map.
+	 */
+	Grid getGrid();
 }

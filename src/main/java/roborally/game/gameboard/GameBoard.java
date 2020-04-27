@@ -98,6 +98,10 @@ public class GameBoard implements IGameBoard {
 		}
 	}
 
+	public Grid getGrid() {
+		return this.grid;
+	}
+
 	public boolean hasPushers() {
 		return this.pushers;
 	}

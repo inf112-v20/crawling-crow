@@ -10,6 +10,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
+import roborally.game.gameboard.objects.robot.AI.AI;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.Layers;
@@ -27,6 +28,7 @@ public class Game implements IGame {
 	//region Game Objects
 	private IGameBoard gameBoard;
 	private ILayers layers;
+	private AI ai;
 	private ArrayList<Robot> robots;
 	private ArrayList<IFlag> flags;
 	private ArrayList<BoardObject> repairSites;
@@ -64,6 +66,7 @@ public class Game implements IGame {
 		this.laserRegister = new LaserRegister(layers);
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard, uiElements);
+		this.ai = new AI(gameBoard);
         setUserRobot();
 	}
 
@@ -77,6 +80,7 @@ public class Game implements IGame {
 		this.events.setGameSpeed("fastest");
 		this.round = new Round(events, robots, gameBoard, uiElements);
 		this.funMode = true;
+		this.ai = new AI(gameBoard);
         setUserRobot();
 	}
 
@@ -174,7 +178,9 @@ public class Game implements IGame {
 		for (Robot currentRobot : getRobots()) {
 			deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
 			if (!currentRobot.equals(userRobot)) {
-				currentRobot.getLogic().autoArrangeCardsInHand();
+				ai.controlRobot(currentRobot.getLogic());
+				currentRobot.getLogic().arrangeCardsInHand(ai.getOrder());
+				//currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
 
