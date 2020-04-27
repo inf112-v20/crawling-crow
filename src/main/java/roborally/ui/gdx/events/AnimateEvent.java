@@ -39,8 +39,8 @@ public class AnimateEvent {
         if (events.hasLaserEvent() && !game.getGameOptions().getMenu())
             for (LaserEvent laserEvent : events.getLaserEvents())
                 laserEvent.drawLaserEvent(batch, game.getRobots());
-
-        drawUIElements(game, batch, stage);
+        if(!game.getGameOptions().getMenu())
+            drawUIElements(game, batch, stage);
 
         batch.end();
     }
