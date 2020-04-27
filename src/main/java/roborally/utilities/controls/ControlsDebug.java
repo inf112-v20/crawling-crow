@@ -41,5 +41,8 @@ public class ControlsDebug implements IControls {
         menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
         menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterCard);
         menuControlMap.put(Input.Keys.T, () -> game.getRound().getPhase().run(game.getLayers()));
+        menuControlMap.put(Input.Keys.E, () -> game.getRound().run(game.getLayers())); // FIXME Temp. way to run certain round elements
+
+
     }
 }

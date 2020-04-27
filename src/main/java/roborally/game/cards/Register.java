@@ -52,9 +52,6 @@ public class Register {
      * @return the next card in the register
      */
     public IProgramCards.Card getNextCard() {
-        if (cards[nextCardID] == null){
-            throw new IllegalStateException("The next register slot is empty");
-        }
         return cards[nextCardID++];
     }
 
@@ -73,7 +70,11 @@ public class Register {
     public String toString(){
         StringBuilder s = new StringBuilder("[");
         for(IProgramCards.Card card : cards){
-            s.append(card.getCardType()).append(", ");
+            if(card != null) {
+                s.append(card.getCardType()).append(", ");
+            } else {
+                s.append("null, ");
+            }
         }
         s = new StringBuilder(s.substring(0, s.length() - 2) + "]");
         return s.toString();
