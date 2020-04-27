@@ -46,6 +46,7 @@ public class Game implements IGame {
 	private int currentPhaseIndex;
 
 	private UIElements uiElements;
+	private boolean isRoundFinished;
 
 	public Game(Events events, UIElements uiElements) {
 		currentRobotID = 0;
@@ -232,6 +233,12 @@ public class Game implements IGame {
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
+		if (isRoundFinished) {
+			System.out.println("Event: " + events.hasLaserEvent());
+			this.events.setWaitMoveEvent(false);
+			getRound().run(getLayers());
+			isRoundFinished = false;
+		}
 		float deltaTime = dt;
 		if (deltaTime >= gameSpeed) {
 			getRound().getPhase().playNextRegisterCard();
@@ -245,8 +252,7 @@ public class Game implements IGame {
 		}
 		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
 			this.currentPhaseIndex = 0;
-			this.events.setWaitMoveEvent(false);
-			getRound().run(getLayers());
+			isRoundFinished = true;
 		}
 		return deltaTime;
 	}

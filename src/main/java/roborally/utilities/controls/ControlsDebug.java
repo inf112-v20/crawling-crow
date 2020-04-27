@@ -41,8 +41,14 @@ public class ControlsDebug implements IControls {
         menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
         menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterCard);
         menuControlMap.put(Input.Keys.T, () -> game.getRound().getPhase().run(game.getLayers()));
-        menuControlMap.put(Input.Keys.E, () -> game.getRound().run(game.getLayers())); // FIXME Temp. way to run certain round elements
+        menuControlMap.put(Input.Keys.E, () -> simulateRoundWithoutMovement(game));
+        menuControlMap.put(Input.Keys.C, () -> game.getRound().cleanUp());
+    }
 
-
+    private void simulateRoundWithoutMovement(IGame game) {
+        for (int i = 0; i < 5; i++) {
+            game.getRound().getPhase().run(game.getLayers());
+        }
+        game.getRound().run(game.getLayers());
     }
 }
