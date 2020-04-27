@@ -202,15 +202,15 @@ public class ProgramCardsView {
     public void setCountdownLabel() {
         this.countdownLabelStyle.font = new BitmapFont();
         this.countdownLabel = new Label("Time left", countdownLabelStyle);
-        this.countdownLabel.setFontScale(5);
-        this.countdownLabel.setPosition(getCenterPositionHorizontal(getCountdownLabel().getPrefWidth()), getCenterPositionVertical());
+        this.countdownLabel.setFontScale(3);
+        this.countdownLabel.setPosition(SettingsUtil.X_SHIFT - 55, 85);
     }
 
     public void setTimerLabel() {
         this.countdownLabelStyle.font = new BitmapFont();
         this.timerLabel = new Label(Float.toString(cardTimer), countdownLabelStyle);
-        this.timerLabel.setFontScale(5);
-        this.timerLabel.setPosition(getCenterPositionHorizontal(getTimerLabel().getPrefWidth()), getCenterPositionVertical(getCountdownLabel().getPrefHeight()) - 10);
+        this.timerLabel.setFontScale(3);
+        this.timerLabel.setPosition(SettingsUtil.X_SHIFT + 10, 40);
     }
 
     public Label getCountdownLabel() {
@@ -234,10 +234,25 @@ public class ProgramCardsView {
             int number = Math.min(5, cards.size());
             for (IProgramCards.Card card : cards) {
                 if (cardPick < number) {
-                    order[cardPick++] = cards.indexOf(card);
+                    addIfCardIsNotChosen(cards, card);
                 }
             }
+            System.out.println(Arrays.toString(order));
             cardPick = -1;
+        }
+    }
+
+    private void addIfCardIsNotChosen(ArrayList<IProgramCards.Card> cards, IProgramCards.Card card) {
+        int idx = cards.indexOf(card);
+        boolean hasCard = false;
+        for (int id : order) {
+            if (id == idx) {
+                hasCard = true;
+                break;
+            }
+        }
+        if (!hasCard) {
+            order[cardPick++] = idx;
         }
     }
 
