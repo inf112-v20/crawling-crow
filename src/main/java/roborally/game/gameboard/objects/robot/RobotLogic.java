@@ -204,7 +204,7 @@ public class RobotLogic implements IRobotLogic {
 
     private int getNumberOfCardsToLock(){
         if (getHealth() < 1){
-            return 0; // Do not lock registers if robot is destroyed (health will be full again)
+            return 5; // Lock whole register if the robot has no health
         }
         int cardsToLock = getHealth() - 2*(getHealth()-3);
         return Math.max(0, cardsToLock);
