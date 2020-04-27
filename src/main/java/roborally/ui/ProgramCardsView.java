@@ -55,7 +55,7 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
-        this.cardTimer = 2;
+        this.cardTimer = SettingsUtil.TIMER_DURATION;
 
         setCountdownLabelStyle();
     }

@@ -38,9 +38,7 @@ public class Register {
      * @param newCardsToRegister the cards to be added to the register
      */
     public void add(Card[] newCardsToRegister) {
-        int a = getNumberOfCardsToPutIntoRegister();
-        System.out.println(newCardsToRegister.length + " " + a);
-        if (newCardsToRegister.length != a){
+        if (newCardsToRegister.length != getNumberOfCardsToPutIntoRegister()){
             throw new IllegalStateException("Number of cards do not match number of available slots in registers");
         }
 
