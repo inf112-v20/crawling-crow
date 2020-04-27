@@ -293,42 +293,42 @@ public class RiskyExchangeMapTest {
     //region Wall
     @Test
     public void verifyThatWallTopIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_TOP));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_NORTH));
     }
 
     @Test
     public void verifyThatWallRightIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_RIGHT));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_EAST));
     }
 
     @Test
     public void verifyThatWallLeftIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_LEFT));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_WEST));
     }
 
     @Test
     public void verifyThatWallBottomIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_BOTTOM));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_SOUTH));
     }
 
     @Test
     public void verifyThatWallCornerTopRightIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_TOP_RIGHT));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_NORTH_EAST));
     }
 
     @Test
     public void verifyThatWallCornerTopLeftIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_TOP_LEFT));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_NORTH_WEST));
     }
 
     @Test
     public void verifyThatWallCornerBottomRightIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_BOTTOM_RIGHT));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_SOUTH_EAST));
     }
 
     @Test
     public void verifyThatWallCornerBottomLeftIsOnMap() {
-        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_BOTTOM_LEFT));
+        assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_SOUTH_WEST));
     }
     //endregion
 

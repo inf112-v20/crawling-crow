@@ -2,15 +2,15 @@ package roborally.utilities.enums;
 
 public enum TileName {
     // Walls
-    WALL_RIGHT(23),
-    WALL_BOTTOM(29),
-    WALL_LEFT(30),
-    WALL_TOP(31),
+    WALL_EAST(23),
+    WALL_SOUTH(29),
+    WALL_WEST(30),
+    WALL_NORTH(31),
     // Walls with corners
-    WALL_CORNER_TOP_RIGHT(16),
-    WALL_CORNER_TOP_LEFT(24),
-    WALL_CORNER_BOTTOM_LEFT(32),
-    WALL_CORNER_BOTTOM_RIGHT(8),
+    WALL_CORNER_NORTH_EAST(16),
+    WALL_CORNER_NORTH_WEST(24),
+    WALL_CORNER_SOUTH_WEST(32),
+    WALL_CORNER_SOUTH_EAST(8),
     // Walls with cannons
     WALL_CANNON_TOP(45),
     WALL_CANNON_RIGHT(46),
@@ -91,6 +91,10 @@ public enum TileName {
     COG_CLOCKWISE(54),
     // Pushers
     PUSHER_2_4_WEST(2),
+    PUSHER_2_4_SOUTH(1),
+    PUSHER_1_3_5_WEST(10),
+    PUSHER_1_3_5_NORTH(3),
+    PUSHER_2_4_NORTH(11),
     PUSHER_1_3_5_EAST(12),
     PUSHER_1_3_5_SOUTH(9),
     // Flags

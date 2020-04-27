@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class GameBoardTest {
-	private GameBoard gameBoard = new GameBoard("maps/newmap.tmx");
+	private GameBoard gameBoard = new GameBoard("maps/Eight.tmx");
 
 	@Test
 	public void hasFlags() {

@@ -59,10 +59,10 @@ public class WallListener {
 
     public HashMap<String, List<TileName>> makeWallMap() {
         HashMap<String, List<TileName>> mapOfWallNames = new HashMap<>();
-        TileName[] tnNorth = {TileName.WALL_TOP, TileName.WALL_CORNER_TOP_LEFT, TileName.WALL_CORNER_TOP_RIGHT};
-        TileName[] tnSouth = {TileName.WALL_BOTTOM, TileName.WALL_CORNER_BOTTOM_LEFT, TileName.WALL_CORNER_BOTTOM_RIGHT};
-        TileName[] tnWest = {TileName.WALL_LEFT, TileName.WALL_CORNER_BOTTOM_LEFT, TileName.WALL_CORNER_TOP_LEFT};
-        TileName[] tnEast = {TileName.WALL_RIGHT, TileName.WALL_CORNER_TOP_RIGHT, TileName.WALL_CORNER_BOTTOM_RIGHT};
+        TileName[] tnNorth = {TileName.WALL_NORTH, TileName.WALL_CORNER_NORTH_WEST, TileName.WALL_CORNER_NORTH_EAST};
+        TileName[] tnSouth = {TileName.WALL_SOUTH, TileName.WALL_CORNER_SOUTH_WEST, TileName.WALL_CORNER_SOUTH_EAST};
+        TileName[] tnWest = {TileName.WALL_WEST, TileName.WALL_CORNER_SOUTH_WEST, TileName.WALL_CORNER_NORTH_WEST};
+        TileName[] tnEast = {TileName.WALL_EAST, TileName.WALL_CORNER_NORTH_EAST, TileName.WALL_CORNER_SOUTH_EAST};
         mapOfWallNames.put("North", (Arrays.asList(tnNorth)));
         mapOfWallNames.put("South", (Arrays.asList(tnSouth)));
         mapOfWallNames.put("East", (Arrays.asList(tnEast)));
