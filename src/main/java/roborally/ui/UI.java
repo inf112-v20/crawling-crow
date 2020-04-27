@@ -148,10 +148,13 @@ public class UI extends InputAdapter implements ApplicationListener {
             debugControls.addInGameControls(game);
         }
 
-        if (keycode == Input.Keys.ENTER && !events.hasWaitEvent()) {
+        if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
             uiElements.setPowerDownButton(UIElement.POWER_DOWN); // TODO: Should be somewhere else
             game.dealCards();
-            animateEvent.initiateCards(stage, game.getProgramCardsView());
+            if(programCardsView != null)
+                animateEvent.initiateCards(stage, game.getProgramCardsView());
+            else
+                events.setWaitMoveEvent(true);
             return true;
         }
         debugControls.getAction(keycode).run();
