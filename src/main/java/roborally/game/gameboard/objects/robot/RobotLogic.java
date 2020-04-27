@@ -116,6 +116,8 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public boolean takeDamage(int damage) {
+        // UNCOMMENT to debug
+        // System.out.println("Took damage: " + damage + ". Robot: " + name);
         health -= damage;
         if (health <= 0 && reboots > 1)
             return true;
@@ -185,11 +187,11 @@ public class RobotLogic implements IRobotLogic {
         Card[] cardToRegister = new Card[cardsMissingInRegister];
 
         // UNCOMMENT to debug if necessary
-        // System.out.println();
-        // System.out.println(name + " " + health);
-        // System.out.println("Locked cards: " + register.getNumberOfLockedCards());
-        // System.out.println("In hand: " + cardsInHand.getCards().size());
-        // System.out.println("To place: " + cardToRegister.length);
+         System.out.println();
+         System.out.println(name + " " + health);
+         System.out.println("Locked cards: " + register.getNumberOfLockedCards());
+         System.out.println("In hand: " + cardsInHand.getCards().size());
+         System.out.println("To place: " + cardToRegister.length);
 
         for(int i = 0; i < cardsMissingInRegister; i++){
             cardToRegister[i] = cardsInHand.getCards().get(i);
@@ -227,7 +229,7 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void cleanRegister(){
-        System.out.println("\t\t- " + name + " locking " + getNumberOfCardsToLock() + " cards..");
+        System.out.println("\t\t- " + name + " has hp: " + health + ". Locking " + getNumberOfCardsToLock() + " cards..");
         register.cleanRegister(getNumberOfCardsToLock());
         if(register.getNumberOfLockedCards() != getNumberOfCardsToLock()){
             throw new IllegalStateException("Unexpected number of cards in register after cleanup." +
