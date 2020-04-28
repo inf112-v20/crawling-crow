@@ -105,4 +105,9 @@ public interface IGame {
     float continueGameLoop(float dt, double gameSpeed);
 
     ProgramCardsView getProgramCardsView();
+
+    /**
+     *
+     */
+    void announcePowerDown();
 }

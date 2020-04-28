@@ -169,8 +169,7 @@ public class Grid {
 			if(gridLayers.get(layerToCheck).containsValue(tileName))
 				return tileName;
 		}
-		// return TileName.FLOOR
-		return null;
+		return TileName.FLOOR_1;
 	}
 
 	/**

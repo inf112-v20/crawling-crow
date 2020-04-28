@@ -3,6 +3,7 @@ package roborally.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
+import org.jetbrains.annotations.NotNull;
 import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.GameBoard;
@@ -184,8 +185,12 @@ public class Game implements IGame {
 				//currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
-
-		programCardsView = makeProgramCardsView(userRobot);
+		if (userRobot.getPowerDown()){
+			userRobot.getLogic().autoArrangeCardsInHand();
+		}
+		else {
+			programCardsView = makeProgramCardsView(userRobot);
+		}
 	}
 
 	private ProgramCardsView makeProgramCardsView(Robot robot) {
@@ -269,7 +274,19 @@ public class Game implements IGame {
 		return programCardsView;
 	}
 
-	private boolean isNotInGraveyard(Robot robot) {
+	@Override
+	public void announcePowerDown() {
+		for (Robot robot : getRobots()) {
+			if (!robot.equals(userRobot)) {
+				//TODO:: make smarter.
+				if (robot.getLogic().getHealth() < 3) {
+					robot.setPowerDownNextRound(true);
+				}
+			}
+		}
+	}
+
+	private boolean isNotInGraveyard(@NotNull Robot robot) {
 		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
 	}
 }

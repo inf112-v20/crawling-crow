@@ -11,7 +11,7 @@ public interface IRound {
      */
     void run(ILayers layers);
 
-    void announcePowerDown();
+    void setRobotInPowerDown();
     void dealCards();
     void programRobots();
 

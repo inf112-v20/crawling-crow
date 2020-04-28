@@ -31,8 +31,8 @@ public class GameOptions {
 
     public ArrayList<Robot> funMode(ILayers layers, ArrayList<IFlag> flags, LaserRegister laserRegister) {
         ArrayList<Robot> robots = new ArrayList<>();
-        for (int x = 0; x < layers.getWidth(); x++) {
-            for (int y = 0; y < layers.getHeight(); y++) {
+        for (int x = 0; x < layers.getWidth(); x+=2) {
+            for (int y = 0; y < layers.getHeight(); y+=2) {
                 Robot robot = new Robot(new GridPoint2(x, y), y % 8, laserRegister);
                 robot.getLogic().setNumberOfFlags(flags.size());
                 robots.add(robot);

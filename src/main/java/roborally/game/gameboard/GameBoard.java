@@ -102,9 +102,8 @@ public class GameBoard implements IGameBoard {
 		return this.grid;
 	}
 
+	@Override
 	public boolean hasPushers() {
 		return this.pushers;
 	}
-
-	// TODO : find conveyorbelts, cogs, archive markers etc.
 }

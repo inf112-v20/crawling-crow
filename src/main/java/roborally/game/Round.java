@@ -6,6 +6,7 @@ import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.UIElements;
 import roborally.ui.gdx.events.Events;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Round implements IRound {
 
 	private ArrayList<Robot> robots;
 	private IPhase phase;
+	private int currentPhaseIndex;
 
 	private UIElements uiElements;
 
@@ -29,22 +31,35 @@ public class Round implements IRound {
 		this.phase = new Phase(this.robots, gameBoard, events, uiElements);
 		this.uiElements = uiElements;
 		restoreRebootedRobots();
+
+		this.currentPhaseIndex = SettingsUtil.NUMBER_OF_PHASES;
 	}
 
 	@Override
 	public void run(ILayers layers) {
-		//announcePowerDown();
+		setRobotInPowerDown();
 		//dealCards();
 		//programRobots();
 		//startPhases(layers);
 		checkForDestroyedRobots();
 		cleanUp();
-		System.out.println("\t- RAN A ROUND");
+		//System.out.println("\t- RAN A ROUND");
 	}
 
+
 	@Override
-	public void announcePowerDown() {
-		// Not implemented.
+	public void setRobotInPowerDown() {
+		//if (currentPhaseIndex == 5){
+			for(Robot robot : robots){
+				if (robot.getPowerDownNextRound()){
+					robot.setPowerDown(true);
+					robot.setPowerDownNextRound(false);
+				}
+				else {
+					robot.setPowerDown(false);
+				}
+			}
+		//}
 	}
 
 	@Override

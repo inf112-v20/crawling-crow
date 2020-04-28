@@ -129,4 +129,31 @@ public interface IRobot {
      * @return the Robot's next card in hand.
      */
     int peekNextCardInRegister();
+
+    /**
+     * Sets the current Robot in powerDown.
+     *
+     * @param powerDown
+     */
+    void setPowerDown(boolean powerDown);
+
+    /**
+     * Sets the Robot in powerDown the next round.
+     *
+     * @param powerDownNextRound
+     */
+    void setPowerDownNextRound(boolean powerDownNextRound);
+
+    /**
+     *
+     * @return True if Robot is in powerDown the next round.
+     */
+    boolean getPowerDownNextRound();
+
+
+    /**
+     *
+     * @return True if Robot is in powerDown.
+     */
+    boolean getPowerDown();
 }
