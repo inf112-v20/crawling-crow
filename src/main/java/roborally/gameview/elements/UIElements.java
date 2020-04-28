@@ -97,8 +97,10 @@ public class UIElements {
 
     public void updateDamageTokens(Robot robot) {
         clearDamageTokens();
+        // UNCOMMENT for debug
+        //System.out.println(robot.getName() + "'s health is before updating damage tokens: " + robot.getLogic().getHealth());
 
-        setDamageTokens(robot.getLogic().getHealth());
+        setDamageTokens(Math.max(robot.getLogic().getHealth(), 0));
 
         float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / UI_ELEMENT_SCALE);
         float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
