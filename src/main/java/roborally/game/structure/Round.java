@@ -100,11 +100,16 @@ public class Round implements IRound {
 	@Override
 	public void restoreRebootedRobots() {
 		System.out.println("\t- Restoring robots...");
-		for (Robot currentRobot : robots) {
-			currentRobot.backToArchiveMarker();
-			if (currentRobot.getLogic().isUserRobot()) {
-				uiElements.updateReboots(currentRobot);
-			}
+		for (Robot robot : robots) {
+			robot.backToArchiveMarker();
+			updateUserRobotUIElements(robot);
+		}
+	}
+
+	// FIXME: Might only be needed temporary, because a proper game loop is not implemented yet
+	private void updateUserRobotUIElements(Robot robot) {
+		if (robot.getLogic().isUserRobot()) {
+			uiElements.update(robot);
 		}
 	}
 

@@ -134,9 +134,6 @@ public class Phase implements IPhase {
 				ArrayList<GridPoint2> coords = robot.getLaser().getCoords();
 				if (!coords.isEmpty())
 					events.createNewLaserEvent(robot.getPosition(), coords.get(coords.size() - 1));
-				if (robot.getLogic().isUserRobot()) {
-					uiElements.updateDamageTokens(robot);
-				}
 			}
 		}
 	}
@@ -187,9 +184,6 @@ public class Phase implements IPhase {
 			if (robot.checkForStationaryLaser()) {
 				robot.takeDamage(1);
 				System.out.println("- Hit by stationary laser");
-			}
-			if (robot.getLogic().isUserRobot()) {
-				uiElements.updateDamageTokens(robot);
 			}
 		}
 	}

@@ -246,11 +246,16 @@ public class Game implements IGame {
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
+		for (Robot robot : getRobots()) {
+			if (robot.getLogic().isUserRobot()) {
+				uiElements.update(robot);
+			}
+		}
 		if (isRoundFinished) {
 			System.out.println("Event: " + events.hasLaserEvent());
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
-			isRoundFinished = false;
+			this.isRoundFinished = false;
 			return 0;
 		}
 		float deltaTime = dt;
@@ -266,7 +271,7 @@ public class Game implements IGame {
 		}
 		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
 			this.currentPhaseIndex = 0;
-			isRoundFinished = true;
+			this.isRoundFinished = true;
 		}
 		return deltaTime;
 	}
