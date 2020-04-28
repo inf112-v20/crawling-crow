@@ -135,6 +135,7 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void arrangeCardsInHand(int[] newOrder) {
         cardsInHand.arrangeCards(newOrder);
+        fillFirstCardsFromHandIntoRegister();
     }
 
     @Override
