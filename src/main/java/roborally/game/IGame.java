@@ -1,8 +1,9 @@
 package roborally.game;
 
-import roborally.game.gameboard.objects.robot.Robot;
-import roborally.ui.ILayers;
-import roborally.ui.ProgramCardsView;
+import roborally.game.robot.Robot;
+import roborally.game.structure.IRound;
+import roborally.gameview.layout.ILayers;
+import roborally.gameview.elements.ProgramCardsView;
 
 import java.util.ArrayList;
 

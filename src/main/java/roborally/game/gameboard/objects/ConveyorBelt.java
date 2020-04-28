@@ -1,8 +1,8 @@
 package roborally.game.gameboard.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.gameboard.objects.robot.Robot;
-import roborally.ui.ILayers;
+import roborally.game.robot.Robot;
+import roborally.gameview.layout.ILayers;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;

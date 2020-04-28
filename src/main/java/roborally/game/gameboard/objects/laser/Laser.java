@@ -2,8 +2,8 @@ package roborally.game.gameboard.objects.laser;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.ui.ILayers;
-import roborally.ui.gdx.listeners.WallListener;
+import roborally.gameview.layout.ILayers;
+import roborally.listeners.WallListener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;

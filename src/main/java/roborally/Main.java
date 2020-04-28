@@ -3,7 +3,7 @@ package roborally;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import roborally.ui.UI;
+import roborally.gameview.GameView;
 import roborally.utilities.SettingsUtil;
 
 
@@ -17,6 +17,6 @@ public class Main {
         cfg.addIcon("icons/icon@4x.png", Files.FileType.Internal);
         cfg.addIcon("icons/icon@2x.png", Files.FileType.Internal);
         cfg.addIcon("icons/icon.png", Files.FileType.Internal);
-        new LwjglApplication(new UI(), cfg);
+        new LwjglApplication(new GameView(), cfg);
     }
 }

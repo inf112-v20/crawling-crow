@@ -2,8 +2,8 @@ package roborally.game.gameboard.objects.laser;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.ui.ILayers;
-import roborally.ui.gdx.listeners.LaserListener;
+import roborally.gameview.layout.ILayers;
+import roborally.listeners.LaserListener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.TileName;
 

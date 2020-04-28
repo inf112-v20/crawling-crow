@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.cards.IProgramCards;
-import roborally.game.gameboard.objects.robot.Robot;
+import roborally.game.robot.Robot;
 import roborally.utilities.enums.LayerName;
 
 import java.util.*;

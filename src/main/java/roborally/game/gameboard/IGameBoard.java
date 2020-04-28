@@ -1,8 +1,8 @@
 package roborally.game.gameboard;
 
 import roborally.game.gameboard.objects.BoardObject;
-import roborally.game.gameboard.objects.IFlag;
-import roborally.utilities.Grid;
+import roborally.game.gameboard.objects.flag.IFlag;
+import roborally.game.Grid;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
