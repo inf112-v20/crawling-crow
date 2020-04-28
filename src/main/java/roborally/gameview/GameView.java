@@ -102,6 +102,10 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
+        if (uiElements.isPowerDown()) {
+            game.getUserRobot().setPowerDownNextRound(true);
+            uiElements.isPowerDown(false);
+        }
         if (events.hasWaitEvent() && !events.hasLaserEvent())
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121

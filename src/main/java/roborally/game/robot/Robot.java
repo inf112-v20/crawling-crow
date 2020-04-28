@@ -290,6 +290,7 @@ public class Robot implements IRobot {
 
     @Override
     public void setPowerDownNextRound(boolean powerDownNextRound) {
+        System.out.println(getName() + " activated power down next round");
         this.powerDownNextRound = powerDownNextRound;
     }
 

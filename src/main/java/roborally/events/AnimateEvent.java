@@ -39,7 +39,7 @@ public class AnimateEvent {
         if (events.hasLaserEvent() && !game.getGameOptions().getMenu())
             for (LaserEvent laserEvent : events.getLaserEvents())
                 laserEvent.drawLaserEvent(batch, game.getRobots());
-        if(!game.getGameOptions().getMenu())
+        if (!game.getGameOptions().getMenu())
             drawUIElements(game, batch, stage);
 
         batch.end();
@@ -55,8 +55,10 @@ public class AnimateEvent {
         }
 
         // TODO: Not sure if this is the correct way to do it, but it's temp
-        if (uiElements.isPowerDownInitiated())
+        if (cardPhase) {
+            stage.addActor(uiElements.getPowerDownButton());
             uiElements.getPowerDownButton().draw(batch, 1);
+        }
     }
 
     /**
