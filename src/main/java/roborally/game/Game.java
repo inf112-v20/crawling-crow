@@ -246,11 +246,7 @@ public class Game implements IGame {
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
-		for (Robot robot : getRobots()) {
-			if (robot.getLogic().isUserRobot()) {
-				uiElements.update(robot);
-			}
-		}
+		uiElements.update(getUserRobot());
 		if (isRoundFinished) {
 			System.out.println("Event: " + events.hasLaserEvent());
 			this.events.setWaitMoveEvent(false);
