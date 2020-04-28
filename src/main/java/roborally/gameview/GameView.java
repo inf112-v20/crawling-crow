@@ -102,9 +102,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
-        if (uiElements.isPowerDown()) {
+        if (uiElements.isPowerDownSetForNextRound()) {
             game.getUserRobot().setPowerDownNextRound(true);
-            uiElements.isPowerDown(false);
+            uiElements.setPowerDownForNextRound(false);
         }
         if (events.hasWaitEvent() && !events.hasLaserEvent())
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
@@ -155,7 +155,14 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
 
         if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
-            uiElements.setPowerDownButton(UIElement.POWER_DOWN); // TODO: Should be somewhere else
+            // TODO: Should be somewhere else
+            if (!uiElements.hasPowerDownBeenActivated()) {
+                uiElements.setPowerDownButton(UIElement.POWERED_ON);
+            } else {
+                uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
+                uiElements.hasPowerDownBeenActivated(false);
+            }
+
             game.dealCards();
             if(programCardsView != null)
                 animateEvent.initiateCards(stage, game.getProgramCardsView());
