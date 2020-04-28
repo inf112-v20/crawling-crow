@@ -178,7 +178,7 @@ public class Game implements IGame {
 			removeDeadRobots();
 		deckOfProgramCards.shuffleCards();
 		for (Robot currentRobot : getRobots()) {
-			deckOfProgramCards = currentRobot.getLogic().drawCards(deckOfProgramCards);
+			currentRobot.getLogic().drawCards(deckOfProgramCards);
 			if (!currentRobot.equals(userRobot)) {
 				ai.controlRobot(currentRobot.getLogic());
 				currentRobot.getLogic().arrangeCardsInHand(ai.getOrder());

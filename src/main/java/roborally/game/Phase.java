@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.IFlag;
-import roborally.game.gameboard.objects.conveyorbelts.ConveyorBelt;
+import roborally.game.gameboard.objects.ConveyorBelt;
 import roborally.game.gameboard.objects.robot.Robot;
 import roborally.ui.ILayers;
 import roborally.ui.UIElements;

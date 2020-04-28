@@ -1,4 +1,4 @@
-package roborally.game.gameboard.objects.conveyorbelts;
+package roborally.game.gameboard.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.objects.robot.Robot;
