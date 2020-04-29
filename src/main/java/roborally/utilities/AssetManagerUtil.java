@@ -44,11 +44,13 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("menu/buttons.png", Texture.class);
     private static final AssetDescriptor<Texture> MAP_BUTTON
             = new AssetDescriptor<>("menu/mapButton.png", Texture.class);
+
+    //region Program cards
     private static final AssetDescriptor<Texture> BACKUP
             = new AssetDescriptor<>("cards/new/backup.png", Texture.class);
-    private static final AssetDescriptor<Texture> ROTATELEFT
+    private static final AssetDescriptor<Texture> ROTATE_LEFT
             = new AssetDescriptor<>("cards/new/rotate_left.png", Texture.class);
-    private static final AssetDescriptor<Texture> ROTATERIGHT
+    private static final AssetDescriptor<Texture> ROTATE_RIGHT
             = new AssetDescriptor<>("cards/new/rotate_right.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1
             = new AssetDescriptor<>("cards/new/move_1.png", Texture.class);
@@ -58,6 +60,25 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("cards/new/move_3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
             = new AssetDescriptor<>("cards/new/u_turn.png", Texture.class);
+
+    //region Grayscale
+    private static final AssetDescriptor<Texture> BACKUP_GRAY
+            = new AssetDescriptor<>("cards/new/backup_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> ROTATE_LEFT_GRAY
+            = new AssetDescriptor<>("cards/new/rotate_left_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> ROTATE_RIGHT_GRAY
+            = new AssetDescriptor<>("cards/new/rotate_right_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_1_GRAY
+            = new AssetDescriptor<>("cards/new/move_1_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_2_GRAY
+            = new AssetDescriptor<>("cards/new/move_2_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_3_GRAY
+            = new AssetDescriptor<>("cards/new/move_3_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> U_TURN_GRAY
+            = new AssetDescriptor<>("cards/new/u_turn_gray.png", Texture.class);
+    //endregion
+    //endregion
+
     //Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
@@ -96,7 +117,8 @@ public class AssetManagerUtil {
     private static TiledMap loadedMap;
     private static Stack<String> robotNames;
 
-    private static HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap = new HashMap<>();
+    private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap = new HashMap<>();
+    private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureGrayHashMap = new HashMap<>();
 
     public static void load() {
 
@@ -122,7 +144,6 @@ public class AssetManagerUtil {
 
         // Robots TODO: HashMap
         ASSET_MANAGER.load(ANGRY);
-        ASSET_MANAGER.load(BACKUP);
         ASSET_MANAGER.load(BLUE);
         ASSET_MANAGER.load(GREEN);
         ASSET_MANAGER.load(ORANGE);
@@ -141,12 +162,21 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(SOUNDTRACK);
 
         // Cards TODO: HashMap
-        ASSET_MANAGER.load(ROTATERIGHT);
-        ASSET_MANAGER.load(ROTATELEFT);
+        ASSET_MANAGER.load(BACKUP);
+        ASSET_MANAGER.load(ROTATE_RIGHT);
+        ASSET_MANAGER.load(ROTATE_LEFT);
         ASSET_MANAGER.load(MOVE_1);
         ASSET_MANAGER.load(MOVE_2);
         ASSET_MANAGER.load(MOVE_3);
         ASSET_MANAGER.load(U_TURN);
+
+        ASSET_MANAGER.load(BACKUP_GRAY);
+        ASSET_MANAGER.load(ROTATE_RIGHT_GRAY);
+        ASSET_MANAGER.load(ROTATE_LEFT_GRAY);
+        ASSET_MANAGER.load(MOVE_1_GRAY);
+        ASSET_MANAGER.load(MOVE_2_GRAY);
+        ASSET_MANAGER.load(MOVE_3_GRAY);
+        ASSET_MANAGER.load(U_TURN_GRAY);
 
         // Menu TODO: HashMap
         ASSET_MANAGER.load(MENU);
@@ -157,16 +187,27 @@ public class AssetManagerUtil {
         ASSET_MANAGER.finishLoading();
 
         bindCardToTexture();
+        bindCardToTextureGray();
     }
 
     private static void bindCardToTexture() {
-        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATERIGHT));
-        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATELEFT));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATE_RIGHT));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATE_LEFT));
         cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_1, ASSET_MANAGER.get(MOVE_1));
         cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_2, ASSET_MANAGER.get(MOVE_2));
         cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_3, ASSET_MANAGER.get(MOVE_3));
         cardTypeTextureHashMap.put(IProgramCards.CardType.U_TURN, ASSET_MANAGER.get(U_TURN));
         cardTypeTextureHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP));
+    }
+
+    private static void bindCardToTextureGray() {
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATE_RIGHT_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATE_LEFT_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_1, ASSET_MANAGER.get(MOVE_1_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_2, ASSET_MANAGER.get(MOVE_2_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_3, ASSET_MANAGER.get(MOVE_3_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.U_TURN, ASSET_MANAGER.get(U_TURN_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP_GRAY));
     }
 
     public static Texture getMenu() {
@@ -191,6 +232,9 @@ public class AssetManagerUtil {
 
     public static Texture getCardTexture(IProgramCards.CardType card) {
         return cardTypeTextureHashMap.get(card);
+    }
+    public static Texture getCardTextureGray(IProgramCards.CardType card) {
+        return cardTypeTextureGrayHashMap.get(card);
     }
 
     public static int getProgramCardWidth() {
