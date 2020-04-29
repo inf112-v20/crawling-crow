@@ -91,12 +91,12 @@ public class Events {
      * @param pos     The robots position.
      * @param texture The robots texture.
      */
-    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture) {
+    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling) {
         Image image = new Image(texture[0][1]);
         image.setX(pos.x * SettingsUtil.TILE_SCALE + SettingsUtil.X_SHIFT);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + SettingsUtil.Y_SHIFT - 9f);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image));
+        this.fadeableRobots.add(new Alpha(1f, image, falling));
     }
 
     // Returns true if there are robots to be faded.
@@ -142,7 +142,7 @@ public class Events {
             if (laserEvent.getRobot() != null) { // Fades and removes robots shot by lasers interactively.
                 if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
                     GridPoint2 pos = laserEvent.getRobot().getPosition();
-                    fadeRobot(pos, laserEvent.getRobot().getTexture());
+                    fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling());
                     laserEvent.getRobot().deleteRobot();
                     setFadeRobot(true);
                 }
@@ -173,16 +173,30 @@ public class Events {
      */
     private static class Alpha {
         private float dt;
-        private Image image;
+        private final Image image;
+        private final boolean falling;
 
-        private Alpha(float dt, Image image) {
+        private Alpha(float dt, Image image, boolean falling) {
             this.dt = dt;
             this.image = image;
+            this.falling = falling;
         }
 
         private float update(float dt) {
-            this.dt -= (0.5f * dt);
+            if(falling)
+                falling();
+            this.dt -= (0.333f * dt);
             return this.dt;
+        }
+        private void falling() {
+            float oldX = image.getX();
+            float oldY = image.getY();
+            float width = image.getWidth();
+            float height = image.getHeight();
+            image.setSize(width / 1.015f, height / 1.015f);
+            image.setX((width - image.getWidth()) / 2 + oldX);
+            image.setY((height - image.getHeight()) / 2 + oldY);
+            image.rotateBy( -0.5f);
         }
     }
 
@@ -196,7 +210,7 @@ public class Events {
     }
 
     public void removeFromUI(Robot robot) {
-        fadeRobot(robot.getPosition(), robot.getTexture());
+        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling());
         robot.deleteRobot();
         System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);

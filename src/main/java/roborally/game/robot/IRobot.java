@@ -123,6 +123,10 @@ public interface IRobot {
      */
     void playNextCard();
 
+	boolean isFalling();
+
+    void setFalling(boolean falling);
+
     /**
      * Peeks
      *

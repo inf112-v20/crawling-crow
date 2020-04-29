@@ -28,6 +28,7 @@ public class Robot implements IRobot {
     private boolean reboot;
     private boolean powerDown;
     private boolean powerDownNextRound;
+    private boolean isFalling;
 
     private HashMap<IProgramCards.CardType, Runnable> cardToAction;
 
@@ -109,6 +110,8 @@ public class Robot implements IRobot {
 
     @Override
     public void tryToMove(GridPoint2 possiblePosition) {
+        if(isFalling())
+            return;
         System.out.println("\n" + getName() + " trying to move:");
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
@@ -136,6 +139,7 @@ public class Robot implements IRobot {
                     //robotWentInHole = true;
                     takeDamage(SettingsUtil.MAX_DAMAGE);
                     System.out.println("\t\t- Robot went into a hole");
+                    setFalling(true);
                 }
                 getView().setDirection(newPos, getLogic().getDirection());
 
@@ -226,6 +230,7 @@ public class Robot implements IRobot {
         layers.setRobotTexture(getPosition(), null);
         setPosition(SettingsUtil.GRAVEYARD);
         clearLaserRegister();
+        setFalling(false);
     }
 
     //region Program cards
@@ -256,6 +261,16 @@ public class Robot implements IRobot {
             rotate(Direction.turnLeftFrom(getLogic().getDirection()));
         });
         cardToAction.put(IProgramCards.CardType.BACKUP, () -> move(-1));
+    }
+
+    @Override
+    public boolean isFalling() {
+        return isFalling;
+    }
+
+    @Override
+    public void setFalling(boolean falling) {
+        this.isFalling = falling;
     }
 
     @Override
