@@ -90,6 +90,8 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> POWERED_DOWN = new AssetDescriptor<>("ui-elements/powered-down.png", Texture.class);
     private static final AssetDescriptor<Texture> POWERING_DOWN = new AssetDescriptor<>("ui-elements/powering-down.png", Texture.class);
 
+    private static final AssetDescriptor<Texture> FLAG_WHITE = new AssetDescriptor<>("ui-elements/flag_white.png", Texture.class);
+
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
@@ -153,6 +155,7 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(BUTTONS);
         ASSET_MANAGER.load(MAP_BUTTON);
 
+        ASSET_MANAGER.load(FLAG_WHITE);
 
         ASSET_MANAGER.finishLoading();
 
@@ -331,5 +334,9 @@ public class AssetManagerUtil {
 
     public static Texture getPoweringDown() {
         return ASSET_MANAGER.get(POWERING_DOWN);
+    }
+
+    public static Texture getFlagWhite() {
+        return ASSET_MANAGER.get(FLAG_WHITE);
     }
 }

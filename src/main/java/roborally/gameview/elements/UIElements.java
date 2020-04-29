@@ -30,10 +30,12 @@ public class UIElements {
     private Label messageLabel;
 
     private Stage stage;
+    private ArrayList<Image> flags;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
         this.damageTokens = new ArrayList<>();
+        this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
     }
 
@@ -132,6 +134,7 @@ public class UIElements {
     public void update(Robot robot) {
         updateReboots(robot);
         updateDamageTokens(robot);
+        updateFlags(robot);
     }
 
     public void setPowerDownButton(UIElement powerDownState) {
@@ -187,6 +190,46 @@ public class UIElements {
 
     public Label getMessageLabel() {
         return messageLabel;
+    }
+
+    public void setFlags(int collectedFlags) {
+        for (int i = 0; i < collectedFlags; i++) {
+            this.flags.add(getAndSetUIElement(FLAG_WHITE));
+        }
+
+        float flagsWidth = getFlags().size() * (FLAG_WHITE.getTexture().getWidth() / UI_ELEMENT_SCALE);
+        float flagsListFixedPosX = (stage.getWidth() / 3f) - (flagsWidth / 2f);
+
+        int index = 0;
+        for (Image flag : getFlags()) {
+            flag.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f) - (flag.getHeight() / 2f));
+            if (index == 0) {
+                flag.setX(flagsListFixedPosX -= flag.getWidth());
+            }
+            flag.setX(flagsListFixedPosX += flag.getWidth());
+            index++;
+        }
+    }
+
+    public void updateFlags(Robot robot) {
+        clearFlags();
+        int collectedFlags = 0;
+
+        for (boolean flag : robot.getLogic().getVisitedFlags()) {
+            if (flag) {
+                collectedFlags++;
+            }
+        }
+
+        setFlags(collectedFlags);
+    }
+
+    private void clearFlags() {
+        this.flags = new ArrayList<>();
+    }
+
+    public ArrayList<Image> getFlags() {
+        return flags;
     }
 
     public void setStage(Stage stage) {

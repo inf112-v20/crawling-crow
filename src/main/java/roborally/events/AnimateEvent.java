@@ -54,6 +54,10 @@ public class AnimateEvent {
             damageToken.draw(batch, 1);
         }
 
+        for (Image flag : uiElements.getFlags()) {
+            flag.draw(batch, 1);
+        }
+
         if (game.getUserRobot().getLogic().getHealth() <= 0) {
             uiElements.setMessageLabel("You died");
         }

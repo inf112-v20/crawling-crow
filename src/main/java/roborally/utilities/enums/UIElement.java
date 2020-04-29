@@ -15,7 +15,8 @@ public enum UIElement {
     DONE_BUTTON_PRESSED(getDoneButtonPressed()),
     POWERED_DOWN(getPowerDownButton()),
     POWERED_ON(getPoweredDown()),
-    POWERING_DOWN(getPoweringDown());
+    POWERING_DOWN(getPoweringDown()),
+    FLAG_WHITE(getFlagWhite());
 
     private final Texture texture;
 
