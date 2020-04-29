@@ -106,6 +106,7 @@ public class AssetManagerUtil {
     //region UI elements
     private static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/done-button.png", Texture.class);
     private static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/done-button-pressed.png", Texture.class);
+    private static final AssetDescriptor<Texture> DONE_BUTTON_RED = new AssetDescriptor<>("ui-elements/done-button-red.png", Texture.class);
     private static final AssetDescriptor<Texture> REBOOT_ACTIVE = new AssetDescriptor<>("ui-elements/reboot-active.png", Texture.class);
     private static final AssetDescriptor<Texture> REBOOT_INACTIVE = new AssetDescriptor<>("ui-elements/reboot-inactive.png", Texture.class);
 
@@ -143,6 +144,7 @@ public class AssetManagerUtil {
         //region UI elements
         ASSET_MANAGER.load(DONE_BUTTON);
         ASSET_MANAGER.load(DONE_BUTTON_PRESSED);
+        ASSET_MANAGER.load(DONE_BUTTON_RED);
         ASSET_MANAGER.load(REBOOT_ACTIVE);
         ASSET_MANAGER.load(REBOOT_INACTIVE);
         ASSET_MANAGER.load(FLAG_WHITE);
@@ -361,6 +363,10 @@ public class AssetManagerUtil {
 
     public static Texture getDoneButtonPressed() {
         return ASSET_MANAGER.get(DONE_BUTTON_PRESSED);
+    }
+
+    public static Texture getDoneButtonRed() {
+        return ASSET_MANAGER.get(DONE_BUTTON_RED);
     }
 
     public static Texture getRebootActive() {

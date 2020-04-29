@@ -1,5 +1,6 @@
 package roborally.gameview.elements;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,6 +32,8 @@ public class UIElements {
 
     private Stage stage;
     private ArrayList<Image> flags;
+    private ImageButton restartButton;
+    private ImageButton quitButton;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
@@ -230,6 +233,42 @@ public class UIElements {
 
     public ArrayList<Image> getFlags() {
         return flags;
+    }
+
+    public void setRestartButton() {
+        this.restartButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
+        this.restartButton.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f));
+
+        this.restartButton.setX(SettingsUtil.X_SHIFT * 3f); // TODO: Fix position
+
+        this.restartButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Should restart game or something!");
+            }
+        });
+    }
+
+    public ImageButton getRestartButton() {
+        return restartButton;
+    }
+
+    public void setQuitButton() {
+        this.quitButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON_RED.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
+        this.quitButton.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f));
+
+        this.quitButton.setX(getRestartButton().getX() + getRestartButton().getWidth());
+
+        this.quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+    }
+
+    public ImageButton getQuitButton() {
+        return quitButton;
     }
 
     public void setStage(Stage stage) {

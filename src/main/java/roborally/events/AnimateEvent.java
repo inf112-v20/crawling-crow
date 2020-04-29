@@ -66,11 +66,21 @@ public class AnimateEvent {
             uiElements.setMessageLabel("You went into a hole");
         }
 
+        // TODO: Clean up this
         if (game.getUserRobot().getLogic().hasWon()) {
             uiElements.setMessageLabel(game.getUserRobot().getName() + " has won!");
         }
 
         uiElements.getMessageLabel().draw(batch, 1);
+
+        if (uiElements.getMessageLabel().toString().contains("has won")) {
+            uiElements.setRestartButton();
+            uiElements.setQuitButton();
+            stage.addActor(uiElements.getRestartButton());
+            stage.addActor(uiElements.getQuitButton());
+            uiElements.getRestartButton().draw(batch, 1);
+            uiElements.getQuitButton().draw(batch, 1);
+        }
 
         // TODO: Not sure if this is the correct way to do it, but it's temp
         if (cardPhase) {
@@ -115,8 +125,8 @@ public class AnimateEvent {
         programCardsView.setCountdownLabel();
         programCardsView.setTimerLabel();
 
-        stage.addActor(programCardsView.getCountdownLabel());
-        stage.addActor(programCardsView.getTimerLabel());
+        stage.addActor(programCardsView.getCountdownLabel()); // FIXME: redundant
+        stage.addActor(programCardsView.getTimerLabel()); // FIXME: redundant
         stage.addActor(programCardsView.getDoneButton());
 
         float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
