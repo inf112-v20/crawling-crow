@@ -109,8 +109,9 @@ public class Game implements IGame {
 		if (this.currentRobotID == robots.size()) {
 			this.currentRobotID = 0;
 		}
-		events.checkForDestroyedRobots(this.robots);
-		userRobot.backToArchiveMarker();
+		// FIXME: UNCOMMENT for debugging
+		/*events.checkForDestroyedRobots(this.robots);
+		userRobot.backToArchiveMarker();*/
 
 		uiElements.update(userRobot); // Just for debugging UI
 
