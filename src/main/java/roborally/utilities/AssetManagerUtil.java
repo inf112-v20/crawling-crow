@@ -15,7 +15,7 @@ import java.util.*;
 
 public class AssetManagerUtil {
     public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER = new com.badlogic.gdx.assets.AssetManager();
-    // Sounds
+    //region Sound effects
     public static final AssetDescriptor<Sound> SHOOT_LASER
             = new AssetDescriptor<>("sounds/fireLaser.mp3", Sound.class);
     public static final AssetDescriptor<Sound> STEPIN_LASER
@@ -30,25 +30,32 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("sounds/step3.mp3", Sound.class);
     public static final AssetDescriptor<Music> SOUNDTRACK
             = new AssetDescriptor<>("sounds/soundTrack.mp3", Music.class);
-    //Maps
+    //endregion
+
+    //region Maps TMX
     private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP2
             = new AssetDescriptor<>("maps/fruityLoops.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP
             = new AssetDescriptor<>("maps/Eight.tmx", TiledMap.class);
     private static final AssetDescriptor<TiledMap> LISES_MAP
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
-    //Other
+    //endregion
+
+    //region Menu
     private static final AssetDescriptor<Texture> MENU
             = new AssetDescriptor<>("menu/new-menu.png", Texture.class);
     private static final AssetDescriptor<Texture> BUTTONS
             = new AssetDescriptor<>("menu/buttons.png", Texture.class);
     private static final AssetDescriptor<Texture> MAP_BUTTON
             = new AssetDescriptor<>("menu/mapButton.png", Texture.class);
+    //endregion
+
+    //region Program cards
     private static final AssetDescriptor<Texture> BACKUP
             = new AssetDescriptor<>("cards/new/backup.png", Texture.class);
-    private static final AssetDescriptor<Texture> ROTATELEFT
+    private static final AssetDescriptor<Texture> ROTATE_LEFT
             = new AssetDescriptor<>("cards/new/rotate_left.png", Texture.class);
-    private static final AssetDescriptor<Texture> ROTATERIGHT
+    private static final AssetDescriptor<Texture> ROTATE_RIGHT
             = new AssetDescriptor<>("cards/new/rotate_right.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1
             = new AssetDescriptor<>("cards/new/move_1.png", Texture.class);
@@ -58,7 +65,26 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("cards/new/move_3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
             = new AssetDescriptor<>("cards/new/u_turn.png", Texture.class);
-    //Robots
+
+    //region Grayscale
+    private static final AssetDescriptor<Texture> BACKUP_GRAY
+            = new AssetDescriptor<>("cards/new/backup_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> ROTATE_LEFT_GRAY
+            = new AssetDescriptor<>("cards/new/rotate_left_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> ROTATE_RIGHT_GRAY
+            = new AssetDescriptor<>("cards/new/rotate_right_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_1_GRAY
+            = new AssetDescriptor<>("cards/new/move_1_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_2_GRAY
+            = new AssetDescriptor<>("cards/new/move_2_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> MOVE_3_GRAY
+            = new AssetDescriptor<>("cards/new/move_3_gray.png", Texture.class);
+    private static final AssetDescriptor<Texture> U_TURN_GRAY
+            = new AssetDescriptor<>("cards/new/u_turn_gray.png", Texture.class);
+    //endregion
+    //endregion
+
+    //region Robots
     private static final AssetDescriptor<Texture> ANGRY
             = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
     private static final AssetDescriptor<Texture> BLUE
@@ -75,22 +101,27 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
             = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
+    //endregion
 
+    //region UI elements
     private static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/done-button.png", Texture.class);
     private static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/done-button-pressed.png", Texture.class);
     private static final AssetDescriptor<Texture> REBOOT_ACTIVE = new AssetDescriptor<>("ui-elements/reboot-active.png", Texture.class);
     private static final AssetDescriptor<Texture> REBOOT_INACTIVE = new AssetDescriptor<>("ui-elements/reboot-inactive.png", Texture.class);
 
+    //region Damage tokens
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN = new AssetDescriptor<>("ui-elements/damage-token.png", Texture.class);
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED = new AssetDescriptor<>("ui-elements/damage-token-red.png", Texture.class);
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN = new AssetDescriptor<>("ui-elements/damage-token-card.png", Texture.class);
     private static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED = new AssetDescriptor<>("ui-elements/damage-token-card-red.png", Texture.class);
+    //endregion
 
     private static final AssetDescriptor<Texture> POWER_DOWN_BUTTON = new AssetDescriptor<>("ui-elements/power-down.png", Texture.class);
     private static final AssetDescriptor<Texture> POWERED_DOWN = new AssetDescriptor<>("ui-elements/powered-down.png", Texture.class);
     private static final AssetDescriptor<Texture> POWERING_DOWN = new AssetDescriptor<>("ui-elements/powering-down.png", Texture.class);
 
     private static final AssetDescriptor<Texture> FLAG_WHITE = new AssetDescriptor<>("ui-elements/flag_white.png", Texture.class);
+    //endregion
 
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
@@ -98,33 +129,38 @@ public class AssetManagerUtil {
     private static TiledMap loadedMap;
     private static Stack<String> robotNames;
 
-    private static HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap = new HashMap<>();
+    private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap = new HashMap<>();
+    private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureGrayHashMap = new HashMap<>();
 
     public static void load() {
-
-
-        // Maps TODO: HashMap
+        //TODO: HashMap for loading these
+        //region Maps
         ASSET_MANAGER.load(SIGMUNDS_MAP2);
         ASSET_MANAGER.load(SIGMUNDS_MAP);
         ASSET_MANAGER.load(LISES_MAP);
+        //endregion
 
+        //region UI elements
         ASSET_MANAGER.load(DONE_BUTTON);
         ASSET_MANAGER.load(DONE_BUTTON_PRESSED);
         ASSET_MANAGER.load(REBOOT_ACTIVE);
         ASSET_MANAGER.load(REBOOT_INACTIVE);
+        ASSET_MANAGER.load(FLAG_WHITE);
 
+        //region Damage tokens
         ASSET_MANAGER.load(DAMAGE_TOKEN_GREEN);
         ASSET_MANAGER.load(DAMAGE_TOKEN_RED);
         ASSET_MANAGER.load(DAMAGE_TOKEN_CARD_GREEN);
         ASSET_MANAGER.load(DAMAGE_TOKEN_CARD_RED);
+        //endregion
 
         ASSET_MANAGER.load(POWER_DOWN_BUTTON);
         ASSET_MANAGER.load(POWERED_DOWN);
         ASSET_MANAGER.load(POWERING_DOWN);
+        //endregion
 
-        // Robots TODO: HashMap
+        //region Robots
         ASSET_MANAGER.load(ANGRY);
-        ASSET_MANAGER.load(BACKUP);
         ASSET_MANAGER.load(BLUE);
         ASSET_MANAGER.load(GREEN);
         ASSET_MANAGER.load(ORANGE);
@@ -132,8 +168,9 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(PURPLE);
         ASSET_MANAGER.load(RED);
         ASSET_MANAGER.load(YELLOW);
+        //endregion
 
-        // Sounds TODO: HashMap
+        //region Sound effects
         ASSET_MANAGER.load(SHOOT_LASER);
         ASSET_MANAGER.load(STEPIN_LASER);
         ASSET_MANAGER.load(STEP1);
@@ -141,35 +178,58 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(STEP3);
         ASSET_MANAGER.load(ROBOT_HIT);
         ASSET_MANAGER.load(SOUNDTRACK);
+        //endregion
 
-        // Cards TODO: HashMap
-        ASSET_MANAGER.load(ROTATERIGHT);
-        ASSET_MANAGER.load(ROTATELEFT);
+        //region Program cards
+        ASSET_MANAGER.load(BACKUP);
+        ASSET_MANAGER.load(ROTATE_RIGHT);
+        ASSET_MANAGER.load(ROTATE_LEFT);
         ASSET_MANAGER.load(MOVE_1);
         ASSET_MANAGER.load(MOVE_2);
         ASSET_MANAGER.load(MOVE_3);
         ASSET_MANAGER.load(U_TURN);
 
-        // Menu TODO: HashMap
+        //region Grayscale
+        ASSET_MANAGER.load(BACKUP_GRAY);
+        ASSET_MANAGER.load(ROTATE_RIGHT_GRAY);
+        ASSET_MANAGER.load(ROTATE_LEFT_GRAY);
+        ASSET_MANAGER.load(MOVE_1_GRAY);
+        ASSET_MANAGER.load(MOVE_2_GRAY);
+        ASSET_MANAGER.load(MOVE_3_GRAY);
+        ASSET_MANAGER.load(U_TURN_GRAY);
+        //endregion
+        //endregion
+
+        //region Menu
         ASSET_MANAGER.load(MENU);
         ASSET_MANAGER.load(BUTTONS);
         ASSET_MANAGER.load(MAP_BUTTON);
-
-        ASSET_MANAGER.load(FLAG_WHITE);
+        //endregion
 
         ASSET_MANAGER.finishLoading();
 
         bindCardToTexture();
+        bindCardToTextureGray();
     }
 
     private static void bindCardToTexture() {
-        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATERIGHT));
-        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATELEFT));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATE_RIGHT));
+        cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATE_LEFT));
         cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_1, ASSET_MANAGER.get(MOVE_1));
         cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_2, ASSET_MANAGER.get(MOVE_2));
         cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_3, ASSET_MANAGER.get(MOVE_3));
         cardTypeTextureHashMap.put(IProgramCards.CardType.U_TURN, ASSET_MANAGER.get(U_TURN));
         cardTypeTextureHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP));
+    }
+
+    private static void bindCardToTextureGray() {
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, ASSET_MANAGER.get(ROTATE_RIGHT_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.ROTATE_LEFT, ASSET_MANAGER.get(ROTATE_LEFT_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_1, ASSET_MANAGER.get(MOVE_1_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_2, ASSET_MANAGER.get(MOVE_2_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_3, ASSET_MANAGER.get(MOVE_3_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.U_TURN, ASSET_MANAGER.get(U_TURN_GRAY));
+        cardTypeTextureGrayHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP_GRAY));
     }
 
     public static Texture getMenu() {
@@ -194,6 +254,9 @@ public class AssetManagerUtil {
 
     public static Texture getCardTexture(IProgramCards.CardType card) {
         return cardTypeTextureHashMap.get(card);
+    }
+    public static Texture getCardTextureGray(IProgramCards.CardType card) {
+        return cardTypeTextureGrayHashMap.get(card);
     }
 
     public static int getProgramCardWidth() {
