@@ -180,7 +180,9 @@ public class UIElements {
         this.messageStyle.font = new BitmapFont();
         this.messageLabel = new Label(message, messageStyle);
         this.messageLabel.setFontScale(3);
-        this.messageLabel.setPosition(SettingsUtil.X_SHIFT - 55, 85);
+        float x = (stage.getWidth() / 2f) - (messageLabel.getPrefWidth() / 2f);
+        float y = (stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f);
+        this.messageLabel.setPosition(x, y);
     }
 
     public Label getMessageLabel() {
