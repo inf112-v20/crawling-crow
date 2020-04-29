@@ -69,5 +69,9 @@ LEGG VED
 - Forklare hvorfor det er store forskjeller på hvem som bidrar til kodebasen.
     - Se co-authored-by
 
+### Prosjektpresentasjon
+- se readme
+
+
 ### Klassediagram
 LEGG VED og oppdater README.
