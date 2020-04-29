@@ -16,6 +16,13 @@ public class Register {
         this.cards = new Card[SettingsUtil.REGISTER_SIZE];
         this.nextCardID = 0;
         this.lockedCards = 0;
+
+        // For debugging.
+        // Ensures that robots always has cards that can be locked.
+        // These entries are overwritten the first round of play.
+        for (int i = 0; i < SettingsUtil.REGISTER_SIZE; i++) {
+            cards[i] = new Card(IProgramCards.CardType.MOVE_1);
+        }
     }
 
     /**
