@@ -140,7 +140,7 @@ public class ProgramCardsView {
 		while (i < 4) {
 			order[i] = order[++i];
 			if (order[i] != -1) {
-				selectedOrderList.get(i - 1).setText(Integer.toString(i - 1));
+				selectedOrderList.get(i - 1).setText(Integer.toString(i));
 				order[i] = -1;
 			}
 		}
