@@ -1,9 +1,12 @@
 package roborally.gameview.elements;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.game.robot.Robot;
@@ -22,6 +25,9 @@ public class UIElements {
     private ImageButton powerDownButton;
     private boolean hasPowerDownBeenActivated;
     private boolean isPowerDownSetForNextRound;
+
+    private Label.LabelStyle messageStyle;
+    private Label messageLabel;
 
     private Stage stage;
 
@@ -166,6 +172,19 @@ public class UIElements {
 
     public void setPowerDownForNextRound(boolean state) {
         this.isPowerDownSetForNextRound = state;
+    }
+
+    public void setMessageLabel(String message) {
+        this.messageStyle = new Label.LabelStyle();
+        this.messageStyle.fontColor = Color.YELLOW;
+        this.messageStyle.font = new BitmapFont();
+        this.messageLabel = new Label(message, messageStyle);
+        this.messageLabel.setFontScale(3);
+        this.messageLabel.setPosition(SettingsUtil.X_SHIFT - 55, 85);
+    }
+
+    public Label getMessageLabel() {
+        return messageLabel;
     }
 
     public void setStage(Stage stage) {

@@ -160,4 +160,6 @@ public interface IRobot {
      * @return True if Robot is in powerDown.
      */
     boolean getPowerDown();
+
+    boolean isRobotInHole();
 }

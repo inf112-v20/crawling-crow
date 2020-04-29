@@ -54,6 +54,20 @@ public class AnimateEvent {
             damageToken.draw(batch, 1);
         }
 
+        if (game.getUserRobot().getLogic().getHealth() <= 0) {
+            uiElements.setMessageLabel("You died");
+        }
+
+        if (game.getUserRobot().isRobotInHole()) {
+            uiElements.setMessageLabel("You went into a hole");
+        }
+
+        if (game.getUserRobot().getLogic().hasWon()) {
+            uiElements.setMessageLabel(game.getUserRobot().getName() + " has won!");
+        }
+
+        uiElements.getMessageLabel().draw(batch, 1);
+
         // TODO: Not sure if this is the correct way to do it, but it's temp
         if (cardPhase) {
             stage.addActor(uiElements.getPowerDownButton());

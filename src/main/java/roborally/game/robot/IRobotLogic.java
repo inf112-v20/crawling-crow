@@ -169,6 +169,12 @@ public interface IRobotLogic {
 
     void putChosenCardsIntoRegister();
 
+    boolean[] getVisitedFlags();
+
+    void setHasWon();
+
+    boolean hasWon();
+
     boolean isUserRobot();
 
     void setUserRobot();

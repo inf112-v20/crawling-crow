@@ -31,6 +31,7 @@ public class Robot implements IRobot {
     private boolean isFalling;
 
     private HashMap<IProgramCards.CardType, Runnable> cardToAction;
+    private boolean isRobotInHole;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {
@@ -87,6 +88,7 @@ public class Robot implements IRobot {
             getLogic().backToArchiveMarker();
             clearLaserRegister();
             reboot = false;
+            isRobotInHole = false;
         }
     }
     //endregion
@@ -136,7 +138,7 @@ public class Robot implements IRobot {
 
                 // Check if Robot is standing on a hole
                 if (layers.layerNotNull(LayerName.HOLE, newPos)) {
-                    //robotWentInHole = true;
+                    isRobotInHole = true;
                     takeDamage(SettingsUtil.MAX_DAMAGE);
                     System.out.println("\t\t- Robot went into a hole");
                     setFalling(true);
@@ -317,5 +319,10 @@ public class Robot implements IRobot {
     @Override
     public boolean getPowerDown() {
         return powerDown;
+    }
+
+    @Override
+    public boolean isRobotInHole() {
+        return isRobotInHole;
     }
 }

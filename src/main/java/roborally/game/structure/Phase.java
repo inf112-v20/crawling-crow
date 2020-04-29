@@ -163,6 +163,10 @@ public class Phase implements IPhase {
 						robot.visitNextFlag();
 						robot.getLogic().setArchiveMarker(flag.getPosition());
 						System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
+
+						if (robot.getLogic().isUserRobot()) {
+							uiElements.setMessageLabel(robot.getName() + " visited a flag");
+						}
 					}
 				}
 			}
@@ -174,8 +178,10 @@ public class Phase implements IPhase {
 		System.out.println("\nChecking if someone won...");
 		boolean someoneWon = checkAllRobotsForWinner();
 		System.out.println("- Did someone win? " + someoneWon);
-		if (someoneWon)
+		if (someoneWon) {
+			winner.getLogic().setHasWon();
 			System.out.println("- Found winner: " + winner.getName());
+		}
 		return someoneWon;
 	}
 

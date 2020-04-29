@@ -72,6 +72,7 @@ public class Game implements IGame {
 		this.round = new Round(events, robots, gameBoard, uiElements);
 		this.ai = new AI(gameBoard);
         setUserRobot();
+        uiElements.setMessageLabel(""); // FIXME: temp for resetting the label on startUp
 	}
 
 	@Override

@@ -23,6 +23,7 @@ public class RobotLogic implements IRobotLogic {
     private Register register;
 
     private boolean isUserRobot;
+    private boolean hasWon;
 
     public RobotLogic(String name) {
         this.name = name;
@@ -276,7 +277,22 @@ public class RobotLogic implements IRobotLogic {
         else
             System.out.println("- Next flag to visit: " + (nextFlag + 1));
     }
+
+    @Override
+    public boolean[] getVisitedFlags() {
+        return visitedFlags;
+    }
     //endregion
+
+    @Override
+    public void setHasWon() {
+        this.hasWon = true;
+    }
+
+    @Override
+    public boolean hasWon() {
+        return hasWon;
+    }
 
     @Override
     public boolean isUserRobot() {
