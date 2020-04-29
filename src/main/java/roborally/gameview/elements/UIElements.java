@@ -1,8 +1,10 @@
 package roborally.gameview.elements;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
@@ -18,14 +20,15 @@ public class UIElements {
     private ArrayList<Image> damageTokens;
 
     private ImageButton powerDownButton;
-    private boolean isPowerDownInitiated;
+    private boolean hasPowerDownBeenActivated;
+    private boolean isPowerDownSetForNextRound;
 
     private Stage stage;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
         this.damageTokens = new ArrayList<>();
-        this.isPowerDownInitiated = false;
+        this.hasPowerDownBeenActivated = false;
     }
 
     private Image getAndSetUIElement(UIElement uiElement) {
@@ -126,22 +129,43 @@ public class UIElements {
     }
 
     public void setPowerDownButton(UIElement powerDownState) {
-        this.powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()));
+        powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()), new TextureRegionDrawable((POWERING_DOWN.getTexture())), new TextureRegionDrawable((POWERING_DOWN.getTexture())));
 
         float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
-        float powerDownButtonFixedPosX = (stage.getWidth()) - (POWER_DOWN.getTexture().getWidth() * 2f) - mapWidth;
+        float powerDownButtonFixedPosX = (stage.getWidth()) - (POWERED_DOWN.getTexture().getWidth() * 2f) - mapWidth;
 
         powerDownButton.setPosition(powerDownButtonFixedPosX, 130);
 
-        isPowerDownInitiated = true;
+        powerDownButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Activated power down");
+                powerDownButton.setChecked(true);
+                isPowerDownSetForNextRound = true;
+                hasPowerDownBeenActivated = true;
+            }
+        });
     }
 
     public ImageButton getPowerDownButton() {
         return powerDownButton;
     }
 
-    public boolean isPowerDownInitiated() {
-        return isPowerDownInitiated;
+    // For checking if the button has been pressed
+    public boolean hasPowerDownBeenActivated() {
+        return hasPowerDownBeenActivated;
+    }
+
+    public void hasPowerDownBeenActivated(boolean state) {
+        this.hasPowerDownBeenActivated = state;
+    }
+
+    public boolean isPowerDownSetForNextRound() {
+        return isPowerDownSetForNextRound;
+    }
+
+    public void setPowerDownForNextRound(boolean state) {
+        this.isPowerDownSetForNextRound = state;
     }
 
     public void setStage(Stage stage) {

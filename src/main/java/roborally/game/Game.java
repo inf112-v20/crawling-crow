@@ -109,8 +109,9 @@ public class Game implements IGame {
 		if (this.currentRobotID == robots.size()) {
 			this.currentRobotID = 0;
 		}
-		events.checkForDestroyedRobots(this.robots);
-		userRobot.backToArchiveMarker();
+		// FIXME: UNCOMMENT for debugging
+		/*events.checkForDestroyedRobots(this.robots);
+		userRobot.backToArchiveMarker();*/
 
 		uiElements.update(userRobot); // Just for debugging UI
 
@@ -246,7 +247,7 @@ public class Game implements IGame {
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
-		uiElements.update(userRobot);
+		uiElements.update(getUserRobot());
 		if (isRoundFinished) {
 			System.out.println("Event: " + events.hasLaserEvent());
 			this.events.setWaitMoveEvent(false);

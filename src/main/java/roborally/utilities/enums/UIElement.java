@@ -13,8 +13,8 @@ public enum UIElement {
     REBOOT_INACTIVE(getRebootInactive()),
     DONE_BUTTON(getDoneButton()),
     DONE_BUTTON_PRESSED(getDoneButtonPressed()),
-    POWER_DOWN(getPowerDownButton()),
-    POWERED_DOWN(getPoweredDown()),
+    POWERED_DOWN(getPowerDownButton()),
+    POWERED_ON(getPoweredDown()),
     POWERING_DOWN(getPoweringDown());
 
     private final Texture texture;
