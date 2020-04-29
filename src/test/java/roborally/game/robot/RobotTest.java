@@ -21,21 +21,23 @@ public class RobotTest {
 
     private GridPoint2 initialStartPosition;
 
+    private final int nFlags = 3;
 
     @Before
     public void setUp() {
-        testRobot1 = new Robot(new RobotLogic("T1"));
-        testRobot2 = new Robot(new RobotLogic("T2"));
-        programCards = new ProgramCards();
+        this.testRobot1 = new Robot(new RobotLogic("T1"));
+        this.testRobot2 = new Robot(new RobotLogic("T2"));
+        this.testRobot1.getLogic().setNumberOfFlags(nFlags);
+        this.programCards = new ProgramCards();
 
-        cardsInHand = new CardsInHand(programCards.getDeck());
-        testRobot1.getLogic().setCardsInHand(cardsInHand);
-        card = cardsInHand.getCards().get(2);
+        this.cardsInHand = new CardsInHand(programCards.getDeck());
+        this.testRobot1.getLogic().setCardsInHand(cardsInHand);
+        this.card = cardsInHand.getCards().get(2);
         int[] order = {2, 0, 1, 3, 4};
-        testRobot1.getLogic().arrangeCardsInHand(order);
-        testRobot1.getLogic().putChosenCardsIntoRegister();
+        this.testRobot1.getLogic().arrangeCardsInHand(order);
+        this.testRobot1.getLogic().putChosenCardsIntoRegister();
 
-        initialStartPosition = new GridPoint2(0,0);
+        this.initialStartPosition = new GridPoint2(0,0);
     }
 
     @Test
@@ -232,5 +234,43 @@ public class RobotTest {
         testRobot1.getLogic().backToArchiveMarker();
 
         assertEquals(new GridPoint2(3, 6), testRobot1.getLogic().getPosition());
+    }
+
+    @Test
+    public void verifyThatRobotIsNotUserRobot() {
+        assertFalse(testRobot1.getLogic().isUserRobot());
+    }
+
+    @Test
+    public void verifyThatRobotIsUserRobot() {
+        testRobot1.getLogic().setUserRobot();
+        assertTrue(testRobot1.getLogic().isUserRobot());
+    }
+
+    @Test
+    public void verifyThatRobotVisitsFlag() {
+        testRobot1.getLogic().visitNextFlag();
+
+        assertTrue(testRobot1.getLogic().getVisitedFlags()[0]);
+    }
+
+    @Test
+    public void verifyThatRobotVisitsAllFlags() {
+        for (int i = 0; i < nFlags; i++) {
+            testRobot1.getLogic().visitNextFlag();
+        }
+
+        assertTrue(testRobot1.getLogic().hasVisitedAllFlags());
+    }
+
+    @Test
+    public void verifyThatRobotHasNotWon() {
+        assertFalse(testRobot1.getLogic().hasWon());
+    }
+
+    @Test
+    public void verifyThatRobotHasWon() {
+        testRobot1.getLogic().setHasWon();
+        assertTrue(testRobot1.getLogic().hasWon());
     }
 }
