@@ -111,4 +111,8 @@ public interface IGame {
      *
      */
     void announcePowerDown();
+
+    boolean hasRestarted();
+
+    void setHasRestarted(boolean state);
 }

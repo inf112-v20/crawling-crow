@@ -118,7 +118,10 @@ public class GameView extends InputAdapter implements ApplicationListener {
         animateEvent.drawEvents(batch, game, stage);
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
-        //programCardsView.setStage(stage);
+        if (game.hasRestarted()) {
+            Gdx.input.setInputProcessor(this);
+            game.setHasRestarted(false);
+        }
         uiElements.setStage(stage);
     }
 

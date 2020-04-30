@@ -52,6 +52,7 @@ public class Game implements IGame {
 
 	private UIElements uiElements;
 	private boolean isRoundFinished;
+	private boolean hasRestarted;
 
 	public Game(Events events, UIElements uiElements) {
 		currentRobotID = 0;
@@ -137,6 +138,7 @@ public class Game implements IGame {
 		}
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
         setUserRobot();
+        setHasRestarted(true);
 	}
 
 	@Override
@@ -290,5 +292,15 @@ public class Game implements IGame {
 
 	private boolean isNotInGraveyard(@NotNull Robot robot) {
 		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
+	}
+
+	@Override
+	public boolean hasRestarted() {
+		return hasRestarted;
+	}
+
+	@Override
+	public void setHasRestarted(boolean state) {
+		this.hasRestarted = state;
 	}
 }
