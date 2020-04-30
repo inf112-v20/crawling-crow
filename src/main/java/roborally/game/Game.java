@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import org.jetbrains.annotations.NotNull;
+import roborally.events.Events;
 import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.GameBoard;
@@ -12,14 +13,14 @@ import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.robot.AI.AI;
+import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
 import roborally.game.structure.Round;
-import roborally.gameview.layout.ILayers;
-import roborally.gameview.layout.Layers;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
-import roborally.events.Events;
+import roborally.gameview.layout.ILayers;
+import roborally.gameview.layout.Layers;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
@@ -180,18 +181,16 @@ public class Game implements IGame {
 		if (funMode)
 			removeDeadRobots();
 		deckOfProgramCards.shuffleCards();
-		for (Robot currentRobot : getRobots()) {
-			currentRobot.getLogic().drawCards(deckOfProgramCards);
-			if (!currentRobot.equals(userRobot)) {
-				ai.controlRobot(currentRobot.getLogic());
-				currentRobot.getLogic().arrangeCardsInHand(ai.getOrder());
-				//currentRobot.getLogic().autoArrangeCardsInHand();
+		for (IRobot robot : getRobots()) {
+			robot.getLogic().drawCards(deckOfProgramCards);
+			if (!robot.equals(userRobot)) {
+				ai.controlRobot(robot.getLogic());
+				robot.getLogic().arrangeCardsInHand(ai.getOrder());
 			}
 		}
 		if (userRobot.getLogic().getPowerDown()){
 			userRobot.getLogic().autoArrangeCardsInHand();
-		}
-		else {
+		} else {
 			programCardsView = makeProgramCardsView(userRobot);
 		}
 	}
