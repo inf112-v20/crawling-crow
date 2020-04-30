@@ -238,7 +238,7 @@ public class UIElements {
         this.restartButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
         this.restartButton.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f));
 
-        this.restartButton.setX(SettingsUtil.X_SHIFT * 3f); // TODO: Fix position
+        this.restartButton.setX((((stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f) * 3f) - restartButton.getWidth()); // TODO: Fix position
 
         this.restartButton.addListener(new ClickListener() {
             @Override
