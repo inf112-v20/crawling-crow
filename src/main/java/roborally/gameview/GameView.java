@@ -115,6 +115,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         if(events.wonGame()) {
             events.setWonGame(false);
             menu.reloadStage(stage);
+            menu.setStartGame();
             paused = true;
         }
         if (paused) { // Menu

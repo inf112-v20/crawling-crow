@@ -371,6 +371,10 @@ public class Menu {
         stage.addActor(playSong);
     }
 
+    public void setStartGame() {
+        this.startGame = 0;
+    }
+
     public void drawMenu(SpriteBatch batch, Stage stage) {
         imageLists.get("menus").get(0).draw(batch, 1);
         if (!changeMapMenu) {
