@@ -119,11 +119,9 @@ public class RobotLogic implements IRobotLogic {
         // UNCOMMENT to debug
         // System.out.println("Took damage: " + damage + ". Robot: " + name);
         health -= damage;
-        if (health <= 0 && reboots > 1)
-            return true;
-        else if (health <= 0)
+        if (health < 0)
             health = 0;
-        return false;
+        return reboots > 1 && health == 0;
     }
 
     //region Program cards in hand

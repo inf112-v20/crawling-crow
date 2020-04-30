@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import org.jetbrains.annotations.NotNull;
 import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
@@ -127,7 +128,7 @@ public class UIElements {
         updateDamageTokens(robot);
     }
 
-    public void setPowerDownButton(UIElement powerDownState) {
+    public void setPowerDownButton(@NotNull UIElement powerDownState) {
         powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()), new TextureRegionDrawable((POWERING_DOWN.getTexture())), new TextureRegionDrawable((POWERING_DOWN.getTexture())));
 
         float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
