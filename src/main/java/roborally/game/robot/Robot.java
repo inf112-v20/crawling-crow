@@ -26,7 +26,7 @@ public class Robot implements IRobot {
     private Listener listener;
     private LaserRegister laserRegister;
     private boolean reboot;
-    private boolean powerDown;
+
     private boolean powerDownNextRound;
     private boolean isFalling;
 
@@ -49,7 +49,6 @@ public class Robot implements IRobot {
         this.laser = new Laser(0, layers);
         this.listener = new Listener(layers);
         this.laserRegister = laserRegister;
-        this.powerDown = false;
         setPosition(pos);
         checkForStationaryLaser(); // for spawning in the current lasers in fun mode.
         bindCardsToAction();
@@ -183,7 +182,7 @@ public class Robot implements IRobot {
     //region Lasers
     @Override
     public void fireLaser() {
-        if(!powerDown) {
+        if (!getLogic().getPowerDown()) {
             laser.fireLaser(getPosition(), getLogic().getDirection().getID());
         }
     }
@@ -238,9 +237,9 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
-        System.out.println(getName() + "'s power down status: " + powerDown);
+        System.out.println(getName() + "'s power down status: " + getLogic().getPowerDown());
         IProgramCards.Card card = getLogic().getNextCardInRegister();
-        if (card == null || powerDown)
+        if (card == null || getLogic().getPowerDown())
             return;
 
         for (IProgramCards.CardType cardType : IProgramCards.CardType.values()) {
@@ -295,30 +294,6 @@ public class Robot implements IRobot {
         setVictoryTexture();
         getView().setDirection(getPosition(), getLogic().getDirection());
         getLogic().visitNextFlag();
-    }
-
-    @Override
-    public void setPowerDown(boolean powerDown) {
-        this.powerDown = powerDown;
-        if (powerDown) {
-            getLogic().addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
-        }
-    }
-
-    @Override
-    public void setPowerDownNextRound(boolean powerDownNextRound) {
-        System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
-        this.powerDownNextRound = powerDownNextRound;
-    }
-
-    @Override
-    public boolean getPowerDownNextRound() {
-        return powerDownNextRound;
-    }
-
-    @Override
-    public boolean getPowerDown() {
-        return powerDown;
     }
 
     @Override

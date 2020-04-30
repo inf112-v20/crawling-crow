@@ -51,12 +51,12 @@ public class Round implements IRound {
 	public void setRobotInPowerDown() {
 		//if (currentPhaseIndex == 5){
 			for(Robot robot : robots){
-				if (robot.getPowerDownNextRound()){
-					robot.setPowerDown(true);
-					robot.setPowerDownNextRound(false);
+				if (robot.getLogic().getPowerDownNextRound()){
+					robot.getLogic().setPowerDown(true);
+					robot.getLogic().setPowerDownNextRound(false);
 				}
 				else {
-					robot.setPowerDown(false);
+					robot.getLogic().setPowerDown(false);
 				}
 			}
 		//}

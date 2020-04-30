@@ -188,7 +188,7 @@ public class Game implements IGame {
 				//currentRobot.getLogic().autoArrangeCardsInHand();
 			}
 		}
-		if (userRobot.getPowerDown()){
+		if (userRobot.getLogic().getPowerDown()){
 			userRobot.getLogic().autoArrangeCardsInHand();
 		}
 		else {
@@ -284,7 +284,7 @@ public class Game implements IGame {
 			if (!robot.equals(userRobot)) {
 				//TODO:: make smarter.
 				if (robot.getLogic().getHealth() < 3) {
-					robot.setPowerDownNextRound(true);
+					robot.getLogic().setPowerDownNextRound(true);
 				}
 			}
 		}
