@@ -186,7 +186,7 @@ public class UIElements {
         this.messageLabel = new Label(message, messageStyle);
         this.messageLabel.setFontScale(3);
         float x = (stage.getWidth() / 2f) - (messageLabel.getPrefWidth() / 2f);
-        float y = (stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f);
+        float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (messageLabel.getPrefHeight() / 2f));
         this.messageLabel.setPosition(x, y);
     }
 
@@ -236,9 +236,11 @@ public class UIElements {
 
     public void setRestartButton() {
         this.restartButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
-        this.restartButton.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f));
 
-        this.restartButton.setX((((stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f) * 3f) - restartButton.getWidth()); // TODO: Fix position
+        this.restartButton.setY(getQuitButton().getY());
+
+
+        this.restartButton.setX(getQuitButton().getX() - getRestartButton().getWidth());
 
         this.restartButton.addListener(new ClickListener() {
             @Override
@@ -254,9 +256,12 @@ public class UIElements {
 
     public void setQuitButton() {
         this.quitButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON_RED.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
-        this.quitButton.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f));
+        float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (quitButton.getHeight() / 2f));
+        this.quitButton.setY(y);
 
-        this.quitButton.setX(getRestartButton().getX() + getRestartButton().getWidth());
+        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
+        float quitButtonFixedX = xShift - quitButton.getWidth();
+        this.quitButton.setX(quitButtonFixedX);
 
         this.quitButton.addListener(new ClickListener() {
             @Override
