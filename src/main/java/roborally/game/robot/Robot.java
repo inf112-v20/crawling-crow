@@ -88,7 +88,7 @@ public class Robot implements IRobot {
             getLogic().backToArchiveMarker();
             clearLaserRegister();
             reboot = false;
-            isRobotInHole = false;
+            isRobotInHole(false);
         }
     }
     //endregion
@@ -138,7 +138,7 @@ public class Robot implements IRobot {
 
                 // Check if Robot is standing on a hole
                 if (layers.layerNotNull(LayerName.HOLE, newPos)) {
-                    isRobotInHole = true;
+                    isRobotInHole(false);
                     takeDamage(SettingsUtil.MAX_DAMAGE);
                     System.out.println("\t\t- Robot went into a hole");
                     setFalling(true);
@@ -324,5 +324,10 @@ public class Robot implements IRobot {
     @Override
     public boolean isRobotInHole() {
         return isRobotInHole;
+    }
+
+    @Override
+    public void isRobotInHole(boolean state) {
+        this.isRobotInHole = state;
     }
 }

@@ -273,4 +273,15 @@ public class RobotTest {
         testRobot1.getLogic().setHasWon();
         assertTrue(testRobot1.getLogic().hasWon());
     }
+
+    @Test
+    public void verifyThatRobotWentIntoHole() {
+        testRobot1.isRobotInHole(true);
+        assertTrue(testRobot1.isRobotInHole());
+    }
+
+    @Test
+    public void verifyThatRobotIsNotInHole() {
+        assertFalse(testRobot1.isRobotInHole());
+    }
 }

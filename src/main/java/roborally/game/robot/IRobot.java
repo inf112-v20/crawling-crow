@@ -162,4 +162,6 @@ public interface IRobot {
     boolean getPowerDown();
 
     boolean isRobotInHole();
+
+    void isRobotInHole(boolean state);
 }
