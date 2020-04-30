@@ -75,7 +75,7 @@ public class AnimateEvent {
 
         if (uiElements.getMessageLabel().toString().contains("has won")) {
             uiElements.setQuitButton();
-            uiElements.setRestartButton();
+            uiElements.setRestartButton(game);
             stage.addActor(uiElements.getRestartButton());
             stage.addActor(uiElements.getQuitButton());
             uiElements.getRestartButton().draw(batch, 1);

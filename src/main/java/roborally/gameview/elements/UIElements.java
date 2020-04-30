@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.jetbrains.annotations.NotNull;
+import roborally.game.IGame;
 import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
@@ -235,7 +236,7 @@ public class UIElements {
         return flags;
     }
 
-    public void setRestartButton() {
+    public void setRestartButton(IGame game) {
         this.restartButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
 
         this.restartButton.setY(getQuitButton().getY());
@@ -247,6 +248,8 @@ public class UIElements {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Should restart game or something!");
+                game.restartGame();
+                clearAll();
             }
         });
     }
@@ -278,5 +281,14 @@ public class UIElements {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    private void clearAll() {
+        clearDamageTokens();
+        clearReboots();
+        clearFlags();
+        getMessageLabel().setText("");
+        getQuitButton().clear();
+        getRestartButton().clear();
     }
 }
