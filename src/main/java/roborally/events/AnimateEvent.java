@@ -11,6 +11,8 @@ import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.utilities.SettingsUtil;
 
+import java.util.ArrayList;
+
 public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
@@ -47,18 +49,29 @@ public class AnimateEvent {
     }
 
     private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
-        for (Image reboot : uiElements.getReboots()) {
-            reboot.draw(batch, 1);
-        }
+        drawUIElement(batch, uiElements.getReboots());
+        drawUIElement(batch, uiElements.getDamageTokens());
+        drawUIElement(batch, uiElements.getFlags());
 
-        for (Image damageToken : uiElements.getDamageTokens()) {
-            damageToken.draw(batch, 1);
-        }
+        updateMessageLabel(game, batch, stage);
 
-        for (Image flag : uiElements.getFlags()) {
-            flag.draw(batch, 1);
-        }
+        drawPowerDownButton(batch, stage);
+    }
 
+    private void drawUIElement(SpriteBatch batch, ArrayList<Image> uiElementsList) {
+        for (Image element : uiElementsList) {
+            element.draw(batch, 1);
+        }
+    }
+
+    private void drawPowerDownButton(SpriteBatch batch, Stage stage) {
+        if (cardPhase) {
+            stage.addActor(uiElements.getPowerDownButton());
+            uiElements.getPowerDownButton().draw(batch, 1);
+        }
+    }
+
+    private void updateMessageLabel(IGame game, SpriteBatch batch, Stage stage) {
         for (Robot robot : game.getRobots()) {
             checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!");
             checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!");
@@ -76,12 +89,6 @@ public class AnimateEvent {
             uiElements.getRestartButton().draw(batch, 1);
             uiElements.getExitButton().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
-        }
-
-        // TODO: Not sure if this is the correct way to do it, but it's temp
-        if (cardPhase) {
-            stage.addActor(uiElements.getPowerDownButton());
-            uiElements.getPowerDownButton().draw(batch, 1);
         }
     }
 
