@@ -22,6 +22,7 @@ import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.enums.UIElement;
 
@@ -106,6 +107,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             game.getUserRobot().getLogic().setPowerDownNextRound(true);
             uiElements.setPowerDownForNextRound(false);
         }
+
         if (events.hasWaitEvent() && !events.hasLaserEvent())
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
@@ -173,10 +175,11 @@ public class GameView extends InputAdapter implements ApplicationListener {
             }
 
             game.dealCards();
-            if(programCardsView != null)
+            if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
                 animateEvent.initiateCards(stage, game.getProgramCardsView());
-            else
+            } else {
                 events.setWaitMoveEvent(true);
+            }
             return true;
         }
         debugControls.getAction(keycode).run();
