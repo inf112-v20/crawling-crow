@@ -107,7 +107,6 @@ public class AnimateEvent {
      * @param stage The stage from UI.
      */
     private void drawCards(IGame game, SpriteBatch batch, Stage stage) {
-        programCardsView.getCountdownLabel().draw(batch, stage.getHeight() / 2);
         programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
         programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getUserRobot());
         programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
@@ -138,11 +137,8 @@ public class AnimateEvent {
         this.programCardsView = programCardsView;
         programCardsView.setStage(stage);
         programCardsView.setDoneButton();
-        programCardsView.setCountdownLabel();
         programCardsView.setTimerLabel();
 
-        stage.addActor(programCardsView.getCountdownLabel()); // FIXME: redundant
-        stage.addActor(programCardsView.getTimerLabel()); // FIXME: redundant
         stage.addActor(programCardsView.getDoneButton());
 
         float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();

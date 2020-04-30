@@ -37,12 +37,11 @@ public class ProgramCardsView {
     private float cardWidth;
     private float cardHeight;
     private ImageButton doneButton;
-    private Label countdownLabel;
     private Label timerLabel;
     private float cardTimer;
 
     private Stage stage;
-    private Label.LabelStyle countdownLabelStyle;
+    private Label.LabelStyle timerLabelStyle;
 
     public ProgramCardsView(IGame game) {
         this.game = game;
@@ -53,7 +52,7 @@ public class ProgramCardsView {
         Arrays.fill(order, -1);
         this.cardTimer = SettingsUtil.TIMER_DURATION;
 
-        setCountdownLabelStyle();
+        setTimerLabelStyle();
     }
 
     public void setCard(IProgramCards.@NotNull Card card) {
@@ -223,29 +222,17 @@ public class ProgramCardsView {
         return doneButton;
     }
 
-    private void setCountdownLabelStyle() {
-        this.countdownLabelStyle = new Label.LabelStyle();
-        this.countdownLabelStyle.fontColor = Color.YELLOW;
-    }
-
-    public void setCountdownLabel() {
-        this.countdownLabelStyle.font = new BitmapFont();
-        this.countdownLabel = new Label("Time left", countdownLabelStyle);
-        this.countdownLabel.setFontScale(3);
-        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        this.countdownLabel.setPosition(xShift - 55, 85);
+    private void setTimerLabelStyle() {
+        this.timerLabelStyle = new Label.LabelStyle();
+        this.timerLabelStyle.fontColor = Color.YELLOW;
     }
 
     public void setTimerLabel() {
-        this.countdownLabelStyle.font = new BitmapFont();
-        this.timerLabel = new Label(Float.toString(cardTimer), countdownLabelStyle);
+        this.timerLabelStyle.font = new BitmapFont();
+        this.timerLabel = new Label(Float.toString(cardTimer), timerLabelStyle);
         this.timerLabel.setFontScale(3);
         float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        this.timerLabel.setPosition(xShift + 10, 40);
-    }
-
-    public Label getCountdownLabel() {
-        return countdownLabel;
+        this.timerLabel.setPosition(xShift, cardHeight / 2f);
     }
 
     public Label getTimerLabel() {
@@ -254,7 +241,7 @@ public class ProgramCardsView {
 
     public void updateTimer(float dt, Robot userRobot) {
         this.cardTimer -= dt;
-        this.timerLabel.setText((int) this.cardTimer);
+        this.timerLabel.setText("0:" + (int) this.cardTimer);
 
         if (cardTimer <= 10) {
             timerLabel.setColor(Color.RED);
