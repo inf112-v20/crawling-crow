@@ -210,15 +210,19 @@ public class RobotLogic implements IRobotLogic {
     }
 
     private int getNumberOfCardsToDraw() {
-        int numberOfCardsToDraw = getHealth() - 1; // For damage tokens, see rulebook page 9
-        return Math.max(0, numberOfCardsToDraw);
+        if (getPowerDown()) {
+            return 0;
+        } else {
+            int numberOfCardsToDraw = getHealth() - 1; // For damage tokens, see rulebook page 9
+            return Math.max(0, numberOfCardsToDraw);
+        }
     }
 
     private int getNumberOfCardsToLock(){
-        if (getHealth() < 1){
+        if (getHealth() < 1 || getPowerDown()) {
             return 5; // Lock whole register if the robot has no health
         }
-        int cardsToLock = getHealth() - 2*(getHealth()-3);
+        int cardsToLock = getHealth() - 2 * (getHealth() - 3);
         return Math.max(0, cardsToLock);
     }
 
