@@ -63,9 +63,8 @@ public class UIElements {
 
         setReboots(robot.getLogic().getReboots() - 1);
 
-        float mapWidth = SettingsUtil.MAP_WIDTH / 2f;
-        float rebootsWidth = getReboots().size() * (REBOOT_ACTIVE.getTexture().getWidth() / UI_ELEMENT_SCALE);
-        float rebootsListFixedPosX = (stage.getWidth() / 2f) - (rebootsWidth / 2f) - mapWidth;
+        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
+        float rebootsListFixedPosX = xShift - getReboots().get(0).getWidth();
 
         for (Image reboot : getReboots()) {
             reboot.setX(rebootsListFixedPosX += reboot.getWidth());
