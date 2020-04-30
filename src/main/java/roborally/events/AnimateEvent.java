@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
+import roborally.utilities.SettingsUtil;
 
 public class AnimateEvent {
     private Events events;
@@ -108,8 +109,9 @@ public class AnimateEvent {
             group.setX(cardsGroupPositionX += programCardsView.getCardWidth());
             stage.addActor(group);
         }
-        // The last cards x-coordinate + the width of done button image
-        float doneButtonPosX = programCardsView.getGroups().get(programCardsView.getGroups().size() - 1).getX() + programCardsView.getDoneButton().getWidth();
+        // xShift to the right-side edge of the game board
+        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
+        float doneButtonPosX = xShift - programCardsView.getDoneButton().getWidth();
         programCardsView.getDoneButton().setX(doneButtonPosX);
 
         cardPhase = true;
