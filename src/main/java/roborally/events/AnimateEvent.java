@@ -121,7 +121,7 @@ public class AnimateEvent {
             game.shuffleTheRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
             programCardsView.clear();
             events.setWaitMoveEvent(true);
-        } else if (game.getUserRobot().getLogic().getPowerDown()) {
+        } else if (game.getUserRobot().getLogic().getPowerDown() || game.getUserRobot().getLogic().getNumberOfLockedCards() == SettingsUtil.REGISTER_SIZE) {
             cardPhase = false;
             stage.clear();
             programCardsView.clear();
