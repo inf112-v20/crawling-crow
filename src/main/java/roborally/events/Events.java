@@ -98,7 +98,7 @@ public class Events {
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling) {
         Image image = new Image(texture[0][1]);
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift - 9f);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
         this.fadeableRobots.add(new Alpha(1f, image, falling));
     }
@@ -175,7 +175,7 @@ public class Events {
     public void setStage(Stage stage) {
         this.stage = stage;
         this.xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        this.xShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
+        this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
     }
 
     /**
