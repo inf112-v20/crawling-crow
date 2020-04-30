@@ -180,5 +180,7 @@ public interface IRobotLogic {
     void setUserRobot();
 
     int getNumberOfLockedCards();
+
+    boolean isDestroyed();
     //endregion
 }

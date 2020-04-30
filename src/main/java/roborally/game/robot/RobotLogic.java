@@ -24,6 +24,7 @@ public class RobotLogic implements IRobotLogic {
 
     private boolean isUserRobot;
     private boolean hasWon;
+    private boolean isDestroyed;
 
     public RobotLogic(String name) {
         this.name = name;
@@ -63,7 +64,8 @@ public class RobotLogic implements IRobotLogic {
         if (health < 5 && health > 0)
             return "Badly damaged";
         else if (health == 0) {
-            health = -1;
+            this.health = -1;
+            this.isDestroyed = true;
             return "Destroyed";
         } else if (health > 5)
             return "Everything is OK!";
@@ -86,10 +88,11 @@ public class RobotLogic implements IRobotLogic {
     //region Archive marker
     @Override
     public void backToArchiveMarker() {
-        health = SettingsUtil.ROBOT_MAX_HEALTH;
-        reboots -= 1;
+        this.health = SettingsUtil.ROBOT_MAX_HEALTH;
+        this.reboots -= 1;
+        this.isDestroyed = false;
         setPosition(archiveMarker);
-        direction = Direction.NORTH;
+        this.direction = Direction.NORTH;
     }
 
     public GridPoint2 getArchiveMarker() {
@@ -300,5 +303,10 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void setUserRobot() {
         this.isUserRobot = true;
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 }

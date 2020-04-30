@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
+import roborally.game.robot.Robot;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.utilities.SettingsUtil;
@@ -58,22 +59,16 @@ public class AnimateEvent {
             flag.draw(batch, 1);
         }
 
-        if (game.getUserRobot().getLogic().getHealth() <= 0) {
-            uiElements.setMessageLabel("You died");
-        }
-
-        if (game.getUserRobot().isRobotInHole()) {
-            uiElements.setMessageLabel("You went into a hole");
-        }
-
-        // TODO: Clean up this
-        if (game.getUserRobot().getLogic().hasWon()) {
-            uiElements.setMessageLabel(game.getUserRobot().getName() + " has won!");
+        for (Robot robot : game.getRobots()) {
+            checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!");
+            checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!");
+            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " wins!");
+            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!");
         }
 
         uiElements.getMessageLabel().draw(batch, 1);
 
-        if (uiElements.getMessageLabel().toString().contains("has won")) {
+        if (uiElements.getMessageLabel().toString().contains("won")) {
             uiElements.setExitButton();
             uiElements.setRestartButton(game);
             stage.addActor(uiElements.getRestartButton());
@@ -87,6 +82,12 @@ public class AnimateEvent {
         if (cardPhase) {
             stage.addActor(uiElements.getPowerDownButton());
             uiElements.getPowerDownButton().draw(batch, 1);
+        }
+    }
+
+    private void checkRobotStatus(boolean destroyed, String s) {
+        if (destroyed) {
+            uiElements.setMessageLabel(s);
         }
     }
 
