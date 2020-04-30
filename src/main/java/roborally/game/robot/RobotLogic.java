@@ -123,8 +123,12 @@ public class RobotLogic implements IRobotLogic {
         // UNCOMMENT to debug
         // System.out.println("Took damage: " + damage + ". Robot: " + name);
         health -= damage;
-        if (health < 0)
+        if (health < 0) {
             health = 0;
+        }
+        if (health == 0) {
+            isDestroyed = true;
+        }
         return reboots > 1 && health == 0;
     }
 

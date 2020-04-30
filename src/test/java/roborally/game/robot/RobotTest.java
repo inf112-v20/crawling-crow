@@ -214,6 +214,17 @@ public class RobotTest {
     }
 
     @Test
+    public void verifyThatRobotIsNotDestroyed() {
+        assertFalse(testRobot1.getLogic().isDestroyed());
+    }
+
+    @Test
+    public void verifyThatRobotIsDestroyedBoolean() {
+        testRobot1.getLogic().takeDamage(SettingsUtil.MAX_DAMAGE);
+        assertTrue(testRobot1.getLogic().isDestroyed());
+    }
+
+    @Test
     public void verifyThatRobotUsesARebootWhenReenteringTheBoard() {
         testRobot1.getLogic().setArchiveMarker(new GridPoint2(1, 1));
         testRobot1.getLogic().backToArchiveMarker();
