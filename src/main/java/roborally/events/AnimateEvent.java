@@ -75,7 +75,7 @@ public class AnimateEvent {
         for (Robot robot : game.getRobots()) {
             checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!");
             checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!");
-            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " wins!");
+            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " won!");
             checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!");
         }
 
