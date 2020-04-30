@@ -2,10 +2,7 @@ package roborally.gameview.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static roborally.utilities.AssetManagerUtil.*;
-import static roborally.utilities.enums.UIElement.DONE_BUTTON;
-import static roborally.utilities.enums.UIElement.DONE_BUTTON_PRESSED;
+import static roborally.utilities.enums.UIElement.*;
 
 /**
  * This class creates images of the program cards.
@@ -176,10 +172,20 @@ public class ProgramCardsView {
     }
 
     public void setDoneButton() {
-        doneButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable(DONE_BUTTON_PRESSED.getTexture()));
+        doneButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable(DONE_BUTTON_PRESSED.getTexture()), new TextureRegionDrawable(DONE_BUTTON_HOVER.getTexture()));
         doneButton.setPosition(0, (getCardHeight() / 2f) - (doneButton.getPrefHeight() / 2f));
 
         doneButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                doneButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                doneButton.setChecked(false);
+            }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 int numberOfLockedCard = game.getUserRobot().getLogic().getNumberOfLockedCards();

@@ -13,12 +13,14 @@ public enum UIElement {
     REBOOT_INACTIVE(getRebootInactive()),
     DONE_BUTTON(getDoneButton()),
     DONE_BUTTON_PRESSED(getDoneButtonPressed()),
+    DONE_BUTTON_HOVER(getDoneButtonHover()),
     POWERED_DOWN(getPowerDownButton()),
     POWERED_ON(getPoweredDown()),
     POWERING_DOWN(getPoweringDown()),
     FLAG_WHITE(getFlagWhite()),
-    DONE_BUTTON_RED(getDoneButtonRed());
-
+    RESTART_BUTTON(getRestartButton()),
+    RESTART_BUTTON_PRESSED(getRestartButtonPressed()),
+    EXIT_BUTTON(getExitButton());
     private final Texture texture;
 
     UIElement(Texture texture) {

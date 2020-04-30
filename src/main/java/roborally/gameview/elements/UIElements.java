@@ -237,7 +237,7 @@ public class UIElements {
     }
 
     public void setRestartButton(IGame game) {
-        this.restartButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
+        this.restartButton = new ImageButton(new TextureRegionDrawable(RESTART_BUTTON.getTexture()), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())));
 
         this.restartButton.setY(getQuitButton().getY());
 
@@ -259,7 +259,7 @@ public class UIElements {
     }
 
     public void setQuitButton() {
-        this.quitButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON_RED.getTexture()), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((DONE_BUTTON_PRESSED.getTexture())));
+        this.quitButton = new ImageButton(new TextureRegionDrawable(EXIT_BUTTON.getTexture()));
         float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (quitButton.getHeight() / 2f));
         this.quitButton.setY(y);
 

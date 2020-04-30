@@ -104,9 +104,16 @@ public class AssetManagerUtil {
     //endregion
 
     //region UI elements
+    //region Buttons
     private static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/done-button.png", Texture.class);
     private static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/done-button-pressed.png", Texture.class);
-    private static final AssetDescriptor<Texture> DONE_BUTTON_RED = new AssetDescriptor<>("ui-elements/done-button-red.png", Texture.class);
+    private static final AssetDescriptor<Texture> DONE_BUTTON_HOVER = new AssetDescriptor<>("ui-elements/done-button-hover.png", Texture.class);
+    private static final AssetDescriptor<Texture> EXIT_BUTTON = new AssetDescriptor<>("ui-elements/exit-button.png", Texture.class);
+    private static final AssetDescriptor<Texture> RESTART_BUTTON = new AssetDescriptor<>("ui-elements/restart-button.png", Texture.class);
+    private static final AssetDescriptor<Texture> RESTART_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/restart-button-pressed.png", Texture.class);
+    //endregion
+
+
     private static final AssetDescriptor<Texture> REBOOT_ACTIVE = new AssetDescriptor<>("ui-elements/reboot-active.png", Texture.class);
     private static final AssetDescriptor<Texture> REBOOT_INACTIVE = new AssetDescriptor<>("ui-elements/reboot-inactive.png", Texture.class);
 
@@ -142,9 +149,14 @@ public class AssetManagerUtil {
         //endregion
 
         //region UI elements
+        //region Buttons
         ASSET_MANAGER.load(DONE_BUTTON);
         ASSET_MANAGER.load(DONE_BUTTON_PRESSED);
-        ASSET_MANAGER.load(DONE_BUTTON_RED);
+        ASSET_MANAGER.load(DONE_BUTTON_HOVER);
+        ASSET_MANAGER.load(EXIT_BUTTON);
+        ASSET_MANAGER.load(RESTART_BUTTON);
+        ASSET_MANAGER.load(RESTART_BUTTON_PRESSED);
+        //endregion
         ASSET_MANAGER.load(REBOOT_ACTIVE);
         ASSET_MANAGER.load(REBOOT_INACTIVE);
         ASSET_MANAGER.load(FLAG_WHITE);
@@ -365,8 +377,20 @@ public class AssetManagerUtil {
         return ASSET_MANAGER.get(DONE_BUTTON_PRESSED);
     }
 
-    public static Texture getDoneButtonRed() {
-        return ASSET_MANAGER.get(DONE_BUTTON_RED);
+    public static Texture getDoneButtonHover() {
+        return ASSET_MANAGER.get(DONE_BUTTON_HOVER);
+    }
+
+    public static Texture getRestartButton() {
+        return ASSET_MANAGER.get(RESTART_BUTTON);
+    }
+
+    public static Texture getRestartButtonPressed() {
+        return ASSET_MANAGER.get(RESTART_BUTTON_PRESSED);
+    }
+
+    public static Texture getExitButton() {
+        return ASSET_MANAGER.get(EXIT_BUTTON);
     }
 
     public static Texture getRebootActive() {
