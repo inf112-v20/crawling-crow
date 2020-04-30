@@ -52,35 +52,35 @@ public class AssetManagerUtil {
 
     //region Program cards
     private static final AssetDescriptor<Texture> BACKUP
-            = new AssetDescriptor<>("cards/new/backup.png", Texture.class);
+            = new AssetDescriptor<>("cards/backup.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATE_LEFT
-            = new AssetDescriptor<>("cards/new/rotate_left.png", Texture.class);
+            = new AssetDescriptor<>("cards/rotate_left.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATE_RIGHT
-            = new AssetDescriptor<>("cards/new/rotate_right.png", Texture.class);
+            = new AssetDescriptor<>("cards/rotate_right.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1
-            = new AssetDescriptor<>("cards/new/move_1.png", Texture.class);
+            = new AssetDescriptor<>("cards/move_1.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_2
-            = new AssetDescriptor<>("cards/new/move_2.png", Texture.class);
+            = new AssetDescriptor<>("cards/move_2.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_3
-            = new AssetDescriptor<>("cards/new/move_3.png", Texture.class);
+            = new AssetDescriptor<>("cards/move_3.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN
-            = new AssetDescriptor<>("cards/new/u_turn.png", Texture.class);
+            = new AssetDescriptor<>("cards/u_turn.png", Texture.class);
 
     //region Grayscale
     private static final AssetDescriptor<Texture> BACKUP_GRAY
-            = new AssetDescriptor<>("cards/new/backup_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/backup_gray.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATE_LEFT_GRAY
-            = new AssetDescriptor<>("cards/new/rotate_left_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/rotate_left_gray.png", Texture.class);
     private static final AssetDescriptor<Texture> ROTATE_RIGHT_GRAY
-            = new AssetDescriptor<>("cards/new/rotate_right_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/rotate_right_gray.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_1_GRAY
-            = new AssetDescriptor<>("cards/new/move_1_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/move_1_gray.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_2_GRAY
-            = new AssetDescriptor<>("cards/new/move_2_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/move_2_gray.png", Texture.class);
     private static final AssetDescriptor<Texture> MOVE_3_GRAY
-            = new AssetDescriptor<>("cards/new/move_3_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/move_3_gray.png", Texture.class);
     private static final AssetDescriptor<Texture> U_TURN_GRAY
-            = new AssetDescriptor<>("cards/new/u_turn_gray.png", Texture.class);
+            = new AssetDescriptor<>("cards/gray/u_turn_gray.png", Texture.class);
     //endregion
     //endregion
 
