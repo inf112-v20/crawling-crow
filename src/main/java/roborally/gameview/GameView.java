@@ -112,7 +112,12 @@ public class GameView extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         mapRenderer.render();
-        if (paused || events.wonGame()) { // Menu
+        if(events.wonGame()) {
+            events.setWonGame(false);
+            menu.reloadStage(stage);
+            paused = true;
+        }
+        if (paused) { // Menu
             pause();
         }
         animateEvent.drawEvents(batch, game, stage);
