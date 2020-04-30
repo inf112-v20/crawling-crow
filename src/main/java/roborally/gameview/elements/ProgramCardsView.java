@@ -78,12 +78,27 @@ public class ProgramCardsView {
         Label selectedOrderLabel = setSelectedOrderLabel();
         Label priorityLabel = setPriorityLabel(priority);
         group.addActor(priorityLabel);
+        Actor card = group.getChildren().get(0);
         group.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (!card.getColor().equals(Color.YELLOW) && !card.getColor().equals(Color.RED)) {
+                    card.setColor(Color.GRAY);
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if (!card.getColor().equals(Color.YELLOW)) {
+                    card.setColor(Color.WHITE);
+                }
+            }
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 for (int i = 0; i < order.length; i++)
                     if (groups.indexOf(group) == order[i]) {
-                        group.getChildren().get(0).setColor(Color.WHITE);
+                        card.setColor(Color.WHITE);
                         selectedOrderLabel.setText("");
                         reArrange(i);
                         if (cardPick -1 != -1)
@@ -91,6 +106,7 @@ public class ProgramCardsView {
                         return true;
                     }
                 if (cardPick == SettingsUtil.REGISTER_SIZE) {
+                    card.setColor(Color.RED);
                     System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
@@ -98,8 +114,8 @@ public class ProgramCardsView {
                 selectedOrderList.get(cardPick).setText(Integer.toString((cardPick)+1));
                 group.addActor(selectedOrderList.get(cardPick));
                 order[cardPick++] = groups.indexOf(group);
-                group.getChildren().get(1).setColor(Color.GREEN.add(Color.RED));
-                group.getChildren().get(0).setColor(Color.GREEN.add(Color.RED));
+                group.getChildren().get(1).setColor(Color.YELLOW);
+                group.getChildren().get(0).setColor(Color.YELLOW);
                 return true;
             }
         });
