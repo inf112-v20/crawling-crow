@@ -1,6 +1,5 @@
 package roborally.gameview.elements;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.jetbrains.annotations.NotNull;
+import roborally.events.Events;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
@@ -258,7 +258,7 @@ public class UIElements {
         return restartButton;
     }
 
-    public void setExitButton() {
+    public void setExitButton(IGame game, Events events) {
         this.exitButton = new ImageButton(new TextureRegionDrawable(EXIT_BUTTON.getTexture()));
         float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (exitButton.getHeight() / 2f));
         this.exitButton.setY(y);
@@ -270,7 +270,8 @@ public class UIElements {
         this.exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                game.endGame();
+                events.setWonGame(true);
             }
         });
     }

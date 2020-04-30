@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
  * */
 public class Events {
     private boolean waitEvent;
+    private boolean wonGame;
     private float dt;
     private boolean robotFadeOrder;
     private ArrayList<Alpha> fadeableRobots;
@@ -224,5 +225,13 @@ public class Events {
         robot.deleteRobot();
         System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);
+    }
+
+    public boolean wonGame() {
+        return wonGame;
+    }
+
+    public void setWonGame(boolean state) {
+        this.wonGame = state;
     }
 }
