@@ -85,9 +85,9 @@ public class AnimateEvent {
         }
     }
 
-    private void checkRobotStatus(boolean destroyed, String s) {
-        if (destroyed) {
-            uiElements.setMessageLabel(s);
+    private void checkRobotStatus(boolean status, String message) {
+        if (status) {
+            uiElements.setMessageLabel(message);
         }
     }
 
