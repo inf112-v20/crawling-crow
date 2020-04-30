@@ -80,6 +80,7 @@ public class AnimateEvent {
             stage.addActor(uiElements.getQuitButton());
             uiElements.getRestartButton().draw(batch, 1);
             uiElements.getQuitButton().draw(batch, 1);
+            Gdx.input.setInputProcessor(stage);
         }
 
         // TODO: Not sure if this is the correct way to do it, but it's temp
