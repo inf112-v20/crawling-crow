@@ -14,15 +14,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import roborally.game.Game;
-import roborally.game.IGame;
 import roborally.events.AnimateEvent;
 import roborally.events.Events;
+import roborally.game.Game;
+import roborally.game.IGame;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.enums.UIElement;
 
@@ -86,7 +85,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         Gdx.input.setInputProcessor(this);
 
         batch = new SpriteBatch();
-        stage = new Stage(new FitViewport(SettingsUtil.WINDOW_WIDTH, SettingsUtil.WINDOW_HEIGHT));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         menu = new Menu(stage, events);
         game.getGameOptions().enterMenu(true);
     }
@@ -102,6 +101,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
+        events.setStage(stage);
         if (uiElements.isPowerDownSetForNextRound()) {
             game.getUserRobot().setPowerDownNextRound(true);
             uiElements.setPowerDownForNextRound(false);

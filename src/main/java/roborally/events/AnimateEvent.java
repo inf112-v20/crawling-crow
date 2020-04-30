@@ -131,15 +131,17 @@ public class AnimateEvent {
 
         float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
 
-        float donePositionX = (stage.getWidth()) - (programCardsView.getDoneButton().getWidth() * 1.5f) - (SettingsUtil.MAP_WIDTH / 2f);
-
-        programCardsView.getDoneButton().setX(donePositionX);
 
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
         for (Group group : programCardsView.getGroups()) {
             group.setX(cardsGroupPositionX += programCardsView.getCardWidth());
             stage.addActor(group);
         }
+        // xShift to the right-side edge of the game board
+        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
+        float doneButtonPosX = xShift - programCardsView.getDoneButton().getWidth();
+        programCardsView.getDoneButton().setX(doneButtonPosX);
+
         cardPhase = true;
         Gdx.input.setInputProcessor(stage);
     }

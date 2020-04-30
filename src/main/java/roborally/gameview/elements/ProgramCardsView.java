@@ -210,14 +210,16 @@ public class ProgramCardsView {
         this.countdownLabelStyle.font = new BitmapFont();
         this.countdownLabel = new Label("Time left", countdownLabelStyle);
         this.countdownLabel.setFontScale(3);
-        this.countdownLabel.setPosition(SettingsUtil.X_SHIFT - 55, 85);
+        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
+        this.countdownLabel.setPosition(xShift - 55, 85);
     }
 
     public void setTimerLabel() {
         this.countdownLabelStyle.font = new BitmapFont();
         this.timerLabel = new Label(Float.toString(cardTimer), countdownLabelStyle);
         this.timerLabel.setFontScale(3);
-        this.timerLabel.setPosition(SettingsUtil.X_SHIFT + 10, 40);
+        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
+        this.timerLabel.setPosition(xShift + 10, 40);
     }
 
     public Label getCountdownLabel() {

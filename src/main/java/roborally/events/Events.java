@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
@@ -28,6 +29,9 @@ public class Events {
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
+    private Stage stage;
+    private float xShift;
+    private float yShift;
 
     public Events() {
         this.waitEvent = false;
@@ -93,8 +97,8 @@ public class Events {
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling) {
         Image image = new Image(texture[0][1]);
-        image.setX(pos.x * SettingsUtil.TILE_SCALE + SettingsUtil.X_SHIFT);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE + SettingsUtil.Y_SHIFT - 9f);
+        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift - 9f);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
         this.fadeableRobots.add(new Alpha(1f, image, falling));
     }
@@ -159,13 +163,19 @@ public class Events {
      * @param pos    The endpoint of the laser.
      */
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
-        this.laserEvents.add(new LaserEvent(factor));
+        this.laserEvents.add(new LaserEvent(factor, stage));
         this.laserEvents.get(this.laserEvents.size() - 1).laserEvent(origin, pos);
     }
 
     public void dispose() {
         this.laserEvents.clear();
         this.fadeableRobots.clear();
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        this.xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
+        this.xShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
     }
 
     /**
