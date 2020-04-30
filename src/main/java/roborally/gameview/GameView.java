@@ -101,6 +101,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
+        events.setStage(stage);
         if (uiElements.isPowerDownSetForNextRound()) {
             game.getUserRobot().setPowerDownNextRound(true);
             uiElements.setPowerDownForNextRound(false);
