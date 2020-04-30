@@ -86,21 +86,21 @@ public class AssetManagerUtil {
 
     //region Robots
     private static final AssetDescriptor<Texture> ANGRY
-            = new AssetDescriptor<>("robots/new/Angry.png", Texture.class);
+            = new AssetDescriptor<>("robots/Angry.png", Texture.class);
     private static final AssetDescriptor<Texture> BLUE
-            = new AssetDescriptor<>("robots/new/Blue.png", Texture.class);
+            = new AssetDescriptor<>("robots/Blue.png", Texture.class);
     private static final AssetDescriptor<Texture> GREEN
-            = new AssetDescriptor<>("robots/new/Green.png", Texture.class);
+            = new AssetDescriptor<>("robots/Green.png", Texture.class);
     private static final AssetDescriptor<Texture> ORANGE
-            = new AssetDescriptor<>("robots/new/Orange.png", Texture.class);
+            = new AssetDescriptor<>("robots/Orange.png", Texture.class);
     private static final AssetDescriptor<Texture> PINK
-            = new AssetDescriptor<>("robots/new/Pink.png", Texture.class);
+            = new AssetDescriptor<>("robots/Pink.png", Texture.class);
     private static final AssetDescriptor<Texture> PURPLE
-            = new AssetDescriptor<>("robots/new/Purple.png", Texture.class);
+            = new AssetDescriptor<>("robots/Purple.png", Texture.class);
     private static final AssetDescriptor<Texture> RED
-            = new AssetDescriptor<>("robots/new/Red.png", Texture.class);
+            = new AssetDescriptor<>("robots/Red.png", Texture.class);
     private static final AssetDescriptor<Texture> YELLOW
-            = new AssetDescriptor<>("robots/new/Yellow.png", Texture.class);
+            = new AssetDescriptor<>("robots/Yellow.png", Texture.class);
     //endregion
 
     //region UI elements
