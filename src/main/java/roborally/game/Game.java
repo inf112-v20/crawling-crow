@@ -107,14 +107,11 @@ public class Game implements IGame {
 
 	@Override
 	public Robot getUserRobot() {
-		if (this.currentRobotID == robots.size()) {
-			this.currentRobotID = 0;
-		}
 		// FIXME: UNCOMMENT for debugging
 		/*events.checkForDestroyedRobots(this.robots);
 		userRobot.backToArchiveMarker();*/
 
-		uiElements.update(userRobot); // Just for debugging UI
+		//uiElements.update(userRobot); // Just for debugging UI
 
 		return userRobot;
 	}
