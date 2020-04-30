@@ -82,6 +82,7 @@ public class AnimateEvent {
         uiElements.getMessageLabel().draw(batch, 1);
 
         if (uiElements.getMessageLabel().toString().contains("won")) {
+            uiElements.updateFlags(game.getUserRobot());
             uiElements.setExitButton();
             uiElements.setRestartButton(game);
             stage.addActor(uiElements.getRestartButton());
@@ -89,6 +90,7 @@ public class AnimateEvent {
             uiElements.getRestartButton().draw(batch, 1);
             uiElements.getExitButton().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
+            events.setWaitMoveEvent(false);
         }
     }
 
