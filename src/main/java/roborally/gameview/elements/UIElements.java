@@ -35,7 +35,7 @@ public class UIElements {
     private Stage stage;
     private ArrayList<Image> flags;
     private ImageButton restartButton;
-    private ImageButton quitButton;
+    private ImageButton exitButton;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
@@ -239,10 +239,10 @@ public class UIElements {
     public void setRestartButton(IGame game) {
         this.restartButton = new ImageButton(new TextureRegionDrawable(RESTART_BUTTON.getTexture()), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())));
 
-        this.restartButton.setY(getQuitButton().getY());
+        this.restartButton.setY(getExitButton().getY());
 
 
-        this.restartButton.setX(getQuitButton().getX() - getRestartButton().getWidth());
+        this.restartButton.setX(getExitButton().getX() - getRestartButton().getWidth());
 
         this.restartButton.addListener(new ClickListener() {
             @Override
@@ -258,16 +258,16 @@ public class UIElements {
         return restartButton;
     }
 
-    public void setQuitButton() {
-        this.quitButton = new ImageButton(new TextureRegionDrawable(EXIT_BUTTON.getTexture()));
-        float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (quitButton.getHeight() / 2f));
-        this.quitButton.setY(y);
+    public void setExitButton() {
+        this.exitButton = new ImageButton(new TextureRegionDrawable(EXIT_BUTTON.getTexture()));
+        float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (exitButton.getHeight() / 2f));
+        this.exitButton.setY(y);
 
         float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
-        float quitButtonFixedX = xShift - quitButton.getWidth();
-        this.quitButton.setX(quitButtonFixedX);
+        float quitButtonFixedX = xShift - exitButton.getWidth();
+        this.exitButton.setX(quitButtonFixedX);
 
-        this.quitButton.addListener(new ClickListener() {
+        this.exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
@@ -275,8 +275,8 @@ public class UIElements {
         });
     }
 
-    public ImageButton getQuitButton() {
-        return quitButton;
+    public ImageButton getExitButton() {
+        return exitButton;
     }
 
     public void setStage(Stage stage) {
@@ -288,7 +288,7 @@ public class UIElements {
         clearReboots();
         clearFlags();
         getMessageLabel().setText("");
-        getQuitButton().clear();
+        getExitButton().clear();
         getRestartButton().clear();
     }
 }

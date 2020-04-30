@@ -74,12 +74,12 @@ public class AnimateEvent {
         uiElements.getMessageLabel().draw(batch, 1);
 
         if (uiElements.getMessageLabel().toString().contains("has won")) {
-            uiElements.setQuitButton();
+            uiElements.setExitButton();
             uiElements.setRestartButton(game);
             stage.addActor(uiElements.getRestartButton());
-            stage.addActor(uiElements.getQuitButton());
+            stage.addActor(uiElements.getExitButton());
             uiElements.getRestartButton().draw(batch, 1);
-            uiElements.getQuitButton().draw(batch, 1);
+            uiElements.getExitButton().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
         }
 
