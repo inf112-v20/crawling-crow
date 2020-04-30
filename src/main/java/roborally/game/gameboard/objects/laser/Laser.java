@@ -80,7 +80,7 @@ public class Laser {
         if (this.wallListener.checkForWall(pos, direction))
             return;
         while (newPos.x >= 0 && newPos.x < layers.getWidth() && newPos.y >= 0 && newPos.y < this.layers.getHeight()) {
-            this.laserEndPositions.add(newPos);
+            this.laserEndPositions.add(newPos.cpy());
             if (this.wallListener.checkForWall(newPos, direction) || this.layers.layerNotNull(LayerName.ROBOT, newPos)) {
                 break;
             }
