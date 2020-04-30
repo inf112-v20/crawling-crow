@@ -66,7 +66,7 @@ public class ControlsDebug implements IControls {
         this.powerDownMode = true;
         System.out.println("setting robot in powerDown" + powerDown);
         if(powerDownMode){
-            game.getUserRobot().setPowerDownNextRound(powerDown);
+            game.getUserRobot().getLogic().setPowerDownNextRound(powerDown);
         }
     }
 }

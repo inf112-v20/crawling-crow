@@ -103,7 +103,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     public void render() {
         events.setStage(stage);
         if (uiElements.isPowerDownSetForNextRound()) {
-            game.getUserRobot().setPowerDownNextRound(true);
+            game.getUserRobot().getLogic().setPowerDownNextRound(true);
             uiElements.setPowerDownForNextRound(false);
         }
         if (events.hasWaitEvent() && !events.hasLaserEvent())

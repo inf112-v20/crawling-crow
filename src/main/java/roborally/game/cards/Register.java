@@ -31,7 +31,7 @@ public class Register {
      *
      * @param lockCards how many card to lock down.
      */
-    public void cleanRegister(int lockCards){
+    public void cleanRegister(int lockCards) {
         this.lockedCards = lockCards;
         for (int i = 0; i < getNumberOfCardsToPutIntoRegister(); i++){
             cards[i] = null;

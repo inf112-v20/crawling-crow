@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class RobotLogic implements IRobotLogic {
     public boolean hasSelectedCards;
+    private boolean powerDown;
+    private boolean powerDownNextRound;
     private boolean[] visitedFlags;
     private String name;
     private GridPoint2 position;
@@ -31,6 +33,7 @@ public class RobotLogic implements IRobotLogic {
         this.position = new GridPoint2();
         this.direction = Direction.NORTH;
         this.register = new Register();
+        this.powerDown = false;
     }
 
     //region Robot stats
@@ -207,15 +210,19 @@ public class RobotLogic implements IRobotLogic {
     }
 
     private int getNumberOfCardsToDraw() {
-        int numberOfCardsToDraw = getHealth() - 1; // For damage tokens, see rulebook page 9
-        return Math.max(0, numberOfCardsToDraw);
+        if (getPowerDown()) {
+            return 0;
+        } else {
+            int numberOfCardsToDraw = getHealth() - 1; // For damage tokens, see rulebook page 9
+            return Math.max(0, numberOfCardsToDraw);
+        }
     }
 
     private int getNumberOfCardsToLock(){
-        if (getHealth() < 1){
+        if (getHealth() < 1 || getPowerDown()) {
             return 5; // Lock whole register if the robot has no health
         }
-        int cardsToLock = getHealth() - 2*(getHealth()-3);
+        int cardsToLock = getHealth() - 2 * (getHealth() - 3);
         return Math.max(0, cardsToLock);
     }
 
@@ -288,6 +295,30 @@ public class RobotLogic implements IRobotLogic {
         return visitedFlags;
     }
     //endregion
+
+    @Override
+    public boolean getPowerDown() {
+        return powerDown;
+    }
+
+    @Override
+    public void setPowerDown(boolean powerDown) {
+        this.powerDown = powerDown;
+        if (powerDown) {
+            addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
+        }
+    }
+
+    @Override
+    public void setPowerDownNextRound(boolean powerDownNextRound) {
+        System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
+        this.powerDownNextRound = powerDownNextRound;
+    }
+
+    @Override
+    public boolean getPowerDownNextRound() {
+        return powerDownNextRound;
+    }
 
     @Override
     public void setHasWon() {
