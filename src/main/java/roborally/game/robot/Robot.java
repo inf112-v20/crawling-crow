@@ -238,7 +238,7 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
-        System.out.println(powerDown);
+        System.out.println(getName() + "'s power down status: " + powerDown);
         IProgramCards.Card card = getLogic().getNextCardInRegister();
         if (card == null || powerDown)
             return;
@@ -300,14 +300,14 @@ public class Robot implements IRobot {
     @Override
     public void setPowerDown(boolean powerDown) {
         this.powerDown = powerDown;
-        if (powerDown){
+        if (powerDown) {
             getLogic().addHealth(SettingsUtil.ROBOT_MAX_HEALTH);
         }
     }
 
     @Override
     public void setPowerDownNextRound(boolean powerDownNextRound) {
-        System.out.println(getName() + " set power down to: " + powerDownNextRound + " next round");
+        System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
         this.powerDownNextRound = powerDownNextRound;
     }
 
