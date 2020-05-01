@@ -1,6 +1,7 @@
 package roborally.events;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,12 +13,14 @@ import roborally.gameview.elements.UIElements;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
     private UIElements uiElements;
     private boolean cardPhase;
+    private ArrayList<Image> backgrounds;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
@@ -33,6 +36,12 @@ public class AnimateEvent {
      */
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
+        if(backgrounds==null)
+            makeBakegrounds();
+        if(!game.getGameOptions().getMenu()) {
+            for (Image image : backgrounds)
+                image.draw(batch, 1);
+        }
         if (cardPhase) {
             drawCards(game, batch, stage);
             stage.act();
@@ -46,6 +55,23 @@ public class AnimateEvent {
             drawUIElements(game, batch, stage);
 
         batch.end();
+    }
+
+    private void makeBakegrounds() {
+        Image background = new Image(new Texture(Gdx.files.internal("Untitled.png")));
+        Image background2 = new Image(new Texture(Gdx.files.internal("Untitled.png")));
+        background2.setX(510 + SettingsUtil.MAP_WIDTH);
+        Image background3 = new Image(new Texture(Gdx.files.internal("Untitled2.png")));
+        background3.setX(510);
+        Image background4 = new Image(new Texture(Gdx.files.internal("Untitled2.png")));
+        background4.setX(510);
+        background4.setHeight(300);
+        background4.setY(SettingsUtil.MAP_HEIGHT + 135);
+        backgrounds = new ArrayList<>();
+        backgrounds.add(background);
+        backgrounds.add(background2);
+        backgrounds.add(background3);
+        backgrounds.add(background4);
     }
 
     private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
