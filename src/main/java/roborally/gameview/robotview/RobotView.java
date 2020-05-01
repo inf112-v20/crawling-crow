@@ -33,13 +33,21 @@ public class RobotView implements IRobotView {
     }
 
     @Override
+    public void setDefaultTexture(GridPoint2 pos) {
+        if (this.robotDefaultCellTexture == null) {
+            this.robotDefaultCellTexture = new TiledMapTileLayer.Cell();
+            this.robotDefaultCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
+        }
+        layers.setRobotTexture(pos, this.robotDefaultCellTexture);
+    }
+
+    @Override
     public void setVictoryTexture(GridPoint2 pos) {
         if (this.robotVictoryCellTexture == null) {
             this.robotVictoryCellTexture = new TiledMapTileLayer.Cell();
             this.robotVictoryCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][2]));
         }
         layers.setRobotTexture(pos, this.robotVictoryCellTexture);
-
     }
 
     @Override
@@ -52,6 +60,7 @@ public class RobotView implements IRobotView {
             layers.setRobotTexture(pos, this.robotDamageTakenCellTexture);
         }
     }
+
 
     @Override
     public TiledMapTileLayer.Cell getTexture() {

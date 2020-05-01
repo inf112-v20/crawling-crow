@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.enums.Direction;
 
 public interface IRobotView {
+    void setDefaultTexture(GridPoint2 pos);
+
     /**
      * Creates new WinTexture at given position.
      *

@@ -83,12 +83,19 @@ public class Round implements IRound {
 	public void cleanUp() {
 		restoreRebootedRobots();
 		clearRegisters();
+		restRobotTextures();
 		uiElements.setMessageLabel("");
+	}
+
+	private void restRobotTextures() {
+		for (IRobot robot : robots) {
+			robot.getView().setDefaultTexture(robot.getPosition());
+		}
 	}
 
 	private void clearRegisters() {
 		System.out.println("\t- Cleaning Registers...");
-		for(IRobot robot : robots){
+		for (IRobot robot : robots){
 			robot.getLogic().cleanRegister();
 		}
 	}
