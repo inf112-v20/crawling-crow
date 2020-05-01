@@ -13,7 +13,6 @@ import roborally.gameview.elements.UIElements;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AnimateEvent {
     private Events events;
@@ -36,12 +35,12 @@ public class AnimateEvent {
      */
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
-        if(backgrounds==null)
-            makeBakegrounds();
-        if(!game.getGameOptions().getMenu()) {
+        /*if(backgrounds==null)
+            makeBakegrounds();*/
+        /*if(!game.getGameOptions().getMenu()) {
             for (Image image : backgrounds)
                 image.draw(batch, 1);
-        }
+        }*/
         if (cardPhase) {
             drawCards(game, batch, stage);
             stage.act();

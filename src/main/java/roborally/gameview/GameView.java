@@ -8,13 +8,13 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import roborally.events.AnimateEvent;
 import roborally.events.Events;
@@ -48,6 +48,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private Events events;
     private AnimateEvent animateEvent;
 
+    private Texture backgroundTexture;
+    private Sprite backgroundSprite;
 
     public GameView() {
         this.paused = true;
@@ -63,6 +65,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
         AssetManagerUtil.ASSET_MANAGER.finishLoading();
+        loadBackground();
         tiledMap = AssetManagerUtil.getMap(mapID);
         MapProperties mapProperties = tiledMap.getProperties();
 
@@ -93,6 +96,11 @@ public class GameView extends InputAdapter implements ApplicationListener {
         game.getGameOptions().enterMenu(true);
     }
 
+    private void loadBackground() {
+        this.backgroundTexture = new Texture(Gdx.files.internal("ui-elements/background.png"));
+        this.backgroundSprite = new Sprite(backgroundTexture);
+    }
+
     @Override
     public void dispose() {
         tiledMap.dispose();
@@ -100,6 +108,12 @@ public class GameView extends InputAdapter implements ApplicationListener {
         events.dispose();
         stage.dispose();
         AssetManagerUtil.dispose();
+    }
+
+    public void renderBackground() {
+        batch.begin();
+        backgroundSprite.draw(batch);
+        batch.end();
     }
 
     @Override
@@ -114,6 +128,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        renderBackground();
         camera.update();
         mapRenderer.render();
         if(events.wonGame()) {
