@@ -66,7 +66,7 @@ public class AnimateEvent {
         Image background4 = new Image(new Texture(Gdx.files.internal("Untitled2.png")));
         background4.setX(510);
         background4.setHeight(300);
-        background4.setY(SettingsUtil.MAP_HEIGHT + 135);
+        background4.setY(SettingsUtil.MAP_HEIGHT + 190);
         backgrounds = new ArrayList<>();
         backgrounds.add(background);
         backgrounds.add(background2);
