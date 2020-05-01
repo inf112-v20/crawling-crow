@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
+import roborally.gameview.elements.LeaderBoard;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.utilities.SettingsUtil;
@@ -21,6 +22,7 @@ public class AnimateEvent {
     private UIElements uiElements;
     private boolean cardPhase;
     private ArrayList<Image> backgrounds;
+    private LeaderBoard leaderBoard;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
@@ -36,11 +38,18 @@ public class AnimateEvent {
      */
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
+        if(leaderBoard==null && !game.getGameOptions().getMenu()) {
+            leaderBoard = new LeaderBoard();
+            leaderBoard.addPlayers(game.getRobots());
+            leaderBoard.arrangeGroups();
+        }
         if(backgrounds==null)
             makeBakegrounds();
         if(!game.getGameOptions().getMenu()) {
             for (Image image : backgrounds)
                 image.draw(batch, 1);
+            for (Group group : leaderBoard.getGroup())
+                group.draw(batch, 1);
         }
         if (cardPhase) {
             drawCards(game, batch, stage);
