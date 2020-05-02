@@ -48,6 +48,7 @@ public class AnimateEvent {
         if(!game.getGameOptions().getMenu()) {
             for (Image image : backgrounds)
                 image.draw(batch, 1);
+            leaderBoard.updateLeaderBoard();
             for (Group group : leaderBoard.getGroup())
                 group.draw(batch, 1);
         }
