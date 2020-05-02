@@ -18,15 +18,6 @@ public interface IGame {
     void startUp();
 
     /**
-     *  Adds all elements to the game
-     *  Gameboard, layers, flags, lasers, robots.
-     *  Gamespeed is also set to fastest.
-     *  Starts a new round and
-     *  sets userRobot as the first robot in the list.
-     */
-    void funMode();
-
-    /**
      * Serves ONLY feed the keyUp method..
      *
      * @return the layers of the gameboard

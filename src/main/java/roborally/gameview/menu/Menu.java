@@ -48,7 +48,6 @@ public class Menu {
     private HashMap<String, ArrayList<Image>> imageLists;
     private boolean changeMapMenu;
     private Label playSong;
-    private Label funMode;
     private Label left;
     private Label right;
     private Label gameSpeed;
@@ -61,8 +60,6 @@ public class Menu {
     private Events events;
     private int gSpeed;
     private int lSpeed;
-    private int fun;
-    private boolean isFunMode;
     private boolean Continue;
 
     public Menu(Stage stage, Events events) {
@@ -74,7 +71,6 @@ public class Menu {
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
-        this.fun = 0;
         this.superit = 0;
         this.events = events;
         this.sliders = new ArrayList<>();
@@ -98,7 +94,6 @@ public class Menu {
         stage.addActor(continueButton);
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
-        stage.addActor(funMode);
         stage.addActor(volumeSlider);
         stage.addActor(playSong);
         makeClickableButtons(stage);
@@ -219,30 +214,6 @@ public class Menu {
                 }
             }
         });
-        funMode.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                funMode.setColor(Color.RED);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                funMode.setColor(Color.WHITE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (fun == 0) {
-                    funMode.setText("FunMode: On");
-                    isFunMode = true;
-                    fun = 1;
-                } else {
-                    funMode.setText("FunMode: Off");
-                    isFunMode = false;
-                    fun = 0;
-                }
-            }
-        });
     }
 
     private void addMoreListeners() {
@@ -271,11 +242,6 @@ public class Menu {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 playSong.setColor(Color.GREEN);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                funMode.setColor(Color.WHITE);
             }
 
             @Override
@@ -323,11 +289,7 @@ public class Menu {
             return true;
         }
         if (resume && !events.hasWaitEvent()) {
-            if (isFunMode && !events.hasWaitEvent())
-                game.funMode();
-            else {
-                game.startUp();
-            }
+            game.startUp();
             startGame = 1;
             resume = false;
             return true;
@@ -364,7 +326,6 @@ public class Menu {
             stage.addActor(image);
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
-        stage.addActor(funMode);
         stage.addActor(continueButton);
         stage.addActor(volume);
         stage.addActor(volumeSlider);
@@ -382,7 +343,6 @@ public class Menu {
                 image.draw(batch, 1);
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
-            funMode.draw(batch, 1);
             volumeSlider.draw(batch, 1);
             volume.draw(batch, 1);
             playSong.draw(batch, 1);
@@ -445,13 +405,11 @@ public class Menu {
     private void makeLabels() {
         gameSpeed = new Label("Game Speed: normal", labelStyle);
         laserSpeed = new Label("Laser Speed: normal", labelStyle);
-        funMode = new Label("FunMode: Off", labelStyle);
         playSong = new Label("Play a song: ", labelStyle);
         volume = new Label("Volume ", labelStyle);
         volume.setPosition(750, 620);
         gSpeed = 0;
         lSpeed = 2;
-        funMode.setPosition(750, 560);
         laserSpeed.setPosition(750, 535);
         gameSpeed.setPosition(750, 510);
         playSong.setPosition(750, 640);
@@ -498,7 +456,6 @@ public class Menu {
                 stage.clear();
                 stage.addActor(gameSpeed);
                 stage.addActor(laserSpeed);
-                stage.addActor(funMode);
                 stage.addActor(continueButton);
                 stage.addActor(volume);
                 stage.addActor(volumeSlider);

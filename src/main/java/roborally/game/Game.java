@@ -35,19 +35,15 @@ public class Game implements IGame {
 	private AI ai;
 	private ArrayList<Robot> robots;
 	private ArrayList<IFlag> flags;
-	private ArrayList<BoardObject> repairSites;
 	private IProgramCards deckOfProgramCards;
 	private LaserRegister laserRegister;
 	private Robot userRobot;
 	//endregion
 
-	//private Robot winner;
-	private int currentRobotID;
 	private Events events;
 	private GameOptions gameOptions;
 	private IRound round;
 
-	private boolean funMode;
 	private int robotPlayedCounter;
 	private int currentPhaseIndex;
 
@@ -56,7 +52,6 @@ public class Game implements IGame {
 	private boolean hasRestarted;
 
 	public Game(Events events, UIElements uiElements) {
-		currentRobotID = 0;
 		deckOfProgramCards = new ProgramCards();
 		this.events = events;
 		this.gameOptions = new GameOptions();
@@ -78,20 +73,6 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void funMode() {
-		this.gameBoard = new GameBoard(AssetManagerUtil.ASSET_MANAGER.getAssetFileName(AssetManagerUtil.getLoadedMap()));
-		this.layers = new Layers();
-		this.laserRegister = new LaserRegister(layers);
-		this.flags = gameBoard.findAllFlags();
-		this.robots = gameOptions.funMode(layers, flags, laserRegister);
-		this.events.setGameSpeed("fastest");
-		this.round = new Round(events, robots, gameBoard, uiElements);
-		this.funMode = true;
-		this.ai = new AI(gameBoard);
-        setUserRobot();
-	}
-
-	@Override
 	public ILayers getLayers() {
 		return this.layers;
 	}
@@ -109,12 +90,6 @@ public class Game implements IGame {
 
 	@Override
 	public Robot getUserRobot() {
-		// FIXME: UNCOMMENT for debugging
-		/*events.checkForDestroyedRobots(this.robots);
-		userRobot.backToArchiveMarker();*/
-
-		//uiElements.update(userRobot); // Just for debugging UI
-
 		return userRobot;
 	}
 
@@ -158,6 +133,7 @@ public class Game implements IGame {
 			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
 	}
 
+	// @Deprecated
 	private void removeDeadRobots() {
 		ArrayList<Robot> aliveRobots = new ArrayList<>();
 		for (Robot robot : getRobots()) {
@@ -178,8 +154,6 @@ public class Game implements IGame {
 	//region Cards
 	@Override
 	public void dealCards() {
-		if (funMode)
-			removeDeadRobots();
 		deckOfProgramCards.shuffleCards();
 		for (IRobot robot : getRobots()) {
 			robot.getLogic().drawCards(deckOfProgramCards);

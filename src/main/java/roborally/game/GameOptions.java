@@ -29,19 +29,6 @@ public class GameOptions {
         return this.menu;
     }
 
-    public ArrayList<Robot> funMode(ILayers layers, ArrayList<IFlag> flags, LaserRegister laserRegister) {
-        ArrayList<Robot> robots = new ArrayList<>();
-        for (int x = 0; x < layers.getWidth(); x+=2) {
-            for (int y = 0; y < layers.getHeight(); y+=2) {
-                Robot robot = new Robot(new GridPoint2(x, y), y % 8, laserRegister);
-                robot.getLogic().setNumberOfFlags(flags.size());
-                robots.add(robot);
-            }
-        }
-        AssetManagerUtil.setRobots(robots);
-        return robots;
-    }
-
     public ArrayList<Robot> makeRobots(ILayers layers, LaserRegister laserRegister, ArrayList<IFlag> flags) {
         ArrayList<Robot> robots = new ArrayList<>();
         int cell = 0;
