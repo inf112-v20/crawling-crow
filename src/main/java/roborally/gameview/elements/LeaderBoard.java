@@ -61,19 +61,18 @@ public class LeaderBoard {
 	}
 
 	private int getNumberOfFlagsFromRobotInGroup(Group group) {
-		return robotList.get(group).getLogic().getNextFlag();
+		return robotList.get(group).getLogic().getNumberOfVisitedFlags();
 	}
 
 	private void determineNextImage(Group group, int nFlags) {
-		int flagId = nFlags - 1;
 		Image image = (Image) group.getChildren().get(0);
 		Label label = (Label) group.getChildren().get(1);
-		if(image.getX() != (flagId * 100)) {
+		if(image.getX() != (nFlags * 100)) {
 			group.removeActor(image);
 			group.removeActor(label);
-			image = new Image(groupList.get(group)[0][flagId]);
-			image.setX(flagId * 100);
-			label.setX(label.getX() + flagId * 100);
+			image = new Image(groupList.get(group)[0][nFlags]);
+			image.setX(nFlags * 100);
+			label.setX(label.getX() + 100);
 			group.addActorAt(0, image);
 			group.addActorAt(1, label);
 		}
