@@ -65,7 +65,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
         AssetManagerUtil.ASSET_MANAGER.finishLoading();
-        loadBackground();
+        setBackground(mapID);
         tiledMap = AssetManagerUtil.getMap(mapID);
         MapProperties mapProperties = tiledMap.getProperties();
 
@@ -96,8 +96,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
         game.getGameOptions().enterMenu(true);
     }
 
-    private void loadBackground() {
-        this.backgroundTexture = new Texture(Gdx.files.internal("ui-elements/background.png"));
+    public void setBackground(int mapID) {
+        this.backgroundTexture = AssetManagerUtil.getBackGround(mapID);
         this.backgroundSprite = new Sprite(backgroundTexture);
     }
 
@@ -210,6 +210,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     public void changeMap() {
         this.mapID = menu.getMapId();
+        setBackground(this.mapID);
         if (game.getRobots() != null)
             game.endGame();
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));

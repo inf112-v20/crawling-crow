@@ -41,6 +41,15 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
     //endregion
 
+    //region Background
+    private static final AssetDescriptor<Texture> SIGMUND_1_BACKGROUND
+            = new AssetDescriptor<>("ui-elements/sigmund_background.png", Texture.class);
+    private static final AssetDescriptor<Texture> SIGMUND_2_BACKGROUND
+            = new AssetDescriptor<>("ui-elements/sigmund_background2.png", Texture.class);
+    private static final AssetDescriptor<Texture> LISE_BACKGROUND
+            = new AssetDescriptor<>("ui-elements/lise_background.png", Texture.class);
+    //endregion
+
     //region Menu
     private static final AssetDescriptor<Texture> MENU
             = new AssetDescriptor<>("menu/new-menu.png", Texture.class);
@@ -147,6 +156,11 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(SIGMUNDS_MAP);
         ASSET_MANAGER.load(LISES_MAP);
         //endregion
+
+        // Backgrounds
+        ASSET_MANAGER.load(LISE_BACKGROUND);
+        ASSET_MANAGER.load(SIGMUND_1_BACKGROUND);
+        ASSET_MANAGER.load(SIGMUND_2_BACKGROUND);
 
         //region UI elements
         //region Buttons
@@ -264,6 +278,13 @@ public class AssetManagerUtil {
         List<TiledMap> maps = Arrays.asList(tiledMaps);
         loadedMap = maps.get(map);
         return loadedMap;
+    }
+
+    public static Texture getBackGround(int mapID) {
+        Texture[] backgrounds = {ASSET_MANAGER.get(SIGMUND_1_BACKGROUND), ASSET_MANAGER.get(LISE_BACKGROUND),
+                ASSET_MANAGER.get(SIGMUND_2_BACKGROUND)};
+        List<Texture> backgroundList = Arrays.asList(backgrounds);
+        return backgroundList.get(mapID);
     }
 
     public static Texture getCardTexture(IProgramCards.CardType card) {
