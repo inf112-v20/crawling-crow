@@ -37,7 +37,7 @@ public class LeaderBoard {
 		playersUI.add(group);
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = new BitmapFont();
-		Label robotName = new Label(robot.getName(), labelStyle);
+		Label robotName = new Label(robot.getName() + " HP: " + robot.getLogic().getHealth() , labelStyle);
 		robotName.setY(image.getHeight());
 		robotName.setX(image.getWidth() / 4);
 		robotName.scaleBy(2);
@@ -67,6 +67,9 @@ public class LeaderBoard {
 	private void determineNextImage(Group group, int nFlags) {
 		Image image = (Image) group.getChildren().get(0);
 		Label label = (Label) group.getChildren().get(1);
+		int hp = robotList.get(group).getLogic().getHealth();
+		String name = robotList.get(group).getName();
+		label.setText(name + " HP: " + hp);
 		if(image.getX() != (nFlags * 100)) {
 			group.removeActor(image);
 			group.removeActor(label);
