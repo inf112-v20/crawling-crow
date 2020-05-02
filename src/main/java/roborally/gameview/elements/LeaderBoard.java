@@ -1,8 +1,10 @@
 package roborally.gameview.elements;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 
@@ -33,6 +35,13 @@ public class LeaderBoard {
 		group.addActor(image);
 		robotList.put(group, robot);
 		playersUI.add(group);
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = new BitmapFont();
+		Label robotName = new Label(robot.getName(), labelStyle);
+		robotName.setY(image.getHeight());
+		robotName.setX(image.getWidth() / 4);
+		robotName.scaleBy(2);
+		group.addActor(robotName);
 	}
 	public void arrangeGroups() {
 		int y = 105;
@@ -53,7 +62,6 @@ public class LeaderBoard {
 
 	private int getNumberOfFlagsFromRobotInGroup(Group group) {
 		return robotList.get(group).getLogic().getNextFlag();
-
 	}
 
 	private void determineNextImage(Group group, int nFlags) {
