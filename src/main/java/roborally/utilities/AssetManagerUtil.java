@@ -131,6 +131,16 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> FLAG_WHITE = new AssetDescriptor<>("ui-elements/flag_white.png", Texture.class);
     //endregion
 
+    // LeaderBoards
+    private static final AssetDescriptor<Texture> ANGRY_LB = new AssetDescriptor<>("robots/leaderboard/angry-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> BLUE_LB = new AssetDescriptor<>("robots/leaderboard/blue-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> GREEN_LB = new AssetDescriptor<>("robots/leaderboard/green-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> ORANGE_LB = new AssetDescriptor<>("robots/leaderboard/orange-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> PINK_LB = new AssetDescriptor<>("robots/leaderboard/pink-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> PURPLE_LB = new AssetDescriptor<>("robots/leaderboard/purple-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> RED_LB = new AssetDescriptor<>("robots/leaderboard/red-leadingboard.png", Texture.class);
+    private static final AssetDescriptor<Texture> YELLOW_LB = new AssetDescriptor<>("robots/leaderboard/yellow-leadingboard.png", Texture.class);
+
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
@@ -220,6 +230,16 @@ public class AssetManagerUtil {
         ASSET_MANAGER.load(MAP_BUTTON);
         //endregion
 
+        // LeaderBoards
+        ASSET_MANAGER.load(ANGRY_LB);
+        ASSET_MANAGER.load(BLUE_LB);
+        ASSET_MANAGER.load(GREEN_LB);
+        ASSET_MANAGER.load(ORANGE_LB);
+        ASSET_MANAGER.load(PINK_LB);
+        ASSET_MANAGER.load(PURPLE_LB);
+        ASSET_MANAGER.load(RED_LB);
+        ASSET_MANAGER.load(YELLOW_LB);
+
         ASSET_MANAGER.finishLoading();
 
         bindCardToTexture();
@@ -297,6 +317,23 @@ public class AssetManagerUtil {
         robotTexture[6] = ASSET_MANAGER.get(RED);
         robotTexture[7] = ASSET_MANAGER.get(YELLOW);
         return robotTexture[i];
+    }
+
+    public static Texture getLeaderBoardTexture(String name) {
+        HashMap<String, Texture> leaderboardTexture = new HashMap<>();
+        leaderboardTexture.put("Angry", ASSET_MANAGER.get(ANGRY_LB));
+        leaderboardTexture.put("Blue", ASSET_MANAGER.get(BLUE_LB));
+        leaderboardTexture.put("Green", ASSET_MANAGER.get(GREEN_LB));
+        leaderboardTexture.put("Orange", ASSET_MANAGER.get(ORANGE_LB));
+        leaderboardTexture.put("Pink", ASSET_MANAGER.get(PINK_LB));
+        leaderboardTexture.put("Purple", ASSET_MANAGER.get(PURPLE_LB));
+        leaderboardTexture.put("Red", ASSET_MANAGER.get(RED_LB));
+        leaderboardTexture.put("Yellow", ASSET_MANAGER.get(YELLOW_LB));
+        for(String key : leaderboardTexture.keySet())
+            if(name.contains(key)) {
+                return leaderboardTexture.get(key);
+            }
+        return null;
     }
 
     public static void dispose() {
