@@ -48,7 +48,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private Events events;
     private AnimateEvent animateEvent;
 
-    private Texture backgroundTexture;
     private Sprite backgroundSprite;
 
     public GameView() {
@@ -97,7 +96,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     public void setBackground(int mapID) {
-        this.backgroundTexture = AssetManagerUtil.getBackGround(mapID);
+        Texture backgroundTexture = AssetManagerUtil.getBackGround(mapID);
         this.backgroundSprite = new Sprite(backgroundTexture);
     }
 
