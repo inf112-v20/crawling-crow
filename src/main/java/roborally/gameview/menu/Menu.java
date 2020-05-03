@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import roborally.game.IGame;
 import roborally.events.Events;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.assets.SoundAssets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,10 +78,10 @@ public class Menu {
         imageLists = new HashMap<>();
         startGame = 0;
         imageLists.put("menus", new ArrayList<>());
-        Image menu = new Image(AssetManagerUtil.getMenu());
+        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
         menu.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
         imageLists.get("menus").add(menu);
-        mapButton = new Image(AssetManagerUtil.getMapButton());
+        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
         mapButton.setPosition(680, 480);
         changeMapMenu = false;
         this.decoScale[0] = 2;
@@ -248,7 +249,7 @@ public class Menu {
             public void clicked(InputEvent event, float x, float y) {
                 String text = playSong.getText().toString();
                 if ("Play a song: ".equals(text)) {
-                    Song = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.SOUNDTRACK);
+                    Song = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SOUNDTRACK);
                     Song.setVolume(0.1f * AssetManagerUtil.volume);
                     Song.play();
                     Song.setLooping(true);
@@ -425,7 +426,7 @@ public class Menu {
 
     private void makeClickableButtons(Stage stage) {
         ArrayList<Image> clickableButtons = new ArrayList<>();
-        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getButtons(), 200, 50);
+        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons(), 200, 50);
         int y = 525;
         for (int i = 0; i < 3; i++) {
             clickableButtons.add(new Image(buttons[i][0]));

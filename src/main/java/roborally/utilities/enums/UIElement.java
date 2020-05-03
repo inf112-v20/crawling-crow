@@ -5,22 +5,22 @@ import com.badlogic.gdx.graphics.Texture;
 import static roborally.utilities.AssetManagerUtil.*;
 
 public enum UIElement {
-    DAMAGE_TOKEN_GREEN(getDamageTokenGreen()),
-    DAMAGE_TOKEN_RED(getDamageTokenRed()),
-    DAMAGE_TOKEN_CARD_GREEN(getDamageTokenCardGreen()),
-    DAMAGE_TOKEN_CARD_RED(getDamageTokenCardRed()),
-    REBOOT_ACTIVE(getRebootActive()),
-    REBOOT_INACTIVE(getRebootInactive()),
-    DONE_BUTTON(getDoneButton()),
-    DONE_BUTTON_PRESSED(getDoneButtonPressed()),
-    DONE_BUTTON_HOVER(getDoneButtonHover()),
-    POWERED_DOWN(getPowerDownButton()),
-    POWERED_ON(getPoweredDown()),
-    POWERING_DOWN(getPoweringDown()),
-    FLAG_WHITE(getFlagWhite()),
-    RESTART_BUTTON(getRestartButton()),
-    RESTART_BUTTON_PRESSED(getRestartButtonPressed()),
-    EXIT_BUTTON(getExitButton());
+    DAMAGE_TOKEN_GREEN(getUIElements().getDamageTokenGreen()),
+    DAMAGE_TOKEN_RED(getUIElements().getDamageTokenRed()),
+    DAMAGE_TOKEN_CARD_GREEN(getUIElements().getDamageTokenCardGreen()),
+    DAMAGE_TOKEN_CARD_RED(getUIElements().getDamageTokenCardRed()),
+    REBOOT_ACTIVE(getUIElements().getRebootActive()),
+    REBOOT_INACTIVE(getUIElements().getRebootInactive()),
+    DONE_BUTTON(getUIElements().getDoneButton()),
+    DONE_BUTTON_PRESSED(getUIElements().getDoneButtonPressed()),
+    DONE_BUTTON_HOVER(getUIElements().getDoneButtonHover()),
+    POWERED_DOWN(getUIElements().getPowerDownButton()),
+    POWERED_ON(getUIElements().getPoweredDown()),
+    POWERING_DOWN(getUIElements().getPoweringDown()),
+    FLAG_WHITE(getUIElements().getFlagWhite()),
+    RESTART_BUTTON(getUIElements().getRestartButton()),
+    RESTART_BUTTON_PRESSED(getUIElements().getRestartButtonPressed()),
+    EXIT_BUTTON(getUIElements().getExitButton());
     private final Texture texture;
 
     UIElement(Texture texture) {

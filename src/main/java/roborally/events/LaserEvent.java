@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
+import roborally.utilities.assets.SoundAssets;
 import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
@@ -126,7 +127,6 @@ public class LaserEvent {
 
     // The robot that is hit takes damage, sound is played and event is stopped.
     private void hitRobot(ArrayList<Robot> robots) {
-
         for (Robot robot : robots)
             if (robot.getPosition().equals(laserPoint)) {
                 hitRobot = true;
@@ -134,7 +134,7 @@ public class LaserEvent {
             }
         if (hitRobot) {
             this.robot.takeDamage(1);
-            Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.ROBOT_HIT);
+            Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.ROBOT_HIT);
             sound.play(0.035f * AssetManagerUtil.volume);
             hitRobot = false;
         }
