@@ -10,7 +10,7 @@ import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
 import roborally.gameview.elements.UIElements;
 import roborally.events.Events;
-import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.assets.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;

@@ -3,7 +3,7 @@ package roborally.gameview.layout;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import org.jetbrains.annotations.NotNull;
-import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.assets.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;

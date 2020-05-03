@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.Robot;
-import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.assets.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.TileName;
 

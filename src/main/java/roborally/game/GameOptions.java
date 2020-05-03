@@ -5,7 +5,7 @@ import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
-import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.assets.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 
 import java.util.ArrayList;

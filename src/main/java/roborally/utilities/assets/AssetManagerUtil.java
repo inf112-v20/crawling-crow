@@ -1,4 +1,4 @@
-package roborally.utilities;
+package roborally.utilities.assets;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Music;
@@ -9,12 +9,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.cards.IProgramCards;
 import roborally.game.robot.Robot;
+import roborally.utilities.ReadAndWriteLayers;
 import roborally.utilities.enums.LayerName;
 
 import java.util.*;
 
 public class AssetManagerUtil {
     public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER = new com.badlogic.gdx.assets.AssetManager();
+    private static final MapAssets mapAssets = new MapAssets();
+    private static final MenuAssets menuAssets = new MenuAssets();
     //region Sound effects
     public static final AssetDescriptor<Sound> SHOOT_LASER
             = new AssetDescriptor<>("sounds/fireLaser.mp3", Sound.class);
@@ -30,24 +33,6 @@ public class AssetManagerUtil {
             = new AssetDescriptor<>("sounds/step3.mp3", Sound.class);
     public static final AssetDescriptor<Music> SOUNDTRACK
             = new AssetDescriptor<>("sounds/soundTrack.mp3", Music.class);
-    //endregion
-
-    //region Maps TMX
-    private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP2
-            = new AssetDescriptor<>("maps/fruityLoops.tmx", TiledMap.class);
-    private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP
-            = new AssetDescriptor<>("maps/Eight.tmx", TiledMap.class);
-    private static final AssetDescriptor<TiledMap> LISES_MAP
-            = new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
-    //endregion
-
-    //region Menu
-    private static final AssetDescriptor<Texture> MENU
-            = new AssetDescriptor<>("menu/new-menu.png", Texture.class);
-    private static final AssetDescriptor<Texture> BUTTONS
-            = new AssetDescriptor<>("menu/buttons.png", Texture.class);
-    private static final AssetDescriptor<Texture> MAP_BUTTON
-            = new AssetDescriptor<>("menu/mapButton.png", Texture.class);
     //endregion
 
     //region Program cards
@@ -141,12 +126,8 @@ public class AssetManagerUtil {
     private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureGrayHashMap = new HashMap<>();
 
     public static void load() {
-        //TODO: HashMap for loading these
-        //region Maps
-        ASSET_MANAGER.load(SIGMUNDS_MAP2);
-        ASSET_MANAGER.load(SIGMUNDS_MAP);
-        ASSET_MANAGER.load(LISES_MAP);
-        //endregion
+        mapAssets.loadAssets(ASSET_MANAGER);
+
 
         //region UI elements
         //region Buttons
@@ -214,11 +195,7 @@ public class AssetManagerUtil {
         //endregion
         //endregion
 
-        //region Menu
-        ASSET_MANAGER.load(MENU);
-        ASSET_MANAGER.load(BUTTONS);
-        ASSET_MANAGER.load(MAP_BUTTON);
-        //endregion
+        menuAssets.loadAssets(ASSET_MANAGER);
 
         ASSET_MANAGER.finishLoading();
 
@@ -246,24 +223,19 @@ public class AssetManagerUtil {
         cardTypeTextureGrayHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP_GRAY));
     }
 
-    public static Texture getMenu() {
-        return ASSET_MANAGER.get(MENU);
-    }
-
-    public static Texture getButtons() {
-        return ASSET_MANAGER.get(BUTTONS);
-    }
-
-    public static Texture getMapButton() {
-        return ASSET_MANAGER.get(MAP_BUTTON);
+    public static MenuAssets getMenu() {
+        return menuAssets;
     }
 
     // Only one map so far, but can add more and return a list.
-    public static TiledMap getMap(int map) {
-        TiledMap[] tiledMaps = {ASSET_MANAGER.get(SIGMUNDS_MAP), ASSET_MANAGER.get(LISES_MAP), ASSET_MANAGER.get(SIGMUNDS_MAP2)};
-        List<TiledMap> maps = Arrays.asList(tiledMaps);
-        loadedMap = maps.get(map);
+    public static TiledMap getMap(int mapID) {
+        loadedMap = mapAssets.getMap(mapID);
         return loadedMap;
+    }
+
+    public static void loadAssets() {
+        mapAssets.putAssetsInMap(ASSET_MANAGER);
+        menuAssets.putAssetsInMap(ASSET_MANAGER);
     }
 
     public static Texture getCardTexture(IProgramCards.CardType card) {
@@ -308,7 +280,7 @@ public class AssetManagerUtil {
      */
     public static TiledMap getLoadedMap() {
         if (loadedMap == null) {
-            loadedMap = ASSET_MANAGER.get(LISES_MAP);
+            loadedMap = mapAssets.getMap(0);
         }
         return loadedMap;
     }

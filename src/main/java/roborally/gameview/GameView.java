@@ -21,7 +21,7 @@ import roborally.game.IGame;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.gameview.menu.Menu;
-import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.assets.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.enums.UIElement;
@@ -61,6 +61,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
         AssetManagerUtil.ASSET_MANAGER.finishLoading();
+        AssetManagerUtil.loadAssets();
         tiledMap = AssetManagerUtil.getMap(mapID);
         MapProperties mapProperties = tiledMap.getProperties();
 

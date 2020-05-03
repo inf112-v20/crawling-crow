@@ -17,7 +17,7 @@ import roborally.utilities.SettingsUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static roborally.utilities.AssetManagerUtil.*;
+import static roborally.utilities.assets.AssetManagerUtil.*;
 import static roborally.utilities.enums.UIElement.*;
 
 /**
