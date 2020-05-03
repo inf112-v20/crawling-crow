@@ -271,6 +271,17 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
+    public int getNumberOfVisitedFlags() {
+        int i = 0;
+        for(boolean bool : visitedFlags) {
+            if(!bool)
+                break;
+            i++;
+        }
+        return i;
+    }
+
+    @Override
     public boolean hasVisitedAllFlags() {
         boolean visitedAll = true;
         for (boolean visitedFlag : visitedFlags) {

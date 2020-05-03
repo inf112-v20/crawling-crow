@@ -156,6 +156,8 @@ public interface IRobotLogic {
      */
     int getNextFlag();
 
+    int getNumberOfVisitedFlags();
+
     /**
      * checks if you have visited all the flags
      * @return true or false
