@@ -127,7 +127,6 @@ public class LaserEvent {
 
     // The robot that is hit takes damage, sound is played and event is stopped.
     private void hitRobot(ArrayList<Robot> robots) {
-
         for (Robot robot : robots)
             if (robot.getPosition().equals(laserPoint)) {
                 hitRobot = true;

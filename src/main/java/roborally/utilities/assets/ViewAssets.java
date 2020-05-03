@@ -6,37 +6,53 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
 
-public class ViewAssets implements Assets{
+public class ViewAssets implements Assets {
 	private HashMap<String, Texture> assets;
 	
 	//region Buttons
-	public static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/buttons/done-button.png", Texture.class);
-	public static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/buttons/done-button-pressed.png", Texture.class);
-	public static final AssetDescriptor<Texture> DONE_BUTTON_HOVER = new AssetDescriptor<>("ui-elements/buttons/done-button-hover.png", Texture.class);
-	public static final AssetDescriptor<Texture> EXIT_BUTTON = new AssetDescriptor<>("ui-elements/buttons/exit-button.png", Texture.class);
-	public static final AssetDescriptor<Texture> RESTART_BUTTON = new AssetDescriptor<>("ui-elements/buttons/restart-button.png", Texture.class);
-	public static final AssetDescriptor<Texture> RESTART_BUTTON_PRESSED = new AssetDescriptor<>("ui-elements/buttons/restart-button-pressed.png", Texture.class);
+	public static final AssetDescriptor<Texture> DONE_BUTTON
+			= new AssetDescriptor<>("ui-elements/buttons/done-button.png", Texture.class);
+	public static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED
+			= new AssetDescriptor<>("ui-elements/buttons/done-button-pressed.png", Texture.class);
+	public static final AssetDescriptor<Texture> DONE_BUTTON_HOVER
+			= new AssetDescriptor<>("ui-elements/buttons/done-button-hover.png", Texture.class);
+	public static final AssetDescriptor<Texture> EXIT_BUTTON
+			= new AssetDescriptor<>("ui-elements/buttons/exit-button.png", Texture.class);
+	public static final AssetDescriptor<Texture> RESTART_BUTTON
+			= new AssetDescriptor<>("ui-elements/buttons/restart-button.png", Texture.class);
+	public static final AssetDescriptor<Texture> RESTART_BUTTON_PRESSED
+			= new AssetDescriptor<>("ui-elements/buttons/restart-button-pressed.png", Texture.class);
+	public static final AssetDescriptor<Texture> POWER_DOWN_BUTTON
+			= new AssetDescriptor<>("ui-elements/buttons/power-down.png", Texture.class);
+	public static final AssetDescriptor<Texture> POWERED_DOWN
+			= new AssetDescriptor<>("ui-elements/buttons/powered-down.png", Texture.class);
+	public static final AssetDescriptor<Texture> POWERING_DOWN
+			= new AssetDescriptor<>("ui-elements/buttons/powering-down.png", Texture.class);
 	//endregion
 	
-	public static final AssetDescriptor<Texture> REBOOT_ACTIVE = new AssetDescriptor<>("ui-elements/reboots/reboot-active.png", Texture.class);
-	public static final AssetDescriptor<Texture> REBOOT_INACTIVE = new AssetDescriptor<>("ui-elements/reboots/reboot-inactive.png", Texture.class);
+	public static final AssetDescriptor<Texture> REBOOT_ACTIVE
+			= new AssetDescriptor<>("ui-elements/reboots/reboot-active.png", Texture.class);
+	public static final AssetDescriptor<Texture> REBOOT_INACTIVE
+			= new AssetDescriptor<>("ui-elements/reboots/reboot-inactive.png", Texture.class);
 
 	//region Damage tokens
-	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN = new AssetDescriptor<>("ui-elements/damagetokens/damage-token.png", Texture.class);
-	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED = new AssetDescriptor<>("ui-elements/damagetokens/damage-token-red.png", Texture.class);
-	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN = new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card.png", Texture.class);
-	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED = new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card-red.png", Texture.class);
+	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN
+			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token.png", Texture.class);
+	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED
+			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-red.png", Texture.class);
+	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN
+			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card.png", Texture.class);
+	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED
+			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card-red.png", Texture.class);
 	//endregion
 
-	public static final AssetDescriptor<Texture> POWER_DOWN_BUTTON = new AssetDescriptor<>("ui-elements/buttons/power-down.png", Texture.class);
-	public static final AssetDescriptor<Texture> POWERED_DOWN = new AssetDescriptor<>("ui-elements/buttons/powered-down.png", Texture.class);
-	public static final AssetDescriptor<Texture> POWERING_DOWN = new AssetDescriptor<>("ui-elements/buttons/powering-down.png", Texture.class);
-
-	public static final AssetDescriptor<Texture> FLAG_WHITE = new AssetDescriptor<>("ui-elements/flags/flag_white.png", Texture.class);
+	public static final AssetDescriptor<Texture> FLAG_WHITE
+			= new AssetDescriptor<>("ui-elements/flags/flag_white.png", Texture.class);
 
 	@Override
 	public void loadAssets(AssetManager manager) {
 		manager.load(FLAG_WHITE);
+
 		// Buttons
 		manager.load(DONE_BUTTON);
 		manager.load(DONE_BUTTON_PRESSED);

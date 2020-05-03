@@ -46,7 +46,6 @@ public class CardAssets implements Assets {
 
 	@Override
 	public void loadAssets(AssetManager manager) {
-		// Program cards
 		manager.load(BACKUP);
 		manager.load(ROTATE_RIGHT);
 		manager.load(ROTATE_LEFT);
@@ -54,15 +53,6 @@ public class CardAssets implements Assets {
 		manager.load(MOVE_2);
 		manager.load(MOVE_3);
 		manager.load(U_TURN);
-
-		// Grayscale Program Cards
-		manager.load(BACKUP_GRAY);
-		manager.load(ROTATE_RIGHT_GRAY);
-		manager.load(ROTATE_LEFT_GRAY);
-		manager.load(MOVE_1_GRAY);
-		manager.load(MOVE_2_GRAY);
-		manager.load(MOVE_3_GRAY);
-		manager.load(U_TURN_GRAY);
 	}
 
 	@Override
@@ -76,23 +66,12 @@ public class CardAssets implements Assets {
 		cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_3, manager.get(MOVE_3));
 		cardTypeTextureHashMap.put(IProgramCards.CardType.U_TURN, manager.get(U_TURN));
 		cardTypeTextureHashMap.put(IProgramCards.CardType.BACKUP, manager.get(BACKUP));
-
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, manager.get(ROTATE_RIGHT_GRAY));
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.ROTATE_LEFT, manager.get(ROTATE_LEFT_GRAY));
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_1, manager.get(MOVE_1_GRAY));
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_2, manager.get(MOVE_2_GRAY));
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.MOVE_3, manager.get(MOVE_3_GRAY));
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.U_TURN, manager.get(U_TURN_GRAY));
-		cardTypeTextureGrayHashMap.put(IProgramCards.CardType.BACKUP, manager.get(BACKUP_GRAY));
 		this.programCardHeight = manager.get(MOVE_1).getHeight();
 		this.programCardWidth = manager.get(MOVE_1).getWidth();
 		}
 
 	public Texture getCardTexture(IProgramCards.CardType card) {
 		return cardTypeTextureHashMap.get(card);
-	}
-	public Texture getCardTextureGray(IProgramCards.CardType card) {
-		return cardTypeTextureGrayHashMap.get(card);
 	}
 
 	public int getProgramCardWidth() {
