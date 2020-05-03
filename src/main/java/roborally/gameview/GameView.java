@@ -7,7 +7,6 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
@@ -96,8 +95,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     public void setBackground(int mapID) {
-        Texture backgroundTexture = AssetManagerUtil.getBackground(mapID);
-        this.backgroundSprite = new Sprite(backgroundTexture);
+        this.backgroundSprite = new Sprite(AssetManagerUtil.getBackground(mapID));
     }
 
     @Override
