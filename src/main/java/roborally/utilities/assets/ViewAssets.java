@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 
 public class ViewAssets implements Assets{
-	HashMap<String, Texture> assets;
+	private HashMap<String, Texture> assets;
 	
 	//region Buttons
 	public static final AssetDescriptor<Texture> DONE_BUTTON = new AssetDescriptor<>("ui-elements/buttons/done-button.png", Texture.class);

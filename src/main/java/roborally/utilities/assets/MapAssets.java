@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import java.util.HashMap;
 
 public class MapAssets implements Assets {
-	HashMap<Integer, TiledMap> assets2;
+	private HashMap<Integer, TiledMap> assets;
 
 	private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP2
 			= new AssetDescriptor<>("maps/fruityLoops.tmx", TiledMap.class);
@@ -25,13 +25,13 @@ public class MapAssets implements Assets {
 
 	@Override
 	public void putAssetsInMap(AssetManager manager) {
-		assets2 = new HashMap<>();
-		assets2.put(0, manager.get(SIGMUNDS_MAP2));
-		assets2.put(1, manager.get(LISES_MAP));
-		assets2.put(2, manager.get(SIGMUNDS_MAP));
+		assets = new HashMap<>();
+		assets.put(0, manager.get(SIGMUNDS_MAP2));
+		assets.put(1, manager.get(LISES_MAP));
+		assets.put(2, manager.get(SIGMUNDS_MAP));
 	}
 
 	public TiledMap getMap(int mapID) {
-		return assets2.get(mapID);
+		return assets.get(mapID);
 	}
 }

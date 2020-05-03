@@ -34,6 +34,6 @@ public class SoundAssets implements Assets {
 
 	@Override
 	public void putAssetsInMap(AssetManager manager) {
-
+		// Gets the files directly from the class variables.
 	}
 }

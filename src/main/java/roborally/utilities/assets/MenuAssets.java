@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 
 public class MenuAssets implements Assets {
-	HashMap<String, Texture> assets;
+	private HashMap<String, Texture> assets;
 
 	private static final AssetDescriptor<Texture> MENU
 			= new AssetDescriptor<>("menu/new-menu.png", Texture.class);

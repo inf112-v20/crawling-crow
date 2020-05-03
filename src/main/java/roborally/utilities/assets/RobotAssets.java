@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.HashMap;
 
 public class RobotAssets implements Assets {
-	HashMap<Integer, Texture> assets;
+	private HashMap<Integer, Texture> assets;
 
 	private static final AssetDescriptor<Texture> ANGRY
 			= new AssetDescriptor<>("robots/Angry.png", Texture.class);
