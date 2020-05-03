@@ -61,7 +61,7 @@ public interface IProgramCards {
                 return -180;
             else if (cardType.toString().contains("ROTATE"))
                 return cardType.toString().contains("RIGHT") ? 90 : -90;
-            return 0;
+            return -1;
         }
 
         public CardType getCardType() {
