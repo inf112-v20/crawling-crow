@@ -16,7 +16,6 @@ import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
 import roborally.game.structure.Round;
-import roborally.gameview.elements.LeaderBoard;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.gameview.layout.ILayers;
