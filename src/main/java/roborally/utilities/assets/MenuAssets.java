@@ -4,7 +4,10 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.HashMap;
+
 public class MenuAssets implements Assets {
+	HashMap<String, Texture> assets;
 
 	private static final AssetDescriptor<Texture> MENU
 			= new AssetDescriptor<>("menu/new-menu.png", Texture.class);
@@ -22,20 +25,21 @@ public class MenuAssets implements Assets {
 
 	@Override
 	public void putAssetsInMap(AssetManager manager) {
+		assets = new HashMap<>();
 		assets.put("main_menu", manager.get(MENU));
 		assets.put("buttons", manager.get(BUTTONS));
 		assets.put("map_button", manager.get(MAP_BUTTON));
 	}
 
 	public Texture getMainMenu() {
-		return (Texture) assets.get("main_menu");
+		return assets.get("main_menu");
 	}
 
 	public Texture getButtons() {
-		return (Texture) assets.get("buttons");
+		return assets.get("buttons");
 	}
 
 	public Texture getMapButton() {
-		return (Texture) assets.get("map_button");
+		return assets.get("map_button");
 	}
 }

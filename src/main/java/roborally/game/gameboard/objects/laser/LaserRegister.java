@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
 import roborally.listeners.LaserListener;
 import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.assets.SoundAssets;
 import roborally.utilities.enums.TileName;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class LaserRegister {
      * @param pos  GridPoint2 with the position of the robot
      */
     public void createLaser(int id, GridPoint2 pos, String name) {
-        Sound sound = AssetManagerUtil.ASSET_MANAGER.get(AssetManagerUtil.STEPIN_LASER);
+        Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEPIN_LASER);
         sound.play((float) 0.1*AssetManagerUtil.volume);
         Laser laser = new Laser(id, this.layers);
         if (id != TileName.LASER_CROSS.getTileID()) {

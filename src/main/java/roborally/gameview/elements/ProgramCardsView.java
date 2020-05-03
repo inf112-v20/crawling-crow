@@ -56,10 +56,10 @@ public class ProgramCardsView {
     }
 
     public void setCard(IProgramCards.@NotNull Card card) {
-        this.cardWidth = getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
-        this.cardHeight = getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
+        this.cardWidth = getCards().getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
+        this.cardHeight = getCards().getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
 
-        Image cardImage = new Image(getCardTexture(card.getCardType()));
+        Image cardImage = new Image(getCards().getCardTexture(card.getCardType()));
         setCard(card.getPriority(), cardImage);
     }
 
