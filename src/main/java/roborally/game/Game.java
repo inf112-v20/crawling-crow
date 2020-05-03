@@ -9,7 +9,6 @@ import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
 import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
-import roborally.game.gameboard.objects.BoardObject;
 import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.game.robot.AI.AI;
@@ -172,8 +171,16 @@ public class Game implements IGame {
 
 	private ProgramCardsView makeProgramCardsView(Robot robot) {
 		ProgramCardsView programCardsView = new ProgramCardsView(this);
+
 		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
-			programCardsView.setCard(card);
+			programCardsView.setCard(card, true);
+		}
+		if (robot.getLogic().getCardsInHand().size() < SettingsUtil.REGISTER_SIZE) {
+			for (IProgramCards.Card cardInRegister : robot.getLogic().getRegister().getCards()) {
+				if (cardInRegister != null) {
+					programCardsView.setCard(cardInRegister, false);
+				}
+			}
 		}
 		return programCardsView;
 	}

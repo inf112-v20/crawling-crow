@@ -55,12 +55,33 @@ public class ProgramCardsView {
         setTimerLabelStyle();
     }
 
-    public void setCard(IProgramCards.@NotNull Card card) {
+    /**
+     * Sets the Program Card into the group that makes the ProgramCardsView.
+     *
+     * @param card The card itself
+     * @param active If the card is going to be interactable or not
+     */
+    public void setCard(IProgramCards.@NotNull Card card, boolean active) {
         this.cardWidth = getCards().getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
         this.cardHeight = getCards().getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
 
         Image cardImage = new Image(getCards().getCardTexture(card.getCardType()));
-        setCard(card.getPriority(), cardImage);
+        if (active) {
+            setCard(card.getPriority(), cardImage);
+        } else {
+            setCardInactive(card.getPriority(), cardImage);
+        }
+    }
+
+    private void setCardInactive(int priority, @NotNull Image image) {
+        image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
+        Group group = new Group();
+        group.addActor(image);
+        Label priorityLabel = setPriorityLabel(priority);
+        group.addActor(priorityLabel);
+        Actor card = group.getChildren().get(0);
+        card.setColor(Color.GRAY);
+        this.groups.add(group);
     }
 
     /**

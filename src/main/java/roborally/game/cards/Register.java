@@ -140,4 +140,8 @@ public class Register {
         }
         cards[position] = card;
     }
+
+    public Card[] getCards() {
+        return cards;
+    }
 }

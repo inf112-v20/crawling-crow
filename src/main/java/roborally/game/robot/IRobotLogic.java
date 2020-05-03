@@ -3,6 +3,7 @@ package roborally.game.robot;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.cards.CardsInHand;
 import roborally.game.cards.IProgramCards;
+import roborally.game.cards.Register;
 import roborally.utilities.enums.Direction;
 
 import java.util.ArrayList;
@@ -208,5 +209,7 @@ public interface IRobotLogic {
     int getNumberOfLockedCards();
 
     boolean isDestroyed();
+
+    Register getRegister();
     //endregion
 }

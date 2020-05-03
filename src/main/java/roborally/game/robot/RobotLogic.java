@@ -344,4 +344,9 @@ public class RobotLogic implements IRobotLogic {
     public boolean isDestroyed() {
         return isDestroyed;
     }
+
+    @Override
+    public Register getRegister() {
+        return register;
+    }
 }
