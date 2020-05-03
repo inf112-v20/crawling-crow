@@ -116,6 +116,7 @@ public class Game implements IGame {
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
         setUserRobot();
         setHasRestarted(true);
+        uiElements.createLeaderBoard(getRobots());
 	}
 
 	@Override
