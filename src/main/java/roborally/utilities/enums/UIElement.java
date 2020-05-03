@@ -5,22 +5,22 @@ import com.badlogic.gdx.graphics.Texture;
 import static roborally.utilities.AssetManagerUtil.*;
 
 public enum UIElement {
-    DAMAGE_TOKEN_GREEN(getViews().getDamageTokenGreen()),
-    DAMAGE_TOKEN_RED(getViews().getDamageTokenRed()),
-    DAMAGE_TOKEN_CARD_GREEN(getViews().getDamageTokenCardGreen()),
-    DAMAGE_TOKEN_CARD_RED(getViews().getDamageTokenCardRed()),
-    REBOOT_ACTIVE(getViews().getRebootActive()),
-    REBOOT_INACTIVE(getViews().getRebootInactive()),
-    DONE_BUTTON(getViews().getDoneButton()),
-    DONE_BUTTON_PRESSED(getViews().getDoneButtonPressed()),
-    DONE_BUTTON_HOVER(getViews().getDoneButtonHover()),
-    POWERED_DOWN(getViews().getPowerDownButton()),
-    POWERED_ON(getViews().getPoweredDown()),
-    POWERING_DOWN(getViews().getPoweringDown()),
-    FLAG_WHITE(getViews().getFlagWhite()),
-    RESTART_BUTTON(getViews().getRestartButton()),
-    RESTART_BUTTON_PRESSED(getViews().getRestartButtonPressed()),
-    EXIT_BUTTON(getViews().getExitButton());
+    DAMAGE_TOKEN_GREEN(getUIElements().getDamageTokenGreen()),
+    DAMAGE_TOKEN_RED(getUIElements().getDamageTokenRed()),
+    DAMAGE_TOKEN_CARD_GREEN(getUIElements().getDamageTokenCardGreen()),
+    DAMAGE_TOKEN_CARD_RED(getUIElements().getDamageTokenCardRed()),
+    REBOOT_ACTIVE(getUIElements().getRebootActive()),
+    REBOOT_INACTIVE(getUIElements().getRebootInactive()),
+    DONE_BUTTON(getUIElements().getDoneButton()),
+    DONE_BUTTON_PRESSED(getUIElements().getDoneButtonPressed()),
+    DONE_BUTTON_HOVER(getUIElements().getDoneButtonHover()),
+    POWERED_DOWN(getUIElements().getPowerDownButton()),
+    POWERED_ON(getUIElements().getPoweredDown()),
+    POWERING_DOWN(getUIElements().getPoweringDown()),
+    FLAG_WHITE(getUIElements().getFlagWhite()),
+    RESTART_BUTTON(getUIElements().getRestartButton()),
+    RESTART_BUTTON_PRESSED(getUIElements().getRestartButtonPressed()),
+    EXIT_BUTTON(getUIElements().getExitButton());
     private final Texture texture;
 
     UIElement(Texture texture) {

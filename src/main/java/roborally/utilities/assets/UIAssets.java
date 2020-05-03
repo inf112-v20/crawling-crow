@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
 
-public class ViewAssets implements Assets {
+public class UIAssets implements Assets {
 	private HashMap<String, Texture> assets;
 	
 	//region Buttons

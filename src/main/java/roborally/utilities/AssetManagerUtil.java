@@ -19,7 +19,7 @@ public class AssetManagerUtil {
     private static final RobotAssets robotAssets = new RobotAssets();
     private static final CardAssets cardAssets = new CardAssets();
     private static final SoundAssets soundAssets = new SoundAssets();
-    private static final ViewAssets viewAssets = new ViewAssets();
+    private static final UIAssets uiAssets = new UIAssets();
 
     public static float volume = 1;
     public static int numberOfRobotCopies = 0;
@@ -34,7 +34,7 @@ public class AssetManagerUtil {
         soundAssets.loadAssets(ASSET_MANAGER);
         menuAssets.loadAssets(ASSET_MANAGER);
         cardAssets.loadAssets(ASSET_MANAGER);
-        viewAssets.loadAssets(ASSET_MANAGER);
+        uiAssets.loadAssets(ASSET_MANAGER);
 
         ASSET_MANAGER.finishLoading();
     }
@@ -44,7 +44,7 @@ public class AssetManagerUtil {
         menuAssets.putAssetsInMap(ASSET_MANAGER);
         robotAssets.putAssetsInMap(ASSET_MANAGER);
         cardAssets.putAssetsInMap(ASSET_MANAGER);
-        viewAssets.putAssetsInMap(ASSET_MANAGER);
+        uiAssets.putAssetsInMap(ASSET_MANAGER);
     }
 
     public static void dispose() {
@@ -82,7 +82,7 @@ public class AssetManagerUtil {
 
     public static CardAssets getCards() { return cardAssets; }
 
-    public static ViewAssets getViews() { return viewAssets; }
+    public static UIAssets getUIElements() { return uiAssets; }
 
     public static ArrayList<Robot> getRobots() {
         return robots;
