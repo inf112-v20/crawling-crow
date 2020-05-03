@@ -96,7 +96,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     public void setBackground(int mapID) {
-        Texture backgroundTexture = AssetManagerUtil.getBackGround(mapID);
+        Texture backgroundTexture = AssetManagerUtil.getBackground(mapID);
         this.backgroundSprite = new Sprite(backgroundTexture);
     }
 

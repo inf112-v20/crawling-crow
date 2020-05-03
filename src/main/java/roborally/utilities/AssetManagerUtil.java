@@ -149,6 +149,9 @@ public class AssetManagerUtil {
     private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap = new HashMap<>();
     private static final HashMap<IProgramCards.CardType, Texture> cardTypeTextureGrayHashMap = new HashMap<>();
 
+    private static List<TiledMap> mapList = new LinkedList<>();
+    private static List<Texture> backgroundList = new LinkedList<>();
+
     public static void load() {
         //TODO: HashMap for loading these
         //region Maps
@@ -238,6 +241,8 @@ public class AssetManagerUtil {
 
         bindCardToTexture();
         bindCardToTextureGray();
+        setMapList();
+        setBackgroundList();
     }
 
     private static void bindCardToTexture() {
@@ -260,6 +265,22 @@ public class AssetManagerUtil {
         cardTypeTextureGrayHashMap.put(IProgramCards.CardType.BACKUP, ASSET_MANAGER.get(BACKUP_GRAY));
     }
 
+    private static void setMapList() {
+        mapList = Arrays.asList(
+                ASSET_MANAGER.get(SIGMUNDS_MAP),
+                ASSET_MANAGER.get(LISES_MAP),
+                ASSET_MANAGER.get(SIGMUNDS_MAP2)
+        );
+    }
+
+    private static void setBackgroundList() {
+        backgroundList = Arrays.asList(
+                ASSET_MANAGER.get(SIGMUND_1_BACKGROUND),
+                ASSET_MANAGER.get(LISE_BACKGROUND),
+                ASSET_MANAGER.get(SIGMUND_2_BACKGROUND)
+        );
+    }
+
     public static Texture getMenu() {
         return ASSET_MANAGER.get(MENU);
     }
@@ -273,23 +294,19 @@ public class AssetManagerUtil {
     }
 
     // Only one map so far, but can add more and return a list.
-    public static TiledMap getMap(int map) {
-        TiledMap[] tiledMaps = {ASSET_MANAGER.get(SIGMUNDS_MAP), ASSET_MANAGER.get(LISES_MAP), ASSET_MANAGER.get(SIGMUNDS_MAP2)};
-        List<TiledMap> maps = Arrays.asList(tiledMaps);
-        loadedMap = maps.get(map);
+    public static TiledMap getMap(int mapID) {
+        loadedMap = mapList.get(mapID);
         return loadedMap;
     }
 
-    public static Texture getBackGround(int mapID) {
-        Texture[] backgrounds = {ASSET_MANAGER.get(SIGMUND_1_BACKGROUND), ASSET_MANAGER.get(LISE_BACKGROUND),
-                ASSET_MANAGER.get(SIGMUND_2_BACKGROUND)};
-        List<Texture> backgroundList = Arrays.asList(backgrounds);
+    public static Texture getBackground(int mapID) {
         return backgroundList.get(mapID);
     }
 
     public static Texture getCardTexture(IProgramCards.CardType card) {
         return cardTypeTextureHashMap.get(card);
     }
+
     public static Texture getCardTextureGray(IProgramCards.CardType card) {
         return cardTypeTextureGrayHashMap.get(card);
     }
