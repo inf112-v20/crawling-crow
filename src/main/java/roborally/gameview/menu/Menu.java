@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import jdk.jfr.SettingControl;
 import roborally.game.IGame;
 import roborally.events.Events;
 import roborally.utilities.AssetManagerUtil;
