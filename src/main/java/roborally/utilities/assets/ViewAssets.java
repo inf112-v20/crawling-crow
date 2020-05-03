@@ -84,7 +84,7 @@ public class ViewAssets implements Assets {
 		assets.put("restart_pressed", manager.get(RESTART_BUTTON_PRESSED));
 		assets.put("exit", manager.get(EXIT_BUTTON));
 		assets.put("reboot_active", manager.get(REBOOT_ACTIVE));
-		assets.put("reboot_inacative", manager.get(REBOOT_INACTIVE));
+		assets.put("reboot_inactive", manager.get(REBOOT_INACTIVE));
 		assets.put("damage_red", manager.get(DAMAGE_TOKEN_RED));
 		assets.put("damage_green", manager.get(DAMAGE_TOKEN_GREEN));
 		assets.put("damage_card_red", manager.get(DAMAGE_TOKEN_CARD_RED));
