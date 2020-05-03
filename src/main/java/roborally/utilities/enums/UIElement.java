@@ -2,7 +2,7 @@ package roborally.utilities.enums;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import static roborally.utilities.assets.AssetManagerUtil.*;
+import static roborally.utilities.AssetManagerUtil.*;
 
 public enum UIElement {
     DAMAGE_TOKEN_GREEN(getViews().getDamageTokenGreen()),

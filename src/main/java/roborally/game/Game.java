@@ -21,7 +21,7 @@ import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.gameview.layout.ILayers;
 import roborally.gameview.layout.Layers;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.assets.SoundAssets;
 

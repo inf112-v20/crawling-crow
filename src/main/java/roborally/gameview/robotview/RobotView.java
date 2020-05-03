@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
 import roborally.gameview.layout.Layers;
 import roborally.gameview.GameView;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 

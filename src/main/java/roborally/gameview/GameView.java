@@ -21,7 +21,7 @@ import roborally.game.IGame;
 import roborally.gameview.elements.ProgramCardsView;
 import roborally.gameview.elements.UIElements;
 import roborally.gameview.menu.Menu;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.ControlsDebug;
 import roborally.utilities.enums.UIElement;

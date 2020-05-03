@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
 import roborally.listeners.LaserListener;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.assets.SoundAssets;
 import roborally.utilities.enums.TileName;
 

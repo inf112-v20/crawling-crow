@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
 import roborally.listeners.WallListener;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;

@@ -1,11 +1,11 @@
-package roborally.utilities.assets;
+package roborally.utilities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.robot.Robot;
-import roborally.utilities.ReadAndWriteLayers;
+import roborally.utilities.assets.*;
 import roborally.utilities.enums.LayerName;
 
 import java.util.*;

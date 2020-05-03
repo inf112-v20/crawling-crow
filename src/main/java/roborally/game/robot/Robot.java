@@ -11,7 +11,7 @@ import roborally.gameview.layout.Layers;
 import roborally.listeners.Listener;
 import roborally.gameview.robotview.IRobotView;
 import roborally.gameview.robotview.RobotView;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.assets.SoundAssets;
 import roborally.utilities.enums.Direction;

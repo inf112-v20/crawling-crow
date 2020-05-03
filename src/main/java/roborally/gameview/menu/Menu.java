@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import roborally.game.IGame;
 import roborally.events.Events;
-import roborally.utilities.assets.AssetManagerUtil;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.assets.SoundAssets;
 
 import java.util.ArrayList;
