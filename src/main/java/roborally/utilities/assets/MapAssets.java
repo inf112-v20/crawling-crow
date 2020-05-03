@@ -2,12 +2,14 @@ package roborally.utilities.assets;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import java.util.HashMap;
 
 public class MapAssets implements Assets {
-	private HashMap<Integer, TiledMap> assets;
+	private HashMap<Integer, TiledMap> mapAssets;
+	private HashMap<Integer, Texture> backgroundAssets;
 
 	private static final AssetDescriptor<TiledMap> SIGMUNDS_MAP2
 			= new AssetDescriptor<>("maps/fruityLoops.tmx", TiledMap.class);
@@ -16,22 +18,39 @@ public class MapAssets implements Assets {
 	private static final AssetDescriptor<TiledMap> LISES_MAP
 			= new AssetDescriptor<>("maps/riskyExchangeBeginnerWithStartAreaVertical.tmx", TiledMap.class);
 
+	private static final AssetDescriptor<Texture> SIGMUND_1_BACKGROUND
+			= new AssetDescriptor<>("ui-elements/sigmund_background.png", Texture.class);
+	private static final AssetDescriptor<Texture> SIGMUND_2_BACKGROUND
+			= new AssetDescriptor<>("ui-elements/sigmund_background2.png", Texture.class);
+	private static final AssetDescriptor<Texture> LISE_BACKGROUND
+			= new AssetDescriptor<>("ui-elements/lise_background.png", Texture.class);
 
 	public void loadAssets(AssetManager manager) {
 		manager.load(SIGMUNDS_MAP2);
 		manager.load(SIGMUNDS_MAP);
 		manager.load(LISES_MAP);
+
+		manager.load(LISE_BACKGROUND);
+		manager.load(SIGMUND_1_BACKGROUND);
+		manager.load(SIGMUND_2_BACKGROUND);
 	}
 
 	@Override
 	public void putAssetsInMap(AssetManager manager) {
-		assets = new HashMap<>();
-		assets.put(0, manager.get(SIGMUNDS_MAP2));
-		assets.put(1, manager.get(LISES_MAP));
-		assets.put(2, manager.get(SIGMUNDS_MAP));
+		mapAssets = new HashMap<>();
+		backgroundAssets = new HashMap<>();
+		mapAssets.put(0, manager.get(SIGMUNDS_MAP2));
+		mapAssets.put(1, manager.get(LISES_MAP));
+		mapAssets.put(2, manager.get(SIGMUNDS_MAP));
+
+		backgroundAssets.put(0, manager.get(SIGMUND_1_BACKGROUND));
+		backgroundAssets.put(1, manager.get(LISE_BACKGROUND));
+		backgroundAssets.put(2, manager.get(SIGMUND_2_BACKGROUND));
 	}
 
 	public TiledMap getMap(int mapID) {
-		return assets.get(mapID);
+		return mapAssets.get(mapID);
 	}
+
+	public Texture getBackground(int backgroundID) { return backgroundAssets.get(backgroundID); }
 }

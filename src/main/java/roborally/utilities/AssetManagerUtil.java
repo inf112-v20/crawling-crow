@@ -15,15 +15,6 @@ public class AssetManagerUtil {
 
     public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER = new com.badlogic.gdx.assets.AssetManager();
 
-    //region Background
-    private static final AssetDescriptor<Texture> SIGMUND_1_BACKGROUND
-            = new AssetDescriptor<>("ui-elements/sigmund_background.png", Texture.class);
-    private static final AssetDescriptor<Texture> SIGMUND_2_BACKGROUND
-            = new AssetDescriptor<>("ui-elements/sigmund_background2.png", Texture.class);
-    private static final AssetDescriptor<Texture> LISE_BACKGROUND
-            = new AssetDescriptor<>("ui-elements/lise_background.png", Texture.class);
-    //endregion
-
     private static final MapAssets mapAssets = new MapAssets();
     private static final MenuAssets menuAssets = new MenuAssets();
     private static final RobotAssets robotAssets = new RobotAssets();
@@ -36,8 +27,6 @@ public class AssetManagerUtil {
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
     private static Stack<String> robotNames;
-
-    private static List<Texture> backgroundList = new LinkedList<>();
 
     public static void load() {
         mapAssets.loadAssets(ASSET_MANAGER);
@@ -58,14 +47,6 @@ public class AssetManagerUtil {
         uiAssets.putAssetsInMap(ASSET_MANAGER);
     }
 
-    private static void setBackgroundList() {
-        backgroundList = Arrays.asList(
-                ASSET_MANAGER.get(SIGMUND_1_BACKGROUND),
-                ASSET_MANAGER.get(LISE_BACKGROUND),
-                ASSET_MANAGER.get(SIGMUND_2_BACKGROUND)
-        );
-    }
-
     public static void dispose() {
         ASSET_MANAGER.clear();
     }
@@ -80,9 +61,14 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
+
     public static TiledMap getMap(int mapID) {
         loadedMap = mapAssets.getMap(mapID);
         return loadedMap;
+    }
+
+    public static Texture getBackground(int backgroundID) {
+        return mapAssets.getBackground(backgroundID);
     }
 
     public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
