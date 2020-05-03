@@ -205,8 +205,8 @@ public class Events {
             float width = image.getWidth();
             float height = image.getHeight();
             image.setSize(width / 1.015f, height / 1.015f);
-            image.setX((width - image.getWidth()) / 2 + oldX);
-            image.setY((height - image.getHeight()) / 2 + oldY);
+            image.setX((width - image.getWidth()) / 1.75f + oldX);
+            image.setY((height - image.getHeight()) / 3f + oldY);
             image.setOrigin(width - image.getWidth() / 2, height - image.getHeight() / 2);
             image.rotateBy( -10f);
         }
