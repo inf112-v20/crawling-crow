@@ -19,8 +19,6 @@ public class AnimateEvent {
     private ProgramCardsView programCardsView;
     private UIElements uiElements;
     private boolean cardPhase;
-    private ArrayList<Image> backgrounds;
-    private LeaderBoard leaderBoard;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
@@ -36,20 +34,6 @@ public class AnimateEvent {
      */
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
-        if(leaderBoard==null && !game.getGameOptions().getMenu()) {
-            leaderBoard = new LeaderBoard();
-            leaderBoard.addPlayers(game.getRobots());
-            leaderBoard.arrangeGroups();
-        }
-        if(backgrounds==null)
-            makeBakegrounds();
-        if(!game.getGameOptions().getMenu()) {
-            for (Image image : backgrounds)
-                image.draw(batch, 1);
-            leaderBoard.updateLeaderBoard();
-            for (Group group : leaderBoard.getGroup())
-                group.draw(batch, 1);
-        }
         if (cardPhase) {
             drawCards(game, batch, stage);
             stage.act();
@@ -69,6 +53,8 @@ public class AnimateEvent {
         drawUIElement(batch, uiElements.getReboots());
         drawUIElement(batch, uiElements.getDamageTokens());
         drawUIElement(batch, uiElements.getFlags());
+        for(Group group : uiElements.getLeaderBoard())
+            group.draw(batch, 1);
 
         updateMessageLabel(game, batch, stage);
 

@@ -2,6 +2,7 @@ package roborally.gameview.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -37,11 +38,19 @@ public class UIElements {
     private ImageButton restartButton;
     private ImageButton exitButton;
 
+    private LeaderBoard leaderBoard;
+
     public UIElements() {
         this.reboots = new ArrayList<>();
         this.damageTokens = new ArrayList<>();
         this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
+        this.leaderBoard = new LeaderBoard();
+    }
+
+    public void createLeaderBoard(ArrayList<Robot> robots) {
+        leaderBoard.addPlayers(robots);
+        leaderBoard.arrangeGroups();
     }
 
     private Image getAndSetUIElement(UIElement uiElement) {
@@ -139,6 +148,7 @@ public class UIElements {
         updateReboots(robot);
         updateDamageTokens(robot);
         updateFlags(robot);
+        leaderBoard.updateLeaderBoard();
     }
 
     public void setPowerDownButton(@NotNull UIElement powerDownState) {
@@ -275,6 +285,10 @@ public class UIElements {
                 clearAll();
             }
         });
+    }
+
+    public ArrayList<Group> getLeaderBoard() {
+        return leaderBoard.getGroup();
     }
 
     public ImageButton getExitButton() {

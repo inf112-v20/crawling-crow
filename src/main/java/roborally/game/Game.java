@@ -69,6 +69,7 @@ public class Game implements IGame {
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard, uiElements);
 		this.ai = new AI(gameBoard);
+		uiElements.createLeaderBoard(getRobots());
         setUserRobot();
         uiElements.setMessageLabel(""); // FIXME: temp for resetting the label on startUp
 	}
