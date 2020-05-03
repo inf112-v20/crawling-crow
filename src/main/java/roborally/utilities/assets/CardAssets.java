@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 public class CardAssets implements Assets {
 	private  HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap;
-	private  HashMap<IProgramCards.CardType, Texture> cardTypeTextureGrayHashMap;
 	private int programCardWidth;
 	private int programCardHeight;
 
@@ -28,22 +27,6 @@ public class CardAssets implements Assets {
 	private static final AssetDescriptor<Texture> U_TURN
 			= new AssetDescriptor<>("cards/u_turn.png", Texture.class);
 
-	// Grayscale
-	private static final AssetDescriptor<Texture> BACKUP_GRAY
-			= new AssetDescriptor<>("cards/gray/backup_gray.png", Texture.class);
-	private static final AssetDescriptor<Texture> ROTATE_LEFT_GRAY
-			= new AssetDescriptor<>("cards/gray/rotate_left_gray.png", Texture.class);
-	private static final AssetDescriptor<Texture> ROTATE_RIGHT_GRAY
-			= new AssetDescriptor<>("cards/gray/rotate_right_gray.png", Texture.class);
-	private static final AssetDescriptor<Texture> MOVE_1_GRAY
-			= new AssetDescriptor<>("cards/gray/move_1_gray.png", Texture.class);
-	private static final AssetDescriptor<Texture> MOVE_2_GRAY
-			= new AssetDescriptor<>("cards/gray/move_2_gray.png", Texture.class);
-	private static final AssetDescriptor<Texture> MOVE_3_GRAY
-			= new AssetDescriptor<>("cards/gray/move_3_gray.png", Texture.class);
-	private static final AssetDescriptor<Texture> U_TURN_GRAY
-			= new AssetDescriptor<>("cards/gray/u_turn_gray.png", Texture.class);
-
 	@Override
 	public void loadAssets(AssetManager manager) {
 		manager.load(BACKUP);
@@ -58,7 +41,6 @@ public class CardAssets implements Assets {
 	@Override
 	public void putAssetsInMap(AssetManager manager) {
 		cardTypeTextureHashMap = new HashMap<>();
-		cardTypeTextureGrayHashMap = new HashMap<>();
 		cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_RIGHT, manager.get(ROTATE_RIGHT));
 		cardTypeTextureHashMap.put(IProgramCards.CardType.ROTATE_LEFT, manager.get(ROTATE_LEFT));
 		cardTypeTextureHashMap.put(IProgramCards.CardType.MOVE_1, manager.get(MOVE_1));
