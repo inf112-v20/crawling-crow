@@ -155,13 +155,13 @@ public class Robot implements IRobot {
         Sound sound;
         if (getPosition().dst(oldPos) == 1) {
             sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEP1);
-            sound.play(0.25f * AssetManagerUtil.volume);
+            sound.play(0.25f * SettingsUtil.VOLUME);
         } else if (getPosition().dst(oldPos) == 2) {
             sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEP2);
-            sound.play(0.25f * AssetManagerUtil.volume);
+            sound.play(0.25f * SettingsUtil.VOLUME);
         } else if (getPosition().dst(oldPos) == 3) {
             sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEP3);
-            sound.play(0.25f * AssetManagerUtil.volume);
+            sound.play(0.25f * SettingsUtil.VOLUME);
         }
     }
 

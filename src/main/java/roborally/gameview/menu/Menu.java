@@ -17,9 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import jdk.jfr.SettingControl;
 import roborally.game.IGame;
 import roborally.events.Events;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.assets.SoundAssets;
 
 import java.util.ArrayList;
@@ -250,7 +252,7 @@ public class Menu {
                 String text = playSong.getText().toString();
                 if ("Play a song: ".equals(text)) {
                     Song = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SOUNDTRACK);
-                    Song.setVolume(0.1f * AssetManagerUtil.volume);
+                    Song.setVolume(0.1f * SettingsUtil.VOLUME);
                     Song.play();
                     Song.setLooping(true);
                     playSong.setText("Click to stop playing.");
@@ -275,7 +277,7 @@ public class Menu {
 
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                AssetManagerUtil.volume = volumeSlider.getValue();
+                SettingsUtil.VOLUME = volumeSlider.getValue();
                 volume.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
             }
         });

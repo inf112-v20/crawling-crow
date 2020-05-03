@@ -126,14 +126,14 @@ public class Game implements IGame {
 	public void manuallyFireOneLaser() {
 		// This method is only for bugtesting...
 		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SHOOT_LASER);
-		sound.play((float) 0.08 * AssetManagerUtil.volume);
+		sound.play((float) 0.08 * SettingsUtil.VOLUME);
 		userRobot.fireLaser();
 		ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();
 		if (!coords.isEmpty())
 			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
 	}
 
-	// @Deprecated
+	@Deprecated
 	private void removeDeadRobots() {
 		ArrayList<Robot> aliveRobots = new ArrayList<>();
 		for (Robot robot : getRobots()) {

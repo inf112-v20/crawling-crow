@@ -7,6 +7,7 @@ public class SettingsUtil {
     public final static int NUMBER_OF_PHASES = 5;
     public final static int NUMBER_OF_ROBOTS = 8;
     public final static int NUMBER_OF_FLAGS = 3;
+    public static float VOLUME = 1;
 
     public final static int ROBOT_MAX_HEALTH = 10;
     public final static int ROBOT_MAX_REBOOTS = 4;

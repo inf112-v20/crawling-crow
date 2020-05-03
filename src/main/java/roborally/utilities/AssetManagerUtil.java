@@ -1,6 +1,5 @@
 package roborally.utilities;
 
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -22,7 +21,6 @@ public class AssetManagerUtil {
     private static final SoundAssets soundAssets = new SoundAssets();
     private static final UIAssets uiAssets = new UIAssets();
 
-    public static float volume = 1;
     public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
