@@ -60,8 +60,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     public void create() {
         AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         AssetManagerUtil.load();
-        AssetManagerUtil.ASSET_MANAGER.finishLoading();
-        AssetManagerUtil.loadAssets();
+        AssetManagerUtil.loadAssetsToMap();
         tiledMap = AssetManagerUtil.getMap(mapID);
         MapProperties mapProperties = tiledMap.getProperties();
 

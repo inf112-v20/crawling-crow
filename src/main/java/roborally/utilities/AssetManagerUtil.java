@@ -11,7 +11,9 @@ import roborally.utilities.enums.LayerName;
 import java.util.*;
 
 public class AssetManagerUtil {
+
     public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER = new com.badlogic.gdx.assets.AssetManager();
+
     private static final MapAssets mapAssets = new MapAssets();
     private static final MenuAssets menuAssets = new MenuAssets();
     private static final RobotAssets robotAssets = new RobotAssets();
@@ -37,35 +39,12 @@ public class AssetManagerUtil {
         ASSET_MANAGER.finishLoading();
     }
 
-    public static MenuAssets getMenu() {
-        return menuAssets;
-    }
-
-    public static CardAssets getCards() { return cardAssets; }
-
-    public static ViewAssets getViews() { return viewAssets; }
-
-    // Only one map so far, but can add more and return a list.
-    public static TiledMap getMap(int mapID) {
-        loadedMap = mapAssets.getMap(mapID);
-        return loadedMap;
-    }
-
-    public static void loadAssets() {
+    public static void loadAssetsToMap() {
         mapAssets.putAssetsInMap(ASSET_MANAGER);
         menuAssets.putAssetsInMap(ASSET_MANAGER);
         robotAssets.putAssetsInMap(ASSET_MANAGER);
         cardAssets.putAssetsInMap(ASSET_MANAGER);
         viewAssets.putAssetsInMap(ASSET_MANAGER);
-    }
-
-    /**
-     * Getter for robot texture.
-     * @param i Integer defining which robot texture to get.
-     * @return the robot texture at position i.
-     */
-    public static Texture getRobotTexture(int i) {
-        return robotAssets.getRobot(i);
     }
 
     public static void dispose() {
@@ -82,6 +61,11 @@ public class AssetManagerUtil {
         return loadedMap;
     }
 
+    public static TiledMap getMap(int mapID) {
+        loadedMap = mapAssets.getMap(mapID);
+        return loadedMap;
+    }
+
     public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
         ReadAndWriteLayers readAndWriteLayers = new ReadAndWriteLayers();
 
@@ -91,6 +75,14 @@ public class AssetManagerUtil {
     public static TiledMapTileSets getTileSets() {
         return loadedMap.getTileSets();
     }
+
+    public static MenuAssets getMenu() {
+        return menuAssets;
+    }
+
+    public static CardAssets getCards() { return cardAssets; }
+
+    public static ViewAssets getViews() { return viewAssets; }
 
     public static ArrayList<Robot> getRobots() {
         return robots;
@@ -127,6 +119,15 @@ public class AssetManagerUtil {
             robotNames.add("Blue");
             robotNames.add("Angry");
         }
+    }
+
+    /**
+     * Getter for robot texture.
+     * @param i Integer defining which robot texture to get.
+     * @return the robot texture at position i.
+     */
+    public static Texture getRobotTexture(int i) {
+        return robotAssets.getRobot(i);
     }
 
     public static String getRobotName() {
