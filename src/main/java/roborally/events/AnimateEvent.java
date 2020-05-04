@@ -178,7 +178,11 @@ public class AnimateEvent {
         Gdx.input.setInputProcessor(stage);
     }
 
-    // TODO ADD JAVADOC
+    /**
+     * Initializes the cards in the register into fixed positions.
+     * @param stage the stage from UI
+     * @param registerView the ui reprentative of the register cards
+     */
     public void initiateRegister(Stage stage, ProgramCardsView registerView) {
         this.registerCardsView = registerView;
 
