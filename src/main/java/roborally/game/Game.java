@@ -111,7 +111,7 @@ public class Game implements IGame {
 	public void restartGame() {
 		if (events.hasWaitEvent())
 			return;
-		System.out.println("Restarting game...");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("Restarting game...");
 		for (Robot robot : robots) {
 			events.removeFromUI(robot);
 		}
@@ -153,7 +153,7 @@ public class Game implements IGame {
 
 	private void returnToMenuIfOnlyOneRobotLeft() {
 		if (getRobots().size() < 2) {
-			System.out.println("Entering menu");
+			if (SettingsUtil.DEBUG_MODE) System.out.println("Entering menu");
 			gameOptions.enterMenu();
 		}
 	}
@@ -218,9 +218,7 @@ public class Game implements IGame {
 
 	@Override
 	public void endGame() {
-		Robot winner = round.getPhase().getWinner();
-		System.out.println(winner);
-		System.out.println("Stopping game...");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("Stopping game...");
 		events.setWaitMoveEvent(false);
 		for (Robot robot : robots) {
 			layers.setRobotTexture(robot.getPosition(), null);
@@ -244,7 +242,6 @@ public class Game implements IGame {
 	public float continueGameLoop(float dt, double gameSpeed) {
 		uiElements.update(getUserRobot());
 		if (isRoundFinished) {
-			System.out.println("Event: " + events.hasLaserEvent());
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
 			this.isRoundFinished = false;

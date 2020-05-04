@@ -39,10 +39,10 @@ public class CollisionListener {
                 recursiveRobot = robotNextToRobot(nextPos, move);
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().x == pos.x && robot.getPosition().y == pos.y && !recursiveRobot) {
-                    System.out.println("\nPushing robot...");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("\nPushing robot...");
                     robot.tryToMove(move);
                     robot.checkForStationaryLaser();
-                    System.out.println("Pushing robot complete");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("Pushing robot complete");
                 }
         }
         // RobotPresenter "deletion"

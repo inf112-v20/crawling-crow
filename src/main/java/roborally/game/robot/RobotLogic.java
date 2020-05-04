@@ -104,7 +104,7 @@ public class RobotLogic implements IRobotLogic {
 
     public void setArchiveMarker(GridPoint2 pos) {
         this.archiveMarker = pos;
-        System.out.println("- " + getName() + " has its Archive marker at " + getArchiveMarker());
+        if (SettingsUtil.DEBUG_MODE) System.out.println("- " + getName() + " has its Archive marker at " + getArchiveMarker());
     }
     //endregion
     //endregion
@@ -246,7 +246,9 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void cleanRegister(){
-        System.out.println("\t\t- " + name + " has hp: " + health + ". Locking " + getNumberOfCardsToLock() + " cards..");
+        if (SettingsUtil.DEBUG_MODE) {
+            System.out.println("\t\t- " + name + " has hp: " + health + ". Locking " + getNumberOfCardsToLock() + " cards..");
+        }
         register.cleanRegister(getNumberOfCardsToLock());
         if(register.getNumberOfLockedCards() != getNumberOfCardsToLock()){
             throw new IllegalStateException("Unexpected number of cards in register after cleanup." +

@@ -71,7 +71,7 @@ public class Phase implements IPhase {
 		phaseNumber++;
 		if (phaseNumber == 6)
 			phaseNumber = 1;
-		System.out.println("\t- COMPLETED ONE PHASE");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("\t- COMPLETED ONE PHASE");
 	}
 
 	private void pushActivePushers(int phaseNumber, ILayers layers) {
@@ -142,13 +142,13 @@ public class Phase implements IPhase {
 
 	@Override
 	public void registerRepairSitePositionsAndUpdateArchiveMarker() {
-		System.out.println("\nChecking if any robots have arrived at a repair site...");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("\nChecking if any robots have arrived at a repair site...");
 		for (BoardObject repairSite : repairSites) {
 			for (Robot robot : robots) {
 				if (robot.getPosition().equals(repairSite.getPosition())) {
 					robot.getLogic().setArchiveMarker(repairSite.getPosition());
 					robot.getLogic().addHealth(1);
-					System.out.println("- Type of repair site: " + repairSite.getType().name());
+					if (SettingsUtil.DEBUG_MODE) System.out.println("- Type of repair site: " + repairSite.getType().name());
 				}
 			}
 		}
@@ -156,7 +156,9 @@ public class Phase implements IPhase {
 
 	@Override
 	public void registerFlagPositionsAndUpdateArchiveMarker() {
-		System.out.println("\nChecking if any robots have arrived at their next flag position...");
+		if (SettingsUtil.DEBUG_MODE) {
+			System.out.println("\nChecking if any robots have arrived at their next flag position...");
+		}
 		for (IFlag flag : flags) {
 			for (Robot robot : robots) {
 				if (robot.getLogic().getPosition().equals(flag.getPosition())) {
@@ -165,7 +167,9 @@ public class Phase implements IPhase {
 					robot.getLogic().setArchiveMarker(flag.getPosition());
 					if (flag.getID() == nextFlag) {
 						robot.visitNextFlag();
-						System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
+						if (SettingsUtil.DEBUG_MODE) {
+							System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
+						}
 
 						if (robot.getLogic().isUserRobot()) {
 							uiElements.setMessageLabel(robot.getName() + " visited a flag");
@@ -178,12 +182,12 @@ public class Phase implements IPhase {
 
 	@Override
 	public boolean checkForWinner() {
-		System.out.println("\nChecking if someone won...");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("\nChecking if someone won...");
 		boolean someoneWon = checkAllRobotsForWinner();
-		System.out.println("- Did someone win? " + someoneWon);
+		if (SettingsUtil.DEBUG_MODE) System.out.println("- Did someone win? " + someoneWon);
 		if (someoneWon) {
 			winner.getLogic().setHasWon();
-			System.out.println("- Found winner: " + winner.getName());
+			if (SettingsUtil.DEBUG_MODE) System.out.println("- Found winner: " + winner.getName());
 		}
 		return someoneWon;
 	}
