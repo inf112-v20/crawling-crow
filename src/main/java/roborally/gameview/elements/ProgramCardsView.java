@@ -157,7 +157,7 @@ public class ProgramCardsView {
         Label.LabelStyle PriorityLabelStyle = new Label.LabelStyle();
         PriorityLabelStyle.font = new BitmapFont();
         Label priorityLabel = new Label(Integer.toString(priority), PriorityLabelStyle);
-        priorityLabel.setX(28);
+        priorityLabel.setX((cardWidth / 2f) - (priorityLabel.getPrefWidth() / 2f));
         priorityLabel.setY(10);
         priorityLabel.setFontScale(0.78f);
         priorityLabel.setColor(Color.YELLOW);
