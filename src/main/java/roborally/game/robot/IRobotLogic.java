@@ -14,7 +14,9 @@ public interface IRobotLogic {
      */
     String getName();
 
-    /**
+	void setName(String name);
+
+	/**
      * @return The Robot's remaining health
      */
     int getHealth();

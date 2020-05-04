@@ -48,8 +48,13 @@ public class Menu {
     private int lSpeed;
     private boolean Continue;
     private Sliders sliders;
+    private Skin skin;
+    private TextArea nameBox;
+    private TextButton nameButton;
+    private String playerName;
 
     public Menu(Stage stage, Events events) {
+        skin = new Skin(Gdx.files.internal("data/skin.json"));
         labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
         this.resume = false;
@@ -70,16 +75,36 @@ public class Menu {
         makeOptionListeners();
         addMaps();
         addMoreListeners();
+        addNameFunction();
         stage.addActor(gameSpeed);
         stage.addActor(laserSpeed);
         stage.addActor(volumeSlider);
         stage.addActor(playSong);
+        stage.addActor(nameBox);
+        stage.addActor(nameButton);
         makeClickableButtons(stage);
         this.sliders = new Sliders();
         sliders.abc();
-
     }
 
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    private void addNameFunction() {
+        nameBox = new TextArea("Angry", skin);
+        nameButton = new TextButton("OK", skin);
+        nameBox.setPosition(450 ,600);
+        nameBox.setWidth(nameBox.getWidth() / 2);
+        nameButton.setPosition(520, 590);
+        nameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                playerName = nameBox.getText();
+
+            }
+        });
+    }
     private void addEvenMoreListeners() {
 
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
@@ -240,7 +265,7 @@ public class Menu {
             return true;
         }
         if (resume && !events.hasWaitEvent()) {
-            game.startUp();
+            game.startUp(getPlayerName());
             startGame = 1;
             resume = false;
             return true;
@@ -283,6 +308,8 @@ public class Menu {
         if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
+            nameBox.draw(batch, 1);
+            nameButton.draw(batch, 1);
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
             volumeSlider.draw(batch, 1);

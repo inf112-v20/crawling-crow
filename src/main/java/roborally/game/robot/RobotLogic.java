@@ -43,6 +43,11 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
     public int getHealth() {
         return health;
     }

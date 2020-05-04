@@ -62,7 +62,7 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void startUp() {
+	public void startUp(String name) {
 		this.gameBoard = new GameBoard(AssetManagerUtil.ASSET_MANAGER.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 		this.layers = new Layers();
 		this.flags = gameBoard.findAllFlags();
@@ -72,6 +72,8 @@ public class Game implements IGame {
 		this.ai = new AI(gameBoard);
 		uiElements.createLeaderBoard(getRobots());
         setUserRobot();
+        userRobot.getLogic().setName(name);
+        uiElements.update(userRobot);
         uiElements.setMessageLabel(""); // FIXME: temp for resetting the label on startUp
 	}
 
