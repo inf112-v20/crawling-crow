@@ -143,6 +143,10 @@ public class GameView extends InputAdapter implements ApplicationListener {
             tryToStartNewRound();
         }
 
+        if (game.roundInProgress() && game.hasStarted()){
+            animateEvent.initiateRegister(stage, game.getRegisterCardsView());
+        }
+
         animateEvent.drawEvents(batch, game, stage);
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
