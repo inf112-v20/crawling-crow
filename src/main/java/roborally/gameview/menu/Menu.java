@@ -101,9 +101,9 @@ public class Menu {
         nameBox = new TextArea("Angry", skin);
         nameButton = new TextButton("OK", skin);
         nameBox.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 75 ,SettingsUtil.WINDOW_HEIGHT / 2f + 50);
-        nameBox.setWidth(nameBox.getWidth() / 2);
+        nameBox.setWidth(nameBox.getWidth() -50);
         nameBox.getStyle().fontColor = Color.RED;
-        nameButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 150 ,SettingsUtil.WINDOW_HEIGHT / 2f + 50);
+        nameButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 180 ,SettingsUtil.WINDOW_HEIGHT / 2f + 45);
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
