@@ -1,6 +1,7 @@
 package roborally.events;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -100,12 +101,12 @@ public class Events {
      * @param pos     The robots position.
      * @param texture The robots texture.
      */
-    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling) {
+    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
         Image image = new Image(texture[0][1]);
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image, falling));
+        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
     }
 
     // Returns true if there are robots to be faded.
@@ -129,7 +130,7 @@ public class Events {
         if (fadeCounter == this.fadeableRobots.size()) {
             for(Alpha alpha : fadeableRobots)
                 if(!alpha.falling)
-                    createNewExplosionEvent(alpha.image.getX(), alpha.image.getY());
+                    createNewExplosionEvent(alpha.image.getX(), alpha.image.getY(), alpha.color);
             this.fadeableRobots.clear();
             setFadeRobot(false);
         }
@@ -154,7 +155,8 @@ public class Events {
             if (laserEvent.getRobot() != null) { // Fades and removes robots shot by lasers interactively.
                 if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
                     GridPoint2 pos = laserEvent.getRobot().getPosition();
-                    fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling());
+                    Color color = findColorByName(laserEvent.getRobot().getLogic().getName());
+                    fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling(), color);
                     laserEvent.getRobot().deleteRobot();
                     setFadeRobot(true);
                 }
@@ -162,6 +164,26 @@ public class Events {
         }
         this.laserEvents = (ArrayList<LaserEvent>) temp;
         return this.laserEvents;
+    }
+
+    public Color findColorByName(String name) {
+        if(name.toLowerCase().contains("red"))
+            return Color.RED;
+        else if(name.toLowerCase().contains("blue"))
+            return Color.BLUE;
+        else if(name.toLowerCase().contains("green"))
+            return Color.GREEN;
+        else if(name.toLowerCase().contains("orange"))
+            return Color.ORANGE;
+        else if(name.toLowerCase().contains("purple"))
+            return Color.PURPLE;
+        else if(name.toLowerCase().contains("pink"))
+            return Color.PINK;
+        else if(name.toLowerCase().contains("yellow"))
+            return Color.YELLOW;
+        else if(name.toLowerCase().contains("angry"))
+            return Color.FIREBRICK;
+        return Color.RED;
     }
 
     /**
@@ -186,17 +208,21 @@ public class Events {
         this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
     }
 
-    private void createNewExplosionEvent(float x, float y) {
+    private void createNewExplosionEvent(float x, float y, Color color) {
         Image image = new Image(new Texture("explosion.png"));
         image.setPosition(x, y);
+        image.setColor(color);
         Image image1 = new Image(new Texture("explosion.png"));
         Image image2 = new Image(new Texture("explosion.png"));
         Image image3 = new Image(new Texture("explosion.png"));
         image1.setY(image.getY());
+        image1.setColor(color);
         image1.setX(image.getX());
         image2.setY(image.getY());
+        image2.setColor(color);
         image2.setX(image.getX());
         image3.setX(image.getX());
+        image3.setColor(color);
         image3.setY(image.getY());
         ArrayList<Image> exploded = new ArrayList<>();
         exploded.add(image);
@@ -207,6 +233,17 @@ public class Events {
     }
 
     public boolean hasExplosionEvent() {
+        List<List<Image>> temp = new ArrayList<>();
+        for(List<Image> list : explosions) {
+            int i = 0;
+            for(Image image : list) {
+                if(image.getX() < 0 || image.getY() < 0 || image.getX() > 1920 || image.getY() > 1080)
+                    i++;
+            }
+            if(i <= 2)
+                temp.add(list);
+        }
+        this.explosions = temp;
         return !explosions.isEmpty();
     }
 
@@ -230,10 +267,12 @@ public class Events {
         private float dt;
         private final Image image;
         private final boolean falling;
+        private Color color;
 
-        private Alpha(float dt, Image image, boolean falling) {
+        private Alpha(float dt, Image image, boolean falling, Color color) {
             this.dt = dt;
             this.image = image;
+            this.color = color;
             this.falling = falling;
         }
 
@@ -266,7 +305,8 @@ public class Events {
     }
 
     public void removeFromUI(Robot robot) {
-        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling());
+        Color color = findColorByName(robot.getName());
+        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
         robot.deleteRobot();
         System.out.println("\t- Removed " + robot.getName() + " from UI");
         setFadeRobot(true);
