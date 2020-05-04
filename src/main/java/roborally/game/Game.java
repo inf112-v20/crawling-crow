@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 public class Game implements IGame {
 	private ProgramCardsView programCardsView;
+	private final boolean DEBUG_MODE = false;
 
 	//region Game Objects
 	private IGameBoard gameBoard;
@@ -286,5 +287,10 @@ public class Game implements IGame {
 	@Override
 	public void setHasRestarted(boolean state) {
 		this.hasRestarted = state;
+	}
+
+	@Override
+	public boolean inDebugMode() {
+		return DEBUG_MODE;
 	}
 }

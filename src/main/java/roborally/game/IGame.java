@@ -106,4 +106,6 @@ public interface IGame {
     boolean hasRestarted();
 
     void setHasRestarted(boolean state);
+
+    boolean inDebugMode();
 }
