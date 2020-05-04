@@ -59,10 +59,12 @@ public interface IGame {
      */
     void dealCards();
 
+    void setRegisterCardsView(Robot robot);
+
     /**
      * @param order shuffles the cards drawn for the userrobot.
      */
-    void shuffleTheRobotsCards(int[] order);
+    void orderTheUserRobotsCards(int[] order);
 
     /**
      * @return checks if all players have registered cards.
@@ -112,4 +114,6 @@ public interface IGame {
     boolean hasStarted();
 
     boolean roundInProgress();
+
+    ProgramCardsView getRegisterCardsView();
 }
