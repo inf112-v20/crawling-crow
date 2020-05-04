@@ -12,6 +12,7 @@ import roborally.gameview.elements.UIElements;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnimateEvent {
     private Events events;
@@ -44,7 +45,13 @@ public class AnimateEvent {
                 laserEvent.drawLaserEvent(batch, game.getRobots());
         if (!game.getGameOptions().getMenu())
             drawUIElements(game, batch, stage);
-
+        if(events.hasExplosionEvent()) {
+            for(List<Image> list : events.getExplosions()) {
+                events.explode(Gdx.graphics.getDeltaTime(), (ArrayList<Image>) list);
+                for(Image image : list)
+                    image.draw(batch, 1);
+            }
+        }
         batch.end();
     }
 

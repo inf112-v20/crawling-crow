@@ -1,6 +1,7 @@
 package roborally.events;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
@@ -11,6 +12,7 @@ import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,7 @@ public class Events {
     private Stage stage;
     private float xShift;
     private float yShift;
+    private List<List<Image>> explosions;
 
     public Events() {
         this.waitEvent = false;
@@ -43,6 +46,7 @@ public class Events {
         this.laserEvents = new ArrayList<>();
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
+        this.explosions = new ArrayList<>();
     }
 
     /**
@@ -123,6 +127,9 @@ public class Events {
         }
 
         if (fadeCounter == this.fadeableRobots.size()) {
+            for(Alpha alpha : fadeableRobots)
+                if(!alpha.falling)
+                    createNewExplosionEvent(alpha.image.getX(), alpha.image.getY());
             this.fadeableRobots.clear();
             setFadeRobot(false);
         }
@@ -177,6 +184,43 @@ public class Events {
         this.stage = stage;
         this.xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
         this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
+    }
+
+    private void createNewExplosionEvent(float x, float y) {
+        Image image = new Image(new Texture("explosion.png"));
+        image.setPosition(x, y);
+        Image image1 = new Image(new Texture("explosion.png"));
+        Image image2 = new Image(new Texture("explosion.png"));
+        Image image3 = new Image(new Texture("explosion.png"));
+        image1.setY(image.getY());
+        image1.setX(image.getX());
+        image2.setY(image.getY());
+        image2.setX(image.getX());
+        image3.setX(image.getX());
+        image3.setY(image.getY());
+        ArrayList<Image> exploded = new ArrayList<>();
+        exploded.add(image);
+        exploded.add(image1);
+        exploded.add(image2);
+        exploded.add(image3);
+        explosions.add(exploded);
+    }
+
+    public boolean hasExplosionEvent() {
+        return !explosions.isEmpty();
+    }
+
+    public void explode(float dt, ArrayList<Image> explosions) {
+        explosions.get(0).setY(explosions.get(0).getY() + dt * 500);
+        explosions.get(1).setY(explosions.get(1).getY() - dt * 500);
+        explosions.get(2).setX(explosions.get(2).getX() + dt * 500);
+        explosions.get(3).setX(explosions.get(3).getX() - dt * 500);
+    }
+
+    public List<List<Image>> getExplosions() {
+        //ArrayList<Image> xplosions = new ArrayList<>(this.explosions);
+        //this.explosions.clear();
+        return this.explosions;
     }
 
     /**

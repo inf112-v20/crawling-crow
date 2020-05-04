@@ -127,7 +127,7 @@ public class Robot implements IRobot {
             if (getView().canMoveRobot(oldPos, possiblePosition)) {
                 // Robot moving outside map
                 if(robotView.isRobotInGraveyard(newPos)) {
-                    setPosition(SettingsUtil.GRAVEYARD);
+                    setPosition(newPos);
                     takeDamage(SettingsUtil.MAX_DAMAGE);
                     return;
                 }
