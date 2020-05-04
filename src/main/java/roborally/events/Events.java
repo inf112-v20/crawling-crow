@@ -13,7 +13,6 @@ import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -210,38 +209,25 @@ public class Events {
     }
 
     private void createNewExplosionEvent(float x, float y, Color color) {
-        Image image = new Image(new Texture("explosion.png"));
-        image.setPosition(x, y);
-        image.setColor(color);
-        Image image1 = new Image(new Texture("explosion.png"));
-        Image image2 = new Image(new Texture("explosion.png"));
-        Image image3 = new Image(new Texture("explosion.png"));
-        image1.setY(image.getY());
-        image1.setColor(color);
-        image1.setX(image.getX());
-        image2.setY(image.getY());
-        image2.setColor(color);
-        image2.setX(image.getX());
-        image3.setX(image.getX());
-        image3.setColor(color);
-        image3.setY(image.getY());
         ArrayList<Image> exploded = new ArrayList<>();
-        exploded.add(image);
-        exploded.add(image1);
-        exploded.add(image2);
-        exploded.add(image3);
+        for(int i = 0; i < 4; i++) {
+            exploded.add(new Image(new Texture("explosion.png")));
+            exploded.get(i).setX(x);
+            exploded.get(i).setY(y);
+            exploded.get(i).setColor(color);
+        }
         explosions.add(exploded);
     }
 
     public boolean hasExplosionEvent() {
         List<List<Image>> temp = new ArrayList<>();
         for(List<Image> list : explosions) {
-            int i = 0;
+            int explodedPieceOffMap = 0;
             for(Image image : list) {
                 if(image.getX() < 0 || image.getY() < 0 || image.getX() > 1920 || image.getY() > 1080)
-                    i++;
+                    explodedPieceOffMap++;
             }
-            if(i <= 2)
+            if(explodedPieceOffMap <= 2)
                 temp.add(list);
         }
         this.explosions = temp;
@@ -256,8 +242,6 @@ public class Events {
     }
 
     public List<List<Image>> getExplosions() {
-        //ArrayList<Image> xplosions = new ArrayList<>(this.explosions);
-        //this.explosions.clear();
         return this.explosions;
     }
 
