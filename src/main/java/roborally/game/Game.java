@@ -120,6 +120,8 @@ public class Game implements IGame {
         setHasRestarted(true);
         uiElements.createLeaderBoard(getRobots());
         events.dispose();
+        getRound().cleanUp();
+        registerCardsView.clear();
 	}
 
 	@Override
