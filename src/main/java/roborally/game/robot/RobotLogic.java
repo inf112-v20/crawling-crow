@@ -200,12 +200,12 @@ public class RobotLogic implements IRobotLogic {
         int cardsMissingInRegister = Math.min(getNumberOfCardsToDraw(), 5);
         Card[] cardToRegister = new Card[cardsMissingInRegister];
 
-        // UNCOMMENT to debug if necessary
-         System.out.println();
-         System.out.println(name + " " + health);
-         System.out.println("Locked cards: " + register.getNumberOfLockedCards());
-         System.out.println("In hand: " + cardsInHand.getCards().size());
-         System.out.println("To place: " + cardToRegister.length);
+        if (SettingsUtil.DEBUG_MODE) {
+            System.out.println(name + "'s health: " + health);
+            System.out.println("Locked cards: " + register.getNumberOfLockedCards());
+            System.out.println("In hand: " + cardsInHand.getCards().size());
+            System.out.println("To place: " + cardToRegister.length);
+        }
 
         for(int i = 0; i < cardsMissingInRegister; i++){
             cardToRegister[i] = cardsInHand.getCards().get(i);
