@@ -39,9 +39,9 @@ public class MapAssets implements Assets {
 	public void putAssetsInMap(AssetManager manager) {
 		mapAssets = new HashMap<>();
 		backgroundAssets = new HashMap<>();
-		mapAssets.put(0, manager.get(SIGMUNDS_MAP2));
+		mapAssets.put(0, manager.get(SIGMUNDS_MAP));
 		mapAssets.put(1, manager.get(LISES_MAP));
-		mapAssets.put(2, manager.get(SIGMUNDS_MAP));
+		mapAssets.put(2, manager.get(SIGMUNDS_MAP2));
 
 		backgroundAssets.put(0, manager.get(SIGMUND_1_BACKGROUND));
 		backgroundAssets.put(1, manager.get(LISE_BACKGROUND));
