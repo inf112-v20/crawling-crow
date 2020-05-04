@@ -189,7 +189,8 @@ public class Game implements IGame {
 		}
 	}
 
-	private void setRegisterCardsView(Robot robot){
+	@Override
+	public void setRegisterCardsView(Robot robot){
 		this.registerCardsView = new ProgramCardsView(this);
 		for (IProgramCards.Card card : robot.getLogic().getRegister().getCards()) {
 			registerCardsView.setCard(card, false);
@@ -198,9 +199,10 @@ public class Game implements IGame {
 	//endregion
 
 	@Override
-	public void shuffleTheRobotsCards(int[] order) {
+	public void orderTheUserRobotsCards(int[] order) {
 		userRobot.getLogic().arrangeCardsInHand(order);
 		userRobot.getLogic().putChosenCardsIntoRegister();
+		setRegisterCardsView(userRobot);
 		userRobot.getLogic().setHasSelectedCards(true);
 	}
 
@@ -311,5 +313,10 @@ public class Game implements IGame {
 			return getRound().isRoundInProgress();
 		}
 		return false;
+	}
+
+	@Override
+	public ProgramCardsView getRegisterCardsView() {
+		return registerCardsView;
 	}
 }
