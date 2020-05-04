@@ -277,7 +277,6 @@ public class ProgramCardsView {
                 }
             }
             temporaryTimerOrder();
-            System.out.println(Arrays.toString(order));
             cardPick = -1;
         }
     }
