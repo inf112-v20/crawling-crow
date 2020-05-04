@@ -39,7 +39,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private Menu menu;
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private KeyboardInput debugControls;
+    private KeyboardInput keyboardControls;
     private boolean paused;
     private Stage stage;
     private ProgramCardsView programCardsView;
@@ -77,7 +77,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
 
         game = new Game(events, uiElements);
-        debugControls = new KeyboardInput(game);
+        keyboardControls = new KeyboardInput(game);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -178,7 +178,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode) {
         if (game.inDebugMode()) {
             if (game.getRound() != null) {
-                debugControls.addDebugControls(game);
+                keyboardControls.addDebugControls(game);
             }
 
             if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
@@ -187,7 +187,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
                 }
             }
         }
-        debugControls.getAction(keycode).run();
+        keyboardControls.getAction(keycode).run();
 
         if (game.getGameOptions().getMenu()) {
             menu.reloadStage(stage);
