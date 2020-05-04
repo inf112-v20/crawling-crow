@@ -297,13 +297,15 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void visitNextFlag() {
-        System.out.println("- Updated next flag to visit");
+        if (SettingsUtil.DEBUG_MODE) System.out.println("- Updated next flag to visit");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
-        if (nextFlag == visitedFlags.length)
-            System.out.println("- Congratulations you have collected all the flags, press 'W' to end the game.");
-        else
-            System.out.println("- Next flag to visit: " + (nextFlag + 1));
+        if (SettingsUtil.DEBUG_MODE) {
+            if (nextFlag == visitedFlags.length)
+                System.out.println("- Congratulations you have collected all the flags!");
+            else
+                System.out.println("- Next flag to visit: " + (nextFlag + 1));
+        }
     }
 
     @Override

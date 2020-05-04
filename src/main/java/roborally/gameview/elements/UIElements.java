@@ -121,8 +121,10 @@ public class UIElements {
 
     public void updateDamageTokens(Robot robot) {
         clearDamageTokens();
-        // UNCOMMENT for debug
-        //System.out.println(robot.getName() + "'s health is before updating damage tokens: " + robot.getLogic().getHealth());
+
+        if (SettingsUtil.DEBUG_MODE) {
+            System.out.println(robot.getName() + "'s health is before updating damage tokens: " + robot.getLogic().getHealth());
+        }
 
         setDamageTokens(Math.max(robot.getLogic().getHealth(), 0));
 
@@ -162,7 +164,7 @@ public class UIElements {
         powerDownButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Activated power down");
+                if (SettingsUtil.DEBUG_MODE) System.out.println("Activated power down");
                 powerDownButton.setChecked(true);
                 isPowerDownSetForNextRound = true;
                 hasPowerDownBeenActivated = true;
@@ -257,7 +259,7 @@ public class UIElements {
         this.restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Should restart game or something!");
+                if (SettingsUtil.DEBUG_MODE) System.out.println("Clicked on restart button...");
                 game.restartGame();
                 clearAll();
             }
