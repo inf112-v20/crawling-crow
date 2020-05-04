@@ -27,6 +27,7 @@ import roborally.utilities.assets.SoundAssets;
 import java.util.ArrayList;
 
 public class Game implements IGame {
+	private ProgramCardsView registerCardsView;
 	private ProgramCardsView programCardsView;
 
 	//region Game Objects
@@ -57,6 +58,7 @@ public class Game implements IGame {
 		this.gameOptions = new GameOptions();
 		this.uiElements = uiElements;
 		this.programCardsView = new ProgramCardsView(this);
+		this.registerCardsView = new ProgramCardsView(this);
 	}
 
 	@Override
@@ -168,12 +170,12 @@ public class Game implements IGame {
 		if (userRobot.getLogic().getPowerDown()){
 			userRobot.getLogic().autoArrangeCardsInHand();
 		} else {
-			programCardsView = makeProgramCardsView(userRobot);
+			setProgramCardsView(userRobot);
 		}
 	}
 
-	private ProgramCardsView makeProgramCardsView(Robot robot) {
-		ProgramCardsView programCardsView = new ProgramCardsView(this);
+	private void setProgramCardsView(Robot robot) {
+		this.programCardsView = new ProgramCardsView(this);
 
 		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
 			programCardsView.setCard(card, true);
@@ -185,7 +187,13 @@ public class Game implements IGame {
 				}
 			}
 		}
-		return programCardsView;
+	}
+
+	private void setRegisterCardsView(Robot robot){
+		this.registerCardsView = new ProgramCardsView(this);
+		for (IProgramCards.Card card : robot.getLogic().getRegister().getCards()) {
+			registerCardsView.setCard(card, false);
+		}
 	}
 	//endregion
 
