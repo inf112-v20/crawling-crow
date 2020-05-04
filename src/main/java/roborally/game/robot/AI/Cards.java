@@ -25,7 +25,6 @@ public class Cards {
 
 	private void organizeCards() {
 		for (Card card : cards) {
-			System.out.print(card.getCard() + " ");
 			if (card.getValue() > -2 && card.getValue() < 4)
 				cardTypes.get("move").addLast(card);
 			else if (card.getValue() == 90)
@@ -35,7 +34,6 @@ public class Cards {
 			else if (card.getValue() < -1)
 				cardTypes.get("left").addLast(card);
 		}
-		System.out.println();
 	}
 
 	public boolean hasCard(String cardType) {
