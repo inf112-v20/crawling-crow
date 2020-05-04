@@ -193,7 +193,6 @@ public class RobotLogic implements IRobotLogic {
             newOrder[i] = i;
         }
         arrangeCardsInHand(newOrder);
-        fillFirstCardsFromHandIntoRegister();
     }
 
     private void fillFirstCardsFromHandIntoRegister() {

@@ -203,7 +203,6 @@ public class Game implements IGame {
 	@Override
 	public void orderTheUserRobotsCards(int[] order) {
 		userRobot.getLogic().arrangeCardsInHand(order);
-		userRobot.getLogic().putChosenCardsIntoRegister();
 		setRegisterCardsView(userRobot);
 		userRobot.getLogic().setHasSelectedCards(true);
 	}
