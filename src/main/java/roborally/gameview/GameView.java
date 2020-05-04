@@ -181,7 +181,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
                 keyboardControls.addDebugControls(game);
             }
 
-            if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
+            if (keycode == Input.Keys.ENTER) {
                 if (oldPressEnterCode()){
                     return true;
                 }
@@ -208,20 +208,22 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private boolean oldPressEnterCode(){
-        // TODO: Should be somewhere else
-        if (!uiElements.hasPowerDownBeenActivated()) {
-            uiElements.setPowerDownButton(UIElement.POWERED_ON);
-        } else {
-            uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
-            uiElements.hasPowerDownBeenActivated(false);
-        }
+        if(!events.hasWaitEvent() && !events.hasLaserEvent()) {
+            // TODO: Should be somewhere else
+            if (!uiElements.hasPowerDownBeenActivated()) {
+                uiElements.setPowerDownButton(UIElement.POWERED_ON);
+            } else {
+                uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
+                uiElements.hasPowerDownBeenActivated(false);
+            }
 
-        uiElements.update(game.getUserRobot());
-        game.dealCards();
-        if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
-            animateEvent.initiateCards(stage, game.getProgramCardsView());
-        } else {
-            events.setWaitMoveEvent(true);
+            uiElements.update(game.getUserRobot());
+            game.dealCards();
+            if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
+                animateEvent.initiateCards(stage, game.getProgramCardsView());
+            } else {
+                events.setWaitMoveEvent(true);
+            }
         }
         return true;
     }
