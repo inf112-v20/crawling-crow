@@ -131,8 +131,10 @@ public class ProgramCardsView {
                     return true;
                 }
                 selectedOrderList.add(cardPick, selectedOrderLabel);
-                selectedOrderList.get(cardPick).setText(Integer.toString((cardPick)+1));
-                group.addActor(selectedOrderList.get(cardPick));
+                Label tempSelectedOrderLabel = selectedOrderList.get(cardPick);
+                tempSelectedOrderLabel.setText(Integer.toString((cardPick)+1));
+                tempSelectedOrderLabel.setX(tempSelectedOrderLabel.getX() - (tempSelectedOrderLabel.getPrefWidth() / 2f));
+                group.addActor(tempSelectedOrderLabel);
                 order[cardPick++] = groups.indexOf(group);
                 group.getChildren().get(1).setColor(Color.YELLOW);
                 group.getChildren().get(0).setColor(Color.YELLOW);
@@ -147,7 +149,7 @@ public class ProgramCardsView {
         selectedOrderLabelStyle.font = new BitmapFont();
         Label selectedOrderLabel = new Label("", selectedOrderLabelStyle);
         selectedOrderLabel.setY(100);
-        selectedOrderLabel.setX(28);
+        selectedOrderLabel.setX((cardWidth / 2f));
         selectedOrderLabel.setColor(Color.GREEN);
         selectedOrderLabel.setFontScale(2f);
         return selectedOrderLabel;
