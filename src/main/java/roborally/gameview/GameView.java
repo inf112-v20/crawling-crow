@@ -212,10 +212,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void tryToStartNewRound(){
-        if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.getRound() != null) {
-            if (!game.getRound().isRoundInProgress()) {
-                    startNewRound();
-            }
+        if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.roundInProgress()) {
+            startNewRound();
         }
     }
 

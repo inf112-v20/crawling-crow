@@ -292,4 +292,16 @@ public class Game implements IGame {
 	public boolean inDebugMode() {
 		return SettingsUtil.DEBUG_MODE;
 	}
+
+	@Override
+	public boolean hasStarted(){
+		return getRound() != null;
+	}
+
+	public boolean roundInProgress(){
+		if(getRound() != null){
+			return getRound().isRoundInProgress();
+		}
+		return false;
+	}
 }

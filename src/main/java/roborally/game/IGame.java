@@ -108,4 +108,8 @@ public interface IGame {
     void setHasRestarted(boolean state);
 
     boolean inDebugMode();
+
+    boolean hasStarted();
+
+    boolean roundInProgress();
 }
