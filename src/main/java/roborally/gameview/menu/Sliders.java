@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class Sliders {
 		sliderStyle1.knob = new Image(new Texture(colur3)).getDrawable();
 		Slider decor1 = new Slider(0, 10, 0.01f, false, sliderStyle1);
 		decor1.setSize(170, 0.2f);
-		decor1.setPosition(420, 350);
+		decor1.setPosition(SettingsUtil.WINDOW_WIDTH / 2f, SettingsUtil.WINDOW_HEIGHT / 2f - 175);
 		sliders.add(decor1);
 		decoWidth[0] = 140;
 		Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
@@ -65,11 +66,11 @@ public class Sliders {
 		sliderStyle1.knob = birdImage.getDrawable();
 		Slider decor2 = new Slider(0, 10, 0.01f, false, sliderStyle1);
 		decor2.setSize(225, 0.2f);
-		decor2.setPosition(405, 485);
+		decor2.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 10, SettingsUtil.WINDOW_HEIGHT / 2f - 35);
 		sliders.add(decor2);
 		Slider decor3 = new Slider(0, 10, 0.01f, false, sliderStyle1);
 		decor3.setSize(180, 0.2f);
-		decor3.setPosition(430, 420);
+		decor3.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 10, SettingsUtil.WINDOW_HEIGHT / 2f - 110);
 		sliders.add(decor3);
 		decoWidth[1] = decor2.getWidth();
 		decoWidth[2] = decor3.getWidth();

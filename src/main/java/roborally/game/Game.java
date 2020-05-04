@@ -111,6 +111,7 @@ public class Game implements IGame {
 
 	@Override
 	public void restartGame() {
+		String name = userRobot.getName();
 		if (events.hasWaitEvent())
 			return;
 		System.out.println("Restarting game...");
@@ -124,6 +125,8 @@ public class Game implements IGame {
         events.dispose();
         getRound().cleanUp();
         registerCardsView.clear();
+        userRobot.getLogic().setName(name);
+        uiElements.update(userRobot);
 	}
 
 	@Override

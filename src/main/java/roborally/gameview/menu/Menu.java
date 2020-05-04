@@ -52,6 +52,7 @@ public class Menu {
     private TextArea nameBox;
     private TextButton nameButton;
     private String playerName;
+    private Label nameHere;
 
     public Menu(Stage stage, Events events) {
         skin = new Skin(Gdx.files.internal("data/skin.json"));
@@ -68,8 +69,9 @@ public class Menu {
         menu.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
         imageLists.get("menus").add(menu);
         mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
-        mapButton.setPosition(680, 480);
+        mapButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f, SettingsUtil.WINDOW_HEIGHT / 1.5f);
         changeMapMenu = false;
+        playerName = "Angry";
         addEvenMoreListeners();
         makeLabels();
         makeOptionListeners();
@@ -92,11 +94,16 @@ public class Menu {
     }
 
     private void addNameFunction() {
+        nameHere = new Label("Name: ", skin);
+        nameHere.setColor(Color.BLUE);
+        nameHere.setFontScale(1.5f);
+        nameHere.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 15 ,SettingsUtil.WINDOW_HEIGHT / 2f + 58);
         nameBox = new TextArea("Angry", skin);
         nameButton = new TextButton("OK", skin);
-        nameBox.setPosition(450 ,600);
+        nameBox.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 75 ,SettingsUtil.WINDOW_HEIGHT / 2f + 50);
         nameBox.setWidth(nameBox.getWidth() / 2);
-        nameButton.setPosition(520, 590);
+        nameBox.getStyle().fontColor = Color.RED;
+        nameButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 150 ,SettingsUtil.WINDOW_HEIGHT / 2f + 50);
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -108,7 +115,7 @@ public class Menu {
     private void addEvenMoreListeners() {
 
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
-        continueButton.setPosition(350, 490);
+        continueButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 70, SettingsUtil.WINDOW_HEIGHT / 2f - 25);
         continueButton.setWidth(continueButton.getWidth() + 150);
         continueButton.addListener(new ClickListener() {
             @Override
@@ -255,7 +262,7 @@ public class Menu {
             }
         });
 
-        volumeSlider.setPosition(750, 600);
+        volumeSlider.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f + 30);
     }
 
     public boolean isResume(IGame game) {
@@ -308,6 +315,7 @@ public class Menu {
         if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
+            nameHere.draw(batch, 1);
             nameBox.draw(batch, 1);
             nameButton.draw(batch, 1);
             gameSpeed.draw(batch, 1);
@@ -338,18 +346,18 @@ public class Menu {
         laserSpeed = new Label("Laser Speed: normal", labelStyle);
         playSong = new Label("Play a song: ", labelStyle);
         volume = new Label("Volume ", labelStyle);
-        volume.setPosition(750, 620);
+        volume.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f + 60);
         gSpeed = 0;
         lSpeed = 2;
-        laserSpeed.setPosition(750, 535);
-        gameSpeed.setPosition(750, 510);
-        playSong.setPosition(750, 640);
+        laserSpeed.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f);
+        gameSpeed.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 30);
+        playSong.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 60);
         left = new Label(" < ", labelStyle);
         right = new Label(" > ", labelStyle);
         left.setFontScale(2);
         right.setFontScale(2);
-        left.setPosition(40, 300);
-        right.setPosition(665, 300);
+        left.setPosition(SettingsUtil.WINDOW_WIDTH / 3f + 75, SettingsUtil.WINDOW_HEIGHT / 2f - 60);
+        right.setPosition(SettingsUtil.WINDOW_WIDTH / 1.35f - 70, SettingsUtil.WINDOW_HEIGHT / 2f - 60);
         left.scaleBy(2);
         right.scaleBy(2);
     }
@@ -357,11 +365,12 @@ public class Menu {
     private void makeClickableButtons(Stage stage) {
         ArrayList<Image> clickableButtons = new ArrayList<>();
         TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons(), 200, 50);
-        int y = 525;
+        int y = SettingsUtil.WINDOW_HEIGHT / 2;
+        int x = SettingsUtil.WINDOW_WIDTH / 2;
         for (int i = 0; i < 3; i++) {
             clickableButtons.add(new Image(buttons[i][0]));
             clickableButtons.get(i).setY(y -= 75);
-            clickableButtons.get(i).setX(420);
+            clickableButtons.get(i).setX(x);
             stage.addActor(clickableButtons.get(i));
         }
         makeClickListeners(stage, clickableButtons);
@@ -385,6 +394,8 @@ public class Menu {
                 changeMapMenu = false;
                 startGame = 0;
                 stage.clear();
+                stage.addActor(nameBox);
+                stage.addActor(nameButton);
                 stage.addActor(gameSpeed);
                 stage.addActor(laserSpeed);
                 stage.addActor(volume);
@@ -455,8 +466,9 @@ public class Menu {
         ArrayList<Image> maps = new ArrayList<>();
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map0.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
+        maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.PNG"))));
         for (Image image : maps)
-            image.setPosition(75, 115);
+            image.setPosition(SettingsUtil.WINDOW_WIDTH / 2.5f, SettingsUtil.WINDOW_HEIGHT / 4f);
         imageLists.put("maps", maps);
     }
 
