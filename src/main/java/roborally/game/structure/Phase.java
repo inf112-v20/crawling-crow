@@ -161,9 +161,10 @@ public class Phase implements IPhase {
 			for (Robot robot : robots) {
 				if (robot.getLogic().getPosition().equals(flag.getPosition())) {
 					int nextFlag = robot.getLogic().getNextFlag();
+					robot.getLogic().addHealth(1);
+					robot.getLogic().setArchiveMarker(flag.getPosition());
 					if (flag.getID() == nextFlag) {
 						robot.visitNextFlag();
-						robot.getLogic().setArchiveMarker(flag.getPosition());
 						System.out.println("- " + robot.getName() + " has visited flag no. " + flag.getID());
 
 						if (robot.getLogic().isUserRobot()) {
