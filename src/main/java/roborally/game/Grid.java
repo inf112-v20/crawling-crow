@@ -56,8 +56,6 @@ public class Grid {
 					br.readLine();
 					String gridLayerEncoded = br.readLine().strip();
 
-					//System.out.println("Added layer '" + layerNameString + "' to the grid");
-
 					for (LayerName layerName : LayerName.values()) {
 						if (layerName.getLayerString().toLowerCase().equals(layerNameString.toLowerCase())) {
 							makeNewGridLayer(layerName, gridLayerEncoded);

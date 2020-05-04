@@ -123,8 +123,7 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public boolean takeDamage(int damage) {
-        // UNCOMMENT to debug
-        // System.out.println("Took damage: " + damage + ". Robot: " + name);
+        if (SettingsUtil.DEBUG_MODE) System.out.println("Took damage: " + damage + ". Robot: " + name);
         health -= damage;
         if (health < 0) {
             health = 0;
@@ -170,7 +169,6 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public IProgramCards drawCards(IProgramCards deckOfProgramCards) {
         if(SettingsUtil.DEBUG_MODE){
-            System.out.println();
             System.out.println(getName() + "'s power down status: " + getPowerDown());
         }
         ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
@@ -204,6 +202,7 @@ public class RobotLogic implements IRobotLogic {
             System.out.println("Locked cards: " + register.getNumberOfLockedCards());
             System.out.println("In hand: " + cardsInHand.getCards().size());
             System.out.println("To place: " + cardToRegister.length);
+            System.out.println();
         }
 
         for(int i = 0; i < cardsMissingInRegister; i++){
@@ -329,7 +328,7 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void setPowerDownNextRound(boolean powerDownNextRound) {
-        System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
+        if (SettingsUtil.DEBUG_MODE) System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
         this.powerDownNextRound = powerDownNextRound;
     }
 

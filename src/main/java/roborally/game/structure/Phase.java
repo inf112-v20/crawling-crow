@@ -196,7 +196,7 @@ public class Phase implements IPhase {
 		for (Robot robot : robots) {
 			if (robot.checkForStationaryLaser()) {
 				robot.takeDamage(1);
-				System.out.println("- Hit by stationary laser");
+				if (SettingsUtil.DEBUG_MODE) System.out.println("- Hit by stationary laser");
 			}
 		}
 	}
