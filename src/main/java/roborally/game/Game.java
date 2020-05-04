@@ -36,7 +36,7 @@ public class Game implements IGame {
 	private AI ai;
 	private ArrayList<Robot> robots;
 	private ArrayList<IFlag> flags;
-	private IProgramCards deckOfProgramCards;
+	private final IProgramCards deckOfProgramCards;
 	private LaserRegister laserRegister;
 	private Robot userRobot;
 	//endregion
