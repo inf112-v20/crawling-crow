@@ -22,5 +22,5 @@ public interface IControls {
      *
      * @param game game
      */
-    void addInGameControls(IGame game);
+    void addDebugControls(IGame game);
 }

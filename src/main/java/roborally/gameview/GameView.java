@@ -24,7 +24,7 @@ import roborally.gameview.elements.UIElements;
 import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.controls.ControlsDebug;
+import roborally.utilities.controls.KeyboardInput;
 import roborally.utilities.enums.UIElement;
 
 public class GameView extends InputAdapter implements ApplicationListener {
@@ -39,7 +39,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private Menu menu;
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private ControlsDebug debugControls;
+    private KeyboardInput debugControls;
     private boolean paused;
     private Stage stage;
     private ProgramCardsView programCardsView;
@@ -77,7 +77,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
 
         game = new Game(events, uiElements);
-        debugControls = new ControlsDebug(game);
+        debugControls = new KeyboardInput(game);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -178,7 +178,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     public boolean keyUp(int keycode) {
         if (game.inDebugMode()) {
             if (game.getRound() != null) {
-                debugControls.addInGameControls(game);
+                debugControls.addDebugControls(game);
             }
 
             if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
