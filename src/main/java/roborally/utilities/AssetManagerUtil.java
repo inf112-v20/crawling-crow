@@ -33,7 +33,6 @@ public class AssetManagerUtil {
     private static final AssetDescriptor<Texture> YELLOW_LB = new AssetDescriptor<>("robots/leaderboard/yellow-leadingboard.png", Texture.class);
 
 
-    public static int numberOfRobotCopies = 0;
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
     private static Stack<String> robotNames;
@@ -142,16 +141,6 @@ public class AssetManagerUtil {
     // Default names for the robots
     public static void makeRobotNames() {
         robotNames = new Stack<>();
-        if (numberOfRobotCopies != 0) {
-            robotNames.add("Yellow no. " + numberOfRobotCopies);
-            robotNames.add("Red no. " + numberOfRobotCopies);
-            robotNames.add("Purple no. " + numberOfRobotCopies);
-            robotNames.add("Pink no. " + numberOfRobotCopies);
-            robotNames.add("Orange no. " + numberOfRobotCopies);
-            robotNames.add("Green no. " + numberOfRobotCopies);
-            robotNames.add("Blue no. " + numberOfRobotCopies);
-            robotNames.add("Angry no. " + numberOfRobotCopies);
-        } else {
             robotNames.add("Yellow");
             robotNames.add("Red");
             robotNames.add("Purple");
@@ -160,7 +149,6 @@ public class AssetManagerUtil {
             robotNames.add("Green");
             robotNames.add("Blue");
             robotNames.add("Angry");
-        }
     }
 
     /**
@@ -176,7 +164,6 @@ public class AssetManagerUtil {
         if (robotNames == null || robotNames.isEmpty()) {
             robotNames = new Stack<>();
             makeRobotNames();
-            numberOfRobotCopies++;
         }
         return robotNames.pop();
     }
