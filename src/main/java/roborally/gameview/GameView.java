@@ -140,7 +140,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
 
         if (!game.inDebugMode()){
-            startNewRound();
+            tryToStartNewRound();
         }
 
         animateEvent.drawEvents(batch, game, stage);
@@ -187,9 +187,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
             }
 
             if (keycode == Input.Keys.ENTER) {
-                if (startNewRound()){
-                    return true;
-                }
+                tryToStartNewRound();
+                return true;
             }
         }
         keyboardControls.getAction(keycode).run();
@@ -212,7 +211,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
     }
 
-    private boolean startNewRound(){
+    private void tryToStartNewRound(){
         if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.getRound() != null) {
             if (!game.getRound().isRoundInProgress()) {
                 game.getRound().setRoundInProgress(true);
@@ -233,6 +232,5 @@ public class GameView extends InputAdapter implements ApplicationListener {
                 }
             }
         }
-        return true;
     }
 }
