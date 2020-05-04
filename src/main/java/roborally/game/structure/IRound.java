@@ -38,4 +38,8 @@ public interface IRound {
      * @return the phase.
      */
     IPhase getPhase();
+
+    boolean isRoundInProgress();
+
+    void setRoundInProgress(boolean roundInProgress);
 }
