@@ -108,7 +108,7 @@ public class Menu {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 playerName = nameBox.getText();
-                if("".equals(playerName))
+                if("".equals(playerName) || playerName.length() > 13)
                     playerName = "Angry";
             }
         });
