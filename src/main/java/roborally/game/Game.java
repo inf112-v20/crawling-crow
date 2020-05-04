@@ -117,6 +117,7 @@ public class Game implements IGame {
         setUserRobot();
         setHasRestarted(true);
         uiElements.createLeaderBoard(getRobots());
+        events.dispose();
 	}
 
 	@Override

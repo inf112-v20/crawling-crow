@@ -200,6 +200,7 @@ public class Events {
     public void dispose() {
         this.laserEvents.clear();
         this.fadeableRobots.clear();
+        this.explosions.clear();
     }
 
     public void setStage(Stage stage) {

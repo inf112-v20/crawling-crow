@@ -50,7 +50,7 @@ public class CollisionListener {
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().equals(pos)) {
                     layers.setRobotTexture(pos, null);
-                    robot.setPosition(new GridPoint2(SettingsUtil.GRAVEYARD));
+                    robot.setPosition(new GridPoint2(nextPos));
                     robot.takeDamage(SettingsUtil.MAX_DAMAGE);
                     robot.clearLaserRegister();
                 }
@@ -73,7 +73,7 @@ public class CollisionListener {
                 GridPoint2 bumpedPos = robot.getPosition();
                 if (bumpedPos.equals(pos) && (nextPos.x >= width || nextPos.x < 0 || nextPos.y >= height || nextPos.y < 0)) {
                     // RobotPresenter "deletion".
-                    robot.setPosition(new GridPoint2(SettingsUtil.GRAVEYARD));
+                    robot.setPosition(new GridPoint2(nextPos));
                     robot.takeDamage(SettingsUtil.MAX_DAMAGE);
                     robot.clearLaserRegister();
                     layers.setRobotTexture(pos, null);
