@@ -39,15 +39,15 @@ public class AnimateEvent {
         if (cardPhase) {
             drawCardsInHand(game, batch, stage);
             stage.act();
-        } else if (playPhase){
+        } else if (playPhase && !game.getGameOptions().inMenu()){
             drawRegisterCards(game, batch, stage);
         }
-        if (events.getFadeRobot() && !game.getGameOptions().getMenu())
+        if (events.getFadeRobot() && !game.getGameOptions().inMenu())
             events.fadeRobots(batch);
-        if (events.hasLaserEvent() && !game.getGameOptions().getMenu())
+        if (events.hasLaserEvent() && !game.getGameOptions().inMenu())
             for (LaserEvent laserEvent : events.getLaserEvents())
                 laserEvent.drawLaserEvent(batch, game.getRobots());
-        if (!game.getGameOptions().getMenu())
+        if (!game.getGameOptions().inMenu())
             drawUIElements(game, batch, stage);
         if(events.hasExplosionEvent()) {
             for(List<Image> list : events.getExplosions()) {

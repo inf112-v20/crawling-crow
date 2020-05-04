@@ -197,7 +197,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
         keyboardControls.getAction(keycode).run();
 
-        if (game.getGameOptions().getMenu()) {
+        if (game.getGameOptions().inMenu()) {
             menu.reloadStage(stage);
             paused = true;
         }

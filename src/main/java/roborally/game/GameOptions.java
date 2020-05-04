@@ -25,7 +25,7 @@ public class GameOptions {
         this.menu = value;
     }
 
-    public boolean getMenu() {
+    public boolean inMenu() {
         return this.menu;
     }
 
