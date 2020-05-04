@@ -186,8 +186,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
                     return true;
                 }
             }
-            debugControls.getAction(keycode).run();
         }
+        debugControls.getAction(keycode).run();
 
         if (game.getGameOptions().getMenu()) {
             menu.reloadStage(stage);
