@@ -214,23 +214,30 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private void tryToStartNewRound(){
         if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.getRound() != null) {
             if (!game.getRound().isRoundInProgress()) {
-                game.getRound().setRoundInProgress(true);
-                // TODO: Should be somewhere else
-                if (!uiElements.hasPowerDownBeenActivated()) {
-                    uiElements.setPowerDownButton(UIElement.POWERED_ON);
-                } else {
-                    uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
-                    uiElements.hasPowerDownBeenActivated(false);
-                }
-
-                uiElements.update(game.getUserRobot());
-                game.dealCards();
-                if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
-                    animateEvent.initiateCards(stage, game.getProgramCardsView());
-                } else {
-                    events.setWaitMoveEvent(true);
-                }
+                    startNewRound();
             }
+        }
+    }
+
+    private void startNewRound(){
+        game.getRound().setRoundInProgress(true);
+        setPowerDownUI();
+
+        uiElements.update(game.getUserRobot());
+        game.dealCards();
+        if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
+            animateEvent.initiateCards(stage, game.getProgramCardsView());
+        } else {
+            events.setWaitMoveEvent(true);
+        }
+    }
+
+    private void setPowerDownUI() {
+        if (!uiElements.hasPowerDownBeenActivated()) {
+            uiElements.setPowerDownButton(UIElement.POWERED_ON);
+        } else {
+            uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
+            uiElements.hasPowerDownBeenActivated(false);
         }
     }
 }
