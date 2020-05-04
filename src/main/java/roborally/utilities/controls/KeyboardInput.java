@@ -44,9 +44,6 @@ public class KeyboardInput implements IControls {
         menuControlMap.put(Input.Keys.T, () -> game.getRound().getPhase().run(game.getLayers()));
         menuControlMap.put(Input.Keys.E, () -> simulateRoundWithoutMovement(game));
         menuControlMap.put(Input.Keys.C, () -> game.getRound().cleanUp());
-        menuControlMap.put(Input.Keys.P, () -> activateAnnouncePowerDownMode(game));
-        menuControlMap.put(Input.Keys.Y, () -> setUserRobotInPowerDown(game, true));
-        menuControlMap.put(Input.Keys.N, () -> setUserRobotInPowerDown(game, false));
     }
 
     private void simulateRoundWithoutMovement(IGame game) {
@@ -54,19 +51,5 @@ public class KeyboardInput implements IControls {
             game.getRound().getPhase().run(game.getLayers());
         }
         game.getRound().run(game.getLayers());
-    }
-
-    private void activateAnnouncePowerDownMode(IGame game) {
-        this.powerDownMode = true;
-        System.out.println("Announce PowerDownMode");
-        game.announcePowerDown();
-    }
-
-    private void setUserRobotInPowerDown(IGame game, boolean powerDown) {
-        this.powerDownMode = true;
-        System.out.println("setting robot in powerDown" + powerDown);
-        if(powerDownMode){
-            game.getUserRobot().getLogic().setPowerDownNextRound(powerDown);
-        }
     }
 }
