@@ -176,29 +176,18 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     // Temporary checks for input from user to play cards instead of moving manually (Enter).
     public boolean keyUp(int keycode) {
-        if (game.getRound() != null) {
-            debugControls.addInGameControls(game);
-        }
-
-        if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
-            // TODO: Should be somewhere else
-            if (!uiElements.hasPowerDownBeenActivated()) {
-                uiElements.setPowerDownButton(UIElement.POWERED_ON);
-            } else {
-                uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
-                uiElements.hasPowerDownBeenActivated(false);
+        if (game.inDebugMode()) {
+            if (game.getRound() != null) {
+                debugControls.addInGameControls(game);
             }
 
-            uiElements.update(game.getUserRobot());
-            game.dealCards();
-            if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
-                animateEvent.initiateCards(stage, game.getProgramCardsView());
-            } else {
-                events.setWaitMoveEvent(true);
+            if (keycode == Input.Keys.ENTER && !events.hasWaitEvent() && !events.hasLaserEvent()) {
+                if (oldPressEnterCode()){
+                    return true;
+                }
             }
-            return true;
+            debugControls.getAction(keycode).run();
         }
-        debugControls.getAction(keycode).run();
 
         if (game.getGameOptions().getMenu()) {
             menu.reloadStage(stage);
@@ -216,5 +205,24 @@ public class GameView extends InputAdapter implements ApplicationListener {
             events.dispose();
         }
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
+    }
+
+    private boolean oldPressEnterCode(){
+        // TODO: Should be somewhere else
+        if (!uiElements.hasPowerDownBeenActivated()) {
+            uiElements.setPowerDownButton(UIElement.POWERED_ON);
+        } else {
+            uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
+            uiElements.hasPowerDownBeenActivated(false);
+        }
+
+        uiElements.update(game.getUserRobot());
+        game.dealCards();
+        if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
+            animateEvent.initiateCards(stage, game.getProgramCardsView());
+        } else {
+            events.setWaitMoveEvent(true);
+        }
+        return true;
     }
 }
