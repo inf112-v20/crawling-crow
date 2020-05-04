@@ -142,7 +142,6 @@ public class AI {
 	}
 
 	private void updateOrder(Card card) {
-		System.out.println(card.getCard());
 		order[pickNr++] = robotLogic.getCardsInHand().indexOf(card);
 	}
 
