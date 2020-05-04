@@ -208,7 +208,7 @@ public class Events {
         this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
     }
 
-    private void createNewExplosionEvent(float x, float y, Color color) {
+    public void createNewExplosionEvent(float x, float y, Color color) {
         ArrayList<Image> exploded = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
             exploded.add(new Image(new Texture("explosion.png")));
