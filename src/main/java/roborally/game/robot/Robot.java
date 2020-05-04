@@ -238,7 +238,6 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
-        System.out.println(getName() + "'s power down status: " + getLogic().getPowerDown());
         IProgramCards.Card card = getLogic().getNextCardInRegister();
         if (card == null || getLogic().getPowerDown())
             return;

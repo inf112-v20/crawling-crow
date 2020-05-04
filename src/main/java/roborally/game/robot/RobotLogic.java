@@ -169,6 +169,10 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public IProgramCards drawCards(IProgramCards deckOfProgramCards) {
+        if(SettingsUtil.DEBUG_MODE){
+            System.out.println();
+            System.out.println(getName() + "'s power down status: " + getPowerDown());
+        }
         ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
 
         for (int i = 0; i < getNumberOfCardsToDraw(); i++) {
