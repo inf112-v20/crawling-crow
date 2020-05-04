@@ -22,12 +22,13 @@ public class AnimateEvent {
     private UIElements uiElements;
     private boolean cardPhase;
     private boolean playPhase;
-    private float abc;
+    private WinEvent winEvent;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
         this.programCardsView = programCardsView;
         this.uiElements = uiElements;
+        this.winEvent = new WinEvent();
     }
 
     /**
@@ -106,21 +107,7 @@ public class AnimateEvent {
             uiElements.getRestartButton().draw(batch, 1);
             uiElements.getExitButton().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
-            abc+=Gdx.graphics.getDeltaTime();
-            if(abc > 0.3 && abc < 0.315) {
-                events.createNewExplosionEvent(400+ 400 * abc, 600 + 200 * abc, Color.RED);
-            }
-            else if(abc > 0.6 && abc < 0.615) {
-                events.createNewExplosionEvent(500 + 200 * abc, 400 + 300 * abc, Color.BLUE);
-            }
-            else if (abc > 0.9 && abc < 0.915) {
-                events.createNewExplosionEvent(300 + 500 * abc, 700 + 100 * abc, Color.GREEN);
-            }
-            else if (abc > 1.2 && abc < 1.215) {
-                events.createNewExplosionEvent(700 + 100 * abc, 500 + 200 * abc, Color.YELLOW);
-            }
-            else if (abc > 1.5)
-                abc = 0;
+            winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
             events.setWaitMoveEvent(false);
         }
     }
