@@ -127,7 +127,7 @@ public class ProgramCardsView {
                     }
                 if (cardPick == SettingsUtil.REGISTER_SIZE) {
                     card.setColor(Color.RED);
-                    System.out.println("You cannot select more than 5 cards");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
                 selectedOrderList.add(cardPick, selectedOrderLabel);
@@ -277,7 +277,6 @@ public class ProgramCardsView {
                 }
             }
             temporaryTimerOrder();
-            System.out.println(Arrays.toString(order));
             cardPick = -1;
         }
     }

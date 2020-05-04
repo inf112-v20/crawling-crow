@@ -3,6 +3,7 @@ package roborally.game.gameboard.objects;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
@@ -26,7 +27,7 @@ public class ConveyorBelt {
 			GridPoint2 pos = robot.getPosition();
 			if (layers.layerNotNull(layerName, pos)) {
 				TileName tileName = layers.getTileName(layerName, pos);
-				System.out.println(robot.getName() + " is on " + tileName.toString());
+				if (SettingsUtil.DEBUG_MODE) System.out.println(robot.getName() + " is on " + tileName.toString());
 				if (tileName.toString().contains("TO_EAST") || tileName.toString().contains("JOIN_EAST"))
 					robotsOnBelts.get(0).add(robot);
 				else if (tileName.toString().contains("TO_NORTH") || tileName.toString().contains("JOIN_NORTH"))

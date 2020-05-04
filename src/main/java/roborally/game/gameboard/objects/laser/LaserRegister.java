@@ -57,10 +57,9 @@ public class LaserRegister {
         if (activeLasers.get(name) != null) {
             activeLasers.get(name).forEach(laser -> {
                 laser.update();
-                if (laser.gotPos(pos)) {
-                    System.out.println("Cannon at " + laser.getPosition());
-                } else
+                if (!laser.gotPos(pos)) {
                     temp.add(laser);
+                }
             });
             temp.forEach(laser -> activeLasers.get(name).remove(laser));
         }

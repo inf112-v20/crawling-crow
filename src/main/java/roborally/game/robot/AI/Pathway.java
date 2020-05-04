@@ -66,7 +66,6 @@ public class Pathway {
 		positions = stepInDirection(value);
 		double theDistance = distanceToFlag();
 		if (isWall(positions)) {
-			System.out.println("is wall");
 			theDistance = 9999;
 		}
 		this.position = posCopy;

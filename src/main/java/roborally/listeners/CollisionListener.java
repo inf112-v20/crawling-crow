@@ -39,10 +39,10 @@ public class CollisionListener {
                 recursiveRobot = robotNextToRobot(nextPos, move);
             for (Robot robot : AssetManagerUtil.getRobots())
                 if (robot.getPosition().x == pos.x && robot.getPosition().y == pos.y && !recursiveRobot) {
-                    System.out.println("\nPushing robot...");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("\nPushing robot...");
                     robot.tryToMove(move);
                     robot.checkForStationaryLaser();
-                    System.out.println("Pushing robot complete");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("Pushing robot complete");
                 }
         }
         // RobotPresenter "deletion"
@@ -78,10 +78,10 @@ public class CollisionListener {
                     robot.clearLaserRegister();
                     layers.setRobotTexture(pos, null);
                 } else if (bumpedPos.equals(pos)) {
-                    System.out.println("\nPushing... ");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("\nPushing... ");
                     robot.tryToMove(move);
                     robot.checkForStationaryLaser();
-                    System.out.println("Pushing complete... ");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("Pushing complete... ");
                     if (layers.layerNotNull(LayerName.FLAG, nextPos))  //Checks if the robot got bumped into a flag.
                         robot.setVictoryTexture();
                     else if (layers.layerNotNull(LayerName.HOLE, nextPos)) //Checks if the robot got bumped into a hole.

@@ -109,7 +109,7 @@ public class RobotLogic implements IRobotLogic {
 
     public void setArchiveMarker(GridPoint2 pos) {
         this.archiveMarker = pos;
-        System.out.println("- " + getName() + " has its Archive marker at " + getArchiveMarker());
+        if (SettingsUtil.DEBUG_MODE) System.out.println("- " + getName() + " has its Archive marker at " + getArchiveMarker());
     }
     //endregion
     //endregion
@@ -128,8 +128,7 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public boolean takeDamage(int damage) {
-        // UNCOMMENT to debug
-        // System.out.println("Took damage: " + damage + ". Robot: " + name);
+        if (SettingsUtil.DEBUG_MODE) System.out.println("Took damage: " + damage + ". Robot: " + name);
         health -= damage;
         if (health < 0) {
             health = 0;
@@ -174,6 +173,9 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public IProgramCards drawCards(IProgramCards deckOfProgramCards) {
+        if(SettingsUtil.DEBUG_MODE){
+            System.out.println(getName() + "'s power down status: " + getPowerDown());
+        }
         ArrayList<IProgramCards.Card> cardsDrawn = new ArrayList<>();
 
         for (int i = 0; i < getNumberOfCardsToDraw(); i++) {
@@ -194,19 +196,19 @@ public class RobotLogic implements IRobotLogic {
             newOrder[i] = i;
         }
         arrangeCardsInHand(newOrder);
-        fillFirstCardsFromHandIntoRegister();
     }
 
     private void fillFirstCardsFromHandIntoRegister() {
         int cardsMissingInRegister = Math.min(getNumberOfCardsToDraw(), 5);
         Card[] cardToRegister = new Card[cardsMissingInRegister];
 
-        // UNCOMMENT to debug if necessary
-         System.out.println();
-         System.out.println(name + " " + health);
-         System.out.println("Locked cards: " + register.getNumberOfLockedCards());
-         System.out.println("In hand: " + cardsInHand.getCards().size());
-         System.out.println("To place: " + cardToRegister.length);
+        if (SettingsUtil.DEBUG_MODE) {
+            System.out.println(name + "'s health: " + health);
+            System.out.println("Locked cards: " + register.getNumberOfLockedCards());
+            System.out.println("In hand: " + cardsInHand.getCards().size());
+            System.out.println("To place: " + cardToRegister.length);
+            System.out.println();
+        }
 
         for(int i = 0; i < cardsMissingInRegister; i++){
             cardToRegister[i] = cardsInHand.getCards().get(i);
@@ -248,7 +250,9 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void cleanRegister(){
-        System.out.println("\t\t- " + name + " has hp: " + health + ". Locking " + getNumberOfCardsToLock() + " cards..");
+        if (SettingsUtil.DEBUG_MODE) {
+            System.out.println("\t\t- " + name + " has hp: " + health + ". Locking " + getNumberOfCardsToLock() + " cards..");
+        }
         register.cleanRegister(getNumberOfCardsToLock());
         if(register.getNumberOfLockedCards() != getNumberOfCardsToLock()){
             throw new IllegalStateException("Unexpected number of cards in register after cleanup." +
@@ -297,13 +301,15 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void visitNextFlag() {
-        System.out.println("- Updated next flag to visit");
+        if (SettingsUtil.DEBUG_MODE) System.out.println("- Updated next flag to visit");
         int nextFlag = getNextFlag();
         visitedFlags[nextFlag - 1] = true;
-        if (nextFlag == visitedFlags.length)
-            System.out.println("- Congratulations you have collected all the flags, press 'W' to end the game.");
-        else
-            System.out.println("- Next flag to visit: " + (nextFlag + 1));
+        if (SettingsUtil.DEBUG_MODE) {
+            if (nextFlag == visitedFlags.length)
+                System.out.println("- Congratulations you have collected all the flags!");
+            else
+                System.out.println("- Next flag to visit: " + (nextFlag + 1));
+        }
     }
 
     @Override
@@ -327,7 +333,7 @@ public class RobotLogic implements IRobotLogic {
 
     @Override
     public void setPowerDownNextRound(boolean powerDownNextRound) {
-        System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
+        if (SettingsUtil.DEBUG_MODE) System.out.println(getName() + " is set power down to: " + powerDownNextRound + " next round");
         this.powerDownNextRound = powerDownNextRound;
     }
 
