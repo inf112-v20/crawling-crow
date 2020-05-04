@@ -112,6 +112,7 @@ public class Round implements IRound {
 		System.out.println("\t- Restoring robots...");
 		for (Robot robot : robots) {
 			robot.backToArchiveMarker();
+			robot.setFalling(false);
 			updateUserRobotUIElements(robot);
 		}
 	}
