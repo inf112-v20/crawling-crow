@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import roborally.game.IGame;
 import roborally.events.Events;
+import roborally.game.IGame;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.assets.SoundAssets;
@@ -73,7 +73,7 @@ public class Menu {
         setContinueButton();
         setLabels();
         setOptionsListeners();
-        setChangeMapListeners();
+        setOptionsListeners2();
         setNameInputField();
         stage.addActor(gameSpeedLabel);
         stage.addActor(laserSpeedLabel);
@@ -212,28 +212,7 @@ public class Menu {
         });
     }
 
-    private void setChangeMapListeners() {
-        previousMapLabel.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 0)
-                    mapId = 1;
-                else
-                    mapId -= 1;
-                return true;
-            }
-        });
-        nextMapLabel.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 1)
-                    mapId = 0;
-                else
-                    mapId += 1;
-                return true;
-            }
-        });
-
+    private void setOptionsListeners2() {
         playSongLabel.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -260,6 +239,17 @@ public class Menu {
                 }
             }
         });
+        volumeSlider.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                SettingsUtil.VOLUME = volumeSlider.getValue();
+                volumeLabel.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
+            }
+        });
+    }
+
+    private void setVolumeSlider() {
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
         Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
         birdImage.setSize(15, 20);
@@ -271,16 +261,7 @@ public class Menu {
         sliderStyle.knob = birdImage.getDrawable();
         volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
         volumeSlider.setValue(0.6f);
-        volumeSlider.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                SettingsUtil.VOLUME = volumeSlider.getValue();
-                volumeLabel.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
-            }
-        });
-
-        volumeSlider.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f + 30);
+        volumeSlider.setPosition(playSongLabel.getX(), playSongLabel.getY() - (volumeSlider.getHeight() * 2f));
     }
 
     public boolean isResume(IGame game) {
@@ -362,14 +343,15 @@ public class Menu {
     private void setLabels() {
         gameSpeedLabel = new Label("Game Speed: normal", labelStyle);
         laserSpeedLabel = new Label("Laser Speed: normal", labelStyle);
-        playSongLabel = new Label("Play a song: ", labelStyle);
+        playSongLabel = new Label("Play a song", labelStyle);
         volumeLabel = new Label("Volume ", labelStyle);
-        volumeLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f + 60);
+        playSongLabel.setPosition(stage.getWidth() - 200, (stage.getHeight() / 1.5f) + 60);
+        setVolumeSlider();
+        volumeLabel.setPosition(playSongLabel.getX(), volumeSlider.getY() - (volumeLabel.getPrefHeight() * 2f));
         gSpeed = 0;
         lSpeed = 2;
-        laserSpeedLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f);
-        gameSpeedLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 30);
-        playSongLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 60);
+        laserSpeedLabel.setPosition(playSongLabel.getX(), volumeLabel.getY() - (laserSpeedLabel.getPrefHeight() * 2f));
+        gameSpeedLabel.setPosition(playSongLabel.getX(), laserSpeedLabel.getY() - (gameSpeedLabel.getPrefHeight() * 2f));
         previousMapLabel = new Label("<", labelStyle);
         nextMapLabel = new Label(">", labelStyle);
         previousMapLabel.setFontScale(2);
@@ -380,6 +362,26 @@ public class Menu {
         nextMapLabel.setPosition(mapImagePosEndX, centerVertical(nextMapLabel.getPrefHeight()));
         previousMapLabel.scaleBy(2);
         nextMapLabel.scaleBy(2);
+        previousMapLabel.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (mapId == 0)
+                    mapId = 1;
+                else
+                    mapId -= 1;
+                return true;
+            }
+        });
+        nextMapLabel.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (mapId == 1)
+                    mapId = 0;
+                else
+                    mapId += 1;
+                return true;
+            }
+        });
     }
 
     private void setMainMenuButtons () {
