@@ -57,24 +57,19 @@ public class Menu {
 
     public Menu(Stage stage, Events events) {
         this.stage = stage;
-        skin = new Skin(Gdx.files.internal("data/skin.json"));
-        labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
+        this.skin = new Skin(Gdx.files.internal("data/skin.json"));
+        this.labelStyle = new Label.LabelStyle();
+        this.labelStyle.font = new BitmapFont();
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
         this.events = events;
-        imageLists = new HashMap<>();
-        startGame = 0;
-        imageLists.put("menus", new ArrayList<>());
-        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
-        menu.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
-        imageLists.get("menus").add(menu);
-        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
-        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()), centerVertical(mapButton.getPrefHeight()));
-        changeMapMenu = false;
-        playerName = "Angry";
-        addMaps();
+        this.imageLists = new HashMap<>();
+        this.startGame = 0;
+        this.imageLists.put("menus", new ArrayList<>());
+        setMenu();
+        this.playerName = "Angry";
+        setChangeMap();
         setContinueButton();
         setLabels();
         makeOptionListeners();
@@ -88,7 +83,20 @@ public class Menu {
         stage.addActor(nameButton);
         setMainMenuButtons();
         this.sliders = new Sliders();
-        sliders.abc();
+        this.sliders.abc();
+    }
+
+    private void setMenu() {
+        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
+        menu.setSize(stage.getWidth(), stage.getHeight());
+        imageLists.get("menus").add(menu);
+    }
+
+    private void setChangeMap() {
+        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
+        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()), centerVertical(mapButton.getPrefHeight()));
+        changeMapMenu = false;
+        addMaps();
     }
 
     public String getPlayerName() {
