@@ -26,6 +26,8 @@ public class CardAssets implements Assets {
 			= new AssetDescriptor<>("cards/move_3.png", Texture.class);
 	private static final AssetDescriptor<Texture> U_TURN
 			= new AssetDescriptor<>("cards/u_turn.png", Texture.class);
+	private static final AssetDescriptor<Texture> CARD_BACK
+			= new AssetDescriptor<>("cards/card_back.png", Texture.class);
 
 	@Override
 	public void loadAssets(AssetManager manager) {
@@ -36,6 +38,7 @@ public class CardAssets implements Assets {
 		manager.load(MOVE_2);
 		manager.load(MOVE_3);
 		manager.load(U_TURN);
+		manager.load(CARD_BACK);
 	}
 
 	@Override
@@ -63,4 +66,4 @@ public class CardAssets implements Assets {
 	public int getProgramCardHeight() {
 		return this.programCardHeight;
 	}
-	}
+}
