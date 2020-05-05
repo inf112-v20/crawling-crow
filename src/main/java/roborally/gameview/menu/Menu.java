@@ -372,7 +372,7 @@ public class Menu {
         nextMapLabel.scaleBy(2);
     }
 
-    private void setMainMenuButtons() {
+    private void setMainMenuButtons () {
         ArrayList<Image> clickableButtons = new ArrayList<>();
         TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons(), 200, 50);
         float y = stage.getHeight() / 2f;
