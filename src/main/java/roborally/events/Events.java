@@ -171,21 +171,22 @@ public class Events {
     }
 
     public Color findColorByName(String name) {
-        if(name.toLowerCase().contains("red"))
-            return Color.RED;
-        else if(name.toLowerCase().contains("blue"))
-            return Color.BLUE;
-        else if(name.toLowerCase().contains("green"))
-            return Color.GREEN;
-        else if(name.toLowerCase().contains("orange"))
-            return Color.GOLDENROD;
-        else if(name.toLowerCase().contains("purple"))
-            return Color.PURPLE;
-        else if(name.toLowerCase().contains("pink"))
-            return Color.PINK;
-        else if(name.toLowerCase().contains("yellow"))
-            return Color.YELLOW;
-        return Color.FIREBRICK;
+        if (name.toLowerCase().contains("red")) {
+            return new Color(237/255f, 28/255f, 36/255f, 1);
+        } else if (name.toLowerCase().contains("blue")) {
+            return new Color(0/255f, 162/255f, 232/255f, 1);
+        } else if (name.toLowerCase().contains("green")) {
+            return new Color(34/255f, 177/255f, 76/255f, 1);
+        } else if (name.toLowerCase().contains("orange")) {
+            return new Color(255/255f, 127/255f, 39/255f, 1);
+        } else if (name.toLowerCase().contains("purple")) {
+            return new Color(163/255f, 73/255f, 164/255f, 1);
+        } else if (name.toLowerCase().contains("pink")) {
+            return new Color(255/255f, 128/255f, 255/255f, 1);
+        } else if (name.toLowerCase().contains("yellow")) {
+            return new Color(255/255f, 242/255f, 0/255f, 1);
+        }
+        return new Color(136/255f, 0/255f, 21/255f, 1);
     }
 
     /**
