@@ -178,7 +178,7 @@ public class Events {
         else if(name.toLowerCase().contains("green"))
             return Color.GREEN;
         else if(name.toLowerCase().contains("orange"))
-            return Color.ORANGE;
+            return Color.GOLDENROD;
         else if(name.toLowerCase().contains("purple"))
             return Color.PURPLE;
         else if(name.toLowerCase().contains("pink"))
