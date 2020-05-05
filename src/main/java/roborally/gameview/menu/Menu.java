@@ -26,12 +26,15 @@ import java.util.HashMap;
 
 // Menu under construction!
 public class Menu {
-    private Stage stage;
+    private final Stage stage;
+    private final HashMap<String, ArrayList<Image>> imageLists;
+    private final Label.LabelStyle labelStyle;
+    private final Events events;
+    private final Skin skin;
     private boolean changeMap;
     private Music Song;
     private int mapId;
     private int startGame;
-    private HashMap<String, ArrayList<Image>> imageLists;
     private boolean changeMapMenu;
     private Label playSongLabel;
     private Label previousMapLabel;
@@ -40,20 +43,15 @@ public class Menu {
     private Label laserSpeedLabel;
     private Label volumeLabel;
     private Slider volumeSlider;
-    private Label.LabelStyle labelStyle;
     private Image mapButton;
     private Image continueButton;
-    private Events events;
     private boolean resume;
     private int gSpeed;
     private int lSpeed;
     private boolean Continue;
-    private Sliders sliders;
-    private Skin skin;
     private TextArea nameInput;
     private TextButton nameButton;
     private String playerName;
-    private Label nameLabel;
 
     public Menu(Stage stage, Events events) {
         this.stage = stage;
@@ -82,8 +80,8 @@ public class Menu {
         stage.addActor(nameInput);
         stage.addActor(nameButton);
         setMainMenuButtons();
-        this.sliders = new Sliders();
-        this.sliders.abc();
+        Sliders sliders = new Sliders();
+        sliders.abc();
     }
 
     private void setMenu() {
@@ -111,11 +109,6 @@ public class Menu {
                 , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput.setWidth(nameInput.getWidth() - 50);
         nameInput.getStyle().fontColor = Color.RED;
-        /*nameLabel = new Label("Name", skin);
-        nameLabel.setColor(Color.BLUE);
-        nameLabel.setFontScale(1.5f);
-        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()) - (nameLabel.getPrefWidth() / 2f)
-        , centerVertical(nameLabel.getPrefHeight()) + continueButton.getPrefHeight());*/
         nameButton = new TextButton("Change name", skin);
         nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
         nameButton.addListener(new ClickListener(){
