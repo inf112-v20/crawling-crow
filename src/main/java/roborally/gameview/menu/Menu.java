@@ -94,7 +94,9 @@ public class Menu {
 
     private void setChangeMap() {
         mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
-        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()), centerVertical(mapButton.getPrefHeight()));
+        mapButton.setSize(mapButton.getWidth() * 3f, mapButton.getHeight() * 3f);
+        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()) - (1 / 3f * mapButton.getWidth())
+                , centerVertical(mapButton.getPrefHeight() + ( 1 / 3f * mapButton.getHeight())));
         changeMapMenu = false;
         addMaps();
     }
@@ -105,13 +107,15 @@ public class Menu {
 
     private void setNameInputField() {
         nameInput = new TextArea("Angry", skin);
-        nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth()), centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
+        nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth())
+                , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput.setWidth(nameInput.getWidth() - 50);
         nameInput.getStyle().fontColor = Color.RED;
         /*nameLabel = new Label("Name", skin);
         nameLabel.setColor(Color.BLUE);
         nameLabel.setFontScale(1.5f);
-        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()) - (nameLabel.getPrefWidth() / 2f), centerVertical(nameLabel.getPrefHeight()) + continueButton.getPrefHeight());*/
+        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()) - (nameLabel.getPrefWidth() / 2f)
+        , centerVertical(nameLabel.getPrefHeight()) + continueButton.getPrefHeight());*/
         nameButton = new TextButton("Change name", skin);
         nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
         nameButton.addListener(new ClickListener(){
@@ -126,7 +130,8 @@ public class Menu {
 
     private void setContinueButton() {
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
-        continueButton.setPosition(centerHorizontal(continueButton.getPrefWidth()), centerVertical(continueButton.getPrefHeight()));
+        continueButton.setPosition(centerHorizontal(continueButton.getPrefWidth())
+                , centerVertical(continueButton.getPrefHeight()));
         continueButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -261,7 +266,8 @@ public class Menu {
         sliderStyle.knob = birdImage.getDrawable();
         volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
         volumeSlider.setValue(0.6f);
-        volumeSlider.setPosition(playSongLabel.getX(), playSongLabel.getY() - (volumeSlider.getHeight() * 2f));
+        volumeSlider.setPosition(playSongLabel.getX(), playSongLabel.getY()
+                - (volumeSlider.getHeight() * 2f));
     }
 
     public boolean isResume(IGame game) {
@@ -322,7 +328,7 @@ public class Menu {
             volumeSlider.draw(batch, 1);
             volumeLabel.draw(batch, 1);
             playSongLabel.draw(batch, 1);
-            sliders.drawSliders(batch);
+            //sliders.drawSliders(batch);
             if (startGame == 1)
                 continueButton.draw(batch, 1);
         } else {
@@ -347,26 +353,32 @@ public class Menu {
         volumeLabel = new Label("Volume ", labelStyle);
         playSongLabel.setPosition(stage.getWidth() - 200, (stage.getHeight() / 1.5f) + 60);
         setVolumeSlider();
-        volumeLabel.setPosition(playSongLabel.getX(), volumeSlider.getY() - (volumeLabel.getPrefHeight() * 2f));
+        volumeLabel.setPosition(playSongLabel.getX()
+                , volumeSlider.getY() - (volumeLabel.getPrefHeight() * 2f));
         gSpeed = 0;
         lSpeed = 2;
-        laserSpeedLabel.setPosition(playSongLabel.getX(), volumeLabel.getY() - (laserSpeedLabel.getPrefHeight() * 2f));
-        gameSpeedLabel.setPosition(playSongLabel.getX(), laserSpeedLabel.getY() - (gameSpeedLabel.getPrefHeight() * 2f));
+        laserSpeedLabel.setPosition(playSongLabel.getX(),
+                volumeLabel.getY() - (laserSpeedLabel.getPrefHeight() * 2f));
+        gameSpeedLabel.setPosition(playSongLabel.getX(),
+                laserSpeedLabel.getY() - (gameSpeedLabel.getPrefHeight() * 2f));
         previousMapLabel = new Label("<", labelStyle);
         nextMapLabel = new Label(">", labelStyle);
         previousMapLabel.setFontScale(2);
         nextMapLabel.setFontScale(2);
         float mapImagePosStartX = imageLists.get("maps").get(0).getX();
-        float mapImagePosEndX = imageLists.get("maps").get(0).getWidth() + imageLists.get("maps").get(0).getX();
-        previousMapLabel.setPosition(mapImagePosStartX - previousMapLabel.getPrefWidth(), centerVertical(previousMapLabel.getPrefHeight()));
-        nextMapLabel.setPosition(mapImagePosEndX, centerVertical(nextMapLabel.getPrefHeight()));
+        float mapImagePosEndX = imageLists.get("maps").get(0).getWidth()
+                + imageLists.get("maps").get(0).getX();
+        previousMapLabel.setPosition(mapImagePosStartX - previousMapLabel.getPrefWidth() - 50
+                , centerVertical(previousMapLabel.getPrefHeight() - 50));
+        nextMapLabel.setPosition(mapImagePosEndX + 50
+                , centerVertical(nextMapLabel.getPrefHeight() - 50));
         previousMapLabel.scaleBy(2);
         nextMapLabel.scaleBy(2);
         previousMapLabel.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (mapId == 0)
-                    mapId = 1;
+                    mapId = 2;
                 else
                     mapId -= 1;
                 return true;
@@ -375,7 +387,7 @@ public class Menu {
         nextMapLabel.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 1)
+                if (mapId == 2)
                     mapId = 0;
                 else
                     mapId += 1;
@@ -386,7 +398,8 @@ public class Menu {
 
     private void setMainMenuButtons () {
         ArrayList<Image> menuButtons = new ArrayList<>();
-        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons(), 200, 50);
+        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons()
+                , 200, 50);
         float y = stage.getHeight() / 2f;
         for (int i = 0; i < 3; i++) {
             menuButtons.add(new Image(buttons[i][0]));
