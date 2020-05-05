@@ -72,8 +72,8 @@ public class Menu {
         setChangeMap();
         setContinueButton();
         setLabels();
-        makeOptionListeners();
-        addMoreListeners();
+        setOptionsListeners();
+        setChangeMapListeners();
         setNameInputField();
         stage.addActor(gameSpeedLabel);
         stage.addActor(laserSpeedLabel);
@@ -153,7 +153,7 @@ public class Menu {
         return (stage.getHeight() / 2f) - (elementHeight / 2f);
     }
 
-    private void makeOptionListeners() {
+    private void setOptionsListeners() {
         gameSpeedLabel.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -212,7 +212,7 @@ public class Menu {
         });
     }
 
-    private void addMoreListeners() {
+    private void setChangeMapListeners() {
         previousMapLabel.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
