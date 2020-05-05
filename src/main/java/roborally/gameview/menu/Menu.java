@@ -26,6 +26,7 @@ import java.util.HashMap;
 
 // Menu under construction!
 public class Menu {
+    private Stage stage;
     private boolean changeMap;
     private Music Song;
     private int mapId;
@@ -49,12 +50,13 @@ public class Menu {
     private boolean Continue;
     private Sliders sliders;
     private Skin skin;
-    private TextArea nameBox;
+    private TextArea nameInput;
     private TextButton nameButton;
     private String playerName;
-    private Label nameHere;
+    private Label nameLabel;
 
     public Menu(Stage stage, Events events) {
+        this.stage = stage;
         skin = new Skin(Gdx.files.internal("data/skin.json"));
         labelStyle = new Label.LabelStyle();
         labelStyle.font = new BitmapFont();
@@ -82,7 +84,7 @@ public class Menu {
         stage.addActor(laserSpeed);
         stage.addActor(volumeSlider);
         stage.addActor(playSong);
-        stage.addActor(nameBox);
+        stage.addActor(nameInput);
         stage.addActor(nameButton);
         makeClickableButtons(stage);
         this.sliders = new Sliders();
@@ -94,27 +96,26 @@ public class Menu {
     }
 
     private void addNameFunction() {
-        nameHere = new Label("Name: ", skin);
-        nameHere.setColor(Color.BLUE);
-        nameHere.setFontScale(1.5f);
-        nameHere.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 15 ,SettingsUtil.WINDOW_HEIGHT / 2f + 58);
-        nameBox = new TextArea("Angry", skin);
+        nameLabel = new Label("Name: ", skin);
+        nameLabel.setColor(Color.BLUE);
+        nameLabel.setFontScale(1.5f);
+        nameLabel.setPosition((stage.getWidth() / 2f) - nameLabel.getPrefWidth(),(stage.getHeight() / 2f) - nameLabel.getPrefHeight());
+        nameInput = new TextArea("Angry", skin);
+        nameInput.setPosition(nameLabel.getX() + (nameInput.getPrefWidth() / 2f), nameLabel.getY());
+        nameInput.setWidth(nameInput.getWidth() -50);
+        nameInput.getStyle().fontColor = Color.RED;
         nameButton = new TextButton("OK", skin);
-        nameBox.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 75 ,SettingsUtil.WINDOW_HEIGHT / 2f + 50);
-        nameBox.setWidth(nameBox.getWidth() -50);
-        nameBox.getStyle().fontColor = Color.RED;
-        nameButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 180 ,SettingsUtil.WINDOW_HEIGHT / 2f + 45);
+        nameButton.setPosition(nameInput.getX() + nameButton.getPrefWidth(), nameLabel.getY());
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                playerName = nameBox.getText();
+                playerName = nameInput.getText();
                 if("".equals(playerName) || playerName.length() > 13)
                     playerName = "Angry";
             }
         });
     }
     private void addEvenMoreListeners() {
-
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
         continueButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 70, SettingsUtil.WINDOW_HEIGHT / 2f - 25);
         continueButton.setWidth(continueButton.getWidth() + 150);
@@ -316,8 +317,8 @@ public class Menu {
         if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
-            nameHere.draw(batch, 1);
-            nameBox.draw(batch, 1);
+            nameLabel.draw(batch, 1);
+            nameInput.draw(batch, 1);
             nameButton.draw(batch, 1);
             gameSpeed.draw(batch, 1);
             laserSpeed.draw(batch, 1);
@@ -395,7 +396,7 @@ public class Menu {
                 changeMapMenu = false;
                 startGame = 0;
                 stage.clear();
-                stage.addActor(nameBox);
+                stage.addActor(nameInput);
                 stage.addActor(nameButton);
                 stage.addActor(gameSpeed);
                 stage.addActor(laserSpeed);
