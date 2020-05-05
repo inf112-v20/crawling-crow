@@ -159,7 +159,7 @@ public class Events {
             if (laserEvent.getRobot() != null) { // Fades and removes robots shot by lasers interactively.
                 if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
                     GridPoint2 pos = laserEvent.getRobot().getPosition();
-                    Color color = findColorByName(laserEvent.getRobot().getLogic().getName());
+                    Color color = findRobotColorByName(laserEvent.getRobot().getLogic().getName());
                     fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling(), color);
                     laserEvent.getRobot().deleteRobot();
                     setFadeRobot(true);
@@ -170,7 +170,7 @@ public class Events {
         return this.laserEvents;
     }
 
-    public Color findColorByName(String name) {
+    public Color findRobotColorByName(String name) {
         if (name.toLowerCase().contains("red")) {
             return new Color(237/255f, 28/255f, 36/255f, 1);
         } else if (name.toLowerCase().contains("blue")) {
@@ -295,7 +295,7 @@ public class Events {
     }
 
     public void createArchiveBorder(GridPoint2 pos, String name) {
-        Color color = findColorByName(name);
+        Color color = findRobotColorByName(name);
         Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
@@ -326,7 +326,7 @@ public class Events {
     }
 
     public void removeFromUI(Robot robot) {
-        Color color = findColorByName(robot.getName());
+        Color color = findRobotColorByName(robot.getName());
         fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
         robot.deleteRobot();
         if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Removed " + robot.getName() + " from UI");
