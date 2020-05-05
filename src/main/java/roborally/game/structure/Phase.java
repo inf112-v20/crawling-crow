@@ -146,7 +146,10 @@ public class Phase implements IPhase {
 		for (BoardObject repairSite : repairSites) {
 			for (Robot robot : robots) {
 				if (robot.getPosition().equals(repairSite.getPosition())) {
-					robot.getLogic().setArchiveMarker(repairSite.getPosition());
+					if(!robot.getLogic().getArchiveMarker().equals(repairSite.getPosition())) {
+						robot.getLogic().setArchiveMarker(repairSite.getPosition());
+						events.createArchiveBorder(robot.getPosition(), robot.getName());
+					}
 					robot.getLogic().addHealth(1);
 					if (SettingsUtil.DEBUG_MODE) System.out.println("- Type of repair site: " + repairSite.getType().name());
 				}
@@ -164,7 +167,10 @@ public class Phase implements IPhase {
 				if (robot.getLogic().getPosition().equals(flag.getPosition())) {
 					int nextFlag = robot.getLogic().getNextFlag();
 					robot.getLogic().addHealth(1);
-					robot.getLogic().setArchiveMarker(flag.getPosition());
+					if(!robot.getLogic().getArchiveMarker().equals(flag.getPosition())) {
+						robot.getLogic().setArchiveMarker(flag.getPosition());
+						events.createArchiveBorder(robot.getPosition(), robot.getName());
+					}
 					if (flag.getID() == nextFlag) {
 						robot.visitNextFlag();
 						if (SettingsUtil.DEBUG_MODE) {

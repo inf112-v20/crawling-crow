@@ -13,7 +13,9 @@ import roborally.game.robot.Robot;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /** This class handles events in the game.
@@ -36,6 +38,7 @@ public class Events {
     private float xShift;
     private float yShift;
     private List<List<Image>> explosions;
+    private Map<String, Image> archives;
 
     public Events() {
         this.waitEvent = false;
@@ -47,6 +50,8 @@ public class Events {
         this.gameSpeed = 0.2;
         this.setLaserSpeed("normal");
         this.explosions = new ArrayList<>();
+        this.archives = new HashMap<>();
+
     }
 
     /**
@@ -180,9 +185,7 @@ public class Events {
             return Color.PINK;
         else if(name.toLowerCase().contains("yellow"))
             return Color.YELLOW;
-        else if(name.toLowerCase().contains("angry"))
-            return Color.FIREBRICK;
-        return Color.RED;
+        return Color.FIREBRICK;
     }
 
     /**
@@ -200,6 +203,7 @@ public class Events {
         this.laserEvents.clear();
         this.fadeableRobots.clear();
         this.explosions.clear();
+        this.archives.clear();
     }
 
     public void setStage(Stage stage) {
@@ -287,6 +291,37 @@ public class Events {
                 removeFromUI(robot);
             }
         }
+    }
+
+    public void createArchiveBorder(GridPoint2 pos, String name) {
+        Color color = findColorByName(name);
+        Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
+        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
+        image.setColor(color);
+        while(true)
+            if(!checkForMultipleArchives(image))
+                break;
+        archives.put(name, image);
+    }
+
+    public boolean checkForMultipleArchives(Image image) {
+        for(Image storedImage : archives.values()) {
+            if(image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
+                image.setSize(image.getWidth() + 6, image.getHeight() + 6);
+                image.setPosition(image.getX() - 3, image.getY() - 3);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasArchiveBorders() {
+        return !archives.isEmpty();
+    }
+
+    public Map<String, Image> getArchiveBorders() {
+        return this.archives;
     }
 
     public void removeFromUI(Robot robot) {

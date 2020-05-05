@@ -56,6 +56,10 @@ public class AnimateEvent {
                     image.draw(batch, 1);
             }
         }
+        if(events.hasArchiveBorders() && !game.getGameOptions().inMenu()) {
+            for(Image image : events.getArchiveBorders().values())
+                image.draw(batch, 1);
+        }
         batch.end();
     }
 
