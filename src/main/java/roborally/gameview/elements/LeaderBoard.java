@@ -1,10 +1,11 @@
 package roborally.gameview.elements;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 
@@ -16,10 +17,13 @@ public class LeaderBoard {
 	public ArrayList<Group> playersUI;
 	public HashMap<Group, Robot> robotList;
 	private HashMap<Group, TextureRegion[][]> groupList;
+	private Skin skin;
+
 	public void addPlayers(ArrayList<Robot> robots) {
 		playersUI = new ArrayList<>();
 		robotList = new HashMap<>();
 		groupList = new HashMap<>();
+		skin = new Skin(Gdx.files.internal("data/skin.json"));
 		for(Robot robot: robots) {
 			addGroup(robot);
 		}
@@ -32,12 +36,10 @@ public class LeaderBoard {
 		group.addActor(image);
 		robotList.put(group, robot);
 		playersUI.add(group);
-		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = new BitmapFont();
-		Label robotName = new Label(robot.getName(), labelStyle);
-		robotName.setFontScale(1.75f);
+		Label robotName = new Label(robot.getName(), skin);
+		robotName.setFontScale(1.25f);
 		robotName.setY(image.getHeight());
-		robotName.setX(image.getWidth() / 6);
+		robotName.setX(image.getWidth() / 6 - 10);
 		group.addActor(robotName);
 	}
 	public void arrangeGroups() {

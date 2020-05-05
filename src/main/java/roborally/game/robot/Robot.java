@@ -114,11 +114,11 @@ public class Robot implements IRobot {
     public void tryToMove(GridPoint2 possiblePosition) {
         if(isFalling())
             return;
-        System.out.println("\n" + getName() + " trying to move:");
+        if (SettingsUtil.DEBUG_MODE) System.out.println("\n" + getName() + " trying to move:");
         GridPoint2 oldPos = getPosition();
         GridPoint2 newPos = oldPos.cpy().add(possiblePosition);
 
-        System.out.println("\t- Old position: " + oldPos);
+        if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Old position: " + oldPos);
 
         // Check if the robot is not colliding with something
         if (!listener.listenCollision(oldPos, possiblePosition)) {
@@ -133,14 +133,15 @@ public class Robot implements IRobot {
                 }
                 // Update pos
                 setPosition(newPos);
-                System.out.println("\t- New position: " + newPos);
-                System.out.println("\t- Health: " + getLogic().getHealth());
-
+                if (SettingsUtil.DEBUG_MODE) {
+                    System.out.println("\t- New position: " + newPos);
+                    System.out.println("\t- Health: " + getLogic().getHealth());
+                }
                 // Check if Robot is standing on a hole
                 if (layers.layerNotNull(LayerName.HOLE, newPos)) {
                     isRobotInHole(false);
                     takeDamage(SettingsUtil.MAX_DAMAGE);
-                    System.out.println("\t\t- Robot went into a hole");
+                    if (SettingsUtil.DEBUG_MODE) System.out.println("\t\t- Robot went into a hole");
                     setFalling(true);
                 }
                 getView().setDirection(newPos, getLogic().getDirection());
@@ -148,7 +149,7 @@ public class Robot implements IRobot {
             }
         } else
             // Robot does not move
-            System.out.println("\t\t- Robot cannot move this way: " + oldPos);
+            if (SettingsUtil.DEBUG_MODE) System.out.println("\t\t- Robot cannot move this way: " + oldPos);
     }
 
     private void playSoundWalking(GridPoint2 oldPos) {
@@ -238,7 +239,6 @@ public class Robot implements IRobot {
     //region Program cards
     @Override
     public void playNextCard() {
-        System.out.println(getName() + "'s power down status: " + getLogic().getPowerDown());
         IProgramCards.Card card = getLogic().getNextCardInRegister();
         if (card == null || getLogic().getPowerDown())
             return;

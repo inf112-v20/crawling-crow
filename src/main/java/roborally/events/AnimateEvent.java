@@ -21,11 +21,13 @@ public class AnimateEvent {
     private UIElements uiElements;
     private boolean cardPhase;
     private boolean playPhase;
+    private WinEvent winEvent;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
         this.programCardsView = programCardsView;
         this.uiElements = uiElements;
+        this.winEvent = new WinEvent();
     }
 
     /**
@@ -55,6 +57,10 @@ public class AnimateEvent {
                 for(Image image : list)
                     image.draw(batch, 1);
             }
+        }
+        if(events.hasArchiveBorders() && !game.getGameOptions().inMenu()) {
+            for(Image image : events.getArchiveBorders().values())
+                image.draw(batch, 1);
         }
         batch.end();
     }
@@ -104,6 +110,7 @@ public class AnimateEvent {
             uiElements.getRestartButton().draw(batch, 1);
             uiElements.getExitButton().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
+            winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
             events.setWaitMoveEvent(false);
         }
     }

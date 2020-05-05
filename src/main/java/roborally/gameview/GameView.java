@@ -199,6 +199,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         if (game.getGameOptions().inMenu()) {
             menu.reloadStage(stage);
+            if(game.getRobots() != null) {
+                menu.addContinueButtonToStage(stage);
+            }
             paused = true;
         }
         return true;

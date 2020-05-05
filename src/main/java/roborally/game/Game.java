@@ -36,7 +36,7 @@ public class Game implements IGame {
 	private AI ai;
 	private ArrayList<Robot> robots;
 	private ArrayList<IFlag> flags;
-	private IProgramCards deckOfProgramCards;
+	private final IProgramCards deckOfProgramCards;
 	private LaserRegister laserRegister;
 	private Robot userRobot;
 	//endregion
@@ -62,7 +62,7 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void startUp() {
+	public void startUp(String name) {
 		this.gameBoard = new GameBoard(AssetManagerUtil.ASSET_MANAGER.getAssetFileName(AssetManagerUtil.getLoadedMap()));
 		this.layers = new Layers();
 		this.flags = gameBoard.findAllFlags();
@@ -72,6 +72,8 @@ public class Game implements IGame {
 		this.ai = new AI(gameBoard);
 		uiElements.createLeaderBoard(getRobots());
         setUserRobot();
+        userRobot.getLogic().setName(name);
+        uiElements.update(userRobot);
         uiElements.setMessageLabel(""); // FIXME: temp for resetting the label on startUp
 	}
 
@@ -109,9 +111,10 @@ public class Game implements IGame {
 
 	@Override
 	public void restartGame() {
+		String name = userRobot.getName();
 		if (events.hasWaitEvent())
 			return;
-		System.out.println("Restarting game...");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("Restarting game...");
 		for (Robot robot : robots) {
 			events.removeFromUI(robot);
 		}
@@ -122,6 +125,8 @@ public class Game implements IGame {
         events.dispose();
         getRound().cleanUp();
         registerCardsView.clear();
+        userRobot.getLogic().setName(name);
+        uiElements.update(userRobot);
 	}
 
 	@Override
@@ -153,7 +158,7 @@ public class Game implements IGame {
 
 	private void returnToMenuIfOnlyOneRobotLeft() {
 		if (getRobots().size() < 2) {
-			System.out.println("Entering menu");
+			if (SettingsUtil.DEBUG_MODE) System.out.println("Entering menu");
 			gameOptions.enterMenu();
 		}
 	}
@@ -203,7 +208,6 @@ public class Game implements IGame {
 	@Override
 	public void orderTheUserRobotsCards(int[] order) {
 		userRobot.getLogic().arrangeCardsInHand(order);
-		userRobot.getLogic().putChosenCardsIntoRegister();
 		setRegisterCardsView(userRobot);
 		userRobot.getLogic().setHasSelectedCards(true);
 	}
@@ -219,9 +223,7 @@ public class Game implements IGame {
 
 	@Override
 	public void endGame() {
-		Robot winner = round.getPhase().getWinner();
-		System.out.println(winner);
-		System.out.println("Stopping game...");
+		if (SettingsUtil.DEBUG_MODE) System.out.println("Stopping game...");
 		events.setWaitMoveEvent(false);
 		for (Robot robot : robots) {
 			layers.setRobotTexture(robot.getPosition(), null);
@@ -245,7 +247,6 @@ public class Game implements IGame {
 	public float continueGameLoop(float dt, double gameSpeed) {
 		uiElements.update(getUserRobot());
 		if (isRoundFinished) {
-			System.out.println("Event: " + events.hasLaserEvent());
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
 			this.isRoundFinished = false;

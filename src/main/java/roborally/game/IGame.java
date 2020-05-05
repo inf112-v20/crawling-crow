@@ -15,7 +15,7 @@ public interface IGame {
      * It also starts a new round and
      * sets the first robot in list as userRobot.
      */
-    void startUp();
+    void startUp(String name);
 
     /**
      * Serves ONLY feed the keyUp method..
