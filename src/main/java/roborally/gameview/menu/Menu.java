@@ -71,15 +71,15 @@ public class Menu {
         menu.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
         imageLists.get("menus").add(menu);
         mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
-        mapButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f, SettingsUtil.WINDOW_HEIGHT / 1.5f);
+        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()), centerVertical(mapButton.getPrefHeight()));
         changeMapMenu = false;
         playerName = "Angry";
+        addMaps();
         setContinueButton();
         setLabels();
         makeOptionListeners();
-        addMaps();
         addMoreListeners();
-        addNameFunction();
+        setNameInputField();
         stage.addActor(gameSpeedLabel);
         stage.addActor(laserSpeedLabel);
         stage.addActor(volumeSlider);
@@ -95,17 +95,17 @@ public class Menu {
         return this.playerName;
     }
 
-    private void addNameFunction() {
-        nameLabel = new Label("Name: ", skin);
+    private void setNameInputField() {
+        nameLabel = new Label("Name", skin);
         nameLabel.setColor(Color.BLUE);
         nameLabel.setFontScale(1.5f);
-        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()), centerVertical(nameLabel.getPrefHeight()));
+        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()) - (nameLabel.getPrefWidth() / 2f), centerVertical(nameLabel.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput = new TextArea("Angry", skin);
         nameInput.setPosition(nameLabel.getX() + (nameInput.getPrefWidth() / 2f), nameLabel.getY());
-        nameInput.setWidth(nameInput.getWidth() -50);
+        nameInput.setWidth(nameInput.getWidth() - 50);
         nameInput.getStyle().fontColor = Color.RED;
         nameButton = new TextButton("OK", skin);
-        nameButton.setPosition(nameInput.getX() + nameButton.getPrefWidth(), nameLabel.getY());
+        nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameLabel.getY());
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -362,30 +362,32 @@ public class Menu {
         laserSpeedLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f);
         gameSpeedLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 30);
         playSongLabel.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 60);
-        previousMapLabel = new Label(" < ", labelStyle);
-        nextMapLabel = new Label(" > ", labelStyle);
+        previousMapLabel = new Label("<", labelStyle);
+        nextMapLabel = new Label(">", labelStyle);
         previousMapLabel.setFontScale(2);
         nextMapLabel.setFontScale(2);
-        previousMapLabel.setPosition(SettingsUtil.WINDOW_WIDTH / 3f + 75, SettingsUtil.WINDOW_HEIGHT / 2f - 60);
-        nextMapLabel.setPosition(SettingsUtil.WINDOW_WIDTH / 1.35f - 70, SettingsUtil.WINDOW_HEIGHT / 2f - 60);
+        float mapImagePosStartX = imageLists.get("maps").get(0).getX();
+        float mapImagePosEndX = imageLists.get("maps").get(0).getWidth() + imageLists.get("maps").get(0).getX();
+        previousMapLabel.setPosition(mapImagePosStartX - previousMapLabel.getPrefWidth(), centerVertical(previousMapLabel.getPrefHeight()));
+        nextMapLabel.setPosition(mapImagePosEndX, centerVertical(nextMapLabel.getPrefHeight()));
         previousMapLabel.scaleBy(2);
         nextMapLabel.scaleBy(2);
     }
 
     private void setMainMenuButtons () {
-        ArrayList<Image> clickableButtons = new ArrayList<>();
+        ArrayList<Image> menuButtons = new ArrayList<>();
         TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons(), 200, 50);
         float y = stage.getHeight() / 2f;
         for (int i = 0; i < 3; i++) {
-            clickableButtons.add(new Image(buttons[i][0]));
-            clickableButtons.get(i).setX(centerHorizontal(clickableButtons.get(i).getPrefWidth()));
-            clickableButtons.get(i).setY(y -= clickableButtons.get(i).getPrefHeight());
-            stage.addActor(clickableButtons.get(i));
+            menuButtons.add(new Image(buttons[i][0]));
+            menuButtons.get(i).setX(centerHorizontal(menuButtons.get(i).getPrefWidth()));
+            menuButtons.get(i).setY(y -= menuButtons.get(i).getPrefHeight());
+            stage.addActor(menuButtons.get(i));
         }
-        makeClickListeners(stage, clickableButtons);
+        setClickListeners(menuButtons);
     }
 
-    private void makeClickListeners(Stage stage, ArrayList<Image> clickableButtons) {
+    private void setClickListeners(ArrayList<Image> clickableButtons) {
         mapButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -477,7 +479,7 @@ public class Menu {
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.PNG"))));
         for (Image image : maps)
-            image.setPosition(SettingsUtil.WINDOW_WIDTH / 2.5f, SettingsUtil.WINDOW_HEIGHT / 4f);
+            image.setPosition(centerHorizontal(image.getPrefWidth()), centerVertical(image.getPrefHeight()));
         imageLists.put("maps", maps);
     }
 
