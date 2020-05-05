@@ -21,11 +21,13 @@ public class AnimateEvent {
     private UIElements uiElements;
     private boolean cardPhase;
     private boolean playPhase;
+    private WinEvent winEvent;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
         this.programCardsView = programCardsView;
         this.uiElements = uiElements;
+        this.winEvent = new WinEvent();
     }
 
     /**
@@ -104,6 +106,7 @@ public class AnimateEvent {
             uiElements.getRestartButton().draw(batch, 1);
             uiElements.getExitButton().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
+            winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
             events.setWaitMoveEvent(false);
         }
     }
