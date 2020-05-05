@@ -104,16 +104,16 @@ public class Menu {
     }
 
     private void setNameInputField() {
-        nameLabel = new Label("Name", skin);
-        nameLabel.setColor(Color.BLUE);
-        nameLabel.setFontScale(1.5f);
-        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()) - (nameLabel.getPrefWidth() / 2f), centerVertical(nameLabel.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput = new TextArea("Angry", skin);
-        nameInput.setPosition(nameLabel.getX() + (nameInput.getPrefWidth() / 2f), nameLabel.getY());
+        nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth()), centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput.setWidth(nameInput.getWidth() - 50);
         nameInput.getStyle().fontColor = Color.RED;
-        nameButton = new TextButton("OK", skin);
-        nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameLabel.getY());
+        /*nameLabel = new Label("Name", skin);
+        nameLabel.setColor(Color.BLUE);
+        nameLabel.setFontScale(1.5f);
+        nameLabel.setPosition(centerHorizontal(nameLabel.getPrefWidth()) - (nameLabel.getPrefWidth() / 2f), centerVertical(nameLabel.getPrefHeight()) + continueButton.getPrefHeight());*/
+        nameButton = new TextButton("Change name", skin);
+        nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -314,7 +314,7 @@ public class Menu {
         if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
-            nameLabel.draw(batch, 1);
+            //nameLabel.draw(batch, 1);
             nameInput.draw(batch, 1);
             nameButton.draw(batch, 1);
             gameSpeedLabel.draw(batch, 1);
