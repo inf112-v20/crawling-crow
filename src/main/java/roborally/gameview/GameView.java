@@ -237,12 +237,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void setPowerDownUI() {
-        /*if (!uiElements.hasPowerDownBeenActivated()) {
-            uiElements.setPowerDownButton(UIElement.POWERED_ON);
-        } else {
-            uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
-            uiElements.hasPowerDownBeenActivated(false);
-        }*/
         if (!uiElements.getPowerDownButton().isActivated()) {
             uiElements.getPowerDownButton().set(UIElement.POWERED_ON, stage);
         } else {

@@ -69,12 +69,14 @@ public class Timer {
     }
 
     // For å sørge for at den returnerer en liste med korrekt størrelse (og at det ikke er -1 som indexer).
+    // FIXME: Need a better explanation here
     private void temporaryTimerOrder(ProgramCardsView programCardsView) {
-        int abc = 0;
-        while(abc < 5 && programCardsView.getOrder()[abc]!=-1)
-            abc+=1;
-        int[] newOrder = new int[abc];
-        System.arraycopy(programCardsView.getOrder(), 0, newOrder, 0, abc);
+        int temp = 0;
+        while (temp < 5 && (programCardsView.getOrder()[temp] != -1)) {
+            temp += 1;
+        }
+        int[] newOrder = new int[temp];
+        System.arraycopy(programCardsView.getOrder(), 0, newOrder, 0, temp);
         programCardsView.setOrder(newOrder);
     }
 }
