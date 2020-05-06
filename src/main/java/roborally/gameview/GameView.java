@@ -28,8 +28,6 @@ import roborally.utilities.controls.KeyboardInput;
 import roborally.utilities.enums.UIElement;
 
 public class GameView extends InputAdapter implements ApplicationListener {
-
-    // Size of tile, both height and width
     private IGame game;
     private TiledMap tiledMap;
     private int mapID;
@@ -40,11 +38,10 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private KeyboardInput keyboardControls;
     private boolean paused;
     private Stage stage;
-    private ProgramCardsView programCardsView;
-    private UIElements uiElements;
-    private Events events;
-    private AnimateEvent animateEvent;
-
+    private final ProgramCardsView programCardsView;
+    private final UIElements uiElements;
+    private final Events events;
+    private final AnimateEvent animateEvent;
     private Sprite backgroundSprite;
 
     public GameView() {
@@ -103,7 +100,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         SettingsUtil.MAP_HEIGHT = renderedTileHeight * mapHeight;
     }
 
-    public void setBackground(int mapID) {
+    private void setBackground(int mapID) {
         this.backgroundSprite = new Sprite(AssetManagerUtil.getBackground(mapID));
     }
 
@@ -116,7 +113,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.dispose();
     }
 
-    public void renderBackground() {
+    private void renderBackground() {
         batch.begin();
         backgroundSprite.draw(batch);
         batch.end();
@@ -138,7 +135,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         checkIfGameIsWon();
 
-        if (paused) { // Menu
+        if (paused) {
             pause();
         }
 
