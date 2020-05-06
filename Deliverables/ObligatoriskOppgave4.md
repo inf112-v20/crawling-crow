@@ -1,7 +1,7 @@
 # Obligatorisk oppgave 4
 ## Deloppgave 1: Team og prosjekt
 - Se vår wiki, for [kodemøter](/../../wiki/Kodemøter) og [møter](/../../wiki/Møtereferater) ellers.
-- Alt fungerer bra, utenom vi trenger å kommunisere litt klarere med hva vi jobber med.
+- Alt fungerer bra, utenom vi trenger å kommunisere litt klarere med hva vi jobber med. Trenger heller ikke å oppdatere rollene. Vi er fornøyd sånn som de er.
 
 - Med tanke på prosjektplanlegging, så burde vi ha satt oss ned i begynnelsen og blitt enige om implemtasjonen av de ulike reglene i RoboRally. I begynnelsen møttes vi bare i de obligatoriske gruppetimene utenom innleveringsuken (skippertakmetodikk).
 - Team-messig burde vi fått til mer par-programmering for å skjønne hvordan vi alle tenker og koder, vi satset litt mye i begynnelsen på at alle kunne bidra med en del også ville vi enkelt kunne flette dette sammen. Dette gikk ikke slik som vi hadde tenkt, men vi løste dette delvis ved å par-programmere.
@@ -9,26 +9,22 @@
 
 
 ### Retrospektiv
-- Gjør et retrospektiv hvor dere vurderer prosjektet har gått. Hva har dere gjort bra, hva hadde dere gjortannerledes hvis dere begynte på nytt?
+#### Hva gjorde vi bra?
+- Satt opp møter og hatt jevn kommunikasjon
+- Hjulpet hverandre hvis noen har spurt
+- Jevn forbedring av jobbing i prosjekt
+- Jevn forbedring av tydlighet av hva koden gjør
+- Jevn forbedring i bruk av github og git
+- Fulgt planen som vi har satt opp for hver oblig
 
-
-#### Lise
-Lorem ipsum
-
-#### Sol
-Lorem ipsum
-
-#### Thomas
-Lorem ipsum
-
-#### Sigmund
-Lorem ipsum
-
-#### Tim
-Lorem ipsum
-
-#### Felles
-Lorem ipsum
+#### Hva vi kunne gjort annerledes?
+- Balansere hvor mye som skal planlegges
+    - Gått mer nøye gjennom regelboken i fellesskap
+- Sette seg inn i rammeverk/bibliotek og undersøke funksjonalitet tidligere/fra begynnelsen av
+- Legge mer vekt på felles forståelse av kodestil/definere kodestil
+- Brukt branching mer effektivt og være flinkere til å branche ut når: 
+    - Vi oppretter nye elementer av spillet
+    - Vi løser issues
 
 
 ### Starten av prosjeketet
