@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import org.jetbrains.annotations.NotNull;
 import roborally.events.Events;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
@@ -22,9 +21,9 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.*;
 
 public class UIElements {
-    private ImageButton powerDownButton;
+    /*private ImageButton powerDownButton;
     private boolean hasPowerDownBeenActivated;
-    private boolean isPowerDownSetForNextRound;
+    private boolean isPowerDownSetForNextRound;*/
 
     private Label.LabelStyle messageStyle;
     private Label messageLabel;
@@ -39,12 +38,16 @@ public class UIElements {
     private DamageTokens damageTokens;
     private Flags flags;
 
+    private PowerDownButton powerDownButton;
+
     public UIElements() {
         this.reboots = new Reboots();
         this.damageTokens = new DamageTokens();
         this.flags = new Flags();
 
-        this.hasPowerDownBeenActivated = false;
+        this.powerDownButton = new PowerDownButton();
+
+        //this.hasPowerDownBeenActivated = false;
         this.leaderboard = new Leaderboard();
     }
 
@@ -71,6 +74,10 @@ public class UIElements {
         return flags;
     }
 
+    public PowerDownButton getPowerDownButton() {
+        return powerDownButton;
+    }
+
     /**
      * For debugging
      *
@@ -83,7 +90,7 @@ public class UIElements {
         leaderboard.updateLeaderboard();
     }
 
-    public void setPowerDownButton(@NotNull UIElement powerDownState) {
+    /*public void setPowerDownButton(@NotNull UIElement powerDownState) {
         powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()), new TextureRegionDrawable((POWERING_DOWN.getTexture())), new TextureRegionDrawable((POWERING_DOWN.getTexture())));
 
         float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
@@ -121,7 +128,7 @@ public class UIElements {
 
     public void setPowerDownForNextRound(boolean state) {
         this.isPowerDownSetForNextRound = state;
-    }
+    }*/
 
     public void setMessageLabel(String message) {
         this.messageStyle = new Label.LabelStyle();

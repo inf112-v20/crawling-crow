@@ -46,7 +46,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private UIElements uiElements;
     private Events events;
     private AnimateEvent animateEvent;
-
     private Sprite backgroundSprite;
 
     public GameView() {
@@ -117,9 +116,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
     @Override
     public void render() {
         events.setStage(stage);
-        if (uiElements.isPowerDownSetForNextRound()) {
+        if (uiElements.getPowerDownButton().isForNextRound()) {
             game.getUserRobot().getLogic().setPowerDownNextRound(true);
-            uiElements.setPowerDownForNextRound(false);
+            uiElements.getPowerDownButton().setForNextRound(false);
         }
 
         if (events.hasWaitEvent() && !events.hasLaserEvent())
@@ -238,11 +237,17 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void setPowerDownUI() {
-        if (!uiElements.hasPowerDownBeenActivated()) {
+        /*if (!uiElements.hasPowerDownBeenActivated()) {
             uiElements.setPowerDownButton(UIElement.POWERED_ON);
         } else {
             uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
             uiElements.hasPowerDownBeenActivated(false);
+        }*/
+        if (!uiElements.getPowerDownButton().isActivated()) {
+            uiElements.getPowerDownButton().set(UIElement.POWERED_ON, stage);
+        } else {
+            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN, stage);
+            uiElements.getPowerDownButton().setActivated(false);
         }
     }
 }

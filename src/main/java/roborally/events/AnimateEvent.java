@@ -86,8 +86,8 @@ public class AnimateEvent {
 
     private void drawPowerDownButton(SpriteBatch batch, Stage stage) {
         if (cardPhase) {
-            stage.addActor(uiElements.getPowerDownButton());
-            uiElements.getPowerDownButton().draw(batch, 1);
+            stage.addActor(uiElements.getPowerDownButton().get());
+            uiElements.getPowerDownButton().get().draw(batch, 1);
         }
     }
 
