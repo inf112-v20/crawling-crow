@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import org.jetbrains.annotations.NotNull;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 

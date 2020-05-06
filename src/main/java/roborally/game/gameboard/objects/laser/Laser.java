@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
 import roborally.listeners.WallListener;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 

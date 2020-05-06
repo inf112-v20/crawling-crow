@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
 import org.jetbrains.annotations.NotNull;
 import roborally.game.robot.RobotLogic;
-import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
