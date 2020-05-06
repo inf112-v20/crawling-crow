@@ -1,12 +1,13 @@
-package roborally.gameview.elements;
+package roborally.gameview.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.Robot;
-import roborally.gameview.elements.buttons.ExitButton;
-import roborally.gameview.elements.buttons.PowerDownButton;
-import roborally.gameview.elements.buttons.RestartButton;
+import roborally.gameview.ui.elements.*;
+import roborally.gameview.ui.elements.buttons.ExitButton;
+import roborally.gameview.ui.elements.buttons.PowerDownButton;
+import roborally.gameview.ui.elements.buttons.RestartButton;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
 

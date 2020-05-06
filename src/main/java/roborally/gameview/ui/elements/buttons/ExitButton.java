@@ -1,4 +1,4 @@
-package roborally.gameview.elements.buttons;
+package roborally.gameview.ui.elements.buttons;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.events.Events;
 import roborally.game.IGame;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.UIElements;
 import roborally.utilities.SettingsUtil;
 
 import static roborally.utilities.enums.UIElement.EXIT_BUTTON;

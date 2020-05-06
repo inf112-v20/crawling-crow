@@ -1,8 +1,9 @@
-package roborally.gameview.elements;
+package roborally.gameview.ui.elements;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.IRobot;
+import roborally.gameview.ui.UIElements;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;

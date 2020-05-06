@@ -8,7 +8,7 @@ import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.ConveyorBelt;
 import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.UIElements;
 import roborally.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;

@@ -1,4 +1,4 @@
-package roborally.gameview.elements;
+package roborally.gameview.ui.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

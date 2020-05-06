@@ -4,7 +4,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.UIElements;
 import roborally.events.Events;
 import roborally.utilities.SettingsUtil;
 
