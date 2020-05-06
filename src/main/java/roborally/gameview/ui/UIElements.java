@@ -16,14 +16,14 @@ import java.util.ArrayList;
 public class UIElements {
     private Stage stage;
 
-    private Leaderboard leaderboard;
-    private Reboots reboots;
-    private DamageTokens damageTokens;
-    private Flags flags;
-    private PowerDownButton powerDownButton;
-    private ExitButton exitButton;
-    private RestartButton restartButton;
-    private Message message;
+    private final Leaderboard leaderboard;
+    private final Reboots reboots;
+    private final DamageTokens damageTokens;
+    private final Flags flags;
+    private final PowerDownButton powerDownButton;
+    private final ExitButton exitButton;
+    private final RestartButton restartButton;
+    private final Message message;
 
     public UIElements() {
         this.reboots = new Reboots();
