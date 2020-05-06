@@ -50,11 +50,35 @@ LEGG VED
 ### Prioriterte krav
 - Oppdater hvilke krav dere har prioritert, hvor langt dere har kommet og hva dere har gjort siden forrigegang.
     - Hva som egentlig har blitt ferdig og hvorfor.
+- Vi har fullførte hele MVP
+- Vi valgte å lage AI istedenfor nettverk
+- Vi valgte å gjøre noen "nice to have":
+    - Leaderboard: For å ha oversikt over hvordan man ligger ann i spillet
+    - Flere brett og valg av brett: For variasjon
+    - Archive marker: For å kunne ha en oversikt over hvor robotene, inkludert deg selv, "spawner".
+    - Fyrverkeri når noen vinner: For moro skyld 
+    - Robot eksploderer når den dør: For tydelighet når en robot dør
+    - Bakgrunnsbilde: For moro skyld
+    - Velge navn på din robot: Personliggjør robot og ser lettere hvilken som er din
+    - Animasjon når en robot faller i et hull: For moro skyld 
+    - Teksturendring når robot går på flagg: For tydelighet når en robot tar et flagg
+    - Endre på instillinger; musikk, volum, spillhastighet, laserhastighet: For debugging og for moro skyld
+    - Lydeffekter: For moro skyld
+    - Laseranimasjon: For klarhet og kunne se når du blir skutt.
+    
+- Vi har gjort siden forrige gang:
+    - Power down #114
+    - User interface #116
+    - Conveyorbelt #109
+    - Rotating cogs #110
+    - Death #112
+    - Repair #111
+    - Rounds, phases, steps #108
+    - AI
 
 - Se [user stories]()
 
 - Dette er hva vi anser som [MVP](/../../wiki/Spillkrav) siden dette er nødvendig spillmekanikk fra selve brettspillet.
-    - SKRIV OM EV. ENDRING MTP NETTVERK/AI
 
 - For våre bugs, se [known bugs](../README.md#known-bugs) i vår [README](../README.md), ev. vår issue-label [bug](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug).
 
