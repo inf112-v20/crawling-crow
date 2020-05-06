@@ -45,7 +45,6 @@ public class PowerDownButton implements IButton {
         powerDownButton.clear();
     }
 
-    // For checking if the button has been pressed
     public boolean isActivated() {
         return isActivated;
     }
