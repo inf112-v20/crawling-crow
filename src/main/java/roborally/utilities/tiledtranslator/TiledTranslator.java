@@ -6,11 +6,9 @@ import java.util.HashMap;
 
 public final class TiledTranslator {
 
-    private static HashMap<Integer, TileName> tiles;
+    private final HashMap<Integer, TileName> tiles = new HashMap<>();
 
     public TiledTranslator() {
-        tiles = new HashMap<>();
-
         for (TileName tileName : TileName.values()) {
             tiles.put(tileName.getTileID(), tileName);
         }
@@ -20,7 +18,7 @@ public final class TiledTranslator {
      * @param tiledID The int ID of the Tile-element
      * @return The name of the tile as TileName enum using the corresponding tileID
      */
-    public static TileName getTileName(int tiledID) {
+    public TileName getTileName(int tiledID) {
         return tiles.get(tiledID);
     }
 }

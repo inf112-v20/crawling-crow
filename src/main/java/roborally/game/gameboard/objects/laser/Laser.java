@@ -24,7 +24,6 @@ public class Laser {
     private int laserTileID;
     private int cannonTileID;
     private boolean removeLaser;
-    //private TiledTranslator tiledTranslator;
     private ILayers layers;
     private WallListener wallListener;
 
@@ -50,7 +49,6 @@ public class Laser {
      * @param layers      The layers class.
      */
     public Laser(int laserTileID, ILayers layers) {
-        //this.tiledTranslator = new TiledTranslator();
         this.layers = layers;
         this.laserTileID = laserTileID;
         this.laserEndPositions = new ArrayList<>();

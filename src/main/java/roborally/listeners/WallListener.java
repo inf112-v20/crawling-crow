@@ -5,7 +5,6 @@ import roborally.gameview.layout.ILayers;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
-import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,12 +12,10 @@ import java.util.List;
 
 public class WallListener {
     private HashMap<String, List<TileName>> mapOfWallNames;
-    //private TiledTranslator tiledTranslator;
     private ILayers layers;
 
     public WallListener(ILayers layers) {
         this.mapOfWallNames = makeWallMap();
-        //this.tiledTranslator = new TiledTranslator();
         this.layers = layers;
     }
 

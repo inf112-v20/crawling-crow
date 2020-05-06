@@ -12,11 +12,9 @@ import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
-    //private TiledTranslator tiledTranslator;
     private HashMap<LayerName, TiledMapTileLayer> layers;
 
     public Layers() {
-        //tiledTranslator = new TiledTranslator();
         layers = new HashMap<>(AssetManagerUtil.getLoadedLayers());
     }
 
