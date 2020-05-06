@@ -14,10 +14,10 @@ import static roborally.utilities.enums.UIElement.DAMAGE_TOKEN_RED;
 public class DamageTokens implements IElement {
     private ArrayList<Image> damageTokens;
 
-    public void set(IRobot robot, Stage stage) {
+    public void update(IRobot robot, Stage stage) {
         clear();
 
-        update(Math.max(robot.getLogic().getHealth(), 0));
+        set(Math.max(robot.getLogic().getHealth(), 0));
 
         float damageTokensWidth = get().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / SettingsUtil.UI_ELEMENT_SCALE);
         float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
@@ -43,7 +43,7 @@ public class DamageTokens implements IElement {
         this.damageTokens = new ArrayList<>();
     }
 
-    private void update(int availableHealth) {
+    private void set(int availableHealth) {
         /*
             TODO: Should be displayed like this, not sure how yet.
             0       : red

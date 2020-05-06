@@ -14,10 +14,10 @@ import static roborally.utilities.enums.UIElement.REBOOT_INACTIVE;
 public class Reboots implements IElement {
     private ArrayList<Image> rebootsList;
 
-    public void set(IRobot robot, Stage stage) {
+    public void update(IRobot robot, Stage stage) {
         clear();
 
-        update(robot.getLogic().getReboots() - 1);
+        set(robot.getLogic().getReboots() - 1);
 
         float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
         float rebootsListFixedPosX = xShift - get().get(0).getWidth();
@@ -38,7 +38,7 @@ public class Reboots implements IElement {
         this.rebootsList = new ArrayList<>();
     }
 
-    public void update(int availableReboots) {
+    public void set(int availableReboots) {
         for (int i = 0; i < availableReboots; i++) {
             this.rebootsList.add(UIElements.get(REBOOT_ACTIVE));
         }

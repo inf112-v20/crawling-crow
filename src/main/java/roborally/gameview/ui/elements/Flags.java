@@ -13,7 +13,7 @@ import static roborally.utilities.enums.UIElement.FLAG_WHITE;
 public class Flags implements IElement {
     private ArrayList<Image> flags;
 
-    public void set(IRobot robot, Stage stage) {
+    public void update(IRobot robot, Stage stage) {
         clear();
         int collectedFlags = 0;
 
@@ -23,7 +23,7 @@ public class Flags implements IElement {
             }
         }
 
-        update(collectedFlags, stage);
+        set(collectedFlags, stage);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Flags implements IElement {
         this.flags = new ArrayList<>();
     }
 
-    private void update(int collectedFlags, Stage stage) {
+    private void set(int collectedFlags, Stage stage) {
         for (int i = 0; i < collectedFlags; i++) {
             this.flags.add(UIElements.get(FLAG_WHITE));
         }

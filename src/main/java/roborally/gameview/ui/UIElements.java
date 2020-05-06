@@ -97,9 +97,9 @@ public class UIElements {
     }
 
     public void update(Robot robot) {
-        reboots.set(robot, stage);
-        damageTokens.set(robot, stage);
-        flags.set(robot, stage);
-        leaderboard.updateLeaderboard();
+        reboots.update(robot, stage);
+        damageTokens.update(robot, stage);
+        flags.update(robot, stage);
+        leaderboard.update();
     }
 }

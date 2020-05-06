@@ -28,6 +28,7 @@ public class Leaderboard {
 			addGroup(robot);
 		}
 	}
+
 	public void addGroup(Robot robot) {
 		Group group = new Group();
 		TextureRegion[][] tr = TextureRegion.split(Objects.requireNonNull(AssetManagerUtil.getLeaderBoardTexture(robot.getName())), 96, 70);
@@ -42,18 +43,20 @@ public class Leaderboard {
 		robotName.setX(image.getWidth() / 6 - 10);
 		group.addActor(robotName);
 	}
+
 	public void arrangeGroups() {
 		int y = 105;
 		for (Group group : playersUI) {
 			group.setY(y+=85);
 		}
 	}
+
 	public ArrayList<Group> getGroup() {
 		return playersUI;
 	}
 
-	public void updateLeaderboard() {
-		for(Group group : robotList.keySet()) {
+	public void update() {
+		for (Group group : robotList.keySet()) {
 			int nFlags = getNumberOfFlagsFromRobotInGroup(group);
 			determineNextImage(group, nFlags);
 		}
