@@ -70,7 +70,7 @@ public class AnimateEvent {
         drawUIElement(batch, uiElements.getReboots());
         drawUIElement(batch, uiElements.getDamageTokens());
         drawUIElement(batch, uiElements.getFlags());
-        for(Group group : uiElements.getLeaderBoard())
+        for(Group group : uiElements.getLeaderboard())
             group.draw(batch, 1);
 
         updateMessageLabel(game, batch, stage);

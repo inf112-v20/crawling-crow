@@ -22,7 +22,7 @@ public class AssetManagerUtil {
     private static final SoundAssets soundAssets = new SoundAssets();
     private static final UIAssets uiAssets = new UIAssets();
 
-    // LeaderBoards
+    // Leaderboards
     private static final AssetDescriptor<Texture> ANGRY_LB = new AssetDescriptor<>("robots/leaderboard/angry-leadingboard.png", Texture.class);
     private static final AssetDescriptor<Texture> BLUE_LB = new AssetDescriptor<>("robots/leaderboard/blue-leadingboard.png", Texture.class);
     private static final AssetDescriptor<Texture> GREEN_LB = new AssetDescriptor<>("robots/leaderboard/green-leadingboard.png", Texture.class);
@@ -45,7 +45,7 @@ public class AssetManagerUtil {
         cardAssets.loadAssets(ASSET_MANAGER);
         uiAssets.loadAssets(ASSET_MANAGER);
 
-        // LeaderBoards
+        // Leaderboards
         ASSET_MANAGER.load(ANGRY_LB);
         ASSET_MANAGER.load(BLUE_LB);
         ASSET_MANAGER.load(GREEN_LB);

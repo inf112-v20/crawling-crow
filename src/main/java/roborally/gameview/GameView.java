@@ -212,7 +212,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         setBackground(this.mapID);
         if (game.getRobots() != null) {
             game.endGame();
-            uiElements.createLeaderBoard(game.getRobots());
+            uiElements.createLeaderboard(game.getRobots());
             events.dispose();
         }
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));

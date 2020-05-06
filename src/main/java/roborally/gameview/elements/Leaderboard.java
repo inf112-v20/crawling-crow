@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class LeaderBoard {
+public class Leaderboard {
 	public ArrayList<Group> playersUI;
 	public HashMap<Group, Robot> robotList;
 	private HashMap<Group, TextureRegion[][]> groupList;
@@ -52,7 +52,7 @@ public class LeaderBoard {
 		return playersUI;
 	}
 
-	public void updateLeaderBoard() {
+	public void updateLeaderboard() {
 		for(Group group : robotList.keySet()) {
 			int nFlags = getNumberOfFlagsFromRobotInGroup(group);
 			determineNextImage(group, nFlags);

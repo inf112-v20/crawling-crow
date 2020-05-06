@@ -38,19 +38,19 @@ public class UIElements {
     private ImageButton restartButton;
     private ImageButton exitButton;
 
-    private LeaderBoard leaderBoard;
+    private Leaderboard leaderboard;
 
     public UIElements() {
         this.reboots = new ArrayList<>();
         this.damageTokens = new ArrayList<>();
         this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
-        this.leaderBoard = new LeaderBoard();
+        this.leaderboard = new Leaderboard();
     }
 
-    public void createLeaderBoard(ArrayList<Robot> robots) {
-        leaderBoard.addPlayers(robots);
-        leaderBoard.arrangeGroups();
+    public void createLeaderboard(ArrayList<Robot> robots) {
+        leaderboard.addPlayers(robots);
+        leaderboard.arrangeGroups();
     }
 
     private Image getAndSetUIElement(UIElement uiElement) {
@@ -146,7 +146,7 @@ public class UIElements {
         updateReboots(robot);
         updateDamageTokens(robot);
         updateFlags(robot);
-        leaderBoard.updateLeaderBoard();
+        leaderboard.updateLeaderboard();
     }
 
     public void setPowerDownButton(@NotNull UIElement powerDownState) {
@@ -285,8 +285,8 @@ public class UIElements {
         });
     }
 
-    public ArrayList<Group> getLeaderBoard() {
-        return leaderBoard.getGroup();
+    public ArrayList<Group> getLeaderboard() {
+        return leaderboard.getGroup();
     }
 
     public ImageButton getExitButton() {

@@ -70,7 +70,7 @@ public class Game implements IGame {
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard, uiElements);
 		this.ai = new AI(gameBoard);
-		uiElements.createLeaderBoard(getRobots());
+		uiElements.createLeaderboard(getRobots());
         setUserRobot();
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
@@ -121,7 +121,7 @@ public class Game implements IGame {
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
         setUserRobot();
         setHasRestarted(true);
-        uiElements.createLeaderBoard(getRobots());
+        uiElements.createLeaderboard(getRobots());
         events.dispose();
         getRound().cleanUp();
         registerCardsView.clear();
