@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 public class KeyboardInput implements IControls {
     private HashMap<Integer, Runnable> menuControlMap;
-    private boolean powerDownMode;
 
     public KeyboardInput(IGame game) {
         menuControlMap = new HashMap<>();
