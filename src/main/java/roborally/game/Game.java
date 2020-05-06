@@ -16,10 +16,10 @@ import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
 import roborally.game.structure.Round;
-import roborally.gameview.ui.ProgramCardsView;
-import roborally.gameview.ui.UIElements;
 import roborally.gameview.layout.ILayers;
 import roborally.gameview.layout.Layers;
+import roborally.gameview.ui.ProgramCardsView;
+import roborally.gameview.ui.UIElements;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.assets.SoundAssets;
@@ -185,12 +185,12 @@ public class Game implements IGame {
 		this.programCardsView = new ProgramCardsView(this);
 
 		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
-			programCardsView.setCard(card, true);
+			programCardsView.addCard(card, true);
 		}
 		if (robot.getLogic().getCardsInHand().size() < SettingsUtil.REGISTER_SIZE) {
 			for (IProgramCards.Card cardInRegister : robot.getLogic().getRegister().getCards()) {
 				if (cardInRegister != null) {
-					programCardsView.setCard(cardInRegister, false);
+					programCardsView.addCard(cardInRegister, false);
 				}
 			}
 		}
@@ -200,7 +200,7 @@ public class Game implements IGame {
 	public void setRegisterCardsView(Robot robot){
 		this.registerCardsView = new ProgramCardsView(this);
 		for (IProgramCards.Card card : robot.getLogic().getRegister().getCards()) {
-			registerCardsView.setCard(card, false);
+			registerCardsView.addCard(card, false);
 		}
 	}
 	//endregion

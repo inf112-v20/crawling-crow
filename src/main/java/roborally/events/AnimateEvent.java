@@ -131,8 +131,8 @@ public class AnimateEvent {
         programCardsView.getTimer().get().draw(batch, stage.getHeight() / 2);
         programCardsView.getTimer().update(Gdx.graphics.getDeltaTime(), game.getUserRobot(), programCardsView);
         programCardsView.getDoneButton().get().draw(batch, stage.getWidth() / 2);
-        for (Group group : programCardsView.getGroups()) {
-            group.draw(batch, 1);
+        for (Group card : programCardsView.getCards()) {
+            card.draw(batch, 1);
         }
 
         if (programCardsView.done()) {
@@ -151,8 +151,8 @@ public class AnimateEvent {
     }
 
     private void drawRegisterCards(IGame game, SpriteBatch batch, Stage stage) {
-        for (Group group : registerCardsView.getGroups()) {
-            group.draw(batch, 1);
+        for (Group card : registerCardsView.getCards()) {
+            card.draw(batch, 1);
         }
     }
 
@@ -169,12 +169,12 @@ public class AnimateEvent {
 
         stage.addActor(programCardsView.getDoneButton().get());
 
-        float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
+        float cardsGroupPositionX = stage.getWidth() - programCardsView.getCards().size() * programCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
 
-        for (Group group : programCardsView.getGroups()) {
-            group.setX(cardsGroupPositionX += programCardsView.getCardWidth());
-            stage.addActor(group);
+        for (Group card : programCardsView.getCards()) {
+            card.setX(cardsGroupPositionX += programCardsView.getCardWidth());
+            stage.addActor(card);
         }
         // xShift to the right-side edge of the game board
         float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
@@ -193,11 +193,11 @@ public class AnimateEvent {
     public void initiateRegister(Stage stage, ProgramCardsView registerView) {
         this.registerCardsView = registerView;
 
-        float cardsGroupPositionX = stage.getWidth() - registerCardsView.getGroups().size() * registerCardsView.getCardWidth();
+        float cardsGroupPositionX = stage.getWidth() - registerCardsView.getCards().size() * registerCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - registerCardsView.getCardWidth();
 
-        for (Group group : registerCardsView.getGroups()) {
-            group.setX(cardsGroupPositionX += registerCardsView.getCardWidth());
+        for (Group card : registerCardsView.getCards()) {
+            card.setX(cardsGroupPositionX += registerCardsView.getCardWidth());
         }
 
         playPhase = true;

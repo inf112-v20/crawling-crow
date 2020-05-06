@@ -10,12 +10,11 @@ import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
 import roborally.gameview.ui.elements.Timer;
 import roborally.gameview.ui.elements.buttons.DoneButton;
+import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static roborally.utilities.AssetManagerUtil.getCards;
 
 /**
  * This class creates images of the program cards.
@@ -28,7 +27,7 @@ public class ProgramCardsView {
     private final static float CARD_IMAGE_UNIT_SCALE = 3.4f;
     private final IGame game;
     private int cardPick;
-    private ArrayList<Group> groups;
+    private ArrayList<Group> programCardsGroup;
     private int[] order;
     private ArrayList<Label> selectedOrderList;
     private float cardWidth;
@@ -43,7 +42,7 @@ public class ProgramCardsView {
         this.game = game;
         this.selectedOrderList = new ArrayList<>();
         this.cardPick = 0;
-        this.groups = new ArrayList<>();
+        this.programCardsGroup = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
 
@@ -52,16 +51,17 @@ public class ProgramCardsView {
     }
 
     /**
-     * Sets the Program Card into the group that makes the ProgramCardsView.
+     * Adds the Program Card into the group that makes the ProgramCardsView.
      *
      * @param card The card itself
      * @param active If the card is going to be interactable or not
      */
-    public void setCard(IProgramCards.@NotNull Card card, boolean active) {
-        this.cardWidth = getCards().getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
-        this.cardHeight = getCards().getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
+    public void addCard(IProgramCards.@NotNull Card card, boolean active) {
+        this.cardWidth = AssetManagerUtil.getCards().getProgramCardWidth() / CARD_IMAGE_UNIT_SCALE;
+        this.cardHeight = AssetManagerUtil.getCards().getProgramCardHeight() / CARD_IMAGE_UNIT_SCALE;
 
-        Image cardImage = new Image(getCards().getCardTexture(card.getCardType()));
+        Image cardImage = new Image(AssetManagerUtil.getCards().getCardTexture(card.getCardType()));
+        cardImage.setSize(getCardWidth(), getCardHeight());
         if (active) {
             setCard(card.getPriority(), cardImage);
         } else {
@@ -70,14 +70,13 @@ public class ProgramCardsView {
     }
 
     private void setCardInactive(int priority, @NotNull Image image) {
-        image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
-        Group group = new Group();
-        group.addActor(image);
-        Label priorityLabel = setPriorityLabel(priority);
-        group.addActor(priorityLabel);
-        Actor card = group.getChildren().get(0);
+        Group fullCard = new Group();
+        fullCard.addActor(image);
+        Label priorityLabel = getPriorityLabel(priority);
+        fullCard.addActor(priorityLabel);
+        Actor card = fullCard.getChildren().get(0);
         card.setColor(Color.GRAY);
-        this.groups.add(group);
+        this.programCardsGroup.add(fullCard);
     }
 
     /**
@@ -89,13 +88,13 @@ public class ProgramCardsView {
      */
     private void setCard(int priority, @NotNull Image image) {
         image.setSize(image.getPrefWidth() / CARD_IMAGE_UNIT_SCALE, image.getPrefHeight() / CARD_IMAGE_UNIT_SCALE); // Using the card original pixel size
-        Group group = new Group();
-        group.addActor(image);
-        Label selectedOrderLabel = setSelectedOrderLabel();
-        Label priorityLabel = setPriorityLabel(priority);
-        group.addActor(priorityLabel);
-        Actor card = group.getChildren().get(0);
-        group.addListener(new InputListener() {
+        Group fullCard = new Group();
+        fullCard.addActor(image);
+        Label selectedOrderLabel = getSelectedOrderLabel();
+        Label priorityLabel = getPriorityLabel(priority);
+        fullCard.addActor(priorityLabel);
+        Actor card = fullCard.getChildren().get(0);
+        fullCard.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (!card.getColor().equals(Color.YELLOW) && !card.getColor().equals(Color.RED)) {
@@ -113,12 +112,13 @@ public class ProgramCardsView {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 for (int i = 0; i < order.length; i++)
-                    if (groups.indexOf(group) == order[i]) {
+                    if (programCardsGroup.indexOf(fullCard) == order[i]) {
                         card.setColor(Color.WHITE);
                         selectedOrderLabel.setText("");
                         reArrange(i);
-                        if (cardPick -1 != -1)
+                        if (cardPick -1 != -1) {
                             cardPick--;
+                        }
                         return true;
                     }
                 if (cardPick == SettingsUtil.REGISTER_SIZE) {
@@ -130,17 +130,17 @@ public class ProgramCardsView {
                 Label tempSelectedOrderLabel = selectedOrderList.get(cardPick);
                 tempSelectedOrderLabel.setText(Integer.toString((cardPick)+1));
                 tempSelectedOrderLabel.setX(tempSelectedOrderLabel.getX() - (tempSelectedOrderLabel.getPrefWidth() / 2f));
-                group.addActor(tempSelectedOrderLabel);
-                order[cardPick++] = groups.indexOf(group);
-                group.getChildren().get(1).setColor(Color.YELLOW);
-                group.getChildren().get(0).setColor(Color.YELLOW);
+                fullCard.addActor(tempSelectedOrderLabel);
+                order[cardPick++] = programCardsGroup.indexOf(fullCard);
+                fullCard.getChildren().get(1).setColor(Color.YELLOW);
+                fullCard.getChildren().get(0).setColor(Color.YELLOW);
                 return true;
             }
         });
-        this.groups.add(group);
+        this.programCardsGroup.add(fullCard);
     }
 
-    public Label setSelectedOrderLabel() {
+    public Label getSelectedOrderLabel() {
         Label.LabelStyle selectedOrderLabelStyle = new Label.LabelStyle();
         selectedOrderLabelStyle.font = new BitmapFont();
         Label selectedOrderLabel = new Label("", selectedOrderLabelStyle);
@@ -151,7 +151,7 @@ public class ProgramCardsView {
         return selectedOrderLabel;
     }
 
-    public Label setPriorityLabel(int priority) {
+    public Label getPriorityLabel(int priority) {
         Label.LabelStyle PriorityLabelStyle = new Label.LabelStyle();
         PriorityLabelStyle.font = new BitmapFont();
         Label priorityLabel = new Label(Integer.toString(priority), PriorityLabelStyle);
@@ -176,8 +176,8 @@ public class ProgramCardsView {
 		}
 	}
 
-    public ArrayList<Group> getGroups() {
-        return groups;
+    public ArrayList<Group> getCards() {
+        return programCardsGroup;
     }
 
 	public int[] getOrder() {
@@ -200,13 +200,11 @@ public class ProgramCardsView {
         this.cardPick = value;
     }
 
-
-    // Maybe deprecated.
     public void clear() {
         this.order = new int[]{-1, -1, -1, -1, -1};
         this.cardPick = 0;
-        this.groups.clear();
-        this.groups = new ArrayList<>();
+        this.programCardsGroup.clear();
+        this.programCardsGroup = new ArrayList<>();
     }
 
     public float getCardWidth() {
@@ -219,22 +217,6 @@ public class ProgramCardsView {
 
     public void updateOrder(int idx) {
         order[cardPick++] = idx;
-    }
-
-    private float getCenterPositionHorizontal() {
-        return stage.getWidth() / 2f;
-    }
-
-    private float getCenterPositionHorizontal(float elementWidth) {
-        return (stage.getWidth() / 2f) - (elementWidth / 2f);
-    }
-
-    private float getCenterPositionVertical() {
-        return stage.getHeight() / 2f;
-    }
-
-    private float getCenterPositionVertical(float elementHeight) {
-        return (stage.getHeight() / 2f) - (elementHeight / 2f);
     }
 
     public DoneButton getDoneButton() {
