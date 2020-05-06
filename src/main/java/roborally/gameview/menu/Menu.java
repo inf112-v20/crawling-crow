@@ -304,7 +304,6 @@ public class Menu {
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
-        imageLists.get("menus").get(0).draw(batch, 1);
         if (!changeMapMenu) {
             stage.draw();
         } else {
