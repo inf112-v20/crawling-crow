@@ -1,4 +1,4 @@
-package roborally.gameview.elements;
+package roborally.gameview.elements.buttons;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;

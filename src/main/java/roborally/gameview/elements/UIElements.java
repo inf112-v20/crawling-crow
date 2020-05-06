@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.events.Events;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
+import roborally.gameview.elements.buttons.PowerDownButton;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
 
@@ -21,10 +22,6 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.*;
 
 public class UIElements {
-    /*private ImageButton powerDownButton;
-    private boolean hasPowerDownBeenActivated;
-    private boolean isPowerDownSetForNextRound;*/
-
     private Label.LabelStyle messageStyle;
     private Label messageLabel;
 
@@ -44,10 +41,8 @@ public class UIElements {
         this.reboots = new Reboots();
         this.damageTokens = new DamageTokens();
         this.flags = new Flags();
-
         this.powerDownButton = new PowerDownButton();
 
-        //this.hasPowerDownBeenActivated = false;
         this.leaderboard = new Leaderboard();
     }
 
@@ -89,46 +84,6 @@ public class UIElements {
         flags.set(robot, stage);
         leaderboard.updateLeaderboard();
     }
-
-    /*public void setPowerDownButton(@NotNull UIElement powerDownState) {
-        powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()), new TextureRegionDrawable((POWERING_DOWN.getTexture())), new TextureRegionDrawable((POWERING_DOWN.getTexture())));
-
-        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
-        float powerDownButtonFixedPosX = xShift - powerDownButton.getWidth();
-
-        powerDownButton.setPosition(powerDownButtonFixedPosX, 130);
-
-        powerDownButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (SettingsUtil.DEBUG_MODE) System.out.println("Activated power down");
-                powerDownButton.setChecked(true);
-                isPowerDownSetForNextRound = true;
-                hasPowerDownBeenActivated = true;
-            }
-        });
-    }
-
-    public ImageButton getPowerDownButton() {
-        return powerDownButton;
-    }
-
-    // For checking if the button has been pressed
-    public boolean hasPowerDownBeenActivated() {
-        return hasPowerDownBeenActivated;
-    }
-
-    public void hasPowerDownBeenActivated(boolean state) {
-        this.hasPowerDownBeenActivated = state;
-    }
-
-    public boolean isPowerDownSetForNextRound() {
-        return isPowerDownSetForNextRound;
-    }
-
-    public void setPowerDownForNextRound(boolean state) {
-        this.isPowerDownSetForNextRound = state;
-    }*/
 
     public void setMessageLabel(String message) {
         this.messageStyle = new Label.LabelStyle();
