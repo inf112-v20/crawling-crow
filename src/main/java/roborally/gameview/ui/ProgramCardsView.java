@@ -33,7 +33,6 @@ public class ProgramCardsView {
     private ArrayList<Label> selectedOrderList;
     private float cardWidth;
     private float cardHeight;
-    //private ImageButton doneButton;
     private Label timerLabel;
     private float cardTimer;
 
@@ -221,42 +220,6 @@ public class ProgramCardsView {
     public float getCardHeight() {
         return this.cardHeight;
     }
-
-    /*public void setDoneButton() {
-        doneButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable(DONE_BUTTON_PRESSED.getTexture()), new TextureRegionDrawable(DONE_BUTTON_HOVER.getTexture()));
-        doneButton.setPosition(0, (getCardHeight() / 2f) - (doneButton.getPrefHeight() / 2f));
-
-        doneButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                doneButton.setChecked(true);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                doneButton.setChecked(false);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                int numberOfLockedCard = game.getUserRobot().getLogic().getNumberOfLockedCards();
-                int numberOfCardsToChoose = SettingsUtil.REGISTER_SIZE - numberOfLockedCard;
-                if (cardPick != numberOfCardsToChoose ){
-                    System.out.println("Must choose correct number of cards");
-                    return;
-                }
-
-                int[] newOrder = new int[cardPick];
-                System.arraycopy(order, 0, newOrder, 0, cardPick);
-                order = newOrder;
-                cardPick = -1;
-            }
-        });
-    }*/
-
-    /*public ImageButton getDoneButton() {
-        return doneButton;
-    }*/
 
     private void setTimerLabelStyle() {
         this.timerLabelStyle = new Label.LabelStyle();
