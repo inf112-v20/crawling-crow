@@ -126,11 +126,10 @@ public class ProgramCardsView {
                     if (SettingsUtil.DEBUG_MODE) System.out.println("You cannot select more than 5 cards");
                     return true;
                 }
+                selectedOrderLabel.setText(Integer.toString((cardPick) + 1));
+                selectedOrderLabel.setX(getSelectedOrderLabel().getX() - (selectedOrderLabel.getPrefWidth() / 2f));
+                fullCard.addActor(selectedOrderLabel);
                 selectedOrderList.add(cardPick, selectedOrderLabel);
-                Label tempSelectedOrderLabel = selectedOrderList.get(cardPick);
-                tempSelectedOrderLabel.setText(Integer.toString((cardPick)+1));
-                tempSelectedOrderLabel.setX(tempSelectedOrderLabel.getX() - (tempSelectedOrderLabel.getPrefWidth() / 2f));
-                fullCard.addActor(tempSelectedOrderLabel);
                 order[cardPick++] = programCardsGroup.indexOf(fullCard);
                 fullCard.getChildren().get(1).setColor(Color.YELLOW);
                 fullCard.getChildren().get(0).setColor(Color.YELLOW);
