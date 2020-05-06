@@ -16,15 +16,12 @@ public class UIElements {
     private Stage stage;
 
     private Leaderboard leaderboard;
-
     private Reboots reboots;
     private DamageTokens damageTokens;
     private Flags flags;
-
     private PowerDownButton powerDownButton;
     private ExitButton exitButton;
     private RestartButton restartButton;
-
     private Message message;
 
     public UIElements() {
@@ -35,7 +32,6 @@ public class UIElements {
         this.exitButton = new ExitButton();
         this.restartButton = new RestartButton();
         this.message = new Message();
-
         this.leaderboard = new Leaderboard();
     }
 
@@ -78,18 +74,6 @@ public class UIElements {
         return message;
     }
 
-    /**
-     * For debugging
-     *
-     * @param robot The user controlled robot
-     */
-    public void update(Robot robot) {
-        reboots.set(robot, stage);
-        damageTokens.set(robot, stage);
-        flags.set(robot, stage);
-        leaderboard.updateLeaderboard();
-    }
-
     public ArrayList<Group> getLeaderboard() {
         return leaderboard.getGroup();
     }
@@ -109,5 +93,12 @@ public class UIElements {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public void update(Robot robot) {
+        reboots.set(robot, stage);
+        damageTokens.set(robot, stage);
+        flags.set(robot, stage);
+        leaderboard.updateLeaderboard();
     }
 }
