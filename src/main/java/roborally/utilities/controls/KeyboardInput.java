@@ -37,7 +37,6 @@ public class KeyboardInput implements IControls {
         menuControlMap.put(Input.Keys.RIGHT, () -> game.getUserRobot().rotate(Direction.turnRightFrom((game.getUserRobot().getLogic().getDirection()))));
         menuControlMap.put(Input.Keys.F, game::manuallyFireOneLaser);
         menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
-        menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterCard);
         menuControlMap.put(Input.Keys.T, () -> game.getRound().getPhase().run(game.getLayers()));
         menuControlMap.put(Input.Keys.E, () -> simulateRoundWithoutMovement(game));
         menuControlMap.put(Input.Keys.C, () -> game.getRound().cleanUp());
