@@ -4,21 +4,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import org.jetbrains.annotations.NotNull;
 import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
 import roborally.game.robot.Robot;
+import roborally.gameview.ui.elements.buttons.DoneButton;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static roborally.utilities.AssetManagerUtil.*;
-import static roborally.utilities.enums.UIElement.*;
+import static roborally.utilities.AssetManagerUtil.getCards;
 
 /**
  * This class creates images of the program cards.
@@ -36,12 +33,14 @@ public class ProgramCardsView {
     private ArrayList<Label> selectedOrderList;
     private float cardWidth;
     private float cardHeight;
-    private ImageButton doneButton;
+    //private ImageButton doneButton;
     private Label timerLabel;
     private float cardTimer;
 
     private Stage stage;
     private Label.LabelStyle timerLabelStyle;
+
+    private final DoneButton doneButton;
 
     public ProgramCardsView(IGame game) {
         this.game = game;
@@ -53,6 +52,8 @@ public class ProgramCardsView {
         this.cardTimer = SettingsUtil.TIMER_DURATION;
 
         setTimerLabelStyle();
+
+        this.doneButton = new DoneButton();
     }
 
     /**
@@ -181,16 +182,28 @@ public class ProgramCardsView {
 	}
 
     public ArrayList<Group> getGroups() {
-        return this.groups;
+        return groups;
     }
 
 	public int[] getOrder() {
-		return this.order;
+		return order;
 	}
+
+	public void setOrder(int[] newOrder) {
+        this.order = newOrder;
+    }
 
 	public boolean done() {
 		return this.cardPick == -1;
 	}
+
+	public int getCardPick() {
+        return cardPick;
+    }
+
+    public void setCardPick(int value) {
+        this.cardPick = value;
+    }
 
 
     // Maybe deprecated.
@@ -209,7 +222,7 @@ public class ProgramCardsView {
         return this.cardHeight;
     }
 
-    public void setDoneButton() {
+    /*public void setDoneButton() {
         doneButton = new ImageButton(new TextureRegionDrawable(DONE_BUTTON.getTexture()), new TextureRegionDrawable(DONE_BUTTON_PRESSED.getTexture()), new TextureRegionDrawable(DONE_BUTTON_HOVER.getTexture()));
         doneButton.setPosition(0, (getCardHeight() / 2f) - (doneButton.getPrefHeight() / 2f));
 
@@ -239,11 +252,11 @@ public class ProgramCardsView {
                 cardPick = -1;
             }
         });
-    }
+    }*/
 
-    public ImageButton getDoneButton() {
+    /*public ImageButton getDoneButton() {
         return doneButton;
-    }
+    }*/
 
     private void setTimerLabelStyle() {
         this.timerLabelStyle = new Label.LabelStyle();
@@ -324,7 +337,15 @@ public class ProgramCardsView {
         return (stage.getHeight() / 2f) - (elementHeight / 2f);
     }
 
+    public DoneButton getDoneButton() {
+        return doneButton;
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public IGame getGame() {
+        return game;
     }
 }

@@ -130,7 +130,7 @@ public class AnimateEvent {
     private void drawCardsInHand(IGame game, SpriteBatch batch, Stage stage) {
         programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
         programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getUserRobot());
-        programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
+        programCardsView.getDoneButton().get().draw(batch, stage.getWidth() / 2);
         for (Group group : programCardsView.getGroups()) {
             group.draw(batch, 1);
         }
@@ -164,10 +164,10 @@ public class AnimateEvent {
     public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
         programCardsView.setStage(stage);
-        programCardsView.setDoneButton();
+        programCardsView.getDoneButton().set(programCardsView);
         programCardsView.setTimerLabel();
 
-        stage.addActor(programCardsView.getDoneButton());
+        stage.addActor(programCardsView.getDoneButton().get());
 
         float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
@@ -178,8 +178,8 @@ public class AnimateEvent {
         }
         // xShift to the right-side edge of the game board
         float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
-        float doneButtonPosX = xShift - programCardsView.getDoneButton().getWidth();
-        programCardsView.getDoneButton().setX(doneButtonPosX);
+        float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
+        programCardsView.getDoneButton().get().setX(doneButtonPosX);
 
         cardPhase = true;
         Gdx.input.setInputProcessor(stage);
