@@ -28,7 +28,7 @@ public class Pathway {
 	}
 
 	public double distanceToFlag() {
-		return this.position.dst(flagPos);
+		return position.dst(flagPos);
 	}
 
 	public void storeCurrentPosition() {
@@ -45,11 +45,11 @@ public class Pathway {
 	}
 
 	public void turnLeft() {
-		direction = Direction.turnLeftFrom(direction);
+		this.direction = Direction.turnLeftFrom(direction);
 	}
 
 	public void turnRight() {
-		direction = Direction.turnRightFrom(direction);
+		this.direction = Direction.turnRightFrom(direction);
 	}
 
 	public void setDirection(Direction direction) {
@@ -57,7 +57,7 @@ public class Pathway {
 	}
 
 	public Direction getDirection() {
-		return this.direction;
+		return direction;
 	}
 
 	public double nextDstToFlag(int value) {
@@ -76,7 +76,7 @@ public class Pathway {
 	private ArrayList<GridPoint2> stepInDirection(int value) {
 		ArrayList<GridPoint2> positions = new ArrayList<>();
 		positions.add(position.cpy());
-		if(value == -1) {
+		if (value == -1) {
 			position.sub(direction.getStep());
 			positions.add(position.cpy());
 		}
@@ -100,24 +100,24 @@ public class Pathway {
 	public boolean isWall(ArrayList<GridPoint2> positions) {
 		Direction tempDir = Direction.turnLeftFrom(direction);
 		tempDir = Direction.turnLeftFrom(tempDir);
-		if(grid.getGridLayer(LayerName.WALL).containsKey(positions.get(0))) {
+		if (grid.getGridLayer(LayerName.WALL).containsKey(positions.get(0))) {
 			String wallName = grid.getGridLayer(LayerName.WALL).get(positions.get(0)).toString();
 			if (wallName.contains(direction.toString()))
 				return true;
 		}
-		if(grid.getGridLayer(LayerName.WALL).containsKey(positions.get(positions.size()-1))) {
+		if (grid.getGridLayer(LayerName.WALL).containsKey(positions.get(positions.size()-1))) {
 			String wallName = grid.getGridLayer(LayerName.WALL).get(positions.get(positions.size()-1)).toString();
 			if (wallName.contains(tempDir.toString()))
 				return true;
 		}
-		for(int i = 1; i < positions.size() - 1; i++) {
+		for (int i = 1; i < positions.size() - 1; i++) {
 			boolean wallAtPos = grid.getGridLayer(LayerName.WALL).containsKey(positions.get(i));
 			boolean isWall = false;
 			if (wallAtPos) {
 				String wallName = grid.getGridLayer(LayerName.WALL).get(positions.get(i)).toString();
 				isWall = wallName.contains(direction.toString()) || wallName.contains(tempDir.toString());
 			}
-			if(isWall)
+			if (isWall)
 				return true;
 		}
 		return false;
@@ -126,7 +126,7 @@ public class Pathway {
 	public void tilesAtPos() {
 		GridPoint2 stepsFromTiles = new GridPoint2();
 		Iterator<TileName> tiles = grid.getTilesAtPosition(position);
-		if(tiles==null)
+		if (tiles==null)
 			return;
 		while (tiles.hasNext()) {
 			TileName tileName = tiles.next();
@@ -137,7 +137,7 @@ public class Pathway {
 			if (grid.getGridLayer(LayerName.CONVEYOR).containsValue(tileName)) {
 				stepsFromTiles.add(updatePos(tileName));
 			}
-			if(grid.getGridLayer(LayerName.COG).containsValue(tileName)) {
+			if (grid.getGridLayer(LayerName.COG).containsValue(tileName)) {
 				if (tileName.toString().contains("COUNTER"))
 					turnRight();
 				else if (tileName.toString().contains("CLOCKWISE"))

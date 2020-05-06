@@ -7,7 +7,7 @@ public class ProgramCards implements IProgramCards {
     private Queue<Card> nextCard;
 
     public ProgramCards() {
-        deckOfCards = new ArrayList<>();
+        this.deckOfCards = new ArrayList<>();
         putAllCardsIntoDeck();
         shuffleCards();
         this.nextCard = new LinkedList<>();
@@ -29,7 +29,7 @@ public class ProgramCards implements IProgramCards {
 
     @Override
     public ArrayList<Card> getDeck() {
-        return this.deckOfCards;
+        return deckOfCards;
     }
 
     @Override

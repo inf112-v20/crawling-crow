@@ -181,7 +181,7 @@ public class AnimateEvent {
         float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
         programCardsView.getDoneButton().get().setX(doneButtonPosX);
 
-        cardPhase = true;
+        this.cardPhase = true;
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -200,10 +200,10 @@ public class AnimateEvent {
             card.setX(cardsGroupPositionX += registerCardsView.getCardWidth());
         }
 
-        playPhase = true;
+        this.playPhase = true;
     }
 
     public boolean getCardPhase() {
-        return this.cardPhase;
+        return cardPhase;
     }
 }

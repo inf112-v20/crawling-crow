@@ -143,12 +143,12 @@ public class LaserEvent {
 
     /** Returns true if this laser is currently active (it has not reached its laserPoint). */
     public boolean hasLaserEvent() {
-        return this.laserEvent;
+        return laserEvent;
     }
 
     /** Returns the robot (if there is one) standing on the laserPoint. */
     public Robot getRobot() {
-        return this.robot;
+        return robot;
     }
 
     private float getXShift() {

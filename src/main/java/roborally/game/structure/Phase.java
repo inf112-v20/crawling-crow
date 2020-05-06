@@ -218,6 +218,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public Robot getWinner() {
-		return this.winner;
+		return winner;
 	}
 }

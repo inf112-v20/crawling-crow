@@ -188,7 +188,7 @@ public class ProgramCardsView {
     }
 
 	public boolean done() {
-		return this.cardPick == -1;
+		return cardPick == -1;
 	}
 
 	public int getCardPick() {
@@ -207,11 +207,11 @@ public class ProgramCardsView {
     }
 
     public float getCardWidth() {
-        return this.cardWidth;
+        return cardWidth;
     }
 
     public float getCardHeight() {
-        return this.cardHeight;
+        return cardHeight;
     }
 
     public void updateOrder(int idx) {

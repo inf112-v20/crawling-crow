@@ -13,7 +13,7 @@ public class BoardObject {
     }
 
     public GridPoint2 getPosition() {
-        return this.position;
+        return position;
     }
 
     public TileName getType() {

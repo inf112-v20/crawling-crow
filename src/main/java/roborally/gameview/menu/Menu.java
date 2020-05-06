@@ -102,7 +102,7 @@ public class Menu {
     }
 
     public String getPlayerName() {
-        return this.playerName;
+        return playerName;
     }
 
     private void setNameInputField() {
@@ -280,11 +280,11 @@ public class Menu {
     }
 
     public int getMapId() {
-        return this.mapId;
+        return mapId;
     }
 
     public Events getEvents() {
-        return this.events;
+        return events;
     }
 
     public Image getMap() {

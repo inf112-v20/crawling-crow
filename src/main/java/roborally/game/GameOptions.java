@@ -11,22 +11,22 @@ import roborally.utilities.enums.LayerName;
 import java.util.ArrayList;
 
 public class GameOptions {
-    private boolean menu;
+    private boolean inMenu;
 
     public GameOptions() {
-        this.menu = false;
+        this.inMenu = false;
     }
 
     public void enterMenu() {
-        this.menu = !this.menu;
+        this.inMenu = !this.inMenu;
     }
 
     public void enterMenu(boolean value) {
-        this.menu = value;
+        this.inMenu = value;
     }
 
     public boolean inMenu() {
-        return this.menu;
+        return inMenu;
     }
 
     public ArrayList<Robot> makeRobots(ILayers layers, LaserRegister laserRegister, ArrayList<IFlag> flags) {
@@ -45,5 +45,4 @@ public class GameOptions {
         AssetManagerUtil.setRobots(robots);
         return robots;
     }
-
 }

@@ -79,7 +79,7 @@ public class Game implements IGame {
 
 	@Override
 	public ILayers getLayers() {
-		return this.layers;
+		return layers;
 	}
 
 	//region Robots
@@ -100,12 +100,12 @@ public class Game implements IGame {
 
 	@Override
 	public ArrayList<Robot> getRobots() {
-		return this.robots;
+		return robots;
 	}
 
 	private void setRobots(ArrayList<Robot> newRobots) {
 		this.robots = newRobots;
-		round = new Round(events, robots, gameBoard, uiElements);
+		this.round = new Round(events, robots, gameBoard, uiElements);
 	}
 	//endregion
 
@@ -116,22 +116,22 @@ public class Game implements IGame {
 			return;
 		if (SettingsUtil.DEBUG_MODE) System.out.println("Restarting game...");
 		for (Robot robot : robots) {
-			events.removeFromUI(robot);
+			this.events.removeFromUI(robot);
 		}
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
         setUserRobot();
         setHasRestarted(true);
-        uiElements.createLeaderboard(getRobots());
-        events.dispose();
+        this.uiElements.createLeaderboard(getRobots());
+		this.events.dispose();
         getRound().cleanUp();
-        registerCardsView.clear();
-        userRobot.getLogic().setName(name);
-        uiElements.update(userRobot);
+		this.registerCardsView.clear();
+		this.userRobot.getLogic().setName(name);
+		this.uiElements.update(userRobot);
 	}
 
 	@Override
 	public GameOptions getGameOptions() {
-		return this.gameOptions;
+		return gameOptions;
 	}
 
 	@Override
@@ -207,15 +207,15 @@ public class Game implements IGame {
 
 	@Override
 	public void orderTheUserRobotsCards(int[] order) {
-		userRobot.getLogic().arrangeCardsInHand(order);
-		setRegisterCardsView(userRobot);
-		userRobot.getLogic().setHasSelectedCards(true);
+		getUserRobot().getLogic().arrangeCardsInHand(order);
+		setRegisterCardsView(getUserRobot());
+		getUserRobot().getLogic().setHasSelectedCards(true);
 	}
 
 	@Override
 	public boolean hasAllPlayersChosenCards() {
-		if (userRobot != null && userRobot.getLogic().isCardsSelected()) {
-			userRobot.getLogic().setHasSelectedCards(false);
+		if (getUserRobot() != null && getUserRobot().getLogic().isCardsSelected()) {
+			getUserRobot().getLogic().setHasSelectedCards(false);
 			return true;
 		}
 		return false;
@@ -224,13 +224,13 @@ public class Game implements IGame {
 	@Override
 	public void endGame() {
 		if (SettingsUtil.DEBUG_MODE) System.out.println("Stopping game...");
-		events.setWaitMoveEvent(false);
+		this.events.setWaitMoveEvent(false);
 		for (Robot robot : robots) {
-			layers.setRobotTexture(robot.getPosition(), null);
-			events.removeFromUI(robot);
+			this.layers.setRobotTexture(robot.getPosition(), null);
+			this.events.removeFromUI(robot);
 		}
-		robots.clear();
-		gameOptions.enterMenu(true);
+		this.getRobots().clear();
+		this.getGameOptions().enterMenu(true);
 	}
 
 	@Override
@@ -240,12 +240,12 @@ public class Game implements IGame {
 
 	@Override
 	public IRound getRound() {
-		return this.round;
+		return round;
 	}
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
-		uiElements.update(getUserRobot());
+		this.uiElements.update(getUserRobot());
 		if (isRoundFinished) {
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());

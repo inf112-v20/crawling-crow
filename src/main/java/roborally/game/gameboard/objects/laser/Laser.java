@@ -250,7 +250,7 @@ public class Laser {
     }
 
     public ArrayList<GridPoint2> getCoords() {
-        return this.laserEndPositions;
+        return laserEndPositions;
     }
 
     /**
@@ -281,7 +281,7 @@ public class Laser {
     }
 
     public GridPoint2 getPosition() {
-        return this.cannonPos;
+        return cannonPos;
     }
 
     /**
