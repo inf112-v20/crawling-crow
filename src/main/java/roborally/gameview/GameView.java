@@ -253,7 +253,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     private void startNewRound(){
         game.getRound().setRoundInProgress(true);
-        setPowerDownUI();
+        setPowerDownButton();
 
         uiElements.update(game.getUserRobot());
         game.dealCards();
@@ -264,7 +264,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
     }
 
-    private void setPowerDownUI() {
+    private void setPowerDownButton() {
         if (!uiElements.hasPowerDownBeenActivated()) {
             uiElements.setPowerDownButton(UIElement.POWERED_ON);
         } else {
