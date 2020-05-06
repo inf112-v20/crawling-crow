@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.*;
 
 public class UIElements {
-    //private ArrayList<Image> rebootsList;
     private ArrayList<Image> damageTokens;
 
     private ImageButton powerDownButton;
@@ -39,10 +38,10 @@ public class UIElements {
 
     private Leaderboard leaderboard;
 
-    private Reboots reboots = new Reboots();
+    private Reboots reboots;
 
     public UIElements() {
-        //this.rebootsList = new ArrayList<>();
+        this.reboots = new Reboots();
         this.damageTokens = new ArrayList<>();
         this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
@@ -60,39 +59,6 @@ public class UIElements {
         rebootType.setSize(rebootType.getPrefWidth() / SettingsUtil.UI_ELEMENT_SCALE, rebootType.getPrefHeight() / SettingsUtil.UI_ELEMENT_SCALE);
         return rebootType;
     }
-
-    /*private void setRebootsList(int availableReboots) {
-        for (int i = 0; i < availableReboots; i++) {
-            this.rebootsList.add(getAndSetUIElement(REBOOT_ACTIVE));
-        }
-
-        if (availableReboots < (SettingsUtil.ROBOT_MAX_REBOOTS - 1)) {
-            for (int i = 0; i < ((SettingsUtil.ROBOT_MAX_REBOOTS - 1) - availableReboots); i++) {
-                this.rebootsList.add(getAndSetUIElement(REBOOT_INACTIVE));
-            }
-        }
-    }*/
-
-    /*public ArrayList<Image> getRebootsList() {
-        return rebootsList;
-    }
-
-    private void clearReboots() {
-        this.rebootsList = new ArrayList<>();
-    }*/
-
-    /*public void updateReboots(Robot robot) {
-        clearReboots();
-
-        setRebootsList(robot.getLogic().getReboots() - 1);
-
-        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        float rebootsListFixedPosX = xShift - getRebootsList().get(0).getWidth();
-
-        for (Image reboot : getRebootsList()) {
-            reboot.setX(rebootsListFixedPosX += reboot.getWidth());
-        }
-    }*/
 
     public Reboots getReboots() {
         return reboots;
