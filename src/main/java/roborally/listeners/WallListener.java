@@ -2,6 +2,7 @@ package roborally.listeners;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 import roborally.utilities.tiledtranslator.TiledTranslator;
@@ -12,12 +13,12 @@ import java.util.List;
 
 public class WallListener {
     private HashMap<String, List<TileName>> mapOfWallNames;
-    private TiledTranslator tiledTranslator;
+    //private TiledTranslator tiledTranslator;
     private ILayers layers;
 
     public WallListener(ILayers layers) {
         this.mapOfWallNames = makeWallMap();
-        this.tiledTranslator = new TiledTranslator();
+        //this.tiledTranslator = new TiledTranslator();
         this.layers = layers;
     }
 
@@ -32,7 +33,7 @@ public class WallListener {
         boolean wall = false;
         TileName wallName;
         if (layers.layerNotNull(LayerName.WALL, pos)) {
-            wallName = tiledTranslator.getTileName(layers.getLayerID(LayerName.WALL, pos));
+            wallName = SettingsUtil.TILED_TRANSLATOR.getTileName(layers.getLayerID(LayerName.WALL, pos));
             if (move.y > 0)
                 wall = mapOfWallNames.get("North").contains(wallName);
             else if (move.y < 0)
@@ -44,7 +45,7 @@ public class WallListener {
         }
         GridPoint2 nextPos = pos.cpy().add(move);
         if (layers.layerNotNull(LayerName.WALL, nextPos) && !wall) {
-            wallName = tiledTranslator.getTileName(layers.getLayerID(LayerName.WALL, nextPos));
+            wallName = SettingsUtil.TILED_TRANSLATOR.getTileName(layers.getLayerID(LayerName.WALL, nextPos));
             if (move.y > 0)
                 return mapOfWallNames.get("South").contains(wallName);
             else if (move.y < 0)

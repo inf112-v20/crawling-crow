@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
 import org.jetbrains.annotations.NotNull;
 import roborally.game.robot.RobotLogic;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
-import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -33,7 +33,7 @@ public class Grid {
 	private Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
 	private Map<GridPoint2, LinkedList<TileName>> grid;
 	private Map<RobotLogic, GridPoint2> robotPositions;
-	private TiledTranslator tiledTranslator;
+	//private TiledTranslator tiledTranslator;
 	private int width;
 	private int height;
 
@@ -41,7 +41,7 @@ public class Grid {
 		gridLayers = new HashMap<>();
 		grid = new HashMap<>();
 		robotPositions = new HashMap<>();
-		tiledTranslator = new TiledTranslator();
+		//tiledTranslator = new TiledTranslator();
 		String line;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
@@ -138,10 +138,10 @@ public class Grid {
 			if (bytes[j] != 0) {
 				GridPoint2 pos = new GridPoint2(x, height - y - 1);
 				gridLayers.get(layerName).put(pos,
-						tiledTranslator.getTileName(bytes[j] & 0xFF));
+						SettingsUtil.TILED_TRANSLATOR.getTileName(bytes[j] & 0xFF));
 				if(!grid.containsKey(pos))
 					grid.put(pos, new LinkedList<>());
-				grid.get(pos).add(tiledTranslator.getTileName(bytes[j] & 0xFF));
+				grid.get(pos).add(SettingsUtil.TILED_TRANSLATOR.getTileName(bytes[j] & 0xFF));
 			}
 			x++;
 			x = x % width;

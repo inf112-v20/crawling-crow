@@ -4,19 +4,19 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import org.jetbrains.annotations.NotNull;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
-import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.HashMap;
 
 // Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
-    private TiledTranslator tiledTranslator;
+    //private TiledTranslator tiledTranslator;
     private HashMap<LayerName, TiledMapTileLayer> layers;
 
     public Layers() {
-        tiledTranslator = new TiledTranslator();
+        //tiledTranslator = new TiledTranslator();
         layers = new HashMap<>(AssetManagerUtil.getLoadedLayers());
     }
 
@@ -37,7 +37,7 @@ public class Layers implements ILayers {
 
     @Override
     public TileName getTileName(LayerName layerName, @NotNull GridPoint2 position) {
-        return tiledTranslator.getTileName(getLayer(layerName).getCell(position.x, position.y).getTile().getId());
+        return SettingsUtil.TILED_TRANSLATOR.getTileName(getLayer(layerName).getCell(position.x, position.y).getTile().getId());
     }
 
     @Override
