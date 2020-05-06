@@ -30,8 +30,6 @@ import roborally.utilities.enums.UIElement;
 public class GameView extends InputAdapter implements ApplicationListener {
 
     // Size of tile, both height and width
-    public static final int TILE_SIZE = 300;
-    public static final float TILE_UNIT_SCALE = 3 / 16f;
     private IGame game;
     private TiledMap tiledMap;
     private int mapID;
@@ -60,31 +58,20 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        AssetManagerUtil.load();
-        AssetManagerUtil.loadAssetsToMap();
-        AssetManagerUtil.ASSET_MANAGER.finishLoading();
+        loadAssets();
         setBackground(mapID);
         tiledMap = AssetManagerUtil.getMap(mapID);
-        MapProperties mapProperties = tiledMap.getProperties();
-
-        int mapWidth = mapProperties.get("width", Integer.class);
-        int mapHeight = mapProperties.get("height", Integer.class);
-        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
-        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
-        float renderedTileWidth = tilePixelWidth * TILE_UNIT_SCALE;
-        float renderedTileHeight = tilePixelHeight * TILE_UNIT_SCALE;
-
+        updateSettingsUtilMapSize();
 
         game = new Game(events, uiElements);
         keyboardControls = new KeyboardInput(game);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set((renderedTileWidth * mapWidth) / 2f, (renderedTileHeight * mapHeight) / 2f, 0); // Center map in game window
+        camera.position.set((SettingsUtil.MAP_WIDTH) / 2f, (SettingsUtil.MAP_HEIGHT) / 2f, 0); // Center map in game window
         camera.update();
 
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, TILE_UNIT_SCALE);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SettingsUtil.UNIT_SCALE);
         mapRenderer.setView(camera);
 
         Gdx.input.setInputProcessor(this);
@@ -93,6 +80,27 @@ public class GameView extends InputAdapter implements ApplicationListener {
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         menu = new Menu(stage, events);
         game.getGameOptions().enterMenu(true);
+    }
+
+    private void loadAssets() {
+        AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetManagerUtil.load();
+        AssetManagerUtil.loadAssetsToMap();
+        AssetManagerUtil.ASSET_MANAGER.finishLoading();
+    }
+
+    private void updateSettingsUtilMapSize() {
+        MapProperties mapProperties = tiledMap.getProperties();
+
+        int mapWidth = mapProperties.get("width", Integer.class);
+        int mapHeight = mapProperties.get("height", Integer.class);
+        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
+        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+        float renderedTileWidth = tilePixelWidth * SettingsUtil.UNIT_SCALE;
+        float renderedTileHeight = tilePixelHeight * SettingsUtil.UNIT_SCALE;
+
+        SettingsUtil.MAP_WIDTH = renderedTileWidth * mapWidth;
+        SettingsUtil.MAP_HEIGHT = renderedTileHeight * mapHeight;
     }
 
     public void setBackground(int mapID) {
@@ -117,24 +125,19 @@ public class GameView extends InputAdapter implements ApplicationListener {
     @Override
     public void render() {
         events.setStage(stage);
-        if (uiElements.isPowerDownSetForNextRound()) {
-            game.getUserRobot().getLogic().setPowerDownNextRound(true);
-            uiElements.setPowerDownForNextRound(false);
-        }
 
-        if (events.hasWaitEvent() && !events.hasLaserEvent())
-            events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        checkForPowerDownNextRound();
+        checkForWaitEvent();
         renderBackground();
+
         camera.update();
         mapRenderer.render();
-        if(events.wonGame()) {
-            events.setWonGame(false);
-            menu.reloadStage(stage);
-            menu.setStartGame();
-            paused = true;
-        }
+
+        checkIfGameIsWon();
+
         if (paused) { // Menu
             pause();
         }
@@ -148,13 +151,37 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
 
         animateEvent.drawEvents(batch, game, stage);
+
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
         if (game.hasRestarted()) {
             Gdx.input.setInputProcessor(this);
             game.setHasRestarted(false);
         }
+
         uiElements.setStage(stage);
+    }
+
+    private void checkIfGameIsWon() {
+        if (events.wonGame()) {
+            events.setWonGame(false);
+            menu.reloadStage(stage);
+            menu.setStartGame();
+            paused = true;
+        }
+    }
+
+    private void checkForPowerDownNextRound() {
+        if (uiElements.isPowerDownSetForNextRound()) {
+            game.getUserRobot().getLogic().setPowerDownNextRound(true);
+            uiElements.setPowerDownForNextRound(false);
+        }
+    }
+
+    private void checkForWaitEvent() {
+        if (events.hasWaitEvent() && !events.hasLaserEvent()) {
+            events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
+        }
     }
 
     @Override
@@ -219,7 +246,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void tryToStartNewRound(){
-        if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.roundInProgress()) {
+        if (!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.roundInProgress()) {
             startNewRound();
         }
     }

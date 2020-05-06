@@ -6,8 +6,8 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.gameview.layout.ILayers;
 import roborally.gameview.layout.Layers;
-import roborally.gameview.GameView;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 
@@ -78,7 +78,7 @@ public class RobotView implements IRobotView {
 
     @Override
     public void setTextureRegion(int robotID) {
-        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), GameView.TILE_SIZE, GameView.TILE_SIZE);
+        this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), SettingsUtil.TILE_SIZE, SettingsUtil.TILE_SIZE);
         layers.setRobotTexture(this.pos, getTexture());
     }
 
