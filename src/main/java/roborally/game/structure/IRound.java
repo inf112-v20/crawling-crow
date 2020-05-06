@@ -23,7 +23,7 @@ public interface IRound {
     void startPhases(ILayers layers);
 
     /**
-     * Restores rebooted robots back to the board
+     * Restores rebooted robots back to the board, cleans the register, resets game message and updates ui elements
      */
     void cleanUp();
 

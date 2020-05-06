@@ -319,6 +319,16 @@ public class Game implements IGame {
 	}
 
 	@Override
+	public boolean checkIfSomeoneWon(){
+		for (IRobot robot : getRobots()){
+			if (robot.getLogic().hasWon()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public ProgramCardsView getRegisterCardsView() {
 		return registerCardsView;
 	}

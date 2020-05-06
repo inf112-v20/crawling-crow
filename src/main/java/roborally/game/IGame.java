@@ -115,5 +115,7 @@ public interface IGame {
 
     boolean roundInProgress();
 
+    boolean checkIfSomeoneWon();
+
     ProgramCardsView getRegisterCardsView();
 }
