@@ -111,16 +111,6 @@ public class Menu {
                 , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput.setAlignment(Align.center);
         nameInput.getStyle().fontColor = Color.RED;
-        /*nameButton = new TextButton("Change name", skin);
-        nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
-        nameButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                playerName = nameInput.getText();
-                if ("".equals(playerName) || playerName.length() > 13)
-                    playerName = "Angry";
-            }
-        });*/
     }
 
     private void setContinueButton() {
