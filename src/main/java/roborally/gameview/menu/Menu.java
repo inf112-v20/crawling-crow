@@ -51,7 +51,6 @@ public class Menu {
     private int lSpeed;
     private boolean Continue;
     private TextArea nameInput;
-    private TextButton nameButton;
     private String playerName;
 
     public Menu(Stage stage, Events events) {
@@ -79,7 +78,6 @@ public class Menu {
         stage.addActor(volumeSlider);
         stage.addActor(playSongLabel);
         stage.addActor(nameInput);
-        //stage.addActor(nameButton);
         setMainMenuButtons();
         Sliders sliders = new Sliders();
         sliders.abc();
@@ -111,16 +109,6 @@ public class Menu {
                 , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
         nameInput.setAlignment(Align.center);
         nameInput.getStyle().fontColor = Color.RED;
-        /*nameButton = new TextButton("Change name", skin);
-        nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
-        nameButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-                playerName = nameInput.getText();
-                if ("".equals(playerName) || playerName.length() > 13)
-                    playerName = "Angry";
-            }
-        });*/
     }
 
     private void setContinueButton() {
@@ -315,15 +303,12 @@ public class Menu {
         if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
-            //nameLabel.draw(batch, 1);
             nameInput.draw(batch, 1);
-            //nameButton.draw(batch, 1);
             gameSpeedLabel.draw(batch, 1);
             laserSpeedLabel.draw(batch, 1);
             volumeSlider.draw(batch, 1);
             volumeLabel.draw(batch, 1);
             playSongLabel.draw(batch, 1);
-            //sliders.drawSliders(batch);
             if (startGame == 1)
                 continueButton.draw(batch, 1);
         } else {
@@ -424,7 +409,6 @@ public class Menu {
                 startGame = 0;
                 stage.clear();
                 stage.addActor(nameInput);
-                stage.addActor(nameButton);
                 stage.addActor(gameSpeedLabel);
                 stage.addActor(laserSpeedLabel);
                 stage.addActor(volumeLabel);
