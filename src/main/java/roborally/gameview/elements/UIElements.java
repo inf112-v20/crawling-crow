@@ -30,7 +30,6 @@ public class UIElements {
     private Label messageLabel;
 
     private Stage stage;
-    private ArrayList<Image> flags;
     private ImageButton restartButton;
     private ImageButton exitButton;
 
@@ -38,12 +37,13 @@ public class UIElements {
 
     private Reboots reboots;
     private DamageTokens damageTokens;
+    private Flags flags;
 
     public UIElements() {
         this.reboots = new Reboots();
         this.damageTokens = new DamageTokens();
+        this.flags = new Flags();
 
-        this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
         this.leaderboard = new Leaderboard();
     }
@@ -68,6 +68,10 @@ public class UIElements {
         return damageTokens.get();
     }
 
+    public Flags getFlags() {
+        return flags;
+    }
+
     /**
      * For debugging
      *
@@ -76,7 +80,7 @@ public class UIElements {
     public void update(Robot robot) {
         reboots.set(robot, stage);
         damageTokens.set(robot, stage);
-        updateFlags(robot);
+        flags.set(robot, stage);
         leaderboard.updateLeaderboard();
     }
 
@@ -135,45 +139,6 @@ public class UIElements {
         return messageLabel;
     }
 
-    public void setFlags(int collectedFlags) {
-        for (int i = 0; i < collectedFlags; i++) {
-            this.flags.add(getAndSetUIElement(FLAG_WHITE));
-        }
-
-        float flagsWidth = getFlags().size() * (FLAG_WHITE.getTexture().getWidth() / SettingsUtil.UI_ELEMENT_SCALE);
-        float flagsListFixedPosX = (stage.getWidth() / 3f) - (flagsWidth / 2f);
-
-        int index = 0;
-        for (Image flag : getFlags()) {
-            flag.setY((stage.getHeight()) - (SettingsUtil.MAP_HEIGHT / 4f) - (flag.getHeight() / 2f));
-            if (index == 0) {
-                flag.setX(flagsListFixedPosX -= flag.getWidth());
-            }
-            flag.setX(flagsListFixedPosX += flag.getWidth());
-            index++;
-        }
-    }
-
-    public void updateFlags(Robot robot) {
-        clearFlags();
-        int collectedFlags = 0;
-
-        for (boolean flag : robot.getLogic().getVisitedFlags()) {
-            if (flag) {
-                collectedFlags++;
-            }
-        }
-
-        setFlags(collectedFlags);
-    }
-
-    private void clearFlags() {
-        this.flags = new ArrayList<>();
-    }
-
-    public ArrayList<Image> getFlags() {
-        return flags;
-    }
 
     public void setRestartButton(IGame game) {
         this.restartButton = new ImageButton(new TextureRegionDrawable(RESTART_BUTTON.getTexture()), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())));
@@ -231,7 +196,7 @@ public class UIElements {
     private void clearAll() {
         damageTokens.clear();
         reboots.clear();
-        clearFlags();
+        flags.clear();
         getMessageLabel().setText("");
         getExitButton().clear();
         getRestartButton().clear();

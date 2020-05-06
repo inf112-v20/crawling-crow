@@ -69,7 +69,7 @@ public class AnimateEvent {
     private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
         drawUIElement(batch, uiElements.getReboots());
         drawUIElement(batch, uiElements.getDamageTokens());
-        drawUIElement(batch, uiElements.getFlags());
+        drawUIElement(batch, uiElements.getFlags().get());
         for(Group group : uiElements.getLeaderboard())
             group.draw(batch, 1);
 
@@ -102,7 +102,7 @@ public class AnimateEvent {
         uiElements.getMessageLabel().draw(batch, 1);
 
         if (uiElements.getMessageLabel().toString().contains("won")) {
-            uiElements.updateFlags(game.getUserRobot());
+            uiElements.getFlags().set(game.getUserRobot(), stage);
             uiElements.setExitButton(game, events);
             uiElements.setRestartButton(game);
             stage.addActor(uiElements.getRestartButton());
