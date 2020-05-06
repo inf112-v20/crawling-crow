@@ -22,6 +22,7 @@ public class SettingsUtil {
     public final static int WINDOW_WIDTH = 1920;
     public final static int WINDOW_HEIGHT = 1080;
     public final static float UNIT_SCALE = 3 / 16f;
+    public final static float UI_ELEMENT_SCALE = 2.5f;
     public final static int TILE_SIZE = 300;
     public final static float TILE_SCALE = UNIT_SCALE * TILE_SIZE;
     public static float MAP_WIDTH;

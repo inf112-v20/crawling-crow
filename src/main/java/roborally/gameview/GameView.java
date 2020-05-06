@@ -19,8 +19,8 @@ import roborally.events.AnimateEvent;
 import roborally.events.Events;
 import roborally.game.Game;
 import roborally.game.IGame;
-import roborally.gameview.elements.ProgramCardsView;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.ProgramCardsView;
+import roborally.gameview.ui.UIElements;
 import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -168,9 +168,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void checkForPowerDownNextRound() {
-        if (uiElements.isPowerDownSetForNextRound()) {
+        if (uiElements.getPowerDownButton().isForNextRound()) {
             game.getUserRobot().getLogic().setPowerDownNextRound(true);
-            uiElements.setPowerDownForNextRound(false);
+            uiElements.getPowerDownButton().setForNextRound(false);
         }
     }
 
@@ -265,11 +265,11 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void setPowerDownButton() {
-        if (!uiElements.hasPowerDownBeenActivated()) {
-            uiElements.setPowerDownButton(UIElement.POWERED_ON);
+        if (!uiElements.getPowerDownButton().isActivated()) {
+            uiElements.getPowerDownButton().set(UIElement.POWERED_ON, stage);
         } else {
-            uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
-            uiElements.hasPowerDownBeenActivated(false);
+            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN, stage);
+            uiElements.getPowerDownButton().setActivated(false);
         }
     }
 }

@@ -1,4 +1,4 @@
-package roborally.gameview.elements;
+package roborally.gameview.ui.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 
@@ -14,46 +15,49 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Leaderboard {
-	public ArrayList<Group> playersUI;
-	public HashMap<Group, Robot> robotList;
+	public ArrayList<Group> leaderboardGroup;
+	public HashMap<Group, IRobot> robotList;
 	private HashMap<Group, TextureRegion[][]> groupList;
 	private Skin skin;
 
 	public void addPlayers(ArrayList<Robot> robots) {
-		playersUI = new ArrayList<>();
-		robotList = new HashMap<>();
-		groupList = new HashMap<>();
-		skin = new Skin(Gdx.files.internal("data/skin.json"));
-		for(Robot robot: robots) {
+		this.leaderboardGroup = new ArrayList<>();
+		this.robotList = new HashMap<>();
+		this.groupList = new HashMap<>();
+		this.skin = new Skin(Gdx.files.internal("data/skin.json"));
+		for (IRobot robot: robots) {
 			addGroup(robot);
 		}
 	}
-	public void addGroup(Robot robot) {
+
+	public void addGroup(IRobot robot) {
 		Group group = new Group();
 		TextureRegion[][] tr = TextureRegion.split(Objects.requireNonNull(AssetManagerUtil.getLeaderBoardTexture(robot.getName())), 96, 70);
 		Image image = new Image(tr[0][0]);
 		groupList.put(group, tr);
 		group.addActor(image);
 		robotList.put(group, robot);
-		playersUI.add(group);
+		leaderboardGroup.add(group);
 		Label robotName = new Label(robot.getName(), skin);
 		robotName.setFontScale(1.25f);
 		robotName.setY(image.getHeight());
 		robotName.setX(image.getWidth() / 6 - 10);
 		group.addActor(robotName);
 	}
-	public void arrangeGroups() {
-		int y = 105;
-		for (Group group : playersUI) {
-			group.setY(y+=85);
+
+	public void arrange() {
+		float y = 105; // FIXME: Should be relative to window size, not fixed pos, should use stage
+		for (Group group : leaderboardGroup) {
+			group.setY(y += (group.getChildren().get(0).getHeight() + 20));
 		}
 	}
-	public ArrayList<Group> getGroup() {
-		return playersUI;
+
+	public ArrayList<Group> get() {
+		return leaderboardGroup;
 	}
 
-	public void updateLeaderboard() {
-		for(Group group : robotList.keySet()) {
+	public void update() {
+		for (Group group : robotList.keySet()) {
 			int nFlags = getNumberOfFlagsFromRobotInGroup(group);
 			determineNextImage(group, nFlags);
 		}
@@ -65,17 +69,17 @@ public class Leaderboard {
 
 	private void determineNextImage(Group group, int nFlags) {
 		Image image = (Image) group.getChildren().get(0);
-		Label label = (Label) group.getChildren().get(1);
+		Label nameLabel = (Label) group.getChildren().get(1);
 		String name = robotList.get(group).getName();
-		label.setText(name);
-		if(image.getX() != (nFlags * 100)) {
+		nameLabel.setText(name);
+		if (image.getX() != (nFlags * 100)) {
 			group.removeActor(image);
-			group.removeActor(label);
+			group.removeActor(nameLabel);
 			image = new Image(groupList.get(group)[0][nFlags]);
-			image.setX(nFlags * 100);
-			label.setX(label.getX() + 100);
+			image.setX(nFlags * image.getWidth());
+			nameLabel.setX(nameLabel.getX() + 100);
 			group.addActorAt(0, image);
-			group.addActorAt(1, label);
+			group.addActorAt(1, nameLabel);
 		}
 	}
 }
