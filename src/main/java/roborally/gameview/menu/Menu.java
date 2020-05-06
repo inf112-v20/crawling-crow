@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import roborally.events.Events;
 import roborally.game.IGame;
 import roborally.utilities.AssetManagerUtil;
@@ -78,7 +79,7 @@ public class Menu {
         stage.addActor(volumeSlider);
         stage.addActor(playSongLabel);
         stage.addActor(nameInput);
-        stage.addActor(nameButton);
+        //stage.addActor(nameButton);
         setMainMenuButtons();
         Sliders sliders = new Sliders();
         sliders.abc();
@@ -104,21 +105,22 @@ public class Menu {
     }
 
     private void setNameInputField() {
-        nameInput = new TextArea("Angry", skin);
+        nameInput = new TextArea("Change name", skin);
+        nameInput.setWidth(nameInput.getWidth());
         nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth())
                 , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
-        nameInput.setWidth(nameInput.getWidth() - 50);
+        nameInput.setAlignment(Align.center);
         nameInput.getStyle().fontColor = Color.RED;
-        nameButton = new TextButton("Change name", skin);
+        /*nameButton = new TextButton("Change name", skin);
         nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 playerName = nameInput.getText();
-                if("".equals(playerName) || playerName.length() > 13)
+                if ("".equals(playerName) || playerName.length() > 13)
                     playerName = "Angry";
             }
-        });
+        });*/
     }
 
     private void setContinueButton() {
@@ -315,7 +317,7 @@ public class Menu {
                 image.draw(batch, 1);
             //nameLabel.draw(batch, 1);
             nameInput.draw(batch, 1);
-            nameButton.draw(batch, 1);
+            //nameButton.draw(batch, 1);
             gameSpeedLabel.draw(batch, 1);
             laserSpeedLabel.draw(batch, 1);
             volumeSlider.draw(batch, 1);
@@ -445,6 +447,10 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                playerName = nameInput.getText();
+                if (playerName.equals("") || playerName.length() > 13 || playerName.equals("Change name")) {
+                    playerName = "Angry";
+                }
                 resume = true;
             }
         });
