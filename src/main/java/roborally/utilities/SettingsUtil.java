@@ -26,4 +26,6 @@ public class SettingsUtil {
     public final static float TILE_SCALE = UNIT_SCALE * 300;
     public final static float MAP_WIDTH = TILE_SCALE * 16; // needs to be generic if we want maps with different sizes.
     public final static float MAP_HEIGHT = TILE_SCALE * 12; // -||-
+
+    public final static float UI_ELEMENT_SCALE = 2.5f;
 }

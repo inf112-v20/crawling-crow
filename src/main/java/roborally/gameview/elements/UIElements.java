@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.*;
 
 public class UIElements {
-    private final static float UI_ELEMENT_SCALE = 2.5f;
-    private ArrayList<Image> reboots;
+    //private ArrayList<Image> rebootsList;
     private ArrayList<Image> damageTokens;
 
     private ImageButton powerDownButton;
@@ -40,8 +39,10 @@ public class UIElements {
 
     private Leaderboard leaderboard;
 
+    private Reboots reboots = new Reboots();
+
     public UIElements() {
-        this.reboots = new ArrayList<>();
+        //this.rebootsList = new ArrayList<>();
         this.damageTokens = new ArrayList<>();
         this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
@@ -56,41 +57,45 @@ public class UIElements {
     private Image getAndSetUIElement(UIElement uiElement) {
         Image rebootType = new Image(uiElement.getTexture());
         rebootType.setPosition(0, 150);
-        rebootType.setSize(rebootType.getPrefWidth() / UI_ELEMENT_SCALE, rebootType.getPrefHeight() / UI_ELEMENT_SCALE);
+        rebootType.setSize(rebootType.getPrefWidth() / SettingsUtil.UI_ELEMENT_SCALE, rebootType.getPrefHeight() / SettingsUtil.UI_ELEMENT_SCALE);
         return rebootType;
     }
 
-    private void setReboots(int availableReboots) {
+    /*private void setRebootsList(int availableReboots) {
         for (int i = 0; i < availableReboots; i++) {
-            this.reboots.add(getAndSetUIElement(REBOOT_ACTIVE));
+            this.rebootsList.add(getAndSetUIElement(REBOOT_ACTIVE));
         }
 
         if (availableReboots < (SettingsUtil.ROBOT_MAX_REBOOTS - 1)) {
             for (int i = 0; i < ((SettingsUtil.ROBOT_MAX_REBOOTS - 1) - availableReboots); i++) {
-                this.reboots.add(getAndSetUIElement(REBOOT_INACTIVE));
+                this.rebootsList.add(getAndSetUIElement(REBOOT_INACTIVE));
             }
         }
-    }
+    }*/
 
-    public ArrayList<Image> getReboots() {
-        return reboots;
+    /*public ArrayList<Image> getRebootsList() {
+        return rebootsList;
     }
 
     private void clearReboots() {
-        this.reboots = new ArrayList<>();
-    }
+        this.rebootsList = new ArrayList<>();
+    }*/
 
-    public void updateReboots(Robot robot) {
+    /*public void updateReboots(Robot robot) {
         clearReboots();
 
-        setReboots(robot.getLogic().getReboots() - 1);
+        setRebootsList(robot.getLogic().getReboots() - 1);
 
         float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        float rebootsListFixedPosX = xShift - getReboots().get(0).getWidth();
+        float rebootsListFixedPosX = xShift - getRebootsList().get(0).getWidth();
 
-        for (Image reboot : getReboots()) {
+        for (Image reboot : getRebootsList()) {
             reboot.setX(rebootsListFixedPosX += reboot.getWidth());
         }
+    }*/
+
+    public Reboots getReboots() {
+        return reboots;
     }
 
     private void setDamageTokens(int availableHealth) {
@@ -124,7 +129,7 @@ public class UIElements {
 
         setDamageTokens(Math.max(robot.getLogic().getHealth(), 0));
 
-        float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / UI_ELEMENT_SCALE);
+        float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / SettingsUtil.UI_ELEMENT_SCALE);
         float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
 
         int index = 0;
@@ -143,7 +148,7 @@ public class UIElements {
      * @param robot The user controlled robot
      */
     public void update(Robot robot) {
-        updateReboots(robot);
+        reboots.set(robot, stage);
         updateDamageTokens(robot);
         updateFlags(robot);
         leaderboard.updateLeaderboard();
@@ -209,7 +214,7 @@ public class UIElements {
             this.flags.add(getAndSetUIElement(FLAG_WHITE));
         }
 
-        float flagsWidth = getFlags().size() * (FLAG_WHITE.getTexture().getWidth() / UI_ELEMENT_SCALE);
+        float flagsWidth = getFlags().size() * (FLAG_WHITE.getTexture().getWidth() / SettingsUtil.UI_ELEMENT_SCALE);
         float flagsListFixedPosX = (stage.getWidth() / 3f) - (flagsWidth / 2f);
 
         int index = 0;
@@ -299,7 +304,7 @@ public class UIElements {
 
     private void clearAll() {
         clearDamageTokens();
-        clearReboots();
+        reboots.clear();
         clearFlags();
         getMessageLabel().setText("");
         getExitButton().clear();
