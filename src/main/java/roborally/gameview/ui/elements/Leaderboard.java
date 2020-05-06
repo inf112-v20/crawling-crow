@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
 
@@ -15,7 +16,7 @@ import java.util.Objects;
 
 public class Leaderboard {
 	public ArrayList<Group> leaderboardGroup;
-	public HashMap<Group, Robot> robotList;
+	public HashMap<Group, IRobot> robotList;
 	private HashMap<Group, TextureRegion[][]> groupList;
 	private Skin skin;
 
@@ -24,12 +25,12 @@ public class Leaderboard {
 		this.robotList = new HashMap<>();
 		this.groupList = new HashMap<>();
 		this.skin = new Skin(Gdx.files.internal("data/skin.json"));
-		for (Robot robot: robots) {
+		for (IRobot robot: robots) {
 			addGroup(robot);
 		}
 	}
 
-	public void addGroup(Robot robot) {
+	public void addGroup(IRobot robot) {
 		Group group = new Group();
 		TextureRegion[][] tr = TextureRegion.split(Objects.requireNonNull(AssetManagerUtil.getLeaderBoardTexture(robot.getName())), 96, 70);
 		Image image = new Image(tr[0][0]);
