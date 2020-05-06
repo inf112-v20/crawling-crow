@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.IRobot;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.enums.UIElement;
 
 import java.util.ArrayList;
 
@@ -23,15 +22,9 @@ public class Reboots implements IElement {
         float rebootsListFixedPosX = xShift - get().get(0).getWidth();
 
         for (Image reboot : get()) {
+            reboot.setY(150);
             reboot.setX(rebootsListFixedPosX += reboot.getWidth());
         }
-    }
-
-    private Image setAndGet(UIElement element) {
-        Image reboot = new Image(element.getTexture());
-        reboot.setPosition(0, 150);
-        reboot.setSize(reboot.getPrefWidth() / SettingsUtil.UI_ELEMENT_SCALE, reboot.getPrefHeight() / SettingsUtil.UI_ELEMENT_SCALE);
-        return reboot;
     }
 
     @Override
@@ -46,12 +39,12 @@ public class Reboots implements IElement {
 
     public void update(int availableReboots) {
         for (int i = 0; i < availableReboots; i++) {
-            this.rebootsList.add(setAndGet(REBOOT_ACTIVE));
+            this.rebootsList.add(UIElements.get(REBOOT_ACTIVE));
         }
 
         if (availableReboots < (SettingsUtil.ROBOT_MAX_REBOOTS - 1)) {
             for (int i = 0; i < ((SettingsUtil.ROBOT_MAX_REBOOTS - 1) - availableReboots); i++) {
-                this.rebootsList.add(setAndGet(REBOOT_INACTIVE));
+                this.rebootsList.add(UIElements.get(REBOOT_INACTIVE));
             }
         }
     }

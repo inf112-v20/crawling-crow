@@ -53,11 +53,10 @@ public class UIElements {
         leaderboard.arrangeGroups();
     }
 
-    private Image getAndSetUIElement(UIElement uiElement) {
-        Image rebootType = new Image(uiElement.getTexture());
-        rebootType.setPosition(0, 150);
-        rebootType.setSize(rebootType.getPrefWidth() / SettingsUtil.UI_ELEMENT_SCALE, rebootType.getPrefHeight() / SettingsUtil.UI_ELEMENT_SCALE);
-        return rebootType;
+    public static Image get(UIElement element) {
+        Image elementImage = new Image(element.getTexture());
+        elementImage.setSize(elementImage.getPrefWidth() / SettingsUtil.UI_ELEMENT_SCALE, elementImage.getPrefHeight() / SettingsUtil.UI_ELEMENT_SCALE);
+        return elementImage;
     }
 
     public ArrayList<Image> getReboots() {

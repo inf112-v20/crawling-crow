@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.IRobot;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.enums.UIElement;
 
 import java.util.ArrayList;
 
@@ -24,19 +23,13 @@ public class DamageTokens implements IElement {
 
         int index = 0;
         for (Image damageToken : get()) {
+            damageToken.setY(150);
             if (index == 0) {
                 damageToken.setX(damageTokenListFixedPosX -= damageToken.getWidth());
             }
             damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth());
             index++;
         }
-    }
-
-    private Image setAndGet(UIElement element) {
-        Image reboot = new Image(element.getTexture());
-        reboot.setPosition(0, 150);
-        reboot.setSize(reboot.getPrefWidth() / SettingsUtil.UI_ELEMENT_SCALE, reboot.getPrefHeight() / SettingsUtil.UI_ELEMENT_SCALE);
-        return reboot;
     }
 
     @Override
@@ -57,12 +50,12 @@ public class DamageTokens implements IElement {
             6 - 9   : green
          */
         for (int i = 0; i < availableHealth; i++) {
-            this.damageTokens.add(setAndGet(DAMAGE_TOKEN_GREEN));
+            this.damageTokens.add(UIElements.get(DAMAGE_TOKEN_GREEN));
         }
 
         if (availableHealth < SettingsUtil.ROBOT_MAX_HEALTH) {
             for (int i = 0; i < (SettingsUtil.ROBOT_MAX_HEALTH - availableHealth); i++) {
-                this.damageTokens.add(setAndGet(DAMAGE_TOKEN_RED));
+                this.damageTokens.add(UIElements.get(DAMAGE_TOKEN_RED));
             }
         }
     }
