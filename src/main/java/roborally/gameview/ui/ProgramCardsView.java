@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import org.jetbrains.annotations.NotNull;
 import roborally.game.IGame;
 import roborally.game.cards.IProgramCards;
-import roborally.game.robot.Robot;
+import roborally.gameview.ui.elements.Timer;
 import roborally.gameview.ui.elements.buttons.DoneButton;
 import roborally.utilities.SettingsUtil;
 
@@ -33,13 +33,11 @@ public class ProgramCardsView {
     private ArrayList<Label> selectedOrderList;
     private float cardWidth;
     private float cardHeight;
-    private Label timerLabel;
-    private float cardTimer;
 
     private Stage stage;
-    private Label.LabelStyle timerLabelStyle;
 
     private final DoneButton doneButton;
+    private final Timer timer;
 
     public ProgramCardsView(IGame game) {
         this.game = game;
@@ -48,11 +46,9 @@ public class ProgramCardsView {
         this.groups = new ArrayList<>();
         this.order = new int[SettingsUtil.REGISTER_SIZE];
         Arrays.fill(order, -1);
-        this.cardTimer = SettingsUtil.TIMER_DURATION;
-
-        setTimerLabelStyle();
 
         this.doneButton = new DoneButton();
+        this.timer = new Timer(SettingsUtil.TIMER_DURATION);
     }
 
     /**
@@ -221,67 +217,8 @@ public class ProgramCardsView {
         return this.cardHeight;
     }
 
-    private void setTimerLabelStyle() {
-        this.timerLabelStyle = new Label.LabelStyle();
-        this.timerLabelStyle.fontColor = Color.YELLOW;
-    }
-
-    public void setTimerLabel() {
-        this.timerLabelStyle.font = new BitmapFont();
-        this.timerLabel = new Label(Float.toString(cardTimer), timerLabelStyle);
-        this.timerLabel.setFontScale(3);
-        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        this.timerLabel.setPosition(xShift, cardHeight / 2f);
-    }
-
-    public Label getTimerLabel() {
-        return timerLabel;
-    }
-
-    public void updateTimer(float dt, Robot userRobot) {
-        this.cardTimer -= dt;
-        this.timerLabel.setText("0:" + (int) this.cardTimer);
-
-        if (cardTimer <= 10) {
-            timerLabel.setColor(Color.RED);
-        }
-
-        if (cardTimer <= 1.0) {
-            ArrayList<IProgramCards.Card> cards = userRobot.getLogic().getCardsInHand();
-            int number = Math.min(5, cards.size());
-            for (IProgramCards.Card card : cards) {
-                if (cardPick < number) {
-                    addIfCardIsNotChosen(cards, card);
-                }
-            }
-            temporaryTimerOrder();
-            cardPick = -1;
-        }
-    }
-
-    private void addIfCardIsNotChosen(ArrayList<IProgramCards.Card> cards, IProgramCards.Card card) {
-        int idx = cards.indexOf(card);
-        boolean hasCard = false;
-        for (int id : order) {
-            if (id == idx) {
-                hasCard = true;
-                break;
-            }
-        }
-        if (!hasCard) {
-            order[cardPick++] = idx;
-        }
-    }
-
-
-    // For å sørge for at den returnerer en liste med korrekt størrelse (og at det ikke er -1 som indexer).
-    private void temporaryTimerOrder() {
-        int abc = 0;
-        while(abc < 5 && order[abc]!=-1)
-            abc+=1;
-        int[] newOrder = new int[abc];
-        System.arraycopy(order, 0, newOrder, 0, abc);
-        this.order = newOrder;
+    public void updateOrder(int idx) {
+        order[cardPick++] = idx;
     }
 
     private float getCenterPositionHorizontal() {
@@ -302,6 +239,10 @@ public class ProgramCardsView {
 
     public DoneButton getDoneButton() {
         return doneButton;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     public void setStage(Stage stage) {
