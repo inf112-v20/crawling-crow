@@ -10,6 +10,8 @@ import roborally.utilities.enums.TileName;
 
 import java.util.HashMap;
 
+import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
+
 // Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
     private HashMap<LayerName, TiledMapTileLayer> layers;
@@ -35,7 +37,7 @@ public class Layers implements ILayers {
 
     @Override
     public TileName getTileName(LayerName layerName, @NotNull GridPoint2 position) {
-        return SettingsUtil.TILED_TRANSLATOR.getTileName(getLayer(layerName).getCell(position.x, position.y).getTile().getId());
+        return TILED_TRANSLATOR.getTileName(getLayer(layerName).getCell(position.x, position.y).getTile().getId());
     }
 
     @Override

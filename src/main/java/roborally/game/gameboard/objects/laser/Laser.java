@@ -11,6 +11,8 @@ import roborally.utilities.enums.TileName;
 
 import java.util.ArrayList;
 
+import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
+
 /** This class handles the logic involved in robots
  * shooting lasers {@link #fireLaser}.
  * Mainly it handles the static lasers projected
@@ -114,7 +116,7 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
-        TileName laserTileName = SettingsUtil.TILED_TRANSLATOR.getTileName(laserTileID);
+        TileName laserTileName = TILED_TRANSLATOR.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_HORIZONTAL) {
             storedLaserCell = getLaser(1);
             cannonId = findHorizontal();
@@ -143,7 +145,7 @@ public class Laser {
 
         if (cannonTileID != 0) {
             int dx;
-            TileName cannonTileName = SettingsUtil.TILED_TRANSLATOR.getTileName(cannonTileID);
+            TileName cannonTileName = TILED_TRANSLATOR.getTileName(cannonTileID);
             if (cannonTileName == TileName.WALL_CANNON_RIGHT)
                 dx = -1;
             else {
@@ -174,7 +176,7 @@ public class Laser {
         cannonTileID = findCannon(i, j, k);
         if (cannonTileID != 0) {
             int dy;
-            TileName cannonTileName = SettingsUtil.TILED_TRANSLATOR.getTileName(cannonTileID);
+            TileName cannonTileName = TILED_TRANSLATOR.getTileName(cannonTileID);
             if (cannonTileName == TileName.WALL_CANNON_BOTTOM)
                 dy = 1;
             else {
@@ -219,7 +221,7 @@ public class Laser {
      * @return cannonId
      */
     private int findCannon(int i, int j, int k) {
-        TileName laserTileName = SettingsUtil.TILED_TRANSLATOR.getTileName(laserTileID);
+        TileName laserTileName = TILED_TRANSLATOR.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_VERTICAL) {
             if (layers.layerNotNull(LayerName.CANNON, new GridPoint2(k, i - 1)))
                 return layers.getLayerID(LayerName.CANNON, new GridPoint2(k, i - 1));
@@ -264,7 +266,7 @@ public class Laser {
             if (layers.getLayerID(LayerName.LASER, new GridPoint2(i, j)) == crossLaser.getTile().getId() && !create) {
                 int storedLaserCellID = storedLaserCell.getTile().getId();
 
-                TileName laserTileName = SettingsUtil.TILED_TRANSLATOR.getTileName(storedLaserCellID);
+                TileName laserTileName = TILED_TRANSLATOR.getTileName(storedLaserCellID);
                 if (laserTileName == TileName.LASER_VERTICAL)
                     layers.setLayerCell(LayerName.LASER, new GridPoint2(i, j), horizontalLaser);
                 else

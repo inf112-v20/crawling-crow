@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
+
 /**
  * This class reads through a tmx map encoded with Base64 and compressed with zlib.
  * For each layer in the tmx map found by hitting a line that includes the field
@@ -138,10 +140,10 @@ public class Grid {
 			if (bytes[j] != 0) {
 				GridPoint2 pos = new GridPoint2(x, height - y - 1);
 				gridLayers.get(layerName).put(pos,
-						SettingsUtil.TILED_TRANSLATOR.getTileName(bytes[j] & 0xFF));
+						TILED_TRANSLATOR.getTileName(bytes[j] & 0xFF));
 				if(!grid.containsKey(pos))
 					grid.put(pos, new LinkedList<>());
-				grid.get(pos).add(SettingsUtil.TILED_TRANSLATOR.getTileName(bytes[j] & 0xFF));
+				grid.get(pos).add(TILED_TRANSLATOR.getTileName(bytes[j] & 0xFF));
 			}
 			x++;
 			x = x % width;

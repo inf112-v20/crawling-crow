@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
+
 public class WallListener {
     private HashMap<String, List<TileName>> mapOfWallNames;
     private ILayers layers;
@@ -30,7 +32,7 @@ public class WallListener {
         boolean wall = false;
         TileName wallName;
         if (layers.layerNotNull(LayerName.WALL, pos)) {
-            wallName = SettingsUtil.TILED_TRANSLATOR.getTileName(layers.getLayerID(LayerName.WALL, pos));
+            wallName = TILED_TRANSLATOR.getTileName(layers.getLayerID(LayerName.WALL, pos));
             if (move.y > 0)
                 wall = mapOfWallNames.get("North").contains(wallName);
             else if (move.y < 0)
@@ -42,7 +44,7 @@ public class WallListener {
         }
         GridPoint2 nextPos = pos.cpy().add(move);
         if (layers.layerNotNull(LayerName.WALL, nextPos) && !wall) {
-            wallName = SettingsUtil.TILED_TRANSLATOR.getTileName(layers.getLayerID(LayerName.WALL, nextPos));
+            wallName = TILED_TRANSLATOR.getTileName(layers.getLayerID(LayerName.WALL, nextPos));
             if (move.y > 0)
                 return mapOfWallNames.get("South").contains(wallName);
             else if (move.y < 0)
