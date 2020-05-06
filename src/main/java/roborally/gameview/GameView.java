@@ -121,10 +121,11 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
-        events.setStage(stage);
-
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        events.setStage(stage);
+        uiElements.setStage(stage);
 
         checkForPowerDownNextRound();
         checkForWaitEvent();
@@ -155,8 +156,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
             Gdx.input.setInputProcessor(this);
             game.setHasRestarted(false);
         }
-
-        uiElements.setStage(stage);
     }
 
     private void checkIfGameIsWon() {
@@ -203,7 +202,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void resume() {
-        if(!animateEvent.getCardPhase())
+        if (!animateEvent.getCardPhase())
             Gdx.input.setInputProcessor(this);
     }
 
@@ -221,14 +220,18 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
         keyboardControls.getAction(keycode).run();
 
+        checkIfInMenu();
+        return true;
+    }
+
+    private void checkIfInMenu() {
         if (game.getGameOptions().inMenu()) {
             menu.reloadStage(stage);
-            if(game.getRobots() != null) {
+            if (game.getRobots() != null) {
                 menu.addContinueButtonToStage(stage);
             }
             paused = true;
         }
-        return true;
     }
 
     public void changeMap() {
