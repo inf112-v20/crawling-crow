@@ -1,6 +1,7 @@
 package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.utilities.tiledtranslator.TiledTranslator;
 
 public class SettingsUtil {
     //region Game Settings
@@ -26,4 +27,6 @@ public class SettingsUtil {
     public final static float TILE_SCALE = UNIT_SCALE * TILE_SIZE;
     public static float MAP_WIDTH;
     public static float MAP_HEIGHT;
+
+    public final static TiledTranslator TILED_TRANSLATOR = new TiledTranslator();
 }
