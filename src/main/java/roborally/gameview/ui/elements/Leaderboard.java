@@ -14,17 +14,17 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Leaderboard {
-	public ArrayList<Group> playersUI;
+	public ArrayList<Group> leaderboardGroup;
 	public HashMap<Group, Robot> robotList;
 	private HashMap<Group, TextureRegion[][]> groupList;
 	private Skin skin;
 
 	public void addPlayers(ArrayList<Robot> robots) {
-		playersUI = new ArrayList<>();
-		robotList = new HashMap<>();
-		groupList = new HashMap<>();
-		skin = new Skin(Gdx.files.internal("data/skin.json"));
-		for(Robot robot: robots) {
+		this.leaderboardGroup = new ArrayList<>();
+		this.robotList = new HashMap<>();
+		this.groupList = new HashMap<>();
+		this.skin = new Skin(Gdx.files.internal("data/skin.json"));
+		for (Robot robot: robots) {
 			addGroup(robot);
 		}
 	}
@@ -36,7 +36,7 @@ public class Leaderboard {
 		groupList.put(group, tr);
 		group.addActor(image);
 		robotList.put(group, robot);
-		playersUI.add(group);
+		leaderboardGroup.add(group);
 		Label robotName = new Label(robot.getName(), skin);
 		robotName.setFontScale(1.25f);
 		robotName.setY(image.getHeight());
@@ -44,15 +44,15 @@ public class Leaderboard {
 		group.addActor(robotName);
 	}
 
-	public void arrangeGroups() {
-		int y = 105;
-		for (Group group : playersUI) {
-			group.setY(y+=85);
+	public void arrange() {
+		float y = 105; // FIXME: Should be relative to window size, not fixed pos, should use stage
+		for (Group group : leaderboardGroup) {
+			group.setY(y += (group.getChildren().get(0).getHeight() + 20));
 		}
 	}
 
-	public ArrayList<Group> getGroup() {
-		return playersUI;
+	public ArrayList<Group> get() {
+		return leaderboardGroup;
 	}
 
 	public void update() {
@@ -68,17 +68,17 @@ public class Leaderboard {
 
 	private void determineNextImage(Group group, int nFlags) {
 		Image image = (Image) group.getChildren().get(0);
-		Label label = (Label) group.getChildren().get(1);
+		Label nameLabel = (Label) group.getChildren().get(1);
 		String name = robotList.get(group).getName();
-		label.setText(name);
-		if(image.getX() != (nFlags * 100)) {
+		nameLabel.setText(name);
+		if (image.getX() != (nFlags * 100)) {
 			group.removeActor(image);
-			group.removeActor(label);
+			group.removeActor(nameLabel);
 			image = new Image(groupList.get(group)[0][nFlags]);
-			image.setX(nFlags * 100);
-			label.setX(label.getX() + 100);
+			image.setX(nFlags * image.getWidth());
+			nameLabel.setX(nameLabel.getX() + 100);
 			group.addActorAt(0, image);
-			group.addActorAt(1, label);
+			group.addActorAt(1, nameLabel);
 		}
 	}
 }

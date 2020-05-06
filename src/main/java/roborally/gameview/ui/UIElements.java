@@ -38,7 +38,7 @@ public class UIElements {
 
     public void createLeaderboard(ArrayList<Robot> robots) {
         leaderboard.addPlayers(robots);
-        leaderboard.arrangeGroups();
+        leaderboard.arrange();
     }
 
     public static Image get(UIElement element) {
@@ -76,7 +76,7 @@ public class UIElements {
     }
 
     public ArrayList<Group> getLeaderboard() {
-        return leaderboard.getGroup();
+        return leaderboard.get();
     }
 
     public void setStage(Stage stage) {
