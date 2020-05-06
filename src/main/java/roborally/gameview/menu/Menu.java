@@ -15,8 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import roborally.game.IGame;
+import com.badlogic.gdx.utils.Align;
 import roborally.events.Events;
+import roborally.game.IGame;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.assets.SoundAssets;
@@ -26,98 +27,106 @@ import java.util.HashMap;
 
 // Menu under construction!
 public class Menu {
+    private final Stage stage;
+    private final HashMap<String, ArrayList<Image>> imageLists;
+    private final Label.LabelStyle labelStyle;
+    private final Events events;
+    private final Skin skin;
     private boolean changeMap;
     private Music Song;
     private int mapId;
     private int startGame;
-    private HashMap<String, ArrayList<Image>> imageLists;
     private boolean changeMapMenu;
-    private Label playSong;
-    private Label left;
-    private Label right;
-    private Label gameSpeed;
-    private Label laserSpeed;
-    private Label volume;
+    private Label playSongLabel;
+    private Label previousMapLabel;
+    private Label nextMapLabel;
+    private Label gameSpeedLabel;
+    private Label laserSpeedLabel;
+    private Label volumeLabel;
     private Slider volumeSlider;
-    private Label.LabelStyle labelStyle;
     private Image mapButton;
     private Image continueButton;
-    private Events events;
     private boolean resume;
     private int gSpeed;
     private int lSpeed;
     private boolean Continue;
-    private Sliders sliders;
-    private Skin skin;
-    private TextArea nameBox;
+    private TextArea nameInput;
     private TextButton nameButton;
     private String playerName;
-    private Label nameHere;
 
     public Menu(Stage stage, Events events) {
-        skin = new Skin(Gdx.files.internal("data/skin.json"));
-        labelStyle = new Label.LabelStyle();
-        labelStyle.font = new BitmapFont();
+        this.stage = stage;
+        this.skin = new Skin(Gdx.files.internal("data/skin.json"));
+        this.labelStyle = new Label.LabelStyle();
+        this.labelStyle.font = new BitmapFont();
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
         this.events = events;
-        imageLists = new HashMap<>();
-        startGame = 0;
-        imageLists.put("menus", new ArrayList<>());
-        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
-        menu.setSize(stage.getViewport().getScreenWidth(), stage.getViewport().getScreenHeight());
-        imageLists.get("menus").add(menu);
-        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
-        mapButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f, SettingsUtil.WINDOW_HEIGHT / 1.5f);
-        changeMapMenu = false;
-        playerName = "Angry";
-        addEvenMoreListeners();
-        makeLabels();
-        makeOptionListeners();
-        addMaps();
-        addMoreListeners();
-        addNameFunction();
-        stage.addActor(gameSpeed);
-        stage.addActor(laserSpeed);
+        this.imageLists = new HashMap<>();
+        this.startGame = 0;
+        this.imageLists.put("menus", new ArrayList<>());
+        setMenu();
+        this.playerName = "Angry";
+        setChangeMap();
+        setContinueButton();
+        setLabels();
+        setOptionsListeners();
+        setOptionsListeners2();
+        setNameInputField();
+        stage.addActor(gameSpeedLabel);
+        stage.addActor(laserSpeedLabel);
         stage.addActor(volumeSlider);
-        stage.addActor(playSong);
-        stage.addActor(nameBox);
-        stage.addActor(nameButton);
-        makeClickableButtons(stage);
-        this.sliders = new Sliders();
+        stage.addActor(playSongLabel);
+        stage.addActor(nameInput);
+        //stage.addActor(nameButton);
+        setMainMenuButtons();
+        Sliders sliders = new Sliders();
         sliders.abc();
+    }
+
+    private void setMenu() {
+        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
+        menu.setSize(stage.getWidth(), stage.getHeight());
+        imageLists.get("menus").add(menu);
+    }
+
+    private void setChangeMap() {
+        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
+        mapButton.setSize(mapButton.getWidth() * 3f, mapButton.getHeight() * 3f);
+        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()) - (1 / 3f * mapButton.getWidth())
+                , centerVertical(mapButton.getPrefHeight() + ( 1 / 3f * mapButton.getHeight())));
+        changeMapMenu = false;
+        addMaps();
     }
 
     public String getPlayerName() {
         return this.playerName;
     }
 
-    private void addNameFunction() {
-        nameHere = new Label("Name: ", skin);
-        nameHere.setColor(Color.BLUE);
-        nameHere.setFontScale(1.5f);
-        nameHere.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 15 ,SettingsUtil.WINDOW_HEIGHT / 2f + 58);
-        nameBox = new TextArea("Angry", skin);
-        nameButton = new TextButton("OK", skin);
-        nameBox.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 75 ,SettingsUtil.WINDOW_HEIGHT / 2f + 50);
-        nameBox.setWidth(nameBox.getWidth() -50);
-        nameBox.getStyle().fontColor = Color.RED;
-        nameButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f + 180 ,SettingsUtil.WINDOW_HEIGHT / 2f + 45);
+    private void setNameInputField() {
+        nameInput = new TextArea("Change name", skin);
+        nameInput.setWidth(nameInput.getWidth());
+        nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth())
+                , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
+        nameInput.setAlignment(Align.center);
+        nameInput.getStyle().fontColor = Color.RED;
+        /*nameButton = new TextButton("Change name", skin);
+        nameButton.setPosition(nameInput.getX() + nameInput.getWidth(), nameInput.getY());
         nameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                playerName = nameBox.getText();
-                if("".equals(playerName) || playerName.length() > 13)
+                playerName = nameInput.getText();
+                if ("".equals(playerName) || playerName.length() > 13)
                     playerName = "Angry";
             }
-        });
+        });*/
     }
-    private void addEvenMoreListeners() {
 
+    private void setContinueButton() {
         continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
-        continueButton.setPosition(SettingsUtil.WINDOW_WIDTH / 2f - 70, SettingsUtil.WINDOW_HEIGHT / 2f - 25);
-        continueButton.setWidth(continueButton.getWidth() + 150);
+        continueButton.setPosition(centerHorizontal(continueButton.getPrefWidth())
+                , centerVertical(continueButton.getPrefHeight()));
         continueButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -136,58 +145,66 @@ public class Menu {
         });
     }
 
-    private void makeOptionListeners() {
-        gameSpeed.addListener(new ClickListener() {
+    private float centerHorizontal(float elementWidth) {
+        return (stage.getWidth() / 2f) - (elementWidth / 2f);
+    }
+
+    private float centerVertical(float elementHeight) {
+        return (stage.getHeight() / 2f) - (elementHeight / 2f);
+    }
+
+    private void setOptionsListeners() {
+        gameSpeedLabel.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                gameSpeed.setColor(Color.RED);
+                gameSpeedLabel.setColor(Color.RED);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                gameSpeed.setColor(Color.WHITE);
+                gameSpeedLabel.setColor(Color.WHITE);
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (gSpeed == 0) {
-                    gameSpeed.setText("Game Speed: fast");
+                    gameSpeedLabel.setText("Game Speed: fast");
                     gSpeed++;
                     getEvents().setGameSpeed("fast");
                 } else if (gSpeed == 1) {
-                    gameSpeed.setText("Game Speed: fastest");
+                    gameSpeedLabel.setText("Game Speed: fastest");
                     gSpeed++;
                     getEvents().setGameSpeed("fastest");
                 } else if (gSpeed == 2) {
-                    gameSpeed.setText("Game Speed: normal");
+                    gameSpeedLabel.setText("Game Speed: normal");
                     getEvents().setGameSpeed("normal");
                     gSpeed = 0;
                 }
             }
         });
-        laserSpeed.addListener(new ClickListener() {
+        laserSpeedLabel.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                laserSpeed.setColor(Color.RED);
+                laserSpeedLabel.setColor(Color.RED);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                laserSpeed.setColor(Color.WHITE);
+                laserSpeedLabel.setColor(Color.WHITE);
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (lSpeed == 1) {
-                    laserSpeed.setText("Laser Speed: normal");
+                    laserSpeedLabel.setText("Laser Speed: normal");
                     lSpeed++;
                     getEvents().setLaserSpeed("normal");
                 } else if (lSpeed == 2) {
-                    laserSpeed.setText("Laser Speed: fast");
+                    laserSpeedLabel.setText("Laser Speed: fast");
                     lSpeed = 0;
                     getEvents().setLaserSpeed("fast");
                 } else if (lSpeed == 0) {
-                    laserSpeed.setText("Laser Speed: slow");
+                    laserSpeedLabel.setText("Laser Speed: slow");
                     getEvents().setLaserSpeed("slow");
                     lSpeed++;
                 }
@@ -195,54 +212,44 @@ public class Menu {
         });
     }
 
-    private void addMoreListeners() {
-        left.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 0)
-                    mapId = 1;
-                else
-                    mapId -= 1;
-                return true;
-            }
-        });
-        right.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (mapId == 1)
-                    mapId = 0;
-                else
-                    mapId += 1;
-                return true;
-            }
-        });
-
-        playSong.addListener(new ClickListener() {
+    private void setOptionsListeners2() {
+        playSongLabel.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                playSong.setColor(Color.GREEN);
+                playSongLabel.setColor(Color.GREEN);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                playSong.setColor(Color.WHITE);
+                playSongLabel.setColor(Color.WHITE);
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String text = playSong.getText().toString();
+                String text = playSongLabel.getText().toString();
                 if ("Play a song: ".equals(text)) {
                     Song = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SOUNDTRACK);
                     Song.setVolume(0.1f * SettingsUtil.VOLUME);
                     Song.play();
                     Song.setLooping(true);
-                    playSong.setText("Click to stop playing.");
+                    playSongLabel.setText("Click to stop playing.");
                 } else {
                     Song.stop();
-                    playSong.setText("Play a song: ");
+                    playSongLabel.setText("Play a song: ");
                 }
             }
         });
+        volumeSlider.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                SettingsUtil.VOLUME = volumeSlider.getValue();
+                volumeLabel.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
+            }
+        });
+    }
+
+    private void setVolumeSlider() {
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
         Image birdImage = new Image(new Texture("assets/icons/Icon.png"));
         birdImage.setSize(15, 20);
@@ -254,16 +261,8 @@ public class Menu {
         sliderStyle.knob = birdImage.getDrawable();
         volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
         volumeSlider.setValue(0.6f);
-        volumeSlider.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                SettingsUtil.VOLUME = volumeSlider.getValue();
-                volume.setText("Volume " + Math.round(volumeSlider.getValue() * 100.0) / 100.0);
-            }
-        });
-
-        volumeSlider.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f + 30);
+        volumeSlider.setPosition(playSongLabel.getX(), playSongLabel.getY()
+                - (volumeSlider.getHeight() * 2f));
     }
 
     public boolean isResume(IGame game) {
@@ -304,11 +303,11 @@ public class Menu {
     public void reloadStage(Stage stage) {
         for (Image image : imageLists.get("buttons"))
             stage.addActor(image);
-        stage.addActor(gameSpeed);
-        stage.addActor(laserSpeed);
-        stage.addActor(volume);
+        stage.addActor(gameSpeedLabel);
+        stage.addActor(laserSpeedLabel);
+        stage.addActor(volumeLabel);
         stage.addActor(volumeSlider);
-        stage.addActor(playSong);
+        stage.addActor(playSongLabel);
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
@@ -316,21 +315,21 @@ public class Menu {
         if (!changeMapMenu) {
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
-            nameHere.draw(batch, 1);
-            nameBox.draw(batch, 1);
-            nameButton.draw(batch, 1);
-            gameSpeed.draw(batch, 1);
-            laserSpeed.draw(batch, 1);
+            //nameLabel.draw(batch, 1);
+            nameInput.draw(batch, 1);
+            //nameButton.draw(batch, 1);
+            gameSpeedLabel.draw(batch, 1);
+            laserSpeedLabel.draw(batch, 1);
             volumeSlider.draw(batch, 1);
-            volume.draw(batch, 1);
-            playSong.draw(batch, 1);
-            sliders.drawSliders(batch);
+            volumeLabel.draw(batch, 1);
+            playSongLabel.draw(batch, 1);
+            //sliders.drawSliders(batch);
             if (startGame == 1)
                 continueButton.draw(batch, 1);
         } else {
             imageLists.get("maps").get(mapId).draw(batch, 1);
-            left.draw(batch, 1);
-            right.draw(batch, 1);
+            previousMapLabel.draw(batch, 1);
+            nextMapLabel.draw(batch, 1);
             mapButton.draw(batch, 1);
         }
         if (changeMap)
@@ -342,42 +341,71 @@ public class Menu {
         this.startGame = 0;
     }
 
-    private void makeLabels() {
-        gameSpeed = new Label("Game Speed: normal", labelStyle);
-        laserSpeed = new Label("Laser Speed: normal", labelStyle);
-        playSong = new Label("Play a song: ", labelStyle);
-        volume = new Label("Volume ", labelStyle);
-        volume.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f + 60);
+    private void setLabels() {
+        gameSpeedLabel = new Label("Game Speed: normal", labelStyle);
+        laserSpeedLabel = new Label("Laser Speed: normal", labelStyle);
+        playSongLabel = new Label("Play a song", labelStyle);
+        volumeLabel = new Label("Volume ", labelStyle);
+        playSongLabel.setPosition(stage.getWidth() - 200, (stage.getHeight() / 1.5f) + 60);
+        setVolumeSlider();
+        volumeLabel.setPosition(playSongLabel.getX()
+                , volumeSlider.getY() - (volumeLabel.getPrefHeight() * 2f));
         gSpeed = 0;
         lSpeed = 2;
-        laserSpeed.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f);
-        gameSpeed.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 30);
-        playSong.setPosition(SettingsUtil.WINDOW_WIDTH - 200, SettingsUtil.WINDOW_HEIGHT / 1.5f - 60);
-        left = new Label(" < ", labelStyle);
-        right = new Label(" > ", labelStyle);
-        left.setFontScale(2);
-        right.setFontScale(2);
-        left.setPosition(SettingsUtil.WINDOW_WIDTH / 3f + 75, SettingsUtil.WINDOW_HEIGHT / 2f - 60);
-        right.setPosition(SettingsUtil.WINDOW_WIDTH / 1.35f - 70, SettingsUtil.WINDOW_HEIGHT / 2f - 60);
-        left.scaleBy(2);
-        right.scaleBy(2);
+        laserSpeedLabel.setPosition(playSongLabel.getX(),
+                volumeLabel.getY() - (laserSpeedLabel.getPrefHeight() * 2f));
+        gameSpeedLabel.setPosition(playSongLabel.getX(),
+                laserSpeedLabel.getY() - (gameSpeedLabel.getPrefHeight() * 2f));
+        previousMapLabel = new Label("<", labelStyle);
+        nextMapLabel = new Label(">", labelStyle);
+        previousMapLabel.setFontScale(2);
+        nextMapLabel.setFontScale(2);
+        float mapImagePosStartX = imageLists.get("maps").get(0).getX();
+        float mapImagePosEndX = imageLists.get("maps").get(0).getWidth()
+                + imageLists.get("maps").get(0).getX();
+        previousMapLabel.setPosition(mapImagePosStartX - previousMapLabel.getPrefWidth() - 50
+                , centerVertical(previousMapLabel.getPrefHeight() - 50));
+        nextMapLabel.setPosition(mapImagePosEndX + 50
+                , centerVertical(nextMapLabel.getPrefHeight() - 50));
+        previousMapLabel.scaleBy(2);
+        nextMapLabel.scaleBy(2);
+        previousMapLabel.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (mapId == 0)
+                    mapId = 2;
+                else
+                    mapId -= 1;
+                return true;
+            }
+        });
+        nextMapLabel.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (mapId == 2)
+                    mapId = 0;
+                else
+                    mapId += 1;
+                return true;
+            }
+        });
     }
 
-    private void makeClickableButtons(Stage stage) {
-        ArrayList<Image> clickableButtons = new ArrayList<>();
-        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons(), 200, 50);
-        int y = SettingsUtil.WINDOW_HEIGHT / 2;
-        int x = SettingsUtil.WINDOW_WIDTH / 2;
+    private void setMainMenuButtons () {
+        ArrayList<Image> menuButtons = new ArrayList<>();
+        TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons()
+                , 200, 50);
+        float y = stage.getHeight() / 2f;
         for (int i = 0; i < 3; i++) {
-            clickableButtons.add(new Image(buttons[i][0]));
-            clickableButtons.get(i).setY(y -= 75);
-            clickableButtons.get(i).setX(x);
-            stage.addActor(clickableButtons.get(i));
+            menuButtons.add(new Image(buttons[i][0]));
+            menuButtons.get(i).setX(centerHorizontal(menuButtons.get(i).getPrefWidth()));
+            menuButtons.get(i).setY(y -= menuButtons.get(i).getPrefHeight());
+            stage.addActor(menuButtons.get(i));
         }
-        makeClickListeners(stage, clickableButtons);
+        setClickListeners(menuButtons);
     }
 
-    private void makeClickListeners(Stage stage, ArrayList<Image> clickableButtons) {
+    private void setClickListeners(ArrayList<Image> clickableButtons) {
         mapButton.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -395,13 +423,13 @@ public class Menu {
                 changeMapMenu = false;
                 startGame = 0;
                 stage.clear();
-                stage.addActor(nameBox);
+                stage.addActor(nameInput);
                 stage.addActor(nameButton);
-                stage.addActor(gameSpeed);
-                stage.addActor(laserSpeed);
-                stage.addActor(volume);
+                stage.addActor(gameSpeedLabel);
+                stage.addActor(laserSpeedLabel);
+                stage.addActor(volumeLabel);
                 stage.addActor(volumeSlider);
-                stage.addActor(playSong);
+                stage.addActor(playSongLabel);
                 for (Image image : imageLists.get("buttons"))
                     stage.addActor(image);
             }
@@ -419,6 +447,10 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                playerName = nameInput.getText();
+                if (playerName.equals("") || playerName.length() > 13 || playerName.equals("Change name")) {
+                    playerName = "Angry";
+                }
                 resume = true;
             }
         });
@@ -438,8 +470,8 @@ public class Menu {
                 if(!events.hasWaitEvent()) {
                     changeMapMenu = true;
                     stage.clear();
-                    stage.addActor(left);
-                    stage.addActor(right);
+                    stage.addActor(previousMapLabel);
+                    stage.addActor(nextMapLabel);
                     stage.addActor(mapButton);
                 }
             }
@@ -469,7 +501,7 @@ public class Menu {
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.PNG"))));
         for (Image image : maps)
-            image.setPosition(SettingsUtil.WINDOW_WIDTH / 2.5f, SettingsUtil.WINDOW_HEIGHT / 4f);
+            image.setPosition(centerHorizontal(image.getPrefWidth()), centerVertical(image.getPrefHeight()));
         imageLists.put("maps", maps);
     }
 
