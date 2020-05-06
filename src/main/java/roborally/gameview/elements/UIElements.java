@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.*;
 
 public class UIElements {
-    private ArrayList<Image> damageTokens;
-
     private ImageButton powerDownButton;
     private boolean hasPowerDownBeenActivated;
     private boolean isPowerDownSetForNextRound;
@@ -39,10 +37,12 @@ public class UIElements {
     private Leaderboard leaderboard;
 
     private Reboots reboots;
+    private DamageTokens damageTokens;
 
     public UIElements() {
         this.reboots = new Reboots();
-        this.damageTokens = new ArrayList<>();
+        this.damageTokens = new DamageTokens();
+
         this.flags = new ArrayList<>();
         this.hasPowerDownBeenActivated = false;
         this.leaderboard = new Leaderboard();
@@ -60,52 +60,12 @@ public class UIElements {
         return rebootType;
     }
 
-    public Reboots getReboots() {
-        return reboots;
-    }
-
-    private void setDamageTokens(int availableHealth) {
-        /*
-            TODO: Should be displayed like this, not sure how yet.
-            0       : red
-            1 - 5   : card_green
-            6 - 9   : green
-         */
-        for (int i = 0; i < availableHealth; i++) {
-            this.damageTokens.add(getAndSetUIElement(DAMAGE_TOKEN_GREEN));
-        }
-
-        if (availableHealth < SettingsUtil.ROBOT_MAX_HEALTH) {
-            for (int i = 0; i < (SettingsUtil.ROBOT_MAX_HEALTH - availableHealth); i++) {
-                this.damageTokens.add(getAndSetUIElement(DAMAGE_TOKEN_RED));
-            }
-        }
+    public ArrayList<Image> getReboots() {
+        return reboots.get();
     }
 
     public ArrayList<Image> getDamageTokens() {
-        return damageTokens;
-    }
-
-    private void clearDamageTokens() {
-        this.damageTokens = new ArrayList<>();
-    }
-
-    public void updateDamageTokens(Robot robot) {
-        clearDamageTokens();
-
-        setDamageTokens(Math.max(robot.getLogic().getHealth(), 0));
-
-        float damageTokensWidth = getDamageTokens().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / SettingsUtil.UI_ELEMENT_SCALE);
-        float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
-
-        int index = 0;
-        for (Image damageToken : getDamageTokens()) {
-            if (index == 0) {
-                damageToken.setX(damageTokenListFixedPosX -= damageToken.getWidth());
-            }
-            damageToken.setX(damageTokenListFixedPosX += damageToken.getWidth());
-            index++;
-        }
+        return damageTokens.get();
     }
 
     /**
@@ -115,7 +75,7 @@ public class UIElements {
      */
     public void update(Robot robot) {
         reboots.set(robot, stage);
-        updateDamageTokens(robot);
+        damageTokens.set(robot, stage);
         updateFlags(robot);
         leaderboard.updateLeaderboard();
     }
@@ -269,7 +229,7 @@ public class UIElements {
     }
 
     private void clearAll() {
-        clearDamageTokens();
+        damageTokens.clear();
         reboots.clear();
         clearFlags();
         getMessageLabel().setText("");

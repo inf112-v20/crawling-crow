@@ -67,7 +67,7 @@ public class AnimateEvent {
 
 
     private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
-        drawUIElement(batch, uiElements.getReboots().get());
+        drawUIElement(batch, uiElements.getReboots());
         drawUIElement(batch, uiElements.getDamageTokens());
         drawUIElement(batch, uiElements.getFlags());
         for(Group group : uiElements.getLeaderboard())
