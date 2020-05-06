@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import roborally.gameview.ui.ProgramCardsView;
 import roborally.utilities.SettingsUtil;
 
-import static roborally.utilities.enums.UIElement.*;
+import static roborally.utilities.enums.UIElement.DONE_BUTTON;
+import static roborally.utilities.enums.UIElement.DONE_BUTTON_PRESSED;
+import static roborally.utilities.enums.UIElement.DONE_BUTTON_HOVER;
 
 public class DoneButton implements IButton {
     private ImageButton doneButton;

@@ -13,7 +13,7 @@ public class SettingsUtil {
     public final static int REGISTER_SIZE = 5;
 
     public final static int TIMER_DURATION = 30;
-    public final static boolean DEBUG_MODE = false;
+    public final static boolean DEBUG_MODE = true;
     //endregion
 
     public final static GridPoint2 GRAVEYARD = new GridPoint2(-1,-1);
