@@ -10,10 +10,12 @@ import java.util.ArrayList;
 
 import static roborally.utilities.enums.UIElement.FLAG_WHITE;
 
-public class Flags implements IElement {
+public class Flags implements IStats {
     private ArrayList<Image> flags;
+    private Stage stage;
 
     public void update(IRobot robot, Stage stage) {
+        this.stage = stage;
         clear();
         int collectedFlags = 0;
 
@@ -23,7 +25,7 @@ public class Flags implements IElement {
             }
         }
 
-        set(collectedFlags, stage);
+        set(collectedFlags);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class Flags implements IElement {
         this.flags = new ArrayList<>();
     }
 
-    private void set(int collectedFlags, Stage stage) {
+    private void set(int collectedFlags) {
         for (int i = 0; i < collectedFlags; i++) {
             this.flags.add(UIElements.get(FLAG_WHITE));
         }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.util.ArrayList;
 
-public interface IElement {
+public interface IStats {
     ArrayList<Image> get();
     void clear();
 }

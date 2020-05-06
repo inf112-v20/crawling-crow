@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.REBOOT_ACTIVE;
 import static roborally.utilities.enums.UIElement.REBOOT_INACTIVE;
 
-public class Reboots implements IElement {
+public class Reboots implements IStats {
     private ArrayList<Image> rebootsList;
 
     public void update(IRobot robot, Stage stage) {

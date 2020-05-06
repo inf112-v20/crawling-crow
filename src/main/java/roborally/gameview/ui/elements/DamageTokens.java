@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static roborally.utilities.enums.UIElement.DAMAGE_TOKEN_GREEN;
 import static roborally.utilities.enums.UIElement.DAMAGE_TOKEN_RED;
 
-public class DamageTokens implements IElement {
+public class DamageTokens implements IStats {
     private ArrayList<Image> damageTokens;
 
     public void update(IRobot robot, Stage stage) {
@@ -44,12 +44,6 @@ public class DamageTokens implements IElement {
     }
 
     private void set(int availableHealth) {
-        /*
-            TODO: Should be displayed like this, not sure how yet.
-            0       : red
-            1 - 5   : card_green
-            6 - 9   : green
-         */
         for (int i = 0; i < availableHealth; i++) {
             this.damageTokens.add(UIElements.get(DAMAGE_TOKEN_GREEN));
         }
