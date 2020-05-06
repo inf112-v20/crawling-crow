@@ -1,11 +1,8 @@
 package roborally.gameview.elements;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import roborally.game.robot.Robot;
 import roborally.gameview.elements.buttons.ExitButton;
 import roborally.gameview.elements.buttons.PowerDownButton;
@@ -16,11 +13,7 @@ import roborally.utilities.enums.UIElement;
 import java.util.ArrayList;
 
 public class UIElements {
-    private Label.LabelStyle messageStyle;
-    private Label messageLabel;
-
     private Stage stage;
-    //private ImageButton restartButton;
 
     private Leaderboard leaderboard;
 
@@ -32,6 +25,8 @@ public class UIElements {
     private ExitButton exitButton;
     private RestartButton restartButton;
 
+    private Message message;
+
     public UIElements() {
         this.reboots = new Reboots();
         this.damageTokens = new DamageTokens();
@@ -39,6 +34,7 @@ public class UIElements {
         this.powerDownButton = new PowerDownButton();
         this.exitButton = new ExitButton();
         this.restartButton = new RestartButton();
+        this.message = new Message();
 
         this.leaderboard = new Leaderboard();
     }
@@ -78,6 +74,10 @@ public class UIElements {
         return restartButton;
     }
 
+    public Message getMessage() {
+        return message;
+    }
+
     /**
      * For debugging
      *
@@ -88,21 +88,6 @@ public class UIElements {
         damageTokens.set(robot, stage);
         flags.set(robot, stage);
         leaderboard.updateLeaderboard();
-    }
-
-    public void setMessageLabel(String message) {
-        this.messageStyle = new Label.LabelStyle();
-        this.messageStyle.fontColor = Color.YELLOW;
-        this.messageStyle.font = new BitmapFont();
-        this.messageLabel = new Label(message, messageStyle);
-        this.messageLabel.setFontScale(3);
-        float x = (stage.getWidth() / 2f) - (messageLabel.getPrefWidth() / 2f);
-        float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (messageLabel.getPrefHeight() / 2f));
-        this.messageLabel.setPosition(x, y);
-    }
-
-    public Label getMessageLabel() {
-        return messageLabel;
     }
 
     public ArrayList<Group> getLeaderboard() {
@@ -117,8 +102,12 @@ public class UIElements {
         getDamageTokens().clear();
         getReboots().clear();
         getFlags().clear();
-        getMessageLabel().setText("");
+        getMessage().clear();
         getExitButton().clear();
         getRestartButton().clear();
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

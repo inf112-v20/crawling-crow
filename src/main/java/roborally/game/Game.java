@@ -74,7 +74,7 @@ public class Game implements IGame {
         setUserRobot();
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
-        uiElements.setMessageLabel(""); // FIXME: temp for resetting the label on startUp
+        uiElements.getMessage().set("", uiElements.getStage()); // FIXME: temp for resetting the label on startUp
 	}
 
 	@Override

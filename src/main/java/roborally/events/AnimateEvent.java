@@ -93,15 +93,15 @@ public class AnimateEvent {
 
     private void updateMessageLabel(IGame game, SpriteBatch batch, Stage stage) {
         for (Robot robot : game.getRobots()) {
-            checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!");
-            checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!");
-            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " won!");
-            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!");
+            checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!", stage);
+            checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!", stage);
+            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " won!", stage);
+            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!", stage);
         }
 
-        uiElements.getMessageLabel().draw(batch, 1);
+        uiElements.getMessage().get().draw(batch, 1);
 
-        if (uiElements.getMessageLabel().toString().contains("won")) {
+        if (uiElements.getMessage().get().toString().contains("won")) {
             uiElements.getFlags().set(game.getUserRobot(), stage);
             uiElements.getExitButton().set(game, events, stage, uiElements);
             uiElements.getRestartButton().set(game, uiElements);
@@ -115,9 +115,9 @@ public class AnimateEvent {
         }
     }
 
-    private void checkRobotStatus(boolean status, String message) {
+    private void checkRobotStatus(boolean status, String message, Stage stage) {
         if (status) {
-            uiElements.setMessageLabel(message);
+            uiElements.getMessage().set(message, stage);
         }
     }
 
