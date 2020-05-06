@@ -49,4 +49,9 @@ public class DoneButton implements IButton {
     public ImageButton get() {
         return doneButton;
     }
+
+    @Override
+    public void clear() {
+        doneButton.clear();
+    }
 }

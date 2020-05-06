@@ -39,6 +39,7 @@ public class ExitButton implements IButton {
         return exitButton;
     }
 
+    @Override
     public void clear() {
         exitButton.clear();
     }

@@ -37,6 +37,7 @@ public class RestartButton implements IButton {
         return restartButton;
     }
 
+    @Override
     public void clear() {
         restartButton.clear();
     }

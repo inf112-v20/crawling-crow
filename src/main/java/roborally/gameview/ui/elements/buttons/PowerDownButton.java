@@ -40,6 +40,11 @@ public class PowerDownButton implements IButton {
         return powerDownButton;
     }
 
+    @Override
+    public void clear() {
+        powerDownButton.clear();
+    }
+
     // For checking if the button has been pressed
     public boolean isActivated() {
         return isActivated;
