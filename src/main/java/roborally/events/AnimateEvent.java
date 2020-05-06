@@ -103,12 +103,12 @@ public class AnimateEvent {
 
         if (uiElements.getMessageLabel().toString().contains("won")) {
             uiElements.getFlags().set(game.getUserRobot(), stage);
-            uiElements.setExitButton(game, events);
-            uiElements.setRestartButton(game);
-            stage.addActor(uiElements.getRestartButton());
-            stage.addActor(uiElements.getExitButton());
-            uiElements.getRestartButton().draw(batch, 1);
-            uiElements.getExitButton().draw(batch, 1);
+            uiElements.getExitButton().set(game, events, stage, uiElements);
+            uiElements.getRestartButton().set(game, uiElements);
+            stage.addActor(uiElements.getRestartButton().get());
+            stage.addActor(uiElements.getExitButton().get());
+            uiElements.getRestartButton().get().draw(batch, 1);
+            uiElements.getExitButton().get().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
             winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
             events.setWaitMoveEvent(false);

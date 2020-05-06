@@ -11,7 +11,7 @@ import roborally.utilities.enums.UIElement;
 
 import static roborally.utilities.enums.UIElement.POWERING_DOWN;
 
-public class PowerDownButton {
+public class PowerDownButton implements IButton {
     private ImageButton powerDownButton;
     private boolean isActivated;
     private boolean isActivatedForNextRound;
@@ -35,6 +35,7 @@ public class PowerDownButton {
         });
     }
 
+    @Override
     public ImageButton get() {
         return powerDownButton;
     }

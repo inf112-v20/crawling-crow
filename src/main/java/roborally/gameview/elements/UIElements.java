@@ -3,31 +3,24 @@ package roborally.gameview.elements;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import roborally.events.Events;
-import roborally.game.IGame;
 import roborally.game.robot.Robot;
+import roborally.gameview.elements.buttons.ExitButton;
 import roborally.gameview.elements.buttons.PowerDownButton;
+import roborally.gameview.elements.buttons.RestartButton;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
 
 import java.util.ArrayList;
-
-import static roborally.utilities.enums.UIElement.*;
 
 public class UIElements {
     private Label.LabelStyle messageStyle;
     private Label messageLabel;
 
     private Stage stage;
-    private ImageButton restartButton;
-    private ImageButton exitButton;
+    //private ImageButton restartButton;
 
     private Leaderboard leaderboard;
 
@@ -36,12 +29,16 @@ public class UIElements {
     private Flags flags;
 
     private PowerDownButton powerDownButton;
+    private ExitButton exitButton;
+    private RestartButton restartButton;
 
     public UIElements() {
         this.reboots = new Reboots();
         this.damageTokens = new DamageTokens();
         this.flags = new Flags();
         this.powerDownButton = new PowerDownButton();
+        this.exitButton = new ExitButton();
+        this.restartButton = new RestartButton();
 
         this.leaderboard = new Leaderboard();
     }
@@ -73,6 +70,14 @@ public class UIElements {
         return powerDownButton;
     }
 
+    public ExitButton getExitButton() {
+        return exitButton;
+    }
+
+    public RestartButton getRestartButton() {
+        return restartButton;
+    }
+
     /**
      * For debugging
      *
@@ -100,64 +105,18 @@ public class UIElements {
         return messageLabel;
     }
 
-
-    public void setRestartButton(IGame game) {
-        this.restartButton = new ImageButton(new TextureRegionDrawable(RESTART_BUTTON.getTexture()), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())), new TextureRegionDrawable((RESTART_BUTTON_PRESSED.getTexture())));
-
-        this.restartButton.setY(getExitButton().getY());
-
-
-        this.restartButton.setX(getExitButton().getX() - getRestartButton().getWidth());
-
-        this.restartButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (SettingsUtil.DEBUG_MODE) System.out.println("Clicked on restart button...");
-                game.restartGame();
-                clearAll();
-            }
-        });
-    }
-
-    public ImageButton getRestartButton() {
-        return restartButton;
-    }
-
-    public void setExitButton(IGame game, Events events) {
-        this.exitButton = new ImageButton(new TextureRegionDrawable(EXIT_BUTTON.getTexture()));
-        float y = (((stage.getHeight() + SettingsUtil.MAP_HEIGHT) / 2f) + (exitButton.getHeight() / 2f));
-        this.exitButton.setY(y);
-
-        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
-        float quitButtonFixedX = xShift - exitButton.getWidth();
-        this.exitButton.setX(quitButtonFixedX);
-
-        this.exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.endGame();
-                events.setWonGame(true);
-                clearAll();
-            }
-        });
-    }
-
     public ArrayList<Group> getLeaderboard() {
         return leaderboard.getGroup();
-    }
-
-    public ImageButton getExitButton() {
-        return exitButton;
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    private void clearAll() {
-        damageTokens.clear();
-        reboots.clear();
-        flags.clear();
+    public void clearAll() {
+        getDamageTokens().clear();
+        getReboots().clear();
+        getFlags().clear();
         getMessageLabel().setText("");
         getExitButton().clear();
         getRestartButton().clear();
