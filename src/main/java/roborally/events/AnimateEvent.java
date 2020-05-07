@@ -43,9 +43,10 @@ public class AnimateEvent {
         if (cardPhase) {
             drawCardsInHand(game, batch, stage);
             stage.act();
-        } else if (playPhase && !game.getGameOptions().inMenu()){
+        } else if (playPhase && !game.getGameOptions().inMenu()) {
             drawRegisterCards(game, batch, stage);
         }
+
         if (events.getFadeRobot() && !game.getGameOptions().inMenu())
             events.fadeRobots(batch);
         if (events.hasLaserEvent() && !game.getGameOptions().inMenu())
@@ -148,8 +149,10 @@ public class AnimateEvent {
     }
 
     private void drawRegisterCards(IGame game, SpriteBatch batch, Stage stage) {
-        for (Group card : registerCardsView.getCards()) {
-            card.draw(batch, 1);
+        if (!game.getUserRobot().getLogic().getPowerDown()) {
+            for (Group card : registerCardsView.getCards()) {
+                card.draw(batch, 1);
+            }
         }
     }
 

@@ -141,7 +141,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             tryToStartNewRound();
         }
 
-        if (game.hasStarted() && game.getRound().inProgress()){
+        if (game.hasStarted() && game.getRound().inProgress() && !game.getUserRobot().getLogic().getPowerDown()) {
             animateEvent.initiateRegister(game.getRegisterCardsView());
         }
 
