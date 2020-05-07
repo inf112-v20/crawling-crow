@@ -103,7 +103,7 @@ public class AnimateEvent {
 
         if (uiElements.getMessage().get().toString().contains("won")) {
             uiElements.getFlags().update(game.getUserRobot(), stage);
-            uiElements.getExitButton().set(game, events, stage, uiElements);
+            uiElements.getExitButton().set(game, events, uiElements);
             uiElements.getRestartButton().set(game, uiElements);
             stage.addActor(uiElements.getRestartButton().get());
             stage.addActor(uiElements.getExitButton().get());
