@@ -28,6 +28,7 @@ public class Events {
     private boolean wonGame;
     private float dt;
     private boolean robotFadeOrder;
+    private boolean cardPhase;
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvents;
@@ -214,6 +215,14 @@ public class Events {
             exploded.get(i).setColor(color);
         }
         explosions.add(exploded);
+    }
+
+    public void setCardPhase(boolean cardPhase) {
+        this.cardPhase = cardPhase;
+    }
+
+    public boolean inCardPhase() {
+        return this.cardPhase;
     }
 
     public boolean hasExplosionEvent() {

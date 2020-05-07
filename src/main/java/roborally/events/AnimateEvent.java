@@ -165,6 +165,7 @@ public class AnimateEvent {
 
         if (programCardsView.done()) {
             cardPhase = false;
+            events.setCardPhase(false);
             stage.clear();
 
             game.orderTheUserRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
@@ -206,6 +207,7 @@ public class AnimateEvent {
         programCardsView.getDoneButton().get().setX(doneButtonPosX);
 
         this.cardPhase = true;
+        events.setCardPhase(true);
         Gdx.input.setInputProcessor(stage);
     }
 

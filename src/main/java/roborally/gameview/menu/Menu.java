@@ -116,6 +116,7 @@ public class Menu {
     }
 
     public void reloadStage(Stage stage) {
+        stage.clear();
         for (Image image : imageLists.get("buttons"))
             stage.addActor(image);
         for(Label label : menuLabel.getMainMenuLabels())
@@ -254,7 +255,8 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(events.hasWaitEvent() && !endGame) {
+                boolean gameRunning = events.hasWaitEvent() || events.inCardPhase();
+                if(gameRunning && !endGame) {
                     drawEndGameButtons = true;
                     return;
                 }
@@ -278,7 +280,8 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(events.hasWaitEvent() && !endGame) {
+                boolean gameRunning = events.hasWaitEvent() || events.inCardPhase();
+                if(gameRunning && !endGame) {
                     drawEndGameButtons = true;
                     return;
                 }

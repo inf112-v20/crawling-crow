@@ -150,7 +150,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
             paused = true;
             game.getGameOptions().enterMenu(true);
-            checkMenuStates();
+            checkIfInMenu();
         }
 
         if (game.hasAllPlayersChosenCards())
@@ -285,6 +285,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             events.dispose();
             events.setWaitMoveEvent(false);
             programCardsView.clear();
+            menu.reloadStage(stage);
         }
     }
 }
