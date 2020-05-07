@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
@@ -34,9 +33,6 @@ public class Events {
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
-    private Stage stage;
-    private float xShift;
-    private float yShift;
     private List<List<Image>> explosions;
     private Map<String, Image> archives;
 
@@ -106,6 +102,8 @@ public class Events {
      * @param texture The robots texture.
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
         Image image = new Image(texture[0][1]);
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
@@ -196,7 +194,7 @@ public class Events {
      * @param pos    The endpoint of the laser.
      */
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
-        this.laserEvents.add(new LaserEvent(factor, stage));
+        this.laserEvents.add(new LaserEvent(factor));
         this.laserEvents.get(this.laserEvents.size() - 1).laserEvent(origin, pos);
     }
 
@@ -205,12 +203,6 @@ public class Events {
         this.fadeableRobots.clear();
         this.explosions.clear();
         this.archives.clear();
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-        this.xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
     }
 
     public void createNewExplosionEvent(float x, float y, Color color) {
@@ -266,10 +258,10 @@ public class Events {
             this.falling = falling;
         }
 
-        private float update(float dt) {
+        private float update(float deltaTime) {
             if (falling)
                 falling();
-            this.dt -= (0.333f * dt);
+            this.dt -= (0.333f * deltaTime);
             return dt;
         }
 
@@ -296,10 +288,12 @@ public class Events {
     }
 
     public void createArchiveBorder(GridPoint2 pos, String name) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
         Color color = findRobotColorByName(name);
         Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
-        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
+        image.setX(SettingsUtil.TILE_SCALE * pos.x + xShift);
+        image.setY(SettingsUtil.TILE_SCALE * pos.y + yShift);
         image.setColor(color);
         while (true)
             if (!checkForMultipleArchives(image))

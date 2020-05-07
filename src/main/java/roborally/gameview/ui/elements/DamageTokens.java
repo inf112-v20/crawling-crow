@@ -1,6 +1,5 @@
 package roborally.gameview.ui.elements;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.IRobot;
 import roborally.gameview.ui.UIElements;
@@ -8,19 +7,20 @@ import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 
+import static roborally.utilities.SettingsUtil.STAGE_WIDTH;
 import static roborally.utilities.enums.UIElement.DAMAGE_TOKEN_GREEN;
 import static roborally.utilities.enums.UIElement.DAMAGE_TOKEN_RED;
 
 public class DamageTokens implements IStats {
     private ArrayList<Image> damageTokens;
 
-    public void update(IRobot robot, Stage stage) {
+    public void update(IRobot robot) {
         clear();
 
         set(Math.max(robot.getLogic().getHealth(), 0));
 
         float damageTokensWidth = get().size() * (DAMAGE_TOKEN_GREEN.getTexture().getWidth() / SettingsUtil.UI_ELEMENT_SCALE);
-        float damageTokenListFixedPosX = (stage.getWidth() / 2f) - (damageTokensWidth / 2f);
+        float damageTokenListFixedPosX = (STAGE_WIDTH / 2f) - (damageTokensWidth / 2f);
 
         int index = 0;
         for (Image damageToken : get()) {

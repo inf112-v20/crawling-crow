@@ -37,6 +37,8 @@ public class Menu {
     private boolean endGame;
     private boolean drawEndGameButtons;
     private boolean Continue;
+    private int gSpeed;
+    private int lSpeed;
     private TextArea nameInput;
     private String playerName;
     private MenuLabel menuLabel;

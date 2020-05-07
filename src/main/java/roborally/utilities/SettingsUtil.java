@@ -14,7 +14,7 @@ public class SettingsUtil {
     public final static int REGISTER_SIZE = 5;
 
     public final static int TIMER_DURATION = 30;
-    public final static boolean DEBUG_MODE = true;
+    public final static boolean DEBUG_MODE = false;
     //endregion
 
     public final static GridPoint2 GRAVEYARD = new GridPoint2(-1,-1);
@@ -29,4 +29,7 @@ public class SettingsUtil {
     public static float MAP_HEIGHT;
 
     public final static TiledTranslator TILED_TRANSLATOR = new TiledTranslator();
+
+    public static float STAGE_WIDTH;
+    public static float STAGE_HEIGHT;
 }

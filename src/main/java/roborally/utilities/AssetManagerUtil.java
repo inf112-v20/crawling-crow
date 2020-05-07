@@ -80,9 +80,13 @@ public class AssetManagerUtil {
         return menuAsset;
     }
 
-    public static CardAsset getCards() { return cardAsset; }
+    public static CardAsset getCards() {
+        return cardAsset;
+    }
 
-    public static UIAsset getUIElements() { return uiAsset; }
+    public static UIAsset getUIElements() {
+        return uiAsset;
+    }
 
     public static ArrayList<Robot> getRobots() {
         return robots;

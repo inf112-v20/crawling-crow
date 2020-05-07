@@ -20,31 +20,24 @@ import java.util.ArrayList;
 
 public class Round implements IRound {
 
-	private ArrayList<Robot> robots;
-	private IPhase phase;
-	private int currentPhaseIndex;
-	private boolean roundInProgress;
+	private final ArrayList<Robot> robots;
+	private final IPhase phase;
+	private boolean inProgress;
 
-	private UIElements uiElements;
+	private final UIElements uiElements;
 
 	public Round(Events events, ArrayList<Robot> robots, IGameBoard gameBoard, UIElements uiElements) {
 		this.robots = robots;
 		this.phase = new Phase(this.robots, gameBoard, events, uiElements);
 		this.uiElements = uiElements;
 		restoreRebootedRobots();
-
-		this.currentPhaseIndex = SettingsUtil.NUMBER_OF_PHASES;
 	}
 
 	@Override
 	public void run(ILayers layers) {
 		setRobotInPowerDown();
-		//dealCards();
-		//programRobots();
-		//startPhases(layers);
-		checkForDestroyedRobots();
 		cleanUp();
-		roundInProgress = false;
+		inProgress = false;
 
 		if (SettingsUtil.DEBUG_MODE) System.out.println("\t- ROUND COMPLETED");
 	}
@@ -52,27 +45,15 @@ public class Round implements IRound {
 
 	@Override
 	public void setRobotInPowerDown() {
-		//if (currentPhaseIndex == 5){
-			for(Robot robot : robots){
-				if (robot.getLogic().getPowerDownNextRound()){
-					robot.getLogic().setPowerDown(true);
-					robot.getLogic().setPowerDownNextRound(false);
-				}
-				else {
-					robot.getLogic().setPowerDown(false);
-				}
+		for (Robot robot : robots){
+			if (robot.getLogic().getPowerDownNextRound()){
+				robot.getLogic().setPowerDown(true);
+				robot.getLogic().setPowerDownNextRound(false);
 			}
-		//}
-	}
-
-	@Override
-	public void dealCards() {
-		//Dealt in game currently.
-	}
-
-	@Override
-	public void programRobots() {
-		//Done in game currently.
+			else {
+				robot.getLogic().setPowerDown(false);
+			}
+		}
 	}
 
 	@Override
@@ -104,11 +85,6 @@ public class Round implements IRound {
 	}
 
 	@Override
-	public void checkForDestroyedRobots() {
-		//Done through events.
-	}
-
-	@Override
 	public void restoreRebootedRobots() {
 		if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Restoring robots...");
 		for (Robot robot : robots) {
@@ -118,7 +94,6 @@ public class Round implements IRound {
 		}
 	}
 
-	// FIXME: Might only be needed temporary, because a proper game loop is not implemented yet
 	private void updateUserRobotUIElements(Robot robot) {
 		if (robot.getLogic().isUserRobot()) {
 			uiElements.update(robot);
@@ -131,12 +106,12 @@ public class Round implements IRound {
 	}
 
 	@Override
-	public boolean isRoundInProgress() {
-		return roundInProgress;
+	public boolean inProgress() {
+		return inProgress;
 	}
 
 	@Override
-	public void setRoundInProgress(boolean roundInProgress) {
-		this.roundInProgress = roundInProgress;
+	public void setInProgress(boolean inProgress) {
+		this.inProgress = inProgress;
 	}
 }

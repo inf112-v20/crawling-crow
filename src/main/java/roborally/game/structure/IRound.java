@@ -11,9 +11,10 @@ public interface IRound {
      */
     void run(ILayers layers);
 
+    /**
+     * Sets the robot in powerdown mode
+     */
     void setRobotInPowerDown();
-    void dealCards();
-    void programRobots();
 
     /**
      * Goes through a phase 5 times.
@@ -27,8 +28,6 @@ public interface IRound {
      */
     void cleanUp();
 
-    void checkForDestroyedRobots();
-
     /**
      * Placed all robots that lost all hp back to their archive markers/checkpoints
      */
@@ -39,7 +38,13 @@ public interface IRound {
      */
     IPhase getPhase();
 
-    boolean isRoundInProgress();
+    /**
+     * @return true if a round is in progress
+     */
+    boolean inProgress();
 
-    void setRoundInProgress(boolean roundInProgress);
+    /**
+     * @param inProgress set true if round is running, false otherwise
+     */
+    void setInProgress(boolean inProgress);
 }

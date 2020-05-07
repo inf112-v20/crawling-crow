@@ -74,7 +74,7 @@ public class Game implements IGame {
         setUserRobot();
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
-        uiElements.getMessage().set("", uiElements.getStage()); // FIXME: temp for resetting the label on startUp
+        uiElements.getMessage().set(""); // FIXME: temp for resetting the label on startUp
 	}
 
 	@Override
@@ -167,6 +167,7 @@ public class Game implements IGame {
 	@Override
 	public void dealCards() {
 		deckOfProgramCards.shuffleCards();
+		announcePowerDown();
 		for (IRobot robot : getRobots()) {
 			robot.getLogic().drawCards(deckOfProgramCards);
 			if (!robot.equals(userRobot)) {
@@ -174,11 +175,7 @@ public class Game implements IGame {
 				robot.getLogic().arrangeCardsInHand(ai.getOrder());
 			}
 		}
-		if (userRobot.getLogic().getPowerDown()){
-			userRobot.getLogic().autoArrangeCardsInHand();
-		} else {
-			setProgramCardsView(userRobot);
-		}
+		setProgramCardsView(userRobot);
 	}
 
 	private void setProgramCardsView(Robot robot) {
@@ -297,8 +294,8 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void setHasRestarted(boolean state) {
-		this.hasRestarted = state;
+	public void setHasRestarted(boolean isRestarted) {
+		this.hasRestarted = isRestarted;
 	}
 
 	@Override
@@ -309,13 +306,6 @@ public class Game implements IGame {
 	@Override
 	public boolean hasStarted(){
 		return getRound() != null;
-	}
-
-	public boolean roundInProgress(){
-		if(getRound() != null){
-			return getRound().isRoundInProgress();
-		}
-		return false;
 	}
 
 	@Override

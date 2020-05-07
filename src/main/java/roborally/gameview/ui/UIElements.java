@@ -1,14 +1,13 @@
 package roborally.gameview.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.Robot;
 import roborally.gameview.ui.elements.DamageTokens;
 import roborally.gameview.ui.elements.Flags;
 import roborally.gameview.ui.elements.Leaderboard;
-import roborally.gameview.ui.elements.Message;
 import roborally.gameview.ui.elements.Reboots;
+import roborally.gameview.ui.elements.Message;
 import roborally.gameview.ui.elements.buttons.ExitButton;
 import roborally.gameview.ui.elements.buttons.PowerDownButton;
 import roborally.gameview.ui.elements.buttons.RestartButton;
@@ -18,8 +17,6 @@ import roborally.utilities.enums.UIElement;
 import java.util.ArrayList;
 
 public class UIElements {
-    private Stage stage;
-
     private final Leaderboard leaderboard;
     private final Reboots reboots;
     private final DamageTokens damageTokens;
@@ -83,10 +80,6 @@ public class UIElements {
         return leaderboard.get();
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     public void clearAll() {
         getDamageTokens().clear();
         getReboots().clear();
@@ -96,14 +89,10 @@ public class UIElements {
         getRestartButton().clear();
     }
 
-    public Stage getStage() {
-        return stage;
-    }
-
     public void update(Robot robot) {
-        reboots.update(robot, stage);
-        damageTokens.update(robot, stage);
-        flags.update(robot, stage);
+        reboots.update(robot);
+        damageTokens.update(robot);
+        flags.update(robot);
         leaderboard.update();
     }
 }

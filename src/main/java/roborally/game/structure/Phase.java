@@ -29,18 +29,18 @@ import java.util.*;
  */
 
 public class Phase implements IPhase {
-	private ArrayList<Robot> robots;
-	private Events events;
+	private final ArrayList<Robot> robots;
+	private final Events events;
 	private Robot winner;
-	private ArrayList<IFlag> flags;
-	private ArrayList<BoardObject> repairSites;
+	private final ArrayList<IFlag> flags;
+	private final ArrayList<BoardObject> repairSites;
 	private List<List<TileName>> pushers;
-	private Queue<Robot> robotQueue;
-	private ConveyorBelt conveyorBelt;
-	private boolean pusher;
+	private final Queue<Robot> robotQueue;
+	private final ConveyorBelt conveyorBelt;
+	private boolean hasPusher;
 	private int phaseNumber;
 
-	private UIElements uiElements;
+	private final UIElements uiElements;
 
 	public Phase(ArrayList<Robot> robots, IGameBoard gameBoard, Events events, UIElements uiElements) {
 		this.robots = robots;
@@ -49,7 +49,7 @@ public class Phase implements IPhase {
 		this.repairSites = gameBoard.findAllRepairSites();
 		if (gameBoard.hasPushers()) {
 			this.pushers = gameBoard.addPushers();
-			pusher = true;
+			hasPusher = true;
 		}
 		this.robotQueue = new LinkedList<>();
 		this.conveyorBelt = new ConveyorBelt();
@@ -60,18 +60,26 @@ public class Phase implements IPhase {
 	@Override
 	public void run(ILayers layers) {
 		moveAllConveyorBelts(layers);
-		if (pusher)
-			pushActivePushers(phaseNumber, layers);
+		checkForPushers(layers);
 		moveCogs(layers);
 		fireLasers();
 		checkForLasers();
 		registerRepairSitePositionsAndUpdateArchiveMarker();
 		registerFlagPositionsAndUpdateArchiveMarker();
 		checkForWinner();
+		incrementPhase();
+		if (SettingsUtil.DEBUG_MODE) System.out.println("\t- COMPLETED ONE PHASE");
+	}
+
+	private void checkForPushers(ILayers layers) {
+		if (hasPusher)
+			pushActivePushers(phaseNumber, layers);
+	}
+
+	private void incrementPhase() {
 		phaseNumber++;
 		if (phaseNumber == 6)
 			phaseNumber = 1;
-		if (SettingsUtil.DEBUG_MODE) System.out.println("\t- COMPLETED ONE PHASE");
 	}
 
 	private void pushActivePushers(int phaseNumber, ILayers layers) {
@@ -86,11 +94,6 @@ public class Phase implements IPhase {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void revealProgramCards() {
-		//123
 	}
 
 	@Override
@@ -178,7 +181,7 @@ public class Phase implements IPhase {
 						}
 
 						if (robot.getLogic().isUserRobot()) {
-							uiElements.getMessage().set(robot.getName() + " visited a flag", uiElements.getStage());
+							uiElements.getMessage().set(robot.getName() + " visited a flag");
 						}
 					}
 				}

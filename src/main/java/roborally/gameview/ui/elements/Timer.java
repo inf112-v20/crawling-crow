@@ -2,7 +2,6 @@ package roborally.gameview.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import roborally.game.cards.IProgramCards;
 import roborally.game.robot.Robot;
@@ -10,6 +9,8 @@ import roborally.gameview.ui.ProgramCardsView;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
+
+import static roborally.utilities.SettingsUtil.STAGE_WIDTH;
 
 public class Timer {
     private Label timerLabel;
@@ -19,13 +20,13 @@ public class Timer {
         this.cardTimer = cardTimer;
     }
 
-    public void set(ProgramCardsView programCardsView, Stage stage) {
+    public void set(ProgramCardsView programCardsView) {
         Label.LabelStyle timerLabelStyle = new Label.LabelStyle();
         timerLabelStyle.fontColor = Color.YELLOW;
         timerLabelStyle.font = new BitmapFont();
         this.timerLabel = new Label(Float.toString(cardTimer), timerLabelStyle);
         this.timerLabel.setFontScale(3);
-        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
+        float xShift = (STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
         this.timerLabel.setPosition(xShift, programCardsView.getCardHeight() / 2f);
     }
 

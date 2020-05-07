@@ -19,9 +19,9 @@ import roborally.events.AnimateEvent;
 import roborally.events.Events;
 import roborally.game.Game;
 import roborally.game.IGame;
+import roborally.gameview.menu.Menu;
 import roborally.gameview.ui.ProgramCardsView;
 import roborally.gameview.ui.UIElements;
-import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.KeyboardInput;
@@ -124,9 +124,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        events.setStage(stage);
-        uiElements.setStage(stage);
-
         checkForPowerDownNextRound();
         checkForWaitEvent();
         renderBackground();
@@ -144,11 +141,17 @@ public class GameView extends InputAdapter implements ApplicationListener {
             tryToStartNewRound();
         }
 
-        if (game.roundInProgress() && game.hasStarted()){
-            animateEvent.initiateRegister(stage, game.getRegisterCardsView());
+        if (game.hasStarted() && game.getRound().inProgress() && !game.getUserRobot().getLogic().getPowerDown()) {
+            animateEvent.initiateRegister(game.getRegisterCardsView());
         }
 
-        animateEvent.drawEvents(batch, game, stage);
+        if(!game.getGameOptions().inMenu())
+            animateEvent.drawEvents(batch, game, stage);
+        if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
+            paused = true;
+            game.getGameOptions().enterMenu(true);
+            checkMenuStates();
+        }
 
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
@@ -183,6 +186,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        SettingsUtil.STAGE_WIDTH = stage.getWidth();
+        SettingsUtil.STAGE_HEIGHT = stage.getHeight();
     }
 
     @Override
@@ -240,18 +245,18 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void tryToStartNewRound(){
-        if (!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.roundInProgress()) {
+        if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.getRound().inProgress()) {
             startNewRound();
         }
     }
 
     private void startNewRound(){
-        game.getRound().setRoundInProgress(true);
+        game.getRound().setInProgress(true);
         setPowerDownButton();
 
         uiElements.update(game.getUserRobot());
         game.dealCards();
-        if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
+        if (programCardsView != null) {
             animateEvent.initiateCards(stage, game.getProgramCardsView());
         } else {
             events.setWaitMoveEvent(true);
@@ -260,9 +265,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     private void setPowerDownButton() {
         if (!uiElements.getPowerDownButton().isActivated()) {
-            uiElements.getPowerDownButton().set(UIElement.POWERED_ON, stage);
+            uiElements.getPowerDownButton().set(UIElement.POWERED_ON);
         } else {
-            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN, stage);
+            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN);
             uiElements.getPowerDownButton().setActivated(false);
         }
     }
@@ -275,7 +280,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
         }
-        if(menu.isEndGame())
+        if(menu.isEndGame()) {
             game.endGame();
+            events.dispose();
+        }
     }
 }
