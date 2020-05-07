@@ -51,6 +51,16 @@ public class Events {
 
     }
 
+    /** Sets the factor used in {@link LaserEvent} to increment the image of the laser relative to its direction */
+    public void setLaserSpeed(String laserSpeed) {
+        if ("slow".equals(laserSpeed))
+            this.factor = 400;
+        else if ("normal".equals(laserSpeed))
+            this.factor = 800;
+        else if ("fast".equals(laserSpeed))
+            this.factor = 1200;
+    }
+
     /**
      * Updates the time limit to play the next card in the current phase of the round.
      * (Calculated by time between frames).
@@ -64,16 +74,6 @@ public class Events {
             this.gameSpeed = 0.2;
         else if ("normal".equals(gameSpeed))
             this.gameSpeed = 1;
-    }
-
-    /** Sets the factor used in {@link LaserEvent} to increment the image of the laser relative to its direction */
-    public void setLaserSpeed(String laserSpeed) {
-        if ("slow".equals(laserSpeed))
-            this.factor = 400;
-        else if ("normal".equals(laserSpeed))
-            this.factor = 800;
-        else if ("fast".equals(laserSpeed))
-            this.factor = 1200;
     }
 
     /**
@@ -96,29 +96,9 @@ public class Events {
         this.waitEvent = value;
     }
 
-    /**
-     * Replaces the robots texture with an image and fades it.
-     *
-     * @param pos     The robots position.
-     * @param texture The robots texture.
-     */
-    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
-        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
-        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
-        Image image = new Image(texture[0][1]);
-        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
-        image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
-    }
-
     // Returns true if there are robots to be faded.
     public boolean getFadeRobot() {
         return robotFadeOrder;
-    }
-
-    public void setFadeRobot(boolean value) {
-        this.robotFadeOrder = value;
     }
 
     // Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
@@ -140,6 +120,16 @@ public class Events {
         fadeCounter = 0;
     }
 
+    public void createNewExplosionEvent(float x, float y, Color color) {
+        ArrayList<Image> exploded = new ArrayList<>();
+        for(int i = 0; i < 4; i++) {
+            exploded.add(new Image(new Texture("explosion.png")));
+            exploded.get(i).setX(x);
+            exploded.get(i).setY(y);
+            exploded.get(i).setColor(color);
+        }
+        explosions.add(exploded);
+    }
 
     // Returns true if there are lasers on the screen.
     public boolean hasLaserEvent() {
@@ -168,25 +158,6 @@ public class Events {
         return laserEvents;
     }
 
-    public Color findRobotColorByName(String name) {
-        if (name.toLowerCase().contains("red")) {
-            return new Color(237/255f, 28/255f, 36/255f, 1);
-        } else if (name.toLowerCase().contains("blue")) {
-            return new Color(0/255f, 162/255f, 232/255f, 1);
-        } else if (name.toLowerCase().contains("green")) {
-            return new Color(34/255f, 177/255f, 76/255f, 1);
-        } else if (name.toLowerCase().contains("orange")) {
-            return new Color(255/255f, 127/255f, 39/255f, 1);
-        } else if (name.toLowerCase().contains("purple")) {
-            return new Color(163/255f, 73/255f, 164/255f, 1);
-        } else if (name.toLowerCase().contains("pink")) {
-            return new Color(255/255f, 128/255f, 255/255f, 1);
-        } else if (name.toLowerCase().contains("yellow")) {
-            return new Color(255/255f, 242/255f, 0/255f, 1);
-        }
-        return new Color(136/255f, 0/255f, 21/255f, 1);
-    }
-
     /**
      * Creates a new Laser event for the laser that has been fired.
      *
@@ -203,17 +174,6 @@ public class Events {
         this.fadeableRobots.clear();
         this.explosions.clear();
         this.archives.clear();
-    }
-
-    public void createNewExplosionEvent(float x, float y, Color color) {
-        ArrayList<Image> exploded = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
-            exploded.add(new Image(new Texture("explosion.png")));
-            exploded.get(i).setX(x);
-            exploded.get(i).setY(y);
-            exploded.get(i).setColor(color);
-        }
-        explosions.add(exploded);
     }
 
     public void setCardPhase(boolean cardPhase) {
@@ -250,6 +210,103 @@ public class Events {
         return explosions;
     }
 
+    public void checkForDestroyedRobots(ArrayList<Robot> robots) {
+        for (Robot robot : robots) {
+            if (("Destroyed").equals(robot.getLogic().getStatus())) {
+                if (SettingsUtil.DEBUG_MODE) System.out.println("\t- " + robot.getName() + " was destroyed");
+                removeFromUI(robot);
+            }
+        }
+    }
+
+    public void removeFromUI(Robot robot) {
+        Color color = findRobotColorByName(robot.getName());
+        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
+        robot.deleteRobot();
+        if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Removed " + robot.getName() + " from UI");
+        setFadeRobot(true);
+    }
+
+    /**
+     * Replaces the robots texture with an image and fades it.
+     *
+     * @param pos     The robots position.
+     * @param texture The robots texture.
+     */
+    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
+        Image image = new Image(texture[0][1]);
+        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
+        image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
+        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
+    }
+
+    public void setFadeRobot(boolean value) {
+        this.robotFadeOrder = value;
+    }
+
+    public void createArchiveBorder(GridPoint2 pos, String name) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
+        Color color = findRobotColorByName(name);
+        Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
+        image.setX(SettingsUtil.TILE_SCALE * pos.x + xShift);
+        image.setY(SettingsUtil.TILE_SCALE * pos.y + yShift);
+        image.setColor(color);
+        while (true)
+            if (!checkForMultipleArchives(image))
+                break;
+        archives.put(name, image);
+    }
+
+    public Color findRobotColorByName(String name) {
+        if (name.toLowerCase().contains("red")) {
+            return new Color(237/255f, 28/255f, 36/255f, 1);
+        } else if (name.toLowerCase().contains("blue")) {
+            return new Color(0/255f, 162/255f, 232/255f, 1);
+        } else if (name.toLowerCase().contains("green")) {
+            return new Color(34/255f, 177/255f, 76/255f, 1);
+        } else if (name.toLowerCase().contains("orange")) {
+            return new Color(255/255f, 127/255f, 39/255f, 1);
+        } else if (name.toLowerCase().contains("purple")) {
+            return new Color(163/255f, 73/255f, 164/255f, 1);
+        } else if (name.toLowerCase().contains("pink")) {
+            return new Color(255/255f, 128/255f, 255/255f, 1);
+        } else if (name.toLowerCase().contains("yellow")) {
+            return new Color(255/255f, 242/255f, 0/255f, 1);
+        }
+        return new Color(136/255f, 0/255f, 21/255f, 1);
+    }
+
+    public boolean checkForMultipleArchives(Image image) {
+        for (Image storedImage : archives.values()) {
+            if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
+                image.setSize(image.getWidth() + 6, image.getHeight() + 6);
+                image.setPosition(image.getX() - 3, image.getY() - 3);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasArchiveBorders() {
+        return !archives.isEmpty();
+    }
+
+    public Map<String, Image> getArchiveBorders() {
+        return archives;
+    }
+
+    public boolean wonGame() {
+        return wonGame;
+    }
+
+    public void setWonGame(boolean state) {
+        this.wonGame = state;
+    }
+
     /**
      * Class to take individual images of robots and fade them separately, (subtracts alpha until invisible).
      */
@@ -284,63 +341,7 @@ public class Events {
             image.setOrigin(width - image.getWidth() / 2, height - image.getHeight() / 2);
             image.rotateBy( -10f);
         }
+
     }
 
-    public void checkForDestroyedRobots(ArrayList<Robot> robots) {
-        for (Robot robot : robots) {
-            if (("Destroyed").equals(robot.getLogic().getStatus())) {
-                if (SettingsUtil.DEBUG_MODE) System.out.println("\t- " + robot.getName() + " was destroyed");
-                removeFromUI(robot);
-            }
-        }
-    }
-
-    public void createArchiveBorder(GridPoint2 pos, String name) {
-        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
-        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
-        Color color = findRobotColorByName(name);
-        Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
-        image.setX(SettingsUtil.TILE_SCALE * pos.x + xShift);
-        image.setY(SettingsUtil.TILE_SCALE * pos.y + yShift);
-        image.setColor(color);
-        while (true)
-            if (!checkForMultipleArchives(image))
-                break;
-        archives.put(name, image);
-    }
-
-    public boolean checkForMultipleArchives(Image image) {
-        for (Image storedImage : archives.values()) {
-            if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
-                image.setSize(image.getWidth() + 6, image.getHeight() + 6);
-                image.setPosition(image.getX() - 3, image.getY() - 3);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasArchiveBorders() {
-        return !archives.isEmpty();
-    }
-
-    public Map<String, Image> getArchiveBorders() {
-        return archives;
-    }
-
-    public void removeFromUI(Robot robot) {
-        Color color = findRobotColorByName(robot.getName());
-        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
-        robot.deleteRobot();
-        if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Removed " + robot.getName() + " from UI");
-        setFadeRobot(true);
-    }
-
-    public boolean wonGame() {
-        return wonGame;
-    }
-
-    public void setWonGame(boolean state) {
-        this.wonGame = state;
-    }
 }
