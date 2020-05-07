@@ -281,7 +281,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
             if(events.inCardPhase()) {
-                System.out.println("asdf");
                 animateEvent.putProgramCardsViewInStage(stage, programCardsView);
                 Gdx.input.setInputProcessor(stage);
             }
