@@ -167,6 +167,7 @@ public class Game implements IGame {
 	@Override
 	public void dealCards() {
 		deckOfProgramCards.shuffleCards();
+		announcePowerDown();
 		for (IRobot robot : getRobots()) {
 			robot.getLogic().drawCards(deckOfProgramCards);
 			if (!robot.equals(userRobot)) {
@@ -297,8 +298,8 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void setHasRestarted(boolean state) {
-		this.hasRestarted = state;
+	public void setHasRestarted(boolean isRestarted) {
+		this.hasRestarted = isRestarted;
 	}
 
 	@Override
@@ -309,13 +310,6 @@ public class Game implements IGame {
 	@Override
 	public boolean hasStarted(){
 		return getRound() != null;
-	}
-
-	public boolean roundInProgress(){
-		if(getRound() != null){
-			return getRound().isRoundInProgress();
-		}
-		return false;
 	}
 
 	@Override

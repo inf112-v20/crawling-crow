@@ -329,6 +329,7 @@ public class Menu {
         stage.addActor(volumeLabel);
         stage.addActor(volumeSlider);
         stage.addActor(playSongLabel);
+        stage.addActor(nameInput);
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {

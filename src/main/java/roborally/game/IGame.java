@@ -11,16 +11,14 @@ public interface IGame {
 
     /**
      * Adds all elements to the game.
-     * Gameboard, layers, flags, lasers, robots.
+     * GameBoard, layers, flags, lasers, robots.
      * It also starts a new round and
      * sets the first robot in list as userRobot.
      */
     void startUp(String name);
 
     /**
-     * Serves ONLY feed the keyUp method..
-     *
-     * @return the layers of the gameboard
+     * @return the layers of the gameBoard
      */
     ILayers getLayers();
 
@@ -28,8 +26,6 @@ public interface IGame {
     void setUserRobot();
 
     /**
-     * Exists only for debugging.
-     *
      * @return The first of the robots
      */
     Robot getUserRobot();
@@ -40,12 +36,12 @@ public interface IGame {
     ArrayList<Robot> getRobots();
 
     /**
-     * restars the game, removes old robots and adds new ones
+     * Restarts the game, removes old robots and adds new ones
      */
     void restartGame();
 
     /**
-     * @return the gameoptions
+     * @return the gameOptions in game.
      */
     GameOptions getGameOptions();
 
@@ -55,10 +51,15 @@ public interface IGame {
     void manuallyFireOneLaser();
 
     /**
-     * Deal cards
+     * Deal cards to all robots.
      */
     void dealCards();
 
+    /**
+     * Sets a robot's registered card view
+     *
+     * @param robot in question
+     */
     void setRegisterCardsView(Robot robot);
 
     /**
@@ -98,24 +99,41 @@ public interface IGame {
      */
     float continueGameLoop(float dt, double gameSpeed);
 
+    /**
+     * @return a programCardView
+     */
     ProgramCardsView getProgramCardsView();
 
     /**
-     *
+     * Announces PowerDown for other robots.
+     * This happens automatically if the robot has less than 3 HP.
      */
     void announcePowerDown();
 
+    /**
+     * @return true if a game has been restarted
+     */
     boolean hasRestarted();
 
-    void setHasRestarted(boolean state);
+    /**
+     * @param isRestarted restarts the game if true, otherwise false
+     */
+    void setHasRestarted(boolean isRestarted);
 
+    /**
+     * @return true if game is in debugMode
+     */
     boolean inDebugMode();
 
+    /**
+     * @return true if a game has started
+     */
     boolean hasStarted();
-
-    boolean roundInProgress();
 
     boolean checkIfSomeoneWon();
 
+    /**
+     * @return the visual aspect of the registered program cards
+     */
     ProgramCardsView getRegisterCardsView();
 }
