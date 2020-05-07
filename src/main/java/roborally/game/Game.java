@@ -75,6 +75,7 @@ public class Game implements IGame {
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
         uiElements.getMessage().set(""); // FIXME: temp for resetting the label on startUp
+		resetFieldVariables();
 	}
 
 	@Override
@@ -316,6 +317,12 @@ public class Game implements IGame {
 			}
 		}
 		return false;
+	}
+
+	private void resetFieldVariables() {
+		this.robotPlayedCounter = 0;
+		this.currentPhaseIndex = 0;
+		this.isRoundFinished = false;
 	}
 
 	@Override
