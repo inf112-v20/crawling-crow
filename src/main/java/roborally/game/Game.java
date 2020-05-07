@@ -146,24 +146,6 @@ public class Game implements IGame {
 			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
 	}
 
-	@Deprecated
-	private void removeDeadRobots() {
-		ArrayList<Robot> aliveRobots = new ArrayList<>();
-		for (Robot robot : getRobots()) {
-			if (isNotInGraveyard(robot))
-				aliveRobots.add(robot);
-		}
-		setRobots(aliveRobots);
-		returnToMenuIfOnlyOneRobotLeft();
-	}
-
-	private void returnToMenuIfOnlyOneRobotLeft() {
-		if (getRobots().size() < 2) {
-			if (SettingsUtil.DEBUG_MODE) System.out.println("Entering menu");
-			gameOptions.enterMenu();
-		}
-	}
-
 	//region Cards
 	@Override
 	public void dealCards() {
