@@ -191,13 +191,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         batch.begin();
         menu.drawMenu(batch, stage);
         batch.end();
-        if (menu.isChangeMap())
-            changeMap();
-        if (menu.isResume(game)) {
-            paused = false;
-            Gdx.input.setInputProcessor(this);
-            game.getGameOptions().enterMenu(false);
-        }
+        checkMenuStates();
     }
 
     @Override
@@ -228,7 +222,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         if (game.getGameOptions().inMenu()) {
             menu.reloadStage(stage);
             if (game.getRobots() != null) {
-                menu.addContinueButtonToStage(stage);
+                menu.addActiveGameButtonsToStage(stage);
             }
             paused = true;
         }
@@ -270,6 +264,20 @@ public class GameView extends InputAdapter implements ApplicationListener {
         } else {
             uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN, stage);
             uiElements.getPowerDownButton().setActivated(false);
+        }
+    }
+
+    private void checkMenuStates() {
+        if (menu.isChangeMap())
+            changeMap();
+        if (menu.isResume(game)) {
+            paused = false;
+            Gdx.input.setInputProcessor(this);
+            game.getGameOptions().enterMenu(false);
+        }
+        if(menu.isEndGame()) {
+            game.endGame();
+            events.dispose();
         }
     }
 }

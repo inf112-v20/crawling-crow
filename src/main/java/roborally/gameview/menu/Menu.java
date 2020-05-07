@@ -43,13 +43,18 @@ public class Menu {
     private Label gameSpeedLabel;
     private Label laserSpeedLabel;
     private Label volumeLabel;
+    private Label chooseToEndGameLabel;
     private Slider volumeSlider;
     private Image mapButton;
     private Image continueButton;
+    private TextButton noButton;
+    private TextButton yesButton;
     private boolean resume;
+    private boolean endGame;
+    private boolean drawEndGameButtons;
+    private boolean Continue;
     private int gSpeed;
     private int lSpeed;
-    private boolean Continue;
     private TextArea nameInput;
     private String playerName;
 
@@ -73,12 +78,9 @@ public class Menu {
         setOptionsListeners();
         setOptionsListeners2();
         setNameInputField();
-        stage.addActor(gameSpeedLabel);
-        stage.addActor(laserSpeedLabel);
-        stage.addActor(volumeSlider);
-        stage.addActor(playSongLabel);
-        stage.addActor(nameInput);
         setMainMenuButtons();
+        makeEndGameButtons();
+        reloadStage(stage);
         Sliders sliders = new Sliders();
         sliders.abc();
     }
@@ -276,6 +278,37 @@ public class Menu {
         return false;
     }
 
+    private void makeEndGameButtons() {
+        this.chooseToEndGameLabel = new Label("Do you wish to end the game? ", skin);
+        this.chooseToEndGameLabel.setPosition(stage.getWidth() / 2.25f, stage.getHeight() / 1.5f + 50);
+        this.noButton = new TextButton("No", skin);
+        this.yesButton = new TextButton("Yes", skin);
+        this.noButton.setPosition(stage.getWidth() / 2, stage.getHeight() / 1.5f);
+        this.yesButton.setPosition(stage.getWidth() / 2 - 50, stage.getHeight() / 1.5f);
+        this.noButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                drawEndGameButtons = false;
+            }
+        });
+        this.yesButton.addListener(new ClickListener(){
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            endGame = true;
+            drawEndGameButtons = false;
+            setStartGame();
+        }
+        });
+        stage.addActor(yesButton);
+        stage.addActor(noButton);
+    }
+
+    public boolean isEndGame() {
+        boolean retValue = endGame;
+        endGame = false;
+        return retValue;
+    }
+
     public int getMapId() {
         return this.mapId;
     }
@@ -301,6 +334,11 @@ public class Menu {
     public void drawMenu(SpriteBatch batch, Stage stage) {
         imageLists.get("menus").get(0).draw(batch, 1);
         if (!changeMapMenu) {
+            if(drawEndGameButtons) {
+                noButton.draw(batch, 1);
+                yesButton.draw(batch, 1);
+                chooseToEndGameLabel.draw(batch, 1);
+            }
             for (Image image : imageLists.get("buttons"))
                 image.draw(batch, 1);
             nameInput.draw(batch, 1);
@@ -385,7 +423,6 @@ public class Menu {
             menuButtons.add(new Image(buttons[i][0]));
             menuButtons.get(i).setX(centerHorizontal(menuButtons.get(i).getPrefWidth()));
             menuButtons.get(i).setY(y -= menuButtons.get(i).getPrefHeight());
-            stage.addActor(menuButtons.get(i));
         }
         setClickListeners(menuButtons);
     }
@@ -431,6 +468,10 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(events.hasWaitEvent() && !endGame) {
+                    drawEndGameButtons = true;
+                    return;
+                }
                 playerName = nameInput.getText();
                 if (playerName.equals("") || playerName.length() > 13 || playerName.equals("Change name")) {
                     playerName = "Angry";
@@ -451,13 +492,16 @@ public class Menu {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!events.hasWaitEvent()) {
-                    changeMapMenu = true;
-                    stage.clear();
-                    stage.addActor(previousMapLabel);
-                    stage.addActor(nextMapLabel);
-                    stage.addActor(mapButton);
+                if(events.hasWaitEvent() && !endGame) {
+                    drawEndGameButtons = true;
+                    return;
                 }
+                changeMapMenu = true;
+                stage.clear();
+                stage.addActor(previousMapLabel);
+                stage.addActor(nextMapLabel);
+                stage.addActor(mapButton);
+
             }
         });
         clickableButtons.get(2).addListener(new ClickListener() {
@@ -489,7 +533,9 @@ public class Menu {
         imageLists.put("maps", maps);
     }
 
-    public void addContinueButtonToStage(Stage stage) {
+    public void addActiveGameButtonsToStage(Stage stage) {
         stage.addActor(continueButton);
+        stage.addActor(noButton);
+        stage.addActor(yesButton);
     }
 }
