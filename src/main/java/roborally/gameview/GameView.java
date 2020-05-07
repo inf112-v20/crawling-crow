@@ -284,6 +284,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             game.endGame();
             events.dispose();
             events.setWaitMoveEvent(false);
+            events.setCardPhase(false);
             programCardsView.clear();
             menu.reloadStage(stage);
         }
