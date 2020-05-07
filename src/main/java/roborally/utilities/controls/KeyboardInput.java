@@ -53,9 +53,10 @@ public class KeyboardInput implements IControls {
     }
 
     private void cleanup(IGame game) {
-            if (!game.checkIfSomeoneWon()) {
-                game.getRound().cleanUp();
-            }
+        // Game crashes if run cleanup after someone won
+        if (!game.checkIfSomeoneWon()) {
+            game.getRound().cleanUp();
+        }
     }
 
     private void simulateRoundWithoutMovement(IGame game) {
@@ -76,7 +77,6 @@ public class KeyboardInput implements IControls {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        // Game crashes if run cleanup after someone won
                         method.run();
                     }
                 },
