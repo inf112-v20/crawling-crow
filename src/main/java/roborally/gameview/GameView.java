@@ -275,7 +275,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
         }
-        if(menu.isEndGame())
+        if(menu.isEndGame()) {
             game.endGame();
+            events.dispose();
+        }
     }
 }
