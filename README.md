@@ -22,15 +22,15 @@ For now, you have to run the game manually.
 1.  Run `Main.java` located in `src/main/java/roborally` in your IDE of choice.
     -   Alternatively use the command `java -jar target/roborally-crawlingcrow-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-2.  Move around using the [controls](https://github.com/inf112-v20/crawling-crow/wiki/Hvordan-spille-spillet)
+2.  Move around using the [controls](/../../wiki/Hvordan-spille-spillet)
 
 3.  When you want to exit, press <kbd>ESC</kbd> or exit the game manually by clicking on the **X**-button.
 
 ### How to play
-See [How to play the game](https://github.com/inf112-v20/crawling-crow/wiki/Hvordan-spille-spillet)
+See [How to play the game](/../../wiki/Hvordan-spille-spillet)
 
 ## Tests
-See [Wikipage on testing](https://github.com/inf112-v20/crawling-crow/wiki/Tester)
+See [Wikipage on testing](/../../wiki/Tester)
 
 ## Known bugs
 See [Isses with Bug label](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug)
