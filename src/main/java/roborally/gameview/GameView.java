@@ -150,7 +150,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
         if (game.hasRestarted()) {
-            Gdx.input.setInputProcessor(this);
+            if (game.inDebugMode()) {
+                Gdx.input.setInputProcessor(this);
+            }
             game.setHasRestarted(false);
         }
     }
