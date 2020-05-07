@@ -165,7 +165,6 @@ public class AnimateEvent {
      */
     public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
-        programCardsView.setStage(stage);
         programCardsView.getDoneButton().set(programCardsView);
         programCardsView.getTimer().set(programCardsView);
 
@@ -190,7 +189,7 @@ public class AnimateEvent {
     /**
      * Initializes the cards in the register into fixed positions.
      *
-     * @param registerView the ui reprentative of the register cards
+     * @param registerView the ui representative of the register cards
      */
     public void initiateRegister(ProgramCardsView registerView) {
         this.registerCardsView = registerView;

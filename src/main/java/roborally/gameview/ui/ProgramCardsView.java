@@ -33,8 +33,6 @@ public class ProgramCardsView {
     private float cardWidth;
     private float cardHeight;
 
-    private Stage stage;
-
     private final DoneButton doneButton;
     private final Timer timer;
 
@@ -224,10 +222,6 @@ public class ProgramCardsView {
 
     public Timer getTimer() {
         return timer;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public IGame getGame() {

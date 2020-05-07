@@ -144,7 +144,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
 
         if (game.roundInProgress() && game.hasStarted()){
-            animateEvent.initiateRegister(stage, game.getRegisterCardsView());
+            animateEvent.initiateRegister(game.getRegisterCardsView());
         }
 
         animateEvent.drawEvents(batch, game, stage);
