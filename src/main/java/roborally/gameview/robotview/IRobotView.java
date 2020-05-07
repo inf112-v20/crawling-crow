@@ -8,21 +8,21 @@ import roborally.utilities.enums.Direction;
 public interface IRobotView {
 
     /**
-     * Creates new DefaultTexture at a position.
+     * Creates new default texture at given position.
      *
      * @param pos the position
      */
     void setDefaultTexture(GridPoint2 pos);
 
     /**
-     * Creates new WinTexture at given position.
+     * Creates new win texture at given position.
      *
      * @param pos the position
      */
     void setVictoryTexture(GridPoint2 pos);
 
     /**
-     * Creates new damageTaken/robotDestroyed texture at position.
+     * Creates new damageTaken/robotDestroyed texture at given position.
      *
      * @param pos the position
      */
