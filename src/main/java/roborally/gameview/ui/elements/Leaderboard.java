@@ -32,8 +32,8 @@ public class Leaderboard {
 	}
 
 	public void addGroup(IRobot robot) {
-		int leaderBoardHeight = 96;
-		int leaderBoardWidth = 70;
+		int leaderBoardHeight = 70;
+		int leaderBoardWidth = 96;
 		Group group = new Group();
 		TextureRegion[][] textureRegions = TextureRegion.split(Objects.requireNonNull(
 				AssetManagerUtil.getLeaderBoardTexture(robot.getName())), leaderBoardWidth, leaderBoardHeight);
