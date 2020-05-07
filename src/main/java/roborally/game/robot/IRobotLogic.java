@@ -14,6 +14,10 @@ public interface IRobotLogic {
      */
     String getName();
 
+    /**
+     * Sets the name of a robot
+     * @param name name of robot
+     */
 	void setName(String name);
 
 	/**
@@ -21,6 +25,9 @@ public interface IRobotLogic {
      */
     int getHealth();
 
+    /**
+     * @param amount of health added back
+     */
     void addHealth(int amount);
 
     /**
@@ -141,10 +148,16 @@ public interface IRobotLogic {
      */
     IProgramCards drawCards(IProgramCards deckOfProgramCards);
 
+    /**
+     * rearranges the cards in the hand
+     */
     void autoArrangeCardsInHand();
 
     //region Flag
 
+    /**
+     * cleans out the register and removes cards
+     */
     void cleanRegister();
 
     /**
@@ -158,6 +171,9 @@ public interface IRobotLogic {
      */
     int getNextFlag();
 
+    /**
+     * @return the number of visited flags
+     */
     int getNumberOfVisitedFlags();
 
     /**
@@ -172,48 +188,69 @@ public interface IRobotLogic {
      */
     void visitNextFlag();
 
+    /**
+     * cards that are chosen are put in a register
+     */
     void putChosenCardsIntoRegister();
 
+    /**
+     * @return a list of true or false depending on if a flag is visited or not
+     */
     boolean[] getVisitedFlags();
 
     /**
-     *
-     * @return True if Robot is in powerDown.
+     * @return true if Robot is in powerDown.
      */
     boolean getPowerDown();
 
     /**
-     *
-     * @return True if Robot is in powerDown the next round.
+     * @return true if Robot is in powerDown the next round.
      */
     boolean getPowerDownNextRound();
 
     /**
-     * Sets the current Robot in powerDown.
-     *
-     * @param powerDown
+     * @param powerDown Sets the current Robot in powerDown.
      */
     void setPowerDown(boolean powerDown);
 
     /**
-     * Sets the Robot in powerDown the next round.
-     *
-     * @param powerDownNextRound
+     * @param powerDownNextRound Sets the Robot in powerDown the next round.
      */
     void setPowerDownNextRound(boolean powerDownNextRound);
 
+    /**
+     * sets the current winner robot as a winner
+     */
     void setHasWon();
 
+    /**
+     * @return true if a robot has won
+     */
     boolean hasWon();
 
+    /**
+     * @return true if the robot is the one you control
+     */
     boolean isUserRobot();
 
+    /**
+     * sets the current robot as userrobot
+     */
     void setUserRobot();
 
+    /**
+     * @return number of locked cards
+     */
     int getNumberOfLockedCards();
 
+    /**
+     * @return true if a robot is destroyed
+     */
     boolean isDestroyed();
 
+    /**
+     * @return the register of a robot
+     */
     Register getRegister();
     //endregion
 }
