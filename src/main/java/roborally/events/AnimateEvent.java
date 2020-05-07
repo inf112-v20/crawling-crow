@@ -14,6 +14,8 @@ import roborally.utilities.SettingsUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static roborally.utilities.SettingsUtil.STAGE_WIDTH;
+
 public class AnimateEvent {
     private Events events;
     private ProgramCardsView programCardsView;
@@ -169,7 +171,7 @@ public class AnimateEvent {
 
         stage.addActor(programCardsView.getDoneButton().get());
 
-        float cardsGroupPositionX = stage.getWidth() - programCardsView.getCards().size() * programCardsView.getCardWidth();
+        float cardsGroupPositionX = STAGE_WIDTH - programCardsView.getCards().size() * programCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
 
         for (Group card : programCardsView.getCards()) {
@@ -177,7 +179,7 @@ public class AnimateEvent {
             stage.addActor(card);
         }
         // xShift to the right-side edge of the game board
-        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
+        float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
         float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
         programCardsView.getDoneButton().get().setX(doneButtonPosX);
 
@@ -187,13 +189,13 @@ public class AnimateEvent {
 
     /**
      * Initializes the cards in the register into fixed positions.
-     * @param stage the stage from UI
+     *
      * @param registerView the ui reprentative of the register cards
      */
-    public void initiateRegister(Stage stage, ProgramCardsView registerView) {
+    public void initiateRegister(ProgramCardsView registerView) {
         this.registerCardsView = registerView;
 
-        float cardsGroupPositionX = stage.getWidth() - registerCardsView.getCards().size() * registerCardsView.getCardWidth();
+        float cardsGroupPositionX = STAGE_WIDTH - registerCardsView.getCards().size() * registerCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - registerCardsView.getCardWidth();
 
         for (Group card : registerCardsView.getCards()) {
