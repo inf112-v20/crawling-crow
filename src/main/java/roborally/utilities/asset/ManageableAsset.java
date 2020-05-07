@@ -1,8 +1,8 @@
-package roborally.utilities.assets;
+package roborally.utilities.asset;
 
 import com.badlogic.gdx.assets.AssetManager;
 
-public interface Assets {
+public interface ManageableAsset {
 
 	/**
 	 * Loads all the assets into the manager.

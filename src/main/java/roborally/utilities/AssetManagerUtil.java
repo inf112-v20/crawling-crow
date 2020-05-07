@@ -1,86 +1,46 @@
 package roborally.utilities;
 
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSets;
 import roborally.game.robot.Robot;
-import roborally.utilities.assets.*;
+import roborally.utilities.asset.*;
 import roborally.utilities.enums.LayerName;
 
 import java.util.*;
 
 public class AssetManagerUtil {
 
-    public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER = new com.badlogic.gdx.assets.AssetManager();
+    public static final com.badlogic.gdx.assets.AssetManager ASSET_MANAGER
+            = new com.badlogic.gdx.assets.AssetManager();
 
-    private static final MapAssets mapAssets = new MapAssets();
-    private static final MenuAssets menuAssets = new MenuAssets();
-    private static final RobotAssets robotAssets = new RobotAssets();
-    private static final CardAssets cardAssets = new CardAssets();
-    private static final SoundAssets soundAssets = new SoundAssets();
-    private static final UIAssets uiAssets = new UIAssets();
-
-    // Leaderboards
-    private static final AssetDescriptor<Texture> ANGRY_LB = new AssetDescriptor<>("robots/leaderboard/angry-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> BLUE_LB = new AssetDescriptor<>("robots/leaderboard/blue-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> GREEN_LB = new AssetDescriptor<>("robots/leaderboard/green-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> ORANGE_LB = new AssetDescriptor<>("robots/leaderboard/orange-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> PINK_LB = new AssetDescriptor<>("robots/leaderboard/pink-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> PURPLE_LB = new AssetDescriptor<>("robots/leaderboard/purple-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> RED_LB = new AssetDescriptor<>("robots/leaderboard/red-leadingboard.png", Texture.class);
-    private static final AssetDescriptor<Texture> YELLOW_LB = new AssetDescriptor<>("robots/leaderboard/yellow-leadingboard.png", Texture.class);
-
+    private static final MapAsset mapAsset = new MapAsset();
+    private static final MenuAsset menuAsset = new MenuAsset();
+    private static final RobotAsset robotAsset = new RobotAsset();
+    private static final CardAsset cardAsset = new CardAsset();
+    private static final SoundAsset soundAsset = new SoundAsset();
+    private static final UIAsset uiAsset = new UIAsset();
+    private static final List<ManageableAsset> manageableAssets = Arrays.asList(
+            mapAsset, menuAsset, robotAsset, cardAsset, soundAsset, uiAsset);
 
     public static ArrayList<Robot> robots;
     private static TiledMap loadedMap;
     private static Stack<String> robotNames;
 
     public static void load() {
-        mapAssets.loadAssets(ASSET_MANAGER);
-        robotAssets.loadAssets(ASSET_MANAGER);
-        soundAssets.loadAssets(ASSET_MANAGER);
-        menuAssets.loadAssets(ASSET_MANAGER);
-        cardAssets.loadAssets(ASSET_MANAGER);
-        uiAssets.loadAssets(ASSET_MANAGER);
-
-        // Leaderboards
-        ASSET_MANAGER.load(ANGRY_LB);
-        ASSET_MANAGER.load(BLUE_LB);
-        ASSET_MANAGER.load(GREEN_LB);
-        ASSET_MANAGER.load(ORANGE_LB);
-        ASSET_MANAGER.load(PINK_LB);
-        ASSET_MANAGER.load(PURPLE_LB);
-        ASSET_MANAGER.load(RED_LB);
-        ASSET_MANAGER.load(YELLOW_LB);
-
+        for(ManageableAsset manageableAsset : manageableAssets)
+            manageableAsset.loadAssets(ASSET_MANAGER);
         ASSET_MANAGER.finishLoading();
     }
 
     public static void loadAssetsToMap() {
-        mapAssets.putAssetsInMap(ASSET_MANAGER);
-        menuAssets.putAssetsInMap(ASSET_MANAGER);
-        robotAssets.putAssetsInMap(ASSET_MANAGER);
-        cardAssets.putAssetsInMap(ASSET_MANAGER);
-        uiAssets.putAssetsInMap(ASSET_MANAGER);
+        for(ManageableAsset manageableAsset : manageableAssets)
+            manageableAsset.putAssetsInMap(ASSET_MANAGER);
     }
 
     public static Texture getLeaderBoardTexture(String name) {
-        HashMap<String, Texture> leaderboardTexture = new HashMap<>();
-        leaderboardTexture.put("Angry", ASSET_MANAGER.get(ANGRY_LB));
-        leaderboardTexture.put("Blue", ASSET_MANAGER.get(BLUE_LB));
-        leaderboardTexture.put("Green", ASSET_MANAGER.get(GREEN_LB));
-        leaderboardTexture.put("Orange", ASSET_MANAGER.get(ORANGE_LB));
-        leaderboardTexture.put("Pink", ASSET_MANAGER.get(PINK_LB));
-        leaderboardTexture.put("Purple", ASSET_MANAGER.get(PURPLE_LB));
-        leaderboardTexture.put("Red", ASSET_MANAGER.get(RED_LB));
-        leaderboardTexture.put("Yellow", ASSET_MANAGER.get(YELLOW_LB));
-        for(String key : leaderboardTexture.keySet())
-            if(name.contains(key)) {
-                return leaderboardTexture.get(key);
-            }
-        return null;
+        return robotAsset.getLeaderBoardTexture(name);
     }
 
     public static void dispose() {
@@ -92,19 +52,18 @@ public class AssetManagerUtil {
      */
     public static TiledMap getLoadedMap() {
         if (loadedMap == null) {
-            loadedMap = mapAssets.getMap(0);
+            loadedMap = mapAsset.getMap(0);
         }
         return loadedMap;
     }
 
-
     public static TiledMap getMap(int mapID) {
-        loadedMap = mapAssets.getMap(mapID);
+        loadedMap = mapAsset.getMap(mapID);
         return loadedMap;
     }
 
     public static Texture getBackground(int backgroundID) {
-        return mapAssets.getBackground(backgroundID);
+        return mapAsset.getBackground(backgroundID);
     }
 
     public static HashMap<LayerName, TiledMapTileLayer> getLoadedLayers() {
@@ -117,13 +76,13 @@ public class AssetManagerUtil {
         return loadedMap.getTileSets();
     }
 
-    public static MenuAssets getMenu() {
-        return menuAssets;
+    public static MenuAsset getMenu() {
+        return menuAsset;
     }
 
-    public static CardAssets getCards() { return cardAssets; }
+    public static CardAsset getCards() { return cardAsset; }
 
-    public static UIAssets getUIElements() { return uiAssets; }
+    public static UIAsset getUIElements() { return uiAsset; }
 
     public static ArrayList<Robot> getRobots() {
         return robots;
@@ -157,7 +116,7 @@ public class AssetManagerUtil {
      * @return the robot texture at position i.
      */
     public static Texture getRobotTexture(int i) {
-        return robotAssets.getRobot(i);
+        return robotAsset.getRobot(i);
     }
 
     public static String getRobotName() {

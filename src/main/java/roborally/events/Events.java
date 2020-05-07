@@ -66,7 +66,7 @@ public class Events {
         else if ("fast".equals(gameSpeed))
             this.gameSpeed = 0.2;
         else if ("normal".equals(gameSpeed))
-            this.gameSpeed = 0.5;
+            this.gameSpeed = 1;
     }
 
     /** Sets the factor used in {@link LaserEvent} to increment the image of the laser relative to its direction */

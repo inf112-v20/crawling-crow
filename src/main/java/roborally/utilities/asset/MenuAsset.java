@@ -1,4 +1,4 @@
-package roborally.utilities.assets;
+package roborally.utilities.asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
 
-public class MenuAssets implements Assets {
+public class MenuAsset implements ManageableAsset {
 	private HashMap<String, Texture> assets;
 
 	private static final AssetDescriptor<Texture> MENU

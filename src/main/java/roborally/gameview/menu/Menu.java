@@ -20,7 +20,7 @@ import roborally.events.Events;
 import roborally.game.IGame;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.assets.SoundAssets;
+import roborally.utilities.asset.SoundAsset;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -219,7 +219,7 @@ public class Menu {
             public void clicked(InputEvent event, float x, float y) {
                 String text = playSongLabel.getText().toString();
                 if ("Play a song: ".equals(text)) {
-                    Song = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SOUNDTRACK);
+                    Song = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.SOUNDTRACK);
                     Song.setVolume(0.1f * SettingsUtil.VOLUME);
                     Song.play();
                     Song.setLooping(true);

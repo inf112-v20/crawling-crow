@@ -12,7 +12,7 @@ import roborally.gameview.ui.UIElements;
 import roborally.events.Events;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.assets.SoundAssets;
+import roborally.utilities.asset.SoundAsset;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
@@ -128,7 +128,7 @@ public class Phase implements IPhase {
 
 	@Override
 	public void fireLasers() {
-		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SHOOT_LASER);
+		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.SHOOT_LASER);
 		sound.play((float) 0.08 * SettingsUtil.VOLUME);
 		for (Robot robot : robots) {
 			if (!robot.getLogic().getPowerDown()) {

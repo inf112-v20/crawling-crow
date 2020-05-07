@@ -22,7 +22,7 @@ import roborally.gameview.ui.ProgramCardsView;
 import roborally.gameview.ui.UIElements;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.assets.SoundAssets;
+import roborally.utilities.asset.SoundAsset;
 
 import java.util.ArrayList;
 
@@ -137,7 +137,7 @@ public class Game implements IGame {
 	@Override
 	public void manuallyFireOneLaser() {
 		// This method is only for bugtesting...
-		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SHOOT_LASER);
+		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.SHOOT_LASER);
 		sound.play((float) 0.08 * SettingsUtil.VOLUME);
 		userRobot.fireLaser();
 		ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();
