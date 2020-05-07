@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.UIElement;
 
+import static roborally.utilities.SettingsUtil.STAGE_WIDTH;
 import static roborally.utilities.enums.UIElement.POWERING_DOWN;
 
 public class PowerDownButton implements IButton {
@@ -18,7 +19,7 @@ public class PowerDownButton implements IButton {
     public void set(@NotNull UIElement powerDownState) {
         powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()), new TextureRegionDrawable((POWERING_DOWN.getTexture())), new TextureRegionDrawable((POWERING_DOWN.getTexture())));
 
-        float xShift = (SettingsUtil.STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
+        float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
         float powerDownButtonFixedPosX = xShift - powerDownButton.getWidth();
 
         powerDownButton.setPosition(powerDownButtonFixedPosX, 130);

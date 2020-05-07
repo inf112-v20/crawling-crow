@@ -178,7 +178,7 @@ public class Phase implements IPhase {
 						}
 
 						if (robot.getLogic().isUserRobot()) {
-							uiElements.getMessage().set(robot.getName() + " visited a flag", uiElements.getStage());
+							uiElements.getMessage().set(robot.getName() + " visited a flag");
 						}
 					}
 				}

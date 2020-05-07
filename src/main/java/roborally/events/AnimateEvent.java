@@ -117,7 +117,7 @@ public class AnimateEvent {
 
     private void checkRobotStatus(boolean status, String message, Stage stage) {
         if (status) {
-            uiElements.getMessage().set(message, stage);
+            uiElements.getMessage().set(message);
         }
     }
 
