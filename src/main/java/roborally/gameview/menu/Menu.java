@@ -1,26 +1,19 @@
 package roborally.gameview.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import roborally.events.Events;
 import roborally.game.IGame;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
-import roborally.utilities.asset.SoundAsset;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +22,6 @@ import java.util.HashMap;
 public class Menu {
     private final Stage stage;
     private final HashMap<String, ArrayList<Image>> imageLists;
-    private final Label.LabelStyle labelStyle;
     private final Events events;
     private final Skin skin;
     private boolean changeMap;
@@ -52,8 +44,6 @@ public class Menu {
     public Menu(Stage stage, Events events) {
         this.stage = stage;
         this.skin = new Skin(Gdx.files.internal("data/skin.json"));
-        this.labelStyle = new Label.LabelStyle();
-        this.labelStyle.font = new BitmapFont();
         this.resume = false;
         this.changeMap = false;
         this.mapId = 1;
@@ -74,70 +64,8 @@ public class Menu {
         sliders.abc();
     }
 
-    private void setMenu() {
-        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
-        menu.setSize(stage.getWidth(), stage.getHeight());
-        imageLists.get("menus").add(menu);
-    }
-
-    private void setChangeMap() {
-        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
-        mapButton.setSize(mapButton.getWidth() * 3f, mapButton.getHeight() * 3f);
-        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()) - (1 / 3f * mapButton.getWidth())
-                , centerVertical(mapButton.getPrefHeight() + ( 1 / 3f * mapButton.getHeight())));
-        changeMapMenu = false;
-        addMaps();
-    }
-
     public String getPlayerName() {
         return this.playerName;
-    }
-
-    private void setNameInputField() {
-        nameInput = new TextArea("Change name", skin);
-        nameInput.setWidth(nameInput.getWidth());
-        nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth())
-                , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
-        nameInput.setAlignment(Align.center);
-        nameInput.getStyle().fontColor = Color.RED;
-    }
-
-    private void setContinueButton() {
-        continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
-        continueButton.setPosition(centerHorizontal(continueButton.getPrefWidth())
-                , centerVertical(continueButton.getPrefHeight()));
-        continueButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                continueButton.setColor(Color.GOLD);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                continueButton.setColor(Color.YELLOW);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Continue = true;
-            }
-        });
-    }
-
-    protected void setMapID(int mapID) {
-        this.mapId = mapID;
-    }
-
-    protected HashMap<String, ArrayList<Image>> getImageList() {
-        return this.imageLists;
-    }
-
-    protected float centerHorizontal(float elementWidth) {
-        return (stage.getWidth() / 2f) - (elementWidth / 2f);
-    }
-
-    protected float centerVertical(float elementHeight) {
-        return (stage.getHeight() / 2f) - (elementHeight / 2f);
     }
 
     public boolean isResume(IGame game) {
@@ -155,37 +83,18 @@ public class Menu {
         return false;
     }
 
+    public void addActiveGameButtonsToStage(Stage stage) {
+        stage.addActor(continueButton);
+        stage.addActor(noButton);
+        stage.addActor(yesButton);
+    }
+
     public boolean isChangeMap() {
         if (changeMap) {
             changeMap = false;
             return true;
         }
         return false;
-    }
-
-    private void makeEndGameButtons() {
-        this.chooseToEndGameLabel = new Label("Do you wish to end the game? ", skin);
-        this.chooseToEndGameLabel.setPosition(stage.getWidth() / 2.25f, stage.getHeight() / 1.5f + 50);
-        this.noButton = new TextButton("No", skin);
-        this.yesButton = new TextButton("Yes", skin);
-        this.noButton.setPosition(stage.getWidth() / 2, stage.getHeight() / 1.5f);
-        this.yesButton.setPosition(stage.getWidth() / 2 - 50, stage.getHeight() / 1.5f);
-        this.noButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                drawEndGameButtons = false;
-            }
-        });
-        this.yesButton.addListener(new ClickListener(){
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            endGame = true;
-            drawEndGameButtons = false;
-            setStartGame();
-        }
-        });
-        stage.addActor(yesButton);
-        stage.addActor(noButton);
     }
 
     public boolean isEndGame() {
@@ -212,6 +121,11 @@ public class Menu {
         for(Label label : menuLabel.getMainMenuLabels())
             stage.addActor(label);
         stage.addActor(menuLabel.getVolumeSlider());
+        stage.addActor(nameInput);
+    }
+
+    public void setStartGame() {
+        this.startGame = 0;
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
@@ -225,6 +139,23 @@ public class Menu {
             changeMapMenu = false;
         stage.act();
     }
+
+    protected void setMapID(int mapID) {
+        this.mapId = mapID;
+    }
+
+    protected HashMap<String, ArrayList<Image>> getImageList() {
+        return this.imageLists;
+    }
+
+    protected float centerHorizontal(float elementWidth) {
+        return (stage.getWidth() / 2f) - (elementWidth / 2f);
+    }
+
+    protected float centerVertical(float elementHeight) {
+        return (stage.getHeight() / 2f) - (elementHeight / 2f);
+    }
+
 
     private void drawMapChangeMenu(SpriteBatch batch) {
         imageLists.get("maps").get(mapId).draw(batch, 1);
@@ -249,10 +180,6 @@ public class Menu {
         menuLabel.getVolumeSlider().draw(batch, 1);
     }
 
-    public void setStartGame() {
-        this.startGame = 0;
-    }
-
     private void setMainMenuButtons () {
         ArrayList<Image> menuButtons = new ArrayList<>();
         TextureRegion[][] buttons = TextureRegion.split(AssetManagerUtil.getMenu().getButtons()
@@ -264,6 +191,28 @@ public class Menu {
             menuButtons.get(i).setY(y -= menuButtons.get(i).getPrefHeight());
         }
         setClickListeners(menuButtons);
+    }
+
+    private void setContinueButton() {
+        continueButton = new Image(new Texture(Gdx.files.internal("menu/continue.png")));
+        continueButton.setPosition(centerHorizontal(continueButton.getPrefWidth())
+                , centerVertical(continueButton.getPrefHeight()));
+        continueButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                continueButton.setColor(Color.GOLD);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                continueButton.setColor(Color.YELLOW);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Continue = true;
+            }
+        });
     }
 
     private void setClickListeners(ArrayList<Image> clickableButtons) {
@@ -360,7 +309,25 @@ public class Menu {
         imageLists.put("buttons", clickableButtons);
     }
 
-    public void addMaps() {
+    private void setNameInputField() {
+        nameInput = new TextArea("Change name", skin);
+        nameInput.setWidth(nameInput.getWidth());
+        nameInput.setPosition(centerHorizontal(nameInput.getPrefWidth())
+                , centerVertical(nameInput.getPrefHeight()) + continueButton.getPrefHeight());
+        nameInput.setAlignment(Align.center);
+        nameInput.getStyle().fontColor = Color.RED;
+    }
+
+    private void setChangeMap() {
+        mapButton = new Image(AssetManagerUtil.getMenu().getMapButton());
+        mapButton.setSize(mapButton.getWidth() * 3f, mapButton.getHeight() * 3f);
+        mapButton.setPosition(centerHorizontal(mapButton.getPrefWidth()) - (1 / 3f * mapButton.getWidth())
+                , centerVertical(mapButton.getPrefHeight() + ( 1 / 3f * mapButton.getHeight())));
+        changeMapMenu = false;
+        addMaps();
+    }
+
+    private void addMaps() {
         ArrayList<Image> maps = new ArrayList<>();
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map0.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
@@ -370,9 +337,34 @@ public class Menu {
         imageLists.put("maps", maps);
     }
 
-    public void addActiveGameButtonsToStage(Stage stage) {
-        stage.addActor(continueButton);
-        stage.addActor(noButton);
+    private void makeEndGameButtons() {
+        this.chooseToEndGameLabel = new Label("Do you wish to end the game? ", skin);
+        this.chooseToEndGameLabel.setPosition(stage.getWidth() / 2.25f, stage.getHeight() / 1.5f + 50);
+        this.noButton = new TextButton("No", skin);
+        this.yesButton = new TextButton("Yes", skin);
+        this.noButton.setPosition(stage.getWidth() / 2, stage.getHeight() / 1.5f);
+        this.yesButton.setPosition(stage.getWidth() / 2 - 50, stage.getHeight() / 1.5f);
+        this.noButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                drawEndGameButtons = false;
+            }
+        });
+        this.yesButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                endGame = true;
+                drawEndGameButtons = false;
+                setStartGame();
+            }
+        });
         stage.addActor(yesButton);
+        stage.addActor(noButton);
+    }
+
+    private void setMenu() {
+        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
+        menu.setSize(stage.getWidth(), stage.getHeight());
+        imageLists.get("menus").add(menu);
     }
 }
