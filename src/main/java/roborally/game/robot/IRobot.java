@@ -124,14 +124,12 @@ public interface IRobot {
     void playNextCard();
 
     /**
-     *
      * @return true if a robot is falling and false if not
      */
 	boolean isFalling();
 
     /**
-     * sets a boolean to true or false whether a robot is falling or not
-     * @param falling boolean
+     * @param falling true if a robot is falling, otherwise false
      */
     void setFalling(boolean falling);
 
