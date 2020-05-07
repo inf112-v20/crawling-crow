@@ -6,6 +6,12 @@ import com.badlogic.gdx.math.GridPoint2;
 import roborally.utilities.enums.Direction;
 
 public interface IRobotView {
+
+    /**
+     * Creates new DefaultTexture at a position.
+     *
+     * @param pos the position
+     */
     void setDefaultTexture(GridPoint2 pos);
 
     /**
@@ -23,7 +29,7 @@ public interface IRobotView {
     void setDamageTakenTexture(GridPoint2 pos);
 
     /**
-     * @return The normal robot texture.
+     * @return the normal robot texture.
      */
     TiledMapTileLayer.Cell getTexture();
 
