@@ -165,7 +165,7 @@ public class AnimateEvent {
         this.programCardsView = programCardsView;
         programCardsView.setStage(stage);
         programCardsView.getDoneButton().set(programCardsView);
-        programCardsView.getTimer().set(programCardsView, stage);
+        programCardsView.getTimer().set(programCardsView);
 
         stage.addActor(programCardsView.getDoneButton().get());
 
