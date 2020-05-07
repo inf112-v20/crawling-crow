@@ -60,15 +60,17 @@ public class KeyboardInput implements IControls {
     }
 
     private void simulateRoundWithoutMovement(IGame game) {
-        for (int i = 0; i < 5; i++) {
+        int millisecondsPerPhase = 500;
+        int numberOfPhases = 5;
+        for (int i = 0; i < numberOfPhases; i++) {
             delayedMethod(
                     () -> game.getRound().getPhase().run(game.getLayers()),
-                    i*1000
+                    i*millisecondsPerPhase
             );
         }
         delayedMethod(
                 () -> game.getRound().run(game.getLayers()),
-                6000
+                numberOfPhases*millisecondsPerPhase
         );
     }
 
