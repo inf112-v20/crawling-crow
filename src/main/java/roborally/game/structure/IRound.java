@@ -32,7 +32,7 @@ public interface IRound {
     void cleanUp();
 
     /**
-     * check if there are any destroyed robots
+     * Check if there are any destroyed robots
      */
     void checkForDestroyedRobots();
 
