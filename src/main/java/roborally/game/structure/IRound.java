@@ -29,11 +29,6 @@ public interface IRound {
     void cleanUp();
 
     /**
-     * Check if there are any destroyed robots
-     */
-    void checkForDestroyedRobots();
-
-    /**
      * Placed all robots that lost all hp back to their archive markers/checkpoints
      */
     void restoreRebootedRobots();
