@@ -41,9 +41,9 @@ public class AnimateEvent {
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
         drawCardsInHandAndRegister(batch, game, stage);
-        fadeRobots(batch, game);
+        fadeRobots(batch);
         drawLasers(batch, game);
-        drawUIElements(batch, game, stage);
+        drawUIElements(game, batch, stage);
         drawExplosions(batch);
         drawArchiveMarkers(batch, game);
         batch.end();
@@ -53,28 +53,20 @@ public class AnimateEvent {
         if (cardPhase) {
             drawCardsInHand(game, batch, stage);
             stage.act();
-        } else if (playPhase && !game.getGameOptions().inMenu()){
+        } else if (playPhase)
             drawRegisterCards(batch, game);
-        }
     }
 
-    private void fadeRobots(SpriteBatch batch, IGame game) {
-        if (events.getFadeRobot() && !game.getGameOptions().inMenu()) {
+    private void fadeRobots(SpriteBatch batch) {
+        if (events.getFadeRobot())
             events.fadeRobots(batch);
-        }
     }
 
     private void drawLasers(SpriteBatch batch, IGame game) {
-        if (events.hasLaserEvent() && !game.getGameOptions().inMenu()) {
+        if (events.hasLaserEvent()) {
             for (LaserEvent laserEvent : events.getLaserEvents()) {
                 laserEvent.drawLaserEvent(batch, game.getRobots());
             }
-        }
-    }
-
-    private void drawUIElements(SpriteBatch batch, IGame game, Stage stage) {
-        if (!game.getGameOptions().inMenu()) {
-            drawUIElements(game, batch, stage);
         }
     }
 
@@ -173,6 +165,7 @@ public class AnimateEvent {
 
         if (programCardsView.done()) {
             cardPhase = false;
+            events.setCardPhase(false);
             stage.clear();
 
             game.orderTheUserRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
@@ -199,22 +192,26 @@ public class AnimateEvent {
         programCardsView.getDoneButton().set(programCardsView);
         programCardsView.getTimer().set(programCardsView);
 
-        stage.addActor(programCardsView.getDoneButton().get());
-
         float cardsGroupPositionX = STAGE_WIDTH - programCardsView.getCards().size() * programCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
 
-        for (Group card : programCardsView.getCards()) {
+        for (Group card : programCardsView.getCards())
             card.setX(cardsGroupPositionX += programCardsView.getCardWidth());
-            stage.addActor(card);
-        }
+        putProgramCardsViewInStage(stage, programCardsView);
         // xShift to the right-side edge of the game board
         float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
         float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
         programCardsView.getDoneButton().get().setX(doneButtonPosX);
 
         this.cardPhase = true;
+        events.setCardPhase(true);
         Gdx.input.setInputProcessor(stage);
+    }
+
+    public void putProgramCardsViewInStage(Stage stage, ProgramCardsView programCardsView) {
+        stage.addActor(programCardsView.getDoneButton().get());
+        for (Group card : programCardsView.getCards())
+            stage.addActor(card);
     }
 
     /**

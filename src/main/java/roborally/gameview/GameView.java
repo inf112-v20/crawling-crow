@@ -38,7 +38,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private KeyboardInput keyboardControls;
     private boolean paused;
     private Stage stage;
-    private final ProgramCardsView programCardsView;
+    private ProgramCardsView programCardsView;
     private final UIElements uiElements;
     private final Events events;
     private final AnimateEvent animateEvent;
@@ -145,7 +145,13 @@ public class GameView extends InputAdapter implements ApplicationListener {
             animateEvent.initiateRegister(game.getRegisterCardsView());
         }
 
-        animateEvent.drawEvents(batch, game, stage);
+        if(!game.getGameOptions().inMenu())
+            animateEvent.drawEvents(batch, game, stage);
+        if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
+            paused = true;
+            game.getGameOptions().enterMenu(true);
+            checkIfInMenu();
+        }
 
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
@@ -251,7 +257,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
         uiElements.update(game.getUserRobot());
         game.dealCards();
         if (programCardsView != null) {
-            animateEvent.initiateCards(stage, game.getProgramCardsView());
+            this.programCardsView = game.getProgramCardsView();
+            animateEvent.initiateCards(stage, this.programCardsView);
         } else {
             events.setWaitMoveEvent(true);
         }
@@ -273,10 +280,18 @@ public class GameView extends InputAdapter implements ApplicationListener {
             paused = false;
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
+            if(events.inCardPhase()) {
+                animateEvent.putProgramCardsViewInStage(stage, programCardsView);
+                Gdx.input.setInputProcessor(stage);
+            }
         }
         if(menu.isEndGame()) {
             game.endGame();
             events.dispose();
+            events.setWaitMoveEvent(false);
+            events.setCardPhase(false);
+            programCardsView.clear();
+            menu.reloadStage(stage);
         }
     }
 }
