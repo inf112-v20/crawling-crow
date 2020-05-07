@@ -258,10 +258,10 @@ public class Events {
             this.falling = falling;
         }
 
-        private float update(float dt) {
+        private float update(float deltaTime) {
             if (falling)
                 falling();
-            this.dt -= (0.333f * dt);
+            this.dt -= (0.333f * deltaTime);
             return dt;
         }
 
