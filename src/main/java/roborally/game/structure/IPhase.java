@@ -12,8 +12,6 @@ public interface IPhase {
      */
     void run(ILayers layers);
 
-    void revealProgramCards();
-
     /**
      * Plays the next registered card
      */
