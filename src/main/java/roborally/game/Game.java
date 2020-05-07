@@ -267,10 +267,6 @@ public class Game implements IGame {
 		}
 	}
 
-	private boolean isNotInGraveyard(@NotNull Robot robot) {
-		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
-	}
-
 	@Override
 	public boolean hasRestarted() {
 		return hasRestarted;
