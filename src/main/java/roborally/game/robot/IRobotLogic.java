@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public interface IRobotLogic {
     /**
-     * @return Robot's name
+     * @return robot's name
      */
     String getName();
 
