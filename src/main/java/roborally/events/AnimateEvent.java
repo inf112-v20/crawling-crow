@@ -17,13 +17,13 @@ import java.util.List;
 import static roborally.utilities.SettingsUtil.STAGE_WIDTH;
 
 public class AnimateEvent {
-    private Events events;
+    private final Events events;
     private ProgramCardsView programCardsView;
     private ProgramCardsView registerCardsView;
-    private UIElements uiElements;
+    private final UIElements uiElements;
     private boolean cardPhase;
     private boolean playPhase;
-    private WinEvent winEvent;
+    private final WinEvent winEvent;
 
     public AnimateEvent(Events events, ProgramCardsView programCardsView, UIElements uiElements) {
         this.events = events;
@@ -40,31 +40,60 @@ public class AnimateEvent {
      */
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
+        drawCardsInHandAndRegister(batch, game, stage);
+        fadeRobots(batch, game);
+        drawLasers(batch, game);
+        drawUIElements(batch, game, stage);
+        drawExplosions(batch);
+        drawArchiveMarkers(batch, game);
+        batch.end();
+    }
+
+    private void drawCardsInHandAndRegister(SpriteBatch batch, IGame game, Stage stage) {
         if (cardPhase) {
             drawCardsInHand(game, batch, stage);
             stage.act();
         } else if (playPhase && !game.getGameOptions().inMenu()){
-            drawRegisterCards(game, batch, stage);
+            drawRegisterCards(batch, game);
         }
-        if (events.getFadeRobot() && !game.getGameOptions().inMenu())
+    }
+
+    private void fadeRobots(SpriteBatch batch, IGame game) {
+        if (events.getFadeRobot() && !game.getGameOptions().inMenu()) {
             events.fadeRobots(batch);
-        if (events.hasLaserEvent() && !game.getGameOptions().inMenu())
-            for (LaserEvent laserEvent : events.getLaserEvents())
+        }
+    }
+
+    private void drawLasers(SpriteBatch batch, IGame game) {
+        if (events.hasLaserEvent() && !game.getGameOptions().inMenu()) {
+            for (LaserEvent laserEvent : events.getLaserEvents()) {
                 laserEvent.drawLaserEvent(batch, game.getRobots());
-        if (!game.getGameOptions().inMenu())
+            }
+        }
+    }
+
+    private void drawUIElements(SpriteBatch batch, IGame game, Stage stage) {
+        if (!game.getGameOptions().inMenu()) {
             drawUIElements(game, batch, stage);
-        if(events.hasExplosionEvent()) {
-            for(List<Image> list : events.getExplosions()) {
+        }
+    }
+
+    private void drawExplosions(SpriteBatch batch) {
+        if (events.hasExplosionEvent()) {
+            for (List<Image> list : events.getExplosions()) {
                 events.explode(Gdx.graphics.getDeltaTime(), (ArrayList<Image>) list);
                 for(Image image : list)
                     image.draw(batch, 1);
             }
         }
-        if(events.hasArchiveBorders() && !game.getGameOptions().inMenu()) {
-            for(Image image : events.getArchiveBorders().values())
+    }
+
+    private void drawArchiveMarkers(SpriteBatch batch, IGame game) {
+        if (events.hasArchiveBorders() && !game.getGameOptions().inMenu()) {
+            for(Image image : events.getArchiveBorders().values()) {
                 image.draw(batch, 1);
+            }
         }
-        batch.end();
     }
 
 
@@ -72,8 +101,9 @@ public class AnimateEvent {
         drawUIElement(batch, uiElements.getReboots());
         drawUIElement(batch, uiElements.getDamageTokens());
         drawUIElement(batch, uiElements.getFlags().get());
-        for(Group group : uiElements.getLeaderboard())
+        for (Group group : uiElements.getLeaderboard()) {
             group.draw(batch, 1);
+        }
 
         updateMessageLabel(game, batch, stage);
 
@@ -103,6 +133,10 @@ public class AnimateEvent {
 
         uiElements.getMessage().get().draw(batch, 1);
 
+        checkIfSomeoneWon(game, batch, stage);
+    }
+
+    private void checkIfSomeoneWon(IGame game, SpriteBatch batch, Stage stage) {
         if (uiElements.getMessage().get().toString().contains("won")) {
             uiElements.getFlags().update(game.getUserRobot());
             uiElements.getExitButton().set(game, events, uiElements);
@@ -144,17 +178,14 @@ public class AnimateEvent {
             game.orderTheUserRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
             programCardsView.clear();
             events.setWaitMoveEvent(true);
-        } else if (game.getUserRobot().getLogic().getPowerDown() || game.getUserRobot().getLogic().getNumberOfLockedCards() == SettingsUtil.REGISTER_SIZE) {
-            cardPhase = false;
-            stage.clear();
-            programCardsView.clear();
-            events.setWaitMoveEvent(true);
         }
     }
 
-    private void drawRegisterCards(IGame game, SpriteBatch batch, Stage stage) {
-        for (Group card : registerCardsView.getCards()) {
-            card.draw(batch, 1);
+    private void drawRegisterCards(SpriteBatch batch, IGame game) {
+        if (!game.getUserRobot().getLogic().getPowerDown()) {
+            for (Group card : registerCardsView.getCards()) {
+                card.draw(batch, 1);
+            }
         }
     }
 

@@ -141,7 +141,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             tryToStartNewRound();
         }
 
-        if (game.hasStarted() && game.getRound().inProgress()){
+        if (game.hasStarted() && game.getRound().inProgress() && !game.getUserRobot().getLogic().getPowerDown()) {
             animateEvent.initiateRegister(game.getRegisterCardsView());
         }
 
@@ -250,7 +250,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         uiElements.update(game.getUserRobot());
         game.dealCards();
-        if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
+        if (programCardsView != null) {
             animateEvent.initiateCards(stage, game.getProgramCardsView());
         } else {
             events.setWaitMoveEvent(true);
