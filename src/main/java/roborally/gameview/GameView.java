@@ -124,8 +124,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        events.setStage(stage);
-
         checkForPowerDownNextRound();
         checkForWaitEvent();
         renderBackground();

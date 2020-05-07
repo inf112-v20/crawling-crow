@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
@@ -34,9 +33,8 @@ public class Events {
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
-    private Stage stage;
-    private float xShift;
-    private float yShift;
+    private final float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+    private final float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
     private List<List<Image>> explosions;
     private Map<String, Image> archives;
 
@@ -196,7 +194,7 @@ public class Events {
      * @param pos    The endpoint of the laser.
      */
     public void createNewLaserEvent(GridPoint2 origin, GridPoint2 pos) {
-        this.laserEvents.add(new LaserEvent(factor, stage));
+        this.laserEvents.add(new LaserEvent(factor));
         this.laserEvents.get(this.laserEvents.size() - 1).laserEvent(origin, pos);
     }
 
@@ -207,11 +205,11 @@ public class Events {
         this.archives.clear();
     }
 
-    public void setStage(Stage stage) {
+    /*public void setStage(Stage stage) {
         this.stage = stage;
         this.xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
         this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
-    }
+    }*/
 
     public void createNewExplosionEvent(float x, float y, Color color) {
         ArrayList<Image> exploded = new ArrayList<>();
