@@ -1,6 +1,5 @@
 package roborally.gameview.ui.elements;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.robot.IRobot;
 import roborally.gameview.ui.UIElements;
@@ -8,18 +7,19 @@ import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 
+import static roborally.utilities.SettingsUtil.STAGE_WIDTH;
 import static roborally.utilities.enums.UIElement.REBOOT_ACTIVE;
 import static roborally.utilities.enums.UIElement.REBOOT_INACTIVE;
 
 public class Reboots implements IStats {
     private ArrayList<Image> rebootsList;
 
-    public void update(IRobot robot, Stage stage) {
+    public void update(IRobot robot) {
         clear();
 
         set(robot.getLogic().getReboots() - 1);
 
-        float xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
+        float xShift = (STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
         float rebootsListFixedPosX = xShift - get().get(0).getWidth();
 
         for (Image reboot : get()) {

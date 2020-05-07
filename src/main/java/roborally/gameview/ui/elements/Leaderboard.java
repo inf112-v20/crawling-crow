@@ -9,11 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
-import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+
+import static roborally.utilities.SettingsUtil.STAGE_HEIGHT;
 
 public class Leaderboard {
 	public ArrayList<Group> leaderboardGroup;
@@ -50,7 +51,7 @@ public class Leaderboard {
 	}
 
 	public void arrange() {
-		float leaderboardHeight = SettingsUtil.WINDOW_HEIGHT / 11f;
+		float leaderboardHeight = STAGE_HEIGHT / 11f;
 		for (Group group : leaderboardGroup) {
 			group.setY(leaderboardHeight += (group.getChildren().get(0).getHeight() + 20));
 		}

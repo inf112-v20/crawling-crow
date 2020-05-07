@@ -101,9 +101,9 @@ public class UIElements {
     }
 
     public void update(Robot robot) {
-        reboots.update(robot, stage);
-        damageTokens.update(robot, stage);
-        flags.update(robot, stage);
+        reboots.update(robot);
+        damageTokens.update(robot);
+        flags.update(robot);
         leaderboard.update();
     }
 }
