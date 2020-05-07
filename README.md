@@ -22,51 +22,11 @@ For now, you have to run the game manually.
 1.  Run `Main.java` located in `src/main/java/roborally` in your IDE of choice.
     -   Alternatively use the command `java -jar target/roborally-crawlingcrow-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-2.  Move around using the [controls](#controls)
+2.  Move around using the [controls](https://github.com/inf112-v20/crawling-crow/wiki/Hvordan-spille-spillet)
 
 3.  When you want to exit, press <kbd>ESC</kbd> or exit the game manually by clicking on the **X**-button.
 
 ### How to play
-#### Menu Controls
-Use mouse to navigate the menus. Here you can
--   Start a new game
--   Change map
--   Exit the game
-
-Certain settings can be changed in the menu: 
--   Game volume
--   Play a song
--   Activate "Fun Mode"
--   Set game speed
--   Set laser travel speed
-
-#### In-game Controls
--   Open game menu: <kbd>M</kbd>
--   Quick exit game (rage quit): <kbd>ESC</kbd>
--   Bring up your programming cards: <kbd>ENTER</kbd>
-
-##### Program robot
-Use your cursor to select the programming cards you wish to place in your register. If you wish to deselect a card, 
-simply click on it again. Press "Done" when you are happy with your selection of cards.
-
-#### Debug Controls
-##### Movement
--   Forward: <kbd>&#8593;</kbd>
--   Backward: <kbd>&#8595;</kbd>
--   Turn left: <kbd>&#8592;</kbd>
--   Turn right: <kbd>&#8594;</kbd>
-
-##### Combat
--   Fire your laser: <kbd>F</kbd>
--   Fire everyone's lasers: <kbd>A</kbd>
-
-##### Other
--   Force one round, and one phase to run, expect programming your robot: <kbd>T</kbd>
--   End game and return to menu: <kbd>W</kbd>
--   Force Register flag: <kbd>SPACE</kbd>
-
-## Fun mode
-Fills the map with robots, otherwise plays like a normal game.
 
 ## Tests
 ### Automatic tests
@@ -101,7 +61,7 @@ All of our automatic tests can be found in `src/test/java/roborally`.
 -   A FunMode game should run as normal, only difference being many more robots. 
 
 #### Movement test
-Please see the [controls for movement](#movement) above. 
+Please see the [controls for movement](https://github.com/inf112-v20/crawling-crow/wiki/Hvordan-spille-spillet). 
 -   Check that `Robot` moves as expected with arrow keys
 -   Push other `Robot`s around.
 -   Check that your `Robot` cannot go outside game board (This will be changed later, because of the game rules).
@@ -124,7 +84,7 @@ should now have updated its number of visited flags.
 -   When your `Robot` is ontop of _hole_, check  if their texture changes.
 
 #### Laser tests
-Please see the [controls for combat](#combat) above
+Please see the [controls for combat](https://github.com/inf112-v20/crawling-crow/wiki/Hvordan-spille-spillet)
 -   Check if lasers fire when looking in all four directions by pressing <kbd>F</kbd>. 
 -   Check if laser stops on `Robot`s and walls.
 -   Check that lasers cross each other fine.
