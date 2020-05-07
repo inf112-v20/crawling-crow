@@ -125,7 +125,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         events.setStage(stage);
-        uiElements.setStage(stage);
 
         checkForPowerDownNextRound();
         checkForWaitEvent();

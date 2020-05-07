@@ -128,9 +128,9 @@ public class AnimateEvent {
      * @param stage The stage from UI.
      */
     private void drawCardsInHand(IGame game, SpriteBatch batch, Stage stage) {
-        programCardsView.getTimer().get().draw(batch, stage.getHeight() / 2);
+        programCardsView.getTimer().get().draw(batch, 1);
         programCardsView.getTimer().update(Gdx.graphics.getDeltaTime(), game.getUserRobot(), programCardsView);
-        programCardsView.getDoneButton().get().draw(batch, stage.getWidth() / 2);
+        programCardsView.getDoneButton().get().draw(batch, 1);
         for (Group card : programCardsView.getCards()) {
             card.draw(batch, 1);
         }
