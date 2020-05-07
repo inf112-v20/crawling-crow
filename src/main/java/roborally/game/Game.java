@@ -311,13 +311,6 @@ public class Game implements IGame {
 		return getRound() != null;
 	}
 
-	public boolean roundInProgress(){
-		if(getRound() != null){
-			return getRound().isRoundInProgress();
-		}
-		return false;
-	}
-
 	@Override
 	public ProgramCardsView getRegisterCardsView() {
 		return registerCardsView;

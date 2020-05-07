@@ -23,7 +23,7 @@ public class Round implements IRound {
 	private ArrayList<Robot> robots;
 	private IPhase phase;
 	private int currentPhaseIndex;
-	private boolean roundInProgress;
+	private boolean inProgress;
 
 	private UIElements uiElements;
 
@@ -44,7 +44,7 @@ public class Round implements IRound {
 		//startPhases(layers);
 		checkForDestroyedRobots();
 		cleanUp();
-		roundInProgress = false;
+		inProgress = false;
 
 		if (SettingsUtil.DEBUG_MODE) System.out.println("\t- ROUND COMPLETED");
 	}
@@ -131,12 +131,12 @@ public class Round implements IRound {
 	}
 
 	@Override
-	public boolean isRoundInProgress() {
-		return roundInProgress;
+	public boolean inProgress() {
+		return inProgress;
 	}
 
 	@Override
-	public void setRoundInProgress(boolean roundInProgress) {
-		this.roundInProgress = roundInProgress;
+	public void setInProgress(boolean inProgress) {
+		this.inProgress = inProgress;
 	}
 }

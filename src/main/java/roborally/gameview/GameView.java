@@ -143,7 +143,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             tryToStartNewRound();
         }
 
-        if (game.roundInProgress() && game.hasStarted()){
+        if (game.hasStarted() && game.getRound().inProgress()){
             animateEvent.initiateRegister(stage, game.getRegisterCardsView());
         }
 
@@ -219,13 +219,13 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void tryToStartNewRound(){
-        if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.roundInProgress()) {
+        if(!events.hasWaitEvent() && !events.hasLaserEvent() && game.hasStarted() && !game.getRound().inProgress()) {
             startNewRound();
         }
     }
 
     private void startNewRound(){
-        game.getRound().setRoundInProgress(true);
+        game.getRound().setInProgress(true);
         setPowerDownUI();
 
         uiElements.update(game.getUserRobot());

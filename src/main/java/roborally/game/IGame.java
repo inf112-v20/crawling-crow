@@ -59,6 +59,11 @@ public interface IGame {
      */
     void dealCards();
 
+    /**
+     * Sets a robot's registered card view
+     *
+     * @param robot in question
+     */
     void setRegisterCardsView(Robot robot);
 
     /**
@@ -98,6 +103,9 @@ public interface IGame {
      */
     float continueGameLoop(float dt, double gameSpeed);
 
+    /**
+     * @return a programcardview
+     */
     ProgramCardsView getProgramCardsView();
 
     /**
@@ -105,15 +113,31 @@ public interface IGame {
      */
     void announcePowerDown();
 
+    /**
+     * @return true if a game has been restarted
+     */
     boolean hasRestarted();
 
+    /**
+     * Sets a boolean to true or false
+     *
+     * @param state
+     * TODO: what is this?
+     */
     void setHasRestarted(boolean state);
 
+    /**
+     * @return true if game is in debugmode
+     */
     boolean inDebugMode();
 
+    /**
+     * @return true if a game has started
+     */
     boolean hasStarted();
 
-    boolean roundInProgress();
-
+    /**
+     * @return the view of the registered program cards
+     */
     ProgramCardsView getRegisterCardsView();
 }
