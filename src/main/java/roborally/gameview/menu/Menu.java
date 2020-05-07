@@ -217,28 +217,36 @@ public class Menu {
     public void drawMenu(SpriteBatch batch, Stage stage) {
         imageLists.get("menus").get(0).draw(batch, 1);
         if (!changeMapMenu) {
-            if(drawEndGameButtons) {
-                noButton.draw(batch, 1);
-                yesButton.draw(batch, 1);
-                chooseToEndGameLabel.draw(batch, 1);
-            }
-            for (Image image : imageLists.get("buttons"))
-                image.draw(batch, 1);
-            nameInput.draw(batch, 1);
-            for(Label label : menuLabel.getMainMenuLabels())
-                label.draw(batch, 1);
-            menuLabel.getVolumeSlider().draw(batch, 1);
-            if (startGame == 1)
-                continueButton.draw(batch, 1);
+            drawMainMenu(batch);
         } else {
-            imageLists.get("maps").get(mapId).draw(batch, 1);
-            for(Label label : menuLabel.getMapMenuLabels())
-                label.draw(batch, 1);
-            mapButton.draw(batch, 1);
+            drawMapChangeMenu(batch);
         }
         if (changeMap)
             changeMapMenu = false;
         stage.act();
+    }
+
+    private void drawMapChangeMenu(SpriteBatch batch) {
+        imageLists.get("maps").get(mapId).draw(batch, 1);
+        for(Label label : menuLabel.getMapMenuLabels())
+            label.draw(batch, 1);
+        mapButton.draw(batch, 1);
+    }
+
+    private void drawMainMenu(SpriteBatch batch) {
+        if (startGame == 1)
+            continueButton.draw(batch, 1);
+        if(drawEndGameButtons) {
+            noButton.draw(batch, 1);
+            yesButton.draw(batch, 1);
+            chooseToEndGameLabel.draw(batch, 1);
+        }
+        for (Image image : imageLists.get("buttons"))
+            image.draw(batch, 1);
+        nameInput.draw(batch, 1);
+        for(Label label : menuLabel.getMainMenuLabels())
+            label.draw(batch, 1);
+        menuLabel.getVolumeSlider().draw(batch, 1);
     }
 
     public void setStartGame() {
