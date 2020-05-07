@@ -167,6 +167,7 @@ public class Game implements IGame {
 	@Override
 	public void dealCards() {
 		deckOfProgramCards.shuffleCards();
+		announcePowerDown();
 		for (IRobot robot : getRobots()) {
 			robot.getLogic().drawCards(deckOfProgramCards);
 			if (!robot.equals(userRobot)) {
