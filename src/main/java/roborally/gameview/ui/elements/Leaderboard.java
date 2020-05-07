@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,8 @@ public class Leaderboard {
 
 	public void addGroup(IRobot robot) {
 		Group group = new Group();
-		TextureRegion[][] tr = TextureRegion.split(Objects.requireNonNull(AssetManagerUtil.getLeaderBoardTexture(robot.getName())), 96, 70);
+		TextureRegion[][] tr = TextureRegion.split(Objects.requireNonNull(
+				AssetManagerUtil.getLeaderBoardTexture(robot.getName())), 96, 70);
 		Image image = new Image(tr[0][0]);
 		groupList.put(group, tr);
 		group.addActor(image);
@@ -46,9 +48,9 @@ public class Leaderboard {
 	}
 
 	public void arrange() {
-		float y = 105; // FIXME: Should be relative to window size, not fixed pos, should use stage
+		float leaderboardHeight = SettingsUtil.WINDOW_HEIGHT / 11f;
 		for (Group group : leaderboardGroup) {
-			group.setY(y += (group.getChildren().get(0).getHeight() + 20));
+			group.setY(leaderboardHeight += (group.getChildren().get(0).getHeight() + 20));
 		}
 	}
 
@@ -77,7 +79,7 @@ public class Leaderboard {
 			group.removeActor(nameLabel);
 			image = new Image(groupList.get(group)[0][nFlags]);
 			image.setX(nFlags * image.getWidth());
-			nameLabel.setX(nameLabel.getX() + 100);
+			nameLabel.setX(image.getX());
 			group.addActorAt(0, image);
 			group.addActorAt(1, nameLabel);
 		}

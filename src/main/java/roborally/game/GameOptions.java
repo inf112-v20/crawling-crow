@@ -30,6 +30,7 @@ public class GameOptions {
     }
 
     public ArrayList<Robot> makeRobots(ILayers layers, LaserRegister laserRegister, ArrayList<IFlag> flags) {
+        AssetManagerUtil.makeRobotNames();
         ArrayList<Robot> robots = new ArrayList<>();
         int cell = 0;
         for (int i = 0; i < layers.getWidth(); i++) {
