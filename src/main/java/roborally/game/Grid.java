@@ -31,10 +31,9 @@ import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
  * {@link #printGrid} to display all the layers with all the tiles and positions.
  */
 public class Grid {
-	private Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
-	private Map<GridPoint2, LinkedList<TileName>> grid;
-	private Map<RobotLogic, GridPoint2> robotPositions;
-	//private TiledTranslator tiledTranslator;
+	private final Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
+	private final Map<GridPoint2, LinkedList<TileName>> grid;
+	private final Map<RobotLogic, GridPoint2> robotPositions;
 	private int width;
 	private int height;
 
@@ -42,7 +41,6 @@ public class Grid {
 		gridLayers = new HashMap<>();
 		grid = new HashMap<>();
 		robotPositions = new HashMap<>();
-		//tiledTranslator = new TiledTranslator();
 		String line;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
@@ -58,7 +56,7 @@ public class Grid {
 					String gridLayerEncoded = br.readLine().strip();
 
 					for (LayerName layerName : LayerName.values()) {
-						if (layerName.getLayerString().toLowerCase().equals(layerNameString.toLowerCase())) {
+						if (layerName.getLayerString().equalsIgnoreCase(layerNameString)) {
 							makeNewGridLayer(layerName, gridLayerEncoded);
 						}
 					}

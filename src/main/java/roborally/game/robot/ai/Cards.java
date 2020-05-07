@@ -1,4 +1,4 @@
-package roborally.game.robot.AI;
+package roborally.game.robot.ai;
 
 import com.badlogic.gdx.utils.Queue;
 

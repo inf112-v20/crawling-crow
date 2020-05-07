@@ -474,7 +474,7 @@ public class Menu {
                     return;
                 }
                 playerName = nameInput.getText();
-                if (playerName.equals("") || playerName.length() > 13 || playerName.equals("Change name")) {
+                if ("".equals(playerName) || playerName.length() > 13 || "Change name".equals(playerName)) {
                     playerName = "Angry";
                 }
                 resume = true;

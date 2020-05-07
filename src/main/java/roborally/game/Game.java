@@ -11,7 +11,7 @@ import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
-import roborally.game.robot.AI.AI;
+import roborally.game.robot.ai.AI;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
@@ -275,11 +275,8 @@ public class Game implements IGame {
 	@Override
 	public void announcePowerDown() {
 		for (Robot robot : getRobots()) {
-			if (!robot.equals(userRobot)) {
-				//TODO:: make smarter.
-				if (robot.getLogic().getHealth() < 3) {
-					robot.getLogic().setPowerDownNextRound(true);
-				}
+			if (!robot.equals(userRobot) && robot.getLogic().getHealth() < 3) {
+				robot.getLogic().setPowerDownNextRound(true);
 			}
 		}
 	}
