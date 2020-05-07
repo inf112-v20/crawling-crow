@@ -205,12 +205,6 @@ public class Events {
         this.archives.clear();
     }
 
-    /*public void setStage(Stage stage) {
-        this.stage = stage;
-        this.xShift = (stage.getWidth() - SettingsUtil.MAP_WIDTH) / 2f;
-        this.yShift = (stage.getHeight() - SettingsUtil.MAP_HEIGHT) / 2f;
-    }*/
-
     public void createNewExplosionEvent(float x, float y, Color color) {
         ArrayList<Image> exploded = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
