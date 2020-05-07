@@ -143,14 +143,12 @@ public interface IRobot {
     int peekNextCardInRegister();
 
     /**
-     *
      * @return true if a robot is in a hole and false if not
      */
     boolean isRobotInHole();
 
     /**
-     * sets state
-     * @param state that is true or false
+     * @param isInHole true if a robot is in a hole
      */
-    void isRobotInHole(boolean state);
+    void isRobotInHole(boolean isInHole);
 }

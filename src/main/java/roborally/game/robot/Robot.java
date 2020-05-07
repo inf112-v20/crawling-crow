@@ -303,7 +303,7 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public void isRobotInHole(boolean state) {
-        this.isRobotInHole = state;
+    public void isRobotInHole(boolean isInHole) {
+        this.isRobotInHole = isInHole;
     }
 }
