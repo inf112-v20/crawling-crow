@@ -52,12 +52,11 @@ public class Round implements IRound {
 
 	@Override
 	public void setRobotInPowerDown() {
-		for(Robot robot : robots){
+		for (Robot robot : robots){
 			if (robot.getLogic().getPowerDownNextRound()){
 				robot.getLogic().setPowerDown(true);
 				robot.getLogic().setPowerDownNextRound(false);
-			}
-			else {
+			} else {
 				robot.getLogic().setPowerDown(false);
 			}
 		}
