@@ -175,11 +175,7 @@ public class Game implements IGame {
 				robot.getLogic().arrangeCardsInHand(ai.getOrder());
 			}
 		}
-		if (userRobot.getLogic().getPowerDown()){
-			userRobot.getLogic().autoArrangeCardsInHand();
-		} else {
-			setProgramCardsView(userRobot);
-		}
+		setProgramCardsView(userRobot);
 	}
 
 	private void setProgramCardsView(Robot robot) {
