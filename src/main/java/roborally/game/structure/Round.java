@@ -66,16 +66,6 @@ public class Round implements IRound {
 	}
 
 	@Override
-	public void dealCards() {
-		//Dealt in game currently.
-	}
-
-	@Override
-	public void programRobots() {
-		//Done in game currently.
-	}
-
-	@Override
 	public void startPhases(ILayers layers) {
 		for (int i = 0; i < 5; i++) {
 			getPhase().run(layers);

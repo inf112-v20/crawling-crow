@@ -16,9 +16,6 @@ public interface IRound {
      */
     void setRobotInPowerDown();
 
-    void dealCards();
-    void programRobots();
-
     /**
      * Goes through a phase 5 times.
      *
