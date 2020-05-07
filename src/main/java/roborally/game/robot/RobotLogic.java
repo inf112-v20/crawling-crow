@@ -68,6 +68,11 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
+    public void setReboots(int value) {
+        this.reboots = value;
+    }
+
+    @Override
     public String getStatus() {
         if (health < 5 && health > 0)
             return "Badly damaged";

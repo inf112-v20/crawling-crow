@@ -228,6 +228,9 @@ public class Robot implements IRobot {
 
     @Override
     public void deleteRobot() {
+        if (getLogic().getReboots() == 1) {
+            getLogic().setReboots(0);
+        }
         layers.setRobotTexture(getPosition(), null);
         setPosition(SettingsUtil.GRAVEYARD);
         clearLaserRegister();

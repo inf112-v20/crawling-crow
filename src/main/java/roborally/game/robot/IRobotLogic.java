@@ -35,6 +35,8 @@ public interface IRobotLogic {
      */
     int getReboots();
 
+    void setReboots(int value);
+
     /**
      * This returns different message according to the remaining health
      * for the Robot.
