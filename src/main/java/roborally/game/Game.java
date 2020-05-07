@@ -297,8 +297,8 @@ public class Game implements IGame {
 	}
 
 	@Override
-	public void setHasRestarted(boolean state) {
-		this.hasRestarted = state;
+	public void setHasRestarted(boolean isRestarted) {
+		this.hasRestarted = isRestarted;
 	}
 
 	@Override

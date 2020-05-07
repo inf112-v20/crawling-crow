@@ -11,16 +11,14 @@ public interface IGame {
 
     /**
      * Adds all elements to the game.
-     * Gameboard, layers, flags, lasers, robots.
+     * GameBoard, layers, flags, lasers, robots.
      * It also starts a new round and
      * sets the first robot in list as userRobot.
      */
     void startUp(String name);
 
     /**
-     * Serves ONLY feed the keyUp method..
-     *
-     * @return the layers of the gameboard
+     * @return the layers of the gameBoard
      */
     ILayers getLayers();
 
@@ -40,12 +38,12 @@ public interface IGame {
     ArrayList<Robot> getRobots();
 
     /**
-     * restars the game, removes old robots and adds new ones
+     * Restars the game, removes old robots and adds new ones
      */
     void restartGame();
 
     /**
-     * @return the gameoptions
+     * @return the gameOptions
      */
     GameOptions getGameOptions();
 
@@ -104,12 +102,13 @@ public interface IGame {
     float continueGameLoop(float dt, double gameSpeed);
 
     /**
-     * @return a programcardview
+     * @return a programCardView
      */
     ProgramCardsView getProgramCardsView();
 
     /**
-     *
+     * Announces PowerDown for other robots.
+     * This happens automatically if the robot has less than 3 HP.
      */
     void announcePowerDown();
 
@@ -119,15 +118,12 @@ public interface IGame {
     boolean hasRestarted();
 
     /**
-     * Sets a boolean to true or false
-     *
-     * @param state
-     * TODO: what is this?
+     * @param isRestarted restarts the game if true, otherwise false
      */
-    void setHasRestarted(boolean state);
+    void setHasRestarted(boolean isRestarted);
 
     /**
-     * @return true if game is in debugmode
+     * @return true if game is in debugMode
      */
     boolean inDebugMode();
 
@@ -137,7 +133,7 @@ public interface IGame {
     boolean hasStarted();
 
     /**
-     * @return the view of the registered program cards
+     * @return the visual aspect of the registered program cards
      */
     ProgramCardsView getRegisterCardsView();
 }
