@@ -145,7 +145,13 @@ public class GameView extends InputAdapter implements ApplicationListener {
             animateEvent.initiateRegister(game.getRegisterCardsView());
         }
 
-        animateEvent.drawEvents(batch, game, stage);
+        if(!game.getGameOptions().inMenu())
+            animateEvent.drawEvents(batch, game, stage);
+        if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
+            paused = true;
+            game.getGameOptions().enterMenu(true);
+            checkMenuStates();
+        }
 
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);

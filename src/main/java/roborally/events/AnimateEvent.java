@@ -41,9 +41,9 @@ public class AnimateEvent {
     public void drawEvents(SpriteBatch batch, IGame game, Stage stage) {
         batch.begin();
         drawCardsInHandAndRegister(batch, game, stage);
-        fadeRobots(batch, game);
+        fadeRobots(batch);
         drawLasers(batch, game);
-        drawUIElements(batch, game, stage);
+        drawUIElements(game, batch, stage);
         drawExplosions(batch);
         drawArchiveMarkers(batch, game);
         batch.end();
@@ -53,28 +53,20 @@ public class AnimateEvent {
         if (cardPhase) {
             drawCardsInHand(game, batch, stage);
             stage.act();
-        } else if (playPhase && !game.getGameOptions().inMenu()){
+        } else if (playPhase)
             drawRegisterCards(batch, game);
-        }
     }
 
-    private void fadeRobots(SpriteBatch batch, IGame game) {
-        if (events.getFadeRobot() && !game.getGameOptions().inMenu()) {
+    private void fadeRobots(SpriteBatch batch) {
+        if (events.getFadeRobot())
             events.fadeRobots(batch);
-        }
     }
 
     private void drawLasers(SpriteBatch batch, IGame game) {
-        if (events.hasLaserEvent() && !game.getGameOptions().inMenu()) {
+        if (events.hasLaserEvent()) {
             for (LaserEvent laserEvent : events.getLaserEvents()) {
                 laserEvent.drawLaserEvent(batch, game.getRobots());
             }
-        }
-    }
-
-    private void drawUIElements(SpriteBatch batch, IGame game, Stage stage) {
-        if (!game.getGameOptions().inMenu()) {
-            drawUIElements(game, batch, stage);
         }
     }
 
