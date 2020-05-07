@@ -3,12 +3,15 @@ package roborally.game.cards;
 import java.util.ArrayList;
 
 public interface IProgramCards {
+
     /**
      * Shuffles the initial deck of program cards
      */
     void shuffleCards();
 
-    /** Returns a new card from the deck */
+    /**
+     * Returns a new card from the deck
+     */
     Card getNextCard();
 
     /**
@@ -16,6 +19,10 @@ public interface IProgramCards {
      */
     ArrayList<Card> getDeck();
 
+    /**
+     * Enums for the different cards
+     * the {@link #nCards} represent the number cards in each category
+     */
     enum CardType {
         MOVE_1(18),
         MOVE_2(12),
@@ -50,13 +57,17 @@ public interface IProgramCards {
             this.priority = priorityRangeMin + (int) (Math.random() * priorityRangeMax);
         }
 
-        public String getCard() {
+        @Override
+        public String toString() {
             return this.cardType + " " + this.priority;
         }
 
+        /**
+         * @return int value representing the card
+         */
         public int getValue() {
             if (cardType.toString().contains("MOVE"))
-                return Integer.parseInt(getCard().substring(5, 6));
+                return Integer.parseInt(toString().substring(5, 6));
             else if (cardType.toString().contains("U_TURN"))
                 return -180;
             else if (cardType.toString().contains("ROTATE"))
