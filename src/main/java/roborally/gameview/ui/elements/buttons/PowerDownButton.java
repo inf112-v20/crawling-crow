@@ -1,7 +1,6 @@
 package roborally.gameview.ui.elements.buttons;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -16,10 +15,10 @@ public class PowerDownButton implements IButton {
     private boolean isActivated;
     private boolean isActivatedForNextRound;
 
-    public void set(@NotNull UIElement powerDownState, Stage stage) {
+    public void set(@NotNull UIElement powerDownState) {
         powerDownButton = new ImageButton(new TextureRegionDrawable(powerDownState.getTexture()), new TextureRegionDrawable((POWERING_DOWN.getTexture())), new TextureRegionDrawable((POWERING_DOWN.getTexture())));
 
-        float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
+        float xShift = (SettingsUtil.STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
         float powerDownButtonFixedPosX = xShift - powerDownButton.getWidth();
 
         powerDownButton.setPosition(powerDownButtonFixedPosX, 130);

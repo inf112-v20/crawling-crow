@@ -29,4 +29,7 @@ public class SettingsUtil {
     public static float MAP_HEIGHT;
 
     public final static TiledTranslator TILED_TRANSLATOR = new TiledTranslator();
+
+    public static float STAGE_WIDTH;
+    public static float STAGE_HEIGHT;
 }

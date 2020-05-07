@@ -19,9 +19,9 @@ import roborally.events.AnimateEvent;
 import roborally.events.Events;
 import roborally.game.Game;
 import roborally.game.IGame;
+import roborally.gameview.menu.Menu;
 import roborally.gameview.ui.ProgramCardsView;
 import roborally.gameview.ui.UIElements;
-import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
 import roborally.utilities.controls.KeyboardInput;
@@ -183,6 +183,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        SettingsUtil.STAGE_WIDTH = stage.getWidth();
+        SettingsUtil.STAGE_HEIGHT = stage.getHeight();
     }
 
     @Override
@@ -260,9 +262,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     private void setPowerDownButton() {
         if (!uiElements.getPowerDownButton().isActivated()) {
-            uiElements.getPowerDownButton().set(UIElement.POWERED_ON, stage);
+            uiElements.getPowerDownButton().set(UIElement.POWERED_ON);
         } else {
-            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN, stage);
+            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN);
             uiElements.getPowerDownButton().setActivated(false);
         }
     }
