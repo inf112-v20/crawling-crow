@@ -38,7 +38,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private KeyboardInput keyboardControls;
     private boolean paused;
     private Stage stage;
-    private final ProgramCardsView programCardsView;
+    private ProgramCardsView programCardsView;
     private final UIElements uiElements;
     private final Events events;
     private final AnimateEvent animateEvent;
@@ -257,7 +257,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
         uiElements.update(game.getUserRobot());
         game.dealCards();
         if (programCardsView != null) {
-            animateEvent.initiateCards(stage, game.getProgramCardsView());
+            this.programCardsView = game.getProgramCardsView();
+            animateEvent.initiateCards(stage, this.programCardsView);
         } else {
             events.setWaitMoveEvent(true);
         }
@@ -279,6 +280,11 @@ public class GameView extends InputAdapter implements ApplicationListener {
             paused = false;
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
+            if(events.inCardPhase()) {
+                System.out.println("asdf");
+                animateEvent.putProgramCardsViewInStage(stage, programCardsView);
+                Gdx.input.setInputProcessor(stage);
+            }
         }
         if(menu.isEndGame()) {
             game.endGame();
