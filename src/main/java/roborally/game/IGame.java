@@ -26,8 +26,6 @@ public interface IGame {
     void setUserRobot();
 
     /**
-     * Exists only for debugging.
-     *
      * @return The first of the robots
      */
     Robot getUserRobot();
@@ -38,12 +36,12 @@ public interface IGame {
     ArrayList<Robot> getRobots();
 
     /**
-     * Restars the game, removes old robots and adds new ones
+     * Restarts the game, removes old robots and adds new ones
      */
     void restartGame();
 
     /**
-     * @return the gameOptions
+     * @return the gameOptions in game.
      */
     GameOptions getGameOptions();
 
@@ -53,7 +51,7 @@ public interface IGame {
     void manuallyFireOneLaser();
 
     /**
-     * Deal cards
+     * Deal cards to all robots.
      */
     void dealCards();
 
