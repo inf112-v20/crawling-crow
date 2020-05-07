@@ -283,6 +283,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
         if(menu.isEndGame()) {
             game.endGame();
             events.dispose();
+            events.setWaitMoveEvent(false);
+            programCardsView.clear();
         }
     }
 }
