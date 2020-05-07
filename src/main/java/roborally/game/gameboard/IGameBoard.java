@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IGameBoard {
 	/**
-	 * @return All the flags on the game board
+	 * @return all the flags on the game board
 	 */
 	ArrayList<IFlag> findAllFlags();
 
@@ -20,7 +20,7 @@ public interface IGameBoard {
 	ArrayList<BoardObject> findAllRepairSites();
 
 	/**
-	 * @return return all cogs on the game board
+	 * @return all cogs on the game board
 	 */
 	ArrayList<BoardObject> findAllCogs();
 
@@ -38,7 +38,7 @@ public interface IGameBoard {
 	 * Makes a list of pushers, one for each phase.
 	 * Stores each pusher in all positions it's included in, in the list of the pushers.
 	 *
-	 * @return the list of pushers;
+	 * @return the list of pushers.
 	 */
 	List<List<TileName>> addPushers();
 
@@ -50,7 +50,6 @@ public interface IGameBoard {
 	boolean hasPushers();
 
 	/**
-	 *
 	 * @return the grid for the current map.
 	 */
 	Grid getGrid();
