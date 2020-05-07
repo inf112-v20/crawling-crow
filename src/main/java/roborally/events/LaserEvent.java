@@ -30,6 +30,7 @@ public class LaserEvent {
     private Robot robot;
     private final float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
     private final float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
+
     public LaserEvent(int factor) {
         this.factor = factor;
     }

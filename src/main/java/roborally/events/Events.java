@@ -33,8 +33,6 @@ public class Events {
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
-    private final float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
-    private final float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
     private List<List<Image>> explosions;
     private Map<String, Image> archives;
 
@@ -104,6 +102,8 @@ public class Events {
      * @param texture The robots texture.
      */
     public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
         Image image = new Image(texture[0][1]);
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
@@ -288,10 +288,12 @@ public class Events {
     }
 
     public void createArchiveBorder(GridPoint2 pos, String name) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
         Color color = findRobotColorByName(name);
         Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
-        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
+        image.setX(SettingsUtil.TILE_SCALE * pos.x + xShift);
+        image.setY(SettingsUtil.TILE_SCALE * pos.y + yShift);
         image.setColor(color);
         while (true)
             if (!checkForMultipleArchives(image))
