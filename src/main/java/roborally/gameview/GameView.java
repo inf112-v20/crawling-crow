@@ -19,8 +19,8 @@ import roborally.events.AnimateEvent;
 import roborally.events.Events;
 import roborally.game.Game;
 import roborally.game.IGame;
-import roborally.gameview.elements.ProgramCardsView;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.ProgramCardsView;
+import roborally.gameview.ui.UIElements;
 import roborally.gameview.menu.Menu;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
@@ -28,10 +28,6 @@ import roborally.utilities.controls.KeyboardInput;
 import roborally.utilities.enums.UIElement;
 
 public class GameView extends InputAdapter implements ApplicationListener {
-
-    // Size of tile, both height and width
-    public static final int TILE_SIZE = 300;
-    public static final float TILE_UNIT_SCALE = 3 / 16f;
     private IGame game;
     private TiledMap tiledMap;
     private int mapID;
@@ -42,11 +38,10 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private KeyboardInput keyboardControls;
     private boolean paused;
     private Stage stage;
-    private ProgramCardsView programCardsView;
-    private UIElements uiElements;
-    private Events events;
-    private AnimateEvent animateEvent;
-
+    private final ProgramCardsView programCardsView;
+    private final UIElements uiElements;
+    private final Events events;
+    private final AnimateEvent animateEvent;
     private Sprite backgroundSprite;
 
     public GameView() {
@@ -60,31 +55,20 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void create() {
-        AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        AssetManagerUtil.load();
-        AssetManagerUtil.loadAssetsToMap();
-        AssetManagerUtil.ASSET_MANAGER.finishLoading();
+        loadAssets();
         setBackground(mapID);
         tiledMap = AssetManagerUtil.getMap(mapID);
-        MapProperties mapProperties = tiledMap.getProperties();
-
-        int mapWidth = mapProperties.get("width", Integer.class);
-        int mapHeight = mapProperties.get("height", Integer.class);
-        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
-        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
-        float renderedTileWidth = tilePixelWidth * TILE_UNIT_SCALE;
-        float renderedTileHeight = tilePixelHeight * TILE_UNIT_SCALE;
-
+        updateSettingsUtilMapSize();
 
         game = new Game(events, uiElements);
         keyboardControls = new KeyboardInput(game);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set((renderedTileWidth * mapWidth) / 2f, (renderedTileHeight * mapHeight) / 2f, 0); // Center map in game window
+        camera.position.set((SettingsUtil.MAP_WIDTH) / 2f, (SettingsUtil.MAP_HEIGHT) / 2f, 0); // Center map in game window
         camera.update();
 
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, TILE_UNIT_SCALE);
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SettingsUtil.UNIT_SCALE);
         mapRenderer.setView(camera);
 
         Gdx.input.setInputProcessor(this);
@@ -95,7 +79,28 @@ public class GameView extends InputAdapter implements ApplicationListener {
         game.getGameOptions().enterMenu(true);
     }
 
-    public void setBackground(int mapID) {
+    private void loadAssets() {
+        AssetManagerUtil.ASSET_MANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        AssetManagerUtil.load();
+        AssetManagerUtil.loadAssetsToMap();
+        AssetManagerUtil.ASSET_MANAGER.finishLoading();
+    }
+
+    private void updateSettingsUtilMapSize() {
+        MapProperties mapProperties = tiledMap.getProperties();
+
+        int mapWidth = mapProperties.get("width", Integer.class);
+        int mapHeight = mapProperties.get("height", Integer.class);
+        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
+        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+        float renderedTileWidth = tilePixelWidth * SettingsUtil.UNIT_SCALE;
+        float renderedTileHeight = tilePixelHeight * SettingsUtil.UNIT_SCALE;
+
+        SettingsUtil.MAP_WIDTH = renderedTileWidth * mapWidth;
+        SettingsUtil.MAP_HEIGHT = renderedTileHeight * mapHeight;
+    }
+
+    private void setBackground(int mapID) {
         this.backgroundSprite = new Sprite(AssetManagerUtil.getBackground(mapID));
     }
 
@@ -108,7 +113,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.dispose();
     }
 
-    public void renderBackground() {
+    private void renderBackground() {
         batch.begin();
         backgroundSprite.draw(batch);
         batch.end();
@@ -116,26 +121,22 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
-        events.setStage(stage);
-        if (uiElements.isPowerDownSetForNextRound()) {
-            game.getUserRobot().getLogic().setPowerDownNextRound(true);
-            uiElements.setPowerDownForNextRound(false);
-        }
-
-        if (events.hasWaitEvent() && !events.hasLaserEvent())
-            events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
         Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        events.setStage(stage);
+        uiElements.setStage(stage);
+
+        checkForPowerDownNextRound();
+        checkForWaitEvent();
         renderBackground();
+
         camera.update();
         mapRenderer.render();
-        if(events.wonGame()) {
-            events.setWonGame(false);
-            menu.reloadStage(stage);
-            menu.setStartGame();
-            paused = true;
-        }
-        if (paused) { // Menu
+
+        checkIfGameIsWon();
+
+        if (paused) {
             pause();
         }
 
@@ -148,13 +149,35 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
 
         animateEvent.drawEvents(batch, game, stage);
+
         if (game.hasAllPlayersChosenCards())
             Gdx.input.setInputProcessor(this);
         if (game.hasRestarted()) {
             Gdx.input.setInputProcessor(this);
             game.setHasRestarted(false);
         }
-        uiElements.setStage(stage);
+    }
+
+    private void checkIfGameIsWon() {
+        if (events.wonGame()) {
+            events.setWonGame(false);
+            menu.reloadStage(stage);
+            menu.setStartGame();
+            paused = true;
+        }
+    }
+
+    private void checkForPowerDownNextRound() {
+        if (uiElements.getPowerDownButton().isForNextRound()) {
+            game.getUserRobot().getLogic().setPowerDownNextRound(true);
+            uiElements.getPowerDownButton().setForNextRound(false);
+        }
+    }
+
+    private void checkForWaitEvent() {
+        if (events.hasWaitEvent() && !events.hasLaserEvent()) {
+            events.waitMoveEvent(Gdx.graphics.getDeltaTime(), game);
+        }
     }
 
     @Override
@@ -168,18 +191,12 @@ public class GameView extends InputAdapter implements ApplicationListener {
         batch.begin();
         menu.drawMenu(batch, stage);
         batch.end();
-        if (menu.isChangeMap())
-            changeMap();
-        if (menu.isResume(game)) {
-            paused = false;
-            Gdx.input.setInputProcessor(this);
-            game.getGameOptions().enterMenu(false);
-        }
+        checkMenuStates();
     }
 
     @Override
     public void resume() {
-        if(!animateEvent.getCardPhase())
+        if (!animateEvent.getCardPhase())
             Gdx.input.setInputProcessor(this);
     }
 
@@ -197,14 +214,18 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
         keyboardControls.getAction(keycode).run();
 
+        checkIfInMenu();
+        return true;
+    }
+
+    private void checkIfInMenu() {
         if (game.getGameOptions().inMenu()) {
             menu.reloadStage(stage);
-            if(game.getRobots() != null) {
-                menu.addContinueButtonToStage(stage);
+            if (game.getRobots() != null) {
+                menu.addActiveGameButtonsToStage(stage);
             }
             paused = true;
         }
-        return true;
     }
 
     public void changeMap() {
@@ -212,7 +233,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
         setBackground(this.mapID);
         if (game.getRobots() != null) {
             game.endGame();
-            uiElements.createLeaderBoard(game.getRobots());
+            uiElements.createLeaderboard(game.getRobots());
             events.dispose();
         }
         mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
@@ -226,7 +247,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     private void startNewRound(){
         game.getRound().setInProgress(true);
-        setPowerDownUI();
+        setPowerDownButton();
 
         uiElements.update(game.getUserRobot());
         game.dealCards();
@@ -237,12 +258,26 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
     }
 
-    private void setPowerDownUI() {
-        if (!uiElements.hasPowerDownBeenActivated()) {
-            uiElements.setPowerDownButton(UIElement.POWERED_ON);
+    private void setPowerDownButton() {
+        if (!uiElements.getPowerDownButton().isActivated()) {
+            uiElements.getPowerDownButton().set(UIElement.POWERED_ON, stage);
         } else {
-            uiElements.setPowerDownButton(UIElement.POWERED_DOWN);
-            uiElements.hasPowerDownBeenActivated(false);
+            uiElements.getPowerDownButton().set(UIElement.POWERED_DOWN, stage);
+            uiElements.getPowerDownButton().setActivated(false);
+        }
+    }
+
+    private void checkMenuStates() {
+        if (menu.isChangeMap())
+            changeMap();
+        if (menu.isResume(game)) {
+            paused = false;
+            Gdx.input.setInputProcessor(this);
+            game.getGameOptions().enterMenu(false);
+        }
+        if(menu.isEndGame()) {
+            game.endGame();
+            events.dispose();
         }
     }
 }

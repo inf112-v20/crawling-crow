@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import roborally.game.IGame;
 import roborally.game.robot.Robot;
-import roborally.gameview.elements.ProgramCardsView;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.ProgramCardsView;
+import roborally.gameview.ui.UIElements;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
@@ -69,8 +69,8 @@ public class AnimateEvent {
     private void drawUIElements(IGame game, SpriteBatch batch, Stage stage) {
         drawUIElement(batch, uiElements.getReboots());
         drawUIElement(batch, uiElements.getDamageTokens());
-        drawUIElement(batch, uiElements.getFlags());
-        for(Group group : uiElements.getLeaderBoard())
+        drawUIElement(batch, uiElements.getFlags().get());
+        for(Group group : uiElements.getLeaderboard())
             group.draw(batch, 1);
 
         updateMessageLabel(game, batch, stage);
@@ -86,38 +86,38 @@ public class AnimateEvent {
 
     private void drawPowerDownButton(SpriteBatch batch, Stage stage) {
         if (cardPhase) {
-            stage.addActor(uiElements.getPowerDownButton());
-            uiElements.getPowerDownButton().draw(batch, 1);
+            stage.addActor(uiElements.getPowerDownButton().get());
+            uiElements.getPowerDownButton().get().draw(batch, 1);
         }
     }
 
     private void updateMessageLabel(IGame game, SpriteBatch batch, Stage stage) {
         for (Robot robot : game.getRobots()) {
-            checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!");
-            checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!");
-            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " won!");
-            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!");
+            checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!", stage);
+            checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!", stage);
+            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " won!", stage);
+            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!", stage);
         }
 
-        uiElements.getMessageLabel().draw(batch, 1);
+        uiElements.getMessage().get().draw(batch, 1);
 
-        if (uiElements.getMessageLabel().toString().contains("won")) {
-            uiElements.updateFlags(game.getUserRobot());
-            uiElements.setExitButton(game, events);
-            uiElements.setRestartButton(game);
-            stage.addActor(uiElements.getRestartButton());
-            stage.addActor(uiElements.getExitButton());
-            uiElements.getRestartButton().draw(batch, 1);
-            uiElements.getExitButton().draw(batch, 1);
+        if (uiElements.getMessage().get().toString().contains("won")) {
+            uiElements.getFlags().update(game.getUserRobot(), stage);
+            uiElements.getExitButton().set(game, events, stage, uiElements);
+            uiElements.getRestartButton().set(game, uiElements);
+            stage.addActor(uiElements.getRestartButton().get());
+            stage.addActor(uiElements.getExitButton().get());
+            uiElements.getRestartButton().get().draw(batch, 1);
+            uiElements.getExitButton().get().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
             winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
             events.setWaitMoveEvent(false);
         }
     }
 
-    private void checkRobotStatus(boolean status, String message) {
+    private void checkRobotStatus(boolean status, String message, Stage stage) {
         if (status) {
-            uiElements.setMessageLabel(message);
+            uiElements.getMessage().set(message, stage);
         }
     }
 
@@ -128,11 +128,11 @@ public class AnimateEvent {
      * @param stage The stage from UI.
      */
     private void drawCardsInHand(IGame game, SpriteBatch batch, Stage stage) {
-        programCardsView.getTimerLabel().draw(batch, stage.getHeight() / 2);
-        programCardsView.updateTimer(Gdx.graphics.getDeltaTime(), game.getUserRobot());
-        programCardsView.getDoneButton().draw(batch, stage.getWidth() / 2);
-        for (Group group : programCardsView.getGroups()) {
-            group.draw(batch, 1);
+        programCardsView.getTimer().get().draw(batch, stage.getHeight() / 2);
+        programCardsView.getTimer().update(Gdx.graphics.getDeltaTime(), game.getUserRobot(), programCardsView);
+        programCardsView.getDoneButton().get().draw(batch, stage.getWidth() / 2);
+        for (Group card : programCardsView.getCards()) {
+            card.draw(batch, 1);
         }
 
         if (programCardsView.done()) {
@@ -151,8 +151,8 @@ public class AnimateEvent {
     }
 
     private void drawRegisterCards(IGame game, SpriteBatch batch, Stage stage) {
-        for (Group group : registerCardsView.getGroups()) {
-            group.draw(batch, 1);
+        for (Group card : registerCardsView.getCards()) {
+            card.draw(batch, 1);
         }
     }
 
@@ -164,24 +164,24 @@ public class AnimateEvent {
     public void initiateCards(Stage stage, ProgramCardsView programCardsView) {
         this.programCardsView = programCardsView;
         programCardsView.setStage(stage);
-        programCardsView.setDoneButton();
-        programCardsView.setTimerLabel();
+        programCardsView.getDoneButton().set(programCardsView);
+        programCardsView.getTimer().set(programCardsView, stage);
 
-        stage.addActor(programCardsView.getDoneButton());
+        stage.addActor(programCardsView.getDoneButton().get());
 
-        float cardsGroupPositionX = stage.getWidth() - programCardsView.getGroups().size() * programCardsView.getCardWidth();
+        float cardsGroupPositionX = stage.getWidth() - programCardsView.getCards().size() * programCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - programCardsView.getCardWidth();
 
-        for (Group group : programCardsView.getGroups()) {
-            group.setX(cardsGroupPositionX += programCardsView.getCardWidth());
-            stage.addActor(group);
+        for (Group card : programCardsView.getCards()) {
+            card.setX(cardsGroupPositionX += programCardsView.getCardWidth());
+            stage.addActor(card);
         }
         // xShift to the right-side edge of the game board
         float xShift = (stage.getWidth() + SettingsUtil.MAP_WIDTH) / 2f;
-        float doneButtonPosX = xShift - programCardsView.getDoneButton().getWidth();
-        programCardsView.getDoneButton().setX(doneButtonPosX);
+        float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
+        programCardsView.getDoneButton().get().setX(doneButtonPosX);
 
-        cardPhase = true;
+        this.cardPhase = true;
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -193,17 +193,17 @@ public class AnimateEvent {
     public void initiateRegister(Stage stage, ProgramCardsView registerView) {
         this.registerCardsView = registerView;
 
-        float cardsGroupPositionX = stage.getWidth() - registerCardsView.getGroups().size() * registerCardsView.getCardWidth();
+        float cardsGroupPositionX = stage.getWidth() - registerCardsView.getCards().size() * registerCardsView.getCardWidth();
         cardsGroupPositionX = cardsGroupPositionX / 2 - registerCardsView.getCardWidth();
 
-        for (Group group : registerCardsView.getGroups()) {
-            group.setX(cardsGroupPositionX += registerCardsView.getCardWidth());
+        for (Group card : registerCardsView.getCards()) {
+            card.setX(cardsGroupPositionX += registerCardsView.getCardWidth());
         }
 
-        playPhase = true;
+        this.playPhase = true;
     }
 
     public boolean getCardPhase() {
-        return this.cardPhase;
+        return cardPhase;
     }
 }

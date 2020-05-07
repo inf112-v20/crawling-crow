@@ -55,9 +55,9 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void addHealth(int amount) {
         if (getHealth() < SettingsUtil.ROBOT_MAX_HEALTH) {
-            health += amount;
+            this.health += amount;
             if (getHealth() > SettingsUtil.ROBOT_MAX_HEALTH) {
-                health = SettingsUtil.ROBOT_MAX_HEALTH;
+                this.health = SettingsUtil.ROBOT_MAX_HEALTH;
             }
         }
     }
@@ -129,12 +129,12 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public boolean takeDamage(int damage) {
         if (SettingsUtil.DEBUG_MODE) System.out.println("Took damage: " + damage + ". Robot: " + name);
-        health -= damage;
+        this.health -= damage;
         if (health < 0) {
-            health = 0;
+            this.health = 0;
         }
         if (health == 0) {
-            isDestroyed = true;
+            this.isDestroyed = true;
         }
         return reboots > 1 && health == 0;
     }
@@ -303,7 +303,7 @@ public class RobotLogic implements IRobotLogic {
     public void visitNextFlag() {
         if (SettingsUtil.DEBUG_MODE) System.out.println("- Updated next flag to visit");
         int nextFlag = getNextFlag();
-        visitedFlags[nextFlag - 1] = true;
+        this.visitedFlags[nextFlag - 1] = true;
         if (SettingsUtil.DEBUG_MODE) {
             if (nextFlag == visitedFlags.length)
                 System.out.println("- Congratulations you have collected all the flags!");

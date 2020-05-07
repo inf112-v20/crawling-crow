@@ -1,11 +1,11 @@
-package roborally.utilities.assets;
+package roborally.utilities.asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-public class SoundAssets implements Assets {
+public class SoundAsset implements ManageableAsset {
 	public static final AssetDescriptor<Sound> SHOOT_LASER
 			= new AssetDescriptor<>("sounds/fireLaser.mp3", Sound.class);
 	public static final AssetDescriptor<Sound> STEPIN_LASER

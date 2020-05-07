@@ -16,13 +16,13 @@ import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
 import roborally.game.structure.Round;
-import roborally.gameview.elements.ProgramCardsView;
-import roborally.gameview.elements.UIElements;
 import roborally.gameview.layout.ILayers;
 import roborally.gameview.layout.Layers;
+import roborally.gameview.ui.ProgramCardsView;
+import roborally.gameview.ui.UIElements;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.assets.SoundAssets;
+import roborally.utilities.asset.SoundAsset;
 
 import java.util.ArrayList;
 
@@ -70,16 +70,16 @@ public class Game implements IGame {
 		this.robots = gameOptions.makeRobots(layers, laserRegister, flags);
 		this.round = new Round(events, robots, gameBoard, uiElements);
 		this.ai = new AI(gameBoard);
-		uiElements.createLeaderBoard(getRobots());
+		uiElements.createLeaderboard(getRobots());
         setUserRobot();
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
-        uiElements.setMessageLabel(""); // FIXME: temp for resetting the label on startUp
+        uiElements.getMessage().set("", uiElements.getStage()); // FIXME: temp for resetting the label on startUp
 	}
 
 	@Override
 	public ILayers getLayers() {
-		return this.layers;
+		return layers;
 	}
 
 	//region Robots
@@ -100,12 +100,12 @@ public class Game implements IGame {
 
 	@Override
 	public ArrayList<Robot> getRobots() {
-		return this.robots;
+		return robots;
 	}
 
 	private void setRobots(ArrayList<Robot> newRobots) {
 		this.robots = newRobots;
-		round = new Round(events, robots, gameBoard, uiElements);
+		this.round = new Round(events, robots, gameBoard, uiElements);
 	}
 	//endregion
 
@@ -116,28 +116,28 @@ public class Game implements IGame {
 			return;
 		if (SettingsUtil.DEBUG_MODE) System.out.println("Restarting game...");
 		for (Robot robot : robots) {
-			events.removeFromUI(robot);
+			this.events.removeFromUI(robot);
 		}
 		setRobots(gameOptions.makeRobots(layers, laserRegister, flags));
         setUserRobot();
         setHasRestarted(true);
-        uiElements.createLeaderBoard(getRobots());
-        events.dispose();
+        this.uiElements.createLeaderboard(getRobots());
+		this.events.dispose();
         getRound().cleanUp();
-        registerCardsView.clear();
-        userRobot.getLogic().setName(name);
-        uiElements.update(userRobot);
+		this.registerCardsView.clear();
+		this.userRobot.getLogic().setName(name);
+		this.uiElements.update(userRobot);
 	}
 
 	@Override
 	public GameOptions getGameOptions() {
-		return this.gameOptions;
+		return gameOptions;
 	}
 
 	@Override
 	public void manuallyFireOneLaser() {
 		// This method is only for bugtesting...
-		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.SHOOT_LASER);
+		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.SHOOT_LASER);
 		sound.play((float) 0.08 * SettingsUtil.VOLUME);
 		userRobot.fireLaser();
 		ArrayList<GridPoint2> coords = userRobot.getLaser().getCoords();
@@ -186,12 +186,12 @@ public class Game implements IGame {
 		this.programCardsView = new ProgramCardsView(this);
 
 		for (IProgramCards.Card card : robot.getLogic().getCardsInHand()) {
-			programCardsView.setCard(card, true);
+			programCardsView.addCard(card, true);
 		}
 		if (robot.getLogic().getCardsInHand().size() < SettingsUtil.REGISTER_SIZE) {
 			for (IProgramCards.Card cardInRegister : robot.getLogic().getRegister().getCards()) {
 				if (cardInRegister != null) {
-					programCardsView.setCard(cardInRegister, false);
+					programCardsView.addCard(cardInRegister, false);
 				}
 			}
 		}
@@ -201,22 +201,22 @@ public class Game implements IGame {
 	public void setRegisterCardsView(Robot robot){
 		this.registerCardsView = new ProgramCardsView(this);
 		for (IProgramCards.Card card : robot.getLogic().getRegister().getCards()) {
-			registerCardsView.setCard(card, false);
+			registerCardsView.addCard(card, false);
 		}
 	}
 	//endregion
 
 	@Override
 	public void orderTheUserRobotsCards(int[] order) {
-		userRobot.getLogic().arrangeCardsInHand(order);
-		setRegisterCardsView(userRobot);
-		userRobot.getLogic().setHasSelectedCards(true);
+		getUserRobot().getLogic().arrangeCardsInHand(order);
+		setRegisterCardsView(getUserRobot());
+		getUserRobot().getLogic().setHasSelectedCards(true);
 	}
 
 	@Override
 	public boolean hasAllPlayersChosenCards() {
-		if (userRobot != null && userRobot.getLogic().isCardsSelected()) {
-			userRobot.getLogic().setHasSelectedCards(false);
+		if (getUserRobot() != null && getUserRobot().getLogic().isCardsSelected()) {
+			getUserRobot().getLogic().setHasSelectedCards(false);
 			return true;
 		}
 		return false;
@@ -225,13 +225,13 @@ public class Game implements IGame {
 	@Override
 	public void endGame() {
 		if (SettingsUtil.DEBUG_MODE) System.out.println("Stopping game...");
-		events.setWaitMoveEvent(false);
+		this.events.setWaitMoveEvent(false);
 		for (Robot robot : robots) {
-			layers.setRobotTexture(robot.getPosition(), null);
-			events.removeFromUI(robot);
+			this.layers.setRobotTexture(robot.getPosition(), null);
+			this.events.removeFromUI(robot);
 		}
-		robots.clear();
-		gameOptions.enterMenu(true);
+		this.getRobots().clear();
+		this.getGameOptions().enterMenu(true);
 	}
 
 	@Override
@@ -241,12 +241,12 @@ public class Game implements IGame {
 
 	@Override
 	public IRound getRound() {
-		return this.round;
+		return round;
 	}
 
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
-		uiElements.update(getUserRobot());
+		this.uiElements.update(getUserRobot());
 		if (isRoundFinished) {
 			this.events.setWaitMoveEvent(false);
 			getRound().run(getLayers());
@@ -310,6 +310,16 @@ public class Game implements IGame {
 	@Override
 	public boolean hasStarted(){
 		return getRound() != null;
+	}
+
+	@Override
+	public boolean checkIfSomeoneWon(){
+		for (IRobot robot : getRobots()){
+			if (robot.getLogic().hasWon()){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

@@ -57,9 +57,8 @@ public interface IProgramCards {
             this.priority = priorityRangeMin + (int) (Math.random() * priorityRangeMax);
         }
 
-        @Override
         public String toString() {
-            return this.cardType + " " + this.priority;
+            return cardType + " " + priority;
         }
 
         /**
@@ -76,19 +75,19 @@ public interface IProgramCards {
         }
 
         public CardType getCardType() {
-            return this.cardType;
+            return cardType;
         }
 
         public int getPriority() {
-            return this.priority;
+            return priority;
         }
 
         public int getPriorityRangeMin() {
-            return this.priorityRangeMin;
+            return priorityRangeMin;
         }
 
         public int getPriorityRangeMax() {
-            return this.priorityRangeMax;
+            return priorityRangeMax;
         }
     }
 

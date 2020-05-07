@@ -13,7 +13,7 @@ import roborally.gameview.robotview.IRobotView;
 import roborally.gameview.robotview.RobotView;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.assets.SoundAssets;
+import roborally.utilities.asset.SoundAsset;
 import roborally.utilities.enums.Direction;
 import roborally.utilities.enums.LayerName;
 
@@ -155,13 +155,13 @@ public class Robot implements IRobot {
     private void playSoundWalking(GridPoint2 oldPos) {
         Sound sound;
         if (getPosition().dst(oldPos) == 1) {
-            sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEP1);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.STEP1);
             sound.play(0.25f * SettingsUtil.VOLUME);
         } else if (getPosition().dst(oldPos) == 2) {
-            sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEP2);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.STEP2);
             sound.play(0.25f * SettingsUtil.VOLUME);
         } else if (getPosition().dst(oldPos) == 3) {
-            sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAssets.STEP3);
+            sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.STEP3);
             sound.play(0.25f * SettingsUtil.VOLUME);
         }
     }
@@ -201,7 +201,7 @@ public class Robot implements IRobot {
 
     @Override
     public void clearLaserRegister() {
-        laserRegister.updateLaser(getName(), getPosition());
+        this.laserRegister.updateLaser(getName(), getPosition());
     }
     //endregion
 

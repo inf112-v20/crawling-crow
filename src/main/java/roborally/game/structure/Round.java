@@ -4,7 +4,7 @@ import roborally.game.gameboard.IGameBoard;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
-import roborally.gameview.elements.UIElements;
+import roborally.gameview.ui.UIElements;
 import roborally.events.Events;
 import roborally.utilities.SettingsUtil;
 
@@ -77,7 +77,7 @@ public class Round implements IRound {
 		restoreRebootedRobots();
 		clearRegisters();
 		restRobotTextures();
-		uiElements.setMessageLabel("");
+		uiElements.getMessage().clear();
 	}
 
 	private void restRobotTextures() {
@@ -117,7 +117,7 @@ public class Round implements IRound {
 
 	@Override
 	public IPhase getPhase() {
-		return this.phase;
+		return phase;
 	}
 
 	@Override

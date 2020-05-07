@@ -18,7 +18,7 @@ public class CardsInHand {
     }
 
     public ArrayList<IProgramCards.Card> getCards() {
-        return this.cards;
+        return cards;
     }
 
 }

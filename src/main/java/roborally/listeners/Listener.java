@@ -29,6 +29,6 @@ public class Listener {
     }
 
     public boolean listenLaser(GridPoint2 pos, String name, LaserRegister laserRegister) {
-        return this.laserListener.checkForLasers(pos, name, laserRegister);
+        return laserListener.checkForLasers(pos, name, laserRegister);
     }
 }

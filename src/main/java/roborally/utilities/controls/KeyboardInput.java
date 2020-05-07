@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 public class KeyboardInput implements IControls {
     private HashMap<Integer, Runnable> menuControlMap;
-    private boolean powerDownMode;
 
     public KeyboardInput(IGame game) {
         menuControlMap = new HashMap<>();
@@ -36,14 +35,34 @@ public class KeyboardInput implements IControls {
         menuControlMap.put(Input.Keys.DOWN, () -> game.getUserRobot().move(-1));
         menuControlMap.put(Input.Keys.LEFT, () -> game.getUserRobot().rotate(Direction.turnLeftFrom(game.getUserRobot().getLogic().getDirection())));
         menuControlMap.put(Input.Keys.RIGHT, () -> game.getUserRobot().rotate(Direction.turnRightFrom((game.getUserRobot().getLogic().getDirection()))));
+        menuControlMap.put(Input.Keys.W, () -> game.getUserRobot().move(1));
+        menuControlMap.put(Input.Keys.S, () -> game.getUserRobot().move(-1));
+        menuControlMap.put(Input.Keys.A, () -> game.getUserRobot().rotate(Direction.turnLeftFrom(game.getUserRobot().getLogic().getDirection())));
+        menuControlMap.put(Input.Keys.D, () -> game.getUserRobot().rotate(Direction.turnRightFrom((game.getUserRobot().getLogic().getDirection()))));
         menuControlMap.put(Input.Keys.F, game::manuallyFireOneLaser);
-        menuControlMap.put(Input.Keys.SPACE, game.getRound().getPhase()::registerFlagPositionsAndUpdateArchiveMarker);
-        menuControlMap.put(Input.Keys.W, game::endGame);
-        menuControlMap.put(Input.Keys.A, game.getRound().getPhase()::fireLasers);
-        menuControlMap.put(Input.Keys.O, game.getRound().getPhase()::playNextRegisterCard);
+        menuControlMap.put(Input.Keys.G, game.getRound().getPhase()::fireLasers);
         menuControlMap.put(Input.Keys.T, () -> game.getRound().getPhase().run(game.getLayers()));
         menuControlMap.put(Input.Keys.E, () -> simulateRoundWithoutMovement(game));
         menuControlMap.put(Input.Keys.C, () -> game.getRound().cleanUp());
+        menuControlMap.put(Input.Keys.SPACE, () -> simulateOnePhaseWithoutMovementButWithCleanUp(game));
+    }
+
+    private void simulateOnePhaseWithoutMovementButWithCleanUp(IGame game) {
+        game.getRound().getPhase().run(game.getLayers());
+
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        // Game crashes if run cleanup after someone won
+                        if (!game.checkIfSomeoneWon()) {
+                            game.getRound().cleanUp();
+                        }
+                    }
+                },
+                2000
+        );
+
     }
 
     private void simulateRoundWithoutMovement(IGame game) {

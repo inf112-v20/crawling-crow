@@ -1,4 +1,4 @@
-package roborally.utilities.assets;
+package roborally.utilities.asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import java.util.HashMap;
 
-public class MapAssets implements Assets {
+public class MapAsset implements ManageableAsset {
 	private HashMap<Integer, TiledMap> mapAssets;
 	private HashMap<Integer, Texture> backgroundAssets;
 

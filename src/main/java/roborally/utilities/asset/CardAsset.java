@@ -1,4 +1,4 @@
-package roborally.utilities.assets;
+package roborally.utilities.asset;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
@@ -7,7 +7,7 @@ import roborally.game.cards.IProgramCards;
 
 import java.util.HashMap;
 
-public class CardAssets implements Assets {
+public class CardAsset implements ManageableAsset {
 	private  HashMap<IProgramCards.CardType, Texture> cardTypeTextureHashMap;
 	private int programCardWidth;
 	private int programCardHeight;
@@ -60,10 +60,10 @@ public class CardAssets implements Assets {
 	}
 
 	public int getProgramCardWidth() {
-		return this.programCardWidth;
+		return programCardWidth;
 	}
 
 	public int getProgramCardHeight() {
-		return this.programCardHeight;
+		return programCardHeight;
 	}
 }

@@ -1,12 +1,11 @@
 package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
+import roborally.utilities.tiledtranslator.TiledTranslator;
 
 public class SettingsUtil {
     //region Game Settings
     public final static int NUMBER_OF_PHASES = 5;
-    public final static int NUMBER_OF_ROBOTS = 8;
-    public final static int NUMBER_OF_FLAGS = 3;
     public static float VOLUME = 1;
 
     public final static int ROBOT_MAX_HEALTH = 10;
@@ -23,7 +22,11 @@ public class SettingsUtil {
     public final static int WINDOW_WIDTH = 1920;
     public final static int WINDOW_HEIGHT = 1080;
     public final static float UNIT_SCALE = 3 / 16f;
-    public final static float TILE_SCALE = UNIT_SCALE * 300;
-    public final static float MAP_WIDTH = TILE_SCALE * 16; // needs to be generic if we want maps with different sizes.
-    public final static float MAP_HEIGHT = TILE_SCALE * 12; // -||-
+    public final static float UI_ELEMENT_SCALE = 2.5f;
+    public final static int TILE_SIZE = 300;
+    public final static float TILE_SCALE = UNIT_SCALE * TILE_SIZE;
+    public static float MAP_WIDTH;
+    public static float MAP_HEIGHT;
+
+    public final static TiledTranslator TILED_TRANSLATOR = new TiledTranslator();
 }

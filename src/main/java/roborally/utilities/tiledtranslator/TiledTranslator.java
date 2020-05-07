@@ -4,19 +4,20 @@ import roborally.utilities.enums.TileName;
 
 import java.util.HashMap;
 
-public class TiledTranslator implements ITiledTranslator {
+public final class TiledTranslator {
 
-    private HashMap<Integer, TileName> tiles;
+    private final HashMap<Integer, TileName> tiles = new HashMap<>();
 
     public TiledTranslator() {
-        this.tiles = new HashMap<>();
-
         for (TileName tileName : TileName.values()) {
             tiles.put(tileName.getTileID(), tileName);
         }
     }
 
-    @Override
+    /**
+     * @param tiledID The int ID of the Tile-element
+     * @return The name of the tile as TileName enum using the corresponding tileID
+     */
     public TileName getTileName(int tiledID) {
         return tiles.get(tiledID);
     }

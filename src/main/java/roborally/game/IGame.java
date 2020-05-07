@@ -3,7 +3,7 @@ package roborally.game;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
 import roborally.gameview.layout.ILayers;
-import roborally.gameview.elements.ProgramCardsView;
+import roborally.gameview.ui.ProgramCardsView;
 
 import java.util.ArrayList;
 
@@ -129,6 +129,8 @@ public interface IGame {
      * @return true if a game has started
      */
     boolean hasStarted();
+
+    boolean checkIfSomeoneWon();
 
     /**
      * @return the visual aspect of the registered program cards

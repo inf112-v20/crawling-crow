@@ -13,11 +13,11 @@ public class Flag implements IFlag {
 
     @Override
     public GridPoint2 getPosition() {
-        return this.position;
+        return position;
     }
 
     @Override
     public int getID() {
-        return this.id;
+        return id;
     }
 }
