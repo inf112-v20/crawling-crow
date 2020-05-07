@@ -154,14 +154,13 @@ public class Events {
                 .collect(Collectors.toList());
         this.laserEvents.removeAll(temp);
         for (LaserEvent laserEvent : this.laserEvents) {
-            if (laserEvent.getRobot() != null) { // Fades and removes robots shot by lasers interactively.
-                if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
-                    GridPoint2 pos = laserEvent.getRobot().getPosition();
-                    Color color = findRobotColorByName(laserEvent.getRobot().getLogic().getName());
-                    fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling(), color);
-                    laserEvent.getRobot().deleteRobot();
-                    setFadeRobot(true);
-                }
+            // Fades and removes robots shot by lasers interactively.
+            if (laserEvent.getRobot() != null && ("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
+                GridPoint2 pos = laserEvent.getRobot().getPosition();
+                Color color = findRobotColorByName(laserEvent.getRobot().getLogic().getName());
+                fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling(), color);
+                laserEvent.getRobot().deleteRobot();
+                setFadeRobot(true);
             }
         }
         this.laserEvents = (ArrayList<LaserEvent>) temp;
