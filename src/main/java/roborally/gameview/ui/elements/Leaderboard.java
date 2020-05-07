@@ -32,11 +32,13 @@ public class Leaderboard {
 	}
 
 	public void addGroup(IRobot robot) {
+		int leaderBoardHeight = 96;
+		int leaderBoardWidth = 70;
 		Group group = new Group();
-		TextureRegion[][] tr = TextureRegion.split(Objects.requireNonNull(
-				AssetManagerUtil.getLeaderBoardTexture(robot.getName())), 96, 70);
-		Image image = new Image(tr[0][0]);
-		groupList.put(group, tr);
+		TextureRegion[][] textureRegions = TextureRegion.split(Objects.requireNonNull(
+				AssetManagerUtil.getLeaderBoardTexture(robot.getName())), leaderBoardWidth, leaderBoardHeight);
+		Image image = new Image(textureRegions[0][0]);
+		groupList.put(group, textureRegions);
 		group.addActor(image);
 		robotList.put(group, robot);
 		leaderboardGroup.add(group);
