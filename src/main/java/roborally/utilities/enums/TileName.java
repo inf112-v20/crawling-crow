@@ -119,6 +119,6 @@ public enum TileName {
     }
 
     public int getTileID() {
-        return this.tileID;
+        return tileID;
     }
 }

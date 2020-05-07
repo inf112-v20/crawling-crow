@@ -127,7 +127,7 @@ public class Round implements IRound {
 
 	@Override
 	public IPhase getPhase() {
-		return this.phase;
+		return phase;
 	}
 
 	@Override

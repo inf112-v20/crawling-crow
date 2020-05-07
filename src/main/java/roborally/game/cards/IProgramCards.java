@@ -50,13 +50,13 @@ public interface IProgramCards {
             this.priority = priorityRangeMin + (int) (Math.random() * priorityRangeMax);
         }
 
-        public String getCard() {
-            return this.cardType + " " + this.priority;
+        public String toString() {
+            return cardType + " " + priority;
         }
 
         public int getValue() {
             if (cardType.toString().contains("MOVE"))
-                return Integer.parseInt(getCard().substring(5, 6));
+                return Integer.parseInt(toString().substring(5, 6));
             else if (cardType.toString().contains("U_TURN"))
                 return -180;
             else if (cardType.toString().contains("ROTATE"))
@@ -65,19 +65,19 @@ public interface IProgramCards {
         }
 
         public CardType getCardType() {
-            return this.cardType;
+            return cardType;
         }
 
         public int getPriority() {
-            return this.priority;
+            return priority;
         }
 
         public int getPriorityRangeMin() {
-            return this.priorityRangeMin;
+            return priorityRangeMin;
         }
 
         public int getPriorityRangeMax() {
-            return this.priorityRangeMax;
+            return priorityRangeMax;
         }
     }
 

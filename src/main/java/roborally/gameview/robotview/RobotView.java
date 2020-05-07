@@ -68,28 +68,28 @@ public class RobotView implements IRobotView {
             this.robotDefaultCellTexture = new TiledMapTileLayer.Cell();
             this.robotDefaultCellTexture.setTile(new StaticTiledMapTile(robotTextureRegion[0][0]));
         }
-        return this.robotDefaultCellTexture;
+        return robotDefaultCellTexture;
     }
 
     @Override
     public TextureRegion[][] getTextureRegion() {
-        return this.robotTextureRegion;
+        return robotTextureRegion;
     }
 
     @Override
     public void setTextureRegion(int robotID) {
         this.robotTextureRegion = TextureRegion.split(AssetManagerUtil.getRobotTexture(robotID), SettingsUtil.TILE_SIZE, SettingsUtil.TILE_SIZE);
-        layers.setRobotTexture(this.pos, getTexture());
+        this.layers.setRobotTexture(this.pos, getTexture());
     }
 
     @Override
     public boolean canMoveRobot(GridPoint2 oldPos, GridPoint2 step) {
         GridPoint2 newPos = oldPos.cpy().add(step);
-        if(isRobotInGraveyard(oldPos))
+        if (isRobotInGraveyard(oldPos))
             return false;
-        else if(!isRobotInGraveyard(newPos))
+        else if (!isRobotInGraveyard(newPos))
             layers.setRobotTexture(newPos, getTexture());
-        if(!virtualMode)
+        if (!virtualMode)
             layers.setRobotTexture(oldPos, null);
         else { // Moves out of virtual mode
             virtualMode = false;
@@ -110,16 +110,17 @@ public class RobotView implements IRobotView {
         if (!layers.layerNotNull(LayerName.ROBOT, archiveMarker)) {
             layers.setRobotTexture(archiveMarker, getTexture());
             layers.getRobotTexture(archiveMarker).setRotation(0);
+        } else { // There's a robot on the archiveMarker already, this robot enters virtual mode.
+            this.virtualMode = true;
         }
-        else // There's a robot on the archiveMarker already, this robot enters virtual mode.
-            virtualMode = true;
     }
 
     @Override
     public void setDirection(GridPoint2 pos, Direction direction) {
-        if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode)
-            layers.getRobotTexture(pos).setRotation(direction.getID());
-        else if(virtualMode) // Stores the new direction instead of updating it.
-            virtualDirection = direction;
+        if (layers.layerNotNull(LayerName.ROBOT, pos) && !virtualMode) {
+            this.layers.getRobotTexture(pos).setRotation(direction.getID());
+        } else if (virtualMode) { // Stores the new direction instead of updating it.
+            this.virtualDirection = direction;
+        }
     }
 }

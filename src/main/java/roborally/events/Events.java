@@ -115,7 +115,7 @@ public class Events {
 
     // Returns true if there are robots to be faded.
     public boolean getFadeRobot() {
-        return this.robotFadeOrder;
+        return robotFadeOrder;
     }
 
     public void setFadeRobot(boolean value) {
@@ -167,7 +167,7 @@ public class Events {
             }
         }
         this.laserEvents = (ArrayList<LaserEvent>) temp;
-        return this.laserEvents;
+        return laserEvents;
     }
 
     public Color findRobotColorByName(String name) {
@@ -226,13 +226,13 @@ public class Events {
 
     public boolean hasExplosionEvent() {
         List<List<Image>> temp = new ArrayList<>();
-        for(List<Image> list : explosions) {
+        for( List<Image> list : explosions) {
             int explodedPieceOffMap = 0;
-            for(Image image : list) {
-                if(image.getX() < 0 || image.getY() < 0 || image.getX() > 1920 || image.getY() > 1080)
+            for (Image image : list) {
+                if (image.getX() < 0 || image.getY() < 0 || image.getX() > 1920 || image.getY() > 1080)
                     explodedPieceOffMap++;
             }
-            if(explodedPieceOffMap <= 2)
+            if (explodedPieceOffMap <= 2)
                 temp.add(list);
         }
         this.explosions = temp;
@@ -247,7 +247,7 @@ public class Events {
     }
 
     public List<List<Image>> getExplosions() {
-        return this.explosions;
+        return explosions;
     }
 
     /**
@@ -267,11 +267,12 @@ public class Events {
         }
 
         private float update(float dt) {
-            if(falling)
+            if (falling)
                 falling();
             this.dt -= (0.333f * dt);
-            return this.dt;
+            return dt;
         }
+
         private void falling() {
             float oldX = image.getX();
             float oldY = image.getY();
@@ -300,15 +301,15 @@ public class Events {
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
         image.setColor(color);
-        while(true)
-            if(!checkForMultipleArchives(image))
+        while (true)
+            if (!checkForMultipleArchives(image))
                 break;
         archives.put(name, image);
     }
 
     public boolean checkForMultipleArchives(Image image) {
-        for(Image storedImage : archives.values()) {
-            if(image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
+        for (Image storedImage : archives.values()) {
+            if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
                 image.setSize(image.getWidth() + 6, image.getHeight() + 6);
                 image.setPosition(image.getX() - 3, image.getY() - 3);
                 return true;
@@ -322,7 +323,7 @@ public class Events {
     }
 
     public Map<String, Image> getArchiveBorders() {
-        return this.archives;
+        return archives;
     }
 
     public void removeFromUI(Robot robot) {

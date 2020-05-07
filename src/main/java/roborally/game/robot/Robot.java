@@ -201,7 +201,7 @@ public class Robot implements IRobot {
 
     @Override
     public void clearLaserRegister() {
-        laserRegister.updateLaser(getName(), getPosition());
+        this.laserRegister.updateLaser(getName(), getPosition());
     }
     //endregion
 

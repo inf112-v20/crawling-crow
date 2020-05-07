@@ -46,7 +46,6 @@ public class Menu {
     private Slider volumeSlider;
     private Image mapButton;
     private Image continueButton;
-    private Image mainMenu;
     private boolean resume;
     private int gSpeed;
     private int lSpeed;
@@ -79,17 +78,15 @@ public class Menu {
         stage.addActor(volumeSlider);
         stage.addActor(playSongLabel);
         stage.addActor(nameInput);
-        //stage.addActor(nameButton);
         setMainMenuButtons();
         Sliders sliders = new Sliders();
         sliders.abc();
     }
 
     private void setMenu() {
-        mainMenu = new Image(AssetManagerUtil.getMenu().getMainMenu());
-        stage.addActor(mainMenu);
-        mainMenu.setSize(stage.getWidth(), stage.getHeight());
-        imageLists.get("menus").add(mainMenu);
+        Image menu = new Image(AssetManagerUtil.getMenu().getMainMenu());
+        menu.setSize(stage.getWidth(), stage.getHeight());
+        imageLists.get("menus").add(menu);
     }
 
     private void setChangeMap() {
@@ -292,11 +289,9 @@ public class Menu {
     }
 
     public void reloadStage(Stage stage) {
-        stage.addActor(mainMenu);
         for (Image image : imageLists.get("buttons"))
             stage.addActor(image);
         stage.addActor(gameSpeedLabel);
-        stage.addActor(nameInput);
         stage.addActor(laserSpeedLabel);
         stage.addActor(volumeLabel);
         stage.addActor(volumeSlider);
@@ -304,8 +299,18 @@ public class Menu {
     }
 
     public void drawMenu(SpriteBatch batch, Stage stage) {
+        imageLists.get("menus").get(0).draw(batch, 1);
         if (!changeMapMenu) {
-            stage.draw();
+            for (Image image : imageLists.get("buttons"))
+                image.draw(batch, 1);
+            nameInput.draw(batch, 1);
+            gameSpeedLabel.draw(batch, 1);
+            laserSpeedLabel.draw(batch, 1);
+            volumeSlider.draw(batch, 1);
+            volumeLabel.draw(batch, 1);
+            playSongLabel.draw(batch, 1);
+            if (startGame == 1)
+                continueButton.draw(batch, 1);
         } else {
             imageLists.get("maps").get(mapId).draw(batch, 1);
             previousMapLabel.draw(batch, 1);
@@ -403,7 +408,6 @@ public class Menu {
                 changeMapMenu = false;
                 startGame = 0;
                 stage.clear();
-                stage.addActor(mainMenu);
                 stage.addActor(nameInput);
                 stage.addActor(gameSpeedLabel);
                 stage.addActor(laserSpeedLabel);
@@ -428,7 +432,7 @@ public class Menu {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 playerName = nameInput.getText();
-                if ("".equals(playerName) || playerName.length() > 13 || "Change name".equals(playerName)) {
+                if (playerName.equals("") || playerName.length() > 13 || playerName.equals("Change name")) {
                     playerName = "Angry";
                 }
                 resume = true;
@@ -480,9 +484,8 @@ public class Menu {
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map0.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map1.png"))));
         maps.add(new Image(new Texture(Gdx.files.internal("maps/models/map2.PNG"))));
-        for (Image image : maps) {
+        for (Image image : maps)
             image.setPosition(centerHorizontal(image.getPrefWidth()), centerVertical(image.getPrefHeight()));
-        }
         imageLists.put("maps", maps);
     }
 

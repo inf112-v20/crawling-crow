@@ -99,11 +99,11 @@ public class GameBoard implements IGameBoard {
 	}
 
 	public Grid getGrid() {
-		return this.grid;
+		return grid;
 	}
 
 	@Override
 	public boolean hasPushers() {
-		return this.pushers;
+		return pushers;
 	}
 }

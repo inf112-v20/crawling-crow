@@ -60,10 +60,10 @@ public class CardAsset implements ManageableAsset {
 	}
 
 	public int getProgramCardWidth() {
-		return this.programCardWidth;
+		return programCardWidth;
 	}
 
 	public int getProgramCardHeight() {
-		return this.programCardHeight;
+		return programCardHeight;
 	}
 }

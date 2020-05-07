@@ -42,7 +42,7 @@ public class AI {
 	}
 
 	public int[] getOrder() {
-		return this.order;
+		return order;
 	}
 
 	private void chooseCards() {
@@ -155,6 +155,6 @@ public class AI {
 	}
 
 	private boolean fullOrder() {
-		return this.order.length == pickNr;
+		return order.length == pickNr;
 	}
 }
