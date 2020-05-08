@@ -170,7 +170,7 @@ public class MenuLabel {
 		pixmap.fill();
 		sliderStyle.background = new Image(new Texture(pixmap)).getDrawable();
 		sliderStyle.knob = birdImage.getDrawable();
-		volumeSlider = new Slider(0f, 1f, 0.1f, false, skin);
+		volumeSlider = new Slider(0f, 1f, 0.1f, false, sliderStyle);
 		volumeSlider.setValue(0.6f);
 		volumeSlider.setPosition(playSongLabel.getX(), playSongLabel.getY()
 				- (volumeSlider.getHeight() * 2f));
