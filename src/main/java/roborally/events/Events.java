@@ -121,11 +121,13 @@ public class Events {
     }
 
     public void createNewExplosionEvent(float x, float y, Color color) {
+        float dx = x + 1 / 2f*SettingsUtil.TILE_SCALE;
+        float dy = y + 1 / 2f*SettingsUtil.TILE_SCALE;
         ArrayList<Image> exploded = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
             exploded.add(new Image(new Texture("explosion.png")));
-            exploded.get(i).setX(x);
-            exploded.get(i).setY(y);
+            exploded.get(i).setX(dx);
+            exploded.get(i).setY(dy);
             exploded.get(i).setColor(color);
         }
         explosions.add(exploded);
