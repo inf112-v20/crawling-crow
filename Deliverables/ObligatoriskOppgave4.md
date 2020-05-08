@@ -76,22 +76,23 @@ LEGG VED
     - Rounds, phases, steps #108
     - AI
 
-- Se [user stories]()
+- Se [user stories](https://github.com/inf112-v20/crawling-crow/projects/2)
 
-- Dette er hva vi anser som [MVP](/../../wiki/Spillkrav) siden dette er nødvendig spillmekanikk fra selve brettspillet.
+- Dette er hva vi anser som [MVP](https://github.com/inf112-v20/crawling-crow/wiki/Spillkrav) siden dette er nødvendig spillmekanikk fra selve brettspillet.
 
-- For våre bugs, se [known bugs](../README.md#known-bugs) i vår [README](../README.md), ev. vår issue-label [bug](/../../issues?q=is%3Aissue+is%3Aopen+laser+label%3Abug).
+- For våre bugs, se [known bugs](../README.md#known-bugs) i vår [README](../README.md), ev. vår issue-label [bug](https://github.com/inf112-v20/crawling-crow/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Aupdated-desc).
 
 
 ## Deloppgave 3: Produktleveranse og kodekvalitet
-- Dokumentasjon på hvordan man bygger, tester og kjører vår versjon av RoboRally ligger i vår [README](../README.md#setup).
-
-- Forklare hvorfor det er store forskjeller på hvem som bidrar til kodebasen.
-    - Se co-authored-by
+- Dokumentasjon på hvordan man bygger, tester og kjører vår versjon av Robo Rally ligger i vår [README](../README.md#setup) .
+- Grunnen til at det er forskjeller på hvem som bidrar til kodebasen er pga vi har gjort mye par-programmering og brukt [co-authored-by](https://github.com/inf112-v20/crawling-crow/wiki#co-authored-by)
 
 ### Prosjektpresentasjon
-- se readme
+- Se [Prosjektpresentasjon.md](Prosjektpresentasjon.md)
 
 
 ### Klassediagram
-LEGG VED og oppdater README.
+Ligger oppdatert i [README](../README.md#class-diagram) og her:
+
+![klassediagram-oblig4](https://user-images.githubusercontent.com/59846048/81407446-b391db80-913b-11ea-8244-0b5d6b1d3707.png)
+
