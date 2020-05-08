@@ -124,12 +124,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
         beforeRenderCamera();
         camera.update();
         mapRenderer.render();
-        if (paused)
-            pause();
-        if (!game.inDebugMode())
-            tryToStartNewRound();
-        if(!game.getGameOptions().inMenu())
-            animateEvent.drawEvents(batch, game, stage);
+        runGameStates();
+
         if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
             paused = true;
             game.getGameOptions().enterMenu(true);
@@ -146,6 +142,15 @@ public class GameView extends InputAdapter implements ApplicationListener {
 		renderBackground();
 		checkIfGameIsWon();
 	}
+
+	private void runGameStates() {
+        if (paused)
+            pause();
+        if (!game.inDebugMode())
+            tryToStartNewRound();
+        if(!game.getGameOptions().inMenu())
+            animateEvent.drawEvents(batch, game, stage);
+    }
 
 	private void afterRendering() {
 		if (game.hasAllPlayersChosenCards()) {
