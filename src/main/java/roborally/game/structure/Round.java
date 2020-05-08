@@ -67,7 +67,7 @@ public class Round implements IRound {
 	public void cleanUp() {
 		restoreRebootedRobots();
 		clearRegisters();
-		restRobotTextures();
+		//restRobotTextures();
 		uiElements.getMessage().clear();
 	}
 
