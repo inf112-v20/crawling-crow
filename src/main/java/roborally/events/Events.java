@@ -29,13 +29,13 @@ public class Events {
     private float dt;
     private boolean hasFadeableRobot;
     private boolean cardPhase;
-    private ArrayList<Alpha> fadeableRobots;
+    private final ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
     private List<List<Image>> explosions;
-    private Map<String, Image> archives;
+    private final Map<String, Image> archives;
 
     public Events() {
         this.waitEvent = false;
@@ -339,7 +339,7 @@ public class Events {
         private float dt;
         private final Image image;
         private final boolean falling;
-        private Color color;
+        private final Color color;
 
         private Alpha(float dt, Image image, boolean falling, Color color) {
             this.dt = dt;

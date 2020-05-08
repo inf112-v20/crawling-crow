@@ -29,13 +29,13 @@ public class MenuLabel {
 	private Label gameSpeedLabel;
 	private Label laserSpeedLabel;
 	private Label volumeLabel;
-	private List<Label> mainMenuLabels;
-	private List<Label> mapMenuLabels;
+	private final List<Label> mainMenuLabels;
+	private final List<Label> mapMenuLabels;
 	private Slider volumeSlider;
-	private Skin skin;
+	private final Skin skin;
 	private int gSpeed;
 	private int lSpeed;
-	private Menu menu;
+	private final Menu menu;
 	private Music Song;
 
 	public MenuLabel(Stage stage, Menu menu) {

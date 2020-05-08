@@ -40,14 +40,14 @@ public class Game implements IGame {
 	private Robot userRobot;
 	//endregion
 
-	private Events events;
-	private GameOptions gameOptions;
+	private final Events events;
+	private final GameOptions gameOptions;
 	private IRound round;
 
 	private int robotPlayedCounter;
 	private int currentPhaseIndex;
 
-	private UIElements uiElements;
+	private final UIElements uiElements;
 	private boolean isRoundFinished;
 	private boolean hasRestarted;
 

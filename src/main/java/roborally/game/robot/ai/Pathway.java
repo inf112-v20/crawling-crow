@@ -17,7 +17,7 @@ public class Pathway {
 	private Direction tempDir;
 	private Direction direction;
 	private double newDistToFlag;
-	private Grid grid;
+	private final Grid grid;
 
 	public Pathway(GridPoint2 position, GridPoint2 flagPos, Direction direction, Grid grid) {
 		this.position = position;

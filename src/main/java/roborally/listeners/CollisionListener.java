@@ -8,8 +8,8 @@ import roborally.utilities.SettingsUtil;
 import roborally.utilities.enums.LayerName;
 
 public class CollisionListener {
-    private ILayers layers;
-    private WallListener wallListener;
+    private final ILayers layers;
+    private final WallListener wallListener;
 
     public CollisionListener(ILayers layers) {
         this.layers = layers;

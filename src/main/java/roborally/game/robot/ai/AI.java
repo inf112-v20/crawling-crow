@@ -13,7 +13,7 @@ import static roborally.game.cards.IProgramCards.Card;
 
 public class AI {
 	private IRobotLogic robotLogic;
-	private Grid grid;
+	private final Grid grid;
 	private int pickNr;
 	private final ArrayList<IFlag> flags;
 	private IFlag flag;

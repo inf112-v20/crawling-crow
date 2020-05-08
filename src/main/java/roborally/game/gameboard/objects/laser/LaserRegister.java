@@ -19,8 +19,8 @@ import java.util.HashSet;
  */
 
 public class LaserRegister {
-    private HashMap<String, HashSet<Laser>> activeLasers;
-    private ILayers layers;
+    private final HashMap<String, HashSet<Laser>> activeLasers;
+    private final ILayers layers;
 
     public LaserRegister(ILayers layers) {
         this.layers = layers;

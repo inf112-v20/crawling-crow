@@ -3,8 +3,8 @@ package roborally.game.cards;
 import java.util.*;
 
 public class ProgramCards implements IProgramCards {
-    private ArrayList<Card> deckOfCards;
-    private Queue<Card> nextCard;
+    private final ArrayList<Card> deckOfCards;
+    private final Queue<Card> nextCard;
 
     public ProgramCards() {
         this.deckOfCards = new ArrayList<>();

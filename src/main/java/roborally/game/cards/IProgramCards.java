@@ -45,10 +45,10 @@ public interface IProgramCards {
     }
 
     class Card {
-        private CardType cardType;
-        private int priority;
-        private int priorityRangeMin;
-        private int priorityRangeMax;
+        private final CardType cardType;
+        private final int priority;
+        private final int priorityRangeMin;
+        private final int priorityRangeMax;
 
         public Card(CardType cardType) {
             this.cardType = cardType;

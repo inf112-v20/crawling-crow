@@ -6,7 +6,7 @@ import roborally.gameview.layout.ILayers;
 import roborally.utilities.enums.LayerName;
 
 public class LaserListener {
-    private ILayers layers;
+    private final ILayers layers;
 
     public LaserListener(ILayers layers) {
         this.layers = layers;

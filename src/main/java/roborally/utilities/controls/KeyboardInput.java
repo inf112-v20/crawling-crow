@@ -7,7 +7,7 @@ import roborally.utilities.enums.Direction;
 import java.util.HashMap;
 
 public class KeyboardInput implements IControls {
-    private HashMap<Integer, Runnable> menuControlMap;
+    private final HashMap<Integer, Runnable> menuControlMap;
 
     public KeyboardInput(IGame game) {
         menuControlMap = new HashMap<>();

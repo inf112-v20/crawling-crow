@@ -17,10 +17,10 @@ public class RobotView implements IRobotView {
     private TiledMapTileLayer.Cell robotDamageTakenCellTexture;
     private TextureRegion[][] robotTextureRegion;
     private TiledMapTileLayer.Cell robotDefaultCellTexture;
-    private ILayers layers;
-    private GridPoint2 pos;
-    private int height;
-    private int width;
+    private final ILayers layers;
+    private final GridPoint2 pos;
+    private final int height;
+    private final int width;
     private  boolean virtualMode;
     private Direction virtualDirection;
 

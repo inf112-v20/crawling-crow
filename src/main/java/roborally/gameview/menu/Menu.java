@@ -39,7 +39,7 @@ public class Menu {
     private boolean Continue;
     private TextArea nameInput;
     private String playerName;
-    private MenuLabel menuLabel;
+    private final MenuLabel menuLabel;
 
     public Menu(Stage stage, Events events) {
         this.stage = stage;

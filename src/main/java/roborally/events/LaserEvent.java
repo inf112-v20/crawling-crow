@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class LaserEvent {
-    private static float tileEdge = 10; // To make the graphic not go too far out on the edges.
+    private static final float tileEdge = 10; // To make the graphic not go too far out on the edges.
     private GridPoint2 laserPoint;
     private boolean laserEvent;
     private Image laserImage;

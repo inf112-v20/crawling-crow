@@ -5,7 +5,7 @@ import roborally.game.cards.IProgramCards.Card;
 
 
 public class Register {
-    private Card[] cards;
+    private final Card[] cards;
     private int nextCardID;
     private int lockedCards;
 

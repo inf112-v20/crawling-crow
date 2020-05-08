@@ -5,9 +5,9 @@ import roborally.game.gameboard.objects.laser.LaserRegister;
 import roborally.gameview.layout.ILayers;
 
 public class Listener {
-    private WallListener wallListener;
-    private CollisionListener collisionListener;
-    private LaserListener laserListener;
+    private final WallListener wallListener;
+    private final CollisionListener collisionListener;
+    private final LaserListener laserListener;
 
     // Makes a new Listener to listen to the different listeners.
     public Listener(ILayers layers) {

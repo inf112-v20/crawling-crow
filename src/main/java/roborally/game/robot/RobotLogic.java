@@ -16,13 +16,13 @@ public class RobotLogic implements IRobotLogic {
     private boolean powerDownNextRound;
     private boolean[] visitedFlags;
     private String name;
-    private GridPoint2 position;
+    private final GridPoint2 position;
     private GridPoint2 archiveMarker;
     private int health = SettingsUtil.ROBOT_MAX_HEALTH;
     private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
     private Direction direction;
     private CardsInHand cardsInHand;
-    private Register register;
+    private final Register register;
 
     private boolean isUserRobot;
     private boolean hasWon;
