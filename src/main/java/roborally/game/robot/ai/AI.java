@@ -114,7 +114,7 @@ public class AI {
 	}
 
 	private boolean closerToFlag() {
-		if(cards.isSizeGreaterThan1())
+		if(cards.hasMultipleMoveCards())
 			findBestMoveCard();
 		nextHypoDistToFlag();
 		return pathway.closerToFlag();
