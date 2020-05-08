@@ -225,28 +225,37 @@ public class Game implements IGame {
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
 		this.uiElements.update(getUserRobot());
-		if (isRoundFinished) {
-			this.events.setWaitMoveEvent(false);
-			getRound().run(getLayers());
-			this.isRoundFinished = false;
-			return 0;
-		}
 		float deltaTime = dt;
-		if (deltaTime >= gameSpeed) {
+
+		if(!isRoundFinished() && deltaTime >= gameSpeed) {
 			getRound().getPhase().playNextRegisterCard();
 			deltaTime = 0f;
 			this.robotPlayedCounter++;
 		}
+		if(isLastPhase()) {
+			this.currentPhaseIndex = 0;
+			this.isRoundFinished = true;
+		}
+		return deltaTime;
+	}
+
+	private boolean isRoundFinished() {
+		if (isRoundFinished) {
+			this.events.setWaitMoveEvent(false);
+			getRound().run(getLayers());
+			this.isRoundFinished = false;
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isLastPhase() {
 		if (this.robotPlayedCounter == getRobots().size()) {
 			getRound().getPhase().run(getLayers());
 			this.currentPhaseIndex++;
 			this.robotPlayedCounter = 0;
 		}
-		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
-			this.currentPhaseIndex = 0;
-			this.isRoundFinished = true;
-		}
-		return deltaTime;
+		return this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES;
 	}
 
 	@Override
