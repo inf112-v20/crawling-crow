@@ -91,7 +91,7 @@ public class Events {
         return waitEvent;
     }
 
-    // Lets the UI if there are robots ready to move.
+    // Lets the UI know if there are robots ready to move.
     public void setWaitMoveEvent(boolean value) {
         this.waitEvent = value;
     }
