@@ -127,6 +127,7 @@ public class Game implements IGame {
 		this.registerCardsView.clear();
 		this.userRobot.getLogic().setName(name);
 		this.uiElements.update(userRobot);
+		resetFieldVariables();
 	}
 
 	@Override
