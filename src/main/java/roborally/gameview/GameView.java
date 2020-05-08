@@ -100,10 +100,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         SettingsUtil.MAP_HEIGHT = renderedTileHeight * mapHeight;
     }
 
-    private void setBackground(int mapID) {
-        this.backgroundSprite = new Sprite(AssetManagerUtil.getBackground(mapID));
-    }
-
     @Override
     public void dispose() {
         tiledMap.dispose();
@@ -111,12 +107,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         events.dispose();
         stage.dispose();
         AssetManagerUtil.dispose();
-    }
-
-    private void renderBackground() {
-        batch.begin();
-        backgroundSprite.draw(batch);
-        batch.end();
     }
 
     @Override
@@ -163,15 +153,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
     }
 
-    private void checkIfGameIsWon() {
-        if (events.wonGame()) {
-            events.setWonGame(false);
-            menu.reloadStage(stage);
-            menu.setStartGame();
-            paused = true;
-        }
-    }
-
     private void checkForPowerDownNextRound() {
         if (uiElements.getPowerDownButton().isForNextRound()) {
             game.getUserRobot().getLogic().setPowerDownNextRound(true);
@@ -185,11 +166,19 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
     }
 
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-        SettingsUtil.STAGE_WIDTH = stage.getWidth();
-        SettingsUtil.STAGE_HEIGHT = stage.getHeight();
+    private void renderBackground() {
+        batch.begin();
+        backgroundSprite.draw(batch);
+        batch.end();
+    }
+
+    private void checkIfGameIsWon() {
+        if (events.wonGame()) {
+            events.setWonGame(false);
+            menu.reloadStage(stage);
+            menu.setStartGame();
+            paused = true;
+        }
     }
 
     @Override
@@ -199,6 +188,50 @@ public class GameView extends InputAdapter implements ApplicationListener {
         menu.drawMenu(batch, stage);
         batch.end();
         checkMenuStates();
+    }
+
+    private void checkMenuStates() {
+        if (menu.isChangeMap())
+            changeMap();
+        if (menu.isResume(game)) {
+            paused = false;
+            Gdx.input.setInputProcessor(this);
+            game.getGameOptions().enterMenu(false);
+            if(events.inCardPhase()) {
+                animateEvent.putProgramCardsViewInStage(stage, programCardsView);
+                Gdx.input.setInputProcessor(stage);
+            }
+        }
+        if(menu.isEndGame()) {
+            game.endGame();
+            events.dispose();
+            events.setWaitMoveEvent(false);
+            events.setCardPhase(false);
+            programCardsView.clear();
+            menu.reloadStage(stage);
+        }
+    }
+
+    public void changeMap() {
+        this.mapID = menu.getMapId();
+        setBackground(this.mapID);
+        if (game.getRobots() != null) {
+            game.endGame();
+            uiElements.createLeaderboard(game.getRobots());
+            events.dispose();
+        }
+        mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
+    }
+
+    private void setBackground(int mapID) {
+        this.backgroundSprite = new Sprite(AssetManagerUtil.getBackground(mapID));
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        SettingsUtil.STAGE_WIDTH = stage.getWidth();
+        SettingsUtil.STAGE_HEIGHT = stage.getHeight();
     }
 
     @Override
@@ -223,27 +256,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         checkIfInMenu();
         return true;
-    }
-
-    private void checkIfInMenu() {
-        if (game.getGameOptions().inMenu()) {
-            menu.reloadStage(stage);
-            if (game.getRobots() != null) {
-                menu.addActiveGameButtonsToStage(stage);
-            }
-            paused = true;
-        }
-    }
-
-    public void changeMap() {
-        this.mapID = menu.getMapId();
-        setBackground(this.mapID);
-        if (game.getRobots() != null) {
-            game.endGame();
-            uiElements.createLeaderboard(game.getRobots());
-            events.dispose();
-        }
-        mapRenderer.setMap(AssetManagerUtil.getMap(mapID));
     }
 
     private void tryToStartNewRound(){
@@ -275,25 +287,14 @@ public class GameView extends InputAdapter implements ApplicationListener {
         }
     }
 
-    private void checkMenuStates() {
-        if (menu.isChangeMap())
-            changeMap();
-        if (menu.isResume(game)) {
-            paused = false;
-            Gdx.input.setInputProcessor(this);
-            game.getGameOptions().enterMenu(false);
-            if(events.inCardPhase()) {
-                animateEvent.putProgramCardsViewInStage(stage, programCardsView);
-                Gdx.input.setInputProcessor(stage);
-            }
-        }
-        if(menu.isEndGame()) {
-            game.endGame();
-            events.dispose();
-            events.setWaitMoveEvent(false);
-            events.setCardPhase(false);
-            programCardsView.clear();
+    private void checkIfInMenu() {
+        if (game.getGameOptions().inMenu()) {
             menu.reloadStage(stage);
+            if (game.getRobots() != null) {
+                menu.addActiveGameButtonsToStage(stage);
+            }
+            paused = true;
         }
     }
+
 }
