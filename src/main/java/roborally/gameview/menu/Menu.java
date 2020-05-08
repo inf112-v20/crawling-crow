@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import roborally.events.Events;
@@ -212,31 +216,7 @@ public class Menu {
     }
 
     private void setClickListeners(ArrayList<Image> clickableButtons) {
-        mapButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                mapButton.setColor(Color.RED);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                mapButton.setColor(Color.BLUE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeMap = true;
-                changeMapMenu = false;
-                startGame = 0;
-                stage.clear();
-                stage.addActor(nameInput);
-                for(Label label : menuLabel.getMainMenuLabels())
-                    stage.addActor(label);
-                stage.addActor(menuLabel.getVolumeSlider());
-                for (Image image : imageLists.get("buttons"))
-                    stage.addActor(image);
-            }
-        });
+        makeMapButton();
         clickableButtons.get(0).addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -305,6 +285,34 @@ public class Menu {
             }
         });
         imageLists.put("buttons", clickableButtons);
+    }
+
+    private void makeMapButton() {
+        mapButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                mapButton.setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                mapButton.setColor(Color.BLUE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                changeMap = true;
+                changeMapMenu = false;
+                startGame = 0;
+                stage.clear();
+                stage.addActor(nameInput);
+                for(Label label : menuLabel.getMainMenuLabels())
+                    stage.addActor(label);
+                stage.addActor(menuLabel.getVolumeSlider());
+                for (Image image : imageLists.get("buttons"))
+                    stage.addActor(image);
+            }
+        });
     }
 
     private void setNameInputField() {

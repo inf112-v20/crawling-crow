@@ -62,7 +62,7 @@ public class MenuLabel {
 		setVolumeSlider();
 		volumeLabel.setPosition(playSongLabel.getX()
 				, volumeSlider.getY() - (volumeLabel.getPrefHeight() * 2f));
-		gSpeed = 0;
+		gSpeed = 1;
 		lSpeed = 2;
 		laserSpeedLabel.setPosition(playSongLabel.getX(),
 				volumeLabel.getY() - (laserSpeedLabel.getPrefHeight() * 2f));
