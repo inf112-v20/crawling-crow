@@ -27,12 +27,21 @@ public class AITest {
 	}
 
 	@Test
-	public void robotCloserToFlagAfterAIControl() {
+	public void onAverageRobotIsCloserToNextFlagAfterAIControl() {
+		int successfulTries = 0;
+		for(int i = 0; i < 100; i++) {
+			if(robotCloserToFlagAfterAIControl())
+				successfulTries++;
+		}
+		assertTrue(successfulTries > 50);
+	}
+
+	public boolean robotCloserToFlagAfterAIControl() {
 		double oldDistanceToFlag = robotLogic.getPosition().dst(flag.getPosition());
 		robotLogic.drawCards(programCards);
 		ai.controlRobot(robotLogic);
 		double newDistanceToFlag = ai.getNewDistanceToFlag();
-		assertTrue(newDistanceToFlag < oldDistanceToFlag);
+		return newDistanceToFlag < oldDistanceToFlag;
 	}
 
 }
