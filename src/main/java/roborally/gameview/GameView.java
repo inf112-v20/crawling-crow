@@ -113,12 +113,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.dispose();
     }
 
-    private void renderBackground() {
-        batch.begin();
-        backgroundSprite.draw(batch);
-        batch.end();
-    }
-
     @Override
     public void render() {
         beforeRenderCamera();
@@ -142,6 +136,12 @@ public class GameView extends InputAdapter implements ApplicationListener {
 		renderBackground();
 		checkIfGameIsWon();
 	}
+
+    private void renderBackground() {
+        batch.begin();
+        backgroundSprite.draw(batch);
+        batch.end();
+    }
 
 	private void runGameStates() {
         if (paused)
