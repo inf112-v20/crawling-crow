@@ -1,4 +1,4 @@
-package roborally.game.robot.AI;
+package roborally.game.robot.ai;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.jetbrains.annotations.NotNull;
@@ -132,17 +132,16 @@ public class Pathway {
 			TileName tileName = tiles.next();
 			if (grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(tileName)) {
 				stepsFromTiles.add(updatePos(tileName));
+				rotatingTile(tileName.toString());
 				stepsFromTiles.add(updatePos(tileName));
+				rotatingTile(tileName.toString());
 			}
 			if (grid.getGridLayer(LayerName.CONVEYOR).containsValue(tileName)) {
 				stepsFromTiles.add(updatePos(tileName));
+				rotatingTile(tileName.toString());
 			}
-			if (grid.getGridLayer(LayerName.COG).containsValue(tileName)) {
-				if (tileName.toString().contains("COUNTER"))
-					turnRight();
-				else if (tileName.toString().contains("CLOCKWISE"))
-					turnLeft();
-			}
+			if (grid.getGridLayer(LayerName.COG).containsValue(tileName))
+				rotatingTile(tileName.toString());
 		}
 		position.add(stepsFromTiles);
 	}
@@ -157,6 +156,13 @@ public class Pathway {
 		splitted = tileString.split("_");
 		Direction dir = Direction.valueOf(splitted[1]);
 		return dir.getStep();
+	}
+
+	public void rotatingTile(String tileName) {
+		if (tileName.contains("COUNTER"))
+			turnLeft();
+		else if (tileName.contains("CLOCKWISE"))
+			turnRight();
 	}
 
 }

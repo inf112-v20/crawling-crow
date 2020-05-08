@@ -97,7 +97,7 @@ public class RobotLogic implements IRobotLogic {
     @Override
     public void backToArchiveMarker() {
         this.health = SettingsUtil.ROBOT_MAX_HEALTH;
-        this.reboots -= 1;
+        //this.reboots -= 1;
         this.isDestroyed = false;
         setPosition(archiveMarker);
         this.direction = Direction.NORTH;
@@ -135,8 +135,9 @@ public class RobotLogic implements IRobotLogic {
         }
         if (health == 0) {
             this.isDestroyed = true;
+            this.reboots -= 1;
         }
-        return reboots > 1 && health == 0;
+        return reboots > 0 && health == 0;
     }
 
     //region Program cards in hand

@@ -1,4 +1,4 @@
-package roborally.game.robot.AI;
+package roborally.game.robot.ai;
 
 import com.badlogic.gdx.utils.Queue;
 
@@ -49,7 +49,7 @@ public class Cards {
 		return cardTypes.get(type).removeFirst();
 	}
 
-	public boolean isSizeGreaterThan1() {
+	public boolean hasMultipleMoveCards() {
 		return cardTypes.get("move").size > 1;
 	}
 

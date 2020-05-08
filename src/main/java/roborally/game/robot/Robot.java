@@ -27,12 +27,10 @@ public class Robot implements IRobot {
     private Listener listener;
     private LaserRegister laserRegister;
     private boolean reboot;
-
-    private boolean powerDownNextRound;
     private boolean isFalling;
+    private boolean isRobotInHole;
 
     private HashMap<IProgramCards.CardType, Runnable> cardToAction;
-    private boolean isRobotInHole;
 
     // Constructor for testing the robot model.
     public Robot(RobotLogic robotLogic) {

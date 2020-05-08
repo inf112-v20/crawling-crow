@@ -3,7 +3,6 @@ package roborally.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import org.jetbrains.annotations.NotNull;
 import roborally.events.Events;
 import roborally.game.cards.IProgramCards;
 import roborally.game.cards.ProgramCards;
@@ -11,7 +10,7 @@ import roborally.game.gameboard.GameBoard;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
-import roborally.game.robot.AI.AI;
+import roborally.game.robot.ai.AI;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
 import roborally.game.structure.IRound;
@@ -75,6 +74,7 @@ public class Game implements IGame {
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
         uiElements.getMessage().set(""); // FIXME: temp for resetting the label on startUp
+		resetFieldVariables();
 	}
 
 	@Override
@@ -127,6 +127,7 @@ public class Game implements IGame {
 		this.registerCardsView.clear();
 		this.userRobot.getLogic().setName(name);
 		this.uiElements.update(userRobot);
+		resetFieldVariables();
 	}
 
 	@Override
@@ -145,24 +146,6 @@ public class Game implements IGame {
 			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
 	}
 
-	@Deprecated
-	private void removeDeadRobots() {
-		ArrayList<Robot> aliveRobots = new ArrayList<>();
-		for (Robot robot : getRobots()) {
-			if (isNotInGraveyard(robot))
-				aliveRobots.add(robot);
-		}
-		setRobots(aliveRobots);
-		returnToMenuIfOnlyOneRobotLeft();
-	}
-
-	private void returnToMenuIfOnlyOneRobotLeft() {
-		if (getRobots().size() < 2) {
-			if (SettingsUtil.DEBUG_MODE) System.out.println("Entering menu");
-			gameOptions.enterMenu();
-		}
-	}
-
 	//region Cards
 	@Override
 	public void dealCards() {
@@ -175,11 +158,7 @@ public class Game implements IGame {
 				robot.getLogic().arrangeCardsInHand(ai.getOrder());
 			}
 		}
-		if (userRobot.getLogic().getPowerDown()){
-			userRobot.getLogic().autoArrangeCardsInHand();
-		} else {
-			setProgramCardsView(userRobot);
-		}
+		setProgramCardsView(userRobot);
 	}
 
 	private void setProgramCardsView(Robot robot) {
@@ -247,28 +226,37 @@ public class Game implements IGame {
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
 		this.uiElements.update(getUserRobot());
-		if (isRoundFinished) {
-			this.events.setWaitMoveEvent(false);
-			getRound().run(getLayers());
-			this.isRoundFinished = false;
-			return 0;
-		}
 		float deltaTime = dt;
-		if (deltaTime >= gameSpeed) {
+
+		if(!isRoundFinished() && deltaTime >= gameSpeed) {
 			getRound().getPhase().playNextRegisterCard();
 			deltaTime = 0f;
 			this.robotPlayedCounter++;
 		}
+		if(isLastPhase()) {
+			this.currentPhaseIndex = 0;
+			this.isRoundFinished = true;
+		}
+		return deltaTime;
+	}
+
+	private boolean isRoundFinished() {
+		if (isRoundFinished) {
+			this.events.setWaitMoveEvent(false);
+			getRound().run(getLayers());
+			this.isRoundFinished = false;
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isLastPhase() {
 		if (this.robotPlayedCounter == getRobots().size()) {
 			getRound().getPhase().run(getLayers());
 			this.currentPhaseIndex++;
 			this.robotPlayedCounter = 0;
 		}
-		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
-			this.currentPhaseIndex = 0;
-			this.isRoundFinished = true;
-		}
-		return deltaTime;
+		return this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES;
 	}
 
 	@Override
@@ -279,17 +267,10 @@ public class Game implements IGame {
 	@Override
 	public void announcePowerDown() {
 		for (Robot robot : getRobots()) {
-			if (!robot.equals(userRobot)) {
-				//TODO:: make smarter.
-				if (robot.getLogic().getHealth() < 3) {
-					robot.getLogic().setPowerDownNextRound(true);
-				}
+			if (!robot.equals(userRobot) && robot.getLogic().getHealth() < 3) {
+				robot.getLogic().setPowerDownNextRound(true);
 			}
 		}
-	}
-
-	private boolean isNotInGraveyard(@NotNull Robot robot) {
-		return !robot.getPosition().equals(SettingsUtil.GRAVEYARD);
 	}
 
 	@Override
@@ -320,6 +301,12 @@ public class Game implements IGame {
 			}
 		}
 		return false;
+	}
+
+	private void resetFieldVariables() {
+		this.robotPlayedCounter = 0;
+		this.currentPhaseIndex = 0;
+		this.isRoundFinished = false;
 	}
 
 	@Override

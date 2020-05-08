@@ -225,10 +225,9 @@ public class RobotTest {
     }
 
     @Test
-    public void verifyThatRobotUsesARebootWhenReenteringTheBoard() {
-        testRobot1.getLogic().setArchiveMarker(new GridPoint2(1, 1));
-        testRobot1.getLogic().backToArchiveMarker();
-        assertEquals(testRobot1.getLogic().getReboots(), 3);
+    public void verifyThatRobotUsesARebootWhenDestroyed() {
+        testRobot1.getLogic().takeDamage(10);
+        assertEquals(3, testRobot1.getLogic().getReboots());
     }
 
     @Test

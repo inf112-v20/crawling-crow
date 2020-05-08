@@ -27,7 +27,8 @@ public class Events {
     private boolean waitEvent;
     private boolean wonGame;
     private float dt;
-    private boolean robotFadeOrder;
+    private boolean hasFadeableRobot;
+    private boolean cardPhase;
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvents;
@@ -39,7 +40,7 @@ public class Events {
     public Events() {
         this.waitEvent = false;
         this.dt = 0f;
-        this.robotFadeOrder = false;
+        this.hasFadeableRobot = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
         this.laserEvents = new ArrayList<>();
@@ -48,6 +49,16 @@ public class Events {
         this.explosions = new ArrayList<>();
         this.archives = new HashMap<>();
 
+    }
+
+    /** Sets the factor used in {@link LaserEvent} to increment the image of the laser relative to its direction */
+    public void setLaserSpeed(String laserSpeed) {
+        if ("slow".equals(laserSpeed))
+            this.factor = 400;
+        else if ("normal".equals(laserSpeed))
+            this.factor = 800;
+        else if ("fast".equals(laserSpeed))
+            this.factor = 1200;
     }
 
     /**
@@ -65,16 +76,6 @@ public class Events {
             this.gameSpeed = 1;
     }
 
-    /** Sets the factor used in {@link LaserEvent} to increment the image of the laser relative to its direction */
-    public void setLaserSpeed(String laserSpeed) {
-        if ("slow".equals(laserSpeed))
-            this.factor = 400;
-        else if ("normal".equals(laserSpeed))
-            this.factor = 800;
-        else if ("fast".equals(laserSpeed))
-            this.factor = 1200;
-    }
-
     /**
      * Adds the time lapsed between frames to the variable, plays the next card when it reaches the gameSpeed.
      *
@@ -90,34 +91,14 @@ public class Events {
         return waitEvent;
     }
 
-    // Lets the UI know wether or not there are robots ready to move.
+    // Lets the UI know if there are robots ready to move.
     public void setWaitMoveEvent(boolean value) {
         this.waitEvent = value;
     }
 
-    /**
-     * Replaces the robots texture with an image and fades it.
-     *
-     * @param pos     The robots position.
-     * @param texture The robots texture.
-     */
-    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
-        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
-        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
-        Image image = new Image(texture[0][1]);
-        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
-        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
-        image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
-    }
-
     // Returns true if there are robots to be faded.
     public boolean getFadeRobot() {
-        return robotFadeOrder;
-    }
-
-    public void setFadeRobot(boolean value) {
-        this.robotFadeOrder = value;
+        return hasFadeableRobot;
     }
 
     // Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
@@ -139,6 +120,18 @@ public class Events {
         fadeCounter = 0;
     }
 
+    public void createNewExplosionEvent(float x, float y, Color color) {
+        float dx = x + 1 / 2f*SettingsUtil.TILE_SCALE;
+        float dy = y + 1 / 2f*SettingsUtil.TILE_SCALE;
+        ArrayList<Image> exploded = new ArrayList<>();
+        for(int i = 0; i < 4; i++) {
+            exploded.add(new Image(new Texture("explosion.png")));
+            exploded.get(i).setX(dx);
+            exploded.get(i).setY(dy);
+            exploded.get(i).setColor(color);
+        }
+        explosions.add(exploded);
+    }
 
     // Returns true if there are lasers on the screen.
     public boolean hasLaserEvent() {
@@ -154,37 +147,17 @@ public class Events {
                 .collect(Collectors.toList());
         this.laserEvents.removeAll(temp);
         for (LaserEvent laserEvent : this.laserEvents) {
-            if (laserEvent.getRobot() != null) { // Fades and removes robots shot by lasers interactively.
-                if (("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
-                    GridPoint2 pos = laserEvent.getRobot().getPosition();
-                    Color color = findRobotColorByName(laserEvent.getRobot().getLogic().getName());
-                    fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling(), color);
-                    laserEvent.getRobot().deleteRobot();
-                    setFadeRobot(true);
-                }
+            // Fades and removes robots shot by lasers interactively.
+            if (laserEvent.getRobot() != null && ("Destroyed".equals(laserEvent.getRobot().getLogic().getStatus()))) {
+                GridPoint2 pos = laserEvent.getRobot().getPosition();
+                Color color = findRobotColorByName(laserEvent.getRobot().getLogic().getName());
+                fadeRobot(pos, laserEvent.getRobot().getTexture(), laserEvent.getRobot().isFalling(), color);
+                laserEvent.getRobot().deleteRobot();
+                setFadeRobot(true);
             }
         }
         this.laserEvents = (ArrayList<LaserEvent>) temp;
         return laserEvents;
-    }
-
-    public Color findRobotColorByName(String name) {
-        if (name.toLowerCase().contains("red")) {
-            return new Color(237/255f, 28/255f, 36/255f, 1);
-        } else if (name.toLowerCase().contains("blue")) {
-            return new Color(0/255f, 162/255f, 232/255f, 1);
-        } else if (name.toLowerCase().contains("green")) {
-            return new Color(34/255f, 177/255f, 76/255f, 1);
-        } else if (name.toLowerCase().contains("orange")) {
-            return new Color(255/255f, 127/255f, 39/255f, 1);
-        } else if (name.toLowerCase().contains("purple")) {
-            return new Color(163/255f, 73/255f, 164/255f, 1);
-        } else if (name.toLowerCase().contains("pink")) {
-            return new Color(255/255f, 128/255f, 255/255f, 1);
-        } else if (name.toLowerCase().contains("yellow")) {
-            return new Color(255/255f, 242/255f, 0/255f, 1);
-        }
-        return new Color(136/255f, 0/255f, 21/255f, 1);
     }
 
     /**
@@ -205,15 +178,12 @@ public class Events {
         this.archives.clear();
     }
 
-    public void createNewExplosionEvent(float x, float y, Color color) {
-        ArrayList<Image> exploded = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
-            exploded.add(new Image(new Texture("explosion.png")));
-            exploded.get(i).setX(x);
-            exploded.get(i).setY(y);
-            exploded.get(i).setColor(color);
-        }
-        explosions.add(exploded);
+    public void setCardPhase(boolean cardPhase) {
+        this.cardPhase = cardPhase;
+    }
+
+    public boolean inCardPhase() {
+        return this.cardPhase;
     }
 
     public boolean hasExplosionEvent() {
@@ -240,6 +210,126 @@ public class Events {
 
     public List<List<Image>> getExplosions() {
         return explosions;
+    }
+
+    /**
+     * Finds robot that have the status Destroyed and removes them from UI.
+     * @param robots the robots in the game.
+     */
+    public void checkForDestroyedRobots(ArrayList<Robot> robots) {
+        for (Robot robot : robots) {
+            if (("Destroyed").equals(robot.getLogic().getStatus())) {
+                if (SettingsUtil.DEBUG_MODE) System.out.println("\t- " + robot.getName() + " was destroyed");
+                removeFromUI(robot);
+            }
+        }
+    }
+
+    /**
+     * When a robot is destroyed it is put into a list to be faded and deleted.
+     * @param robot the robot that is destroyed.
+     */
+    public void removeFromUI(Robot robot) {
+        Color color = findRobotColorByName(robot.getName());
+        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
+        robot.deleteRobot();
+        if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Removed " + robot.getName() + " from UI");
+        setFadeRobot(true);
+    }
+
+    /**
+     * Replaces the robots texture with an image and fades it.
+     *
+     * @param pos     The robots position.
+     * @param texture The robots texture.
+     */
+    public void fadeRobot(GridPoint2 pos, TextureRegion[][] texture, boolean falling, Color color) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
+        Image image = new Image(texture[0][1]);
+        image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
+        image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
+        image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
+        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
+    }
+
+    public void setFadeRobot(boolean value) {
+        this.hasFadeableRobot = value;
+    }
+
+    /**
+     * Creates an archive border around the archive point the robot last visited.
+     * @param pos The position of the archive marker.
+     * @param name The name of the robot visiting the archive marker.
+     */
+    public void createArchiveBorder(GridPoint2 pos, String name) {
+        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
+        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
+        Color color = findRobotColorByName(name);
+        Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
+        image.setX(SettingsUtil.TILE_SCALE * pos.x + xShift);
+        image.setY(SettingsUtil.TILE_SCALE * pos.y + yShift);
+        image.setColor(color);
+        while (true)
+            if (!checkForMultipleArchives(image))
+                break;
+        archives.put(name, image);
+    }
+
+    /**
+     * Finds the color responding to the name of the robot.
+     * @param name the robot's name in String type.
+     * @return The color through hexadecimal format.
+     */
+    public Color findRobotColorByName(String name) {
+        if (name.toLowerCase().contains("red")) {
+            return new Color(237/255f, 28/255f, 36/255f, 1);
+        } else if (name.toLowerCase().contains("blue")) {
+            return new Color(0/255f, 162/255f, 232/255f, 1);
+        } else if (name.toLowerCase().contains("green")) {
+            return new Color(34/255f, 177/255f, 76/255f, 1);
+        } else if (name.toLowerCase().contains("orange")) {
+            return new Color(255/255f, 127/255f, 39/255f, 1);
+        } else if (name.toLowerCase().contains("purple")) {
+            return new Color(163/255f, 73/255f, 164/255f, 1);
+        } else if (name.toLowerCase().contains("pink")) {
+            return new Color(255/255f, 128/255f, 255/255f, 1);
+        } else if (name.toLowerCase().contains("yellow")) {
+            return new Color(255/255f, 242/255f, 0/255f, 1);
+        }
+        return new Color(136/255f, 0/255f, 21/255f, 1);
+    }
+
+    /**
+     * Checks if a robot has already visited this archive marker.
+     * @param image The image of the archive border for the robot visiting the archive marker.
+     * @return true as long as the current image size is in use for this archive marker.
+     */
+    public boolean checkForMultipleArchives(Image image) {
+        for (Image storedImage : archives.values()) {
+            if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
+                image.setSize(image.getWidth() + 6, image.getHeight() + 6);
+                image.setPosition(image.getX() - 3, image.getY() - 3);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasArchiveBorders() {
+        return !archives.isEmpty();
+    }
+
+    public Map<String, Image> getArchiveBorders() {
+        return archives;
+    }
+
+    public boolean wonGame() {
+        return wonGame;
+    }
+
+    public void setWonGame(boolean state) {
+        this.wonGame = state;
     }
 
     /**
@@ -276,63 +366,7 @@ public class Events {
             image.setOrigin(width - image.getWidth() / 2, height - image.getHeight() / 2);
             image.rotateBy( -10f);
         }
+
     }
 
-    public void checkForDestroyedRobots(ArrayList<Robot> robots) {
-        for (Robot robot : robots) {
-            if (("Destroyed").equals(robot.getLogic().getStatus())) {
-                if (SettingsUtil.DEBUG_MODE) System.out.println("\t- " + robot.getName() + " was destroyed");
-                removeFromUI(robot);
-            }
-        }
-    }
-
-    public void createArchiveBorder(GridPoint2 pos, String name) {
-        float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
-        float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
-        Color color = findRobotColorByName(name);
-        Image image = new Image(new Texture(Gdx.files.internal("archive.png")));
-        image.setX(SettingsUtil.TILE_SCALE * pos.x + xShift);
-        image.setY(SettingsUtil.TILE_SCALE * pos.y + yShift);
-        image.setColor(color);
-        while (true)
-            if (!checkForMultipleArchives(image))
-                break;
-        archives.put(name, image);
-    }
-
-    public boolean checkForMultipleArchives(Image image) {
-        for (Image storedImage : archives.values()) {
-            if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
-                image.setSize(image.getWidth() + 6, image.getHeight() + 6);
-                image.setPosition(image.getX() - 3, image.getY() - 3);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasArchiveBorders() {
-        return !archives.isEmpty();
-    }
-
-    public Map<String, Image> getArchiveBorders() {
-        return archives;
-    }
-
-    public void removeFromUI(Robot robot) {
-        Color color = findRobotColorByName(robot.getName());
-        fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
-        robot.deleteRobot();
-        if (SettingsUtil.DEBUG_MODE) System.out.println("\t- Removed " + robot.getName() + " from UI");
-        setFadeRobot(true);
-    }
-
-    public boolean wonGame() {
-        return wonGame;
-    }
-
-    public void setWonGame(boolean state) {
-        this.wonGame = state;
-    }
 }

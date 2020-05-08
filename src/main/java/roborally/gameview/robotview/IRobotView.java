@@ -79,4 +79,6 @@ public interface IRobotView {
      * @param direction The direction the robot is now facing.
      */
     void setDirection(GridPoint2 pos, Direction direction);
+
+    boolean isVirtual();
 }

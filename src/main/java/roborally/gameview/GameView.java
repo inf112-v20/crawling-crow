@@ -38,7 +38,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
     private KeyboardInput keyboardControls;
     private boolean paused;
     private Stage stage;
-    private final ProgramCardsView programCardsView;
+    private ProgramCardsView programCardsView;
     private final UIElements uiElements;
     private final Events events;
     private final AnimateEvent animateEvent;
@@ -113,47 +113,57 @@ public class GameView extends InputAdapter implements ApplicationListener {
         AssetManagerUtil.dispose();
     }
 
+    @Override
+    public void render() {
+        beforeRenderCamera();
+        camera.update();
+        mapRenderer.render();
+        runGameStates();
+
+        if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
+            paused = true;
+            game.getGameOptions().enterMenu(true);
+            checkIfInMenu();
+        }
+        afterRendering();
+    }
+
+    private void beforeRenderCamera() {
+        Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		checkForPowerDownNextRound();
+		checkForWaitEvent();
+		renderBackground();
+		checkIfGameIsWon();
+	}
+
     private void renderBackground() {
         batch.begin();
         backgroundSprite.draw(batch);
         batch.end();
     }
 
-    @Override
-    public void render() {
-        Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        checkForPowerDownNextRound();
-        checkForWaitEvent();
-        renderBackground();
-
-        camera.update();
-        mapRenderer.render();
-
-        checkIfGameIsWon();
-
-        if (paused) {
+	private void runGameStates() {
+        if (paused)
             pause();
-        }
-
-        if (!game.inDebugMode()){
+        if (!game.inDebugMode())
             tryToStartNewRound();
-        }
-
-        if (game.hasStarted() && game.getRound().inProgress()){
-            animateEvent.initiateRegister(game.getRegisterCardsView());
-        }
-
-        animateEvent.drawEvents(batch, game, stage);
-
-        if (game.hasAllPlayersChosenCards())
-            Gdx.input.setInputProcessor(this);
-        if (game.hasRestarted()) {
-            Gdx.input.setInputProcessor(this);
-            game.setHasRestarted(false);
-        }
+        if(!game.getGameOptions().inMenu())
+            animateEvent.drawEvents(batch, game, stage);
     }
+
+	private void afterRendering() {
+		if (game.hasAllPlayersChosenCards()) {
+            animateEvent.initiateRegister(game.getRegisterCardsView());
+            Gdx.input.setInputProcessor(this);
+        }
+		if (game.hasRestarted()) {
+			if (game.inDebugMode()) {
+				Gdx.input.setInputProcessor(this);
+			}
+			game.setHasRestarted(false);
+		}
+	}
 
     private void checkIfGameIsWon() {
         if (events.wonGame()) {
@@ -250,8 +260,9 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         uiElements.update(game.getUserRobot());
         game.dealCards();
-        if (programCardsView != null && !game.getUserRobot().getLogic().getPowerDown() && game.getUserRobot().getLogic().getNumberOfLockedCards() < SettingsUtil.REGISTER_SIZE) {
-            animateEvent.initiateCards(stage, game.getProgramCardsView());
+        if (programCardsView != null) {
+            this.programCardsView = game.getProgramCardsView();
+            animateEvent.initiateCards(stage, this.programCardsView);
         } else {
             events.setWaitMoveEvent(true);
         }
@@ -273,10 +284,19 @@ public class GameView extends InputAdapter implements ApplicationListener {
             paused = false;
             Gdx.input.setInputProcessor(this);
             game.getGameOptions().enterMenu(false);
+            if(events.inCardPhase()) {
+                animateEvent.putProgramCardsViewInStage(stage, programCardsView);
+                Gdx.input.setInputProcessor(stage);
+            }
         }
         if(menu.isEndGame()) {
             game.endGame();
             events.dispose();
+            events.setWaitMoveEvent(false);
+            events.setCardPhase(false);
+            programCardsView.clear();
+            game.getRegisterCardsView().clear();
+            menu.reloadStage(stage);
         }
     }
 }

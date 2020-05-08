@@ -49,26 +49,41 @@ public class KeyboardInput implements IControls {
 
     private void simulateOnePhaseWithoutMovementButWithCleanUp(IGame game) {
         game.getRound().getPhase().run(game.getLayers());
+        delayedMethod(() -> cleanup(game), 2000);
+    }
 
+    private void cleanup(IGame game) {
+        // Game crashes if run cleanup after someone won
+        if (!game.checkIfSomeoneWon()) {
+            game.getRound().cleanUp();
+        }
+    }
+
+    private void simulateRoundWithoutMovement(IGame game) {
+        int millisecondsPerPhase = 500;
+        int numberOfPhases = 5;
+        for (int i = 0; i < numberOfPhases; i++) {
+            delayedMethod(
+                    () -> game.getRound().getPhase().run(game.getLayers()),
+                    i*millisecondsPerPhase
+            );
+        }
+        delayedMethod(
+                () -> game.getRound().run(game.getLayers()),
+                numberOfPhases*millisecondsPerPhase
+        );
+    }
+
+    private void delayedMethod(Runnable method, int milliseconds){
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        // Game crashes if run cleanup after someone won
-                        if (!game.checkIfSomeoneWon()) {
-                            game.getRound().cleanUp();
-                        }
+                        method.run();
                     }
                 },
-                2000
+                milliseconds
         );
 
-    }
-
-    private void simulateRoundWithoutMovement(IGame game) {
-        for (int i = 0; i < 5; i++) {
-            game.getRound().getPhase().run(game.getLayers());
-        }
-        game.getRound().run(game.getLayers());
     }
 }

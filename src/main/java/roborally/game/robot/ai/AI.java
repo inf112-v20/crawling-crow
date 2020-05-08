@@ -1,4 +1,4 @@
-package roborally.game.robot.AI;
+package roborally.game.robot.ai;
 
 import org.jetbrains.annotations.NotNull;
 import roborally.game.gameboard.IGameBoard;
@@ -59,10 +59,8 @@ public class AI {
 			while (closerToFlag() && cards.hasCard("move") && !fullOrder())
 				addMoveCard();
 			boolean moveOrRotateEmpty = (!cards.hasCard("move") || rotateEmpty);
-			if(moveOrRotateEmpty && !fullOrder()) {
-				if (!rotate()) {
-					addMoveCard();
-				}
+			if (moveOrRotateEmpty && !fullOrder() && !rotate()) {
+				addMoveCard();
 			}
 			rotated = false;
 		}
@@ -98,7 +96,7 @@ public class AI {
 
 	private boolean goodRotation(String dir) {
 		boolean goodRotation = cards.hasCard(dir);
-		if (goodRotation && (dir.equals("left") || dir.equals("right")))
+		if (goodRotation && ("left".equals(dir) || "right".equals(dir)))
 			goodRotation = rotationPointsToFlag(dir);
 		return goodRotation;
 	}
@@ -116,7 +114,7 @@ public class AI {
 	}
 
 	private boolean closerToFlag() {
-		if(cards.isSizeGreaterThan1())
+		if(cards.hasMultipleMoveCards())
 			findBestMoveCard();
 		nextHypoDistToFlag();
 		return pathway.closerToFlag();
@@ -156,5 +154,9 @@ public class AI {
 
 	private boolean fullOrder() {
 		return order.length == pickNr;
+	}
+
+	public double getNewDistanceToFlag() {
+		return pathway.distanceToFlag();
 	}
 }
