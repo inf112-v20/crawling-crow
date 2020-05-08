@@ -3,7 +3,6 @@ package roborally.game;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Base64Coder;
 import org.jetbrains.annotations.NotNull;
-import roborally.game.robot.RobotLogic;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
@@ -33,14 +32,12 @@ import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
 public class Grid {
 	private final Map<LayerName, Map<GridPoint2, TileName>> gridLayers;
 	private final Map<GridPoint2, LinkedList<TileName>> grid;
-	private final Map<RobotLogic, GridPoint2> robotPositions;
 	private int width;
 	private int height;
 
 	public Grid(String mapTMX) {
 		gridLayers = new HashMap<>();
 		grid = new HashMap<>();
-		robotPositions = new HashMap<>();
 		String line;
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(mapTMX)));
@@ -67,7 +64,6 @@ public class Grid {
 		}
 	}
 
-
 	/**
 	 * Decompresses zlib compressed data.
 	 *
@@ -86,14 +82,6 @@ public class Grid {
 		}
 		outputStream.close();
 		return outputStream.toByteArray();
-	}
-
-	public boolean isThereRobotAtPosition(GridPoint2 pos) {
-		return robotPositions.containsValue(pos);
-	}
-
-	public void moveRobot(RobotLogic robotLogic, GridPoint2 newPos) {
-		robotPositions.get(robotLogic).set(newPos);
 	}
 
 	public Map<GridPoint2, TileName> getGridLayer(LayerName layerName) {
