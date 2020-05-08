@@ -108,7 +108,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void moveAllConveyorBelts(ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR, robots);
@@ -116,7 +115,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void moveCogs(ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		for (Robot robot : robots) {
 			GridPoint2 pos = robot.getPosition();
 			if (layers.layerNotNull(LayerName.COG, pos)) {

@@ -169,7 +169,7 @@ public class AnimateEvent {
             events.setCardPhase(false);
             stage.clear();
 
-            game.orderTheUserRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
+            game.orderTheUserRobotsCards(programCardsView.getOrder());
             programCardsView.clear();
             events.setWaitMoveEvent(true);
         }

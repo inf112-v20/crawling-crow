@@ -66,7 +66,6 @@ public class AI {
 		}
 	}
 
-	// FIXME: Should not use strings
 	private boolean rotate() {
 		pathway.storeCurrentPosition();
 		pathway.tilesAtPos();

@@ -14,8 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameBoard implements IGameBoard {
-	// TODO: Ref the TODO on bottom
-	private Grid grid;
+	private final Grid grid;
 	private boolean pushers;
 
 	public GameBoard(String mapPath) {

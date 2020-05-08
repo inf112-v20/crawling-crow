@@ -69,15 +69,18 @@ public class Timer {
         }
     }
 
-    // For å sørge for at den returnerer en liste med korrekt størrelse (og at det ikke er -1 som indexer).
-    // FIXME: Need a better explanation here
-    private void temporaryTimerOrder(ProgramCardsView programCardsView) {
+    /**
+     * Resizes the ordered array to match the number of dealt cards
+     *
+     * @param cardsView the program (or register) cards view
+     */
+    private void temporaryTimerOrder(ProgramCardsView cardsView) {
         int temp = 0;
-        while (temp < 5 && (programCardsView.getOrder()[temp] != -1)) {
+        while (temp < 5 && (cardsView.getOrder()[temp] != -1)) {
             temp += 1;
         }
         int[] newOrder = new int[temp];
-        System.arraycopy(programCardsView.getOrder(), 0, newOrder, 0, temp);
-        programCardsView.setOrder(newOrder);
+        System.arraycopy(cardsView.getOrder(), 0, newOrder, 0, temp);
+        cardsView.setOrder(newOrder);
     }
 }

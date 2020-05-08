@@ -73,7 +73,7 @@ public class Game implements IGame {
         setUserRobot();
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
-        uiElements.getMessage().set(""); // FIXME: temp for resetting the label on startUp
+        uiElements.getMessage().set("");
 		resetFieldVariables();
 	}
 
