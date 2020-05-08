@@ -50,7 +50,7 @@ public class AI {
 
 		while (!fullOrder()) {
 			while (!closerToFlag() && !rotateEmpty) {
-				if (!rotate())
+				if (rotate())
 					rotateEmpty = true;
 				if (fullOrder())
 					break;
@@ -59,7 +59,7 @@ public class AI {
 			while (closerToFlag() && cards.hasCard("move") && !fullOrder())
 				addMoveCard();
 			boolean moveOrRotateEmpty = (!cards.hasCard("move") || rotateEmpty);
-			if (moveOrRotateEmpty && !fullOrder() && !rotate()) {
+			if (moveOrRotateEmpty && !fullOrder() && rotate()) {
 				addMoveCard();
 			}
 			rotated = false;
@@ -87,10 +87,10 @@ public class AI {
 		}
 		else {
 			pathway.restoreCurrentPosition();
-			return false;
+			return true;
 		}
 		rotated = true;
-	return true;
+	return false;
 	}
 
 	private boolean goodRotation(String dir) {
