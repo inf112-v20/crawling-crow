@@ -144,14 +144,8 @@ public interface IRobotLogic {
 
     /**
      * @param deckOfProgramCards all the cards in the deck
-     * @return the cards drawn depending on your health.
      */
-    IProgramCards drawCards(IProgramCards deckOfProgramCards);
-
-    /**
-     * rearranges the cards in the hand
-     */
-    void autoArrangeCardsInHand();
+    void drawCards(IProgramCards deckOfProgramCards);
 
     //region Flag
 

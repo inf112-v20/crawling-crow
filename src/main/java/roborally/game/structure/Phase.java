@@ -216,9 +216,4 @@ public class Phase implements IPhase {
 		}
 		return (winner != null);
 	}
-
-	@Override
-	public Robot getWinner() {
-		return winner;
-	}
 }

@@ -7,8 +7,6 @@ import static roborally.utilities.AssetManagerUtil.*;
 public enum UIElement {
     DAMAGE_TOKEN_GREEN(getUIElements().getDamageTokenGreen()),
     DAMAGE_TOKEN_RED(getUIElements().getDamageTokenRed()),
-    DAMAGE_TOKEN_CARD_GREEN(getUIElements().getDamageTokenCardGreen()),
-    DAMAGE_TOKEN_CARD_RED(getUIElements().getDamageTokenCardRed()),
     REBOOT_ACTIVE(getUIElements().getRebootActive()),
     REBOOT_INACTIVE(getUIElements().getRebootInactive()),
     DONE_BUTTON(getUIElements().getDoneButton()),

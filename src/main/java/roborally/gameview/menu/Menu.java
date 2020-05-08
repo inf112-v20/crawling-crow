@@ -111,10 +111,6 @@ public class Menu {
         return this.events;
     }
 
-    public Image getMap() {
-        return imageLists.get("maps").get(mapId);
-    }
-
     public void reloadStage(Stage stage) {
         stage.clear();
         for (Image image : imageLists.get("buttons"))

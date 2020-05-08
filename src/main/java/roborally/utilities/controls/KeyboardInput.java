@@ -19,14 +19,10 @@ public class KeyboardInput implements IControls {
     @Override
     public Runnable getAction(int keycode) {
         if (!menuControlMap.containsKey(keycode)) {
-            return this::doNothing;
+            return (() -> {}); // Does nothing when no key
         }
 
         return menuControlMap.get(keycode);
-    }
-
-    private void doNothing() {
-        // Ok!
     }
 
     @Override
@@ -69,7 +65,7 @@ public class KeyboardInput implements IControls {
             );
         }
         delayedMethod(
-                () -> game.getRound().run(game.getLayers()),
+                () -> game.getRound().run(),
                 numberOfPhases*millisecondsPerPhase
         );
     }

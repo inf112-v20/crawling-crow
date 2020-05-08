@@ -243,7 +243,7 @@ public class Game implements IGame {
 	private boolean isRoundFinished() {
 		if (isRoundFinished) {
 			this.events.setWaitMoveEvent(false);
-			getRound().run(getLayers());
+			getRound().run();
 			this.isRoundFinished = false;
 			return true;
 		}

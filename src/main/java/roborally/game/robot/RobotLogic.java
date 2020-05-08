@@ -173,7 +173,7 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
-    public IProgramCards drawCards(IProgramCards deckOfProgramCards) {
+    public void drawCards(IProgramCards deckOfProgramCards) {
         if(SettingsUtil.DEBUG_MODE){
             System.out.println(getName() + "'s power down status: " + getPowerDown());
         }
@@ -184,19 +184,6 @@ public class RobotLogic implements IRobotLogic {
         }
         CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
         setCardsInHand(cardsInHand);
-
-        return deckOfProgramCards;
-    }
-
-
-    @Override
-    public void autoArrangeCardsInHand() {
-        int[] newOrder = new int[getNumberOfCardsToDraw()];
-
-        for (int i = 0; i < Math.min(getNumberOfCardsToDraw(), 5); i++) {
-            newOrder[i] = i;
-        }
-        arrangeCardsInHand(newOrder);
     }
 
     private void fillFirstCardsFromHandIntoRegister() {

@@ -96,7 +96,11 @@ public class Grid {
 		getGridLayer(layerName).put(pos, tileName);
 	}
 
-	// Prints all the placed tiles in the tmx map, the tileNames along with the positions.
+	/**
+	 * For Debugging
+	 *
+	 * Prints all the placed tiles in the tmx map, the tileNames along with the positions.
+	 */
 	public void printGrid() {
 		for (LayerName layerName : gridLayers.keySet()) {
 			System.out.println("Grid Layer: " + layerName);
