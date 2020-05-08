@@ -51,7 +51,6 @@ public interface IPhase {
 
     /**
      * Checks if a robot has collected all the flags
-     * @return true or false
      */
-    boolean checkForWinner();
+    void checkForWinner();
 }

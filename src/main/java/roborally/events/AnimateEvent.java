@@ -140,6 +140,7 @@ public class AnimateEvent {
             uiElements.getExitButton().get().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
             winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
+            game.getRound().cleanUp();
             events.setWaitMoveEvent(false);
         }
     }
