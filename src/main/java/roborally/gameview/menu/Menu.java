@@ -72,12 +72,14 @@ public class Menu {
         if (Continue) {
             Continue = false;
             resume = false;
+            stage.clear();
             return true;
         }
         if (resume && !events.hasWaitEvent()) {
             game.startUp(getPlayerName());
             startGame = 1;
             resume = false;
+            stage.clear();
             return true;
         }
         return false;
