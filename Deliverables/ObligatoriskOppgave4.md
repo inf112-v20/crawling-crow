@@ -43,7 +43,12 @@
 - For prosjektet sin har heldigitaliseringen bare vært positivt.
 
 ### Skjermdump av projectboard
-LEGG VED
+#### Arbeidsoppgaver
+![Skjermbilde 2020-05-08 kl  15 29 14](https://user-images.githubusercontent.com/5453010/81410242-b4793c00-9140-11ea-9d0b-1176751d9749.png)
+
+#### User stories
+![Skjermbilde 2020-05-08 kl  15 30 21](https://user-images.githubusercontent.com/5453010/81410340-d5da2800-9140-11ea-9742-cc77e944d44a.png)
+
 
 
 ## Deloppgave 2: Krav
