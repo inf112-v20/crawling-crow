@@ -3,11 +3,11 @@ package roborally.game.cards;
 import java.util.*;
 
 public class ProgramCards implements IProgramCards {
-    private ArrayList<Card> deckOfCards;
-    private Queue<Card> nextCard;
+    private final ArrayList<Card> deckOfCards;
+    private final Queue<Card> nextCard;
 
     public ProgramCards() {
-        deckOfCards = new ArrayList<>();
+        this.deckOfCards = new ArrayList<>();
         putAllCardsIntoDeck();
         shuffleCards();
         this.nextCard = new LinkedList<>();
@@ -29,7 +29,7 @@ public class ProgramCards implements IProgramCards {
 
     @Override
     public ArrayList<Card> getDeck() {
-        return this.deckOfCards;
+        return deckOfCards;
     }
 
     @Override

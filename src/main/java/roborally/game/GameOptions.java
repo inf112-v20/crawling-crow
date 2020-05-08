@@ -1,48 +1,36 @@
 package roborally.game;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.game.gameboard.objects.IFlag;
+import roborally.game.gameboard.objects.flag.IFlag;
 import roborally.game.gameboard.objects.laser.LaserRegister;
-import roborally.game.gameboard.objects.robot.Robot;
-import roborally.ui.ILayers;
+import roborally.game.robot.Robot;
+import roborally.gameview.layout.ILayers;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 
 import java.util.ArrayList;
 
 public class GameOptions {
-    private boolean menu;
+    private boolean inMenu;
 
     public GameOptions() {
-        this.menu = false;
+        this.inMenu = false;
     }
 
     public void enterMenu() {
-        this.menu = !this.menu;
+        this.inMenu = !this.inMenu;
     }
 
     public void enterMenu(boolean value) {
-        this.menu = value;
+        this.inMenu = value;
     }
 
-    public boolean getMenu() {
-        return this.menu;
-    }
-
-    public ArrayList<Robot> funMode(ILayers layers, ArrayList<IFlag> flags, LaserRegister laserRegister) {
-        ArrayList<Robot> robots = new ArrayList<>();
-        for (int x = 0; x < layers.getWidth(); x++) {
-            for (int y = 0; y < layers.getHeight(); y++) {
-                Robot robot = new Robot(new GridPoint2(x, y), y % 8, laserRegister);
-                robot.getLogic().setNumberOfFlags(flags.size());
-                robots.add(robot);
-            }
-        }
-        AssetManagerUtil.setRobots(robots);
-        return robots;
+    public boolean inMenu() {
+        return inMenu;
     }
 
     public ArrayList<Robot> makeRobots(ILayers layers, LaserRegister laserRegister, ArrayList<IFlag> flags) {
+        AssetManagerUtil.makeRobotNames();
         ArrayList<Robot> robots = new ArrayList<>();
         int cell = 0;
         for (int i = 0; i < layers.getWidth(); i++) {
@@ -58,5 +46,4 @@ public class GameOptions {
         AssetManagerUtil.setRobots(robots);
         return robots;
     }
-
 }

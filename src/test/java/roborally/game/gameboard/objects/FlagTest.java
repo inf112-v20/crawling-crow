@@ -2,6 +2,8 @@ package roborally.game.gameboard.objects;
 
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.Test;
+import roborally.game.gameboard.objects.flag.Flag;
+import roborally.game.gameboard.objects.flag.IFlag;
 
 import static org.junit.Assert.assertEquals;
 

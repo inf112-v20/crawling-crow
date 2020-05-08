@@ -25,6 +25,6 @@ public enum LayerName {
     }
 
     public String getLayerString() {
-        return this.layerString.toLowerCase();
+        return layerString.toLowerCase();
     }
 }

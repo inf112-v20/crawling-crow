@@ -14,7 +14,7 @@ public class ReadAndWriteLayers {
         for (MapLayer mapLayer : tiledMap.getLayers()) {
             boolean layerImplemented = false;
             for (LayerName layerName : LayerName.values()) {
-                if (mapLayer.getName().toLowerCase().equals(layerName.getLayerString())) {
+                if (mapLayer.getName().equalsIgnoreCase(layerName.getLayerString())) {
                     layers.put(layerName, (TiledMapTileLayer) mapLayer);
                     layerImplemented = true;
                 }

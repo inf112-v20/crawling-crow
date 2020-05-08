@@ -53,7 +53,7 @@ Vi trenger å bli bedre på å formidle hva vi tenker å jobbe og hva som egentl
 - Nye bugs har oppstått.
 
 ### Diverse
-- Se [Issues](/../../issues) og [User stories](/../../crawling-crow/projects/2)
+- Se [Issues](/../../issues) og [User stories](/../../projects/2)
 - Se [TODO](/../../projects/2#column-7901313) (og ev. backlog) i user stories.
 - Dette er hva vi anser som [MVP](/../../wiki/Spillkrav) siden dette er nødvendig spillmekanikk fra selve brettspillet.
 - Kjente [bugs](../README.md#known-bugs)

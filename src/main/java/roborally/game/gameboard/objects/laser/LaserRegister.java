@@ -2,9 +2,11 @@ package roborally.game.gameboard.objects.laser;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.ui.ILayers;
-import roborally.ui.gdx.listeners.LaserListener;
+import roborally.gameview.layout.ILayers;
+import roborally.listeners.LaserListener;
 import roborally.utilities.AssetManagerUtil;
+import roborally.utilities.SettingsUtil;
+import roborally.utilities.asset.SoundAsset;
 import roborally.utilities.enums.TileName;
 
 import java.util.HashMap;
@@ -17,8 +19,8 @@ import java.util.HashSet;
  */
 
 public class LaserRegister {
-    private HashMap<String, HashSet<Laser>> activeLasers;
-    private ILayers layers;
+    private final HashMap<String, HashSet<Laser>> activeLasers;
+    private final ILayers layers;
 
     public LaserRegister(ILayers layers) {
         this.layers = layers;
@@ -34,8 +36,8 @@ public class LaserRegister {
      * @param pos  GridPoint2 with the position of the robot
      */
     public void createLaser(int id, GridPoint2 pos, String name) {
-        Sound sound = AssetManagerUtil.manager.get(AssetManagerUtil.STEPIN_LASER);
-        sound.play((float) 0.1*AssetManagerUtil.volume);
+        Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.STEP_IN_LASER);
+        sound.play((float) 0.1* SettingsUtil.VOLUME);
         Laser laser = new Laser(id, this.layers);
         if (id != TileName.LASER_CROSS.getTileID()) {
             laser.findLaser(pos);
@@ -55,10 +57,9 @@ public class LaserRegister {
         if (activeLasers.get(name) != null) {
             activeLasers.get(name).forEach(laser -> {
                 laser.update();
-                if (laser.gotPos(pos)) {
-                    System.out.println("Cannon at " + laser.getPosition());
-                } else
+                if (!laser.gotPos(pos)) {
                     temp.add(laser);
+                }
             });
             temp.forEach(laser -> activeLasers.get(name).remove(laser));
         }
