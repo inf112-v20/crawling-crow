@@ -121,8 +121,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         beforeRenderCamera();
         camera.update();
         mapRenderer.render();
@@ -130,8 +128,6 @@ public class GameView extends InputAdapter implements ApplicationListener {
             pause();
         if (!game.inDebugMode())
             tryToStartNewRound();
-        //if (game.hasStarted() && game.getRound().inProgress() && !game.getUserRobot().getLogic().getPowerDown())
-          //  animateEvent.initiateRegister(game.getRegisterCardsView());
         if(!game.getGameOptions().inMenu())
             animateEvent.drawEvents(batch, game, stage);
         if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
@@ -143,6 +139,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
     }
 
     private void beforeRenderCamera() {
+        Gdx.gl.glClearColor(33/255f, 33/255f, 33/255f, 1f); // HEX color #212121
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		checkForPowerDownNextRound();
 		checkForWaitEvent();
 		renderBackground();
