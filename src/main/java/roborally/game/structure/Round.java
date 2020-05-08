@@ -67,13 +67,14 @@ public class Round implements IRound {
 	public void cleanUp() {
 		restoreRebootedRobots();
 		clearRegisters();
-		//restRobotTextures();
+		resetRobotTextures();
 		uiElements.getMessage().clear();
 	}
 
-	private void restRobotTextures() {
+	private void resetRobotTextures() {
 		for (IRobot robot : robots) {
 			robot.getView().setDefaultTexture(robot.getPosition());
+			robot.getView().setDirection(robot.getPosition(), robot.getLogic().getDirection());
 		}
 	}
 
