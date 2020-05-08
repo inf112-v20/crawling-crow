@@ -126,13 +126,12 @@ public class GameView extends InputAdapter implements ApplicationListener {
         beforeRenderCamera();
         camera.update();
         mapRenderer.render();
-        
         if (paused)
             pause();
         if (!game.inDebugMode())
             tryToStartNewRound();
-        if (game.hasStarted() && game.getRound().inProgress() && !game.getUserRobot().getLogic().getPowerDown())
-            animateEvent.initiateRegister(game.getRegisterCardsView());
+        //if (game.hasStarted() && game.getRound().inProgress() && !game.getUserRobot().getLogic().getPowerDown())
+          //  animateEvent.initiateRegister(game.getRegisterCardsView());
         if(!game.getGameOptions().inMenu())
             animateEvent.drawEvents(batch, game, stage);
         if(animateEvent.getCardPhase() && Gdx.input.isKeyPressed(Input.Keys.M)){
@@ -151,8 +150,10 @@ public class GameView extends InputAdapter implements ApplicationListener {
 	}
 
 	private void afterRendering() {
-		if (game.hasAllPlayersChosenCards())
-			Gdx.input.setInputProcessor(this);
+		if (game.hasAllPlayersChosenCards()) {
+            animateEvent.initiateRegister(game.getRegisterCardsView());
+            Gdx.input.setInputProcessor(this);
+        }
 		if (game.hasRestarted()) {
 			if (game.inDebugMode()) {
 				Gdx.input.setInputProcessor(this);
@@ -291,6 +292,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             events.setWaitMoveEvent(false);
             events.setCardPhase(false);
             programCardsView.clear();
+            game.getRegisterCardsView().clear();
             menu.reloadStage(stage);
         }
     }
