@@ -29,13 +29,13 @@ public class Events {
     private float dt;
     private boolean hasFadeableRobot;
     private boolean cardPhase;
-    private ArrayList<Alpha> fadeableRobots;
+    private final ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
     private List<List<Image>> explosions;
-    private Map<String, Image> archives;
+    private final Map<String, Image> archives;
 
     public Events() {
         this.waitEvent = false;
@@ -91,17 +91,28 @@ public class Events {
         return waitEvent;
     }
 
-    // Lets the UI know if there are robots ready to move.
-    public void setWaitMoveEvent(boolean value) {
-        this.waitEvent = value;
+    /**
+     * Lets the UI know if there are robots ready to move.
+     *
+     * @param isWaiting true or false
+     */
+    public void setWaitMoveEvent(boolean isWaiting) {
+        this.waitEvent = isWaiting;
     }
 
-    // Returns true if there are robots to be faded.
+
+    /**
+     * @return true if there are robots to be faded.
+     */
     public boolean getFadeRobot() {
         return hasFadeableRobot;
     }
 
-    // Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
+    /**
+     * Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
+     *
+     * @param batch the sprite-batch from GameView to draw the fading effect
+     */
     public void fadeRobots(SpriteBatch batch) {
 
         for (Alpha alpha : this.fadeableRobots) {
@@ -133,7 +144,9 @@ public class Events {
         explosions.add(exploded);
     }
 
-    // Returns true if there are lasers on the screen.
+    /**
+     * @return true if there are lasers on the screen.
+     */
     public boolean hasLaserEvent() {
         return !this.laserEvents.isEmpty();
     }
@@ -250,7 +263,7 @@ public class Events {
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
+        this.fadeableRobots.add(new Alpha(image, falling, color));
     }
 
     public void setFadeRobot(boolean value) {
@@ -339,10 +352,10 @@ public class Events {
         private float dt;
         private final Image image;
         private final boolean falling;
-        private Color color;
+        private final Color color;
 
-        private Alpha(float dt, Image image, boolean falling, Color color) {
-            this.dt = dt;
+        private Alpha(Image image, boolean falling, Color color) {
+            this.dt = 1f;
             this.image = image;
             this.color = color;
             this.falling = falling;

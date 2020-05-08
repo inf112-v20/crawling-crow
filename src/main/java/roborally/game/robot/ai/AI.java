@@ -13,7 +13,7 @@ import static roborally.game.cards.IProgramCards.Card;
 
 public class AI {
 	private IRobotLogic robotLogic;
-	private Grid grid;
+	private final Grid grid;
 	private int pickNr;
 	private final ArrayList<IFlag> flags;
 	private IFlag flag;
@@ -50,7 +50,7 @@ public class AI {
 
 		while (!fullOrder()) {
 			while (!closerToFlag() && !rotateEmpty) {
-				if (!rotate())
+				if (rotate())
 					rotateEmpty = true;
 				if (fullOrder())
 					break;
@@ -59,14 +59,13 @@ public class AI {
 			while (closerToFlag() && cards.hasCard("move") && !fullOrder())
 				addMoveCard();
 			boolean moveOrRotateEmpty = (!cards.hasCard("move") || rotateEmpty);
-			if (moveOrRotateEmpty && !fullOrder() && !rotate()) {
+			if (moveOrRotateEmpty && !fullOrder() && rotate()) {
 				addMoveCard();
 			}
 			rotated = false;
 		}
 	}
 
-	// FIXME: Should not use strings
 	private boolean rotate() {
 		pathway.storeCurrentPosition();
 		pathway.tilesAtPos();
@@ -88,10 +87,10 @@ public class AI {
 		}
 		else {
 			pathway.restoreCurrentPosition();
-			return false;
+			return true;
 		}
 		rotated = true;
-	return true;
+	return false;
 	}
 
 	private boolean goodRotation(String dir) {

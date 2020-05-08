@@ -8,7 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 public class SoundAsset implements ManageableAsset {
 	public static final AssetDescriptor<Sound> SHOOT_LASER
 			= new AssetDescriptor<>("sounds/fireLaser.mp3", Sound.class);
-	public static final AssetDescriptor<Sound> STEPIN_LASER
+	public static final AssetDescriptor<Sound> STEP_IN_LASER
 			= new AssetDescriptor<>("sounds/stepIntoLaser.wav", Sound.class);
 	public static final AssetDescriptor<Sound> ROBOT_HIT
 			= new AssetDescriptor<>("sounds/robotHit.mp3", Sound.class);
@@ -24,7 +24,7 @@ public class SoundAsset implements ManageableAsset {
 	@Override
 	public void loadAssets(AssetManager manager) {
 		manager.load(SHOOT_LASER);
-		manager.load(STEPIN_LASER);
+		manager.load(STEP_IN_LASER);
 		manager.load(STEP1);
 		manager.load(STEP2);
 		manager.load(STEP3);

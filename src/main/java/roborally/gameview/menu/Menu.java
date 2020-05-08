@@ -18,7 +18,6 @@ import roborally.utilities.AssetManagerUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Menu under construction!
 public class Menu {
     private final Stage stage;
     private final HashMap<String, ArrayList<Image>> imageLists;
@@ -39,7 +38,7 @@ public class Menu {
     private boolean Continue;
     private TextArea nameInput;
     private String playerName;
-    private MenuLabel menuLabel;
+    private final MenuLabel menuLabel;
 
     public Menu(Stage stage, Events events) {
         this.stage = stage;
@@ -60,8 +59,6 @@ public class Menu {
         makeEndGameButtons();
         this.menuLabel = new MenuLabel(stage, this);
         reloadStage(stage);
-        Sliders sliders = new Sliders();
-        sliders.abc();
     }
 
     public String getPlayerName() {
@@ -111,10 +108,6 @@ public class Menu {
 
     public Events getEvents() {
         return this.events;
-    }
-
-    public Image getMap() {
-        return imageLists.get("maps").get(mapId);
     }
 
     public void reloadStage(Stage stage) {

@@ -1,6 +1,5 @@
 package roborally.game.structure;
 
-import roborally.game.robot.Robot;
 import roborally.gameview.layout.ILayers;
 
 public interface IPhase {
@@ -55,9 +54,4 @@ public interface IPhase {
      * @return true or false
      */
     boolean checkForWinner();
-
-    /**
-     * @return the robot that has collected all flags first
-     */
-    Robot getWinner();
 }

@@ -1,4 +1,4 @@
-package roborally.utilities.controls;
+package roborally.utilities;
 
 import com.badlogic.gdx.Input;
 import roborally.game.IGame;
@@ -6,8 +6,8 @@ import roborally.utilities.enums.Direction;
 
 import java.util.HashMap;
 
-public class KeyboardInput implements IControls {
-    private HashMap<Integer, Runnable> menuControlMap;
+public class KeyboardInput {
+    private final HashMap<Integer, Runnable> menuControlMap;
 
     public KeyboardInput(IGame game) {
         menuControlMap = new HashMap<>();
@@ -16,20 +16,14 @@ public class KeyboardInput implements IControls {
         menuControlMap.put(Input.Keys.M, game.getGameOptions()::enterMenu);
     }
 
-    @Override
     public Runnable getAction(int keycode) {
         if (!menuControlMap.containsKey(keycode)) {
-            return this::doNothing;
+            return (() -> {}); // Does nothing when no key
         }
 
         return menuControlMap.get(keycode);
     }
 
-    private void doNothing() {
-        // Ok!
-    }
-
-    @Override
     public void addDebugControls(IGame game){
         menuControlMap.put(Input.Keys.UP, () -> game.getUserRobot().move(1));
         menuControlMap.put(Input.Keys.DOWN, () -> game.getUserRobot().move(-1));
@@ -52,8 +46,11 @@ public class KeyboardInput implements IControls {
         delayedMethod(() -> cleanup(game), 2000);
     }
 
+    /**
+     * Game crashes if run cleanup after someone won
+     * @param game the game
+     */
     private void cleanup(IGame game) {
-        // Game crashes if run cleanup after someone won
         if (!game.checkIfSomeoneWon()) {
             game.getRound().cleanUp();
         }
@@ -69,7 +66,7 @@ public class KeyboardInput implements IControls {
             );
         }
         delayedMethod(
-                () -> game.getRound().run(game.getLayers()),
+                () -> game.getRound().run(),
                 numberOfPhases*millisecondsPerPhase
         );
     }

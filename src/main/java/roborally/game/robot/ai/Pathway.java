@@ -17,7 +17,7 @@ public class Pathway {
 	private Direction tempDir;
 	private Direction direction;
 	private double newDistToFlag;
-	private Grid grid;
+	private final Grid grid;
 
 	public Pathway(GridPoint2 position, GridPoint2 flagPos, Direction direction, Grid grid) {
 		this.position = position;
@@ -147,14 +147,14 @@ public class Pathway {
 	}
 
 	public GridPoint2 updatePos(@NotNull TileName tileName) {
-		String[] splitted;
+		String[] split;
 		String tileString = tileName.toString();
 		if (tileString.contains("JOIN_"))
 			tileString = tileString.substring(tileString.indexOf("JOIN_"));
 		else if (tileString.contains("TO_"))
 			tileString = tileString.substring(tileString.indexOf("TO_"));
-		splitted = tileString.split("_");
-		Direction dir = Direction.valueOf(splitted[1]);
+		split = tileString.split("_");
+		Direction dir = Direction.valueOf(split[1]);
 		return dir.getStep();
 	}
 

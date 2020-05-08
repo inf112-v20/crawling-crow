@@ -21,27 +21,20 @@ import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
  * */
 
 public class Laser {
-    //region Field variables
-    private int laserTileID;
+    private final int laserTileID;
     private int cannonTileID;
-    private boolean removeLaser;
-    private ILayers layers;
-    private WallListener wallListener;
+    private final boolean removeLaser;
+    private final ILayers layers;
+    private final WallListener wallListener;
 
-    //region GridPoint2 positions
     private GridPoint2 robotsOrigin;
-    private GridPoint2 cannonPos;
-    private ArrayList<GridPoint2> laserEndPositions;
-    //endregion
+    private final GridPoint2 cannonPos;
+    private final ArrayList<GridPoint2> laserEndPositions;
 
-    //region Laser types
     private TiledMapTileLayer.Cell storedLaserCell;
     private TiledMapTileLayer.Cell crossLaser;
     private TiledMapTileLayer.Cell horizontalLaser;
     private TiledMapTileLayer.Cell verticalLaser;
-    //endregion
-
-    //endregion
 
     /**
      * Constructs a new laser.
@@ -197,7 +190,6 @@ public class Laser {
     public void update() {
         for (GridPoint2 pos : laserEndPositions) {
             if (identifyLaser(pos.x, pos.y, false)) {
-                //layers.setLaserCell(pos, null);
                 layers.setLayerCell(LayerName.LASER, pos, null);
             }
         }

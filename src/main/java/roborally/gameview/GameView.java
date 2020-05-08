@@ -24,7 +24,7 @@ import roborally.gameview.ui.ProgramCardsView;
 import roborally.gameview.ui.UIElements;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.controls.KeyboardInput;
+import roborally.utilities.KeyboardInput;
 import roborally.utilities.enums.UIElement;
 
 public class GameView extends InputAdapter implements ApplicationListener {
@@ -91,8 +91,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         int mapWidth = mapProperties.get("width", Integer.class);
         int mapHeight = mapProperties.get("height", Integer.class);
-        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
-        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+        int tilePixelWidth = mapProperties.get("tileWidth".toLowerCase(), Integer.class);
+        int tilePixelHeight = mapProperties.get("tileHeight".toLowerCase(), Integer.class);
         float renderedTileWidth = tilePixelWidth * SettingsUtil.UNIT_SCALE;
         float renderedTileHeight = tilePixelHeight * SettingsUtil.UNIT_SCALE;
 
@@ -209,7 +209,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             Gdx.input.setInputProcessor(this);
     }
 
-    // Temporary checks for input from user to play cards instead of moving manually (Enter).
+    @Override
     public boolean keyUp(int keycode) {
         if (game.inDebugMode()) {
             if (game.getRound() != null) {

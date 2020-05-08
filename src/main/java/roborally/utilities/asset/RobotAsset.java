@@ -29,21 +29,21 @@ public class RobotAsset implements ManageableAsset {
 
 	// Leaderboards
 	private static final AssetDescriptor<Texture> ANGRY_LB
-			= new AssetDescriptor<>("robots/leaderboard/angry-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/angry-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> BLUE_LB
-			= new AssetDescriptor<>("robots/leaderboard/blue-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/blue-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> GREEN_LB
-			= new AssetDescriptor<>("robots/leaderboard/green-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/green-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> ORANGE_LB
-			= new AssetDescriptor<>("robots/leaderboard/orange-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/orange-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> PINK_LB
-			= new AssetDescriptor<>("robots/leaderboard/pink-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/pink-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> PURPLE_LB
-			= new AssetDescriptor<>("robots/leaderboard/purple-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/purple-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> RED_LB
-			= new AssetDescriptor<>("robots/leaderboard/red-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/red-leaderboard.png", Texture.class);
 	private static final AssetDescriptor<Texture> YELLOW_LB
-			= new AssetDescriptor<>("robots/leaderboard/yellow-leadingboard.png", Texture.class);
+			= new AssetDescriptor<>("robots/leaderboard/yellow-leaderboard.png", Texture.class);
 
 	@Override
 	public void loadAssets(AssetManager manager) {

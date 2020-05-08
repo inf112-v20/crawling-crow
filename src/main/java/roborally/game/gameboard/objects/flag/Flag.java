@@ -3,8 +3,8 @@ package roborally.game.gameboard.objects.flag;
 import com.badlogic.gdx.math.GridPoint2;
 
 public class Flag implements IFlag {
-    private int id;
-    private GridPoint2 position;
+    private final int id;
+    private final GridPoint2 position;
 
     public Flag(int id, GridPoint2 position) {
         this.id = id;

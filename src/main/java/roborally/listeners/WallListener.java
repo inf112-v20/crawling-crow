@@ -12,8 +12,8 @@ import java.util.List;
 import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
 
 public class WallListener {
-    private HashMap<String, List<TileName>> mapOfWallNames;
-    private ILayers layers;
+    private final HashMap<String, List<TileName>> mapOfWallNames;
+    private final ILayers layers;
 
     public WallListener(ILayers layers) {
         this.mapOfWallNames = makeWallMap();

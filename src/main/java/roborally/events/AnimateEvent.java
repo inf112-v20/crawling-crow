@@ -140,6 +140,7 @@ public class AnimateEvent {
             uiElements.getExitButton().get().draw(batch, 1);
             Gdx.input.setInputProcessor(stage);
             winEvent.fireworks(Gdx.graphics.getDeltaTime(), events);
+            game.getRound().cleanUp();
             events.setWaitMoveEvent(false);
         }
     }
@@ -169,7 +170,7 @@ public class AnimateEvent {
             events.setCardPhase(false);
             stage.clear();
 
-            game.orderTheUserRobotsCards(programCardsView.getOrder()); // TODO: Move to Game
+            game.orderTheUserRobotsCards(programCardsView.getOrder());
             programCardsView.clear();
             events.setWaitMoveEvent(true);
         }
@@ -199,8 +200,8 @@ public class AnimateEvent {
         for (Group card : programCardsView.getCards())
             card.setX(cardsGroupPositionX += programCardsView.getCardWidth());
         putProgramCardsViewInStage(stage, programCardsView);
-        // xShift to the right-side edge of the game board
-        float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
+
+        float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f; // xShift to the right-side edge of the game board
         float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
         programCardsView.getDoneButton().get().setX(doneButtonPosX);
 

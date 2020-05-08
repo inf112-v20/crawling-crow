@@ -46,7 +46,9 @@ public interface IGame {
     GameOptions getGameOptions();
 
     /**
-     * Fire the laser of the first robot. Only used for debugging.
+     * Fire the laser of the first robot.
+     *
+     * Only used for debugging.
      */
     void manuallyFireOneLaser();
 
@@ -63,7 +65,7 @@ public interface IGame {
     void setRegisterCardsView(Robot robot);
 
     /**
-     * @param order shuffles the cards drawn for the userrobot.
+     * @param order shuffles the cards drawn for the user robot.
      */
     void orderTheUserRobotsCards(int[] order);
 

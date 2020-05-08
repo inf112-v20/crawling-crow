@@ -11,7 +11,7 @@ import roborally.game.robot.RobotLogic;
 import static org.junit.Assert.assertTrue;
 
 public class AITest {
-	private GameBoard gameBoard = new GameBoard("maps/Eight.tmx");
+	private final GameBoard gameBoard = new GameBoard("maps/Eight.tmx");
 	private AI ai;
 	private RobotLogic robotLogic;
 	private IFlag flag;

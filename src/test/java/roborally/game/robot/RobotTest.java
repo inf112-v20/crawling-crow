@@ -17,7 +17,6 @@ public class RobotTest {
     private IRobot testRobot2;
     private IProgramCards.Card card;
     private IProgramCards programCards;
-    private CardsInHand cardsInHand;
 
     private GridPoint2 initialStartPosition;
 
@@ -30,7 +29,7 @@ public class RobotTest {
         this.testRobot1.getLogic().setNumberOfFlags(nFlags);
         this.programCards = new ProgramCards();
 
-        this.cardsInHand = new CardsInHand(programCards.getDeck());
+        CardsInHand cardsInHand = new CardsInHand(programCards.getDeck());
         this.testRobot1.getLogic().setCardsInHand(cardsInHand);
         this.card = cardsInHand.getCards().get(2);
         int[] order = {2, 0, 1, 3, 4};

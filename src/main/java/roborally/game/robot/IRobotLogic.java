@@ -144,16 +144,8 @@ public interface IRobotLogic {
 
     /**
      * @param deckOfProgramCards all the cards in the deck
-     * @return the cards drawn depending on your health.
      */
-    IProgramCards drawCards(IProgramCards deckOfProgramCards);
-
-    /**
-     * rearranges the cards in the hand
-     */
-    void autoArrangeCardsInHand();
-
-    //region Flag
+    void drawCards(IProgramCards deckOfProgramCards);
 
     /**
      * cleans out the register and removes cards
@@ -234,7 +226,7 @@ public interface IRobotLogic {
     boolean isUserRobot();
 
     /**
-     * sets the current robot as userrobot
+     * sets the current robot as user robot
      */
     void setUserRobot();
 
@@ -252,5 +244,4 @@ public interface IRobotLogic {
      * @return the register of a robot
      */
     Register getRegister();
-    //endregion
 }

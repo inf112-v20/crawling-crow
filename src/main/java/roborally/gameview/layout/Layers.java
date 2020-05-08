@@ -11,9 +11,8 @@ import java.util.HashMap;
 
 import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
 
-// Getters for various layers in the current TiledMap.
 public class Layers implements ILayers {
-    private HashMap<LayerName, TiledMapTileLayer> layers;
+    private final HashMap<LayerName, TiledMapTileLayer> layers;
 
     public Layers() {
         layers = new HashMap<>(AssetManagerUtil.getLoadedLayers());
