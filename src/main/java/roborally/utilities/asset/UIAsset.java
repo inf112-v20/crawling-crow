@@ -134,14 +134,6 @@ public class UIAsset implements ManageableAsset {
 		return assets.get("damage_red");
 	}
 
-	public Texture getDamageTokenCardGreen() {
-		return assets.get("damage_card_green");
-	}
-
-	public Texture getDamageTokenCardRed() {
-		return assets.get("damage_card_red");
-	}
-
 	public Texture getPowerDownButton() {
 		return assets.get("power_down_button");
 	}
