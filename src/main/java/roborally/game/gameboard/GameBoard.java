@@ -2,9 +2,9 @@ package roborally.game.gameboard;
 
 import com.badlogic.gdx.math.GridPoint2;
 import roborally.game.gameboard.objects.BoardObject;
-import roborally.game.gameboard.objects.Flag;
-import roborally.game.gameboard.objects.IFlag;
-import roborally.utilities.Grid;
+import roborally.game.gameboard.objects.flag.Flag;
+import roborally.game.gameboard.objects.flag.IFlag;
+import roborally.game.Grid;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
 
@@ -51,6 +51,34 @@ public class GameBoard implements IGameBoard {
 	}
 
 	@Override
+	public ArrayList<BoardObject> findAllCogs() {
+		ArrayList<BoardObject> cogs = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.COG).keySet()) {
+			cogs.add(new BoardObject(grid.findTileName(LayerName.COG, tilePos), tilePos));
+		}
+		return cogs;
+	}
+
+	@Override
+	public ArrayList<BoardObject> findAllNormalConveyorBelts() {
+		ArrayList<BoardObject> normalConveyorBelts = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.CONVEYOR).keySet()) {
+			normalConveyorBelts.add(new BoardObject(grid.findTileName(LayerName.CONVEYOR, tilePos), tilePos));
+		}
+		return normalConveyorBelts;
+	}
+
+	@Override
+	public ArrayList<BoardObject> findAllExpressConveyorBelts() {
+		ArrayList<BoardObject> expressConveyorBelts = new ArrayList<>();
+		for (GridPoint2 tilePos : grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).keySet()) {
+			expressConveyorBelts.add(new BoardObject(grid.findTileName(LayerName.CONVEYOR_EXPRESS, tilePos), tilePos));
+		}
+		return expressConveyorBelts;
+	}
+
+
+	@Override
 	public List<List<TileName>> addPushers() {
 		List<List<TileName>> pusherList = new ArrayList<>();
 		for (int i = 0; i < 6; i++)
@@ -70,9 +98,12 @@ public class GameBoard implements IGameBoard {
 		}
 	}
 
-	public boolean hasPushers() {
-		return this.pushers;
+	public Grid getGrid() {
+		return grid;
 	}
 
-	// TODO : find conveyorbelts, cogs, archive markers etc.
+	@Override
+	public boolean hasPushers() {
+		return pushers;
+	}
 }

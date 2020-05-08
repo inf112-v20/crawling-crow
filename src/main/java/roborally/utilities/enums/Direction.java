@@ -44,10 +44,10 @@ public enum Direction {
     }
 
     public int getID() {
-        return this.libGdxDirectionId;
+        return libGdxDirectionId;
     }
 
     public GridPoint2 getStep() {
-        return this.step;
+        return step;
     }
 }

@@ -2,14 +2,15 @@ package roborally.game.gameboard.objects.laser;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.ui.ILayers;
-import roborally.ui.gdx.listeners.WallListener;
+import roborally.gameview.layout.ILayers;
+import roborally.listeners.WallListener;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.enums.LayerName;
 import roborally.utilities.enums.TileName;
-import roborally.utilities.tiledtranslator.TiledTranslator;
 
 import java.util.ArrayList;
+
+import static roborally.utilities.SettingsUtil.TILED_TRANSLATOR;
 
 /** This class handles the logic involved in robots
  * shooting lasers {@link #fireLaser}.
@@ -24,7 +25,6 @@ public class Laser {
     private int laserTileID;
     private int cannonTileID;
     private boolean removeLaser;
-    private TiledTranslator tiledTranslator;
     private ILayers layers;
     private WallListener wallListener;
 
@@ -50,7 +50,6 @@ public class Laser {
      * @param layers      The layers class.
      */
     public Laser(int laserTileID, ILayers layers) {
-        this.tiledTranslator = new TiledTranslator();
         this.layers = layers;
         this.laserTileID = laserTileID;
         this.laserEndPositions = new ArrayList<>();
@@ -80,7 +79,7 @@ public class Laser {
         if (this.wallListener.checkForWall(pos, direction))
             return;
         while (newPos.x >= 0 && newPos.x < layers.getWidth() && newPos.y >= 0 && newPos.y < this.layers.getHeight()) {
-            this.laserEndPositions.add(newPos);
+            this.laserEndPositions.add(newPos.cpy());
             if (this.wallListener.checkForWall(newPos, direction) || this.layers.layerNotNull(LayerName.ROBOT, newPos)) {
                 break;
             }
@@ -116,7 +115,7 @@ public class Laser {
     public void findLaser(GridPoint2 robotsOrigin) {
         int cannonId = 0;
         this.robotsOrigin = robotsOrigin;
-        TileName laserTileName = tiledTranslator.getTileName(laserTileID);
+        TileName laserTileName = TILED_TRANSLATOR.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_HORIZONTAL) {
             storedLaserCell = getLaser(1);
             cannonId = findHorizontal();
@@ -145,7 +144,7 @@ public class Laser {
 
         if (cannonTileID != 0) {
             int dx;
-            TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
+            TileName cannonTileName = TILED_TRANSLATOR.getTileName(cannonTileID);
             if (cannonTileName == TileName.WALL_CANNON_RIGHT)
                 dx = -1;
             else {
@@ -176,7 +175,7 @@ public class Laser {
         cannonTileID = findCannon(i, j, k);
         if (cannonTileID != 0) {
             int dy;
-            TileName cannonTileName = tiledTranslator.getTileName(cannonTileID);
+            TileName cannonTileName = TILED_TRANSLATOR.getTileName(cannonTileID);
             if (cannonTileName == TileName.WALL_CANNON_BOTTOM)
                 dy = 1;
             else {
@@ -221,7 +220,7 @@ public class Laser {
      * @return cannonId
      */
     private int findCannon(int i, int j, int k) {
-        TileName laserTileName = tiledTranslator.getTileName(laserTileID);
+        TileName laserTileName = TILED_TRANSLATOR.getTileName(laserTileID);
         if (laserTileName == TileName.LASER_VERTICAL) {
             if (layers.layerNotNull(LayerName.CANNON, new GridPoint2(k, i - 1)))
                 return layers.getLayerID(LayerName.CANNON, new GridPoint2(k, i - 1));
@@ -250,7 +249,7 @@ public class Laser {
     }
 
     public ArrayList<GridPoint2> getCoords() {
-        return this.laserEndPositions;
+        return laserEndPositions;
     }
 
     /**
@@ -266,7 +265,7 @@ public class Laser {
             if (layers.getLayerID(LayerName.LASER, new GridPoint2(i, j)) == crossLaser.getTile().getId() && !create) {
                 int storedLaserCellID = storedLaserCell.getTile().getId();
 
-                TileName laserTileName = tiledTranslator.getTileName(storedLaserCellID);
+                TileName laserTileName = TILED_TRANSLATOR.getTileName(storedLaserCellID);
                 if (laserTileName == TileName.LASER_VERTICAL)
                     layers.setLayerCell(LayerName.LASER, new GridPoint2(i, j), horizontalLaser);
                 else
@@ -281,7 +280,7 @@ public class Laser {
     }
 
     public GridPoint2 getPosition() {
-        return this.cannonPos;
+        return cannonPos;
     }
 
     /**
