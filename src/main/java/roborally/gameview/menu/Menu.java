@@ -60,8 +60,6 @@ public class Menu {
         makeEndGameButtons();
         this.menuLabel = new MenuLabel(stage, this);
         reloadStage(stage);
-        Sliders sliders = new Sliders();
-        sliders.abc();
     }
 
     public String getPlayerName() {
