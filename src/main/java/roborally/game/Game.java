@@ -137,7 +137,6 @@ public class Game implements IGame {
 
 	@Override
 	public void manuallyFireOneLaser() {
-		// This method is only for bugtesting...
 		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.SHOOT_LASER);
 		sound.play((float) 0.08 * SettingsUtil.VOLUME);
 		userRobot.fireLaser();

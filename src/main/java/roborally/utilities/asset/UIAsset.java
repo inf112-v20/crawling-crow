@@ -37,13 +37,13 @@ public class UIAsset implements ManageableAsset {
 
 	//region Damage tokens
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-red.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-red.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-card.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card-red.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-card-red.png", Texture.class);
 	//endregion
 
 	public static final AssetDescriptor<Texture> FLAG_WHITE

@@ -250,7 +250,7 @@ public class Events {
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
+        this.fadeableRobots.add(new Alpha(image, falling, color));
     }
 
     public void setFadeRobot(boolean value) {
@@ -341,8 +341,8 @@ public class Events {
         private final boolean falling;
         private final Color color;
 
-        private Alpha(float dt, Image image, boolean falling, Color color) {
-            this.dt = dt;
+        private Alpha(Image image, boolean falling, Color color) {
+            this.dt = 1f;
             this.image = image;
             this.color = color;
             this.falling = falling;

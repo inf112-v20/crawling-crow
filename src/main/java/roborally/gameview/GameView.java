@@ -91,8 +91,8 @@ public class GameView extends InputAdapter implements ApplicationListener {
 
         int mapWidth = mapProperties.get("width", Integer.class);
         int mapHeight = mapProperties.get("height", Integer.class);
-        int tilePixelWidth = mapProperties.get("tilewidth", Integer.class);
-        int tilePixelHeight = mapProperties.get("tileheight", Integer.class);
+        int tilePixelWidth = mapProperties.get("tileWidth".toLowerCase(), Integer.class);
+        int tilePixelHeight = mapProperties.get("tileHeight".toLowerCase(), Integer.class);
         float renderedTileWidth = tilePixelWidth * SettingsUtil.UNIT_SCALE;
         float renderedTileHeight = tilePixelHeight * SettingsUtil.UNIT_SCALE;
 

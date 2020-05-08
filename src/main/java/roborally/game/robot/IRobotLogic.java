@@ -228,7 +228,7 @@ public interface IRobotLogic {
     boolean isUserRobot();
 
     /**
-     * sets the current robot as userrobot
+     * sets the current robot as user robot
      */
     void setUserRobot();
 

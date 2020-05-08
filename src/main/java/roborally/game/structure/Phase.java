@@ -88,8 +88,8 @@ public class Phase implements IPhase {
 			if (layers.layerNotNull(LayerName.PUSHERS, robot.getPosition())) {
 				tileName = layers.getTileName(LayerName.PUSHERS, robot.getPosition());
 				if (pushers.get(phaseNumber).contains(tileName)) {
-					String[] splitted = tileName.toString().split("_");
-					Direction dir = Direction.valueOf(splitted[splitted.length - 1]);
+					String[] split = tileName.toString().split("_");
+					Direction dir = Direction.valueOf(split[split.length - 1]);
 					robot.tryToMove(dir.getStep());
 				}
 			}

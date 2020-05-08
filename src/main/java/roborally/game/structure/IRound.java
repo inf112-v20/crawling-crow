@@ -9,7 +9,7 @@ public interface IRound {
     void run();
 
     /**
-     * Sets the robot in powerdown mode
+     * Sets the robot in "power down"-mode
      */
     void setRobotInPowerDown();
 

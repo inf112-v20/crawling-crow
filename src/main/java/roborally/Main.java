@@ -10,7 +10,7 @@ import roborally.utilities.SettingsUtil;
 public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "RoboRally by CrawlingCrow";
+        cfg.title = "Robo Rally by CrawlingCrow";
 
         cfg.width = SettingsUtil.WINDOW_WIDTH;
         cfg.height = SettingsUtil.WINDOW_HEIGHT;
