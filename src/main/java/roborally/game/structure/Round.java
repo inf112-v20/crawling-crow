@@ -73,6 +73,8 @@ public class Round implements IRound {
 
 	private void resetRobotTextures() {
 		for (IRobot robot : robots) {
+			if(robot.getView().isVirtual())
+				continue;
 			robot.getView().setDefaultTexture(robot.getPosition());
 			robot.getView().setDirection(robot.getPosition(), robot.getLogic().getDirection());
 		}

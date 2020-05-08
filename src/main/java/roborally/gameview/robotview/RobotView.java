@@ -123,4 +123,8 @@ public class RobotView implements IRobotView {
             this.virtualDirection = direction;
         }
     }
+    @Override
+    public boolean isVirtual() {
+        return this.virtualMode;
+    }
 }
