@@ -27,7 +27,7 @@ public class Events {
     private boolean waitEvent;
     private boolean wonGame;
     private float dt;
-    private boolean robotFadeOrder;
+    private boolean hasFadeableRobot;
     private boolean cardPhase;
     private ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
@@ -40,7 +40,7 @@ public class Events {
     public Events() {
         this.waitEvent = false;
         this.dt = 0f;
-        this.robotFadeOrder = false;
+        this.hasFadeableRobot = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
         this.laserEvents = new ArrayList<>();
@@ -91,14 +91,14 @@ public class Events {
         return waitEvent;
     }
 
-    // Lets the UI know wether or not there are robots ready to move.
+    // Lets the UI if there are robots ready to move.
     public void setWaitMoveEvent(boolean value) {
         this.waitEvent = value;
     }
 
     // Returns true if there are robots to be faded.
     public boolean getFadeRobot() {
-        return robotFadeOrder;
+        return hasFadeableRobot;
     }
 
     // Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
@@ -210,6 +210,10 @@ public class Events {
         return explosions;
     }
 
+    /**
+     * Finds robot that have the status Destroyed and removes them from UI.
+     * @param robots the robots in the game.
+     */
     public void checkForDestroyedRobots(ArrayList<Robot> robots) {
         for (Robot robot : robots) {
             if (("Destroyed").equals(robot.getLogic().getStatus())) {
@@ -219,6 +223,10 @@ public class Events {
         }
     }
 
+    /**
+     * When a robot is destroyed it is put into a list to be faded and deleted.
+     * @param robot the robot that is destroyed.
+     */
     public void removeFromUI(Robot robot) {
         Color color = findRobotColorByName(robot.getName());
         fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
@@ -244,9 +252,14 @@ public class Events {
     }
 
     public void setFadeRobot(boolean value) {
-        this.robotFadeOrder = value;
+        this.hasFadeableRobot = value;
     }
 
+    /**
+     * Creates an archive border around the archive point the robot last visited.
+     * @param pos The position of the archive marker.
+     * @param name The name of the robot visiting the archive marker.
+     */
     public void createArchiveBorder(GridPoint2 pos, String name) {
         float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
         float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
@@ -261,6 +274,11 @@ public class Events {
         archives.put(name, image);
     }
 
+    /**
+     * Finds the color responding to the name of the robot.
+     * @param name the robot's name in String type.
+     * @return The color through hexadecimal format.
+     */
     public Color findRobotColorByName(String name) {
         if (name.toLowerCase().contains("red")) {
             return new Color(237/255f, 28/255f, 36/255f, 1);
@@ -280,6 +298,11 @@ public class Events {
         return new Color(136/255f, 0/255f, 21/255f, 1);
     }
 
+    /**
+     * Checks if a robot has already visited this archive marker.
+     * @param image The image of the archive border for the robot visiting the archive marker.
+     * @return true as long as the current image size is in use for this archive marker.
+     */
     public boolean checkForMultipleArchives(Image image) {
         for (Image storedImage : archives.values()) {
             if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
