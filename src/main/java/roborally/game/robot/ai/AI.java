@@ -155,4 +155,8 @@ public class AI {
 	private boolean fullOrder() {
 		return order.length == pickNr;
 	}
+
+	public double getNewDistanceToFlag() {
+		return pathway.distanceToFlag();
+	}
 }
