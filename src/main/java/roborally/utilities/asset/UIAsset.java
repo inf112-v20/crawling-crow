@@ -9,7 +9,6 @@ import java.util.HashMap;
 public class UIAsset implements ManageableAsset {
 	private HashMap<String, Texture> assets;
 	
-	//region Buttons
 	public static final AssetDescriptor<Texture> DONE_BUTTON
 			= new AssetDescriptor<>("ui-elements/buttons/done-button.png", Texture.class);
 	public static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED
@@ -28,14 +27,12 @@ public class UIAsset implements ManageableAsset {
 			= new AssetDescriptor<>("ui-elements/buttons/powered-down.png", Texture.class);
 	public static final AssetDescriptor<Texture> POWERING_DOWN
 			= new AssetDescriptor<>("ui-elements/buttons/powering-down.png", Texture.class);
-	//endregion
-	
+
 	public static final AssetDescriptor<Texture> REBOOT_ACTIVE
 			= new AssetDescriptor<>("ui-elements/reboots/reboot-active.png", Texture.class);
 	public static final AssetDescriptor<Texture> REBOOT_INACTIVE
 			= new AssetDescriptor<>("ui-elements/reboots/reboot-inactive.png", Texture.class);
 
-	//region Damage tokens
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN
 			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED
@@ -44,7 +41,6 @@ public class UIAsset implements ManageableAsset {
 			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-card.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED
 			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-card-red.png", Texture.class);
-	//endregion
 
 	public static final AssetDescriptor<Texture> FLAG_WHITE
 			= new AssetDescriptor<>("ui-elements/flags/flag_white.png", Texture.class);

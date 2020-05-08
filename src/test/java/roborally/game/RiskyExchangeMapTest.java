@@ -29,7 +29,6 @@ public class RiskyExchangeMapTest {
         assertTrue(riskyExchange.getGridLayer(LayerName.HOLE).containsValue(TileName.HOLE));
     }
 
-    //region Flags
     @Test
     public void verifyThatFlag1IsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.FLAG).containsValue(TileName.FLAG_1));
@@ -44,9 +43,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatFlag3IsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.FLAG).containsValue(TileName.FLAG_3));
     }
-    //endregion
 
-    //region Conveyor
     @Test
     public void verifyThatConveyorToNorthIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_TO_NORTH));
@@ -166,9 +163,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatConveyorJoinWestFromNorthAndSouthIsNotOnMap() {
         assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR).containsValue(TileName.CONVEYOR_JOIN_WEST_FROM_NORTH_AND_SOUTH));
     }
-    //endregion
 
-    //region Conveyor express
     @Test
     public void verifyThatConveyorExpressToSouthIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_TO_SOUTH));
@@ -288,9 +283,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatConveyorExpressJoinWestFromNorthAndSouthIsNotOnMap() {
         assertFalse(riskyExchange.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(TileName.CONVEYOR_EXPRESS_JOIN_WEST_FROM_NORTH_AND_SOUTH));
     }
-    //endregion
 
-    //region Wall
     @Test
     public void verifyThatWallTopIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_NORTH));
@@ -330,9 +323,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatWallCornerBottomLeftIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.WALL).containsValue(TileName.WALL_CORNER_SOUTH_WEST));
     }
-    //endregion
 
-    //region Start positions
     @Test
     public void verifyThatStartPosition1IsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.START_POSITIONS).containsValue(TileName.START_POSITION_1));
@@ -372,9 +363,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatStartPosition8IsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.START_POSITIONS).containsValue(TileName.START_POSITION_8));
     }
-    //endregion
 
-    //region Repair sites
     @Test
     public void verifyThatWrenchIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.WRENCH).containsValue(TileName.WRENCH));
@@ -384,9 +373,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatWrenchHammerIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.WRENCH_HAMMER).containsValue(TileName.WRENCH_HAMMER));
     }
-    //endregion
 
-    //region Cogs
     @Test
     public void verifyThatCogClockwiseIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.COG).containsValue(TileName.COG_CLOCKWISE));
@@ -396,9 +383,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatCogCounterClockwiseIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.COG).containsValue(TileName.COG_COUNTER_CLOCKWISE));
     }
-    //endregion
 
-    //region Lasers
     @Test
     public void verifyThatLaserVerticalIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.LASER).containsValue(TileName.LASER_VERTICAL));
@@ -428,9 +413,7 @@ public class RiskyExchangeMapTest {
     public void verifyThatLaserDoubleHorizontalIsNotOnMap() {
         assertFalse(riskyExchange.getGridLayer(LayerName.LASER).containsValue(TileName.LASER_DOUBLE_HORIZONTAL));
     }
-    //endregion
 
-    //region Wall Cannons
     @Test
     public void verifyThatWallCannonBottomIsOnMap() {
         assertTrue(riskyExchange.getGridLayer(LayerName.CANNON).containsValue(TileName.WALL_CANNON_BOTTOM));
@@ -470,5 +453,4 @@ public class RiskyExchangeMapTest {
     public void verifyThatWallCannonDoubleBottomIsNotOnMap() {
         assertFalse(riskyExchange.getGridLayer(LayerName.CANNON).containsValue(TileName.WALL_CANNON_DOUBLE_BOTTOM));
     }
-    //endregion
 }

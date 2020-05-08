@@ -22,7 +22,6 @@ public interface IGame {
      */
     ILayers getLayers();
 
-    //region Robots
     void setUserRobot();
 
     /**
