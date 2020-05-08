@@ -18,7 +18,6 @@ import roborally.utilities.AssetManagerUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Menu under construction!
 public class Menu {
     private final Stage stage;
     private final HashMap<String, ArrayList<Image>> imageLists;

@@ -200,8 +200,8 @@ public class AnimateEvent {
         for (Group card : programCardsView.getCards())
             card.setX(cardsGroupPositionX += programCardsView.getCardWidth());
         putProgramCardsViewInStage(stage, programCardsView);
-        // xShift to the right-side edge of the game board
-        float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f;
+
+        float xShift = (STAGE_WIDTH + SettingsUtil.MAP_WIDTH) / 2f; // xShift to the right-side edge of the game board
         float doneButtonPosX = xShift - programCardsView.getDoneButton().get().getWidth();
         programCardsView.getDoneButton().get().setX(doneButtonPosX);
 

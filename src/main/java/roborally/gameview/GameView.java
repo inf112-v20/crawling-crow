@@ -24,7 +24,7 @@ import roborally.gameview.ui.ProgramCardsView;
 import roborally.gameview.ui.UIElements;
 import roborally.utilities.AssetManagerUtil;
 import roborally.utilities.SettingsUtil;
-import roborally.utilities.controls.KeyboardInput;
+import roborally.utilities.KeyboardInput;
 import roborally.utilities.enums.UIElement;
 
 public class GameView extends InputAdapter implements ApplicationListener {
@@ -209,7 +209,7 @@ public class GameView extends InputAdapter implements ApplicationListener {
             Gdx.input.setInputProcessor(this);
     }
 
-    // Temporary checks for input from user to play cards instead of moving manually (Enter).
+    @Override
     public boolean keyUp(int keycode) {
         if (game.inDebugMode()) {
             if (game.getRound() != null) {

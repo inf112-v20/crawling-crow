@@ -10,7 +10,7 @@ public interface IProgramCards {
     void shuffleCards();
 
     /**
-     * Returns a new card from the deck
+     * @return a new card from the deck
      */
     Card getNextCard();
 

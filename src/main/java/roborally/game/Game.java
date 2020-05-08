@@ -29,7 +29,6 @@ public class Game implements IGame {
 	private ProgramCardsView registerCardsView;
 	private ProgramCardsView programCardsView;
 
-	//region Game Objects
 	private IGameBoard gameBoard;
 	private ILayers layers;
 	private AI ai;
@@ -38,7 +37,6 @@ public class Game implements IGame {
 	private final IProgramCards deckOfProgramCards;
 	private LaserRegister laserRegister;
 	private Robot userRobot;
-	//endregion
 
 	private final Events events;
 	private final GameOptions gameOptions;
@@ -82,7 +80,6 @@ public class Game implements IGame {
 		return layers;
 	}
 
-	//region Robots
     @Override
     public void setUserRobot() {
 	    for (Robot robot : getRobots()) {
@@ -107,7 +104,6 @@ public class Game implements IGame {
 		this.robots = newRobots;
 		this.round = new Round(events, robots, gameBoard, uiElements);
 	}
-	//endregion
 
 	@Override
 	public void restartGame() {
@@ -145,7 +141,6 @@ public class Game implements IGame {
 			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
 	}
 
-	//region Cards
 	@Override
 	public void dealCards() {
 		deckOfProgramCards.shuffleCards();
@@ -182,7 +177,6 @@ public class Game implements IGame {
 			registerCardsView.addCard(card, false);
 		}
 	}
-	//endregion
 
 	@Override
 	public void orderTheUserRobotsCards(int[] order) {

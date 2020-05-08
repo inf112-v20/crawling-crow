@@ -1,7 +1,6 @@
 package roborally.utilities;
 
 import com.badlogic.gdx.math.GridPoint2;
-import roborally.utilities.tiledtranslator.TiledTranslator;
 
 public class SettingsUtil {
     //region Game Settings

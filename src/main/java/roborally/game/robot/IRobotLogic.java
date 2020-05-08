@@ -147,8 +147,6 @@ public interface IRobotLogic {
      */
     void drawCards(IProgramCards deckOfProgramCards);
 
-    //region Flag
-
     /**
      * cleans out the register and removes cards
      */
@@ -246,5 +244,4 @@ public interface IRobotLogic {
      * @return the register of a robot
      */
     Register getRegister();
-    //endregion
 }

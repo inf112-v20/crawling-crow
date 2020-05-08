@@ -1,7 +1,7 @@
 package roborally.game.cards;
 
-import roborally.utilities.SettingsUtil;
 import roborally.game.cards.IProgramCards.Card;
+import roborally.utilities.SettingsUtil;
 
 
 public class Register {
@@ -17,11 +17,10 @@ public class Register {
         this.nextCardID = 0;
         this.lockedCards = 0;
 
-        // For debugging.
-        // Ensures that robots always has cards that can be locked.
-        // These entries are overwritten the first round of play.
-        for (int i = 0; i < SettingsUtil.REGISTER_SIZE; i++) {
-            cards[i] = new Card(IProgramCards.CardType.MOVE_1);
+        if (SettingsUtil.DEBUG_MODE) {
+            for (int i = 0; i < SettingsUtil.REGISTER_SIZE; i++) {
+                cards[i] = new Card(IProgramCards.CardType.MOVE_1);
+            }
         }
     }
 
@@ -42,6 +41,7 @@ public class Register {
     /**
      * Adds an ArrayList of Cards to the start of the register. If any cards are locked into position, the new cards
      * will end up the next vacant positions.
+     *
      * @param newCardsToRegister the cards to be added to the register
      */
     public void add(Card[] newCardsToRegister) {
@@ -56,6 +56,7 @@ public class Register {
 
     /**
      * Returns the next in register and changes which card to return for next method call.
+     *
      * @return the next card in the register
      */
     public IProgramCards.Card getNextCard() {
@@ -64,6 +65,7 @@ public class Register {
 
     /**
      * Returns the next card in register without changing which card is next in play.
+     *
      * @return next card in the register.
      */
     public IProgramCards.Card peekNextCard(){
@@ -71,7 +73,6 @@ public class Register {
     }
 
     /**
-     *
      * @return a string representation of the register
      */
     public String toString(){
@@ -89,7 +90,6 @@ public class Register {
 
 
     /**
-     *
      * @return the number of locked cards in the register
      */
     public int getNumberOfLockedCards(){
@@ -97,7 +97,6 @@ public class Register {
     }
 
     /**
-     *
      * @return the number of available slots in the register
      */
     public int getNumberOfCardsToPutIntoRegister() {
@@ -105,7 +104,6 @@ public class Register {
     }
 
     /**
-     *
      * @return the number of cards in the register, locked and not locked
      */
     public int getNumberOfCardsInRegister(){
@@ -119,6 +117,7 @@ public class Register {
     }
 
     /**
+     * Peeks at card
      *
      * @param position between 1 and 5, representing the position in the register that you want to look at
      * @return the card in requested position. 1 represents the first position.
@@ -131,6 +130,7 @@ public class Register {
     /**
      * Add a Cards to a specific location in the of the register. If any cards are locked into position, the new card
      * will end up the next vacant positions.
+     *
      * @param card  the card to be added to the register
      */
     private void add(Card card, int position){

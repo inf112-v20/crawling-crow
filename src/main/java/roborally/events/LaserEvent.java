@@ -86,7 +86,6 @@ public class LaserEvent {
         if (this.laserImage.getWidth() < tileEdge) {
             hitRobot(robots);
         }
-        // Refactor points into list of endpoints.
         boolean negative = this.laserImage.getX() < (this.laserPoint.x)*SettingsUtil.TILE_SCALE + tileEdge + xShift;
         boolean positive = this.laserImage.getX() > (this.laserPoint.x)*SettingsUtil.TILE_SCALE - tileEdge + xShift;
         float oldWidth = this.laserImage.getWidth();
@@ -107,7 +106,6 @@ public class LaserEvent {
         if (this.laserImage.getHeight() < tileEdge) {
             hitRobot(robots);
         }
-        // Refactor points into list of endpoints.
         boolean negative = this.laserImage.getY() < (this.laserPoint.y)*SettingsUtil.TILE_SCALE + tileEdge + yShift;
         boolean positive = this.laserImage.getY() > (this.laserPoint.y)*SettingsUtil.TILE_SCALE - tileEdge + yShift;
         float oldHeight = this.laserImage.getHeight();
@@ -124,7 +122,11 @@ public class LaserEvent {
         this.laserImage.draw(batch, 1);
     }
 
-    // The robot that is hit takes damage, sound is played and event is stopped.
+    /**
+     * The robot that is hit takes damage, sound is played and event is stopped.
+     *
+     * @param robots list of robots in game
+     */
     private void hitRobot(ArrayList<Robot> robots) {
         for (Robot robot : robots)
             if (robot.getPosition().equals(laserPoint)) {
@@ -140,12 +142,17 @@ public class LaserEvent {
         this.laserEvent = false;
     }
 
-    /** Returns true if this laser is currently active (it has not reached its laserPoint). */
+
+    /**
+     * @return true if this laser is currently active (it has not reached its laserPoint).
+     */
     public boolean hasLaserEvent() {
         return laserEvent;
     }
 
-    /** Returns the robot (if there is one) standing on the laserPoint. */
+    /**
+     * @return the robot (if there is one) standing on the laserPoint.
+     */
     public Robot getRobot() {
         return robot;
     }

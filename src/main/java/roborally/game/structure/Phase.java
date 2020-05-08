@@ -188,7 +188,7 @@ public class Phase implements IPhase {
 	}
 
 	@Override
-	public void checkForWinner() {
+	public boolean checkForWinner() {
 		if (SettingsUtil.DEBUG_MODE) System.out.println("\nChecking if someone won...");
 		boolean someoneWon = checkAllRobotsForWinner();
 		if (SettingsUtil.DEBUG_MODE) System.out.println("- Did someone win? " + someoneWon);
@@ -196,6 +196,7 @@ public class Phase implements IPhase {
 			winner.getLogic().setHasWon();
 			if (SettingsUtil.DEBUG_MODE) System.out.println("- Found winner: " + winner.getName());
 		}
+		return someoneWon;
 	}
 
 	private void checkForLasers() {
