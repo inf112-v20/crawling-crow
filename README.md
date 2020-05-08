@@ -3,8 +3,7 @@
 
 [![Build Status](https://travis-ci.com/inf112-v20/crawling-crow.svg?branch=master)](https://travis-ci.com/inf112-v20/crawling-crow) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1ef3b79326324c30a5b5b61d5addef5b)](https://www.codacy.com/gh/inf112-v20/crawling-crow?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=inf112-v20/crawling-crow&amp;utm_campaign=Badge_Grade)
 
-Currently a simple and not functional implementation of Robo Rally.
-[JavaDoc](https://inf112-v20.github.io/crawling-crow/documentation/javadoc/)
+A Java implementation of Robo Rally.
 
 ## Deliverables
 -   [Obligatorisk oppgave 1](Deliverables/ObligatoriskOppgave1.md)

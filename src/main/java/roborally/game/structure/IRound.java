@@ -1,27 +1,17 @@
 package roborally.game.structure;
 
-import roborally.gameview.layout.ILayers;
-
 public interface IRound {
 
     /**
      * Runs all actions that is needed for a round to happen
      *
-     * @param layers layers
      */
-    void run(ILayers layers);
+    void run();
 
     /**
-     * Sets the robot in powerdown mode
+     * Sets the robot in "power down"-mode
      */
     void setRobotInPowerDown();
-
-    /**
-     * Goes through a phase 5 times.
-     *
-     * @param layers layers
-     */
-    void startPhases(ILayers layers);
 
     /**
      * Restores rebooted robots back to the board, cleans the register, resets game message and updates ui elements

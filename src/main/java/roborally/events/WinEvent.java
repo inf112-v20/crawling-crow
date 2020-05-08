@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 
 public class WinEvent {
 	private float explosionTimer;
+
 	public WinEvent () {
 		this.explosionTimer = 0;
 	}
+
 	public void fireworks(float dt, Events events) {
 		explosionTimer += dt;
 		if(explosionTimer > 0.3 && explosionTimer < 0.315) {

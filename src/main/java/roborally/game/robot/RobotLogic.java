@@ -16,13 +16,13 @@ public class RobotLogic implements IRobotLogic {
     private boolean powerDownNextRound;
     private boolean[] visitedFlags;
     private String name;
-    private GridPoint2 position;
+    private final GridPoint2 position;
     private GridPoint2 archiveMarker;
     private int health = SettingsUtil.ROBOT_MAX_HEALTH;
     private int reboots = SettingsUtil.ROBOT_MAX_REBOOTS;
     private Direction direction;
     private CardsInHand cardsInHand;
-    private Register register;
+    private final Register register;
 
     private boolean isUserRobot;
     private boolean hasWon;
@@ -36,7 +36,6 @@ public class RobotLogic implements IRobotLogic {
         this.powerDown = false;
     }
 
-    //region Robot stats
     @Override
     public String getName() {
         return name;
@@ -80,9 +79,7 @@ public class RobotLogic implements IRobotLogic {
         else
             return getName() + " is gone";
     }
-    //endregion
 
-    //region Position
     @Override
     public GridPoint2 getPosition() {
         return position;
@@ -93,11 +90,9 @@ public class RobotLogic implements IRobotLogic {
         this.position.set(position);
     }
 
-    //region Archive marker
     @Override
     public void backToArchiveMarker() {
         this.health = SettingsUtil.ROBOT_MAX_HEALTH;
-        //this.reboots -= 1;
         this.isDestroyed = false;
         setPosition(archiveMarker);
         this.direction = Direction.NORTH;
@@ -111,10 +106,7 @@ public class RobotLogic implements IRobotLogic {
         this.archiveMarker = pos;
         if (SettingsUtil.DEBUG_MODE) System.out.println("- " + getName() + " has its Archive marker at " + getArchiveMarker());
     }
-    //endregion
-    //endregion
 
-    //region Rotating and direction
     @Override
     public void rotate(Direction direction) {
         this.direction = direction;
@@ -124,7 +116,6 @@ public class RobotLogic implements IRobotLogic {
     public Direction getDirection() {
         return direction;
     }
-    //endregion
 
     @Override
     public boolean takeDamage(int damage) {
@@ -140,7 +131,6 @@ public class RobotLogic implements IRobotLogic {
         return reboots > 0 && health == 0;
     }
 
-    //region Program cards in hand
     @Override
     public void setCardsInHand(CardsInHand cardsInHand) {
         this.cardsInHand = cardsInHand;
@@ -173,7 +163,7 @@ public class RobotLogic implements IRobotLogic {
     }
 
     @Override
-    public IProgramCards drawCards(IProgramCards deckOfProgramCards) {
+    public void drawCards(IProgramCards deckOfProgramCards) {
         if(SettingsUtil.DEBUG_MODE){
             System.out.println(getName() + "'s power down status: " + getPowerDown());
         }
@@ -184,19 +174,6 @@ public class RobotLogic implements IRobotLogic {
         }
         CardsInHand cardsInHand = new CardsInHand(cardsDrawn);
         setCardsInHand(cardsInHand);
-
-        return deckOfProgramCards;
-    }
-
-
-    @Override
-    public void autoArrangeCardsInHand() {
-        int[] newOrder = new int[getNumberOfCardsToDraw()];
-
-        for (int i = 0; i < Math.min(getNumberOfCardsToDraw(), 5); i++) {
-            newOrder[i] = i;
-        }
-        arrangeCardsInHand(newOrder);
     }
 
     private void fillFirstCardsFromHandIntoRegister() {
@@ -262,9 +239,6 @@ public class RobotLogic implements IRobotLogic {
         }
     }
 
-    //endregion
-
-    //region Flag
     @Override
     public void setNumberOfFlags(int flags) {
         this.visitedFlags = new boolean[flags];
@@ -317,7 +291,6 @@ public class RobotLogic implements IRobotLogic {
     public boolean[] getVisitedFlags() {
         return visitedFlags;
     }
-    //endregion
 
     @Override
     public boolean getPowerDown() {

@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import roborally.events.Events;
@@ -18,7 +22,6 @@ import roborally.utilities.AssetManagerUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// Menu under construction!
 public class Menu {
     private final Stage stage;
     private final HashMap<String, ArrayList<Image>> imageLists;
@@ -39,7 +42,7 @@ public class Menu {
     private boolean Continue;
     private TextArea nameInput;
     private String playerName;
-    private MenuLabel menuLabel;
+    private final MenuLabel menuLabel;
 
     public Menu(Stage stage, Events events) {
         this.stage = stage;
@@ -60,8 +63,6 @@ public class Menu {
         makeEndGameButtons();
         this.menuLabel = new MenuLabel(stage, this);
         reloadStage(stage);
-        Sliders sliders = new Sliders();
-        sliders.abc();
     }
 
     public String getPlayerName() {
@@ -72,12 +73,14 @@ public class Menu {
         if (Continue) {
             Continue = false;
             resume = false;
+            stage.clear();
             return true;
         }
         if (resume && !events.hasWaitEvent()) {
             game.startUp(getPlayerName());
             startGame = 1;
             resume = false;
+            stage.clear();
             return true;
         }
         return false;
@@ -109,10 +112,6 @@ public class Menu {
 
     public Events getEvents() {
         return this.events;
-    }
-
-    public Image getMap() {
-        return imageLists.get("maps").get(mapId);
     }
 
     public void reloadStage(Stage stage) {
@@ -217,31 +216,7 @@ public class Menu {
     }
 
     private void setClickListeners(ArrayList<Image> clickableButtons) {
-        mapButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                mapButton.setColor(Color.RED);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                mapButton.setColor(Color.BLUE);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                changeMap = true;
-                changeMapMenu = false;
-                startGame = 0;
-                stage.clear();
-                stage.addActor(nameInput);
-                for(Label label : menuLabel.getMainMenuLabels())
-                    stage.addActor(label);
-                stage.addActor(menuLabel.getVolumeSlider());
-                for (Image image : imageLists.get("buttons"))
-                    stage.addActor(image);
-            }
-        });
+        makeMapButton();
         clickableButtons.get(0).addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -310,6 +285,34 @@ public class Menu {
             }
         });
         imageLists.put("buttons", clickableButtons);
+    }
+
+    private void makeMapButton() {
+        mapButton.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                mapButton.setColor(Color.RED);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                mapButton.setColor(Color.BLUE);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                changeMap = true;
+                changeMapMenu = false;
+                startGame = 0;
+                stage.clear();
+                stage.addActor(nameInput);
+                for(Label label : menuLabel.getMainMenuLabels())
+                    stage.addActor(label);
+                stage.addActor(menuLabel.getVolumeSlider());
+                for (Image image : imageLists.get("buttons"))
+                    stage.addActor(image);
+            }
+        });
     }
 
     private void setNameInputField() {

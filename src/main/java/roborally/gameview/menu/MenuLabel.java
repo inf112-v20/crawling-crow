@@ -29,13 +29,13 @@ public class MenuLabel {
 	private Label gameSpeedLabel;
 	private Label laserSpeedLabel;
 	private Label volumeLabel;
-	private List<Label> mainMenuLabels;
-	private List<Label> mapMenuLabels;
+	private final List<Label> mainMenuLabels;
+	private final List<Label> mapMenuLabels;
 	private Slider volumeSlider;
-	private Skin skin;
+	private final Skin skin;
 	private int gSpeed;
 	private int lSpeed;
-	private Menu menu;
+	private final Menu menu;
 	private Music Song;
 
 	public MenuLabel(Stage stage, Menu menu) {
@@ -43,8 +43,8 @@ public class MenuLabel {
 		skin = new Skin(Gdx.files.internal("data/skin.json"));
 		setLabels(stage);
 		setOptionsListeners();
-		setOptionsListeners2();
 		setVolumeSlider();
+		setOptionsListeners2();
 		stage.addActor(gameSpeedLabel);
 		stage.addActor(laserSpeedLabel);
 		stage.addActor(volumeSlider);
@@ -54,7 +54,7 @@ public class MenuLabel {
 	}
 
 	private void setLabels(Stage stage) {
-		gameSpeedLabel = new Label("Game Speed: normal", skin);
+		gameSpeedLabel = new Label("Game Speed: fast", skin);
 		laserSpeedLabel = new Label("Laser Speed: normal", skin);
 		playSongLabel = new Label("Play a song: ", skin);
 		volumeLabel = new Label("Volume ", skin);
@@ -62,7 +62,7 @@ public class MenuLabel {
 		setVolumeSlider();
 		volumeLabel.setPosition(playSongLabel.getX()
 				, volumeSlider.getY() - (volumeLabel.getPrefHeight() * 2f));
-		gSpeed = 0;
+		gSpeed = 1;
 		lSpeed = 2;
 		laserSpeedLabel.setPosition(playSongLabel.getX(),
 				volumeLabel.getY() - (laserSpeedLabel.getPrefHeight() * 2f));

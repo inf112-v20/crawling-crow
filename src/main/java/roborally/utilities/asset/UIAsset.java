@@ -9,7 +9,6 @@ import java.util.HashMap;
 public class UIAsset implements ManageableAsset {
 	private HashMap<String, Texture> assets;
 	
-	//region Buttons
 	public static final AssetDescriptor<Texture> DONE_BUTTON
 			= new AssetDescriptor<>("ui-elements/buttons/done-button.png", Texture.class);
 	public static final AssetDescriptor<Texture> DONE_BUTTON_PRESSED
@@ -28,23 +27,20 @@ public class UIAsset implements ManageableAsset {
 			= new AssetDescriptor<>("ui-elements/buttons/powered-down.png", Texture.class);
 	public static final AssetDescriptor<Texture> POWERING_DOWN
 			= new AssetDescriptor<>("ui-elements/buttons/powering-down.png", Texture.class);
-	//endregion
-	
+
 	public static final AssetDescriptor<Texture> REBOOT_ACTIVE
 			= new AssetDescriptor<>("ui-elements/reboots/reboot-active.png", Texture.class);
 	public static final AssetDescriptor<Texture> REBOOT_INACTIVE
 			= new AssetDescriptor<>("ui-elements/reboots/reboot-inactive.png", Texture.class);
 
-	//region Damage tokens
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_GREEN
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_RED
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-red.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-red.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_GREEN
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card.png", Texture.class);
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-card.png", Texture.class);
 	public static final AssetDescriptor<Texture> DAMAGE_TOKEN_CARD_RED
-			= new AssetDescriptor<>("ui-elements/damagetokens/damage-token-card-red.png", Texture.class);
-	//endregion
+			= new AssetDescriptor<>("ui-elements/damage-tokens/damage-token-card-red.png", Texture.class);
 
 	public static final AssetDescriptor<Texture> FLAG_WHITE
 			= new AssetDescriptor<>("ui-elements/flags/flag_white.png", Texture.class);
@@ -132,14 +128,6 @@ public class UIAsset implements ManageableAsset {
 
 	public Texture getDamageTokenRed() {
 		return assets.get("damage_red");
-	}
-
-	public Texture getDamageTokenCardGreen() {
-		return assets.get("damage_card_green");
-	}
-
-	public Texture getDamageTokenCardRed() {
-		return assets.get("damage_card_red");
 	}
 
 	public Texture getPowerDownButton() {

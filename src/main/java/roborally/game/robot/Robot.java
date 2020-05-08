@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class Robot implements IRobot {
     private IRobotView robotView;
-    private IRobotLogic robotLogic;
+    private final IRobotLogic robotLogic;
     private Laser laser;
     private ILayers layers;
     private Listener listener;
@@ -68,7 +68,6 @@ public class Robot implements IRobot {
         return robotView;
     }
 
-    //region Position
     @Override
     public GridPoint2 getPosition() {
         return getLogic().getPosition();
@@ -89,22 +88,18 @@ public class Robot implements IRobot {
             isRobotInHole(false);
         }
     }
-    //endregion
 
-    //region Movement
     @Override
     public void move(int steps) {
         GridPoint2 oldPos = getPosition().cpy();
         GridPoint2 step = getLogic().getDirection().getStep();
         GridPoint2 move = new GridPoint2(step.x * (Math.abs(steps) / steps), step.y * (Math.abs(steps) / steps));
-        // Perform all movement
+
         for (int i = 0; i < Math.abs(steps); i++)
             tryToMove(move);
 
-        // Play movement sound
         playSoundWalking(oldPos);
 
-        // Updates the graphic when moving through lasers.
         checkForStationaryLaser();
     }
 
@@ -169,7 +164,6 @@ public class Robot implements IRobot {
         getLogic().rotate(newDirection);
         getView().setDirection(getPosition(), newDirection);
     }
-    //endregion
 
     @Override
     public void takeDamage(int dmg) {
@@ -179,7 +173,6 @@ public class Robot implements IRobot {
             setDamageTakenTexture();
     }
 
-    //region Lasers
     @Override
     public void fireLaser() {
         if (!getLogic().getPowerDown()) {
@@ -201,9 +194,7 @@ public class Robot implements IRobot {
     public void clearLaserRegister() {
         this.laserRegister.updateLaser(getName(), getPosition());
     }
-    //endregion
 
-    //region Textures
     @Override
     public void setTextureRegion(int index) {
         getView().setTextureRegion(index);
@@ -224,7 +215,6 @@ public class Robot implements IRobot {
         getView().setDamageTakenTexture(getPosition());
         getView().setDirection(getPosition(), getLogic().getDirection());
     }
-    //endregion
 
     @Override
     public void deleteRobot() {
@@ -234,7 +224,6 @@ public class Robot implements IRobot {
         setFalling(false);
     }
 
-    //region Program cards
     @Override
     public void playNextCard() {
         IProgramCards.Card card = getLogic().getNextCardInRegister();
@@ -279,7 +268,6 @@ public class Robot implements IRobot {
             return 0;
         return getLogic().peekNextCardInRegister().getPriority();
     }
-    //endregion
 
     public int getPositionX() {
         return getPosition().x;
@@ -301,7 +289,7 @@ public class Robot implements IRobot {
     }
 
     @Override
-    public void isRobotInHole(boolean state) {
-        this.isRobotInHole = state;
+    public void isRobotInHole(boolean isInHole) {
+        this.isRobotInHole = isInHole;
     }
 }

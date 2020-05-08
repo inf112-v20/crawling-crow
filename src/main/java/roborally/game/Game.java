@@ -29,7 +29,6 @@ public class Game implements IGame {
 	private ProgramCardsView registerCardsView;
 	private ProgramCardsView programCardsView;
 
-	//region Game Objects
 	private IGameBoard gameBoard;
 	private ILayers layers;
 	private AI ai;
@@ -38,16 +37,15 @@ public class Game implements IGame {
 	private final IProgramCards deckOfProgramCards;
 	private LaserRegister laserRegister;
 	private Robot userRobot;
-	//endregion
 
-	private Events events;
-	private GameOptions gameOptions;
+	private final Events events;
+	private final GameOptions gameOptions;
 	private IRound round;
 
 	private int robotPlayedCounter;
 	private int currentPhaseIndex;
 
-	private UIElements uiElements;
+	private final UIElements uiElements;
 	private boolean isRoundFinished;
 	private boolean hasRestarted;
 
@@ -73,7 +71,7 @@ public class Game implements IGame {
         setUserRobot();
         userRobot.getLogic().setName(name);
         uiElements.update(userRobot);
-        uiElements.getMessage().set(""); // FIXME: temp for resetting the label on startUp
+        uiElements.getMessage().set("");
 		resetFieldVariables();
 	}
 
@@ -82,7 +80,6 @@ public class Game implements IGame {
 		return layers;
 	}
 
-	//region Robots
     @Override
     public void setUserRobot() {
 	    for (Robot robot : getRobots()) {
@@ -107,7 +104,6 @@ public class Game implements IGame {
 		this.robots = newRobots;
 		this.round = new Round(events, robots, gameBoard, uiElements);
 	}
-	//endregion
 
 	@Override
 	public void restartGame() {
@@ -127,6 +123,7 @@ public class Game implements IGame {
 		this.registerCardsView.clear();
 		this.userRobot.getLogic().setName(name);
 		this.uiElements.update(userRobot);
+		resetFieldVariables();
 	}
 
 	@Override
@@ -136,7 +133,6 @@ public class Game implements IGame {
 
 	@Override
 	public void manuallyFireOneLaser() {
-		// This method is only for bugtesting...
 		Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.SHOOT_LASER);
 		sound.play((float) 0.08 * SettingsUtil.VOLUME);
 		userRobot.fireLaser();
@@ -145,7 +141,6 @@ public class Game implements IGame {
 			events.createNewLaserEvent(userRobot.getPosition(), coords.get(coords.size() - 1));
 	}
 
-	//region Cards
 	@Override
 	public void dealCards() {
 		deckOfProgramCards.shuffleCards();
@@ -182,7 +177,6 @@ public class Game implements IGame {
 			registerCardsView.addCard(card, false);
 		}
 	}
-	//endregion
 
 	@Override
 	public void orderTheUserRobotsCards(int[] order) {
@@ -225,28 +219,37 @@ public class Game implements IGame {
 	@Override
 	public float continueGameLoop(float dt, double gameSpeed) {
 		this.uiElements.update(getUserRobot());
-		if (isRoundFinished) {
-			this.events.setWaitMoveEvent(false);
-			getRound().run(getLayers());
-			this.isRoundFinished = false;
-			return 0;
-		}
 		float deltaTime = dt;
-		if (deltaTime >= gameSpeed) {
+
+		if(!isRoundFinished() && deltaTime >= gameSpeed) {
 			getRound().getPhase().playNextRegisterCard();
 			deltaTime = 0f;
 			this.robotPlayedCounter++;
 		}
+		if(isLastPhase()) {
+			this.currentPhaseIndex = 0;
+			this.isRoundFinished = true;
+		}
+		return deltaTime;
+	}
+
+	private boolean isRoundFinished() {
+		if (isRoundFinished) {
+			this.events.setWaitMoveEvent(false);
+			getRound().run();
+			this.isRoundFinished = false;
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isLastPhase() {
 		if (this.robotPlayedCounter == getRobots().size()) {
 			getRound().getPhase().run(getLayers());
 			this.currentPhaseIndex++;
 			this.robotPlayedCounter = 0;
 		}
-		if (this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES) {
-			this.currentPhaseIndex = 0;
-			this.isRoundFinished = true;
-		}
-		return deltaTime;
+		return this.currentPhaseIndex == SettingsUtil.NUMBER_OF_PHASES;
 	}
 
 	@Override

@@ -27,20 +27,20 @@ public class Events {
     private boolean waitEvent;
     private boolean wonGame;
     private float dt;
-    private boolean robotFadeOrder;
+    private boolean hasFadeableRobot;
     private boolean cardPhase;
-    private ArrayList<Alpha> fadeableRobots;
+    private final ArrayList<Alpha> fadeableRobots;
     private int fadeCounter;
     private ArrayList<LaserEvent> laserEvents;
     private double gameSpeed;
     private int factor;
     private List<List<Image>> explosions;
-    private Map<String, Image> archives;
+    private final Map<String, Image> archives;
 
     public Events() {
         this.waitEvent = false;
         this.dt = 0f;
-        this.robotFadeOrder = false;
+        this.hasFadeableRobot = false;
         this.fadeableRobots = new ArrayList<>();
         this.fadeCounter = 0;
         this.laserEvents = new ArrayList<>();
@@ -91,17 +91,28 @@ public class Events {
         return waitEvent;
     }
 
-    // Lets the UI know wether or not there are robots ready to move.
-    public void setWaitMoveEvent(boolean value) {
-        this.waitEvent = value;
+    /**
+     * Lets the UI know if there are robots ready to move.
+     *
+     * @param isWaiting true or false
+     */
+    public void setWaitMoveEvent(boolean isWaiting) {
+        this.waitEvent = isWaiting;
     }
 
-    // Returns true if there are robots to be faded.
+
+    /**
+     * @return true if there are robots to be faded.
+     */
     public boolean getFadeRobot() {
-        return robotFadeOrder;
+        return hasFadeableRobot;
     }
 
-    // Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
+    /**
+     * Fades the robots, clears the list of robots to be faded if all subjects have fully faded.
+     *
+     * @param batch the sprite-batch from GameView to draw the fading effect
+     */
     public void fadeRobots(SpriteBatch batch) {
 
         for (Alpha alpha : this.fadeableRobots) {
@@ -121,17 +132,21 @@ public class Events {
     }
 
     public void createNewExplosionEvent(float x, float y, Color color) {
+        float dx = x + 1 / 2f*SettingsUtil.TILE_SCALE;
+        float dy = y + 1 / 2f*SettingsUtil.TILE_SCALE;
         ArrayList<Image> exploded = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
             exploded.add(new Image(new Texture("explosion.png")));
-            exploded.get(i).setX(x);
-            exploded.get(i).setY(y);
+            exploded.get(i).setX(dx);
+            exploded.get(i).setY(dy);
             exploded.get(i).setColor(color);
         }
         explosions.add(exploded);
     }
 
-    // Returns true if there are lasers on the screen.
+    /**
+     * @return true if there are lasers on the screen.
+     */
     public boolean hasLaserEvent() {
         return !this.laserEvents.isEmpty();
     }
@@ -210,6 +225,10 @@ public class Events {
         return explosions;
     }
 
+    /**
+     * Finds robot that have the status Destroyed and removes them from UI.
+     * @param robots the robots in the game.
+     */
     public void checkForDestroyedRobots(ArrayList<Robot> robots) {
         for (Robot robot : robots) {
             if (("Destroyed").equals(robot.getLogic().getStatus())) {
@@ -219,6 +238,10 @@ public class Events {
         }
     }
 
+    /**
+     * When a robot is destroyed it is put into a list to be faded and deleted.
+     * @param robot the robot that is destroyed.
+     */
     public void removeFromUI(Robot robot) {
         Color color = findRobotColorByName(robot.getName());
         fadeRobot(robot.getPosition(), robot.getTexture(), robot.isFalling(), color);
@@ -240,13 +263,18 @@ public class Events {
         image.setX(pos.x * SettingsUtil.TILE_SCALE + xShift);
         image.setY(pos.y * SettingsUtil.TILE_SCALE + yShift);
         image.setSize(SettingsUtil.TILE_SCALE, SettingsUtil.TILE_SCALE);
-        this.fadeableRobots.add(new Alpha(1f, image, falling, color));
+        this.fadeableRobots.add(new Alpha(image, falling, color));
     }
 
     public void setFadeRobot(boolean value) {
-        this.robotFadeOrder = value;
+        this.hasFadeableRobot = value;
     }
 
+    /**
+     * Creates an archive border around the archive point the robot last visited.
+     * @param pos The position of the archive marker.
+     * @param name The name of the robot visiting the archive marker.
+     */
     public void createArchiveBorder(GridPoint2 pos, String name) {
         float xShift = (SettingsUtil.STAGE_WIDTH - SettingsUtil.MAP_WIDTH) / 2f;
         float yShift = (SettingsUtil.STAGE_HEIGHT - SettingsUtil.MAP_HEIGHT) / 2f;
@@ -261,6 +289,11 @@ public class Events {
         archives.put(name, image);
     }
 
+    /**
+     * Finds the color responding to the name of the robot.
+     * @param name the robot's name in String type.
+     * @return The color through hexadecimal format.
+     */
     public Color findRobotColorByName(String name) {
         if (name.toLowerCase().contains("red")) {
             return new Color(237/255f, 28/255f, 36/255f, 1);
@@ -280,6 +313,11 @@ public class Events {
         return new Color(136/255f, 0/255f, 21/255f, 1);
     }
 
+    /**
+     * Checks if a robot has already visited this archive marker.
+     * @param image The image of the archive border for the robot visiting the archive marker.
+     * @return true as long as the current image size is in use for this archive marker.
+     */
     public boolean checkForMultipleArchives(Image image) {
         for (Image storedImage : archives.values()) {
             if (image.getX() == storedImage.getX() && image.getY() == storedImage.getY()) {
@@ -314,10 +352,10 @@ public class Events {
         private float dt;
         private final Image image;
         private final boolean falling;
-        private Color color;
+        private final Color color;
 
-        private Alpha(float dt, Image image, boolean falling, Color color) {
-            this.dt = dt;
+        private Alpha(Image image, boolean falling, Color color) {
+            this.dt = 1f;
             this.image = image;
             this.color = color;
             this.falling = falling;

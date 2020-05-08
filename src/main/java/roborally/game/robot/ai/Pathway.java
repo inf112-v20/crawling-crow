@@ -17,7 +17,7 @@ public class Pathway {
 	private Direction tempDir;
 	private Direction direction;
 	private double newDistToFlag;
-	private Grid grid;
+	private final Grid grid;
 
 	public Pathway(GridPoint2 position, GridPoint2 flagPos, Direction direction, Grid grid) {
 		this.position = position;
@@ -132,31 +132,37 @@ public class Pathway {
 			TileName tileName = tiles.next();
 			if (grid.getGridLayer(LayerName.CONVEYOR_EXPRESS).containsValue(tileName)) {
 				stepsFromTiles.add(updatePos(tileName));
+				rotatingTile(tileName.toString());
 				stepsFromTiles.add(updatePos(tileName));
+				rotatingTile(tileName.toString());
 			}
 			if (grid.getGridLayer(LayerName.CONVEYOR).containsValue(tileName)) {
 				stepsFromTiles.add(updatePos(tileName));
+				rotatingTile(tileName.toString());
 			}
-			if (grid.getGridLayer(LayerName.COG).containsValue(tileName)) {
-				if (tileName.toString().contains("COUNTER"))
-					turnRight();
-				else if (tileName.toString().contains("CLOCKWISE"))
-					turnLeft();
-			}
+			if (grid.getGridLayer(LayerName.COG).containsValue(tileName))
+				rotatingTile(tileName.toString());
 		}
 		position.add(stepsFromTiles);
 	}
 
 	public GridPoint2 updatePos(@NotNull TileName tileName) {
-		String[] splitted;
+		String[] split;
 		String tileString = tileName.toString();
 		if (tileString.contains("JOIN_"))
 			tileString = tileString.substring(tileString.indexOf("JOIN_"));
 		else if (tileString.contains("TO_"))
 			tileString = tileString.substring(tileString.indexOf("TO_"));
-		splitted = tileString.split("_");
-		Direction dir = Direction.valueOf(splitted[1]);
+		split = tileString.split("_");
+		Direction dir = Direction.valueOf(split[1]);
 		return dir.getStep();
+	}
+
+	public void rotatingTile(String tileName) {
+		if (tileName.contains("COUNTER"))
+			turnLeft();
+		else if (tileName.contains("CLOCKWISE"))
+			turnRight();
 	}
 
 }

@@ -19,8 +19,8 @@ import java.util.HashSet;
  */
 
 public class LaserRegister {
-    private HashMap<String, HashSet<Laser>> activeLasers;
-    private ILayers layers;
+    private final HashMap<String, HashSet<Laser>> activeLasers;
+    private final ILayers layers;
 
     public LaserRegister(ILayers layers) {
         this.layers = layers;
@@ -36,7 +36,7 @@ public class LaserRegister {
      * @param pos  GridPoint2 with the position of the robot
      */
     public void createLaser(int id, GridPoint2 pos, String name) {
-        Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.STEPIN_LASER);
+        Sound sound = AssetManagerUtil.ASSET_MANAGER.get(SoundAsset.STEP_IN_LASER);
         sound.play((float) 0.1* SettingsUtil.VOLUME);
         Laser laser = new Laser(id, this.layers);
         if (id != TileName.LASER_CROSS.getTileID()) {

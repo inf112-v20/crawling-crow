@@ -1,11 +1,10 @@
 package roborally.game.structure;
 
+import roborally.events.Events;
 import roborally.game.gameboard.IGameBoard;
 import roborally.game.robot.IRobot;
 import roborally.game.robot.Robot;
-import roborally.gameview.layout.ILayers;
 import roborally.gameview.ui.UIElements;
-import roborally.events.Events;
 import roborally.utilities.SettingsUtil;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  * Practically it is created once, and then called on to run
  * multiple times to keep the game going. Creates a new
  * {@link Phase} to handle the phase system of the game.
- * A round consists of five phases handled in {@link #startPhases}
+ * A round consists of five phases
  */
 
 public class Round implements IRound {
@@ -34,7 +33,7 @@ public class Round implements IRound {
 	}
 
 	@Override
-	public void run(ILayers layers) {
+	public void run() {
 		setRobotInPowerDown();
 		cleanUp();
 		inProgress = false;
@@ -57,23 +56,19 @@ public class Round implements IRound {
 	}
 
 	@Override
-	public void startPhases(ILayers layers) {
-		for (int i = 0; i < 5; i++) {
-			getPhase().run(layers);
-		}
-	}
-
-	@Override
 	public void cleanUp() {
 		restoreRebootedRobots();
 		clearRegisters();
-		restRobotTextures();
+		resetRobotTextures();
 		uiElements.getMessage().clear();
 	}
 
-	private void restRobotTextures() {
+	private void resetRobotTextures() {
 		for (IRobot robot : robots) {
+			if(robot.getView().isVirtual())
+				continue;
 			robot.getView().setDefaultTexture(robot.getPosition());
+			robot.getView().setDirection(robot.getPosition(), robot.getLogic().getDirection());
 		}
 	}
 

@@ -29,7 +29,7 @@ public class ProgramCardsView {
     private int cardPick;
     private ArrayList<Group> programCardsGroup;
     private int[] order;
-    private ArrayList<Label> selectedOrderList;
+    private final ArrayList<Label> selectedOrderList;
     private float cardWidth;
     private float cardHeight;
 

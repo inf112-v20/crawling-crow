@@ -20,7 +20,6 @@ public class ConveyorBelt {
 	}
 
 	private void initializeConveyorBelt(ILayers layers, LayerName layerName) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		ArrayList<Robot> rotateRobots = new ArrayList<>();
 		List<List<Robot>> robotsOnBelts = Arrays.asList(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 		for (Robot robot : robots) {
@@ -85,7 +84,6 @@ public class ConveyorBelt {
 	}
 
 	private void rotateConveyorBelts(ArrayList<Robot> rotateRobots, ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		TileName tileName;
 		if (rotateRobots.isEmpty())
 			return;

@@ -2,13 +2,11 @@ package roborally.utilities.enums;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import static roborally.utilities.AssetManagerUtil.*;
+import static roborally.utilities.AssetManagerUtil.getUIElements;
 
 public enum UIElement {
     DAMAGE_TOKEN_GREEN(getUIElements().getDamageTokenGreen()),
     DAMAGE_TOKEN_RED(getUIElements().getDamageTokenRed()),
-    DAMAGE_TOKEN_CARD_GREEN(getUIElements().getDamageTokenCardGreen()),
-    DAMAGE_TOKEN_CARD_RED(getUIElements().getDamageTokenCardRed()),
     REBOOT_ACTIVE(getUIElements().getRebootActive()),
     REBOOT_INACTIVE(getUIElements().getRebootInactive()),
     DONE_BUTTON(getUIElements().getDoneButton()),

@@ -49,7 +49,7 @@ public class Cards {
 		return cardTypes.get(type).removeFirst();
 	}
 
-	public boolean isSizeGreaterThan1() {
+	public boolean hasMultipleMoveCards() {
 		return cardTypes.get("move").size > 1;
 	}
 

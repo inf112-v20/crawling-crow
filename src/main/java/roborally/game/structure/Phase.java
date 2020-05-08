@@ -88,8 +88,8 @@ public class Phase implements IPhase {
 			if (layers.layerNotNull(LayerName.PUSHERS, robot.getPosition())) {
 				tileName = layers.getTileName(LayerName.PUSHERS, robot.getPosition());
 				if (pushers.get(phaseNumber).contains(tileName)) {
-					String[] splitted = tileName.toString().split("_");
-					Direction dir = Direction.valueOf(splitted[splitted.length - 1]);
+					String[] split = tileName.toString().split("_");
+					Direction dir = Direction.valueOf(split[split.length - 1]);
 					robot.tryToMove(dir.getStep());
 				}
 			}
@@ -108,7 +108,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void moveAllConveyorBelts(ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR_EXPRESS, robots);
 		conveyorBelt.activateConveyorBelt(layers, LayerName.CONVEYOR, robots);
@@ -116,7 +115,6 @@ public class Phase implements IPhase {
 
 	@Override
 	public void moveCogs(ILayers layers) {
-		//TODO: Rather send in a list of relevant coordinates to separate UI from backend
 		for (Robot robot : robots) {
 			GridPoint2 pos = robot.getPosition();
 			if (layers.layerNotNull(LayerName.COG, pos)) {
@@ -217,10 +215,5 @@ public class Phase implements IPhase {
 			}
 		}
 		return (winner != null);
-	}
-
-	@Override
-	public Robot getWinner() {
-		return winner;
 	}
 }
