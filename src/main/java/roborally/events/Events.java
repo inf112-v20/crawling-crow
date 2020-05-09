@@ -36,6 +36,7 @@ public class Events {
     private int factor;
     private List<List<Image>> explosions;
     private final Map<String, Image> archives;
+    private ArrayList<Texture> explosionTextures;
 
     public Events() {
         this.waitEvent = false;
@@ -48,6 +49,7 @@ public class Events {
         this.setLaserSpeed("normal");
         this.explosions = new ArrayList<>();
         this.archives = new HashMap<>();
+        this.explosionTextures = new ArrayList<>();
 
     }
 
@@ -136,7 +138,9 @@ public class Events {
         float dy = y + 1 / 2f*SettingsUtil.TILE_SCALE;
         ArrayList<Image> exploded = new ArrayList<>();
         for(int i = 0; i < 4; i++) {
-            exploded.add(new Image(new Texture("explosion.png")));
+            Texture texture = new Texture("explosion.png");
+            explosionTextures.add(texture);
+            exploded.add(new Image(texture));
             exploded.get(i).setX(dx);
             exploded.get(i).setY(dy);
             exploded.get(i).setColor(color);
@@ -211,6 +215,11 @@ public class Events {
                 temp.add(list);
         }
         this.explosions = temp;
+        if(explosions.isEmpty()) {
+            for(Texture texture : explosionTextures)
+                texture.dispose();
+            explosionTextures.clear();
+        }
         return !explosions.isEmpty();
     }
 
