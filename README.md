@@ -9,6 +9,8 @@ A Java implementation of Robo Rally.
 
 [JarFile](https://inf112-v20.github.io/crawling-crow/out/artifacts/roborally_crawlingcrow_jar/roborally-crawlingcrow.jar)
 
+[Windows Executable](https://inf112-v20.github.io/crawling-crow/out/RoboRally.exe)
+
 ## Deliverables
 -   [Obligatorisk oppgave 1](Deliverables/ObligatoriskOppgave1.md)
 -   [Obligatorisk oppgave 2](Deliverables/ObligatoriskOppgave2.md)
