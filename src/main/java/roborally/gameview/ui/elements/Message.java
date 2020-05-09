@@ -22,6 +22,14 @@ public class Message {
         this.messageLabel.setPosition(x, y);
     }
 
+    public boolean hasLabel() {
+        return this.messageLabel != null;
+    }
+
+    public Label getLabel() {
+        return this.messageLabel;
+    }
+
     public Label get() {
         return messageLabel;
     }

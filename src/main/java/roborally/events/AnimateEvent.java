@@ -118,10 +118,15 @@ public class AnimateEvent {
     private void updateMessageLabel(IGame game, SpriteBatch batch, Stage stage) {
         for (Robot robot : game.getRobots()) {
             checkRobotStatus(robot.getLogic().isDestroyed(), robot.getName() + " was destroyed!");
-            checkRobotStatus(robot.isRobotInHole(), robot.getName() + " went into a hole!");
-            checkRobotStatus(!robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "Sorry, you lost! " + robot.getName() + " won!");
-            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().hasWon(), "You have won!");
-            checkRobotStatus(robot.getLogic().isUserRobot() && robot.getLogic().getReboots() == 0, "You lost");
+            checkRobotStatus(robot.isRobotInHole(), robot.getName()
+                    + " went into a hole!");
+            checkRobotStatus(!robot.getLogic().isUserRobot()
+                    && robot.getLogic().hasWon(), "Sorry, you lost! "
+                    + robot.getName() + " won!");
+            checkRobotStatus(robot.getLogic().isUserRobot()
+                    && robot.getLogic().hasWon(), "You have won!");
+            checkRobotStatus(robot.getLogic().isUserRobot()
+                    && robot.getLogic().getReboots() == 0, "You lost");
         }
 
         uiElements.getMessage().get().draw(batch, 1);
@@ -130,7 +135,8 @@ public class AnimateEvent {
     }
 
     private void checkIfSomeoneWon(IGame game, SpriteBatch batch, Stage stage) {
-        if (uiElements.getMessage().get().toString().contains("won") || uiElements.getMessage().get().toString().contains("lost")) {
+        if (uiElements.getMessage().get().toString().contains("won")
+                || uiElements.getMessage().get().toString().contains("lost")) {
             uiElements.getFlags().update(game.getUserRobot());
             uiElements.getExitButton().set(game, events, uiElements);
             uiElements.getRestartButton().set(game, uiElements);
@@ -147,7 +153,11 @@ public class AnimateEvent {
 
     private void checkRobotStatus(boolean status, String message) {
         if (status) {
-            uiElements.getMessage().set(message);
+            if(uiElements.getMessage().hasLabel()) {
+                uiElements.getMessage().getLabel().setText(message);
+            }
+            else 
+                uiElements.getMessage().set(message);
         }
     }
 
