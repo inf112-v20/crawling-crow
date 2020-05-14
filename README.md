@@ -11,6 +11,7 @@ A Java implementation of Robo Rally.
 
 [Windows Executable](https://inf112-v20.github.io/crawling-crow/out/RoboRally.exe)
 
+[APK](https://inf112-v20.github.io/crawling-crow/out/RoboRally.apk)
 ## Deliverables
 -   [Obligatorisk oppgave 1](Deliverables/ObligatoriskOppgave1.md)
 -   [Obligatorisk oppgave 2](Deliverables/ObligatoriskOppgave2.md)
